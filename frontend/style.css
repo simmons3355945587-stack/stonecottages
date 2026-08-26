@@ -1,0 +1,1445 @@
+  /* =========================================================
+     1. 折纸美学设计系统 (Origami & Papercraft Design Tokens)
+     ========================================================= */
+  :root {
+    /* 通用基础 */
+    --font-sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+    --font-serif: "Cinzel", "Songti SC", "SimSun", "Noto Serif SC", serif;
+    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --safe-bottom: env(safe-area-inset-bottom, 16px);
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  /* 🌙 黑夜模式：曜黑暗夜折纸 (Midnight Origami) */
+  [data-theme="dark"] {
+    --bg-main: #0c1017;
+    --bg-pattern: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                   radial-gradient(circle at 85% 85%, rgba(245, 158, 11, 0.05) 0%, transparent 40%),
+                   linear-gradient(180deg, #090d13 0%, #111722 100%);
+    --paper-surface: #161c28;
+    --paper-surface-sub: #1e2636;
+    --paper-hover: #263044;
+    --paper-border: #2a364d;
+    --paper-shadow: 3px 4px 0px #06090d, 0 10px 25px rgba(0, 0, 0, 0.5);
+    --paper-shadow-active: 1px 1px 0px #06090d;
+    --paper-crease: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, transparent 50%, rgba(0, 0, 0, 0.35) 100%);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+
+    --brand-primary: #6366f1;
+    --brand-primary-light: #818cf8;
+    --brand-accent: #f59e0b;
+    --brand-accent-glow: rgba(245, 158, 11, 0.25);
+    --brand-success: #10b981;
+    --brand-danger: #ef4444;
+    --brand-danger-bg: rgba(239, 68, 68, 0.15);
+    --brand-cyan: #06b6d4;
+
+    --tarot-back-bg: #1e1b4b;
+    --tarot-back-border: #818cf8;
+    --tarot-gold: #fbbf24;
+    --nav-bg: rgba(12, 16, 23, 0.92);
+  }
+
+  /* ☀️ 白天模式：和纸羊皮纸折纸 (Washi & Kraft Papercraft) */
+  [data-theme="light"] {
+    --bg-main: #f5efe6;
+    --bg-pattern: radial-gradient(circle at 10% 10%, rgba(217, 119, 6, 0.06) 0%, transparent 40%),
+                   radial-gradient(circle at 90% 90%, rgba(79, 70, 229, 0.05) 0%, transparent 40%),
+                   linear-gradient(180deg, #f7f2ea 0%, #ebe2d3 100%);
+    --paper-surface: #fdfbf7;
+    --paper-surface-sub: #f0e8dc;
+    --paper-hover: #e8ded0;
+    --paper-border: #d6c8b4;
+    --paper-shadow: 3px 4px 0px #b8a68f, 0 8px 20px rgba(160, 140, 110, 0.15);
+    --paper-shadow-active: 1px 1px 0px #b8a68f;
+    --paper-crease: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, transparent 50%, rgba(180, 150, 120, 0.15) 100%);
+
+    --text-primary: #2d261e;
+    --text-secondary: #6e6254;
+    --text-tertiary: #9c8e7e;
+
+    --brand-primary: #4338ca;
+    --brand-primary-light: #4f46e5;
+    --brand-accent: #d97706;
+    --brand-accent-glow: rgba(217, 119, 6, 0.2);
+    --brand-success: #059669;
+    --brand-danger: #dc2626;
+    --brand-danger-bg: #fee2e2;
+    --brand-cyan: #0891b2;
+
+    --tarot-back-bg: #312e81;
+    --tarot-back-border: #b45309;
+    --tarot-gold: #d97706;
+    --nav-bg: rgba(245, 239, 230, 0.94);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-main);
+    background-image: var(--bg-pattern);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding-bottom: calc(75px + var(--safe-bottom));
+    overflow-x: hidden;
+    line-height: 1.5;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* =========================================================
+     2. 折纸风格导航头 (Origami Header)
+     ========================================================= */
+  .header {
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border-bottom: 2px solid var(--paper-border);
+    padding: 14px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: var(--paper-shadow);
+    transform: rotate(-3deg);
+    transition: transform 0.2s;
+  }
+  .brand-logo:hover { transform: rotate(0deg) scale(1.05); }
+  .brand-text h1 {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+  }
+  .brand-text p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+  }
+  .header-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .paper-icon-btn {
+    background: var(--paper-surface);
+    border: 1.5px solid var(--paper-border);
+    color: var(--text-primary);
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: var(--paper-shadow);
+    transition: var(--transition-fast);
+  }
+  .paper-icon-btn:hover {
+    background: var(--paper-hover);
+    transform: translateY(-2px);
+  }
+  .paper-icon-btn:active {
+    box-shadow: var(--paper-shadow-active);
+    transform: translate(2px, 2px);
+  }
+
+  /* 折纸状态栏 (HUD Bar) */
+  .player-bar {
+    max-width: 800px;
+    margin: 10px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .origami-hud-card {
+    background: var(--paper-surface-sub);
+    background-image: var(--paper-crease);
+    border: 1.5px solid var(--paper-border);
+    border-radius: var(--radius-sm);
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    box-shadow: 2px 2px 0px var(--paper-border);
+  }
+  .hud-val { font-weight: 800; font-family: var(--font-mono); color: var(--text-primary); }
+  .origami-meter-wrap {
+    flex: 1;
+    height: 6px;
+    background: var(--paper-border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-left: 4px;
+  }
+  .origami-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand-danger), var(--brand-accent), var(--brand-success));
+    width: 100%;
+    transition: width 0.3s;
+  }
+
+  /* =========================================================
+     3. 容器与折纸视图卡片 (Views & Layout)
+     ========================================================= */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  .view-section { display: none; }
+  .view-section.active { display: block; animation: paperFoldIn 0.25s ease-out; }
+  @keyframes paperFoldIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* 折纸搜索栏 */
+  .search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .search-wrap {
+    flex: 1;
+    position: relative;
+  }
+  .origami-input {
+    width: 100%;
+    background: var(--paper-surface);
+    border: 2px solid var(--paper-border);
+    color: var(--text-primary);
+    padding: 12px 14px 12px 38px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    outline: none;
+    box-shadow: var(--paper-shadow);
+    transition: var(--transition-fast);
+  }
+  .origami-input:focus {
+    border-color: var(--brand-primary);
+    transform: translateY(-1px);
+  }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 16px;
+  }
+  .paper-btn-primary {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, #4338ca 100%);
+    color: #fff;
+    border: 2px solid var(--brand-primary);
+    padding: 0 16px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--paper-shadow);
+    transition: var(--transition-fast);
+  }
+  .paper-btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
+  .paper-btn-primary:active { box-shadow: var(--paper-shadow-active); transform: translate(2px, 2px); }
+
+  /* 折纸子标签 (Sub Tabs) */
+  .origami-tabs {
+    display: flex;
+    background: var(--paper-surface-sub);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    border: 1.5px solid var(--paper-border);
+    box-shadow: 2px 2px 0px var(--paper-border);
+  }
+  .origami-tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    padding: 9px 0;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+  }
+  .origami-tab-btn.active {
+    background: var(--paper-surface);
+    color: var(--brand-primary);
+    box-shadow: var(--paper-shadow);
+  }
+  .origami-chip {
+    background: var(--paper-surface-sub);
+    border: 1px solid var(--paper-border);
+    color: var(--text-primary);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+  }
+
+  /* 折纸单词卡片 (Word Cards) */
+  .word-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .origami-word-card {
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border: 1.5px solid var(--paper-border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: var(--paper-shadow);
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+  }
+  .origami-word-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 16px 16px 0;
+    border-color: transparent var(--paper-border) transparent transparent;
+    transition: var(--transition-fast);
+  }
+  .origami-word-card:hover {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+  }
+  .origami-word-card:active {
+    box-shadow: var(--paper-shadow-active);
+    transform: translate(2px, 2px);
+  }
+  .word-num {
+    font-family: var(--font-mono);
+    color: var(--text-tertiary);
+    font-size: 12px;
+    min-width: 32px;
+    text-align: right;
+  }
+  .word-info { flex: 1; }
+  .word-spelling {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .word-correction { font-size: 12px; color: var(--brand-accent); font-weight: 500; }
+  .word-audio-btn {
+    background: var(--paper-surface-sub);
+    border: 1px solid var(--paper-border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    transition: var(--transition-fast);
+  }
+  .word-audio-btn:hover { color: var(--brand-accent); border-color: var(--brand-accent); }
+  .origami-mark-pill {
+    background: linear-gradient(135deg, var(--brand-danger) 0%, #b91c1c 100%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    padding: 3px 8px;
+    border-radius: 12px;
+    box-shadow: 1px 2px 0px rgba(0,0,0,0.2);
+  }
+
+  /* 折纸横幅 Banner */
+  .origami-banner {
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border: 2px dashed var(--paper-border);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--paper-shadow);
+  }
+  .banner-title { font-family: var(--font-serif); font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
+  .banner-desc { font-size: 12px; color: var(--text-secondary); }
+
+  /* =========================================================
+     4. 塔罗牌抽卡圣殿 (Mystic Tarot Card Deck)
+     ========================================================= */
+  .tarot-sanctum {
+    text-align: center;
+    padding: 10px 0 20px;
+  }
+  .tarot-altar {
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border: 2px solid var(--paper-border);
+    border-radius: var(--radius-lg);
+    padding: 24px 16px;
+    box-shadow: var(--paper-shadow);
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .tarot-altar-header {
+    margin-bottom: 20px;
+  }
+  .tarot-altar-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--tarot-gold);
+    letter-spacing: 2px;
+  }
+  .tarot-altar-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* 塔罗牌阵列 (Tarot Spread Grid) */
+  .tarot-spread {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 14px;
+    justify-items: center;
+    perspective: 1200px;
+    margin: 20px 0;
+  }
+
+  /* 单张塔罗牌 (3D Flip Container) */
+  .tarot-card-scene {
+    width: 135px;
+    height: 220px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  .tarot-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+    border-radius: 12px;
+  }
+  .tarot-card-scene:hover .tarot-card:not(.flipped) {
+    transform: translateY(-8px) scale(1.03) rotateZ(1deg);
+  }
+  .tarot-card.flipped {
+    transform: rotateY(180deg) translateY(-4px);
+  }
+
+  /* 塔罗牌背面 (Face Down - 华丽折纸星盘纹路) */
+  .tarot-card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 0 0 2px var(--tarot-back-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+  .tarot-back {
+    background: var(--tarot-back-bg);
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.15) 0%, transparent 60%),
+      repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.04) 10px, rgba(255, 255, 255, 0.04) 20px),
+      repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.04) 10px, rgba(255, 255, 255, 0.04) 20px);
+    border: 3px solid var(--tarot-back-border);
+    color: var(--tarot-gold);
+  }
+  .tarot-back-mandala {
+    width: 70px;
+    height: 70px;
+    border: 2px solid var(--tarot-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 0 15px var(--brand-accent-glow), inset 0 0 10px var(--brand-accent-glow);
+    animation: mandalaSpin 20s linear infinite;
+  }
+  @keyframes mandalaSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .tarot-back-tip {
+    font-family: var(--font-serif);
+    font-size: 11px;
+    color: var(--tarot-gold);
+    margin-top: 14px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  /* 塔罗牌正面 (Face Up - 词汇大阿卡那金卡) */
+  .tarot-front {
+    background: linear-gradient(145deg, #1e1b4b 0%, #0f172a 100%);
+    border: 3px solid var(--tarot-gold);
+    transform: rotateY(180deg);
+    color: #fff;
+    text-align: center;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 0 25px var(--brand-accent-glow);
+    overflow: hidden;
+  }
+  [data-theme="light"] .tarot-front {
+    background: linear-gradient(145deg, #fffdf8 0%, #fef3c7 100%);
+    color: #2d261e;
+    border-color: #b45309;
+  }
+  .tarot-numeral {
+    font-family: var(--font-serif);
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--tarot-gold);
+    letter-spacing: 2px;
+  }
+  .tarot-arcana-name {
+    font-family: var(--font-serif);
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .tarot-word {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--tarot-gold);
+    margin: 6px 0 2px;
+    word-break: break-word;
+  }
+  .tarot-meaning {
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    background: rgba(0,0,0,0.15);
+    padding: 4px 6px;
+    border-radius: 6px;
+    border: 1px dashed var(--paper-border);
+  }
+  [data-theme="dark"] .tarot-meaning { background: rgba(255,255,255,0.06); }
+  .tarot-rarity {
+    font-size: 11px;
+    color: var(--tarot-gold);
+    letter-spacing: 2px;
+  }
+
+  /* =========================================================
+     5. 游戏模式组件 (Survival & Anatomy & Speed Match)
+     ========================================================= */
+  .origami-box {
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border: 2px solid var(--paper-border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--paper-shadow);
+    margin-bottom: 20px;
+  }
+  .game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--paper-border);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .theme-badge {
+    background: var(--paper-surface-sub);
+    border: 1.5px solid var(--paper-border);
+    color: var(--brand-accent);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .story-scroll {
+    background: var(--paper-surface-sub);
+    border-left: 5px solid var(--brand-accent);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 18px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+  }
+  .choice-btn {
+    background: var(--paper-surface);
+    border: 1.5px solid var(--paper-border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    text-align: left;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    box-shadow: var(--paper-shadow);
+    margin-bottom: 10px;
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--brand-primary);
+    transform: translateY(-2px);
+  }
+  .choice-btn:active:not(:disabled) {
+    box-shadow: var(--paper-shadow-active);
+    transform: translate(2px, 2px);
+  }
+  .choice-word-badge {
+    background: var(--brand-primary);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+  }
+
+  /* 45秒消消乐 */
+  .match-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .match-card {
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border: 2px solid var(--paper-border);
+    border-radius: var(--radius-md);
+    padding: 16px 12px;
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: var(--paper-shadow);
+    transition: var(--transition-fast);
+    user-select: none;
+  }
+  .match-card:hover { transform: translateY(-2px); border-color: var(--brand-primary); }
+  .match-card.active { border-color: var(--brand-accent); background: var(--paper-hover); transform: scale(1.03); }
+  .match-card.matched { border-color: var(--brand-success); opacity: 0; pointer-events: none; transform: scale(0.85); transition: all 0.4s; }
+  .match-card.wrong { border-color: var(--brand-danger); animation: shake 0.3s; }
+
+  /* =========================================================
+     6. 底部折纸导航 (Bottom Dock)
+     ========================================================= */
+  .bottom-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 2px solid var(--paper-border);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 12px calc(8px + var(--safe-bottom));
+    z-index: 90;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .nav-item {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+    transition: var(--transition-fast);
+  }
+  .nav-item.active {
+    color: var(--brand-primary);
+    transform: translateY(-2px);
+  }
+  .nav-icon { font-size: 20px; }
+
+  /* 折纸弹窗与抽屉 */
+  .def-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 460px;
+    height: 100vh;
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+    z-index: 100;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    padding: 24px 20px calc(40px + var(--safe-bottom));
+    border-left: 2px solid var(--paper-border);
+  }
+  .def-drawer.open { right: 0; }
+  .drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 99;
+    display: none;
+  }
+  .drawer-overlay.open { display: block; }
+  .drawer-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--paper-surface-sub);
+    border: 1.5px solid var(--paper-border);
+    color: var(--text-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background: var(--paper-surface);
+    background-image: var(--paper-crease);
+    border: 2px solid var(--paper-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    width: 90%;
+    max-width: 440px;
+    z-index: 200;
+    display: none;
+    box-shadow: var(--paper-shadow);
+    opacity: 0;
+    transition: var(--transition-fast);
+  }
+  .modal-box.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .form-group { margin-bottom: 14px; text-align: left; }
+  .form-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block; }
+  .form-input, .form-select {
+    width: 100%;
+    background: var(--paper-surface-sub);
+    border: 1.5px solid var(--paper-border);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--brand-primary); }
+
+  .toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--paper-surface);
+    border: 2px solid var(--brand-primary);
+    color: var(--text-primary);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    z-index: 300;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s;
+    box-shadow: var(--paper-shadow);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .btn-row { display: flex; gap: 10px; margin-top: 18px; }
+  .btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--paper-border);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: var(--paper-shadow);
+    transition: var(--transition-fast);
+  }
+  .btn:active { box-shadow: var(--paper-shadow-active); transform: translate(2px, 2px); }
+  .btn-primary { background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); }
+  .btn-secondary { background: var(--paper-surface-sub); color: var(--text-secondary); }
+  .btn-accent { background: var(--brand-accent); color: #fff; border-color: var(--brand-accent); }
+
+/* Extra styling for fast-paced survival */
+.story-en {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.story-zh {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.choice-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.choice-action-zh {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+.choice-action-en {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Interactive Clickable Words in Post-Battle Story */
+.story-word {
+  display: inline-block;
+  padding: 1px 3px;
+  margin: 0 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--text-primary);
+  border-bottom: 1.5px dotted var(--brand-accent);
+}
+.story-word:hover {
+  background: var(--brand-accent-glow);
+  color: var(--brand-accent);
+  transform: translateY(-1px);
+  border-bottom: 1.5px solid var(--brand-accent);
+}
+.story-word.marked-word-highlight {
+  color: var(--brand-danger);
+  font-weight: 800;
+  border-bottom: 2px solid var(--brand-danger);
+}
+
+/* External Dictionary Jump Links */
+.dict-external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  color: var(--brand-primary);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0px var(--paper-border);
+  transition: var(--transition-fast);
+}
+.dict-external-link:hover {
+  background: var(--paper-hover);
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+}
+
+/* Admin Console Styles */
+.admin-stat-card {
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  box-shadow: 2px 2px 0px var(--paper-border);
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+.admin-table th {
+  padding: 8px 10px;
+  background: var(--paper-surface);
+  border-bottom: 2px solid var(--paper-border);
+  color: var(--text-secondary);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.admin-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--paper-border);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.admin-role-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.admin-role-badge.admin {
+  background: var(--brand-accent-glow);
+  color: var(--brand-accent);
+  border: 1px solid var(--brand-accent);
+}
+.admin-role-badge.user {
+  background: var(--paper-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--paper-border);
+}
+.btn-admin-top {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px #b45309;
+  transition: var(--transition-fast);
+}
+.btn-admin-top:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   17. 🍬 糖果色块中英配对消消乐 (Candy Block Match Game)
+   ========================================================= */
+.candy-game-wrap {
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--paper-shadow);
+}
+.candy-stats-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  background: var(--paper-surface-sub);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+}
+.candy-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.candy-stat-lbl {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+.candy-stat-val {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: var(--font-serif);
+  color: var(--text-primary);
+}
+.candy-timer-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: var(--paper-surface-sub);
+  border-radius: 3px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.candy-timer-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-success), var(--brand-accent));
+  transition: width 1s linear;
+}
+.candy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.candy-tile {
+  padding: 16px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: center;
+  font-weight: 800;
+  font-size: 14px;
+  user-select: none;
+  position: relative;
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease, filter 0.2s ease;
+  box-shadow: 0 4px 0px rgba(0,0,0,0.15), 0 6px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  border: 1.5px solid transparent;
+}
+.candy-tile:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.05);
+}
+.candy-tile:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0px rgba(0,0,0,0.15);
+}
+.candy-tile.selected {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 8px 0px rgba(0,0,0,0.2), 0 12px 24px rgba(0,0,0,0.25);
+  border-color: #fff;
+  filter: brightness(1.15);
+  animation: pulseSelect 1.2s infinite;
+}
+@keyframes pulseSelect {
+  0%, 100% { transform: translateY(-6px) scale(1.04); }
+  50% { transform: translateY(-6px) scale(1.08); }
+}
+
+/* Candy Color Themes */
+.candy-tile.tile-en-0 { background: #4f46e5; color: #ffffff; }
+.candy-tile.tile-cn-0 { background: #6366f1; color: #ffffff; }
+.candy-tile.tile-en-1 { background: #059669; color: #ffffff; }
+.candy-tile.tile-cn-1 { background: #10b981; color: #ffffff; }
+.candy-tile.tile-en-2 { background: #d97706; color: #ffffff; }
+.candy-tile.tile-cn-2 { background: #f59e0b; color: #ffffff; }
+.candy-tile.tile-en-3 { background: #e11d48; color: #ffffff; }
+.candy-tile.tile-cn-3 { background: #f43f5e; color: #ffffff; }
+.candy-tile.tile-en-4 { background: #0891b2; color: #ffffff; }
+.candy-tile.tile-cn-4 { background: #06b6d4; color: #ffffff; }
+.candy-tile.tile-en-5 { background: #7c3aed; color: #ffffff; }
+.candy-tile.tile-cn-5 { background: #8b5cf6; color: #ffffff; }
+
+.candy-tile .tile-lang-badge {
+  font-size: 10px;
+  opacity: 0.85;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.candy-tile .tile-word-text {
+  font-size: 14px;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+/* Match & Shake Animations */
+.candy-tile.pop-match {
+  animation: popMatch 0.4s forwards;
+  pointer-events: none;
+}
+@keyframes popMatch {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); filter: brightness(1.5); }
+  100% { transform: scale(0); opacity: 0; }
+}
+.candy-tile.shake-error {
+  animation: shakeError 0.4s ease;
+  background: var(--brand-danger) !important;
+  color: #fff !important;
+}
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* =========================================================
+   18. 🎴 3D 塔罗战斗技能栏与卡牌图鉴 (Battle Hand & Codex)
+   ========================================================= */
+.battle-hand-dock {
+  background: var(--paper-surface-sub);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 16px;
+}
+.battle-hand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.battle-hand-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--brand-accent);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.battle-cards-row {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.battle-card-btn {
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 100px;
+  box-shadow: 2px 3px 0px var(--paper-border);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  text-align: center;
+}
+.battle-card-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(245, 158, 11, 0.25);
+  border-color: var(--brand-accent);
+}
+.battle-card-btn.cast-glow {
+  animation: castGlow 0.6s ease;
+}
+@keyframes castGlow {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.15); filter: brightness(1.6); box-shadow: 0 0 20px var(--brand-accent); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+.battle-card-rarity {
+  font-size: 10px;
+  font-weight: 900;
+  color: var(--tarot-gold);
+}
+.battle-card-word {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.battle-card-skill {
+  font-size: 11px;
+  color: var(--brand-cyan);
+  font-weight: 700;
+}
+
+/* Codex 3D Card Modal */
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 4px;
+}
+.codex-card {
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  text-align: center;
+  box-shadow: 2px 3px 0px var(--paper-border);
+  transition: transform 0.2s ease;
+}
+.codex-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--tarot-gold);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+}
+.codex-card-arcana {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--tarot-gold);
+}
+.codex-card-word {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-primary);
+  margin: 6px 0 2px;
+}
+.codex-card-cn {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.codex-skill-box {
+  background: var(--paper-surface-sub);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  margin-top: 8px;
+  border: 1px solid var(--paper-border);
+}
+.codex-skill-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--brand-accent);
+}
+.codex-skill-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* =========================================================
+   📱 移动端响应式适配 (Mobile Responsive)
+   ========================================================= */
+
+/* --- 平板 & 大手机 (≤640px) --- */
+@media (max-width: 640px) {
+  /* Header: 缩小品牌区，按钮间距收紧 */
+  .brand-logo { width: 34px; height: 34px; font-size: 18px; }
+  .brand-text h1 { font-size: 16px; }
+  .brand-text p { font-size: 10px; }
+  .header-actions { gap: 5px; }
+  .paper-icon-btn { width: 34px; height: 34px; font-size: 14px; }
+  .btn-admin-top { padding: 5px 8px; font-size: 11px; }
+
+  /* HUD: 三栏缩小字号 */
+  .origami-hud-card { padding: 5px 8px; font-size: 11px; gap: 4px; }
+  .hud-val { font-size: 12px; }
+
+  /* Banner: 标题缩小 */
+  .banner-title { font-size: 15px; }
+  .banner-desc { font-size: 11px; }
+
+  /* 容器内边距缩小 */
+  .container { padding: 12px; }
+
+  /* 塔罗牌缩小 */
+  .tarot-card-scene { width: 115px; height: 190px; }
+  .tarot-spread { gap: 10px; }
+  .tarot-altar { padding: 18px 12px; }
+  .tarot-altar-title { font-size: 18px; }
+
+  /* 消消乐色块缩小 */
+  .candy-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+  .candy-tile { min-height: 64px; padding: 12px 8px; }
+  .candy-tile .tile-word-text { font-size: 13px; }
+  .candy-stats-bar { padding: 8px 12px; }
+  .candy-stat-val { font-size: 16px; }
+
+  /* Modal 全宽 */
+  .modal-box { width: 95%; padding: 18px; }
+
+  /* 释义抽屉全宽 */
+  .def-drawer { max-width: 100%; }
+
+  /* 图鉴网格 */
+  .codex-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+
+  /* 生存战游戏头 */
+  .game-header { flex-wrap: wrap; gap: 8px; }
+
+  /* Admin 表格可滚动 */
+  .admin-table { display: block; overflow-x: auto; }
+
+  /* Toast 限宽 */
+  .toast { max-width: 90vw; font-size: 12px; padding: 8px 14px; }
+
+  /* 底部导航增大触摸区域 */
+  .nav-item { padding: 6px 0; min-height: 48px; }
+  .nav-icon { font-size: 22px; }
+  .bottom-dock { padding: 6px 8px calc(6px + var(--safe-bottom)); }
+}
+
+/* --- 小手机 (≤480px) --- */
+@media (max-width: 480px) {
+  /* Header: 隐藏副标题，进一步缩小 */
+  .brand-text p { display: none; }
+  .brand-text h1 { font-size: 14px; }
+  .brand-logo { width: 30px; height: 30px; font-size: 16px; }
+  .header { padding: 10px 12px; }
+  .header-actions { gap: 4px; }
+  .paper-icon-btn { width: 32px; height: 32px; font-size: 13px; }
+  .btn-admin-top { font-size: 10px; padding: 4px 6px; }
+
+  /* HUD: 改为两列布局，LV 独占一行 */
+  .player-bar {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .player-bar .origami-hud-card:last-child {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+  .origami-hud-card { padding: 5px 6px; font-size: 10px; }
+
+  /* Banner: 改为垂直布局 */
+  .origami-banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 14px;
+  }
+  .origami-banner .btn { width: 100%; }
+
+  /* 搜索栏: 按钮缩小 */
+  .search-row { gap: 6px; }
+  .origami-input { padding: 10px 12px 10px 34px; font-size: 14px; }
+  .paper-btn-primary { padding: 0 12px; font-size: 13px; }
+
+  /* Tabs 缩小 */
+  .origami-tab-btn { font-size: 12px; padding: 7px 0; }
+  .origami-chip { font-size: 10px; padding: 1px 5px; }
+
+  /* 单词卡片 */
+  .origami-word-card { padding: 10px 12px; gap: 8px; }
+  .word-spelling { font-size: 15px; gap: 6px; }
+  .word-num { font-size: 11px; min-width: 26px; }
+
+  /* 解剖台: 三按钮改单列 */
+  #anatomyGameBox div[style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+  #dissectWord { font-size: 28px !important; }
+
+  /* 塔罗牌进一步缩小 */
+  .tarot-card-scene { width: 100px; height: 165px; }
+  .tarot-word { font-size: 14px; }
+  .tarot-meaning { font-size: 10px; }
+  .tarot-numeral { font-size: 10px; }
+  .tarot-back-mandala { width: 50px; height: 50px; font-size: 22px; }
+  .tarot-back-tip { font-size: 9px; }
+
+  /* 消消乐 */
+  .candy-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .candy-tile { min-height: 56px; padding: 10px 6px; }
+  .candy-tile .tile-word-text { font-size: 12px; }
+  .candy-stat-val { font-size: 14px; }
+  .candy-stat-lbl { font-size: 10px; }
+
+  /* 生存战 */
+  .story-scroll { font-size: 13px; padding: 12px; }
+  .choice-btn { padding: 12px; font-size: 13px; min-height: 48px; }
+  .choice-word-badge { font-size: 12px; padding: 2px 6px; }
+
+  /* 战术卡牌 */
+  .battle-hand-title { font-size: 11px; }
+  .battle-card-btn { min-width: 85px; padding: 6px 8px; }
+
+  /* 弹窗 */
+  .modal-box { width: 98%; padding: 14px; border-radius: var(--radius-md); }
+  .btn { padding: 10px; font-size: 13px; }
+  .btn-row { gap: 6px; }
+  .form-input, .form-select { padding: 9px 12px; font-size: 13px; }
+
+  /* 底部导航: 文字进一步缩小，图标保持大 */
+  .nav-item { font-size: 10px; min-height: 48px; }
+  .nav-icon { font-size: 20px; }
+
+  /* 容器 */
+  .container { padding: 10px; }
+
+  /* 图鉴 */
+  .codex-grid { grid-template-columns: 1fr; }
+  .codex-card-word { font-size: 16px; }
+}
+
+/* --- 超小屏 (≤360px, 如 iPhone SE 1代) --- */
+@media (max-width: 360px) {
+  .brand-text h1 { font-size: 13px; letter-spacing: 0; }
+  .brand-logo { width: 28px; height: 28px; }
+  .header-actions { gap: 3px; }
+  .paper-icon-btn { width: 30px; height: 30px; font-size: 12px; }
+  .tarot-card-scene { width: 90px; height: 150px; }
+  .origami-word-card { padding: 8px 10px; }
+  .word-spelling { font-size: 14px; }
+  .candy-tile { min-height: 50px; }
+  .candy-tile .tile-word-text { font-size: 11px; }
+}
+
+/* --- 触摸设备优化 --- */
+@media (hover: none) and (pointer: coarse) {
+  /* 移除桌面 hover 效果，避免手机上粘滞 */
+  .origami-word-card:hover { transform: none; border-color: var(--paper-border); }
+  .paper-icon-btn:hover { transform: none; background: var(--paper-surface); }
+  .match-card:hover { transform: none; border-color: var(--paper-border); }
+  .candy-tile:hover { transform: none; filter: none; }
+  .choice-btn:hover:not(:disabled) { transform: none; border-color: var(--paper-border); }
+  .codex-card:hover { transform: none; border-color: var(--paper-border); }
+
+  /* 增大所有可点击元素的触摸区域 */
+  .word-audio-btn { padding: 6px 10px; font-size: 16px; }
+  .drawer-close-btn { width: 44px; height: 44px; font-size: 20px; }
+}
