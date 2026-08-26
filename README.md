@@ -85,8 +85,8 @@ vocab-survival/
 
 ```bash
 # 1. 克隆代码仓库
-git clone https://github.com/<your-username>/vocab-survival.git
-cd vocab-survival
+git clone https://github.com/simmons3355945587-stack/stonecottages.git
+cd stonecottages
 
 # 2. 复制配置文件
 cp .env.example .env
@@ -164,7 +164,7 @@ server {
 
 - **作者 / 站长**: 林允安 (Yunan Lin)
 - **联系邮箱**: [3355945587@qq.com](mailto:3355945587@qq.com)
-- **问题反馈**: 欢迎提交 [GitHub Issues](https://github.com/<your-username>/vocab-survival/issues) 或 Pull Requests 贡献词库与新模式！
+- **问题反馈**: 欢迎提交 [GitHub Issues](https://github.com/simmons3355945587-stack/stonecottages/issues) 或 Pull Requests 贡献词库与新模式！
 
 ---
 
