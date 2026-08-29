@@ -1226,6 +1226,7 @@ let matchScore = 0;
 let matchCombo = 1;
 let matchWave = 1;
 let matchActiveTile = null;
+let recentCandyWordsHistory = [];
 
 function startCandyMatchGame() {
   soundClick();
@@ -1258,14 +1259,38 @@ function generateCandyBoard() {
   grid.innerHTML = '';
   matchActiveTile = null;
 
-  // 优先从已标记词库或全部词库中挑选 6 个词
-  const marked = getMarkedWords();
-  let pool = [];
-  if (marked.length >= 4) {
-    pool = marked.sort(() => 0.5 - Math.random()).slice(0, 6).map(m => m[0]);
-  } else {
-    pool = [...words].sort(() => 0.5 - Math.random()).slice(0, 6);
+  // 1. 获取有效全词库池（有中文释义的词汇，全库 600+ 词）
+  const validWords = words.filter(w => chineseDict[w] && typeof chineseDict[w] === 'string' && chineseDict[w].trim().length > 0);
+  
+  // 如果历史已出现过多，清空历史队列重新循环，确保不重样
+  if (recentCandyWordsHistory.length >= validWords.length - 12 || recentCandyWordsHistory.length > 80) {
+    recentCandyWordsHistory = [];
   }
+
+  // 2. 候选词过滤：排除最近几轮刚出现过的词汇
+  const unpickedWords = validWords.filter(w => !recentCandyWordsHistory.includes(w));
+  const candidatePool = unpickedWords.length >= 6 ? unpickedWords : validWords;
+
+  // 3. 错题/标记词温和回顾策略：每轮最多引入 1~2 个标记词，其余 4~5 个必须从全词库中新鲜抽取
+  const marked = getMarkedWords().map(m => m[0]).filter(w => chineseDict[w] && !recentCandyWordsHistory.includes(w));
+  let pool = [];
+  
+  if (marked.length > 0) {
+    const pickMarkedCount = Math.min(2, marked.length);
+    const shuffledMarked = [...marked].sort(() => 0.5 - Math.random()).slice(0, pickMarkedCount);
+    pool.push(...shuffledMarked);
+  }
+
+  // 4. 用全量词库新鲜词填满至 6 个
+  const freshWords = candidatePool.filter(w => !pool.includes(w)).sort(() => 0.5 - Math.random());
+  while (pool.length < 6 && freshWords.length > 0) {
+    pool.push(freshWords.pop());
+  }
+
+  // 记录到最近历史中，防止后续连续重复
+  pool.forEach(w => {
+    recentCandyWordsHistory.push(w);
+  });
 
   const tiles = [];
   // 🎲 随机打乱 12 种独立设计师主题色（中英文色块完全随机，互不相关）
@@ -1273,7 +1298,10 @@ function generateCandyBoard() {
   let colorPointer = 0;
 
   pool.forEach((word) => {
-    const cn = chineseDict[word] || word;
+    const rawCn = chineseDict[word] || word;
+    // 提取最简洁核心释义，去除多余标点和词性前缀
+    let cn = rawCn.split(/[,;，；]/)[0].replace(/^[a-z]+\.\s*/i, '').trim();
+    if (!cn) cn = rawCn;
     const enColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
     const cnColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
 
@@ -1288,7 +1316,7 @@ function generateCandyBoard() {
     tiles.push({
       word: word,
       type: 'cn',
-      text: cn.split(';')[0].trim(),
+      text: cn,
       colorClass: cnColorClass
     });
   });
