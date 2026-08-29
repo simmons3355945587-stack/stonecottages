@@ -1184,33 +1184,35 @@
   50% { transform: translateY(-6px) scale(1.08); }
 }
 
-/* 12 Modern Light Pastel / Macaron Color Palettes for Candy Match */
-.candy-tile.color-theme-0 { background: #fdf2f8; color: #831843; border-color: #fbcfe8; box-shadow: 0 4px 0 #f472b6, 0 4px 12px rgba(244,114,182,0.15); }
-.candy-tile.color-theme-1 { background: #f0fdf4; color: #14532d; border-color: #bbf7d0; box-shadow: 0 4px 0 #4ade80, 0 4px 12px rgba(74,222,128,0.15); }
-.candy-tile.color-theme-2 { background: #f0f9ff; color: #0c4a6e; border-color: #bae6fd; box-shadow: 0 4px 0 #38bdf8, 0 4px 12px rgba(56,189,248,0.15); }
-.candy-tile.color-theme-3 { background: #fffbeb; color: #78350f; border-color: #fde68a; box-shadow: 0 4px 0 #fbbf24, 0 4px 12px rgba(251,191,36,0.15); }
-.candy-tile.color-theme-4 { background: #faf5ff; color: #581c87; border-color: #e9d5ff; box-shadow: 0 4px 0 #c084fc, 0 4px 12px rgba(192,132,252,0.15); }
-.candy-tile.color-theme-5 { background: #f0fdfa; color: #134e4a; border-color: #99f6e4; box-shadow: 0 4px 0 #2dd4bf, 0 4px 12px rgba(45,212,191,0.15); }
-.candy-tile.color-theme-6 { background: #fff7ed; color: #7c2d12; border-color: #fed7aa; box-shadow: 0 4px 0 #fb923c, 0 4px 12px rgba(251,146,60,0.15); }
-.candy-tile.color-theme-7 { background: #eef2ff; color: #312e81; border-color: #c7d2fe; box-shadow: 0 4px 0 #818cf8, 0 4px 12px rgba(129,140,248,0.15); }
-.candy-tile.color-theme-8 { background: #f7fee7; color: #365314; border-color: #d9f99d; box-shadow: 0 4px 0 #a3e635, 0 4px 12px rgba(163,230,53,0.15); }
-.candy-tile.color-theme-9 { background: #ecfeff; color: #164e63; border-color: #a5f3fc; box-shadow: 0 4px 0 #22d3ee, 0 4px 12px rgba(34,211,238,0.15); }
-.candy-tile.color-theme-10 { background: #fff1f2; color: #881337; border-color: #fecdd3; box-shadow: 0 4px 0 #fb7185, 0 4px 12px rgba(251,113,133,0.15); }
-.candy-tile.color-theme-11 { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; box-shadow: 0 4px 0 #94a3b8, 0 4px 12px rgba(148,163,184,0.15); }
+/* =========================================================
+   17. 🍬 糖果消消乐：方案 C · 复古折纸淡墨笺色系 (Vintage Origami Paper)
+   ========================================================= */
+.candy-tile.color-theme-0 { background: #f2f7f4; color: #1a3826; border-color: #c8ded1; box-shadow: 0 4px 0 #6e9f80, 0 4px 10px rgba(110,159,128,0.15); } /* 竹青笺 */
+.candy-tile.color-theme-1 { background: #faf6ed; color: #43331d; border-color: #e6d8be; box-shadow: 0 4px 0 #bda376, 0 4px 10px rgba(189,163,118,0.15); } /* 杏仁笺 */
+.candy-tile.color-theme-2 { background: #faf2f2; color: #4d2020; border-color: #e8d0d0; box-shadow: 0 4px 0 #ba7c7c, 0 4px 10px rgba(186,124,124,0.15); } /* 朱砂粉笺 */
+.candy-tile.color-theme-3 { background: #f1f6fa; color: #1b364b; border-color: #cadbe7; box-shadow: 0 4px 0 #719bb8, 0 4px 10px rgba(113,155,184,0.15); } /* 淡青黛 */
+.candy-tile.color-theme-4 { background: #faf8eb; color: #3e3816; border-color: #e6e0bc; box-shadow: 0 4px 0 #b5a968, 0 4px 10px rgba(181,169,104,0.15); } /* 浅松花 */
+.candy-tile.color-theme-5 { background: #f7f3fa; color: #3a2254; border-color: #ddcfeb; box-shadow: 0 4px 0 #9f82bd, 0 4px 10px rgba(159,130,189,0.15); } /* 紫藤宣 */
+.candy-tile.color-theme-6 { background: #f3f9f4; color: #1d3e24; border-color: #cde6d2; box-shadow: 0 4px 0 #72a87d, 0 4px 10px rgba(114,168,125,0.15); } /* 玉簪淡绿 */
+.candy-tile.color-theme-7 { background: #fbf4ee; color: #4c2912; border-color: #eed7c5; box-shadow: 0 4px 0 #c08d66, 0 4px 10px rgba(192,141,102,0.15); } /* 素赭淡橙 */
+.candy-tile.color-theme-8 { background: #f0f7f9; color: #153945; border-color: #c6e0e7; box-shadow: 0 4px 0 #6ba6b7, 0 4px 10px rgba(107,166,183,0.15); } /* 碧云浅蓝 */
+.candy-tile.color-theme-9 { background: #f8f6f0; color: #383424; border-color: #ded8c5; box-shadow: 0 4px 0 #a69c7f, 0 4px 10px rgba(166,156,127,0.15); } /* 茶白浅褐 */
+.candy-tile.color-theme-10 { background: #fbf2f7; color: #4c1b3d; border-color: #eed0e3; box-shadow: 0 4px 0 #bd79a5, 0 4px 10px rgba(189,121,165,0.15); } /* 藕荷淡粉 */
+.candy-tile.color-theme-11 { background: #f3f4f6; color: #1f2937; border-color: #d1d5db; box-shadow: 0 4px 0 #9ca3af, 0 4px 10px rgba(156,163,175,0.15); } /* 松烟冷灰 */
 
-/* Dark Mode Adaptation for Pastel Tiles */
-[data-theme="dark"] .candy-tile.color-theme-0 { background: rgba(131, 24, 67, 0.25); color: #fbcfe8; border-color: #f472b6; box-shadow: 0 4px 0 #831843; }
-[data-theme="dark"] .candy-tile.color-theme-1 { background: rgba(20, 83, 45, 0.25); color: #bbf7d0; border-color: #4ade80; box-shadow: 0 4px 0 #14532d; }
-[data-theme="dark"] .candy-tile.color-theme-2 { background: rgba(12, 74, 110, 0.25); color: #bae6fd; border-color: #38bdf8; box-shadow: 0 4px 0 #0c4a6e; }
-[data-theme="dark"] .candy-tile.color-theme-3 { background: rgba(120, 53, 15, 0.25); color: #fde68a; border-color: #fbbf24; box-shadow: 0 4px 0 #78350f; }
-[data-theme="dark"] .candy-tile.color-theme-4 { background: rgba(88, 28, 135, 0.25); color: #e9d5ff; border-color: #c084fc; box-shadow: 0 4px 0 #581c87; }
-[data-theme="dark"] .candy-tile.color-theme-5 { background: rgba(19, 78, 74, 0.25); color: #99f6e4; border-color: #2dd4bf; box-shadow: 0 4px 0 #134e4a; }
-[data-theme="dark"] .candy-tile.color-theme-6 { background: rgba(124, 45, 18, 0.25); color: #fed7aa; border-color: #fb923c; box-shadow: 0 4px 0 #7c2d12; }
-[data-theme="dark"] .candy-tile.color-theme-7 { background: rgba(49, 46, 129, 0.25); color: #c7d2fe; border-color: #818cf8; box-shadow: 0 4px 0 #312e81; }
-[data-theme="dark"] .candy-tile.color-theme-8 { background: rgba(54, 83, 20, 0.25); color: #d9f99d; border-color: #a3e635; box-shadow: 0 4px 0 #365314; }
-[data-theme="dark"] .candy-tile.color-theme-9 { background: rgba(22, 78, 99, 0.25); color: #a5f3fc; border-color: #22d3ee; box-shadow: 0 4px 0 #164e63; }
-[data-theme="dark"] .candy-tile.color-theme-10 { background: rgba(136, 19, 55, 0.25); color: #fecdd3; border-color: #fb7185; box-shadow: 0 4px 0 #881337; }
-[data-theme="dark"] .candy-tile.color-theme-11 { background: rgba(15, 23, 42, 0.25); color: #cbd5e1; border-color: #94a3b8; box-shadow: 0 4px 0 #0f172a; }
+/* Dark Mode 适配 (复古纸感半透明荧光) */
+[data-theme="dark"] .candy-tile.color-theme-0 { background: rgba(110, 159, 128, 0.18); color: #c8ded1; border-color: #6e9f80; box-shadow: 0 4px 0 #3b5f47; }
+[data-theme="dark"] .candy-tile.color-theme-1 { background: rgba(189, 163, 118, 0.18); color: #e6d8be; border-color: #bda376; box-shadow: 0 4px 0 #6a583a; }
+[data-theme="dark"] .candy-tile.color-theme-2 { background: rgba(186, 124, 124, 0.18); color: #e8d0d0; border-color: #ba7c7c; box-shadow: 0 4px 0 #6d3f3f; }
+[data-theme="dark"] .candy-tile.color-theme-3 { background: rgba(113, 155, 184, 0.18); color: #cadbe7; border-color: #719bb8; box-shadow: 0 4px 0 #3a5b72; }
+[data-theme="dark"] .candy-tile.color-theme-4 { background: rgba(181, 169, 104, 0.18); color: #e6e0bc; border-color: #b5a968; box-shadow: 0 4px 0 #686034; }
+[data-theme="dark"] .candy-tile.color-theme-5 { background: rgba(159, 130, 189, 0.18); color: #ddcfeb; border-color: #9f82bd; box-shadow: 0 4px 0 #584170; }
+[data-theme="dark"] .candy-tile.color-theme-6 { background: rgba(114, 168, 125, 0.18); color: #cde6d2; border-color: #72a87d; box-shadow: 0 4px 0 #3d6345; }
+[data-theme="dark"] .candy-tile.color-theme-7 { background: rgba(192, 141, 102, 0.18); color: #eed7c5; border-color: #c08d66; box-shadow: 0 4px 0 #6e492c; }
+[data-theme="dark"] .candy-tile.color-theme-8 { background: rgba(107, 166, 183, 0.18); color: #c6e0e7; border-color: #6ba6b7; box-shadow: 0 4px 0 #365e6b; }
+[data-theme="dark"] .candy-tile.color-theme-9 { background: rgba(166, 156, 127, 0.18); color: #ded8c5; border-color: #a69c7f; box-shadow: 0 4px 0 #59523f; }
+[data-theme="dark"] .candy-tile.color-theme-10 { background: rgba(189, 121, 165, 0.18); color: #eed0e3; border-color: #bd79a5; box-shadow: 0 4px 0 #6b395a; }
+[data-theme="dark"] .candy-tile.color-theme-11 { background: rgba(156, 163, 175, 0.18); color: #d1d5db; border-color: #9ca3af; box-shadow: 0 4px 0 #4b5563; }
 
 .candy-tile {
   padding: 16px 12px;
