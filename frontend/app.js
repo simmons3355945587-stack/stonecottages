@@ -1268,19 +1268,23 @@ function generateCandyBoard() {
   }
 
   const tiles = [];
-  pool.forEach((word, idx) => {
-    const cn = chineseDict[word] || word;
-    const colorClass = `tile-en-${idx % 6}`;
-    const cnColorClass = `tile-cn-${idx % 6}`;
+  // 🎲 随机打乱 12 种独立设计师主题色（中英文色块完全随机，互不相关）
+  const colorIndices = Array.from({length: 12}, (_, i) => i).sort(() => 0.5 - Math.random());
+  let colorPointer = 0;
 
-    // 英文词块
+  pool.forEach((word) => {
+    const cn = chineseDict[word] || word;
+    const enColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
+    const cnColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
+
+    // 英文词块 (独立随机色)
     tiles.push({
       word: word,
       type: 'en',
       text: word,
-      colorClass: colorClass
+      colorClass: enColorClass
     });
-    // 中文释义词块
+    // 中文释义词块 (独立随机色)
     tiles.push({
       word: word,
       type: 'cn',
@@ -1289,7 +1293,7 @@ function generateCandyBoard() {
     });
   });
 
-  // 随机打乱
+  // 再次随机打乱卡片排布
   tiles.sort(() => 0.5 - Math.random());
 
   tiles.forEach(t => {
@@ -1590,13 +1594,17 @@ function renderSurvivalGame(data) {
   const optionsGrid = document.getElementById('gameOptions');
   optionsGrid.innerHTML = '';
 
+  const letterLabels = ['A', 'B', 'C'];
   data.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.innerHTML = `
-      <span class="choice-word-badge">[ ${escapeHtml(opt.word)} ]</span>
+      <div class="choice-letter-badge">${letterLabels[idx] || (idx+1)}</div>
       <div class="choice-content">
-        <div style="font-size: 14px; font-weight: 600; color: var(--text-primary);">${escapeHtml(opt.action)}</div>
+        <div class="choice-header-row">
+          <span class="choice-word-badge">[ ${escapeHtml(opt.word)} ]</span>
+        </div>
+        <div class="choice-action-text">${escapeHtml(opt.action)}</div>
       </div>
     `;
     btn.onclick = () => handleSurvivalChoice(opt, idx);
