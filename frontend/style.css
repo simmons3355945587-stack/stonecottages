@@ -770,6 +770,58 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: var(--transition-fast);
+  }
+  .drawer-close-btn:hover {
+    background: var(--brand-danger);
+    color: #fff;
+    border-color: var(--brand-danger);
+    transform: scale(1.08);
+  }
+
+  /* 💻 键盘快捷键徽标与提示 */
+  kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text-primary);
+    background: var(--paper-surface-sub);
+    border: 1px solid var(--paper-border);
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2);
+    vertical-align: middle;
+  }
+  .drawer-kbd-guide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--paper-surface-sub);
+    border: 1px dashed var(--paper-border);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    margin-bottom: 14px;
+    user-select: none;
+  }
+  .drawer-kbd-guide span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .mark-pulse {
+    animation: markScalePulse 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+  }
+  @keyframes markScalePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.45); color: var(--brand-accent); }
+    100% { transform: scale(1); }
   }
 
   .modal-box {
@@ -1439,4 +1491,30 @@
   /* 增大所有可点击元素的触摸区域 */
   .word-audio-btn { padding: 6px 10px; font-size: 16px; }
   .drawer-close-btn { width: 44px; height: 44px; font-size: 20px; }
+}
+
+
+/* =========================================================
+   🇨🇳 双语与中文释义增强样式 (Bilingual & Chinese Mode)
+   ========================================================= */
+.word-chinese-meaning {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  font-weight: 500;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.survival-cn-block {
+  margin-top: 12px;
+  background: var(--paper-surface);
+  border: 1.5px dashed var(--paper-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  animation: fadeIn 0.3s ease-out;
 }

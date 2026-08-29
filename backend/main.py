@@ -15,7 +15,7 @@ import jwt
 SECRET_KEY = "antigravity_secret_jwt_key_vocab_game_prod"
 DB_PATH = "/var/www/vocab/backend/vocab.db"
 
-app = FastAPI(title="Vocabulary Survival & Admin Portal Cloud Gateway", version="3.2")
+app = FastAPI(title="Vocabulary Survival & Admin Portal Cloud Gateway", version="3.3")
 
 app.add_middleware(
     CORSMiddleware,
@@ -69,9 +69,17 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )
         ''')
-        # Dict cache table
+        # Dict cache table (EN)
         cur.execute('''
         CREATE TABLE IF NOT EXISTS dict_cache (
+            word TEXT PRIMARY KEY,
+            data_json TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+        ''')
+        # Dict cache table (ZH)
+        cur.execute('''
+        CREATE TABLE IF NOT EXISTS dict_cache_zh (
             word TEXT PRIMARY KEY,
             data_json TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -213,7 +221,7 @@ def health():
     return {
         "status": "ok",
         "app": "ourstonecottages Gateway",
-        "version": "3.2",
+        "version": "3.3",
         "timestamp": int(time.time())
     }
 
@@ -241,6 +249,66 @@ def get_dict_entry(word: str):
             return data
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Word '{w}' not found in dictionary: {str(e)}")
+
+@app.get("/api/dict-zh/{word}")
+def get_dict_zh_entry(word: str):
+    w = word.strip().lower()
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT data_json FROM dict_cache_zh WHERE word = ?", (w,))
+        row = cur.fetchone()
+        if row and row["data_json"]:
+            try:
+                return json.loads(row["data_json"])
+            except Exception:
+                pass
+
+    # Query Youdao Dict API
+    url = f"https://dict.youdao.com/jsonapi?q={urllib.parse.quote(w)}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            ec = data.get("ec", {})
+            word_list = ec.get("word", [])
+            trs_list = []
+            phonetic_us = ""
+            phonetic_uk = ""
+            if word_list:
+                w_info = word_list[0]
+                phonetic_us = w_info.get("usphone", "")
+                phonetic_uk = w_info.get("ukphone", "")
+                for tr in w_info.get("trs", []):
+                    tran = tr.get("tr", [{}])[0].get("l", {}).get("i", [""])[0]
+                    if tran:
+                        trs_list.append(tran)
+
+            if not trs_list:
+                web_trans = data.get("web_trans", {}).get("web-translation", [])
+                for wt in web_trans:
+                    trans = [t.get("value", "") for t in wt.get("trans", []) if t.get("value")]
+                    if trans:
+                        trs_list.append(", ".join(trans))
+
+            res = {
+                "word": w,
+                "phonetic_us": phonetic_us,
+                "phonetic_uk": phonetic_uk,
+                "definitions": trs_list
+            }
+
+            with get_db() as conn:
+                conn.execute("INSERT OR REPLACE INTO dict_cache_zh (word, data_json) VALUES (?, ?)", (w, json.dumps(res, ensure_ascii=False)))
+                conn.commit()
+
+            return res
+    except Exception as e:
+        return {
+            "word": w,
+            "phonetic_us": "",
+            "phonetic_uk": "",
+            "definitions": []
+        }
 
 @app.post("/api/register")
 def register(req: RegisterReq, request: Request):

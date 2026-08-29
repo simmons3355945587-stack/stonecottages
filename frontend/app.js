@@ -70,6 +70,8 @@ if (!playerProfile) {
 
 let appSettings = loadFromStorage(STORAGE_KEYS.SETTINGS, {
   driverMode: 'gemini_native',
+  dictLanguageMode: 'en', // 'en' (默认纯英) 或 'zh' (中文双语增强)
+  showChinese: false,
   geminiKey: '',
   geminiModel: 'gemini-3.7-flash',
   customUrl: 'http://localhost:8081/v1/chat/completions',
@@ -77,6 +79,9 @@ let appSettings = loadFromStorage(STORAGE_KEYS.SETTINGS, {
   mimoKey: '',
   audioMuted: false
 });
+if (appSettings.dictLanguageMode === 'zh') {
+  appSettings.showChinese = true;
+}
 
 let authUser = loadFromStorage(STORAGE_KEYS.AUTH, null);
 let authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
@@ -270,162 +275,210 @@ function generateOfflineScenario(userPrompt) {
   const w2 = targetWords[1] || "hesitate";
   const w3 = targetWords[2] || "abandon";
 
-  const PROCEDURAL_THEMES = [
+    const PROCEDURAL_THEMES = [
     {
       theme: "🚀 Deep Space Hull Breach",
       story: `A rogue micrometeorite has pierced the outer observatory of the research vessel. Alarms strobe in crimson flashes as atmospheric pressure plummets rapidly across the module. With the automated propulsion thrusters sputtering, the crew faces an imminent orbital decay into the planetary gravity well.`,
+      story_cn: `一颗失控的微陨石击穿了科考船的外层观测舱。随着舱内气压急剧骤降，刺眼的猩红警报疯狂闪烁。自动化推进器发生故障，整艘飞船正面临被拉入行星引力深渊的灭顶之灾。`,
       correctWord: w1,
       correctAction: `Take decisive initiative to ${w1} the primary emergency containment protocols.`,
       correctOutcome: `You acted with razor-sharp focus to ${w1} the vital stabilization systems. Thanks to your decisive execution, the automated bulkheads sealed the vacuum breach in the nick of time, preserving vital life support and allowing the vessel to regain safe orbital trajectory.`,
+      correctOutcome_cn: `你临危不乱，果断启动核心紧急隔离协议。得益于你雷厉风行的决断，自动隔离舱门在千钧一发之际封死气压缺口，保住了关键生命维持系统，带领全队脱险重返安全轨道。`,
       wrong1Word: w2,
       wrong1Action: `Choose to ${w2} by the airlock threshold and wait for secondary telemetry.`,
       wrong1Outcome: `Your choice to ${w2} cost the squad precious seconds. The pressure differential shattered the inner reinforced glass, forcing an emergency pod ejection and leaving the research module heavily compromised.`,
+      wrong1Outcome_cn: `你在气闸舱门前犹豫不决，浪费了宝贵的逃生时间。内外巨大压差瞬间震碎强化玻璃，迫使全队紧急弹射救生舱，科考舱体遭受重创。`,
       wrong2Word: w3,
       wrong2Action: `Panic recklessly and decide to ${w3} standard environmental safety gear.`,
-      wrong2Outcome: `In overwhelming distress, you made the catastrophic mistake to ${w3} essential protective gear. The explosive decompression swept through the corridor, triggering severe trauma and an immediate mission failure.`
+      wrong2Outcome: `In overwhelming distress, you made the catastrophic mistake to ${w3} essential protective gear. The explosive decompression swept through the corridor, triggering severe trauma and an immediate mission failure.`,
+      wrong2Outcome_cn: `极度恐慌中，你盲目弃用了标准环境防护装备。爆炸性失压瞬间席卷走廊，导致严重重创，任务彻底失败。`
     },
     {
       theme: "🔬 Biohazard Quarantine Alert",
       story: `An experimental pathogen canister has ruptured on sub-level four of the biotechnology institute. The computerized filtration grid detects hazardous airborne toxins spreading toward the residential quadrant. The heavy hermetic doors are closing rapidly on a sixty-second countdown timer.`,
+      story_cn: `生物研究所地下四层的实验病原体储液罐发生破裂。环境过滤中枢检测到高危气溶胶毒素正向生活区蔓延，重型气密隔离门正进入60秒死亡倒计时。`,
       correctWord: w1,
       correctAction: `Swiftly utilize all available equipment to ${w1} the decontamination bypass sequence.`,
       correctOutcome: `You remained calm under extreme pressure to ${w1} the emergency neutralization system. The antimicrobial mist purged the containment zone, halting the contagion instantly and securing safe passage for the science detail.`,
+      correctOutcome_cn: `在极端高压下，你沉着启动消杀旁路系统。强力抗菌气雾瞬间净化隔离区，彻底阻断了病毒扩散，为科研小队开辟出生还通道。`,
       wrong1Word: w2,
       wrong1Action: `Hesitate and attempt to ${w2} while re-reading warning manuals.`,
       wrong1Outcome: `Choosing to ${w2} at such a critical juncture allowed the pathogen to saturate the primary ventilation shafts, rendering the entire sub-level inaccessible and contaminating crucial bio-samples.`,
+      wrong1Outcome_cn: `你在翻查应急手册时犹豫迟疑，导致高危病原体完全渗入主通风管道，整层地下设施被永久封闭。`,
       wrong2Word: w3,
       wrong2Action: `Flee blindly and ${w3} the automated quarantine controls.`,
-      wrong2Outcome: `Fleeing in panic to ${w3} containment protocols triggered a permanent base-wide red lockdown, trapping your squad in the toxic corridor with dwindling oxygen supplies.`
+      wrong2Outcome: `Fleeing in panic to ${w3} containment protocols triggered a permanent base-wide red lockdown, trapping your squad in the toxic corridor with dwindling oxygen supplies.`,
+      wrong2Outcome_cn: `恐慌逃窜中你盲目关闭了隔离控制，触发全基地红色死锁，将小队困在氧气即将耗尽的剧毒走廊中。`
     },
     {
       theme: "🌊 Abyssal Trench Submersible Crisis",
       story: `At nine thousand meters beneath the Pacific, a hydrothermal fissure erupts beneath the exploration submersible. Extreme hydraulic pressure cracks the reinforced acrylic observation dome as the ballast tanks take on silt. External floodlights flicker erratically in the pitch-black abyss.`,
+      story_cn: `在太平洋九千米深渊下，科考潜水艇正下方的深海热泉突然剧烈喷发。极端水压压裂了强化树脂观察穹顶，压载水舱被泥沙淤堵，外部探照灯在漆黑深渊中狂乱闪烁。`,
       correctWord: w1,
       correctAction: `Direct full auxiliary power to ${w1} the emergency ballast blowers.`,
       correctOutcome: `Your composed command to ${w1} the emergency blowers purged the flooded ballast tanks immediately. Buoyancy was restored in seconds, allowing the bathysphere to rocket safely away from the boiling hydrothermal vent.`,
+      correctOutcome_cn: `你冷静下达指令，将全部备用动力注入紧急排沙吹除系统。浮力在数秒内迅速恢复，深潜器擦着沸腾热泉呼啸冲出深渊险境。`,
       wrong1Word: w2,
       wrong1Action: `Remain passive and ${w2} before checking pressure gauges.`,
       wrong1Outcome: `Allowing uncertainty to ${w2} your judgment caused the hull stress to exceed structural limits. A secondary fracture flooded the battery compartment, plunging the craft into total darkness.`,
+      wrong1Outcome_cn: `犹豫不决让潜艇承受了超出极限的结构压力，二次破裂导致电池舱进水，整艘潜艇陷入无尽的深渊黑暗。`,
       wrong2Word: w3,
       wrong2Action: `Desperately ${w3} the primary life-support regulator.`,
-      wrong2Outcome: `Tampering recklessly to ${w3} the life-support regulator caused an acute pressure drop inside the cabin, knocking the entire crew unconscious before rescue signals could be transmitted.`
+      wrong2Outcome: `Tampering recklessly to ${w3} the life-support regulator caused an acute pressure drop inside the cabin, knocking the entire crew unconscious before rescue signals could be transmitted.`,
+      wrong2Outcome_cn: `慌乱中盲目调整生命支持阀门，导致舱内气压急剧失衡，在发出求救信号前全员已陷入缺氧窒息。`
     },
     {
       theme: "🏛️ Ancient Desert Catacomb",
       story: `A violent sandstorm has triggered the ancient mechanism of the underground pyramid temple. Massive stone blocks slide into place with deafening grinding noises, blocking the only daylight shaft. As the torches sputter, poisonous desert vipers emerge from fractured wall hieroglyphs.`,
+      story_cn: `狂暴沙尘暴触发了金字塔地宫的古老机关。数吨重的巨石伴随轰鸣滑落封死了唯一透光的盗洞。火把摇曳微光中，剧毒的沙漠蝰蛇从裂开的象形文字石壁后蜂拥而出。`,
       correctWord: w1,
       correctAction: `Carefully examine the inscriptions to ${w1} the hidden stone counterweight.`,
       correctOutcome: `Deciphering the glyphs allowed you to ${w1} the ancient counterweight mechanism. A secret archway pivoted open silently, revealing an untouched subterranean escape corridor leading safely outside the pyramid.`,
+      correctOutcome_cn: `通过精准破译古文字，你果断按下了隐藏的配重机关。暗门无声滑开，露出一条直通金字塔外的古老逃生密道。`,
       wrong1Word: w2,
       wrong1Action: `Stand motionless to ${w2} amidst the crumbling masonry.`,
       wrong1Outcome: `Choosing to ${w2} proved disastrous as the shifting ceiling blocks crashed down, completely burying your exploration gear and cutting off the return path.`,
+      wrong1Outcome_cn: `在滚落的碎石中僵立迟疑，导致头顶崩塌的石梁彻底砸毁了探险装备并封死了退路。`,
       wrong2Word: w3,
       wrong2Action: `Recklessly ${w3} the archaeological map and torchlight.`,
-      wrong2Outcome: `Throwing caution aside to ${w3} the map caused you to trigger a hidden dart trap along the perimeter, suffering heavy injury and exhaustion in the dark.`
+      wrong2Outcome: `Throwing caution aside to ${w3} the map caused you to trigger a hidden dart trap along the perimeter, suffering heavy injury and exhaustion in the dark.`,
+      wrong2Outcome_cn: `惊慌失措中丢弃了地图与火把，不慎踩中外围毒箭陷阱，在黑暗中遭受重创。`
     },
     {
       theme: "⚡ Cyberpunk Megacity Infiltration",
       story: `High on the ninety-fifth floor of the Arasaka-style megacorp tower, laser grid alarms scream into the rainy night. Automated combat drones descend from the ceiling catwalks while counter-intrusion ICE viruses lock the terminal you are extracting.`,
+      story_cn: `在巨型企业大厦95层的雨夜高空，激光警报刺破夜空。全副武装的战斗无人机从天花板栈道降下，反入侵黑客病毒瞬间锁死了你正在下载数据的核心终端。`,
       correctWord: w1,
       correctAction: `Deploy your neural deck to ${w1} the subverted firewall matrix.`,
       correctOutcome: `Your masterful hack to ${w1} the core mainframe disabled the tracking drones and opened the maintenance elevator, allowing a seamless extraction with all corporate data intact.`,
+      correctOutcome_cn: `你熟练运用神经接入舱攻破了企业核心防火墙，瘫痪了追踪无人机并开启检修电梯，带着全部核心机密数据完美撤离。`,
       wrong1Word: w2,
       wrong1Action: `Fail to adapt and ${w2} inside the server closet.`,
       wrong1Outcome: `Pausing to ${w2} allowed security androids to surround the sector, pinpointing your digital signature and inflicting intense neural feedback damage.`,
+      wrong1Outcome_cn: `未能及时应对而在机房内僵持迟疑，被防卫机器人精准锁定数字特征，承受了致命的神经逆流电击。`,
       wrong2Word: w3,
       wrong2Action: `Panic and abruptly ${w3} your encrypted neural link.`,
-      wrong2Outcome: `Abruptly attempting to ${w3} the connection triggered a catastrophic system surge, wiping the extracted files and leaving you trapped on the rooftop.`
+      wrong2Outcome: `Abruptly attempting to ${w3} the connection triggered a catastrophic system surge, wiping the extracted files and leaving you trapped on the rooftop.`,
+      wrong2Outcome_cn: `恐慌中强行拔除神经连接引发严重系统过载，不仅损毁了提取的数据，还将自己困在绝境天台。`
     },
     {
       theme: "❄️ Arctic Glacier Blizzard Outpost",
       story: `A category-five polar storm knocks out the transmission tower and heating generator at the remote research outpost. Frost patterns spread rapidly across the double-glazed windows as exterior temperatures plunge below minus fifty degrees Celsius.`,
+      story_cn: `五级极地暴风雪摧毁了极地科考站的通讯塔与供暖发电机。双层保温窗迅速蔓延出森冷冰花，室外气温骤降至零下50摄氏度以下。`,
       correctWord: w1,
       correctAction: `Work methodically to ${w1} the auxiliary thermal reactor.`,
       correctOutcome: `You methodically managed to ${w1} the backup power grid, restoring heat and vital satellite uplinks just before the base suffered permanent freeze damage.`,
+      correctOutcome_cn: `你有条不紊地重启了备用供热反应堆，在基站遭受永久冻结前抢修好了供暖与卫星信号。`,
       wrong1Word: w2,
       wrong1Action: `Wander into the blizzard to ${w2} without compass guidance.`,
       wrong1Outcome: `Attempting to ${w2} in zero visibility resulted in severe disorientation and mild frostbite, forcing the team to expend precious emergency flares to locate you.`,
+      wrong1Outcome_cn: `在能见度为零的暴风雪中失去方向盲目摸索，导致严重冻伤并浪费了宝贵的应急信号弹。`,
       wrong2Word: w3,
       wrong2Action: `Carelessly ${w3} the insulated survival shelter.`,
-      wrong2Outcome: `Deciding to ${w3} the insulated bunker exposed your squad to the howling gale, causing immediate hypothermia risks and critical vitality loss.`
+      wrong2Outcome: `Deciding to ${w3} the insulated bunker exposed your squad to the howling gale, causing immediate hypothermia risks and critical vitality loss.`,
+      wrong2Outcome_cn: `草率离开绝热掩体，使小队暴露在狂暴的风雪怒吼中，体温急剧流失陷入重度失温危机。`
     },
     {
       theme: "🌋 Volcanic Island Pyroclastic Surge",
       story: `The island caldera violently erupts, hurling volcanic bombs into the coastal jungle. A towering cloud of hot ash and sulfur dioxide rushes toward the shoreline where the last evacuation ferry is moored. The harbor dock begins splintering under tectonic tremors.`,
+      story_cn: `海岛火山口剧烈喷发，熔岩巨石轰然砸向雨林。数百米高的滚烫火山灰与剧毒硫磺气云遮天蔽日扑向码头，最后一艘撤离渡轮的泊位在地震中即将解体。`,
       correctWord: w1,
       correctAction: `Rally the survivors to ${w1} the emergency maritime departure.`,
       correctOutcome: `Your decisive leadership to ${w1} the departure sequence pushed the vessel past the reef breakers moments before the pyroclastic flow engulfed the shoreline, saving every passenger aboard.`,
+      correctOutcome_cn: `你果断指挥渡轮强行起航穿越暗礁，在碎屑流吞没海岸线的前一秒脱险冲入公海，拯救了全船幸存者。`,
       wrong1Word: w2,
       wrong1Action: `Stop near the magma flow to ${w2} and salvage baggage.`,
       wrong1Outcome: `Losing critical time to ${w2} resulted in your vehicle being blocked by falling debris, forcing an agonizing and dangerous trek through dense ash clouds.`,
+      wrong1Outcome_cn: `在熔岩前停顿犹豫试图抢救辎重，导致车辆被坠石阻断，被迫在窒息尘暴中艰难求生。`,
       wrong2Word: w3,
       wrong2Action: `Blindly ${w3} the established maritime evacuation protocol.`,
-      wrong2Outcome: `Deciding to ${w3} standard evacuation rules caused panic on the loading ramp, capsizing an auxiliary lifeboat and leaving your squad in dire peril.`
+      wrong2Outcome: `Deciding to ${w3} standard evacuation rules caused panic on the loading ramp, capsizing an auxiliary lifeboat and leaving your squad in dire peril.`,
+      wrong2Outcome_cn: `盲目违背撤离指引引发登船混乱，导致副救生艇倾覆，让全队陷入万劫不复的熔岩险境。`
     },
     {
       theme: "🏰 Medieval Stronghold Siege",
       story: `Flaming catapult projectiles smash through the fortress battlements as enemy scaling ladders latch onto the parapets. With the outer portcullis splintered and command horns sounding retreat, your squad holds the pivotal watchtower staircase.`,
+      story_cn: `燃烧的巨石砸穿城堡箭垛，敌军云梯如恶魔巨爪扣死城头。外门已被破城槌撞裂，撤退号角凄厉响起，你的小队镇守在最后的防御塔旋梯关口。`,
       correctWord: w1,
       correctAction: `Mount a fierce counter-defense to ${w1} the inner stronghold gateway.`,
       correctOutcome: `You rallied the garrison to ${w1} the vital stone chokepoint, repelling the enemy assault wave and holding the fortress until allied cavalry crested the horizon.`,
+      correctOutcome_cn: `你率领守军誓死坚守石制隘口，顽强击退敌军先锋狂攻，成功支撑到盟军铁骑踏破地平线救援。`,
       wrong1Word: w2,
       wrong1Action: `Waver under pressure and ${w2} on the exposed rampart.`,
       wrong1Outcome: `Your decision to ${w2} left the archers unprotected, allowing hostile vanguard skirmishers to overrun the watchtower and inflict heavy damage on the garrison.`,
+      wrong1Outcome_cn: `在城垛上犹豫迟疑，导致弓箭手失去掩护，被敌军先锋斥候攻破防线遭受重创。`,
       wrong2Word: w3,
       wrong2Action: `Break formation and ${w3} your defensive weapons.`,
-      wrong2Outcome: `Breaking ranks to ${w3} defensive gear led to immediate chaos, leaving you defenseless against incoming volleys of flaming arrows.`
+      wrong2Outcome: `Breaking ranks to ${w3} defensive gear led to immediate chaos, leaving you defenseless against incoming volleys of flaming arrows.`,
+      wrong2Outcome_cn: `阵型溃散并抛弃防具，使自己彻底暴露在呼啸而至的火箭火海之中。`
     },
     {
       theme: "🌪️ Steampunk Airship Tempest",
       story: `Navigating an uncharted cloud vortex, the brass-clad dirigible suffers multiple boiler blowouts. High-voltage lightning crackles across the canvas envelope while the altitude gauge spins downward toward jagged mountain crags.`,
+      story_cn: `穿行于未知的风暴云涡中，蒸汽飞艇多台锅炉发生严重爆膛。高压闪电在气囊蒙皮上狂暴游走，高度表在剧烈颠簸中失控坠向嶙峋的山峰绝壁。`,
       correctWord: w1,
       correctAction: `Adjust the pressure valves to ${w1} the steam turbine exhaust.`,
       correctOutcome: `Skillfully managing to ${w1} the valve pressure stabilized the lifting gas cells, pulling the great airship out of its steep dive and soaring above the tempest into clear skies.`,
+      correctOutcome_cn: `你熟练调整排气阀精准稳定升力气囊，使巨舰从急坠中昂首拉升，冲破风暴云层重见万里晴空。`,
       wrong1Word: w2,
       wrong1Action: `Disregard the altimeter and ${w2} in the control cabin.`,
       wrong1Outcome: `Allowing panic to ${w2} your reflexes caused the airship to clip a sharp pinnacle, shearing the port propeller and causing severe hull structural damage.`,
+      wrong1Outcome_cn: `恐慌迟疑导致飞艇擦撞尖锐山峰，撕裂左舷螺旋桨，船体结构发生严重断裂。`,
       wrong2Word: w3,
       wrong2Action: `Prematurely ${w3} the main ballast and cargo anchors.`,
-      wrong2Outcome: `Rushing to ${w3} essential rigging destabilized the center of gravity, causing the gondola to tilt violently and throwing vital instruments overboard.`
+      wrong2Outcome: `Rushing to ${w3} essential rigging destabilized the center of gravity, causing the gondola to tilt violently and throwing vital instruments overboard.`,
+      wrong2Outcome_cn: `盲目抛弃核心压舱重物导致重心失衡，吊舱发生剧烈倾斜，核心导航仪表全被甩出舷外。`
     },
     {
       theme: "🔮 Quantum Collider Temporal Rift",
       story: `A magnetic containment failure inside the particle supercollider tears a shimmering temporal rift across the experimental facility. Time dilates unpredictably—falling objects freeze mid-air while chronal shockwaves shatter nearby instrument panels.`,
+      story_cn: `对撞机磁约束失效，撕裂出一道泛着诡异微光的时空裂隙。时间陷入混乱——下落的仪器悬停在半空，时间冲击波震碎了周遭所有控制台。`,
       correctWord: w1,
       correctAction: `Synchronize the resonance harmonic to ${w1} the quantum field coil.`,
       correctOutcome: `You calibrated the harmonic pulse to ${w1} the magnetic coil, cleanly collapsing the temporal singularity and restoring standard spacetime metrics without casualties.`,
+      correctOutcome_cn: `你精确校准谐波脉冲同步量子线圈，完美闭合了时空奇点，毫发无伤地恢复了正常时空秩序。`,
       wrong1Word: w2,
       wrong1Action: `Fail to comprehend the readings and ${w2} near the epicenter.`,
       wrong1Outcome: `Lingering to ${w2} caught your gear in a local time loop, draining your energy cells and disorienting your squad with severe temporal vertigo.`,
+      wrong1Outcome_cn: `在裂隙核心旁驻留迟疑，使装备被困在局部时间死循环中，精神受到强烈的时间眩晕重创。`,
       wrong2Word: w3,
       wrong2Action: `Impulsively ${w3} the shielded safety protocols.`,
-      wrong2Outcome: `Deciding to ${w3} safety shields released a blast of chronal radiation that scrambled all electronic navigation and inflicted immediate system shock.`
+      wrong2Outcome: `Deciding to ${w3} safety shields released a blast of chronal radiation that scrambled all electronic navigation and inflicted immediate system shock.`,
+      wrong2Outcome_cn: `草率弃用能量防护协议，导致爆发出强烈的时空辐射，摧毁了所有电子导航并造成严重系统震荡。`
     },
     {
       theme: "🌿 Amazonian Forbidden Temple Basin",
       story: `Trekking through the dense, uncharted rainforest, your expedition trips a hidden tripwire mechanism outside a vine-covered golden ziggurat. Stone pendulum blades swing across the muddy ravine as the river beneath swells with carnivorous predators.`,
+      story_cn: `在未知的亚马逊密林深处，探险队在黄金神庙前触发了古老绊线机关。巨大的石摆巨斧在泥泞峡谷间呼啸挥舞，脚下奔腾的恶水翻滚着无数食人巨鳄。`,
       correctWord: w1,
       correctAction: `Quickly scale the ancient stonework to ${w1} the release catch.`,
       correctOutcome: `Agilely maneuvering to ${w1} the ancient counter-lever locked the deadly blades in place, clearing an unhindered path to the inner sanctum treasure vault.`,
+      correctOutcome_cn: `你灵巧攀上古老石壁按下释放卡扣，锁死了致命摆斧，开辟出通向神庙核心宝库的安全坦途。`,
       wrong1Word: w2,
       wrong1Action: `Freeze in uncertainty and ${w2} on the slippery log bridge.`,
       wrong1Outcome: `Hesitating to ${w2} on the mossy span caused the wood to crack beneath you, dumping emergency rations into the raging torrent below.`,
+      wrong1Outcome_cn: `在湿滑的原木桥上迟疑停滞，导致木桥轰然断裂，应急口粮全部沉入险恶湍流。`,
       wrong2Word: w3,
       wrong2Action: `Fling aside caution and ${w3} all climbing ropes.`,
-      wrong2Outcome: `Choosing to ${w3} vital climbing ropes left you stranded on a crumbling ledge surrounded by hostile jungle wildlife.`
+      wrong2Outcome: `Choosing to ${w3} vital climbing ropes left you stranded on a crumbling ledge surrounded by hostile jungle wildlife.`,
+      wrong2Outcome_cn: `抛弃攀登绳索冒险前冲，导致自己被困在悬崖绝壁上，四周潜伏着嗜血的热带凶兽。`
     },
     {
       theme: "⚓ Phantom Galleon of Bermuda",
       story: `Exploring the sunken skeletal hull of a seventeenth-century warship, your diving umbilical line snags upon a coral-encrusted bronze cannon. Disturbed ocean undercurrents begin to collapse the rotting oak timbers right above your primary oxygen manifold.`,
+      story_cn: `潜入十七世纪沉船残骸深处，你的潜水脐带管被锈蚀的青铜古炮死死卡住。翻涌的深海洋流使头顶腐朽的橡木巨梁摇摇欲坠。`,
       correctWord: w1,
       correctAction: `Use your diver blade calmly to ${w1} the tangled harness line.`,
       correctOutcome: `You steadily managed to ${w1} the tangled gear without damaging your regulator, escaping the falling debris field and surfacing smoothly with valuable oceanic relics.`,
+      correctOutcome_cn: `你冷静使用潜水刀割开缠绕的索具而不伤及呼吸管，平稳逃离坍塌废墟，带着稀世古物顺利上浮。`,
       wrong1Word: w2,
       wrong1Action: `Thrash frantically to ${w2} in the confined cargo hold.`,
       wrong1Outcome: `Panicking to ${w2} stirred up thick clouds of silt, blinding your dive buddy and wasting more than half of your remaining breathing gas.`,
+      wrong1Outcome_cn: `在狭窄船舱内慌乱挣扎激起浓厚泥沙，完全遮蔽了视线并白白消耗了大半宝贵氧气。`,
       wrong2Word: w3,
       wrong2Action: `Recklessly ${w3} your emergency dive beacon.`,
-      wrong2Outcome: `Discarding your gear to ${w3} the beacon caused you to lose contact with the surface vessel, resulting in an emergency deep-sea retrieval operation.`
+      wrong2Outcome: `Discarding your gear to ${w3} the beacon caused you to lose contact with the surface vessel, resulting in an emergency deep-sea retrieval operation.`,
+      wrong2Outcome_cn: `盲目丢弃应急潜水浮标，导致与水面支援母船彻底失联，陷入深海救援险境。`
     }
   ];
 
@@ -436,27 +489,31 @@ function generateOfflineScenario(userPrompt) {
       word: scene.correctWord,
       action: scene.correctAction,
       isCorrect: true,
-      fullOutcomeStory: scene.correctOutcome
+      fullOutcomeStory: scene.correctOutcome,
+      fullOutcomeStory_cn: scene.correctOutcome_cn
     },
     {
       word: scene.wrong1Word,
       action: scene.wrong1Action,
       isCorrect: false,
-      fullOutcomeStory: scene.wrong1Outcome
+      fullOutcomeStory: scene.wrong1Outcome,
+      fullOutcomeStory_cn: scene.wrong1Outcome_cn
     },
     {
       word: scene.wrong2Word,
       action: scene.wrong2Action,
       isCorrect: false,
-      fullOutcomeStory: scene.wrong2Outcome
+      fullOutcomeStory: scene.wrong2Outcome,
+      fullOutcomeStory_cn: scene.wrong2Outcome_cn
     }
   ];
 
-  // 随机乱序打乱选项，保证正确选项不固定在第一项
+  // 打乱选项顺序
   const shuffledOptions = optionsRaw.sort(() => 0.5 - Math.random());
 
   return JSON.stringify({
     story: scene.story,
+    story_cn: scene.story_cn,
     options: shuffledOptions
   });
 }
@@ -502,7 +559,7 @@ function switchNavView(viewName) {
     document.getElementById('viewSurvival').classList.add('active');
     document.getElementById('navSurvival').classList.add('active');
     renderBattleHand();
-   else if (viewName === 'match') {
+  } else if (viewName === 'match') {
     document.getElementById('viewMatch').classList.add('active');
     document.getElementById('navMatch').classList.add('active');
   } else if (viewName === 'profile') {
@@ -538,27 +595,77 @@ function getMarkCount(word) {
   return marks[word.toLowerCase()] || 0;
 }
 
+function updateWordMarkInDOM(word) {
+  if (!word) return;
+  const safeWord = word.toLowerCase().trim();
+  const mc = getMarkCount(safeWord);
+
+  // 1. 同步更新释义抽屉内部的 Mark 计数值与动画
+  const drawerCount = document.getElementById('drawerMarkCount');
+  if (drawerCount && currentLookupWord === safeWord) {
+    drawerCount.textContent = mc;
+    drawerCount.classList.remove('mark-pulse');
+    void drawerCount.offsetWidth; // 触发 reflow
+    drawerCount.classList.add('mark-pulse');
+  }
+
+  // 2. 同步更新词库列表中该词卡的 ★ 徽标
+  document.querySelectorAll('.origami-word-card').forEach(card => {
+    const spelling = card.querySelector('.word-spelling');
+    if (spelling) {
+      const cardWord = spelling.childNodes[0].textContent.trim().toLowerCase();
+      if (cardWord === safeWord) {
+        let pill = card.querySelector('.origami-mark-pill');
+        if (mc > 0) {
+          if (!pill) {
+            pill = document.createElement('span');
+            pill.className = 'origami-mark-pill';
+            card.appendChild(pill);
+          }
+          pill.textContent = `★ ${mc}`;
+        } else {
+          if (pill) pill.remove();
+        }
+      }
+    }
+  });
+
+  // 3. 同步剧情高亮
+  document.querySelectorAll(`.story-word[data-word="${safeWord}"]`).forEach(el => {
+    if (mc > 0) el.classList.add('marked-word-highlight');
+    else el.classList.remove('marked-word-highlight');
+  });
+
+  // 4. 若正处于重点生词本 Tab，实时刷新生词列表
+  if (currentSubTab === 'marked') {
+    renderMarked();
+  }
+}
+
 function addMark(word) {
-  const w = word.toLowerCase();
+  if (!word) return;
+  const w = word.toLowerCase().trim();
   marks[w] = (marks[w] || 0) + 1;
   saveToStorage(STORAGE_KEYS.MARKS, marks);
   updateBadges();
+  updateWordMarkInDOM(w);
   triggerCloudSync();
-  document.querySelectorAll(`.story-word[data-word="${w}"]`).forEach(el => el.classList.add('marked-word-highlight'));
   showToast(`★ Marked [${w}] (Total Mark: ${marks[w]})`);
 }
 
 function reduceMark(word) {
-  const w = word.toLowerCase();
+  if (!word) return;
+  const w = word.toLowerCase().trim();
   if (marks[w]) {
     marks[w]--;
     if (marks[w] <= 0) {
       delete marks[w];
-      document.querySelectorAll(`.story-word[data-word="${w}"]`).forEach(el => el.classList.remove('marked-word-highlight'));
     }
     saveToStorage(STORAGE_KEYS.MARKS, marks);
     updateBadges();
+    updateWordMarkInDOM(w);
     triggerCloudSync();
+    showToast(`★ Unmarked [${w}] (Total Mark: ${marks[w] || 0})`);
   }
 }
 
@@ -578,6 +685,7 @@ function renderWords(filter = '') {
     if (!lf || w.toLowerCase().includes(lf) || (corrected && corrected.toLowerCase().includes(lf)) || (cn && cn.includes(lf)) || String(i + 1) === lf) {
       const card = document.createElement('div');
       card.className = 'origami-word-card';
+      const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
       card.innerHTML = `
         <span class="word-num">${i + 1}</span>
         <div class="word-info">
@@ -586,7 +694,7 @@ function renderWords(filter = '') {
             <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
             ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
           </div>
-          
+          ${isZh && cn ? `<div class="word-chinese-meaning" style="font-size:12.5px; color:var(--text-secondary); margin-top:3px; font-weight:500;">${escapeHtml(cn)}</div>` : ''}
         </div>
         ${mc > 0 ? `<span class="origami-mark-pill">★ ${mc}</span>` : ''}
       `;
@@ -610,6 +718,7 @@ function renderMarked() {
     card.className = 'origami-word-card';
     const corrected = corrections[w];
     const cn = chineseDict[w] || '';
+    const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
     card.innerHTML = `
       <span class="word-num">${i + 1}</span>
       <div class="word-info">
@@ -618,7 +727,7 @@ function renderMarked() {
           <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
           ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
         </div>
-        
+        ${isZh && cn ? `<div class="word-chinese-meaning" style="font-size:12.5px; color:var(--text-secondary); margin-top:3px; font-weight:500;">${escapeHtml(cn)}</div>` : ''}
       </div>
       <span class="origami-mark-pill">★ ${count}</span>
     `;
@@ -627,12 +736,70 @@ function renderMarked() {
   });
 }
 
-// 8. 纯英文全量词典渲染系统
+// 8. 词典渲染系统 (支持纯英权威词典 + 中文多义项双解)
 let currentLookupWord = null;
+let currentDrawerDictTab = 'zh'; // 'zh' 或 'en'
+let cachedZhDict = {};
+
+function switchDrawerDictTab(tab) {
+  soundClick();
+  currentDrawerDictTab = tab;
+  const tabZh = document.getElementById('tabDictZh');
+  const tabEn = document.getElementById('tabDictEn');
+  const bodyZh = document.getElementById('dictMeaningsBodyZh');
+  const bodyEn = document.getElementById('dictMeaningsBodyEn');
+  
+  if (tabZh && tabEn && bodyZh && bodyEn) {
+    if (tab === 'zh') {
+      tabZh.classList.add('active');
+      tabEn.classList.remove('active');
+      bodyZh.style.display = 'block';
+      bodyEn.style.display = 'none';
+    } else {
+      tabEn.classList.add('active');
+      tabZh.classList.remove('active');
+      bodyEn.style.display = 'block';
+      bodyZh.style.display = 'none';
+    }
+  }
+}
+
+function getAdjacentWord(currentWord, direction) {
+  if (!currentWord || !words || words.length === 0) return null;
+  const cw = currentWord.toLowerCase().trim();
+
+  let targetList = words;
+  if (currentSubTab === 'marked') {
+    const markedPairs = getMarkedWords();
+    targetList = markedPairs.map(([w]) => w);
+  } else {
+    const searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim().toLowerCase() : '';
+    if (searchVal) {
+      targetList = words.filter((w, i) => {
+        const corrected = corrections[w];
+        const cn = chineseDict[w] || '';
+        return w.toLowerCase().includes(searchVal) || (corrected && corrected.toLowerCase().includes(searchVal)) || (cn && cn.includes(searchVal)) || String(i + 1) === searchVal;
+      });
+    }
+  }
+
+  if (!targetList || targetList.length === 0) return null;
+  let idx = targetList.findIndex(w => w.toLowerCase() === cw);
+  if (idx === -1) idx = 0;
+
+  let newIdx = idx + direction;
+  if (newIdx < 0) newIdx = targetList.length - 1;
+  if (newIdx >= targetList.length) newIdx = 0;
+
+  return targetList[newIdx];
+}
 
 function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl) {
   const phoneticText = entry.phonetic || (entry.phonetics && entry.phonetics[0] ? entry.phonetics[0].text : '') || '';
-  document.getElementById('dictPhonetic').textContent = phoneticText;
+  if (phoneticText) {
+    const phEl = document.getElementById('dictPhonetic');
+    if (phEl) phEl.textContent = phoneticText;
+  }
 
   let meaningsHtml = '';
   if (entry.meanings && entry.meanings.length > 0) {
@@ -660,7 +827,8 @@ function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl,
       });
       meaningsHtml += `</div></div>`;
     });
-    document.getElementById('dictMeaningsBody').innerHTML = meaningsHtml;
+    const bEl = document.getElementById('dictMeaningsBody');
+    if (bEl) bEl.innerHTML = meaningsHtml;
   }
 }
 
@@ -670,9 +838,15 @@ async function openWordDetails(word) {
   const lookup = corrections[safeWord] || safeWord;
   currentLookupWord = safeWord;
 
+  // 根据设置初始化当前激活的词典 Tab：默认 'en'，设置了中文模式则默认 'zh'
+  currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
+
   const cambridgeUrl = `https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(lookup)}`;
   const collinsUrl = `https://www.collinsdictionary.com/dictionary/english/${encodeURIComponent(lookup)}`;
   const merriamUrl = `https://www.merriam-webster.com/dictionary/${encodeURIComponent(lookup)}`;
+  const youdaoUrl = `https://dict.youdao.com/w/${encodeURIComponent(lookup)}`;
+  const baiduUrl = `https://fanyi.baidu.com/#en/zh/${encodeURIComponent(lookup)}`;
+  const cambridgeZhUrl = `https://dictionary.cambridge.org/dictionary/english-chinese-simplified/${encodeURIComponent(lookup)}`;
 
   const drawer = document.getElementById('defDrawer');
   const content = document.getElementById('defDrawerContent');
@@ -680,39 +854,87 @@ async function openWordDetails(word) {
   drawer.classList.add('open');
   document.getElementById('drawerOverlay').classList.add('open');
 
+  const commonZh = chineseDict[lookup] || chineseDict[safeWord] || '';
+
   content.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
       <div>
-        <div style="font-size: 30px; font-weight: 900; font-family: var(--font-serif); color: var(--text-primary); display:flex; align-items:center; gap:10px;">
+        <div style="font-size: 28px; font-weight: 900; font-family: var(--font-serif); color: var(--text-primary); display:flex; align-items:center; gap:8px;">
           ${escapeHtml(lookup)}
-          <button class="word-audio-btn" style="font-size:20px; color:var(--brand-accent);" onclick="speakWord('${escapeHtml(lookup)}')">🔊</button>
+          <button class="word-audio-btn" style="font-size:20px; color:var(--brand-accent);" onclick="speakWord('${escapeHtml(lookup)}')" title="[Space] 朗读发音">🔊</button>
         </div>
-        <div style="font-size: 15px; color: var(--text-secondary); margin-top: 2px;" id="dictPhonetic">Loading phonetic...</div>
+        <div style="font-size: 14px; color: var(--text-secondary); margin-top: 2px;" id="dictPhonetic">Loading phonetic...</div>
+      </div>
+      <div style="display:flex; gap:6px; align-items:center; margin-right: 40px;">
+        <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px; height:32px; border-radius: var(--radius-sm);" onclick="const p = getAdjacentWord(currentLookupWord, -1); if (p) openWordDetails(p);" title="[← 方向键] 上一个单词">◀</button>
+        <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px; height:32px; border-radius: var(--radius-sm);" onclick="const n = getAdjacentWord(currentLookupWord, 1); if (n) openWordDetails(n);" title="[→ 方向键] 下一个单词">▶</button>
       </div>
     </div>
 
-    <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
-      <a href="${cambridgeUrl}" target="_blank" class="dict-external-link" title="Open Cambridge Dictionary">📖 Cambridge</a>
-      <a href="${collinsUrl}" target="_blank" class="dict-external-link" title="Open Collins Dictionary">📚 Collins</a>
-      <a href="${merriamUrl}" target="_blank" class="dict-external-link" title="Open Merriam-Webster">🎓 Webster</a>
+    <!-- 💻 电脑键盘操控提示 -->
+    <div class="drawer-kbd-guide">
+      <span><kbd>ESC</kbd> 退出</span>
+      <span>·</span>
+      <span><kbd>←</kbd><kbd>→</kbd> 切词</span>
+      <span>·</span>
+      <span><kbd>Space</kbd> 发音</span>
+      <span>·</span>
+      <span><kbd>+</kbd><kbd>-</kbd> 增减Mark</span>
     </div>
 
-    <div id="dictMeaningsBody" style="margin-bottom: 20px;">
-      <div style="padding:25px; text-align:center; color:var(--text-secondary);"><em>Loading English definitions...</em></div>
+    <!-- 🌐 词典中英文模式切换 Tab -->
+    <div class="origami-tabs" style="margin-bottom:14px; margin-top:8px;">
+      <button class="origami-tab-btn ${currentDrawerDictTab === 'zh' ? 'active' : ''}" id="tabDictZh" onclick="switchDrawerDictTab('zh')">🇨🇳 中文详细释义</button>
+      <button class="origami-tab-btn ${currentDrawerDictTab === 'en' ? 'active' : ''}" id="tabDictEn" onclick="switchDrawerDictTab('en')">🇬🇧 纯英权威词典</button>
     </div>
 
+    <!-- 🇨🇳 中文释义视图 -->
+    <div id="dictMeaningsBodyZh" style="${currentDrawerDictTab === 'zh' ? 'display:block;' : 'display:none;'} margin-bottom: 20px;">
+      <div style="background:var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:16px; margin-bottom:12px;">
+        <div style="font-size:11px; font-weight:800; color:var(--brand-primary); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">⭐ 核心常用释义</div>
+        <div style="font-size:16px; font-weight:700; color:var(--text-primary); line-height:1.5;">${escapeHtml(commonZh || '正在连线词典 API 获取释义...')}</div>
+      </div>
+
+      <div id="dictZhApiContainer">
+        <div style="padding:15px; text-align:center; color:var(--text-secondary); font-size:13px;"><em>正在连线词典 API 加载多义项与词性...</em></div>
+      </div>
+
+      <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
+        <a href="${youdaoUrl}" target="_blank" class="dict-external-link" title="有道词典查询">📖 有道词典</a>
+        <a href="${cambridgeZhUrl}" target="_blank" class="dict-external-link" title="剑桥英汉双解">📚 剑桥英汉</a>
+        <a href="${baiduUrl}" target="_blank" class="dict-external-link" title="百度翻译">🌐 百度翻译</a>
+      </div>
+    </div>
+
+    <!-- 🇬🇧 英文释义视图 -->
+    <div id="dictMeaningsBodyEn" style="${currentDrawerDictTab === 'en' ? 'display:block;' : 'display:none;'} margin-bottom: 20px;">
+      <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+        <a href="${cambridgeUrl}" target="_blank" class="dict-external-link" title="Open Cambridge Dictionary">📖 Cambridge</a>
+        <a href="${collinsUrl}" target="_blank" class="dict-external-link" title="Open Collins Dictionary">📚 Collins</a>
+        <a href="${merriamUrl}" target="_blank" class="dict-external-link" title="Open Merriam-Webster">🎓 Webster</a>
+      </div>
+      <div id="dictMeaningsBody">
+        <div style="padding:25px; text-align:center; color:var(--text-secondary);"><em>Loading English definitions...</em></div>
+      </div>
+    </div>
+
+    <!-- 生词标记底栏 -->
     <div style="background: var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
       <div>
         <div style="font-size:14px; font-weight:800; color:var(--text-primary);">Mark for Review: <span id="drawerMarkCount" style="color:var(--brand-danger);">${getMarkCount(safeWord)}</span></div>
         <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Prioritized in Survival battles & personal collection</div>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn btn-secondary" style="width:38px; height:38px; padding:0; font-size:18px;" onclick="reduceMark('${escapeHtml(safeWord)}'); document.getElementById('drawerMarkCount').textContent = getMarkCount('${escapeHtml(safeWord)}');">-</button>
-        <button class="btn btn-primary" style="padding:0 14px; height:38px; font-size:13px;" onclick="addMark('${escapeHtml(safeWord)}'); document.getElementById('drawerMarkCount').textContent = getMarkCount('${escapeHtml(safeWord)}');">★ Mark +1</button>
+        <button class="btn btn-secondary" style="width:38px; height:38px; padding:0; font-size:18px;" onclick="reduceMark('${escapeHtml(safeWord)}'); document.getElementById('drawerMarkCount').textContent = getMarkCount('${escapeHtml(safeWord)}');" title="[-] 减少标记">-</button>
+        <button class="btn btn-primary" style="padding:0 14px; height:38px; font-size:13px;" onclick="addMark('${escapeHtml(safeWord)}'); document.getElementById('drawerMarkCount').textContent = getMarkCount('${escapeHtml(safeWord)}');" title="[+] 增加标记">★ Mark +1</button>
       </div>
     </div>
   `;
 
+  // 异步加载中文详细释义
+  fetchZhDefinition(lookup, commonZh);
+
+  // 加载英文释义
   if (builtinEnglishDict[lookup]) {
     renderDefinitionBody(builtinEnglishDict[lookup], safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
     return;
@@ -738,17 +960,93 @@ async function openWordDetails(word) {
   if (entry) {
     renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
   } else {
-    document.getElementById('dictPhonetic').textContent = '';
-    document.getElementById('dictMeaningsBody').innerHTML = `
-      <div style="background: var(--paper-surface-sub); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 16px; text-align: center;">
-        <div style="font-size: 15px; color: var(--text-primary); margin-bottom: 10px;">Full English definition is accessible on web dictionaries:</div>
-        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-          <a href="${cambridgeUrl}" target="_blank" class="dict-external-link">Open Cambridge Dictionary</a>
-          <a href="${collinsUrl}" target="_blank" class="dict-external-link">Open Collins Dictionary</a>
+    const phEl = document.getElementById('dictPhonetic');
+    if (phEl && phEl.textContent.includes('Loading')) phEl.textContent = '';
+    const bodyEl = document.getElementById('dictMeaningsBody');
+    if (bodyEl) {
+      bodyEl.innerHTML = `
+        <div style="background: var(--paper-surface-sub); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 16px; text-align: center;">
+          <div style="font-size: 15px; color: var(--text-primary); margin-bottom: 10px;">Full English definition is accessible on web dictionaries:</div>
+          <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <a href="${cambridgeUrl}" target="_blank" class="dict-external-link">Open Cambridge Dictionary</a>
+            <a href="${collinsUrl}" target="_blank" class="dict-external-link">Open Collins Dictionary</a>
+          </div>
         </div>
+      `;
+    }
+  }
+}
+
+async function fetchZhDefinition(word, fallbackCommon) {
+  const container = document.getElementById('dictZhApiContainer');
+  if (!container) return;
+
+  if (cachedZhDict[word]) {
+    renderZhDefinitionBody(cachedZhDict[word], fallbackCommon);
+    return;
+  }
+
+  try {
+    const resp = await fetch(`${API_BASE}/api/dict-zh/${encodeURIComponent(word)}`);
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.definitions && data.definitions.length > 0) {
+        cachedZhDict[word] = data;
+        renderZhDefinitionBody(data, fallbackCommon);
+        if (data.phonetic_us) {
+          const phEl = document.getElementById('dictPhonetic');
+          if (phEl && (!phEl.textContent || phEl.textContent.includes('Loading'))) {
+            phEl.textContent = `/${data.phonetic_us}/`;
+          }
+        }
+        return;
+      }
+    }
+  } catch(e) {}
+
+  // Fallback to Youdao web suggest
+  try {
+    const resp = await fetch(`https://dict.youdao.com/suggest?num=1&doctype=json&q=${encodeURIComponent(word)}`);
+    if (resp.ok) {
+      const d = await resp.json();
+      const entries = d.data && d.data.entries ? d.data.entries : [];
+      if (entries.length > 0 && entries[0].explain) {
+        const fallbackData = { word: word, definitions: [entries[0].explain] };
+        cachedZhDict[word] = fallbackData;
+        renderZhDefinitionBody(fallbackData, fallbackCommon);
+        return;
+      }
+    }
+  } catch(e) {}
+
+  if (fallbackCommon) {
+    container.innerHTML = ``;
+  } else {
+    container.innerHTML = `<div style="font-size:13px; color:var(--text-secondary); padding:10px 0;">可点击下方在线词典查看更全面的中文双解。</div>`;
+  }
+}
+
+function renderZhDefinitionBody(data, fallbackCommon) {
+  const container = document.getElementById('dictZhApiContainer');
+  if (!container) return;
+  if (!data.definitions || data.definitions.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+  let html = `
+    <div style="background:var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:16px;">
+      <div style="font-size:11px; font-weight:800; color:var(--brand-accent); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">📖 完整词性与多义项</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+  `;
+  data.definitions.forEach((def, i) => {
+    html += `
+      <div style="font-size:14px; color:var(--text-primary); line-height:1.6; border-left:3px solid var(--brand-primary); padding-left:10px;">
+        ${escapeHtml(def)}
       </div>
     `;
-  }
+  });
+  html += `</div></div>`;
+  container.innerHTML = html;
 }
 
 function closeDefDrawer() {
@@ -1117,39 +1415,49 @@ async function launchSurvivalGame() {
 
   renderBattleHand();
 
-  const sysPrompt = "You are a suspenseful Dungeon Master. Write engaging pure English story within 3 to 5 sentences without any Chinese.";
+  const sysPrompt = "You are a suspenseful Dungeon Master. Write engaging English crisis scenarios with high-quality bilingual Chinese translations. Output valid JSON only.";
   const usrPrompt = `
     Strictly use these target words from the user's active vocabulary list: [${targetPool.join(', ')}].
     Requirements:
-    1. "story": An intense crisis dilemma in pure English within 3 to 5 sentences (under 50 words). Absolutely NO Chinese.
-    2. "options": Exactly 3 choices corresponding to [${targetPool.join(', ')}]. Exactly ONE option is the correct survival decision.
-    3. Each option must have:
+    1. "story": An intense crisis dilemma in English within 3 to 5 sentences (under 50 words).
+    2. "story_cn": A fluent, thrilling Chinese translation of the crisis scenario.
+    3. "options": Exactly 3 choices corresponding to [${targetPool.join(', ')}]. Exactly ONE option is the correct survival decision.
+    4. Each option must have:
        - "word": exact word from target words
        - "action": English action sentence using the word
+       - "action_cn": Chinese translation of the action
        - "isCorrect": boolean
-       - "fullOutcomeStory": A complete, coherent narrative paragraph (3-4 sentences in pure English) describing the entire event and resulting consequence when this choice is executed.
+       - "fullOutcomeStory": A complete narrative paragraph in English (3-4 sentences) describing the event and consequence.
+       - "fullOutcomeStory_cn": Fluent Chinese translation of the full outcome narrative paragraph.
     
     Output JSON format only:
     {
       "story": "A critical emergency occurs in the control room. Power fails and pressure drops rapidly. You must act immediately.",
+      "story_cn": "控制室突发重大险情，电力中断且气压骤降，你必须立即采取行动。",
       "options": [
         {
           "word": "${targetPool[0]}",
           "action": "Take prompt measures to ${targetPool[0]} the primary system.",
+          "action_cn": "迅速采取措施稳定核心系统。",
           "isCorrect": true,
-          "fullOutcomeStory": "You acted with composure to ${targetPool[0]} the vital controls. Thanks to your decisive execution, the emergency containment held firm and the entire squad safely escaped the hazard."
+          "fullOutcomeStory": "You acted with composure to ${targetPool[0]} the vital controls. Thanks to your decisive execution, the emergency containment held firm and the entire squad safely escaped the hazard.",
+          "fullOutcomeStory_cn": "你在危急关头沉着稳健地操作关键中枢，得益于你雷厉风行的决断，紧急防护罩成功咬合，带领全队脱离险境。"
         },
         {
           "word": "${targetPool[1]}",
           "action": "Choose to ${targetPool[1]} and wait passively.",
+          "action_cn": "选择犹豫迟疑，被动等待。",
           "isCorrect": false,
-          "fullOutcomeStory": "You chose to ${targetPool[1]} at the critical junction. The lost time allowed the pressure breach to expand, causing severe damage to the sector before backup arrived."
+          "fullOutcomeStory": "You chose to ${targetPool[1]} at the critical junction. The lost time allowed the pressure breach to expand, causing severe damage to the sector before backup arrived.",
+          "fullOutcomeStory_cn": "你在生死关头犹豫迟疑，白白浪费了宝贵时间，导致气压缺口进一步扩大造成严重破坏。"
         },
         {
           "word": "${targetPool[2]}",
           "action": "Decide to ${targetPool[2]} all safety equipment.",
+          "action_cn": "惊慌失措下弃用所有防护装备。",
           "isCorrect": false,
-          "fullOutcomeStory": "In overwhelming panic, you made the fatal mistake to ${targetPool[2]} standard safety gear. The hazardous environment immediately overwhelmed the room, resulting in catastrophe."
+          "fullOutcomeStory": "In overwhelming panic, you made the fatal mistake to ${targetPool[2]} standard safety gear. The hazardous environment immediately overwhelmed the room, resulting in catastrophe.",
+          "fullOutcomeStory_cn": "在极度恐慌中你盲目丢弃了标准防护装备，危险环境瞬间席卷了整个区域造成灾难性后果。"
         }
       ]
     }
@@ -1229,9 +1537,14 @@ function handleSurvivalChoice(opt, idx) {
   updateBadges();
   triggerCloudSync();
 
-  // 1. 组合危机背景与决断后果的完整英文故事
+  // 1. 组合危机背景与决断后果的完整英文故事与中文翻译
   const fullStory = opt.fullOutcomeStory || `${survivalData.story} ${opt.action}`;
   const clickableHtml = renderClickableStory(fullStory);
+
+  const isZhMode = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
+  const storyCn = survivalData.story_cn || '';
+  const outcomeCn = opt.fullOutcomeStory_cn || opt.action_cn || '';
+  const hasCn = Boolean(storyCn || outcomeCn);
 
   // 2. 清空选择按钮，直接展示沉浸式折纸战役结算卷轴
   const optionsGrid = document.getElementById('gameOptions');
@@ -1281,17 +1594,41 @@ function handleSurvivalChoice(opt, idx) {
     </div>
 
     <div style="margin-bottom:18px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
         <span style="font-size:13px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
           📜 完整英文战报研读 (Complete Story Scroll)
         </span>
-        <span style="font-size:11px; color:var(--brand-primary); font-weight:600;">
-          💡 点击任意单词呼出词典 & ★ Mark
-        </span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          ${hasCn ? `<button class="btn btn-secondary" id="btnToggleSurvivalCn" style="font-size:11px; padding:2px 8px; height:24px;" onclick="toggleSurvivalCnBlock()">${isZhMode ? '🇬🇧 隐藏中文译文' : '🇨🇳 显示中文译文'}</button>` : ''}
+          <span style="font-size:11px; color:var(--brand-primary); font-weight:600;">
+            💡 点击单词查词 & ★ Mark
+          </span>
+        </div>
       </div>
       <div style="background:var(--paper-surface-sub); padding:16px 18px; border-radius:var(--radius-md); border:1.5px solid var(--paper-border); font-size:15px; line-height:1.8; color:var(--text-primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);">
         ${clickableHtml}
       </div>
+
+      <!-- 🇨🇳 战局中文译文卷轴 -->
+      ${hasCn ? `
+        <div id="survivalCnBlock" class="survival-cn-block" style="${isZhMode ? 'display:block;' : 'display:none;'}">
+          <div style="font-weight:800; color:var(--brand-primary); margin-bottom:8px; font-size:13px; display:flex; align-items:center; gap:6px;">
+            <span>🇨🇳 战局情境与结局中文译文 (Story & Outcome)</span>
+          </div>
+          ${storyCn ? `
+            <div style="margin-bottom:10px; border-left:3px solid var(--brand-primary); padding-left:10px; color:var(--text-primary);">
+              <div style="font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:2px;">【危机前情】</div>
+              <div>${escapeHtml(storyCn)}</div>
+            </div>
+          ` : ''}
+          ${outcomeCn ? `
+            <div style="border-left:3px solid ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'}; padding-left:10px; color:var(--text-primary);">
+              <div style="font-size:11px; font-weight:700; color:${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'}; margin-bottom:2px;">【抉择因果】</div>
+              <div>${escapeHtml(outcomeCn)}</div>
+            </div>
+          ` : ''}
+        </div>
+      ` : ''}
     </div>
 
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -1720,6 +2057,10 @@ function openSettingsModal() {
   document.getElementById('cfgGeminiModel').value = appSettings.geminiModel || 'gemini-3.7-flash';
   document.getElementById('cfgCustomUrl').value = appSettings.customUrl || '';
   document.getElementById('cfgCustomModel').value = appSettings.customModel || 'gemini-3.7-flash';
+  const langModeEl = document.getElementById('cfgDictLangMode');
+  if (langModeEl) {
+    langModeEl.value = appSettings.dictLanguageMode || 'en';
+  }
   onDriverModeChange();
   m.style.display = 'block';
   setTimeout(() => m.style.opacity = '1', 10);
@@ -1745,9 +2086,39 @@ function saveSettings() {
   appSettings.geminiModel = document.getElementById('cfgGeminiModel').value;
   appSettings.customUrl = document.getElementById('cfgCustomUrl').value.trim();
   appSettings.customModel = document.getElementById('cfgCustomModel').value.trim();
+  const langModeEl = document.getElementById('cfgDictLangMode');
+  if (langModeEl) {
+    appSettings.dictLanguageMode = langModeEl.value;
+    appSettings.showChinese = (langModeEl.value === 'zh');
+  }
   saveToStorage(STORAGE_KEYS.SETTINGS, appSettings);
+  updateQuickLangBtn();
+  if (currentSubTab === 'all') renderWords(document.getElementById('searchInput') ? document.getElementById('searchInput').value : '');
+  else renderMarked();
   closeSettingsModal();
-  showToast("💾 Settings saved!");
+  showToast("💾 设置已保存生效！");
+}
+
+function updateQuickLangBtn() {
+  const btn = document.getElementById('btnQuickLangToggle');
+  if (btn) {
+    const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
+    btn.innerHTML = isZh ? '🇨🇳 中文' : '🇬🇧 纯英';
+    btn.title = isZh ? '当前为双语中文模式，点击切为纯英模式' : '当前为纯英文模式，点击切为双语中文模式';
+  }
+}
+
+function toggleQuickDictLang() {
+  soundClick();
+  const current = appSettings.dictLanguageMode || 'en';
+  const next = (current === 'zh') ? 'en' : 'zh';
+  appSettings.dictLanguageMode = next;
+  appSettings.showChinese = (next === 'zh');
+  saveToStorage(STORAGE_KEYS.SETTINGS, appSettings);
+  updateQuickLangBtn();
+  if (currentSubTab === 'all') renderWords(document.getElementById('searchInput') ? document.getElementById('searchInput').value : '');
+  else renderMarked();
+  showToast(next === 'zh' ? '🇨🇳 已切换为【中文双语增强模式】' : '🇬🇧 已切换为【纯英沉浸模式】');
 }
 
 function toggleAudioMute() {
@@ -1796,11 +2167,13 @@ function addNewWordModal() {
 }
 
 // 初始化应用
-window.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   const savedTheme = loadFromStorage(STORAGE_KEYS.THEME, 'light');
   document.documentElement.setAttribute('data-theme', savedTheme);
-  document.getElementById('themeBtn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
-  document.getElementById('audioBtn').textContent = appSettings.audioMuted ? '🔇' : '🔊';
+  const themeBtn = document.getElementById('themeBtn');
+  if (themeBtn) themeBtn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+  const audioBtn = document.getElementById('audioBtn');
+  if (audioBtn) audioBtn.textContent = appSettings.audioMuted ? '🔇' : '🔊';
 
   renderWords();
   updateBadges();
@@ -1808,12 +2181,177 @@ window.addEventListener('DOMContentLoaded', () => {
   renderBattleHand();
   renderProfileView();
 
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    renderWords(e.target.value);
-  });
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      renderWords(e.target.value);
+    });
+  }
 
   initCloudSession();
-});
+  setupDesktopKeyboardShortcuts();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+// =========================================================
+// 15. 💻 电脑端全套键盘操控系统 (Desktop Keyboard Shortcuts)
+// =========================================================
+let keyboardShortcutsInitialized = false;
+function setupDesktopKeyboardShortcuts() {
+  if (keyboardShortcutsInitialized) return;
+  keyboardShortcutsInitialized = true;
+
+  const handleGlobalKeydown = (e) => {
+    // 1. ESC 键：最高优先级退出打开的抽屉、弹窗、浮层或搜索框
+    const isEsc = e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27 || e.which === 27;
+    if (isEsc) {
+      const defDrawer = document.getElementById('defDrawer');
+      const drawerOverlay = document.getElementById('drawerOverlay');
+      const settingsModal = document.getElementById('settingsModal');
+      const authModal = document.getElementById('authModal');
+      const codexModal = document.getElementById('codexModal');
+      const adminModal = document.getElementById('adminModal');
+      const searchInput = document.getElementById('searchInput');
+
+      let handled = false;
+
+      // 退出释义抽屉
+      if ((defDrawer && defDrawer.classList.contains('open')) || (drawerOverlay && drawerOverlay.classList.contains('open'))) {
+        closeDefDrawer();
+        handled = true;
+      }
+      // 退出设置弹窗
+      if (settingsModal && (settingsModal.style.display === 'block' || settingsModal.classList.contains('show'))) {
+        closeSettingsModal();
+        handled = true;
+      }
+      // 退出登录/注册弹窗
+      if (authModal && (authModal.style.display === 'block' || authModal.classList.contains('show'))) {
+        closeAuthModal();
+        handled = true;
+      }
+      // 退出卡牌背包图鉴
+      if (codexModal && (codexModal.style.display === 'block' || codexModal.classList.contains('show'))) {
+        closeCodexModal();
+        handled = true;
+      }
+      // 退出管理员控制台弹窗
+      if (adminModal && (adminModal.style.display === 'block' || adminModal.classList.contains('show'))) {
+        closeAdminModal();
+        handled = true;
+      }
+
+      // 如果没有弹窗打开，但当前聚焦在搜索框上，则按 ESC 失焦
+      if (!handled && document.activeElement === searchInput) {
+        searchInput.blur();
+        handled = true;
+      }
+
+      if (handled) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      return;
+    }
+
+    const activeEl = document.activeElement;
+    const isTyping = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.tagName === 'SELECT' || activeEl.isContentEditable);
+
+    // 2. 词典释义抽屉打开时的快捷键 (← / → 切词, Space / P 发音, + / - / M 标记)
+    const defDrawer = document.getElementById('defDrawer');
+    const isDrawerOpen = defDrawer && defDrawer.classList.contains('open');
+
+    if (isDrawerOpen) {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const prev = getAdjacentWord(currentLookupWord, -1);
+        if (prev) openWordDetails(prev);
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        const next = getAdjacentWord(currentLookupWord, 1);
+        if (next) openWordDetails(next);
+        return;
+      }
+      if (!isTyping && (e.code === 'Space' || e.key === ' ' || e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+        if (currentLookupWord) {
+          const lookup = corrections[currentLookupWord] || currentLookupWord;
+          speakWord(lookup);
+        }
+        return;
+      }
+      const isIncrease = e.key === '+' || e.key === '=' || e.code === 'Equal' || e.code === 'NumpadAdd' || e.keyCode === 187 || e.keyCode === 107 || e.key === 'm' || e.key === 'M' || e.code === 'KeyM';
+      const isDecrease = e.key === '-' || e.key === '_' || e.code === 'Minus' || e.code === 'NumpadSubtract' || e.keyCode === 189 || e.keyCode === 109 || e.key === '—';
+
+      if (!isTyping && isIncrease) {
+        // + / = / M 键：增加标记 (精确 +1)
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentLookupWord) {
+          addMark(currentLookupWord);
+        }
+        return;
+      }
+      if (!isTyping && isDecrease) {
+        // - / _ 键：减少标记 (精确 -1)
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentLookupWord) {
+          reduceMark(currentLookupWord);
+        }
+        return;
+      }
+    }
+
+    // 3. 全局非打字状态快捷键
+    if (!isTyping) {
+      // 快速聚焦搜索框：按 / 或 Ctrl+K
+      if (e.key === '/' || ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K'))) {
+        e.preventDefault();
+        switchNavView('words');
+        const s = document.getElementById('searchInput');
+        if (s) {
+          s.focus();
+          s.select();
+        }
+        return;
+      }
+
+      // 数字键 1 ~ 4 快捷切换主功能导航
+      if (e.key === '1') { e.preventDefault(); switchNavView('words'); return; }
+      if (e.key === '2') { e.preventDefault(); switchNavView('survival'); return; }
+      if (e.key === '3') { e.preventDefault(); switchNavView('match'); return; }
+      if (e.key === '4') { e.preventDefault(); switchNavView('profile'); return; }
+
+      // 🎮 文字生存模式下的选项快捷键 A/B/C 或 1/2/3
+      const viewSurvival = document.getElementById('viewSurvival');
+      if (viewSurvival && viewSurvival.classList.contains('active')) {
+        const choiceBtns = document.querySelectorAll('#gameOptions .choice-btn');
+        if (choiceBtns.length > 0) {
+          if (e.key === 'a' || e.key === 'A') { e.preventDefault(); choiceBtns[0]?.click(); return; }
+          if (e.key === 'b' || e.key === 'B') { e.preventDefault(); choiceBtns[1]?.click(); return; }
+          if (e.key === 'c' || e.key === 'C') { e.preventDefault(); choiceBtns[2]?.click(); return; }
+        }
+        // 战役结算后按 Space 或 Enter 开始下一局
+        const nextRoundBtn = document.querySelector('.settlement-scroll-card .btn-primary');
+        if (nextRoundBtn && (e.code === 'Space' || e.key === 'Enter')) {
+          e.preventDefault();
+          nextRoundBtn.click();
+          return;
+        }
+      }
+    }
+  };
+
+  window.addEventListener('keydown', handleGlobalKeydown, true);
+}
 
 
 async function deleteUser(userId, username) {
@@ -1874,5 +2412,19 @@ async function toggleUserQuota(userId, enable, username) {
     openAdminConsole();
   } catch(e) {
     showToast(`❌ ${e.message}`);
+  }
+}
+
+
+function toggleSurvivalCnBlock() {
+  const block = document.getElementById('survivalCnBlock');
+  const btn = document.getElementById('btnToggleSurvivalCn');
+  if (!block) return;
+  if (block.style.display === 'none') {
+    block.style.display = 'block';
+    if (btn) btn.textContent = '🇬🇧 隐藏中文译文';
+  } else {
+    block.style.display = 'none';
+    if (btn) btn.textContent = '🇨🇳 显示中文译文';
   }
 }
