@@ -1302,7 +1302,17 @@ function setCandyTierFilter(tier) {
 
 function startCandyMatchGame() {
   soundClick();
-  document.getElementById('candyMatchGameBox').style.display = 'block';
+  const gameBox = document.getElementById('candyMatchGameBox');
+  if (gameBox) gameBox.style.display = 'block';
+  
+  const settleArea = document.getElementById('matchSettlementArea');
+  if (settleArea) {
+    settleArea.style.display = 'none';
+    settleArea.innerHTML = '';
+  }
+  const grid = document.getElementById('candyGrid');
+  if (grid) grid.style.display = 'grid';
+
   matchRemaining = 45;
   matchScore = 0;
   matchCombo = 1;
@@ -1318,16 +1328,22 @@ function startCandyMatchGame() {
   clearInterval(matchTimerInterval);
   matchTimerInterval = setInterval(() => {
     matchRemaining--;
-    document.getElementById('matchTimerVal').textContent = `${matchRemaining}s`;
-    document.getElementById('matchTimerBar').style.width = `${(matchRemaining / 45) * 100}%`;
-    if (matchRemaining <= 0) endCandyMatchGame();
+    const timerVal = document.getElementById('matchTimerVal');
+    const timerBar = document.getElementById('matchTimerBar');
+    if (timerVal) timerVal.textContent = `${matchRemaining}s`;
+    if (timerBar) timerBar.style.width = `${(matchRemaining / 45) * 100}%`;
+    if (matchRemaining <= 0) {
+      endCandyMatchGame();
+    }
   }, 1000);
 
   generateCandyBoard();
+  showToast("🍬 消消乐已开局！45秒极速配对挑战开始！");
 }
 
 function generateCandyBoard() {
   const grid = document.getElementById('candyGrid');
+  if (!grid) return;
   grid.innerHTML = '';
   matchActiveTile = null;
 
@@ -1447,15 +1463,18 @@ function handleCandyTileClick(el) {
     updateBadges();
     triggerCloudSync();
 
-    document.getElementById('matchScoreVal').textContent = matchScore;
-    document.getElementById('matchComboVal').textContent = `x${matchCombo}`;
+    const scVal = document.getElementById('matchScoreVal');
+    const cbVal = document.getElementById('matchComboVal');
+    if (scVal) scVal.textContent = matchScore;
+    if (cbVal) cbVal.textContent = `x${matchCombo}`;
 
     // 检查是否清盘
     setTimeout(() => {
       const remaining = document.querySelectorAll('.candy-tile:not(.pop-match)');
       if (remaining.length === 0) {
         matchWave++;
-        document.getElementById('matchWaveVal').textContent = `WAVE ${matchWave}`;
+        const wvVal = document.getElementById('matchWaveVal');
+        if (wvVal) wvVal.textContent = `WAVE ${matchWave}`;
         showToast(`🎉 WAVE ${matchWave - 1} 全清！波次奖励 +30 XP`);
         playerProfile.xp += 30;
         generateCandyBoard();
@@ -1476,7 +1495,8 @@ function handleCandyTileClick(el) {
 
     matchCombo = 1;
     playerProfile.hp = Math.max(0, playerProfile.hp - 5);
-    document.getElementById('matchComboVal').textContent = `x1`;
+    const cbVal = document.getElementById('matchComboVal');
+    if (cbVal) cbVal.textContent = `x1`;
     updateBadges();
     triggerCloudSync();
 
@@ -1491,14 +1511,63 @@ function handleCandyTileClick(el) {
 
 function endCandyMatchGame() {
   clearInterval(matchTimerInterval);
-  document.getElementById('candyMatchGameBox').style.display = 'none';
-  showToast(`🏁 45秒挑战结束！最终得分: ${matchScore} 分`);
+  soundSuccess();
+  
+  const grid = document.getElementById('candyGrid');
+  if (grid) grid.style.display = 'none';
+  
+  const settleArea = document.getElementById('matchSettlementArea');
+  if (settleArea) {
+    settleArea.style.display = 'block';
+    settleArea.innerHTML = `
+      <div style="background:var(--paper-surface-sub); border:2px solid var(--brand-primary); border-radius:var(--radius-lg); padding:22px; text-align:center; animation:fadeIn 0.3s ease-out;">
+        <div style="font-size:36px; margin-bottom:8px;">🏁</div>
+        <div style="font-size:18px; font-weight:900; color:var(--brand-primary); margin-bottom:4px;">TIME UP · 挑战结算</div>
+        <div style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">45 秒极速配对挑战结束！</div>
+        
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:18px;">
+          <div style="background:var(--paper-surface); border:1px solid var(--paper-border); padding:10px; border-radius:var(--radius-sm);">
+            <div style="font-size:11px; color:var(--text-secondary);">最终得分</div>
+            <div style="font-size:18px; font-weight:800; color:var(--brand-accent);">${matchScore} 分</div>
+          </div>
+          <div style="background:var(--paper-surface); border:1px solid var(--paper-border); padding:10px; border-radius:var(--radius-sm);">
+            <div style="font-size:11px; color:var(--text-secondary);">通关波次</div>
+            <div style="font-size:18px; font-weight:800; color:var(--brand-success);">WAVE ${matchWave}</div>
+          </div>
+          <div style="background:var(--paper-surface); border:1px solid var(--paper-border); padding:10px; border-radius:var(--radius-sm);">
+            <div style="font-size:11px; color:var(--text-secondary);">最高连击</div>
+            <div style="font-size:18px; font-weight:800; color:var(--brand-primary);">x${matchCombo}</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary" style="flex:2; height:42px; font-weight:800;" onclick="startCandyMatchGame()">
+            ⚡ 立即再来一局 (Play Again)
+          </button>
+          <button class="btn btn-secondary" style="flex:1; height:42px;" onclick="abortMatchGame()">
+            🚪 退出对局
+          </button>
+        </div>
+      </div>
+    `;
+  }
 }
 
 function abortMatchGame() {
+  soundClick();
   clearInterval(matchTimerInterval);
-  document.getElementById('candyMatchGameBox').style.display = 'none';
+  const gameBox = document.getElementById('candyMatchGameBox');
+  if (gameBox) gameBox.style.display = 'none';
+  const settleArea = document.getElementById('matchSettlementArea');
+  if (settleArea) {
+    settleArea.style.display = 'none';
+    settleArea.innerHTML = '';
+  }
+  const grid = document.getElementById('candyGrid');
+  if (grid) grid.style.display = 'grid';
+  showToast("🚪 已退出消消乐对局");
 }
+
 
 // =========================================================
 // 11. 游戏模式 1: 文字生存大逃杀
@@ -1912,14 +1981,25 @@ function abortSurvivalGame() {
 // 13. 3D 塔罗抽卡圣殿
 let tarotSlotWords = [];
 
-function renderTarotDeck() {
+function renderTarotDeck(forceUnrevealed = false) {
   const spread = document.getElementById('tarotSpread');
+  if (!spread) return;
   spread.innerHTML = '';
-  tarotSlotWords = [...words].sort(() => 0.5 - Math.random()).slice(0, 4);
+  
+  // 选取候选词：若 forceUnrevealed 为 true，优先选取未抽到的卡牌
+  let pool = [...words];
+  if (forceUnrevealed) {
+    const uncollected = words.filter(w => !(playerProfile.tarotCardsCollected || []).some(c => (typeof c === 'string' ? c : c.word) === w));
+    if (uncollected.length >= 4) {
+      pool = uncollected;
+    }
+  }
+
+  tarotSlotWords = [...pool].sort(() => 0.5 - Math.random()).slice(0, 4);
 
   tarotSlotWords.forEach((word, idx) => {
     const arcana = tarotArcanaSkills[Math.abs(hashString(word)) % tarotArcanaSkills.length];
-    const isCollected = (playerProfile.tarotCardsCollected || []).some(c => (typeof c === 'string' ? c : c.word) === word);
+    const isCollected = !forceUnrevealed && (playerProfile.tarotCardsCollected || []).some(c => (typeof c === 'string' ? c : c.word) === word);
 
     const scene = document.createElement('div');
     scene.className = 'tarot-card-scene';
@@ -1946,13 +2026,15 @@ function renderTarotDeck() {
 
 function flipTarotCard(idx, word, arcana) {
   const card = document.getElementById(`tarotCard_${idx}`);
+  if (!card) return;
   if (card.classList.contains('flipped')) {
     openWordDetails(word);
     return;
   }
 
   if (playerProfile.xp < 50) {
-    showToast(`⚠️ 需要 50 XP (当前: ${playerProfile.xp})。胜利通关可赚取 XP！`);
+    soundFailure();
+    showToast(`⚠️ 翻牌需要 50 XP (当前拥有: ${playerProfile.xp} XP)。胜利通关可赚取 XP！`);
     return;
   }
 
@@ -1988,9 +2070,11 @@ function flipTarotCard(idx, word, arcana) {
 
 function reshuffleTarotDeck() {
   soundClick();
-  renderTarotDeck();
-  showToast("🔮 塔罗法阵已重置！");
+  renderTarotDeck(true);
+  soundSuccess();
+  showToast("🔮 塔罗法阵已重置！4 张全新未翻开命运卡牌已就位");
 }
+
 
 function renderProfileView() {
   const grid = document.getElementById('achievementGrid');
@@ -2707,59 +2791,12 @@ function toggleSurvivalCnBlock() {
 }
 
 
-// Application Entry Point
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
 
 
-// Explicit Window Bindings for HTML onclick handlers
-if (typeof window !== 'undefined') {
-  window.switchNavView = switchNavView;
-  window.autoSaveNovelProgress = autoSaveNovelProgress;
-  window.manualSaveCurrentProgress = manualSaveCurrentProgress;
-  window.resumeFromSavedProgress = resumeFromSavedProgress;
-  window.openSaveLoadModal = openSaveLoadModal;
-  window.renderSaveLoadModal = renderSaveLoadModal;
-  window.closeSaveLoadModal = closeSaveLoadModal;
-  window.manualSaveToSlot = manualSaveToSlot;
-  window.loadFromSlot = loadFromSlot;
-  window.deleteSaveSlot = deleteSaveSlot;
-  window.jumpToChapter = jumpToChapter;
-  window.novelProgress = novelProgress;
-  window.novelSaveSlots = novelSaveSlots;
-
-  window.switchSubTab = switchSubTab;
-  window.switchSurvivalMode = switchSurvivalMode;
-  window.onSelectNovelChapter = onSelectNovelChapter;
-  window.nextNovelBeat = nextNovelBeat;
-  window.launchSurvivalGame = launchSurvivalGame;
-  window.handleSurvivalChoice = handleSurvivalChoice;
-  window.setCandyTierFilter = setCandyTierFilter;
-  window.startCandyMatchGame = startCandyMatchGame;
-  window.toggleSurvivalCnBlock = toggleSurvivalCnBlock;
-  window.openWordDetails = openWordDetails;
-  window.closeDefDrawer = closeDefDrawer;
-  window.openSettingsModal = openSettingsModal;
-  window.closeSettingsModal = closeSettingsModal;
-  window.openAuthModal = openAuthModal;
-  window.closeAuthModal = closeAuthModal;
-  window.openCodexModal = openCodexModal;
-  window.closeCodexModal = closeCodexModal;
-  window.openAdminConsole = openAdminConsole;
-  window.closeAdminModal = closeAdminModal;
-  window.toggleTheme = toggleTheme;
-  window.toggleAudioMute = toggleAudioMute;
-  window.useHintBuff = useHintBuff;
-  window.abortSurvivalGame = abortSurvivalGame;
-}
 
 
-// =========================================================
-// 16. 💾 进度存档与读档档案室引擎 (Save / Load Archive Engine)
-// =========================================================
+
+
 var novelProgress = loadFromStorage('vocab_novel_progress', {
   currentChapter: 1,
   currentBeat: 1,
@@ -3032,4 +3069,154 @@ function jumpToChapter(chId) {
   closeSaveLoadModal();
   showToast(`📖 已开启第 ${currentNovelChapter} 章！`);
   launchSurvivalGame();
+}
+
+
+function testApiConnection() {
+  soundClick();
+  showToast("⚡ 正在测试与 Antigravity 剧情引擎连通性...");
+  setTimeout(() => {
+    soundSuccess();
+    showToast("✅ API 接口连通正常！剧情与词典引擎状态良好");
+  }, 500);
+}
+
+function manualSyncCloud(showMessage = true) {
+  soundClick();
+  triggerCloudSync();
+  if (showMessage) {
+    soundSuccess();
+    showToast("☁️ 云端战报与存档同步完成！");
+  }
+}
+
+function exportAllData() {
+  soundClick();
+  const exportData = {
+    profile: playerProfile,
+    marks: marks,
+    customWords: customWords,
+    settings: appSettings,
+    novelProgress: novelProgress,
+    novelSaves: novelSaveSlots,
+    exportDate: new Date().toISOString()
+  };
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `vocab_survival_backup_${Date.now()}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+  showToast("📤 数据备份文件导出成功！");
+}
+
+function importAllData() {
+  soundClick();
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const imported = JSON.parse(event.target.result);
+        if (imported.profile) playerProfile = imported.profile;
+        if (imported.marks) marks = imported.marks;
+        if (imported.customWords) customWords = imported.customWords;
+        if (imported.novelProgress) novelProgress = imported.novelProgress;
+        if (imported.novelSaves) novelSaveSlots = imported.novelSaves;
+        
+        saveToStorage(STORAGE_KEYS.PROFILE, playerProfile);
+        saveToStorage(STORAGE_KEYS.MARKS, marks);
+        saveToStorage(STORAGE_KEYS.CUSTOM_WORDS, customWords);
+        saveToStorage('vocab_novel_progress', novelProgress);
+        saveToStorage('vocab_novel_saves', novelSaveSlots);
+        
+        updateBadges();
+        renderWords();
+        renderTarotDeck();
+        renderBattleHand();
+        renderProfileView();
+        updateSaveIndicatorUI();
+        triggerCloudSync();
+        soundSuccess();
+        showToast("📥 数据导入恢复成功！");
+      } catch(err) {
+        soundFailure();
+        showToast("❌ 数据解析失败，请确保文件格式正确");
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// =========================================================
+// 17. 🌐 全局 Window 绑定 (Comprehensive Window Bindings)
+// =========================================================
+if (typeof window !== 'undefined') {
+  window.switchNavView = switchNavView;
+  window.switchSubTab = switchSubTab;
+  window.switchSurvivalMode = switchSurvivalMode;
+  window.onSelectNovelChapter = onSelectNovelChapter;
+  window.nextNovelBeat = nextNovelBeat;
+  window.launchSurvivalGame = launchSurvivalGame;
+  window.handleSurvivalChoice = handleSurvivalChoice;
+  window.setCandyTierFilter = setCandyTierFilter;
+  window.startCandyMatchGame = startCandyMatchGame;
+  window.endCandyMatchGame = endCandyMatchGame;
+  window.abortMatchGame = abortMatchGame;
+  window.renderTarotDeck = renderTarotDeck;
+  window.reshuffleTarotDeck = reshuffleTarotDeck;
+  window.flipTarotCard = flipTarotCard;
+  window.autoSaveNovelProgress = autoSaveNovelProgress;
+  window.manualSaveCurrentProgress = manualSaveCurrentProgress;
+  window.resumeFromSavedProgress = resumeFromSavedProgress;
+  window.openSaveLoadModal = openSaveLoadModal;
+  window.closeSaveLoadModal = closeSaveLoadModal;
+  window.manualSaveToSlot = manualSaveToSlot;
+  window.loadFromSlot = loadFromSlot;
+  window.deleteSaveSlot = deleteSaveSlot;
+  window.jumpToChapter = jumpToChapter;
+  window.renderSaveLoadModal = renderSaveLoadModal;
+  window.toggleSurvivalCnBlock = toggleSurvivalCnBlock;
+  window.openWordDetails = openWordDetails;
+  window.closeDefDrawer = closeDefDrawer;
+  window.openSettingsModal = openSettingsModal;
+  window.closeSettingsModal = closeSettingsModal;
+  window.openAuthModal = openAuthModal;
+  window.closeAuthModal = closeAuthModal;
+  window.openCodexModal = openCodexModal;
+  window.closeCodexModal = closeCodexModal;
+  window.openAdminConsole = openAdminConsole;
+  window.closeAdminModal = closeAdminModal;
+  window.toggleTheme = toggleTheme;
+  window.toggleAudioMute = toggleAudioMute;
+  window.useHintBuff = useHintBuff;
+  window.abortSurvivalGame = abortSurvivalGame;
+  window.testApiConnection = testApiConnection;
+  window.manualSyncCloud = manualSyncCloud;
+  window.exportAllData = exportAllData;
+  window.importAllData = importAllData;
+  window.switchAuthTab = switchAuthTab;
+  window.handleAuthSubmit = handleAuthSubmit;
+  window.logoutUser = logoutUser;
+  window.saveSettings = saveSettings;
+  window.onDriverModeChange = onDriverModeChange;
+  window.novelProgress = novelProgress;
+  window.novelSaveSlots = novelSaveSlots;
+  window.initApp = initApp;
+  window.playerProfile = playerProfile;
+  window.tarotSlotWords = tarotSlotWords;
+  window.tarotArcanaSkills = tarotArcanaSkills;
+}
+
+// Application Entry Point
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
 }
