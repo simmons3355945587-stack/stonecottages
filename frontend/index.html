@@ -208,6 +208,14 @@
       </div>
 
       <!-- 糖果立体色块消除网格 -->
+      <!-- 🎯 难度与出题范围筛选器 -->
+      <div class="candy-tier-filter-bar" style="display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px;">
+        <button class="tier-pill active" id="tierPill_all" onclick="setCandyTierFilter('all')">🎲 全部高级词库</button>
+        <button class="tier-pill" id="tierPill_cet4" onclick="setCandyTierFilter('cet4')">🟢 CET-4 核心</button>
+        <button class="tier-pill" id="tierPill_cet6" onclick="setCandyTierFilter('cet6')">🔵 CET-6 · 考研</button>
+        <button class="tier-pill" id="tierPill_ielts" onclick="setCandyTierFilter('ielts')">🟣 雅思托福 · 菁英</button>
+      </div>
+
       <div class="candy-grid" id="candyGrid"></div>
 
       <div style="display: flex; gap: 10px; margin-top: 12px;">

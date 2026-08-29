@@ -691,6 +691,7 @@ function renderWords(filter = '') {
         <div class="word-info">
           <div class="word-spelling">
             ${escapeHtml(w)}
+            <span class="tier-tag tag-${(typeof wordTierDict !== 'undefined' && wordTierDict[w]) ? wordTierDict[w] : 'cet4'}">${(typeof wordTierDict !== 'undefined' && wordTierDict[w] === 'ielts') ? 'IELTS' : ((typeof wordTierDict !== 'undefined' && wordTierDict[w]) ? wordTierDict[w].toUpperCase() : 'CET-4')}</span>
             <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
             ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
           </div>
@@ -1227,6 +1228,20 @@ let matchCombo = 1;
 let matchWave = 1;
 let matchActiveTile = null;
 let recentCandyWordsHistory = [];
+let currentCandyTier = 'all';
+
+function setCandyTierFilter(tier) {
+  soundClick();
+  currentCandyTier = tier;
+  document.querySelectorAll('.candy-tier-filter-bar .tier-pill').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById(`tierPill_${tier}`);
+  if (activeBtn) activeBtn.classList.add('active');
+  recentCandyWordsHistory = [];
+  generateCandyBoard();
+  const labelMap = { 'all': '全部高级词库', 'cet4': 'CET-4 核心词库', 'cet6': 'CET-6 & 考研高阶词库', 'ielts': '雅思托福 & 菁英词库' };
+  showToast(`🎯 已切换消消乐词库：${labelMap[tier] || tier}`);
+}
+
 
 function startCandyMatchGame() {
   soundClick();
@@ -1259,8 +1274,16 @@ function generateCandyBoard() {
   grid.innerHTML = '';
   matchActiveTile = null;
 
-  // 1. 获取有效全词库池（有中文释义的词汇，全库 600+ 词）
-  const validWords = words.filter(w => chineseDict[w] && typeof chineseDict[w] === 'string' && chineseDict[w].trim().length > 0);
+  // 1. 获取有效全词库池（有中文释义的词汇，全库 670+ 优质考纲词）
+  let validWords = words.filter(w => chineseDict[w] && typeof chineseDict[w] === 'string' && chineseDict[w].trim().length > 0);
+  
+  // 难度等级过滤
+  if (currentCandyTier !== 'all' && typeof wordTierDict !== 'undefined') {
+    const tiered = validWords.filter(w => (wordTierDict[w] || 'cet4') === currentCandyTier);
+    if (tiered.length >= 6) {
+      validWords = tiered;
+    }
+  }
   
   // 如果历史已出现过多，清空历史队列重新循环，确保不重样
   if (recentCandyWordsHistory.length >= validWords.length - 12 || recentCandyWordsHistory.length > 80) {
@@ -1679,8 +1702,9 @@ function handleSurvivalChoice(opt, idx) {
   triggerCloudSync();
 
   // 1. 组合危机背景与决断后果的完整英文故事与中文翻译
-  const fullStory = opt.fullOutcomeStory || `${survivalData.story} ${opt.action}`;
-  const clickableHtml = renderClickableStory(fullStory);
+  const storyText = survivalData.story || '';
+  const outcomeStoryText = opt.fullOutcomeStory || `${storyText} ${opt.action}`;
+  const clickableHtml = renderClickableStory(outcomeStoryText);
 
   const isZhMode = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
   const storyCn = survivalData.story_cn || '';
@@ -1734,13 +1758,14 @@ function handleSurvivalChoice(opt, idx) {
       </div>
     </div>
 
-    <div style="margin-bottom:18px;">
+    <!-- 📜 完整英文战报研读 -->
+    <div style="margin-bottom:16px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
         <span style="font-size:13px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
-          📜 完整英文战报研读 (Complete Story Scroll)
+          📜 英文战报研读 (Complete Scene & Outcome)
         </span>
         <div style="display:flex; align-items:center; gap:8px;">
-          ${hasCn ? `<button class="btn btn-secondary" id="btnToggleSurvivalCn" style="font-size:11px; padding:2px 8px; height:24px;" onclick="toggleSurvivalCnBlock()">${isZhMode ? '🇬🇧 隐藏中文译文' : '🇨🇳 显示中文译文'}</button>` : ''}
+          ${hasCn ? `<button class="btn btn-secondary" id="btnToggleSurvivalCn" style="font-size:11px; padding:2px 10px; height:26px;" onclick="toggleSurvivalCnBlock()">${isZhMode ? '🇬🇧 隐藏中文译文' : '🇨🇳 显示双语对照译文'}</button>` : ''}
           <span style="font-size:11px; color:var(--brand-primary); font-weight:600;">
             💡 点击单词查词 & ★ Mark
           </span>
@@ -1749,28 +1774,34 @@ function handleSurvivalChoice(opt, idx) {
       <div style="background:var(--paper-surface-sub); padding:16px 18px; border-radius:var(--radius-md); border:1.5px solid var(--paper-border); font-size:15px; line-height:1.8; color:var(--text-primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);">
         ${clickableHtml}
       </div>
-
-      <!-- 🇨🇳 战局中文译文卷轴 -->
-      ${hasCn ? `
-        <div id="survivalCnBlock" class="survival-cn-block" style="${isZhMode ? 'display:block;' : 'display:none;'}">
-          <div style="font-weight:800; color:var(--brand-primary); margin-bottom:8px; font-size:13px; display:flex; align-items:center; gap:6px;">
-            <span id="survivalCnHeaderTitle">🇨🇳 战局与原著剧情中文译文 (Story & Outcome)</span>
-          </div>
-          ${storyCn ? `
-            <div style="margin-bottom:10px; border-left:3px solid var(--brand-primary); padding-left:10px; color:var(--text-primary);">
-              <div style="font-size:11px; font-weight:700; color:var(--text-secondary); margin-bottom:2px;">【危机前情】</div>
-              <div>${escapeHtml(storyCn)}</div>
-            </div>
-          ` : ''}
-          ${outcomeCn ? `
-            <div style="border-left:3px solid ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'}; padding-left:10px; color:var(--text-primary);">
-              <div style="font-size:11px; font-weight:700; color:${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'}; margin-bottom:2px;">【抉择因果】</div>
-              <div>${escapeHtml(outcomeCn)}</div>
-            </div>
-          ` : ''}
-        </div>
-      ` : ''}
     </div>
+
+    <!-- 🇨🇳 双语深度对照长卷 (原著小说场景原文翻译 + 本幕抉择因果与结局) -->
+    ${hasCn ? `
+      <div id="survivalCnBlock" class="survival-cn-block" style="${isZhMode ? 'display:block;' : 'display:none;'} margin-bottom:18px;">
+        <div style="font-weight:800; color:var(--brand-primary); margin-bottom:10px; font-size:13px; display:flex; align-items:center; gap:6px;">
+          <span>🇨🇳 双语深度对照长卷 (Bilingual Scene & Outcome)</span>
+        </div>
+        
+        ${storyCn ? `
+          <div class="settlement-translation-card" style="border-left:4px solid var(--brand-primary);">
+            <div class="settlement-trans-title" style="color:var(--brand-primary);">
+              <span>📖 ①【原著小说场景原文翻译】</span>
+            </div>
+            <div style="font-size:14px; line-height:1.7; color:var(--text-primary);">${escapeHtml(storyCn)}</div>
+          </div>
+        ` : ''}
+
+        ${outcomeCn ? `
+          <div class="settlement-translation-card" style="border-left:4px solid ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">
+            <div class="settlement-trans-title" style="color:${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">
+              <span>⚡ ②【本幕抉择因果与结局】</span>
+            </div>
+            <div style="font-size:14px; line-height:1.7; color:var(--text-primary);">${escapeHtml(outcomeCn)}</div>
+          </div>
+        ` : ''}
+      </div>
+    ` : ''}
 
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
       ${survivalData && survivalData.isNovelMode ? `
