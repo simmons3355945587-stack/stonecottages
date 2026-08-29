@@ -1756,3 +1756,44 @@
   gap: 6px;
   margin-bottom: 6px;
 }
+
+/* Save / Load Slots & Archive UI */
+.save-slot-card {
+  background: var(--paper-surface-sub);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.save-slot-card:hover {
+  border-color: var(--brand-primary);
+  box-shadow: var(--paper-shadow);
+}
+.save-slot-card.empty-slot {
+  border-style: dashed;
+  opacity: 0.8;
+}
+.save-slot-info {
+  flex: 1;
+}
+.save-slot-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.save-slot-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}

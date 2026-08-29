@@ -47,6 +47,15 @@ def init_db():
         )
         ''')
         # Check column existence for migration
+        cur.execute("PRAGMA table_info(profiles)")
+        p_cols = [r["name"] if isinstance(r, sqlite3.Row) else r[1] for r in cur.fetchall()]
+        if "novel_progress_json" not in p_cols:
+            try: cur.execute("ALTER TABLE profiles ADD COLUMN novel_progress_json TEXT DEFAULT '{}'")
+            except Exception: pass
+        if "novel_saves_json" not in p_cols:
+            try: cur.execute("ALTER TABLE profiles ADD COLUMN novel_saves_json TEXT DEFAULT '[]'")
+            except Exception: pass
+
         cur.execute("PRAGMA table_info(users)")
         cols = [r["name"] if isinstance(r, sqlite3.Row) else r[1] for r in cur.fetchall()]
         if "can_use_quota" not in cols:
@@ -199,6 +208,8 @@ class ProfileSyncReq(BaseModel):
     gachaCards: Optional[List[Any]] = []
     marks: Optional[Dict[str, int]] = {}
     customWords: Optional[List[str]] = []
+    novelProgress: Optional[Dict[str, Any]] = {}
+    novelSaves: Optional[List[Any]] = []
 
 class ServerConfigReq(BaseModel):
     gemini_key: Optional[str] = None
@@ -342,124 +353,8 @@ def register(req: RegisterReq, request: Request):
             cur.execute("INSERT INTO users (username, salt, password_hash, role, can_use_quota, custom_api_key) VALUES (?, ?, ?, ?, ?, ?)",
                         (uname, salt, pwd_hash, role, can_use_quota, req.custom_api_key or ""))
             user_id = cur.lastrowid
-            cur.execute("INSERT INTO profiles (user_id, hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json) VALUES (?, 100, 100, 1, 100, 1, 0, '[]', '{}', '[]')", (user_id,))
-            cur.execute("DELETE FROM active_ip_sessions WHERE user_id = ?", (user_id,))
-            cur.execute("INSERT OR REPLACE INTO active_ip_sessions (ip, user_id, username, last_active) VALUES (?, ?, ?, CURRENT_TIMESTAMP)", (client_ip, user_id, uname))
-            conn.commit()
-        except sqlite3.IntegrityError:
-            raise HTTPException(status_code=400, detail="用户名已存在，请直接登录。如忘记密码请联系站长：3355945587@qq.com")
-            
-    token = create_token(user_id, uname, role)
-    return {
-        "status": "success",
-        "token": token,
-        "user": {
-            "id": user_id,
-            "username": uname,
-            "role": role,
-            "is_admin": role == "admin",
-            "can_use_quota": bool(can_use_quota)
-        }
-    }
-
-@app.post("/api/login")
-def login(req: LoginReq, request: Request):
-    client_ip = get_client_ip(request)
-    uname = req.username.strip()
-    pwd = req.password.strip()
-    with get_db() as conn:
-        cur = conn.cursor()
-        cur.execute("SELECT id, username, salt, password_hash, role, can_use_quota, custom_api_key FROM users WHERE username = ?", (uname,))
-        row = cur.fetchone()
-        if not row:
-            raise HTTPException(status_code=401, detail="用户不存在。如忘记用户名请联系站长：3355945587@qq.com")
-        
-        if hash_password(pwd, row["salt"]) != row["password_hash"]:
-            raise HTTPException(status_code=401, detail="密码错误。如忘记密码请联系站长重置：3355945587@qq.com")
-            
-        role = row["role"]
-        can_use_quota = bool(row["can_use_quota"])
-        if uname in ["允安", "林允安", "AdminTest", "admin"] or row["id"] == 1:
-            role = "admin"
-            can_use_quota = True
-            cur.execute("UPDATE users SET role = 'admin', can_use_quota = 1 WHERE id = ?", (row["id"],))
-
-        if role != "admin":
-            cur.execute("SELECT user_id, username FROM active_ip_sessions WHERE ip = ?", (client_ip,))
-            ip_row = cur.fetchone()
-            if ip_row and ip_row["user_id"] != row["id"]:
-                raise HTTPException(
-                    status_code=403,
-                    detail=f"安全限制：当前 IP 已绑定账号 [{ip_row['username']}]，每个 IP 仅允许登录一个账号。如需解绑请联系站长：3355945587@qq.com"
-                )
-
-        cur.execute("DELETE FROM active_ip_sessions WHERE user_id = ?", (row["id"],))
-        cur.execute("INSERT OR REPLACE INTO active_ip_sessions (ip, user_id, username, last_active) VALUES (?, ?, ?, CURRENT_TIMESTAMP)", (client_ip, row["id"], row["username"]))
-        conn.commit()
-
-        token = create_token(row["id"], row["username"], role)
-        return {
-            "status": "success",
-            "token": token,
-            "user": {
-                "id": row["id"],
-                "username": row["username"],
-                "role": role,
-                "is_admin": (role == "admin"),
-                "can_use_quota": can_use_quota,
-                "custom_api_key": row["custom_api_key"]
-            }
-        }
-
-@app.get("/api/me")
-def get_me(user: dict = Depends(get_current_user)):
-    with get_db() as conn:
-        cur = conn.cursor()
-        cur.execute("SELECT id, username, role, can_use_quota, custom_api_key, created_at FROM users WHERE id = ?", (int(user["sub"]),))
-        row = cur.fetchone()
-        if not row:
-            raise HTTPException(status_code=404, detail="用户不存在")
-        role = row["role"]
-        can_use_quota = bool(row["can_use_quota"])
-        if row["username"] in ["允安", "林允安"] or row["id"] == 1:
-            role = "admin"
-            can_use_quota = True
-        return {
-            "id": row["id"],
-            "username": row["username"],
-            "role": role,
-            "is_admin": (role == "admin"),
-            "can_use_quota": can_use_quota,
-            "custom_api_key": row["custom_api_key"]
-        }
-
-@app.get("/api/profile")
-def get_profile(user: dict = Depends(get_current_user)):
-    with get_db() as conn:
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM profiles WHERE user_id = ?", (int(user["sub"]),))
-        row = cur.fetchone()
-        if not row:
-            return {"hp": 100, "san": 100, "level": 1, "xp": 100, "combo": 1, "wonRounds": 0, "gachaCards": [], "marks": {}, "customWords": []}
-        return {
-            "hp": row["hp"],
-            "san": row["san"],
-            "level": row["level"],
-            "xp": row["xp"],
-            "combo": row["combo"],
-            "wonRounds": row["won_rounds"],
-            "gachaCards": json.loads(row["gacha_cards"] or "[]"),
-            "marks": json.loads(row["marks_json"] or "{}"),
-            "customWords": json.loads(row["custom_words_json"] or "[]")
-        }
-
-@app.post("/api/sync")
-def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
-    with get_db() as conn:
-        cur = conn.cursor()
-        cur.execute('''
-        INSERT INTO profiles (user_id, hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            cur.execute("INSERT INTO profiles (user_id, hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json, novel_progress_json, novel_saves_json, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         ON CONFLICT(user_id) DO UPDATE SET
             hp=excluded.hp,
             san=excluded.san,
@@ -470,6 +365,8 @@ def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
             gacha_cards=excluded.gacha_cards,
             marks_json=excluded.marks_json,
             custom_words_json=excluded.custom_words_json,
+            novel_progress_json=excluded.novel_progress_json,
+            novel_saves_json=excluded.novel_saves_json,
             updated_at=CURRENT_TIMESTAMP
         ''', (
             int(user["sub"]),
@@ -481,7 +378,9 @@ def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
             req.wonRounds,
             json.dumps(req.gachaCards, ensure_ascii=False),
             json.dumps(req.marks, ensure_ascii=False),
-            json.dumps(req.customWords, ensure_ascii=False)
+            json.dumps(req.customWords, ensure_ascii=False),
+            json.dumps(req.novelProgress, ensure_ascii=False),
+            json.dumps(req.novelSaves, ensure_ascii=False)
         ))
         conn.commit()
     return {"status": "synced", "timestamp": int(time.time())}

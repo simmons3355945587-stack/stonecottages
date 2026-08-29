@@ -149,7 +149,9 @@ async function triggerCloudSync() {
           wonRounds: playerProfile.wonRounds,
           gachaCards: playerProfile.tarotCardsCollected || [],
           marks: marks,
-          customWords: customWords
+          customWords: customWords,
+          novelProgress: novelProgress,
+          novelSaves: novelSaveSlots
         })
       });
       if (resp.ok) {
@@ -177,6 +179,24 @@ async function initCloudSession() {
       playerProfile.level = Math.max(playerProfile.level || 1, cloud.level || 1);
       playerProfile.xp = Math.max(playerProfile.xp || 0, cloud.xp || 0);
       playerProfile.wonRounds = Math.max(playerProfile.wonRounds || 0, cloud.wonRounds || 0);
+
+      // 云端小说关卡进度合并
+      if (cloud.novelProgress && typeof cloud.novelProgress === 'object') {
+        const cloudCh = parseInt(cloud.novelProgress.currentChapter, 10) || 1;
+        const cloudBeat = parseInt(cloud.novelProgress.currentBeat, 10) || 1;
+        if (cloudCh > currentNovelChapter || (cloudCh === currentNovelChapter && cloudBeat >= currentNovelBeat)) {
+          currentNovelChapter = cloudCh;
+          currentNovelBeat = cloudBeat;
+          novelProgress = Object.assign({}, novelProgress, cloud.novelProgress);
+          saveToStorage('vocab_novel_progress', novelProgress);
+          saveToStorage('vocab_novel_ch', currentNovelChapter);
+          saveToStorage('vocab_novel_beat', currentNovelBeat);
+        }
+      }
+      if (Array.isArray(cloud.novelSaves) && cloud.novelSaves.length > 0) {
+        novelSaveSlots = cloud.novelSaves;
+        saveToStorage('vocab_novel_saves', novelSaveSlots);
+      }
 
       // 合并卡牌
       const mergedCards = [...(playerProfile.tarotCardsCollected || [])];
@@ -1541,7 +1561,7 @@ function onSelectNovelChapter(chId) {
   currentNovelChapter = parseInt(chId, 10) || 1;
   currentNovelBeat = 1;
   saveToStorage('vocab_novel_ch', currentNovelChapter);
-  saveToStorage('vocab_novel_beat', currentNovelBeat);
+  autoSaveNovelProgress();
   showToast(`📖 已选择第 ${currentNovelChapter} 章`);
   launchSurvivalGame();
 }
@@ -1555,7 +1575,7 @@ function nextNovelBeat() {
   }
   if (currentNovelBeat < ch.beats.length) {
     currentNovelBeat++;
-    saveToStorage('vocab_novel_beat', currentNovelBeat);
+    autoSaveNovelProgress();
     launchSurvivalGame();
   } else {
     // Chapter completed! Move to next chapter
@@ -2698,6 +2718,19 @@ if (document.readyState === 'loading') {
 // Explicit Window Bindings for HTML onclick handlers
 if (typeof window !== 'undefined') {
   window.switchNavView = switchNavView;
+  window.autoSaveNovelProgress = autoSaveNovelProgress;
+  window.manualSaveCurrentProgress = manualSaveCurrentProgress;
+  window.resumeFromSavedProgress = resumeFromSavedProgress;
+  window.openSaveLoadModal = openSaveLoadModal;
+  window.renderSaveLoadModal = renderSaveLoadModal;
+  window.closeSaveLoadModal = closeSaveLoadModal;
+  window.manualSaveToSlot = manualSaveToSlot;
+  window.loadFromSlot = loadFromSlot;
+  window.deleteSaveSlot = deleteSaveSlot;
+  window.jumpToChapter = jumpToChapter;
+  window.novelProgress = novelProgress;
+  window.novelSaveSlots = novelSaveSlots;
+
   window.switchSubTab = switchSubTab;
   window.switchSurvivalMode = switchSurvivalMode;
   window.onSelectNovelChapter = onSelectNovelChapter;
@@ -2721,4 +2754,282 @@ if (typeof window !== 'undefined') {
   window.toggleAudioMute = toggleAudioMute;
   window.useHintBuff = useHintBuff;
   window.abortSurvivalGame = abortSurvivalGame;
+}
+
+
+// =========================================================
+// 16. 💾 进度存档与读档档案室引擎 (Save / Load Archive Engine)
+// =========================================================
+var novelProgress = loadFromStorage('vocab_novel_progress', {
+  currentChapter: 1,
+  currentBeat: 1,
+  maxUnlockedChapter: 1,
+  lastSavedTime: null
+});
+
+var novelSaveSlots = loadFromStorage('vocab_novel_saves', [
+  { id: 1, name: '存档槽 1', empty: true },
+  { id: 2, name: '存档槽 2', empty: true },
+  { id: 3, name: '存档槽 3', empty: true },
+  { id: 4, name: '存档槽 4', empty: true },
+  { id: 5, name: '存档槽 5', empty: true }
+]);
+
+function autoSaveNovelProgress(customToast = null) {
+  novelProgress.currentChapter = currentNovelChapter;
+  novelProgress.currentBeat = currentNovelBeat;
+  novelProgress.maxUnlockedChapter = Math.max(novelProgress.maxUnlockedChapter || 1, currentNovelChapter);
+  novelProgress.lastSavedTime = new Date().toLocaleString();
+
+  saveToStorage('vocab_novel_progress', novelProgress);
+  saveToStorage('vocab_novel_ch', currentNovelChapter);
+  saveToStorage('vocab_novel_beat', currentNovelBeat);
+  
+  updateSaveIndicatorUI();
+  triggerCloudSync();
+  if (customToast) showToast(customToast);
+}
+
+function updateSaveIndicatorUI() {
+  const indText = document.getElementById('autoSaveText');
+  const resText = document.getElementById('resumeBadgeText');
+  if (indText) {
+    indText.textContent = `已自动存档：第 ${currentNovelChapter} 章 · 第 ${currentNovelBeat} 幕`;
+  }
+  if (resText) {
+    resText.textContent = `第 ${novelProgress.currentChapter || 1} 章 · 第 ${novelProgress.currentBeat || 1} 幕`;
+  }
+  const sel = document.getElementById('novelChapterSelect');
+  if (sel && sel.value !== String(currentNovelChapter)) {
+    sel.value = currentNovelChapter;
+  }
+}
+
+function manualSaveCurrentProgress() {
+  soundClick();
+  autoSaveNovelProgress();
+  // Automatically store snapshot into slot 1 or open modal for slot selection
+  manualSaveToSlot(1, `快照: 第 ${currentNovelChapter} 章 · 第 ${currentNovelBeat} 幕`);
+}
+
+function resumeFromSavedProgress() {
+  soundClick();
+  currentNovelChapter = novelProgress.currentChapter || 1;
+  currentNovelBeat = novelProgress.currentBeat || 1;
+  saveToStorage('vocab_novel_ch', currentNovelChapter);
+  saveToStorage('vocab_novel_beat', currentNovelBeat);
+  updateSaveIndicatorUI();
+  soundSuccess();
+  showToast(`⚡ 已回到上次进度：第 ${currentNovelChapter} 章 · 第 ${currentNovelBeat} 幕`);
+  launchSurvivalGame();
+}
+
+function openSaveLoadModal() {
+  soundClick();
+  const modal = document.getElementById('saveLoadModal');
+  const overlay = document.getElementById('drawerOverlay');
+  if (modal) {
+    renderSaveLoadModal();
+    modal.style.display = 'block';
+    modal.classList.add('show');
+  }
+  if (overlay) overlay.classList.add('open');
+}
+
+function closeSaveLoadModal() {
+  soundClick();
+  const modal = document.getElementById('saveLoadModal');
+  const overlay = document.getElementById('drawerOverlay');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('show');
+  }
+  if (overlay) overlay.classList.remove('open');
+}
+
+function renderSaveLoadModal() {
+  const body = document.getElementById('saveLoadModalBody');
+  if (!body) return;
+
+  const chObj = (typeof NOVEL_CHAPTERS !== 'undefined') ? NOVEL_CHAPTERS.find(c => c.id === currentNovelChapter) : null;
+  const totalBeatsInCurrCh = chObj ? chObj.beats.length : 28;
+
+  let slotsHtml = novelSaveSlots.map((slot, idx) => {
+    if (slot.empty) {
+      return `
+        <div class="save-slot-card empty-slot">
+          <div class="save-slot-info">
+            <div class="save-slot-title" style="color:var(--text-secondary);">
+              <span>💾 存档槽位 ${idx + 1}</span>
+              <span style="font-size:11px; background:var(--paper-border); padding:2px 6px; border-radius:4px;">空置</span>
+            </div>
+            <div class="save-slot-meta">点击右侧按钮将当前进度存入此槽位</div>
+          </div>
+          <button class="btn btn-primary" style="font-size:12px; padding:6px 14px;" onclick="manualSaveToSlot(${slot.id})">
+            📥 存入当前进度
+          </button>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="save-slot-card">
+          <div class="save-slot-info">
+            <div class="save-slot-title">
+              <span>🔖 槽位 ${idx + 1}：第 ${slot.chapter} 章 · 第 ${slot.beat} 幕</span>
+              <span style="font-size:11px; background:var(--brand-primary); color:#fff; padding:2px 6px; border-radius:4px;">${escapeHtml(slot.chapterTitle || '')}</span>
+            </div>
+            <div class="save-slot-meta">
+              <span>❤️ HP: ${slot.hp || 100}</span>
+              <span>🧠 SAN: ${slot.san || 100}</span>
+              <span>🕒 存档时间: ${escapeHtml(slot.time || '')}</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="btn btn-primary" style="font-size:12px; padding:6px 12px;" onclick="loadFromSlot(${slot.id})">
+              ▶️ 载入
+            </button>
+            <button class="btn btn-secondary" style="font-size:12px; padding:6px 10px;" onclick="manualSaveToSlot(${slot.id})" title="覆盖此存档">
+              🔄 覆盖
+            </button>
+            <button class="btn btn-secondary" style="font-size:12px; padding:6px 8px; color:var(--brand-danger);" onclick="deleteSaveSlot(${slot.id})" title="删除此存档">
+              🗑️
+            </button>
+          </div>
+        </div>
+      `;
+    }
+  }).join('');
+
+  // Chapter Footprint & Quick Jump
+  let chaptersListHtml = '';
+  if (typeof NOVEL_CHAPTERS !== 'undefined') {
+    chaptersListHtml = NOVEL_CHAPTERS.map(ch => {
+      const isCurrent = ch.id === currentNovelChapter;
+      const isUnlocked = ch.id <= (novelProgress.maxUnlockedChapter || 1);
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; border-radius:var(--radius-sm); margin-bottom:6px; background:${isCurrent ? 'rgba(99, 102, 241, 0.1)' : 'var(--paper-surface)'}; border:1px solid ${isCurrent ? 'var(--brand-primary)' : 'var(--paper-border)'};">
+          <div>
+            <span style="font-weight:800; font-size:13px; color:var(--text-primary);">第 ${ch.id} 章 · ${escapeHtml(ch.title)}</span>
+            <span style="font-size:11px; color:var(--text-secondary); margin-left:8px;">共 ${ch.beats.length} 幕互动</span>
+          </div>
+          <div>
+            ${isCurrent ? `<span style="font-size:11px; font-weight:800; color:var(--brand-primary); margin-right:8px;">🚩 当前位置 (第 ${currentNovelBeat}/${ch.beats.length} 幕)</span>` : ''}
+            <button class="btn btn-secondary" style="font-size:11px; padding:4px 10px; height:28px;" onclick="jumpToChapter(${ch.id})">
+              ${isCurrent ? '⚡ 进入本章' : '📖 开启探索'}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  body.innerHTML = `
+    <!-- 当前自动存档 -->
+    <div style="background:var(--paper-surface-sub); border:1.5px solid var(--brand-success); border-radius:var(--radius-md); padding:14px 16px; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <div>
+          <div style="font-size:12px; font-weight:800; color:var(--brand-success); display:flex; align-items:center; gap:6px;">
+            <span>⚡ 最近实时自动存档 (Auto-Save Snapshot)</span>
+          </div>
+          <div style="font-size:15px; font-weight:900; color:var(--text-primary); margin-top:4px;">
+            第 ${currentNovelChapter} 章 · 第 ${currentNovelBeat} / ${totalBeatsInCurrCh} 幕
+          </div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">
+            自动存档时间: ${novelProgress.lastSavedTime || '刚刚'} · 账号进度已自动同步
+          </div>
+        </div>
+        <button class="btn btn-primary" style="font-size:13px; font-weight:800; padding:6px 18px;" onclick="closeSaveLoadModal(); resumeFromSavedProgress();">
+          ▶️ 立即继续冒险
+        </button>
+      </div>
+    </div>
+
+    <!-- 手动存档卡槽列表 -->
+    <div style="margin-bottom:18px;">
+      <div style="font-size:13px; font-weight:800; color:var(--text-primary); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+        <span>💾 手动存档卡槽 (5 个独立自定义槽位)</span>
+        <button class="btn btn-secondary" style="font-size:11px; padding:2px 8px;" onclick="manualSaveCurrentProgress(); renderSaveLoadModal();">+ 存入当前</button>
+      </div>
+      ${slotsHtml}
+    </div>
+
+    <!-- 51 章节大纲与通关足迹 -->
+    <div>
+      <div style="font-size:13px; font-weight:800; color:var(--text-primary); margin-bottom:10px;">
+        📑 原著 51 章节全目录与快速定位
+      </div>
+      <div style="max-height:220px; overflow-y:auto; padding-right:4px;">
+        ${chaptersListHtml}
+      </div>
+    </div>
+  `;
+}
+
+function manualSaveToSlot(slotId, customName = null) {
+  soundClick();
+  const slotIdx = novelSaveSlots.findIndex(s => s.id === slotId);
+  if (slotIdx === -1) return;
+
+  const chObj = (typeof NOVEL_CHAPTERS !== 'undefined') ? NOVEL_CHAPTERS.find(c => c.id === currentNovelChapter) : null;
+
+  novelSaveSlots[slotIdx] = {
+    id: slotId,
+    name: customName || `存档槽位 ${slotId}`,
+    empty: false,
+    chapter: currentNovelChapter,
+    beat: currentNovelBeat,
+    chapterTitle: chObj ? chObj.title : `第 ${currentNovelChapter} 章`,
+    hp: playerProfile.hp,
+    san: playerProfile.san,
+    time: new Date().toLocaleString()
+  };
+
+  saveToStorage('vocab_novel_saves', novelSaveSlots);
+  triggerCloudSync();
+  soundSuccess();
+  showToast(`💾 成功保存至【存档槽位 ${slotId}】！`);
+  const modal = document.getElementById('saveLoadModal');
+  if (modal && modal.style.display === 'block') {
+    renderSaveLoadModal();
+  }
+}
+
+function loadFromSlot(slotId) {
+  soundClick();
+  const slot = novelSaveSlots.find(s => s.id === slotId);
+  if (!slot || slot.empty) return;
+
+  currentNovelChapter = slot.chapter;
+  currentNovelBeat = slot.beat;
+  if (slot.hp) playerProfile.hp = slot.hp;
+  if (slot.san) playerProfile.san = slot.san;
+  saveToStorage(STORAGE_KEYS.PROFILE, playerProfile);
+
+  autoSaveNovelProgress();
+  closeSaveLoadModal();
+  soundSuccess();
+  showToast(`📂 读档成功！已回到 第 ${slot.chapter} 章 · 第 ${slot.beat} 幕`);
+  launchSurvivalGame();
+}
+
+function deleteSaveSlot(slotId) {
+  soundClick();
+  const slotIdx = novelSaveSlots.findIndex(s => s.id === slotId);
+  if (slotIdx === -1) return;
+
+  novelSaveSlots[slotIdx] = { id: slotId, name: `存档槽 ${slotId}`, empty: true };
+  saveToStorage('vocab_novel_saves', novelSaveSlots);
+  triggerCloudSync();
+  showToast(`🗑️ 已清空存档槽位 ${slotId}`);
+  renderSaveLoadModal();
+}
+
+function jumpToChapter(chId) {
+  soundClick();
+  currentNovelChapter = parseInt(chId, 10) || 1;
+  currentNovelBeat = 1;
+  autoSaveNovelProgress();
+  closeSaveLoadModal();
+  showToast(`📖 已开启第 ${currentNovelChapter} 章！`);
+  launchSurvivalGame();
 }

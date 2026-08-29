@@ -100,69 +100,52 @@
     </div>
 
     <!-- 📖 小说闯关控制横幅 (Novel Mode Banner) -->
-    <div id="novelBanner" class="origami-banner" style="border-color: var(--brand-primary); background: var(--paper-surface); margin-bottom: 14px;">
-      <div style="flex: 1;">
-        <div class="banner-title" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-          <span>📖 《I Hope This Finds You Well》</span>
-          <span class="origami-chip" style="background:var(--brand-primary); color:#fff; font-size:10px;">51 章节完整原著互动</span>
+    <!-- 📖 小说闯关控制横幅 (Novel Mode Banner) -->
+    <div id="novelBanner" class="origami-banner" style="border-color: var(--brand-primary); background: var(--paper-surface); margin-bottom: 14px; flex-direction: column; align-items: stretch; gap: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 240px;">
+          <div class="banner-title" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span>📖 《I Hope This Finds You Well》</span>
+            <span class="origami-chip" style="background:var(--brand-primary); color:#fff; font-size:10px;">51 章节完整原著互动</span>
+          </div>
+          <div class="banner-desc" id="novelChapterSynopsis" style="margin-top: 4px;">
+            33岁打工人 Jolene 误获全员邮件偷窥权限，化解裁员危机，职场宫斗大冒险！
+          </div>
         </div>
-        <div class="banner-desc" id="novelChapterSynopsis">
-          33岁打工人 Jolene 误获全员邮件偷窥权限，化解裁员危机，职场宫斗大冒险！
+
+        <!-- 💾 存档与进度控制胶囊 -->
+        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+          <div id="autoSaveIndicator" style="font-size: 11px; font-weight: 700; color: var(--brand-success); background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 14px; display: inline-flex; align-items: center; gap: 4px;">
+            <span>🟢</span> <span id="autoSaveText">自动存档：第 1 章 · 第 1 幕</span>
+          </div>
+          <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 10px; height: 30px;" onclick="manualSaveCurrentProgress()" title="立即手动保存快照">
+            💾 手动存档
+          </button>
+          <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 10px; height: 30px;" onclick="openSaveLoadModal()" title="打开存档档案室与卡槽管理">
+            📂 读档/卡槽
+          </button>
         </div>
       </div>
-      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items:center;">
-        <select id="novelChapterSelect" class="form-select" style="font-size: 12px; height: 36px; min-width: 180px; max-width: 220px;" onchange="onSelectNovelChapter(this.value)">
-          <!-- 动态加载 51 章节 -->
-        </select>
-        <button class="btn btn-accent" style="padding:0 14px; height:36px; white-space:nowrap;" onclick="launchSurvivalGame()">
-          🎬 开启本章
-        </button>
+
+      <!-- 章节选择与快速继续栏 -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items:center; justify-content: space-between; border-top: 1px dashed var(--paper-border); padding-top: 10px;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">选择章节:</span>
+          <select id="novelChapterSelect" class="form-select" style="font-size: 12px; height: 36px; min-width: 180px; max-width: 240px;" onchange="onSelectNovelChapter(this.value)">
+            <!-- 动态加载 51 章节 -->
+          </select>
+          <button class="btn btn-secondary" style="padding:0 12px; height:36px; white-space:nowrap; font-size:12px;" onclick="launchSurvivalGame()">
+            🎬 开启本章
+          </button>
+        </div>
+        
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn btn-primary" id="btnResumeLastPlay" style="padding:0 16px; height:36px; white-space:nowrap; font-weight: 800;" onclick="resumeFromSavedProgress()">
+            ▶️ 继续上次冒险 (<span id="resumeBadgeText">第 1 章 · 第 1 幕</span>)
+          </button>
+        </div>
       </div>
     </div>
-
-    <!-- ⚡ 经典绝境生存战横幅 (Classic Mode Banner) -->
-    <div id="classicBanner" class="origami-banner" style="display: none; margin-bottom: 14px;">
-      <div>
-        <div class="banner-title">⚡ 经典绝境生存战 (Roguelike RPG)</div>
-        <div class="banner-desc">大模型因果剧情推演，从生词本中抽取 3 词构建未知灾变冒险！</div>
-      </div>
-      <button class="btn btn-accent" style="flex:0; padding:8px 16px; white-space:nowrap;" onclick="launchSurvivalGame()">
-        ⚡ 开启战局
-      </button>
-    </div>
-
-    <div id="survivalGameBox" class="origami-box" style="display: block;">
-      <div class="game-header">
-        <div class="theme-badge" id="gameTheme">📖 职场大冒险 · 见信如晤</div>
-        <div style="display:flex; gap:12px; font-weight:800; font-family:var(--font-mono); font-size:13px;">
-          <span style="color:var(--brand-danger)">❤️ <span id="gameHp">100</span></span>
-          <span style="color:var(--brand-accent)">🔥 <span id="gameCombo">x1</span> 连击</span>
-          <span style="color:var(--brand-cyan)">第 <span id="gameRound">1</span> 局</span>
-        </div>
-      </div>
-
-      <div class="story-scroll" id="gameStory">正在加载原著小说章节与互动剧情...</div>
-      <div id="gameOptions"></div>
-      <div id="gameOutcomeArea"></div>
-
-      <!-- ⚡ 战术卡牌手牌栏 (实时施放神技) -->
-      <div class="battle-hand-dock" id="battleHandDock">
-        <div class="battle-hand-header">
-          <div class="battle-hand-title">⚡ 战术卡牌技能手牌 (点击直接施放神技 · 扭转战局)</div>
-          <button class="btn btn-secondary" style="font-size:11px; padding:2px 8px;" onclick="openCodexModal()">🎒 卡牌背包</button>
-        </div>
-        <div class="battle-cards-row" id="battleHandDeck">
-          <!-- 动态加载出战卡牌 -->
-        </div>
-      </div>
-
-
-      <div class="btn-row" style="margin-top: 16px;">
-        <button class="btn btn-secondary" onclick="useHintBuff()">👁️ 全视之眼提示</button>
-        <button class="btn btn-secondary" onclick="abortSurvivalGame()">🚪 撤退回词库</button>
-      </div>
-    </div>
-  </div>
 
 
 
@@ -363,6 +346,18 @@
       🔐 忘记密码或解绑 IP？请联系站长重置：<a href="mailto:3355945587@qq.com" style="color: var(--brand-primary); font-weight: 800; text-decoration: underline;">3355945587@qq.com</a>
     </div>
   </div>
+</div>
+
+
+<!-- 💾 冒险进度与存档档案室 Modal (Save / Load Archive) -->
+<div class="modal-box" id="saveLoadModal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+      💾 冒险进度与存档档案室 <span style="font-size: 11px; background: var(--brand-primary); color: #fff; padding: 2px 8px; border-radius: 10px;">Save & Load</span>
+    </h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeSaveLoadModal()">&times;</button>
+  </div>
+  <div id="saveLoadModalBody"></div>
 </div>
 
 <!-- Settings Modal -->
