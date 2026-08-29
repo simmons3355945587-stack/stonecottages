@@ -1369,10 +1369,7 @@
   .word-num { font-size: 11px; min-width: 26px; }
 
   /* 解剖台: 三按钮改单列 */
-  #anatomyGameBox div[style*="grid-template-columns:repeat(3"] {
-    grid-template-columns: 1fr !important;
-  }
-  #dissectWord { font-size: 28px !important; }
+  
 
   /* 塔罗牌进一步缩小 */
   .tarot-card-scene { width: 100px; height: 165px; }

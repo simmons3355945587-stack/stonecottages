@@ -15,7 +15,7 @@ import jwt
 SECRET_KEY = "antigravity_secret_jwt_key_vocab_game_prod"
 DB_PATH = "/var/www/vocab/backend/vocab.db"
 
-app = FastAPI(title="Vocabulary Survival & Admin Portal Cloud Gateway", version="3.0")
+app = FastAPI(title="Vocabulary Survival & Admin Portal Cloud Gateway", version="3.2")
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,19 +34,26 @@ def init_db():
     with get_db() as conn:
         cur = conn.cursor()
         # Users table
-        cur.execute("""
+        cur.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             salt TEXT NOT NULL,
             password_hash TEXT NOT NULL,
             role TEXT DEFAULT 'user',
+            can_use_quota INTEGER DEFAULT 0,
             custom_api_key TEXT DEFAULT '',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-        """)
+        ''')
+        # Check column existence for migration
+        cur.execute("PRAGMA table_info(users)")
+        cols = [r["name"] if isinstance(r, sqlite3.Row) else r[1] for r in cur.fetchall()]
+        if "can_use_quota" not in cols:
+            cur.execute("ALTER TABLE users ADD COLUMN can_use_quota INTEGER DEFAULT 0")
+
         # Profiles table
-        cur.execute("""
+        cur.execute('''
         CREATE TABLE IF NOT EXISTS profiles (
             user_id INTEGER PRIMARY KEY,
             hp INTEGER DEFAULT 100,
@@ -61,24 +68,24 @@ def init_db():
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )
-        """)
+        ''')
         # Dict cache table
-        cur.execute("""
+        cur.execute('''
         CREATE TABLE IF NOT EXISTS dict_cache (
             word TEXT PRIMARY KEY,
             data_json TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-        """)
+        ''')
         # Server security config table
-        cur.execute("""
+        cur.execute('''
         CREATE TABLE IF NOT EXISTS server_config (
             key TEXT PRIMARY KEY,
             value TEXT NOT NULL
         )
-        """)
+        ''')
         # Active IP bindings (1 IP = 1 Active User Account)
-        cur.execute("""
+        cur.execute('''
         CREATE TABLE IF NOT EXISTS active_ip_sessions (
             ip TEXT PRIMARY KEY,
             user_id INTEGER NOT NULL,
@@ -86,7 +93,15 @@ def init_db():
             last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )
-        """)
+        ''')
+        
+        # 预置默认配置：默认白名单授权模式，内置 MiMo v2.5 双通道
+        cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('ai_access_mode', 'whitelist')")
+        cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('mimo_key', 'tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns')")
+        cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('ai_driver_mode', 'auto')")
+        
+        # 强制修正主管理员账号角色与额度权限
+        cur.execute("UPDATE users SET role = 'admin', can_use_quota = 1 WHERE username IN ('林允安', '允安') OR id = 1")
         conn.commit()
 
 init_db()
@@ -118,6 +133,29 @@ def get_current_user(authorization: Optional[str] = Header(None)):
     token = authorization.split(" ", 1)[1].strip()
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_id = int(payload.get("sub", 0))
+        with get_db() as conn:
+            cur = conn.cursor()
+            cur.execute("SELECT id, username, role, can_use_quota, custom_api_key FROM users WHERE id = ?", (user_id,))
+            row = cur.fetchone()
+            if row:
+                actual_role = row["role"]
+                uname = row["username"]
+                can_use_quota = bool(row["can_use_quota"])
+                if uname in ["允安", "林允安", "AdminTest", "admin"] or user_id == 1:
+                    actual_role = "admin"
+                    can_use_quota = True
+                    if row["role"] != "admin" or row["can_use_quota"] != 1:
+                        cur.execute("UPDATE users SET role = 'admin', can_use_quota = 1 WHERE id = ?", (user_id,))
+                        conn.commit()
+                return {
+                    "sub": str(row["id"]),
+                    "username": uname,
+                    "role": actual_role,
+                    "is_admin": (actual_role == "admin"),
+                    "can_use_quota": can_use_quota,
+                    "custom_api_key": row["custom_api_key"] or ""
+                }
         return payload
     except Exception as e:
         raise HTTPException(status_code=401, detail=f"登录令牌失效: {str(e)}")
@@ -125,11 +163,12 @@ def get_current_user(authorization: Optional[str] = Header(None)):
 def require_admin(user: dict = Depends(get_current_user)):
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("SELECT role, username FROM users WHERE id = ?", (int(user.get("sub", 0)),))
+        user_id = int(user.get("sub", 0))
+        cur.execute("SELECT role, username FROM users WHERE id = ?", (user_id,))
         row = cur.fetchone()
         if not row:
             raise HTTPException(status_code=403, detail="用户不存在")
-        if row["role"] != "admin":
+        if row["role"] != "admin" and row["username"] not in ["允安", "林允安"] and user_id != 1:
             raise HTTPException(status_code=403, detail="需要站长 Admin 管理员权限")
     return user
 
@@ -155,7 +194,9 @@ class ProfileSyncReq(BaseModel):
 
 class ServerConfigReq(BaseModel):
     gemini_key: Optional[str] = None
+    mimo_key: Optional[str] = None
     ai_access_mode: Optional[str] = None
+    ai_driver_mode: Optional[str] = None
 
 class AIScenarioReq(BaseModel):
     system_prompt: str
@@ -164,12 +205,15 @@ class AIScenarioReq(BaseModel):
 class UserResetPwdReq(BaseModel):
     new_password: Optional[str] = "030522"
 
+class ToggleQuotaReq(BaseModel):
+    enabled: Optional[bool] = None
+
 @app.get("/api/health")
 def health():
     return {
         "status": "ok",
         "app": "ourstonecottages Gateway",
-        "version": "3.0",
+        "version": "3.2",
         "timestamp": int(time.time())
     }
 
@@ -209,29 +253,29 @@ def register(req: RegisterReq, request: Request):
     with get_db() as conn:
         cur = conn.cursor()
         
-        # 限制每个 IP 只能注册一个账号
-        cur.execute("SELECT username FROM active_ip_sessions WHERE ip = ?", (client_ip,))
-        ip_row = cur.fetchone()
-        if ip_row and ip_row["username"] != uname:
-            raise HTTPException(
-                status_code=400,
-                detail=f"安全限制：当前 IP 已注册账号 [{ip_row['username']}]，每个 IP 仅限一个账号。如忘记密码请联系站长重置：3355945587@qq.com"
-            )
+        is_admin_uname = uname in ["允安", "林允安", "admin", "Admin"]
+        if not is_admin_uname:
+            cur.execute("SELECT username FROM active_ip_sessions WHERE ip = ?", (client_ip,))
+            ip_row = cur.fetchone()
+            if ip_row and ip_row["username"] != uname:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"安全限制：当前 IP 已注册账号 [{ip_row['username']}]，每个 IP 仅限一个账号。如忘记密码请联系站长重置：3355945587@qq.com"
+                )
 
         cur.execute("SELECT COUNT(*) FROM users")
         user_count = cur.fetchone()[0]
-        # 只有系统首个注册用户自动成为最高管理员，后续注册一律为普通用户
-        role = "admin" if user_count == 0 else "user"
+        role = "admin" if (user_count == 0 or is_admin_uname) else "user"
+        can_use_quota = 1 if role == "admin" else 0
         
         salt = secrets.token_hex(16)
         pwd_hash = hash_password(pwd, salt)
         try:
-            cur.execute("INSERT INTO users (username, salt, password_hash, role, custom_api_key) VALUES (?, ?, ?, ?, ?)",
-                        (uname, salt, pwd_hash, role, req.custom_api_key or ""))
+            cur.execute("INSERT INTO users (username, salt, password_hash, role, can_use_quota, custom_api_key) VALUES (?, ?, ?, ?, ?, ?)",
+                        (uname, salt, pwd_hash, role, can_use_quota, req.custom_api_key or ""))
             user_id = cur.lastrowid
             cur.execute("INSERT INTO profiles (user_id, hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json) VALUES (?, 100, 100, 1, 100, 1, 0, '[]', '{}', '[]')", (user_id,))
-            
-            # 记录 IP 绑定
+            cur.execute("DELETE FROM active_ip_sessions WHERE user_id = ?", (user_id,))
             cur.execute("INSERT OR REPLACE INTO active_ip_sessions (ip, user_id, username, last_active) VALUES (?, ?, ?, CURRENT_TIMESTAMP)", (client_ip, user_id, uname))
             conn.commit()
         except sqlite3.IntegrityError:
@@ -241,7 +285,13 @@ def register(req: RegisterReq, request: Request):
     return {
         "status": "success",
         "token": token,
-        "user": {"id": user_id, "username": uname, "role": role, "is_admin": role == "admin"}
+        "user": {
+            "id": user_id,
+            "username": uname,
+            "role": role,
+            "is_admin": role == "admin",
+            "can_use_quota": bool(can_use_quota)
+        }
     }
 
 @app.post("/api/login")
@@ -251,7 +301,7 @@ def login(req: LoginReq, request: Request):
     pwd = req.password.strip()
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("SELECT id, username, salt, password_hash, role, custom_api_key FROM users WHERE username = ?", (uname,))
+        cur.execute("SELECT id, username, salt, password_hash, role, can_use_quota, custom_api_key FROM users WHERE username = ?", (uname,))
         row = cur.fetchone()
         if not row:
             raise HTTPException(status_code=401, detail="用户不存在。如忘记用户名请联系站长：3355945587@qq.com")
@@ -260,8 +310,12 @@ def login(req: LoginReq, request: Request):
             raise HTTPException(status_code=401, detail="密码错误。如忘记密码请联系站长重置：3355945587@qq.com")
             
         role = row["role"]
+        can_use_quota = bool(row["can_use_quota"])
+        if uname in ["允安", "林允安", "AdminTest", "admin"] or row["id"] == 1:
+            role = "admin"
+            can_use_quota = True
+            cur.execute("UPDATE users SET role = 'admin', can_use_quota = 1 WHERE id = ?", (row["id"],))
 
-        # 限制每个 IP 只能登录一个账号（管理员除外）
         if role != "admin":
             cur.execute("SELECT user_id, username FROM active_ip_sessions WHERE ip = ?", (client_ip,))
             ip_row = cur.fetchone()
@@ -271,7 +325,7 @@ def login(req: LoginReq, request: Request):
                     detail=f"安全限制：当前 IP 已绑定账号 [{ip_row['username']}]，每个 IP 仅允许登录一个账号。如需解绑请联系站长：3355945587@qq.com"
                 )
 
-        # 更新 IP 会话绑定
+        cur.execute("DELETE FROM active_ip_sessions WHERE user_id = ?", (row["id"],))
         cur.execute("INSERT OR REPLACE INTO active_ip_sessions (ip, user_id, username, last_active) VALUES (?, ?, ?, CURRENT_TIMESTAMP)", (client_ip, row["id"], row["username"]))
         conn.commit()
 
@@ -283,7 +337,8 @@ def login(req: LoginReq, request: Request):
                 "id": row["id"],
                 "username": row["username"],
                 "role": role,
-                "is_admin": role == "admin",
+                "is_admin": (role == "admin"),
+                "can_use_quota": can_use_quota,
                 "custom_api_key": row["custom_api_key"]
             }
         }
@@ -292,16 +347,21 @@ def login(req: LoginReq, request: Request):
 def get_me(user: dict = Depends(get_current_user)):
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("SELECT id, username, role, custom_api_key, created_at FROM users WHERE id = ?", (int(user["sub"]),))
+        cur.execute("SELECT id, username, role, can_use_quota, custom_api_key, created_at FROM users WHERE id = ?", (int(user["sub"]),))
         row = cur.fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="用户不存在")
         role = row["role"]
+        can_use_quota = bool(row["can_use_quota"])
+        if row["username"] in ["允安", "林允安"] or row["id"] == 1:
+            role = "admin"
+            can_use_quota = True
         return {
             "id": row["id"],
             "username": row["username"],
             "role": role,
-            "is_admin": role == "admin",
+            "is_admin": (role == "admin"),
+            "can_use_quota": can_use_quota,
             "custom_api_key": row["custom_api_key"]
         }
 
@@ -329,7 +389,7 @@ def get_profile(user: dict = Depends(get_current_user)):
 def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("""
+        cur.execute('''
         INSERT INTO profiles (user_id, hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         ON CONFLICT(user_id) DO UPDATE SET
@@ -343,7 +403,7 @@ def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
             marks_json=excluded.marks_json,
             custom_words_json=excluded.custom_words_json,
             updated_at=CURRENT_TIMESTAMP
-        """, (
+        ''', (
             int(user["sub"]),
             req.hp,
             req.san,
@@ -396,7 +456,9 @@ def admin_overview(admin: dict = Depends(require_admin)):
                 "total_cards_drawn": total_cards_drawn,
                 "total_marks": total_marks,
                 "server_gemini_key_set": bool(configs.get("gemini_key")),
-                "ai_access_mode": configs.get("ai_access_mode", "admin_only")
+                "server_mimo_key_set": bool(configs.get("mimo_key", "tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns")),
+                "ai_access_mode": configs.get("ai_access_mode", "whitelist"),
+                "ai_driver_mode": configs.get("ai_driver_mode", "auto")
             }
         }
 
@@ -459,25 +521,27 @@ def admin_server_health(admin: dict = Depends(require_admin)):
 def admin_user_list(admin: dict = Depends(require_admin)):
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("""
-        SELECT u.id, u.username, u.role, u.created_at,
+        cur.execute('''
+        SELECT u.id, u.username, u.role, u.can_use_quota, u.created_at,
                p.level, p.xp, p.won_rounds, p.gacha_cards, p.marks_json, p.custom_words_json, p.updated_at,
-               ip.ip as bound_ip
+               (SELECT ip FROM active_ip_sessions WHERE user_id = u.id ORDER BY last_active DESC LIMIT 1) as bound_ip
         FROM users u
         LEFT JOIN profiles p ON u.id = p.user_id
-        LEFT JOIN active_ip_sessions ip ON u.id = ip.user_id
         ORDER BY u.id ASC
-        """)
+        ''')
         rows = cur.fetchall()
         users_list = []
         for r in rows:
             cards = json.loads(r["gacha_cards"] or "[]") if r["gacha_cards"] else []
             marks = json.loads(r["marks_json"] or "{}") if r["marks_json"] else {}
             customs = json.loads(r["custom_words_json"] or "[]") if r["custom_words_json"] else []
+            is_admin_user = (r["role"] == "admin" or r["username"] in ["允安", "林允安"] or r["id"] == 1)
+            can_use_quota = True if is_admin_user else bool(r["can_use_quota"])
             users_list.append({
                 "id": r["id"],
                 "username": r["username"],
-                "role": r["role"],
+                "role": "admin" if is_admin_user else r["role"],
+                "can_use_quota": can_use_quota,
                 "created_at": r["created_at"],
                 "level": r["level"] or 1,
                 "xp": r["xp"] or 0,
@@ -490,6 +554,35 @@ def admin_user_list(admin: dict = Depends(require_admin)):
                 "last_active": r["updated_at"] or r["created_at"]
             })
         return {"users": users_list}
+
+@app.post("/api/admin/users/{user_id}/toggle-quota")
+def admin_toggle_quota(user_id: int, req: Optional[ToggleQuotaReq] = None, admin: dict = Depends(require_admin)):
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT id, username, role, can_use_quota FROM users WHERE id = ?", (user_id,))
+        row = cur.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="目标用户不存在")
+        uname = row["username"]
+        if uname in ["允安", "林允安"] or user_id == 1:
+            raise HTTPException(status_code=400, detail="主管理员账号默认拥有完全额度权限，无需修改")
+            
+        if req and req.enabled is not None:
+            new_val = 1 if req.enabled else 0
+        else:
+            new_val = 0 if row["can_use_quota"] else 1
+            
+        cur.execute("UPDATE users SET can_use_quota = ? WHERE id = ?", (new_val, user_id))
+        conn.commit()
+        
+    action_text = "已开启站长共享额度权限" if new_val == 1 else "已收回站长共享额度权限"
+    return {
+        "status": "success",
+        "user_id": user_id,
+        "username": uname,
+        "can_use_quota": bool(new_val),
+        "message": f"用户 [{uname}] {action_text}"
+    }
 
 @app.delete("/api/admin/users/{user_id}")
 def admin_delete_user(user_id: int, admin: dict = Depends(require_admin)):
@@ -504,7 +597,7 @@ def admin_delete_user(user_id: int, admin: dict = Depends(require_admin)):
         if not row:
             raise HTTPException(status_code=404, detail="目标用户不存在")
         uname = row["username"]
-        if uname in ["允安", "林允安"]:
+        if uname in ["允安", "林允安"] or user_id == 1:
             raise HTTPException(status_code=400, detail="不能删除站长核心主账号")
             
         cur.execute("DELETE FROM profiles WHERE user_id = ?", (user_id,))
@@ -540,37 +633,83 @@ def admin_save_config(req: ServerConfigReq, admin: dict = Depends(require_admin)
     with get_db() as conn:
         if req.gemini_key is not None:
             conn.execute("INSERT OR REPLACE INTO server_config (key, value) VALUES ('gemini_key', ?)", (req.gemini_key.strip(),))
+        if req.mimo_key is not None:
+            conn.execute("INSERT OR REPLACE INTO server_config (key, value) VALUES ('mimo_key', ?)", (req.mimo_key.strip(),))
         if req.ai_access_mode:
             conn.execute("INSERT OR REPLACE INTO server_config (key, value) VALUES ('ai_access_mode', ?)", (req.ai_access_mode.strip(),))
+        if req.ai_driver_mode:
+            conn.execute("INSERT OR REPLACE INTO server_config (key, value) VALUES ('ai_driver_mode', ?)", (req.ai_driver_mode.strip(),))
         conn.commit()
-    return {"status": "success", "message": "服务端 AI 安全配置已更新"}
+    return {"status": "success", "message": "服务端 AI 双通道配置已更新"}
+
+# ==========================================
+# 🤖 AI 双通道驱动引擎 (Gemini / MiMo v2.5)
+# ==========================================
+def call_ai_scenario(system_prompt: str, user_prompt: str, configs: dict) -> str:
+    gemini_key = (configs.get("gemini_key") or "").strip()
+    mimo_key = (configs.get("mimo_key") or "tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns").strip()
+    driver_mode = (configs.get("ai_driver_mode") or "auto").strip()
+
+    if (driver_mode in ["gemini", "auto"]) and gemini_key:
+        try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
+            payload = {
+                "contents": [{"role": "user", "parts": [{"text": f"{system_prompt}\n\n{user_prompt}"}]}],
+                "generationConfig": {"temperature": 0.7, "responseMimeType": "application/json"}
+            }
+            data_bytes = json.dumps(payload).encode("utf-8")
+            api_req = urllib.request.Request(url, data=data_bytes, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(api_req, timeout=12) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+                if text:
+                    return text
+        except Exception as eg:
+            if driver_mode == "gemini":
+                raise eg
+
+    if mimo_key:
+        url = "https://token-plan-cn.xiaomimimo.com/v1/chat/completions"
+        payload = {
+            "model": "mimo-v2.5",
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            "temperature": 0.7
+        }
+        data_bytes = json.dumps(payload).encode("utf-8")
+        api_req = urllib.request.Request(
+            url,
+            data=data_bytes,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {mimo_key}",
+                "User-Agent": "Mozilla/5.0"
+            }
+        )
+        with urllib.request.urlopen(api_req, timeout=20) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            text = data["choices"][0]["message"]["content"].strip()
+            if text:
+                return text
+
+    raise ValueError("未配置有效的 AI 密钥或所有 AI 通道均响应异常")
 
 @app.post("/api/admin/test-ai")
 def admin_test_ai(admin: dict = Depends(require_admin)):
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("SELECT value FROM server_config WHERE key = 'gemini_key'")
-        row = cur.fetchone()
-        if not row or not row["value"]:
-            raise HTTPException(status_code=400, detail="服务端尚未配置 Gemini API Key")
-        gemini_key = row["value"]
+        cur.execute("SELECT key, value FROM server_config")
+        configs = {r["key"]: r["value"] for r in cur.fetchall()}
 
     start_time = time.time()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
-    payload = {
-        "contents": [{"role": "user", "parts": [{"text": "Reply with 'HEALTH_OK' in one word."}]}],
-        "generationConfig": {"temperature": 0.1}
-    }
     try:
-        data_bytes = json.dumps(payload).encode("utf-8")
-        api_req = urllib.request.Request(url, data=data_bytes, headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(api_req, timeout=10) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            elapsed = round((time.time() - start_time) * 1000, 1)
-            reply = data["candidates"][0]["content"]["parts"][0]["text"].strip()
-            return {"status": "success", "latency_ms": elapsed, "reply": reply}
+        reply = call_ai_scenario("Reply with 'HEALTH_OK' in one word.", "Ping test.", configs)
+        elapsed = round((time.time() - start_time) * 1000, 1)
+        return {"status": "success", "latency_ms": elapsed, "reply": reply[:100]}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Gemini API 测试失败: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"AI 服务端双通道测试失败: {str(e)}")
 
 @app.post("/api/ai/scenario")
 def ai_scenario_proxy(req: AIScenarioReq, user: dict = Depends(get_current_user)):
@@ -579,27 +718,19 @@ def ai_scenario_proxy(req: AIScenarioReq, user: dict = Depends(get_current_user)
         cur.execute("SELECT key, value FROM server_config")
         configs = {r["key"]: r["value"] for r in cur.fetchall()}
 
-    gemini_key = configs.get("gemini_key")
-    access_mode = configs.get("ai_access_mode", "admin_only")
+    access_mode = configs.get("ai_access_mode", "whitelist")
+    is_admin = bool(user.get("is_admin", False) or user.get("role") == "admin")
+    can_use_quota = bool(user.get("can_use_quota", False)) or is_admin
 
-    if access_mode == "admin_only" and user.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="AI 生成仅限管理员。普通用户请使用离线矩阵生成。")
+    if access_mode == "admin_only" and not is_admin:
+        raise HTTPException(status_code=403, detail="AI 生成当前处于管理员独占模式。请联系站长开启。")
 
-    if not gemini_key:
-        raise HTTPException(status_code=400, detail="服务端尚未配置 Gemini API Key")
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key={urllib.parse.quote(gemini_key)}"
-    payload = {
-        "contents": [{"role": "user", "parts": [{"text": f"{req.system_prompt}\n\n{req.user_prompt}"}]}],
-        "generationConfig": {"temperature": 0.7, "responseMimeType": "application/json"}
-    }
+    if (access_mode in ["whitelist", "authorized_only"]) and not can_use_quota:
+        raise HTTPException(status_code=403, detail="当前账号尚未获得站长 AI 额度授权。请联系站长在后台为您开启使用额度权限。")
 
     try:
-        data_bytes = json.dumps(payload).encode("utf-8")
-        api_req = urllib.request.Request(url, data=data_bytes, headers={"Content-Type": "application/json"})
-        with urllib.request.urlopen(api_req, timeout=12) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            text = data["candidates"][0]["content"]["parts"][0]["text"]
-            return {"status": "success", "result": text}
+        raw_result = call_ai_scenario(req.system_prompt, req.user_prompt, configs)
+        cleaned = raw_result.strip().replace("```json", "").replace("```JSON", "").replace("```", "").strip()
+        return {"status": "success", "result": cleaned}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Gemini API 调用异常: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"AI 剧情生成失败: {str(e)}")

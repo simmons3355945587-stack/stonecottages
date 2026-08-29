@@ -131,37 +131,7 @@
     </div>
   </div>
 
-  <!-- ================= VIEW 3: 词汇解剖台 (ANATOMY) ================= -->
-  <div id="viewAnatomy" class="view-section">
-    <div class="origami-banner" style="border-color: var(--brand-success);">
-      <div>
-        <div class="banner-title">🧫 赛博词汇解剖台 (Morphology)</div>
-        <div class="banner-desc">词根词缀剖析，精准放入动作/情绪/实体标本罐！</div>
-      </div>
-      <button class="btn btn-primary" style="flex:0; padding:8px 16px; background:var(--brand-success); border-color:var(--brand-success);" onclick="startDissection()">
-        🔬 开始解剖
-      </button>
-    </div>
 
-    <div id="anatomyGameBox" class="origami-box" style="display: none; text-align:center;">
-      <div style="font-size: 12px; color: var(--text-tertiary); letter-spacing:1px;">SPECIMEN SCANNER</div>
-      <div style="font-size: 36px; font-weight: 900; color: var(--text-primary); margin: 10px 0;" id="dissectWord">...</div>
-      <div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;" id="dissectRoots"></div>
-
-      <div style="background: var(--paper-surface-sub); padding: 14px; border-radius: var(--radius-sm); text-align: left; margin-bottom: 16px; border:1px solid var(--paper-border);">
-        <div style="font-size: 14px; font-weight:700; color: var(--text-primary); margin-bottom: 4px;" id="dissectDef">扫描释义中...</div>
-        <div style="font-size: 13px; color: var(--text-secondary); font-style: italic;" id="dissectEg">...</div>
-      </div>
-
-      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">请将此词归入正确的赛博标本罐：</div>
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
-        <button class="btn btn-secondary" onclick="handleDissectTank('A')">⚡ 动作与过程</button>
-        <button class="btn btn-secondary" onclick="handleDissectTank('B')">💭 情绪与状态</button>
-        <button class="btn btn-secondary" onclick="handleDissectTank('C')">📦 实体与概念</button>
-      </div>
-      <button class="btn btn-secondary" style="width: 100%; margin-top: 16px;" onclick="closeDissection()">中止解剖</button>
-    </div>
-  </div>
 
   <!-- ================= VIEW 4: 🍬 糖果色块中英配对消消乐 (CANDY MATCH) ================= -->
   <div id="viewMatch" class="view-section">
@@ -257,10 +227,6 @@
   <button class="nav-item" onclick="switchNavView('survival')" id="navSurvival">
     <span class="nav-icon">🎮</span>
     <span>文字生存</span>
-  </button>
-  <button class="nav-item" onclick="switchNavView('anatomy')" id="navAnatomy">
-    <span class="nav-icon">🧫</span>
-    <span>解剖台</span>
   </button>
   <button class="nav-item" onclick="switchNavView('match')" id="navMatch">
     <span class="nav-icon">⚡</span>

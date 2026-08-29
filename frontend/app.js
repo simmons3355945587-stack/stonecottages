@@ -270,54 +270,195 @@ function generateOfflineScenario(userPrompt) {
   const w2 = targetWords[1] || "hesitate";
   const w3 = targetWords[2] || "abandon";
 
-  const templates = [
+  const PROCEDURAL_THEMES = [
     {
-      story: `A sudden emergency occurs in the central laboratory. Toxic pressure rises rapidly behind the containment gate. Your teammate is trapped near the valve, and the alarms are blaring loudly across the room. You only have a few moments to make a critical choice.`,
-      correct: 0,
-      options: [
-        {
-          word: w1,
-          action: `Quickly ${w1} the trapped teammate and coordinate a safe evacuation.`,
-          fullOutcomeStory: `You kept your composure and decided to ${w1} the trapped teammate immediately. Working together with full resolve, both of you safely cleared the hazard and secured the laboratory exit before the pressure breach.`
-        },
-        {
-          word: w2,
-          action: `Stand by the doorway to ${w2} and wait for outside orders.`,
-          fullOutcomeStory: `You chose to ${w2} in confusion. The hesitation caused you to lose the golden window of opportunity, leaving you and the crew vulnerable as toxic fumes spread through the ventilation shaft.`
-        },
-        {
-          word: w3,
-          action: `Panic and decide to ${w3} all emergency safety equipment.`,
-          fullOutcomeStory: `In sudden panic, you chose to ${w3} essential equipment. Without protection, the emergency rapidly turned into a critical disaster, forcing an emergency system shutdown.`
-        }
-      ]
+      theme: "🚀 Deep Space Hull Breach",
+      story: `A rogue micrometeorite has pierced the outer observatory of the research vessel. Alarms strobe in crimson flashes as atmospheric pressure plummets rapidly across the module. With the automated propulsion thrusters sputtering, the crew faces an imminent orbital decay into the planetary gravity well.`,
+      correctWord: w1,
+      correctAction: `Take decisive initiative to ${w1} the primary emergency containment protocols.`,
+      correctOutcome: `You acted with razor-sharp focus to ${w1} the vital stabilization systems. Thanks to your decisive execution, the automated bulkheads sealed the vacuum breach in the nick of time, preserving vital life support and allowing the vessel to regain safe orbital trajectory.`,
+      wrong1Word: w2,
+      wrong1Action: `Choose to ${w2} by the airlock threshold and wait for secondary telemetry.`,
+      wrong1Outcome: `Your choice to ${w2} cost the squad precious seconds. The pressure differential shattered the inner reinforced glass, forcing an emergency pod ejection and leaving the research module heavily compromised.`,
+      wrong2Word: w3,
+      wrong2Action: `Panic recklessly and decide to ${w3} standard environmental safety gear.`,
+      wrong2Outcome: `In overwhelming distress, you made the catastrophic mistake to ${w3} essential protective gear. The explosive decompression swept through the corridor, triggering severe trauma and an immediate mission failure.`
     },
     {
-      story: `Your expedition unit is exploring an underground cavern when a violent tremor shakes the ground. Rocks fall from the ceiling, blocking the primary exit path. Oxygen levels begin to drop steadily while the team awaits your guidance.`,
-      correct: 1,
-      options: [
-        {
-          word: w3,
-          action: `Recklessly ${w3} the structural anchors in fear.`,
-          fullOutcomeStory: `Recklessly deciding to ${w3} the anchors triggered a secondary cave-in. The unstable rock ceiling collapsed further, cutting off all alternative routes.`
-        },
-        {
-          word: w1,
-          action: `Carefully ${w1} an alternate route through the stable tunnel.`,
-          fullOutcomeStory: `You remained analytical and decided to ${w1} an alternative escape path. Following your clear instructions, the entire exploration squad safely reached the surface without injury.`
-        },
-        {
-          word: w2,
-          action: `Allow anxiety to ${w2} effective decision-making.`,
-          fullOutcomeStory: `You allowed uncertainty to ${w2} your judgment. The delay depleted the remaining oxygen reserves, putting the entire squad in extreme jeopardy.`
-        }
-      ]
+      theme: "🔬 Biohazard Quarantine Alert",
+      story: `An experimental pathogen canister has ruptured on sub-level four of the biotechnology institute. The computerized filtration grid detects hazardous airborne toxins spreading toward the residential quadrant. The heavy hermetic doors are closing rapidly on a sixty-second countdown timer.`,
+      correctWord: w1,
+      correctAction: `Swiftly utilize all available equipment to ${w1} the decontamination bypass sequence.`,
+      correctOutcome: `You remained calm under extreme pressure to ${w1} the emergency neutralization system. The antimicrobial mist purged the containment zone, halting the contagion instantly and securing safe passage for the science detail.`,
+      wrong1Word: w2,
+      wrong1Action: `Hesitate and attempt to ${w2} while re-reading warning manuals.`,
+      wrong1Outcome: `Choosing to ${w2} at such a critical juncture allowed the pathogen to saturate the primary ventilation shafts, rendering the entire sub-level inaccessible and contaminating crucial bio-samples.`,
+      wrong2Word: w3,
+      wrong2Action: `Flee blindly and ${w3} the automated quarantine controls.`,
+      wrong2Outcome: `Fleeing in panic to ${w3} containment protocols triggered a permanent base-wide red lockdown, trapping your squad in the toxic corridor with dwindling oxygen supplies.`
+    },
+    {
+      theme: "🌊 Abyssal Trench Submersible Crisis",
+      story: `At nine thousand meters beneath the Pacific, a hydrothermal fissure erupts beneath the exploration submersible. Extreme hydraulic pressure cracks the reinforced acrylic observation dome as the ballast tanks take on silt. External floodlights flicker erratically in the pitch-black abyss.`,
+      correctWord: w1,
+      correctAction: `Direct full auxiliary power to ${w1} the emergency ballast blowers.`,
+      correctOutcome: `Your composed command to ${w1} the emergency blowers purged the flooded ballast tanks immediately. Buoyancy was restored in seconds, allowing the bathysphere to rocket safely away from the boiling hydrothermal vent.`,
+      wrong1Word: w2,
+      wrong1Action: `Remain passive and ${w2} before checking pressure gauges.`,
+      wrong1Outcome: `Allowing uncertainty to ${w2} your judgment caused the hull stress to exceed structural limits. A secondary fracture flooded the battery compartment, plunging the craft into total darkness.`,
+      wrong2Word: w3,
+      wrong2Action: `Desperately ${w3} the primary life-support regulator.`,
+      wrong2Outcome: `Tampering recklessly to ${w3} the life-support regulator caused an acute pressure drop inside the cabin, knocking the entire crew unconscious before rescue signals could be transmitted.`
+    },
+    {
+      theme: "🏛️ Ancient Desert Catacomb",
+      story: `A violent sandstorm has triggered the ancient mechanism of the underground pyramid temple. Massive stone blocks slide into place with deafening grinding noises, blocking the only daylight shaft. As the torches sputter, poisonous desert vipers emerge from fractured wall hieroglyphs.`,
+      correctWord: w1,
+      correctAction: `Carefully examine the inscriptions to ${w1} the hidden stone counterweight.`,
+      correctOutcome: `Deciphering the glyphs allowed you to ${w1} the ancient counterweight mechanism. A secret archway pivoted open silently, revealing an untouched subterranean escape corridor leading safely outside the pyramid.`,
+      wrong1Word: w2,
+      wrong1Action: `Stand motionless to ${w2} amidst the crumbling masonry.`,
+      wrong1Outcome: `Choosing to ${w2} proved disastrous as the shifting ceiling blocks crashed down, completely burying your exploration gear and cutting off the return path.`,
+      wrong2Word: w3,
+      wrong2Action: `Recklessly ${w3} the archaeological map and torchlight.`,
+      wrong2Outcome: `Throwing caution aside to ${w3} the map caused you to trigger a hidden dart trap along the perimeter, suffering heavy injury and exhaustion in the dark.`
+    },
+    {
+      theme: "⚡ Cyberpunk Megacity Infiltration",
+      story: `High on the ninety-fifth floor of the Arasaka-style megacorp tower, laser grid alarms scream into the rainy night. Automated combat drones descend from the ceiling catwalks while counter-intrusion ICE viruses lock the terminal you are extracting.`,
+      correctWord: w1,
+      correctAction: `Deploy your neural deck to ${w1} the subverted firewall matrix.`,
+      correctOutcome: `Your masterful hack to ${w1} the core mainframe disabled the tracking drones and opened the maintenance elevator, allowing a seamless extraction with all corporate data intact.`,
+      wrong1Word: w2,
+      wrong1Action: `Fail to adapt and ${w2} inside the server closet.`,
+      wrong1Outcome: `Pausing to ${w2} allowed security androids to surround the sector, pinpointing your digital signature and inflicting intense neural feedback damage.`,
+      wrong2Word: w3,
+      wrong2Action: `Panic and abruptly ${w3} your encrypted neural link.`,
+      wrong2Outcome: `Abruptly attempting to ${w3} the connection triggered a catastrophic system surge, wiping the extracted files and leaving you trapped on the rooftop.`
+    },
+    {
+      theme: "❄️ Arctic Glacier Blizzard Outpost",
+      story: `A category-five polar storm knocks out the transmission tower and heating generator at the remote research outpost. Frost patterns spread rapidly across the double-glazed windows as exterior temperatures plunge below minus fifty degrees Celsius.`,
+      correctWord: w1,
+      correctAction: `Work methodically to ${w1} the auxiliary thermal reactor.`,
+      correctOutcome: `You methodically managed to ${w1} the backup power grid, restoring heat and vital satellite uplinks just before the base suffered permanent freeze damage.`,
+      wrong1Word: w2,
+      wrong1Action: `Wander into the blizzard to ${w2} without compass guidance.`,
+      wrong1Outcome: `Attempting to ${w2} in zero visibility resulted in severe disorientation and mild frostbite, forcing the team to expend precious emergency flares to locate you.`,
+      wrong2Word: w3,
+      wrong2Action: `Carelessly ${w3} the insulated survival shelter.`,
+      wrong2Outcome: `Deciding to ${w3} the insulated bunker exposed your squad to the howling gale, causing immediate hypothermia risks and critical vitality loss.`
+    },
+    {
+      theme: "🌋 Volcanic Island Pyroclastic Surge",
+      story: `The island caldera violently erupts, hurling volcanic bombs into the coastal jungle. A towering cloud of hot ash and sulfur dioxide rushes toward the shoreline where the last evacuation ferry is moored. The harbor dock begins splintering under tectonic tremors.`,
+      correctWord: w1,
+      correctAction: `Rally the survivors to ${w1} the emergency maritime departure.`,
+      correctOutcome: `Your decisive leadership to ${w1} the departure sequence pushed the vessel past the reef breakers moments before the pyroclastic flow engulfed the shoreline, saving every passenger aboard.`,
+      wrong1Word: w2,
+      wrong1Action: `Stop near the magma flow to ${w2} and salvage baggage.`,
+      wrong1Outcome: `Losing critical time to ${w2} resulted in your vehicle being blocked by falling debris, forcing an agonizing and dangerous trek through dense ash clouds.`,
+      wrong2Word: w3,
+      wrong2Action: `Blindly ${w3} the established maritime evacuation protocol.`,
+      wrong2Outcome: `Deciding to ${w3} standard evacuation rules caused panic on the loading ramp, capsizing an auxiliary lifeboat and leaving your squad in dire peril.`
+    },
+    {
+      theme: "🏰 Medieval Stronghold Siege",
+      story: `Flaming catapult projectiles smash through the fortress battlements as enemy scaling ladders latch onto the parapets. With the outer portcullis splintered and command horns sounding retreat, your squad holds the pivotal watchtower staircase.`,
+      correctWord: w1,
+      correctAction: `Mount a fierce counter-defense to ${w1} the inner stronghold gateway.`,
+      correctOutcome: `You rallied the garrison to ${w1} the vital stone chokepoint, repelling the enemy assault wave and holding the fortress until allied cavalry crested the horizon.`,
+      wrong1Word: w2,
+      wrong1Action: `Waver under pressure and ${w2} on the exposed rampart.`,
+      wrong1Outcome: `Your decision to ${w2} left the archers unprotected, allowing hostile vanguard skirmishers to overrun the watchtower and inflict heavy damage on the garrison.`,
+      wrong2Word: w3,
+      wrong2Action: `Break formation and ${w3} your defensive weapons.`,
+      wrong2Outcome: `Breaking ranks to ${w3} defensive gear led to immediate chaos, leaving you defenseless against incoming volleys of flaming arrows.`
+    },
+    {
+      theme: "🌪️ Steampunk Airship Tempest",
+      story: `Navigating an uncharted cloud vortex, the brass-clad dirigible suffers multiple boiler blowouts. High-voltage lightning crackles across the canvas envelope while the altitude gauge spins downward toward jagged mountain crags.`,
+      correctWord: w1,
+      correctAction: `Adjust the pressure valves to ${w1} the steam turbine exhaust.`,
+      correctOutcome: `Skillfully managing to ${w1} the valve pressure stabilized the lifting gas cells, pulling the great airship out of its steep dive and soaring above the tempest into clear skies.`,
+      wrong1Word: w2,
+      wrong1Action: `Disregard the altimeter and ${w2} in the control cabin.`,
+      wrong1Outcome: `Allowing panic to ${w2} your reflexes caused the airship to clip a sharp pinnacle, shearing the port propeller and causing severe hull structural damage.`,
+      wrong2Word: w3,
+      wrong2Action: `Prematurely ${w3} the main ballast and cargo anchors.`,
+      wrong2Outcome: `Rushing to ${w3} essential rigging destabilized the center of gravity, causing the gondola to tilt violently and throwing vital instruments overboard.`
+    },
+    {
+      theme: "🔮 Quantum Collider Temporal Rift",
+      story: `A magnetic containment failure inside the particle supercollider tears a shimmering temporal rift across the experimental facility. Time dilates unpredictably—falling objects freeze mid-air while chronal shockwaves shatter nearby instrument panels.`,
+      correctWord: w1,
+      correctAction: `Synchronize the resonance harmonic to ${w1} the quantum field coil.`,
+      correctOutcome: `You calibrated the harmonic pulse to ${w1} the magnetic coil, cleanly collapsing the temporal singularity and restoring standard spacetime metrics without casualties.`,
+      wrong1Word: w2,
+      wrong1Action: `Fail to comprehend the readings and ${w2} near the epicenter.`,
+      wrong1Outcome: `Lingering to ${w2} caught your gear in a local time loop, draining your energy cells and disorienting your squad with severe temporal vertigo.`,
+      wrong2Word: w3,
+      wrong2Action: `Impulsively ${w3} the shielded safety protocols.`,
+      wrong2Outcome: `Deciding to ${w3} safety shields released a blast of chronal radiation that scrambled all electronic navigation and inflicted immediate system shock.`
+    },
+    {
+      theme: "🌿 Amazonian Forbidden Temple Basin",
+      story: `Trekking through the dense, uncharted rainforest, your expedition trips a hidden tripwire mechanism outside a vine-covered golden ziggurat. Stone pendulum blades swing across the muddy ravine as the river beneath swells with carnivorous predators.`,
+      correctWord: w1,
+      correctAction: `Quickly scale the ancient stonework to ${w1} the release catch.`,
+      correctOutcome: `Agilely maneuvering to ${w1} the ancient counter-lever locked the deadly blades in place, clearing an unhindered path to the inner sanctum treasure vault.`,
+      wrong1Word: w2,
+      wrong1Action: `Freeze in uncertainty and ${w2} on the slippery log bridge.`,
+      wrong1Outcome: `Hesitating to ${w2} on the mossy span caused the wood to crack beneath you, dumping emergency rations into the raging torrent below.`,
+      wrong2Word: w3,
+      wrong2Action: `Fling aside caution and ${w3} all climbing ropes.`,
+      wrong2Outcome: `Choosing to ${w3} vital climbing ropes left you stranded on a crumbling ledge surrounded by hostile jungle wildlife.`
+    },
+    {
+      theme: "⚓ Phantom Galleon of Bermuda",
+      story: `Exploring the sunken skeletal hull of a seventeenth-century warship, your diving umbilical line snags upon a coral-encrusted bronze cannon. Disturbed ocean undercurrents begin to collapse the rotting oak timbers right above your primary oxygen manifold.`,
+      correctWord: w1,
+      correctAction: `Use your diver blade calmly to ${w1} the tangled harness line.`,
+      correctOutcome: `You steadily managed to ${w1} the tangled gear without damaging your regulator, escaping the falling debris field and surfacing smoothly with valuable oceanic relics.`,
+      wrong1Word: w2,
+      wrong1Action: `Thrash frantically to ${w2} in the confined cargo hold.`,
+      wrong1Outcome: `Panicking to ${w2} stirred up thick clouds of silt, blinding your dive buddy and wasting more than half of your remaining breathing gas.`,
+      wrong2Word: w3,
+      wrong2Action: `Recklessly ${w3} your emergency dive beacon.`,
+      wrong2Outcome: `Discarding your gear to ${w3} the beacon caused you to lose contact with the surface vessel, resulting in an emergency deep-sea retrieval operation.`
     }
   ];
 
-  const scene = templates[Math.floor(Math.random() * templates.length)];
-  const options = scene.options.map((opt, i) => ({ ...opt, isCorrect: i === scene.correct }));
-  return JSON.stringify({ story: scene.story, options: options });
+  const scene = PROCEDURAL_THEMES[Math.floor(Math.random() * PROCEDURAL_THEMES.length)];
+  
+  const optionsRaw = [
+    {
+      word: scene.correctWord,
+      action: scene.correctAction,
+      isCorrect: true,
+      fullOutcomeStory: scene.correctOutcome
+    },
+    {
+      word: scene.wrong1Word,
+      action: scene.wrong1Action,
+      isCorrect: false,
+      fullOutcomeStory: scene.wrong1Outcome
+    },
+    {
+      word: scene.wrong2Word,
+      action: scene.wrong2Action,
+      isCorrect: false,
+      fullOutcomeStory: scene.wrong2Outcome
+    }
+  ];
+
+  // 随机乱序打乱选项，保证正确选项不固定在第一项
+  const shuffledOptions = optionsRaw.sort(() => 0.5 - Math.random());
+
+  return JSON.stringify({
+    story: scene.story,
+    options: shuffledOptions
+  });
 }
 
 function safeJsonParse(str) {
@@ -327,11 +468,12 @@ function safeJsonParse(str) {
 
 // 6. 可点击交互式文本渲染
 function renderClickableStory(text) {
-  return text.split(/(\b[A-Za-z'-]+\b)/g).map(token => {
+  if (!text) return '';
+  return text.split(/([A-Za-z'-]+)/g).map(token => {
     if (/^[A-Za-z'-]+$/.test(token)) {
       const cleanWord = token.toLowerCase();
       const isMarked = getMarkCount(cleanWord) > 0;
-      return `<span class="story-word ${isMarked ? 'marked-word-highlight' : ''}" onclick="inspectStoryWord('${cleanWord}', event)" title="Look up & Mark">${escapeHtml(token)}</span>`;
+      return `<span class="story-word ${isMarked ? 'marked-word-highlight' : ''}" data-word="${cleanWord}" onclick="inspectStoryWord('${cleanWord}', event)" title="Click to inspect & Mark">${escapeHtml(token)}</span>`;
     } else {
       return escapeHtml(token);
     }
@@ -360,10 +502,7 @@ function switchNavView(viewName) {
     document.getElementById('viewSurvival').classList.add('active');
     document.getElementById('navSurvival').classList.add('active');
     renderBattleHand();
-  } else if (viewName === 'anatomy') {
-    document.getElementById('viewAnatomy').classList.add('active');
-    document.getElementById('navAnatomy').classList.add('active');
-  } else if (viewName === 'match') {
+   else if (viewName === 'match') {
     document.getElementById('viewMatch').classList.add('active');
     document.getElementById('navMatch').classList.add('active');
   } else if (viewName === 'profile') {
@@ -405,14 +544,18 @@ function addMark(word) {
   saveToStorage(STORAGE_KEYS.MARKS, marks);
   updateBadges();
   triggerCloudSync();
-  showToast(`★ Marked [${w}] (Mark: ${marks[w]})`);
+  document.querySelectorAll(`.story-word[data-word="${w}"]`).forEach(el => el.classList.add('marked-word-highlight'));
+  showToast(`★ Marked [${w}] (Total Mark: ${marks[w]})`);
 }
 
 function reduceMark(word) {
   const w = word.toLowerCase();
   if (marks[w]) {
     marks[w]--;
-    if (marks[w] <= 0) delete marks[w];
+    if (marks[w] <= 0) {
+      delete marks[w];
+      document.querySelectorAll(`.story-word[data-word="${w}"]`).forEach(el => el.classList.remove('marked-word-highlight'));
+    }
     saveToStorage(STORAGE_KEYS.MARKS, marks);
     updateBadges();
     triggerCloudSync();
@@ -1053,9 +1196,10 @@ function handleSurvivalChoice(opt, idx) {
   const isSuccess = opt.isCorrect;
   const word = opt.word;
 
+  let gainedXp = 0;
   if (isSuccess) {
     soundSuccess();
-    const gainedXp = (20 * playerProfile.combo) * (battleXPBoostActive ? 2 : 1);
+    gainedXp = (20 * playerProfile.combo) * (battleXPBoostActive ? 2 : 1);
     battleXPBoostActive = false;
     playerProfile.combo++;
     playerProfile.xp += gainedXp;
@@ -1085,38 +1229,87 @@ function handleSurvivalChoice(opt, idx) {
   updateBadges();
   triggerCloudSync();
 
+  // 1. 组合危机背景与决断后果的完整英文故事
   const fullStory = opt.fullOutcomeStory || `${survivalData.story} ${opt.action}`;
   const clickableHtml = renderClickableStory(fullStory);
 
+  // 2. 清空选择按钮，直接展示沉浸式折纸战役结算卷轴
+  const optionsGrid = document.getElementById('gameOptions');
+  if (optionsGrid) optionsGrid.innerHTML = '';
+
   const outcomeCard = document.createElement('div');
+  outcomeCard.className = 'settlement-scroll-card';
   outcomeCard.style.cssText = `
-    margin-top: 18px; padding: 18px; border-radius: var(--radius-md); line-height: 1.7;
-    background: ${isSuccess ? 'rgba(16, 185, 129, 0.12)' : 'var(--brand-danger-bg)'};
-    border-left: 5px solid ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};
-    border: 1.5px solid var(--paper-border);
-    box-shadow: var(--paper-shadow);
+    margin-top: 14px; padding: 22px; border-radius: var(--radius-lg); line-height: 1.8;
+    background: var(--paper-surface);
+    border: 2px solid ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};
+    box-shadow: var(--paper-shadow-lg);
+    animation: fadeIn 0.3s ease-out;
   `;
   outcomeCard.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <span style="font-weight:800; font-size:16px; color: ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">
-        ${isSuccess ? '🎉 战局生还 (Mission Accomplished)' : '💀 遭遇重创 (Dead End & Retreat)'}
-      </span>
-      <span style="font-size:12px; color:var(--text-secondary);">💡 Click any word below to inspect / Mark</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; border-bottom:1.5px solid var(--paper-border); padding-bottom:12px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:26px;">${isSuccess ? '🏆' : '💀'}</span>
+        <div>
+          <div style="font-weight:900; font-size:18px; color: ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">
+            ${isSuccess ? 'MISSION ACCOMPLISHED · 战局大捷' : 'CRITICAL RETREAT · 遭遇重创'}
+          </div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">
+            ${isSuccess ? 'Decisive initiative ensured tactical survival!' : 'Fatal miscalculation triggered sector hazard!'}
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:14px; font-weight:800; color:var(--brand-primary);">${isSuccess ? `+${gainedXp} XP` : '0 XP'}</div>
+        <div style="font-size:11px; color:var(--text-secondary);">COMBO x${playerProfile.combo}</div>
+      </div>
     </div>
-    <div style="background:var(--paper-surface); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--paper-border); font-size:15px; color:var(--text-primary); margin-bottom:14px;">
-      ${clickableHtml}
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:16px;">
+      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm);">
+        <div style="font-size:11px; color:var(--text-secondary);">DECISION WORD</div>
+        <div style="font-size:14px; font-weight:800; color:var(--brand-accent); cursor:pointer;" onclick="openWordDetails('${escapeHtml(word)}')">[ ${escapeHtml(word)} ] 🔍</div>
+      </div>
+      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm);">
+        <div style="font-size:11px; color:var(--text-secondary);">MARK STATUS</div>
+        <div style="font-size:14px; font-weight:800; color:${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">★ Mark: ${getMarkCount(word)}</div>
+      </div>
+      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm);">
+        <div style="font-size:11px; color:var(--text-secondary);">HP / SAN</div>
+        <div style="font-size:14px; font-weight:800; color:var(--text-primary);">${playerProfile.hp} / ${playerProfile.san}</div>
+      </div>
     </div>
-    <div style="display:flex; gap:10px;">
-      <button class="btn btn-primary" style="flex:1;" onclick="nextSurvivalRound()">
-        ${playerProfile.hp <= 0 ? '⚰️ 重新挑战' : '⚡ 下一回合 (Next Round)'}
+
+    <div style="margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-size:13px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
+          📜 完整英文战报研读 (Complete Story Scroll)
+        </span>
+        <span style="font-size:11px; color:var(--brand-primary); font-weight:600;">
+          💡 点击任意单词呼出词典 & ★ Mark
+        </span>
+      </div>
+      <div style="background:var(--paper-surface-sub); padding:16px 18px; border-radius:var(--radius-md); border:1.5px solid var(--paper-border); font-size:15px; line-height:1.8; color:var(--text-primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);">
+        ${clickableHtml}
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-primary" style="flex:2; height:44px; font-size:14px; font-weight:800;" onclick="nextSurvivalRound()">
+        ${playerProfile.hp <= 0 ? '⚰️ 复活并重新挑战 (Respawn)' : '⚡ 开始下一战局 (Next Stage)'}
+      </button>
+      <button class="btn btn-secondary" style="flex:1; height:44px; font-size:13px;" onclick="switchNavView('words'); filterByTag('marked')">
+        📖 查看生词本
       </button>
     </div>
   `;
+
   document.getElementById('gameOutcomeArea').innerHTML = '';
   document.getElementById('gameOutcomeArea').appendChild(outcomeCard);
 }
 
 function nextSurvivalRound() {
+  if (typeof closeDefDrawer === 'function') closeDefDrawer();
   if (playerProfile.hp <= 0) {
     playerProfile.hp = 100;
     playerProfile.san = 100;
@@ -1138,29 +1331,7 @@ function abortSurvivalGame() {
   document.getElementById('survivalGameBox').style.display = 'none';
 }
 
-// 12. 词汇手术台
-let currentDissectWord = null;
 
-function startDissection() {
-  document.getElementById('anatomyGameBox').style.display = 'block';
-  loadNextDissectWord();
-}
-
-function loadNextDissectWord() {
-  currentDissectWord = words[Math.floor(Math.random() * words.length)];
-  document.getElementById('dissectWord').textContent = currentDissectWord;
-  speakWord(currentDissectWord);
-
-  document.getElementById('dissectRoots').innerHTML = `
-    <span class="origami-chip" style="color:var(--brand-cyan); border-color:var(--brand-cyan);">${escapeHtml(currentDissectWord)}</span>
-  `;
-  document.getElementById('dissectDef').textContent = `Target Word: ${currentDissectWord} (${chineseDict[currentDissectWord] || ''})`;
-  document.getElementById('dissectEg').textContent = `Click below to inspect in English dictionary.`;
-}
-
-function closeDissection() {
-  document.getElementById('anatomyGameBox').style.display = 'none';
-}
 
 // 13. 3D 塔罗抽卡圣殿
 let tarotSlotWords = [];
@@ -1330,7 +1501,8 @@ async function openAdminConsole() {
         <div class="form-group" style="margin-bottom:12px;">
           <label class="form-label" style="font-size:12px;">云端 AI 调用权限模式</label>
           <select id="adminCfgAiMode" class="form-input">
-            <option value="admin_only" ${stats.ai_access_mode === 'admin_only' ? 'selected' : ''}>🔒 仅限管理员（推荐 · 普通访客走 0 成本离线矩阵）</option>
+            <option value="whitelist" ${stats.ai_access_mode === 'whitelist' ? 'selected' : ''}>🎯 授权白名单模式（推荐 · 仅 Admin 及已单独授权额度用户可用）</option>
+            <option value="admin_only" ${stats.ai_access_mode === 'admin_only' ? 'selected' : ''}>🔒 仅限管理员独占（普通用户走 0 成本离线矩阵）</option>
             <option value="all_users" ${stats.ai_access_mode === 'all_users' ? 'selected' : ''}>🌐 开放给全部注册登录用户</option>
           </select>
         </div>
@@ -1346,7 +1518,7 @@ async function openAdminConsole() {
           <table class="admin-table">
             <thead>
               <tr>
-                <th>ID</th><th>用户名</th><th>角色</th><th>等级/XP</th><th>卡牌</th><th>标记生词</th><th>绑定IP</th><th>站长操作</th>
+                <th>ID</th><th>用户名</th><th>角色</th><th>额度权限</th><th>等级/XP</th><th>卡牌</th><th>标记生词</th><th>绑定IP</th><th>站长操作</th>
               </tr>
             </thead>
             <tbody>
@@ -1355,6 +1527,15 @@ async function openAdminConsole() {
                   <td>#${u.id}</td>
                   <td style="font-weight:700;">${escapeHtml(u.username)}</td>
                   <td>${u.role === 'admin' ? '<span class="admin-role-badge admin">👑 Admin</span>' : '<span class="admin-role-badge user">👤 User</span>'}</td>
+                  <td>
+                    ${u.role === 'admin' ? 
+                      '<span style="color:var(--brand-success); font-weight:800; font-size:11px;">⚡ 管理员特权</span>' : 
+                      (u.can_use_quota ? 
+                        `<button class="btn btn-primary" style="font-size:10px; padding:2px 8px; background:var(--brand-success); border-color:var(--brand-success);" onclick="toggleUserQuota(${u.id}, false, '${escapeHtml(u.username)}')" title="点击收回额度">⚡ 已授权 (点击收回)</button>` : 
+                        `<button class="btn btn-secondary" style="font-size:10px; padding:2px 8px; color:var(--text-secondary);" onclick="toggleUserQuota(${u.id}, true, '${escapeHtml(u.username)}')" title="点击开通额度">🔒 未开通 (点击授权)</button>`
+                      )
+                    }
+                  </td>
                   <td>LV.${u.level} (${u.xp} XP)</td>
                   <td style="color:var(--tarot-gold); font-weight:700;">${u.cards_count} 张</td>
                   <td style="color:var(--brand-danger); font-weight:700;">${u.marks_count} 词</td>
@@ -1422,7 +1603,13 @@ function openAuthModal() {
     loggedSection.style.display = 'block';
     formSection.style.display = 'none';
     document.getElementById('authUserName').textContent = authUser.username;
-    document.getElementById('authRoleBadge').textContent = authUser.is_admin ? '👑 首席管理员 (Admin · 拥有后台控制权)' : '👤 探险生还者 (User)';
+    if (authUser.is_admin) {
+      document.getElementById('authRoleBadge').textContent = '👑 首席管理员 (Admin · 拥有全部额度与后台特权)';
+    } else if (authUser.can_use_quota) {
+      document.getElementById('authRoleBadge').textContent = '⚡ 探险生还者 (User · 站长已授权使用 AI 额度)';
+    } else {
+      document.getElementById('authRoleBadge').textContent = '👤 探险生还者 (User · 离线矩阵保底)';
+    }
     document.getElementById('adminLaunchBtn').style.display = authUser.is_admin ? 'block' : 'none';
   } else {
     loggedSection.style.display = 'none';
@@ -1662,6 +1849,28 @@ async function resetUserPassword(userId, username) {
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.detail || "重置失败");
     showToast(`🔑 ${data.message}`);
+    openAdminConsole();
+  } catch(e) {
+    showToast(`❌ ${e.message}`);
+  }
+}
+
+
+async function toggleUserQuota(userId, enable, username) {
+  soundClick();
+  authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
+  try {
+    const resp = await fetch(`${API_BASE}/api/admin/users/${userId}/toggle-quota`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authToken
+      },
+      body: JSON.stringify({ enabled: enable })
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || "操作失败");
+    showToast(`⚡ ${data.message}`);
     openAdminConsole();
   } catch(e) {
     showToast(`❌ ${e.message}`);
