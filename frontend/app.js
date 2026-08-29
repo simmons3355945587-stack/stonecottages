@@ -1,13 +1,48 @@
+const tarotArcanaSkills = [
+  { "name": "The Magician", "skill": "真理洞察", "desc": "高亮本局唯一正确生还选项", "icon": "👁️", "type": "reveal_correct", "rarity": "SSR" },
+  { "name": "The High Priestess", "skill": "心智抚慰", "desc": "立即恢复 35 点 SAN 理智值", "icon": "🧠", "type": "heal_san", "rarity": "SR" },
+  { "name": "The Empress", "skill": "生命滋养", "desc": "立即恢复 35 点 HP 生命值", "icon": "💚", "type": "heal_hp", "rarity": "SR" },
+  { "name": "The Emperor", "skill": "绝对支配", "desc": "直接判定生还并获得全额经验", "icon": "👑", "type": "auto_win", "rarity": "SSR" },
+  { "name": "The Hierophant", "skill": "智慧恩赐", "desc": "本回合额外奖励 +50 经验值", "icon": "📜", "type": "xp_boost", "rarity": "SR" },
+  { "name": "The Lovers", "skill": "同盟共鸣", "desc": "连击 Combo +2，战胜经验翻倍", "icon": "⚡", "type": "combo_boost", "rarity": "UR" },
+  { "name": "The Chariot", "skill": "破阵冲锋", "desc": "摧毁并排除 1 个高危陷阱选项", "icon": "🛡️", "type": "eliminate_wrong", "rarity": "SSR" },
+  { "name": "Strength", "skill": "坚韧壁垒", "desc": "生成护盾，抵挡下一次选错伤害", "icon": "🔰", "type": "shield", "rarity": "SR" },
+  { "name": "The Hermit", "skill": "求索之光", "desc": "洞悉生还逻辑与线索提示", "icon": "💡", "type": "hint", "rarity": "SR" },
+  { "name": "Wheel of Fortune", "skill": "命运重铸", "desc": "舍弃当前危机，重抽安全局势", "icon": "🌪️", "type": "reroll", "rarity": "UR" },
+  { "name": "Justice", "skill": "天平平衡", "desc": "HP 与 SAN 同步恢复至 80 点", "icon": "⚖️", "type": "balance", "rarity": "SR" },
+  { "name": "The Hanged Man", "skill": "逆境觉醒", "desc": "残血时瞬间恢复 70% 生命值", "icon": "⏳", "type": "clutch_heal", "rarity": "SR" },
+  { "name": "Death", "skill": "绝境涅槃", "desc": "免死金牌！受到致命伤自动复活", "icon": "🦅", "type": "revive", "rarity": "UR" },
+  { "name": "Temperance", "skill": "平衡回响", "desc": "同时恢复 +20 HP 与 +20 SAN", "icon": "🕊️", "type": "dual_heal", "rarity": "SR" },
+  { "name": "The Devil", "skill": "暗夜豪赌", "desc": "消耗 15 SAN，直接获得 +80 XP", "icon": "🔥", "type": "gamble_xp", "rarity": "SR" },
+  { "name": "The Tower", "skill": "瓦解崩塌", "desc": "直接粉碎 1 个致命错误陷阱", "icon": "💥", "type": "eliminate_wrong", "rarity": "SSR" },
+  { "name": "The Star", "skill": "希望闪耀", "desc": "本场所有生词标记 Mark 全部减 1", "icon": "✨", "type": "cleanse_marks", "rarity": "SSR" },
+  { "name": "The Moon", "skill": "迷雾幻影", "desc": "免疫下一次理智值 SAN 损耗", "icon": "🌙", "type": "san_shield", "rarity": "SR" },
+  { "name": "The Sun", "skill": "黎明荣耀", "desc": "HP与SAN全满恢复 + 获得 100 XP", "icon": "☀️", "type": "full_restore", "rarity": "UR" },
+  { "name": "Judgement", "skill": "终极昭示", "desc": "必定正确并清空目标词错误标记", "icon": "🎺", "type": "verdict", "rarity": "UR" },
+  { "name": "The World", "skill": "全知创世", "desc": "透视正解 + 恢复50 HP + 100 XP", "icon": "🌍", "type": "world_master", "rarity": "UR" },
+  { "name": "The Fool", "skill": "无畏启程", "desc": "随机触发上述任意一种强力神技", "icon": "🃏", "type": "random", "rarity": "SSR" }
+];
+
+// Global Fallbacks
+if (typeof corrections === 'undefined') window.corrections = {};
+if (typeof wordTierDict === 'undefined') window.wordTierDict = {};
+if (typeof chineseDict === 'undefined') window.chineseDict = {};
+if (typeof fullChineseDict === 'undefined') window.fullChineseDict = {};
+if (typeof NOVEL_CHAPTERS === 'undefined') window.NOVEL_CHAPTERS = [];
+
 // ==========================================
 // Vocabulary Survival 3.0 - Candy Match, Tarot Battle Hand & Skill Engine
 // ==========================================
 
 // 0. 安全工具函数
 function escapeHtml(str) {
-  if (typeof str !== 'string') return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
 
@@ -1560,6 +1595,7 @@ async function launchSurvivalGame() {
       beatId: currentNovelBeat,
       totalBeats: ch.beats.length
     };
+    window.survivalData = survivalData;
     renderSurvivalGame(survivalData);
     return;
   }
@@ -1629,10 +1665,12 @@ async function launchSurvivalGame() {
   try {
     const raw = await callAntigravityAPI(sysPrompt, usrPrompt);
     survivalData = safeJsonParse(raw);
+    window.survivalData = survivalData;
     renderSurvivalGame(survivalData);
   } catch(e) {
     const fallback = generateOfflineScenario(usrPrompt);
     survivalData = safeJsonParse(fallback);
+    window.survivalData = survivalData;
     renderSurvivalGame(survivalData);
   }
 }
@@ -2415,16 +2453,12 @@ function initApp() {
   setupDesktopKeyboardShortcuts();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
+
 
 // =========================================================
 // 15. 💻 电脑端全套键盘操控系统 (Desktop Keyboard Shortcuts)
 // =========================================================
-let keyboardShortcutsInitialized = false;
+var keyboardShortcutsInitialized = false;
 function setupDesktopKeyboardShortcuts() {
   if (keyboardShortcutsInitialized) return;
   keyboardShortcutsInitialized = true;
@@ -2650,4 +2684,41 @@ function toggleSurvivalCnBlock() {
     block.style.display = 'none';
     if (btn) btn.textContent = '🇨🇳 显示中文译文';
   }
+}
+
+
+// Application Entry Point
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+
+// Explicit Window Bindings for HTML onclick handlers
+if (typeof window !== 'undefined') {
+  window.switchNavView = switchNavView;
+  window.switchSubTab = switchSubTab;
+  window.switchSurvivalMode = switchSurvivalMode;
+  window.onSelectNovelChapter = onSelectNovelChapter;
+  window.nextNovelBeat = nextNovelBeat;
+  window.launchSurvivalGame = launchSurvivalGame;
+  window.handleSurvivalChoice = handleSurvivalChoice;
+  window.setCandyTierFilter = setCandyTierFilter;
+  window.startCandyMatchGame = startCandyMatchGame;
+  window.toggleSurvivalCnBlock = toggleSurvivalCnBlock;
+  window.openWordDetails = openWordDetails;
+  window.closeDefDrawer = closeDefDrawer;
+  window.openSettingsModal = openSettingsModal;
+  window.closeSettingsModal = closeSettingsModal;
+  window.openAuthModal = openAuthModal;
+  window.closeAuthModal = closeAuthModal;
+  window.openCodexModal = openCodexModal;
+  window.closeCodexModal = closeCodexModal;
+  window.openAdminConsole = openAdminConsole;
+  window.closeAdminModal = closeAdminModal;
+  window.toggleTheme = toggleTheme;
+  window.toggleAudioMute = toggleAudioMute;
+  window.useHintBuff = useHintBuff;
+  window.abortSurvivalGame = abortSurvivalGame;
 }
