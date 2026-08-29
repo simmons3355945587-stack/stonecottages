@@ -87,19 +87,51 @@
     <div id="markedListContainer" class="word-grid" style="display: none;"></div>
   </div>
 
-  <!-- ================= VIEW 2: RPG 文字大逃杀 (SURVIVAL) ================= -->
+  <!-- ================= VIEW 2: RPG 文字大逃杀与小说模式 (SURVIVAL) ================= -->
   <div id="viewSurvival" class="view-section">
-    <div class="origami-banner">
+    <!-- 🎮 生存战模式选择 Tab (Novel Mode / Classic Mode) -->
+    <div class="origami-tabs" style="margin-bottom: 12px;">
+      <button class="origami-tab-btn active" id="modeTabNovel" onclick="switchSurvivalMode('novel')">
+        📖 职场大冒险：《I Hope This Finds You Well》
+      </button>
+      <button class="origami-tab-btn" id="modeTabClassic" onclick="switchSurvivalMode('classic')">
+        ⚡ 经典绝境生存战 (无限词库推演)
+      </button>
+    </div>
+
+    <!-- 📖 小说闯关控制横幅 (Novel Mode Banner) -->
+    <div id="novelBanner" class="origami-banner" style="border-color: var(--brand-primary); background: var(--paper-surface); margin-bottom: 14px;">
+      <div style="flex: 1;">
+        <div class="banner-title" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <span>📖 《I Hope This Finds You Well》</span>
+          <span class="origami-chip" style="background:var(--brand-primary); color:#fff; font-size:10px;">51 章节完整原著互动</span>
+        </div>
+        <div class="banner-desc" id="novelChapterSynopsis">
+          33岁打工人 Jolene 误获全员邮件偷窥权限，化解裁员危机，职场宫斗大冒险！
+        </div>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items:center;">
+        <select id="novelChapterSelect" class="form-select" style="font-size: 12px; height: 36px; min-width: 180px; max-width: 220px;" onchange="onSelectNovelChapter(this.value)">
+          <!-- 动态加载 51 章节 -->
+        </select>
+        <button class="btn btn-accent" style="padding:0 14px; height:36px; white-space:nowrap;" onclick="launchSurvivalGame()">
+          🎬 开启本章
+        </button>
+      </div>
+    </div>
+
+    <!-- ⚡ 经典绝境生存战横幅 (Classic Mode Banner) -->
+    <div id="classicBanner" class="origami-banner" style="display: none; margin-bottom: 14px;">
       <div>
-        <div class="banner-title">🎮 绝境生存挑战 (Roguelike RPG)</div>
-        <div class="banner-desc">大模型因果剧情推演，选错致命暴毙，选对破局生还！</div>
+        <div class="banner-title">⚡ 经典绝境生存战 (Roguelike RPG)</div>
+        <div class="banner-desc">大模型因果剧情推演，从生词本中抽取 3 词构建未知灾变冒险！</div>
       </div>
       <button class="btn btn-accent" style="flex:0; padding:8px 16px; white-space:nowrap;" onclick="launchSurvivalGame()">
         ⚡ 开启战局
       </button>
     </div>
 
-    <div id="survivalGameBox" class="origami-box" style="display: none;">
+    <div id="survivalGameBox" iv id="survivalGameBox" class="origami-box" style="display: none;">
       <div class="game-header">
         <div class="theme-badge" id="gameTheme">废土大逃杀</div>
         <div style="display:flex; gap:12px; font-weight:800; font-family:var(--font-mono); font-size:13px;">

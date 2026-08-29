@@ -1392,10 +1392,121 @@ function abortMatchGame() {
 // 11. 游戏模式 1: 文字生存大逃杀
 // =========================================================
 let currentSurvivalRound = 1;
+
+// 🎮 生存战双模式引擎 (Novel Campaign Mode & Classic Mode)
+let currentSurvivalGameMode = loadFromStorage('vocab_survival_mode', 'novel'); // 'novel' | 'classic'
+let currentNovelChapter = loadFromStorage('vocab_novel_ch', 1);
+let currentNovelBeat = loadFromStorage('vocab_novel_beat', 1);
+
 let survivalData = null;
 const DUNGEON_THEMES = ["⚡ Survival Challenge", "🔬 Laboratory Crisis", "🚀 Deep Space Expedition", "💼 Career Dilemma", "🌊 Extreme Odyssey"];
 
+
+function initNovelModeUI() {
+  const sel = document.getElementById('novelChapterSelect');
+  if (!sel || typeof NOVEL_CHAPTERS === 'undefined') return;
+  sel.innerHTML = '';
+  NOVEL_CHAPTERS.forEach(ch => {
+    const opt = document.createElement('option');
+    opt.value = ch.id;
+    opt.textContent = `第${ch.id}章: ${ch.title}`;
+    if (ch.id === currentNovelChapter) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  updateSurvivalModeUI();
+}
+
+function updateSurvivalModeUI() {
+  const tabNovel = document.getElementById('modeTabNovel');
+  const tabClassic = document.getElementById('modeTabClassic');
+  const banNovel = document.getElementById('novelBanner');
+  const banClassic = document.getElementById('classicBanner');
+
+  if (currentSurvivalGameMode === 'novel') {
+    if (tabNovel) tabNovel.classList.add('active');
+    if (tabClassic) tabClassic.classList.remove('active');
+    if (banNovel) banNovel.style.display = 'flex';
+    if (banClassic) banClassic.style.display = 'none';
+  } else {
+    if (tabClassic) tabClassic.classList.add('active');
+    if (tabNovel) tabNovel.classList.remove('active');
+    if (banClassic) banClassic.style.display = 'flex';
+    if (banNovel) banNovel.style.display = 'none';
+  }
+}
+
+function switchSurvivalMode(mode) {
+  soundClick();
+  currentSurvivalGameMode = mode;
+  saveToStorage('vocab_survival_mode', mode);
+  updateSurvivalModeUI();
+  showToast(mode === 'novel' ? '📖 已切换为【职场小说闯关模式】' : '⚡ 已切换为【经典绝境生存战】');
+}
+
+function onSelectNovelChapter(chId) {
+  soundClick();
+  currentNovelChapter = parseInt(chId, 10) || 1;
+  currentNovelBeat = 1;
+  saveToStorage('vocab_novel_ch', currentNovelChapter);
+  saveToStorage('vocab_novel_beat', currentNovelBeat);
+  showToast(`📖 已选择第 ${currentNovelChapter} 章`);
+  launchSurvivalGame();
+}
+
+function nextNovelBeat() {
+  soundClick();
+  const ch = (typeof NOVEL_CHAPTERS !== 'undefined') ? NOVEL_CHAPTERS.find(c => c.id === currentNovelChapter) : null;
+  if (!ch) {
+    launchSurvivalGame();
+    return;
+  }
+  if (currentNovelBeat < ch.beats.length) {
+    currentNovelBeat++;
+    saveToStorage('vocab_novel_beat', currentNovelBeat);
+    launchSurvivalGame();
+  } else {
+    // Chapter completed! Move to next chapter
+    currentNovelChapter = (currentNovelChapter >= NOVEL_CHAPTERS.length) ? 1 : (currentNovelChapter + 1);
+    currentNovelBeat = 1;
+    saveToStorage('vocab_novel_ch', currentNovelChapter);
+    saveToStorage('vocab_novel_beat', currentNovelBeat);
+    const sel = document.getElementById('novelChapterSelect');
+    if (sel) sel.value = currentNovelChapter;
+    soundSuccess();
+    showToast(`🎉 恭喜通关本章！开启第 ${currentNovelChapter} 章！`);
+    launchSurvivalGame();
+  }
+}
+
 async function launchSurvivalGame() {
+  document.getElementById('survivalGameBox').style.display = 'block';
+  document.getElementById('gameHp').textContent = playerProfile.hp;
+  document.getElementById('gameCombo').textContent = `x${playerProfile.combo}`;
+  document.getElementById('gameOutcomeArea').innerHTML = '';
+  renderBattleHand();
+
+  // 📖 模式 1：职场大冒险小说闯关模式 (Novel Campaign Mode)
+  if (currentSurvivalGameMode === 'novel' && typeof NOVEL_CHAPTERS !== 'undefined' && NOVEL_CHAPTERS.length > 0) {
+    const ch = NOVEL_CHAPTERS.find(c => c.id === currentNovelChapter) || NOVEL_CHAPTERS[0];
+    const beat = ch.beats[currentNovelBeat - 1] || ch.beats[0];
+    
+    document.getElementById('gameTheme').textContent = `📖 第 ${ch.id} 章 · ${ch.title}`;
+    document.getElementById('gameRound').textContent = `切片 ${currentNovelBeat} / ${ch.beats.length}`;
+    
+    survivalData = {
+      story: beat.story,
+      story_cn: beat.story_cn || "",
+      options: beat.options,
+      isNovelMode: true,
+      chapterId: ch.id,
+      beatId: currentNovelBeat,
+      totalBeats: ch.beats.length
+    };
+    renderSurvivalGame(survivalData);
+    return;
+  }
+
+  // ⚡ 模式 2：经典绝境生存战 (Classic Roguelike Survival Mode)
   const marked = getMarkedWords();
   let targetPool = [];
   if (marked.length >= 3) {
@@ -1404,16 +1515,10 @@ async function launchSurvivalGame() {
     targetPool = [...words].sort(() => 0.5 - Math.random()).slice(0, 3);
   }
 
-  document.getElementById('survivalGameBox').style.display = 'block';
   document.getElementById('gameTheme').textContent = DUNGEON_THEMES[Math.floor(Math.random() * DUNGEON_THEMES.length)];
   document.getElementById('gameStory').innerHTML = `<em>Generating crisis using your vocabulary: [${targetPool.join(', ')}]...</em>`;
   document.getElementById('gameOptions').innerHTML = '';
-  document.getElementById('gameOutcomeArea').innerHTML = '';
   document.getElementById('gameRound').textContent = currentSurvivalRound;
-  document.getElementById('gameHp').textContent = playerProfile.hp;
-  document.getElementById('gameCombo').textContent = `x${playerProfile.combo}`;
-
-  renderBattleHand();
 
   const sysPrompt = "You are a suspenseful Dungeon Master. Write engaging English crisis scenarios with high-quality bilingual Chinese translations. Output valid JSON only.";
   const usrPrompt = `
@@ -1632,9 +1737,15 @@ function handleSurvivalChoice(opt, idx) {
     </div>
 
     <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-primary" style="flex:2; height:44px; font-size:14px; font-weight:800;" onclick="nextSurvivalRound()">
-        ${playerProfile.hp <= 0 ? '⚰️ 复活并重新挑战 (Respawn)' : '⚡ 开始下一战局 (Next Stage)'}
-      </button>
+      ${survivalData && survivalData.isNovelMode ? `
+        <button class="btn btn-primary" style="flex:2; height:44px; font-size:14px; font-weight:800;" onclick="${isSuccess ? 'nextNovelBeat()' : 'launchSurvivalGame()'}">
+          ${isSuccess ? (survivalData.beatId < survivalData.totalBeats ? `⚡ 推进下一幕 (Beat ${survivalData.beatId + 1}/${survivalData.totalBeats})` : `🎉 通关本章！进入第 ${survivalData.chapterId + 1} 章`) : '🔄 重新挑战本幕 (Retry Beat)'}
+        </button>
+      ` : `
+        <button class="btn btn-primary" style="flex:2; height:44px; font-size:14px; font-weight:800;" onclick="nextSurvivalRound()">
+          ${playerProfile.hp <= 0 ? '⚰️ 复活并重新挑战 (Respawn)' : '⚡ 开始下一战局 (Next Stage)'}
+        </button>
+      `}
       <button class="btn btn-secondary" style="flex:1; height:44px; font-size:13px;" onclick="switchNavView('words'); filterByTag('marked')">
         📖 查看生词本
       </button>
@@ -2161,6 +2272,7 @@ function addNewWordModal() {
   saveToStorage(STORAGE_KEYS.MARKS, marks);
 
   renderWords();
+  initNovelModeUI();
   updateBadges();
   triggerCloudSync();
   showToast(`✨ Added ${rawWords.length} words & marked for survival!`);
@@ -2176,6 +2288,7 @@ function initApp() {
   if (audioBtn) audioBtn.textContent = appSettings.audioMuted ? '🔇' : '🔊';
 
   renderWords();
+  initNovelModeUI();
   updateBadges();
   renderTarotDeck();
   renderBattleHand();
