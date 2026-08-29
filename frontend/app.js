@@ -1957,6 +1957,46 @@ async function openAdminConsole() {
         <button class="btn btn-primary" style="width:100%;" onclick="saveAdminAiConfig()">💾 保存服务端 AI 安全配置</button>
       </div>
 
+      <!-- ⚡ 用户额度授权快捷操作卡 (手机/PC 直观醒目大卡片) -->
+      <div style="background:var(--paper-surface-sub); border:2px solid var(--brand-primary); border-radius:var(--radius-md); padding:16px; margin-bottom:20px; box-shadow:var(--paper-shadow);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+          <div style="font-size:15px; font-weight:900; color:var(--brand-primary); display:flex; align-items:center; gap:6px;">
+            <span>⚡ 用户 AI 额度授权开关</span>
+            <span class="origami-chip" style="background:var(--brand-primary); color:#fff; font-size:11px;">核心控制区</span>
+          </div>
+          <span style="font-size:11px; color:var(--text-secondary);">点击即可一键开启/收回指定用户的站长额度</span>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          ${users.map(u => `
+            <div style="background:var(--paper-surface); border:1.5px solid var(--paper-border); border-radius:var(--radius-sm); padding:12px 14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:22px;">${u.role === 'admin' ? '👑' : (u.can_use_quota ? '⚡' : '👤')}</span>
+                <div>
+                  <div style="font-size:14px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
+                    <span>${escapeHtml(u.username)}</span>
+                    ${u.role === 'admin' ? '<span class="admin-role-badge admin" style="font-size:10px;">Admin 主号</span>' : '<span class="admin-role-badge user" style="font-size:10px;">User</span>'}
+                  </div>
+                  <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">
+                    ID: #${u.id} · 等级: LV.${u.level} · IP: ${u.bound_ip || '-'}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                ${u.role === 'admin' ? 
+                  '<span style="background:rgba(16,185,129,0.15); color:var(--brand-success); padding:4px 12px; border-radius:12px; font-size:12px; font-weight:800; border:1px solid var(--brand-success);">👑 永久完全特权</span>' : 
+                  (u.can_use_quota ? 
+                    `<button class="btn btn-primary" style="background:var(--brand-success); border-color:var(--brand-success); font-size:12px; padding:6px 14px; font-weight:800;" onclick="toggleUserQuota(${u.id}, false, '${escapeHtml(u.username)}')" title="点击收回该用户的额度使用权">⚡ 已授权额度 (点击收回)</button>` : 
+                    `<button class="btn btn-secondary" style="font-size:12px; padding:6px 14px; color:var(--text-secondary); font-weight:700; border-color:var(--paper-border);" onclick="toggleUserQuota(${u.id}, true, '${escapeHtml(u.username)}')" title="点击开通该用户的额度使用权">🔒 未开通额度 (点击一键授权)</button>`
+                  )
+                }
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
       <div style="background:var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:16px;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <span style="font-size:15px; font-weight:800; color:var(--text-primary);">👥 注册用户与战况清单 (${users.length})</span>
