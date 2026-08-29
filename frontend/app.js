@@ -1718,7 +1718,7 @@ function handleSurvivalChoice(opt, idx) {
       ${hasCn ? `
         <div id="survivalCnBlock" class="survival-cn-block" style="${isZhMode ? 'display:block;' : 'display:none;'}">
           <div style="font-weight:800; color:var(--brand-primary); margin-bottom:8px; font-size:13px; display:flex; align-items:center; gap:6px;">
-            <span>🇨🇳 战局情境与结局中文译文 (Story & Outcome)</span>
+            <span id="survivalCnHeaderTitle">🇨🇳 战局与原著剧情中文译文 (Story & Outcome)</span>
           </div>
           ${storyCn ? `
             <div style="margin-bottom:10px; border-left:3px solid var(--brand-primary); padding-left:10px; color:var(--text-primary);">
