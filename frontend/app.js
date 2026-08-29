@@ -558,7 +558,9 @@ function switchNavView(viewName) {
   } else if (viewName === 'survival') {
     document.getElementById('viewSurvival').classList.add('active');
     document.getElementById('navSurvival').classList.add('active');
+    initNovelModeUI();
     renderBattleHand();
+    launchSurvivalGame();
   } else if (viewName === 'match') {
     document.getElementById('viewMatch').classList.add('active');
     document.getElementById('navMatch').classList.add('active');
@@ -1495,7 +1497,8 @@ function switchSurvivalMode(mode) {
   currentSurvivalGameMode = mode;
   saveToStorage('vocab_survival_mode', mode);
   updateSurvivalModeUI();
-  showToast(mode === 'novel' ? '📖 已切换为【职场小说闯关模式】' : '⚡ 已切换为【经典绝境生存战】');
+  launchSurvivalGame();
+  showToast(mode === 'novel' ? '📖 已开启【职场小说大冒险】' : '⚡ 已开启【经典绝境生存战】');
 }
 
 function onSelectNovelChapter(chId) {
