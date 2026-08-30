@@ -218,7 +218,17 @@ async function initCloudSession() {
       saveToStorage(STORAGE_KEYS.CUSTOM_WORDS, customWords);
       saveToStorage(STORAGE_KEYS.WORDS, words);
 
+      if (cloud.user) {
+        authUser = Object.assign({}, authUser || {}, cloud.user);
+        if (cloud.user.role === 'admin' || ['林允安', '允安'].includes(cloud.user.username)) {
+          authUser.is_admin = true;
+          authUser.role = 'admin';
+        }
+        saveToStorage(STORAGE_KEYS.AUTH, authUser);
+      }
+
       updateBadges();
+      updateAuthUI();
       renderWords(document.getElementById('searchInput').value);
       renderTarotDeck();
       renderBattleHand();
@@ -2105,8 +2115,10 @@ function renderProfileView() {
 async function openAdminConsole() {
   soundClick();
   authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
-  if (!authToken) {
-    showToast("⚠️ 请先登录管理员账号");
+  authUser = loadFromStorage(STORAGE_KEYS.AUTH, null);
+  if (!authToken || !authUser) {
+    showToast("👑 站长后台：请先登录管理员账号 (林允安)");
+    openAuthModal();
     return;
   }
 
@@ -2391,15 +2403,32 @@ function logoutUser() {
 function updateAuthUI() {
   const btnName = document.getElementById('userBtnName');
   const adminBadgeBtn = document.getElementById('topAdminBtn');
+  const adminLaunchBtn = document.getElementById('adminLaunchBtn');
   authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
   authUser = loadFromStorage(STORAGE_KEYS.AUTH, null);
 
+  // 顶部站长控制台常驻展示，点击即触发智能引导或直达面板
+  if (adminBadgeBtn) {
+    adminBadgeBtn.style.display = 'inline-flex';
+  }
+
   if (authToken && authUser) {
     btnName.textContent = authUser.username;
-    if (adminBadgeBtn) adminBadgeBtn.style.display = authUser.is_admin ? 'inline-flex' : 'none';
+    const isMasterAdmin = Boolean(authUser.is_admin || authUser.role === 'admin' || ['林允安', '允安'].includes(authUser.username));
+    if (adminBadgeBtn) {
+      adminBadgeBtn.textContent = isMasterAdmin ? '👑 控制台 (Admin)' : '👑 控制台';
+    }
+    if (adminLaunchBtn) {
+      adminLaunchBtn.style.display = isMasterAdmin ? 'block' : 'none';
+    }
   } else {
     btnName.textContent = '登录';
-    if (adminBadgeBtn) adminBadgeBtn.style.display = 'none';
+    if (adminBadgeBtn) {
+      adminBadgeBtn.textContent = '👑 控制台';
+    }
+    if (adminLaunchBtn) {
+      adminLaunchBtn.style.display = 'none';
+    }
   }
 }
 
