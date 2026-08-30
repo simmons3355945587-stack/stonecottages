@@ -11,7 +11,7 @@
   <meta property="og:title" content="Vocabulary Survival 2.0 - 折纸塔罗词汇生存战">
   <meta property="og:description" content="通过RPG生存战、词汇解剖、消消乐、塔罗抽卡等创新模式高效背CET-4/6英语单词">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260830_v15">
 </head>
 <body>
 
@@ -35,7 +35,7 @@
       <!-- ☀️/🌙 昼夜主题切换 -->
       <button class="paper-icon-btn" onclick="toggleTheme()" id="themeBtn" title="切换昼夜模式">🌙</button>
       <button class="paper-icon-btn" onclick="toggleAudioMute()" id="audioBtn" title="音效开关">🔊</button>
-      <button class="paper-icon-btn" onclick="openSettingsModal()" title="API 驱动设置">⚙️</button>
+      <button class="paper-icon-btn" onclick="openSettingsModal()" id="settingsBtn" title="API 驱动设置">⚙️</button>
     </div>
   </div>
 
@@ -100,7 +100,6 @@
     </div>
 
     <!-- 📖 小说闯关控制横幅 (Novel Mode Banner) -->
-    <!-- 📖 小说闯关控制横幅 (Novel Mode Banner) -->
     <div id="novelBanner" class="origami-banner" style="border-color: var(--brand-primary); background: var(--paper-surface); margin-bottom: 14px; flex-direction: column; align-items: stretch; gap: 12px;">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
         <div style="flex: 1; min-width: 240px;">
@@ -147,7 +146,49 @@
       </div>
     </div>
 
+    <!-- ⚡ 经典绝境生存战横幅 (Classic Mode Banner) -->
+    <div id="classicBanner" class="origami-banner" style="display: none; margin-bottom: 14px;">
+      <div>
+        <div class="banner-title">⚡ 经典绝境生存战 (Roguelike RPG)</div>
+        <div class="banner-desc">大模型因果剧情推演，从生词本中抽取 3 词构建未知灾变冒险！</div>
+      </div>
+      <button class="btn btn-accent" style="flex:0; padding:8px 16px; white-space:nowrap;" onclick="launchSurvivalGame()">
+        ⚡ 开启战局
+      </button>
+    </div>
 
+    <!-- 🎮 生存战核心交互区 -->
+    <div id="survivalGameBox" class="origami-box" style="display: block;">
+      <div class="game-header">
+        <div class="theme-badge" id="gameTheme">📖 职场大冒险 · 见信如晤</div>
+        <div style="display:flex; gap:12px; font-weight:800; font-family:var(--font-mono); font-size:13px;">
+          <span style="color:var(--brand-danger)">❤️ <span id="gameHp">100</span></span>
+          <span style="color:var(--brand-accent)">🔥 <span id="gameCombo">x1</span> 连击</span>
+          <span style="color:var(--brand-cyan)">第 <span id="gameRound">1</span> 局</span>
+        </div>
+      </div>
+
+      <div class="story-scroll" id="gameStory">正在加载原著小说章节与互动剧情...</div>
+      <div id="gameOptions"></div>
+      <div id="gameOutcomeArea"></div>
+
+      <!-- ⚡ 战术卡牌手牌栏 (实时施放神技) -->
+      <div class="battle-hand-dock" id="battleHandDock">
+        <div class="battle-hand-header">
+          <div class="battle-hand-title">⚡ 战术卡牌技能手牌 (点击直接施放神技 · 扭转战局)</div>
+          <button class="btn btn-secondary" style="font-size:11px; padding:2px 8px;" onclick="openCodexModal()">🎒 卡牌背包</button>
+        </div>
+        <div class="battle-cards-row" id="battleHandDeck">
+          <!-- 动态加载出战卡牌 -->
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top: 16px;">
+        <button class="btn btn-secondary" onclick="useHintBuff()">👁️ 全视之眼提示</button>
+        <button class="btn btn-secondary" onclick="abortSurvivalGame()">🚪 撤退回词库</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= VIEW 4: 🍬 糖果色块中英配对消消乐 (CANDY MATCH) ================= -->
   <div id="viewMatch" class="view-section">
@@ -190,7 +231,6 @@
         <span style="color: var(--brand-danger); font-weight: 800;">⚠️ 选错惩罚：错选单词 Mark 自动 +1 并扣血！</span>
       </div>
 
-      <!-- 糖果立体色块消除网格 -->
       <!-- 🎯 难度与出题范围筛选器 -->
       <div class="candy-tier-filter-bar" style="display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px;">
         <button class="tier-pill active" id="tierPill_all" onclick="setCandyTierFilter('all')">🎲 全部高级词库</button>
@@ -199,6 +239,7 @@
         <button class="tier-pill" id="tierPill_ielts" onclick="setCandyTierFilter('ielts')">🟣 雅思托福 · 菁英</button>
       </div>
 
+      <!-- 糖果立体色块消除网格 -->
       <div class="candy-grid" id="candyGrid"></div>
       <div id="matchSettlementArea" style="display:none; margin-top:14px;"></div>
 
@@ -266,21 +307,20 @@
 <!-- Slide Definition Drawer -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDefDrawer()"></div>
 <div class="def-drawer" id="defDrawer">
-  <button class="drawer-close-btn" onclick="closeDefDrawer()">&times;</button>
+  <button class="drawer-close-btn" onclick="closeDefDrawer()" title="[ESC] 退出释义">&times;</button>
   <div id="defDrawerContent"></div>
 </div>
 
-
-  <!-- 🎒 3D 塔罗卡牌图鉴与背包 Modal -->
-  <div class="modal-box" id="codexModal" style="max-width: 720px; max-height: 85vh; overflow-y: auto;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
-      <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
-        🎒 3D 战术卡牌背包 & 技能图鉴 <span style="font-size: 11px; background: var(--brand-accent); color: #fff; padding: 2px 8px; border-radius: 10px;" id="codexTotalBadge">0 张</span>
-      </h3>
-      <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeCodexModal()">&times;</button>
-    </div>
-    <div id="codexGrid" class="codex-grid"></div>
+<!-- 🎒 3D 塔罗卡牌图鉴与背包 Modal -->
+<div class="modal-box" id="codexModal" style="max-width: 720px; max-height: 85vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+      🎒 3D 战术卡牌背包 & 技能图鉴 <span style="font-size: 11px; background: var(--brand-accent); color: #fff; padding: 2px 8px; border-radius: 10px;" id="codexTotalBadge">0 张</span>
+    </h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeCodexModal()">&times;</button>
   </div>
+  <div id="codexGrid" class="codex-grid"></div>
+</div>
 
 <!-- 👑 Admin 控制台面板 Modal -->
 <div class="modal-box" id="adminModal" style="max-width: 680px; max-height: 85vh; overflow-y: auto;">
@@ -349,7 +389,6 @@
   </div>
 </div>
 
-
 <!-- 💾 冒险进度与存档档案室 Modal (Save / Load Archive) -->
 <div class="modal-box" id="saveLoadModal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
@@ -408,7 +447,6 @@
     </div>
   </div>
 
-  
   <div class="form-group" style="margin-top: 12px; border-top: 1px dashed var(--paper-border); padding-top: 12px;">
     <label class="form-label">🌐 语言与释义模式 (Language & Definition Mode)</label>
     <select class="form-select" id="cfgDictLangMode">
@@ -435,7 +473,8 @@
   <span id="toastMsg">Notification</span>
 </div>
 
-<script src="words-data.js"></script>
-<script src="app.js"></script>
+<script src="words-data.js?v=20260830_v15"></script>
+<script src="novel-data.js?v=20260830_v15"></script>
+<script src="app.js?v=20260830_v15"></script>
 </body>
 </html>

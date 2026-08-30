@@ -29,6 +29,7 @@ if (typeof wordTierDict === 'undefined') window.wordTierDict = {};
 if (typeof chineseDict === 'undefined') window.chineseDict = {};
 if (typeof fullChineseDict === 'undefined') window.fullChineseDict = {};
 if (typeof NOVEL_CHAPTERS === 'undefined') window.NOVEL_CHAPTERS = [];
+const API_BASE = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : '';
 
 // ==========================================
 // Vocabulary Survival 3.0 - Candy Match, Tarot Battle Hand & Skill Engine
@@ -993,7 +994,7 @@ async function openWordDetails(word) {
   fetchZhDefinition(lookup, commonZh);
 
   // 加载英文释义
-  if (builtinEnglishDict[lookup]) {
+  if (typeof builtinEnglishDict !== 'undefined' && builtinEnglishDict && builtinEnglishDict[lookup]) {
     renderDefinitionBody(builtinEnglishDict[lookup], safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
     return;
   }
