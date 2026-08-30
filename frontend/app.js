@@ -81,29 +81,23 @@ function saveToStorage(key, val) {
   }
 }
 
-// 核心数据结构与来源分类
-let currentWordSource = loadFromStorage('vocab_current_source', 'original'); // 'original' (468词学习顺序) | 'novel' (49词小说新词) | 'all' (全部混合)
+// 核心数据结构与全量词库
+let currentWordSource = loadFromStorage('vocab_current_source', 'all');
 let customWords = loadFromStorage(STORAGE_KEYS.CUSTOM_WORDS, []);
 let savedWords = loadFromStorage(STORAGE_KEYS.WORDS, []);
 
 function getActiveWordList() {
-  const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : (typeof defaultWords !== 'undefined' ? defaultWords : []);
-  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
+  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0)
+    ? defaultWords
+    : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : []);
   
-  if (currentWordSource === 'original') {
-    return [...origList];
-  } else if (currentWordSource === 'novel') {
-    return [...novelList];
-  } else {
-    const combined = [...origList];
-    novelList.forEach(w => {
-      if (!combined.includes(w)) combined.push(w);
-    });
+  const combined = [...fullList];
+  if (Array.isArray(customWords)) {
     customWords.forEach(w => {
       if (!combined.includes(w)) combined.push(w);
     });
-    return combined;
   }
+  return combined;
 }
 
 function switchWordSource(sourceKey) {
@@ -826,25 +820,11 @@ function renderWords(filter = '') {
       card.className = 'origami-word-card';
       const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
 
-      let tierLabel = '学习顺序';
-      let tierClass = 'cet4';
-      if (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && NOVEL_EXTRACTED_WORDS.includes(w)) {
-        tierLabel = '职场小说';
-        tierClass = 'novel';
-      } else if (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && ORIGINAL_STUDY_WORDS.includes(w)) {
-        tierLabel = `背诵 #${i + 1}`;
-        tierClass = 'cet4';
-      } else if (customWords.includes(w)) {
-        tierLabel = '自录词';
-        tierClass = 'custom';
-      }
-
       card.innerHTML = `
         <span class="word-num">${i + 1}</span>
         <div class="word-info">
           <div class="word-spelling">
             ${escapeHtml(w)}
-            <span class="tier-tag tag-${tierClass}">${escapeHtml(tierLabel)}</span>
             <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
             ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
           </div>
