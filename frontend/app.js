@@ -81,10 +81,53 @@ function saveToStorage(key, val) {
   }
 }
 
-// 核心数据结构
+// 核心数据结构与来源分类
+let currentWordSource = loadFromStorage('vocab_current_source', 'original'); // 'original' (468词学习顺序) | 'novel' (49词小说新词) | 'all' (全部混合)
 let customWords = loadFromStorage(STORAGE_KEYS.CUSTOM_WORDS, []);
 let savedWords = loadFromStorage(STORAGE_KEYS.WORDS, []);
-let words = [...new Set([...customWords, ...savedWords, ...defaultWords])];
+
+function getActiveWordList() {
+  const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : (typeof defaultWords !== 'undefined' ? defaultWords : []);
+  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
+  
+  if (currentWordSource === 'original') {
+    return [...origList];
+  } else if (currentWordSource === 'novel') {
+    return [...novelList];
+  } else {
+    const combined = [...origList];
+    novelList.forEach(w => {
+      if (!combined.includes(w)) combined.push(w);
+    });
+    customWords.forEach(w => {
+      if (!combined.includes(w)) combined.push(w);
+    });
+    return combined;
+  }
+}
+
+function switchWordSource(sourceKey) {
+  soundClick();
+  currentWordSource = sourceKey;
+  saveToStorage('vocab_current_source', sourceKey);
+
+  ['original', 'novel', 'all'].forEach(k => {
+    const btn = document.getElementById(`srcBtn_${k}`);
+    if (btn) {
+      btn.classList.toggle('active', k === sourceKey);
+    }
+  });
+
+  words = getActiveWordList();
+  updateBadges();
+  const searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
+  renderWords(searchVal);
+  if (currentSubTab === 'marked') {
+    renderMarked();
+  }
+}
+
+let words = getActiveWordList();
 
 let marks = loadFromStorage(STORAGE_KEYS.MARKS, null);
 if (!marks) marks = loadFromStorage(STORAGE_KEYS.OLD_MARKS, {});
@@ -649,14 +692,40 @@ function switchSubTab(tab) {
 }
 
 function updateBadges() {
-  document.getElementById('badgeAll').textContent = words.length;
-  document.getElementById('badgeMarked').textContent = getMarkedWords().length;
-  document.getElementById('hudHp').textContent = playerProfile.hp;
-  document.getElementById('hpBar').style.width = `${Math.max(0, playerProfile.hp)}%`;
-  document.getElementById('hudSan').textContent = playerProfile.san;
-  document.getElementById('sanBar').style.width = `${Math.max(0, playerProfile.san)}%`;
-  document.getElementById('hudLevel').textContent = playerProfile.level;
-  document.getElementById('hudXp').textContent = `${playerProfile.xp} XP`;
+  const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : [];
+  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
+  const allList = [...new Set([...origList, ...novelList, ...customWords])];
+
+  const badgeOriginal = document.getElementById('badgeSrcOriginal');
+  if (badgeOriginal) badgeOriginal.textContent = origList.length;
+
+  const badgeNovel = document.getElementById('badgeSrcNovel');
+  if (badgeNovel) badgeNovel.textContent = novelList.length;
+
+  const badgeAllSrc = document.getElementById('badgeSrcAll');
+  if (badgeAllSrc) badgeAllSrc.textContent = allList.length;
+
+  const activeWords = getActiveWordList();
+  const badgeAll = document.getElementById('badgeAll');
+  if (badgeAll) badgeAll.textContent = activeWords.length;
+
+  const badgeMarked = document.getElementById('badgeMarked');
+  if (badgeMarked) badgeMarked.textContent = getMarkedWords().length;
+
+  const hudHp = document.getElementById('hudHp');
+  if (hudHp) hudHp.textContent = playerProfile.hp;
+  const hpBar = document.getElementById('hpBar');
+  if (hpBar) hpBar.style.width = `${Math.max(0, playerProfile.hp)}%`;
+
+  const hudSan = document.getElementById('hudSan');
+  if (hudSan) hudSan.textContent = playerProfile.san;
+  const sanBar = document.getElementById('sanBar');
+  if (sanBar) sanBar.style.width = `${Math.max(0, playerProfile.san)}%`;
+
+  const hudLevel = document.getElementById('hudLevel');
+  if (hudLevel) hudLevel.textContent = playerProfile.level;
+  const hudXp = document.getElementById('hudXp');
+  if (hudXp) hudXp.textContent = `${playerProfile.xp} XP`;
 }
 
 function getMarkCount(word) {
@@ -743,10 +812,12 @@ function getMarkedWords() {
 
 function renderWords(filter = '') {
   const container = document.getElementById('wordsListContainer');
+  if (!container) return;
   container.innerHTML = '';
   const lf = filter.toLowerCase().trim();
+  const activeWords = getActiveWordList();
 
-  words.forEach((w, i) => {
+  activeWords.forEach((w, i) => {
     const corrected = corrections[w];
     const mc = getMarkCount(w);
     const cn = chineseDict[w] || '';
@@ -754,12 +825,26 @@ function renderWords(filter = '') {
       const card = document.createElement('div');
       card.className = 'origami-word-card';
       const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
+
+      let tierLabel = '学习顺序';
+      let tierClass = 'cet4';
+      if (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && NOVEL_EXTRACTED_WORDS.includes(w)) {
+        tierLabel = '职场小说';
+        tierClass = 'novel';
+      } else if (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && ORIGINAL_STUDY_WORDS.includes(w)) {
+        tierLabel = `背诵 #${i + 1}`;
+        tierClass = 'cet4';
+      } else if (customWords.includes(w)) {
+        tierLabel = '自录词';
+        tierClass = 'custom';
+      }
+
       card.innerHTML = `
         <span class="word-num">${i + 1}</span>
         <div class="word-info">
           <div class="word-spelling">
             ${escapeHtml(w)}
-            <span class="tier-tag tag-${(typeof wordTierDict !== 'undefined' && wordTierDict[w]) ? wordTierDict[w] : 'cet4'}">${(typeof wordTierDict !== 'undefined' && wordTierDict[w] === 'ielts') ? 'IELTS' : ((typeof wordTierDict !== 'undefined' && wordTierDict[w]) ? wordTierDict[w].toUpperCase() : 'CET-4')}</span>
+            <span class="tier-tag tag-${tierClass}">${escapeHtml(tierLabel)}</span>
             <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
             ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
           </div>
@@ -2569,6 +2654,14 @@ function initApp() {
   const audioBtn = document.getElementById('audioBtn');
   if (audioBtn) audioBtn.textContent = appSettings.audioMuted ? '🔇' : '🔊';
 
+  // 初始化词库分类按钮高亮
+  ['original', 'novel', 'all'].forEach(k => {
+    const btn = document.getElementById(`srcBtn_${k}`);
+    if (btn) {
+      btn.classList.toggle('active', k === currentWordSource);
+    }
+  });
+
   renderWords();
   initNovelModeUI();
   updateBadges();
@@ -3190,6 +3283,8 @@ function importAllData() {
 if (typeof window !== 'undefined') {
   window.switchNavView = switchNavView;
   window.switchSubTab = switchSubTab;
+  window.switchWordSource = switchWordSource;
+  window.getActiveWordList = getActiveWordList;
   window.switchSurvivalMode = switchSurvivalMode;
   window.onSelectNovelChapter = onSelectNovelChapter;
   window.nextNovelBeat = nextNovelBeat;

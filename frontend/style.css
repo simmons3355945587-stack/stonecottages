@@ -275,7 +275,70 @@
     transition: var(--transition-fast);
   }
   .paper-btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
-  .paper-btn-primary:active { box-shadow: var(--paper-shadow-active); transform: translate(2px, 2px); }
+  /* 📌 词库来源分类切换胶囊栏 */
+  .vocab-source-selector-wrap {
+    margin-bottom: 12px;
+  }
+  .source-pill-group {
+    display: flex;
+    gap: 8px;
+    background: var(--paper-surface-sub);
+    padding: 6px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--paper-border);
+    box-shadow: 2px 2px 0px var(--paper-border);
+    flex-wrap: wrap;
+  }
+  .source-pill {
+    flex: 1;
+    min-width: 130px;
+    background: transparent;
+    border: 1.5px solid transparent;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: var(--transition-fast);
+  }
+  .source-pill:hover {
+    color: var(--text-primary);
+    background: var(--paper-surface);
+  }
+  .source-pill.active {
+    background: var(--paper-surface);
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    box-shadow: 2px 2px 0px var(--brand-primary);
+    font-weight: 800;
+  }
+  .source-pill .badge-pill-count {
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--brand-primary);
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  .source-pill.active .badge-pill-count {
+    background: var(--brand-primary);
+    color: #fff;
+  }
+  .tier-tag.tag-novel {
+    background: rgba(245, 158, 11, 0.15);
+    color: #d97706;
+    border-color: #f59e0b;
+  }
+  .tier-tag.tag-custom {
+    background: rgba(6, 182, 212, 0.15);
+    color: #0891b2;
+    border-color: #06b6d4;
+  }
 
   /* 折纸子标签 (Sub Tabs) */
   .origami-tabs {
