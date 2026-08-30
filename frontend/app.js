@@ -87,17 +87,26 @@ let customWords = loadFromStorage(STORAGE_KEYS.CUSTOM_WORDS, []);
 let savedWords = loadFromStorage(STORAGE_KEYS.WORDS, []);
 
 function getActiveWordList() {
-  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0)
-    ? defaultWords
-    : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : []);
-  
-  const combined = [...fullList];
-  if (Array.isArray(customWords)) {
-    customWords.forEach(w => {
-      if (!combined.includes(w)) combined.push(w);
-    });
+  const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : [];
+  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
+  const tradeList = (typeof TRADE_BUSINESS_WORDS !== 'undefined' && Array.isArray(TRADE_BUSINESS_WORDS)) ? TRADE_BUSINESS_WORDS : [];
+  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...origList, ...novelList, ...tradeList];
+
+  if (currentWordSource === 'original') {
+    return [...origList];
+  } else if (currentWordSource === 'novel') {
+    return [...novelList];
+  } else if (currentWordSource === 'trade') {
+    return [...tradeList];
+  } else {
+    const combined = [...fullList];
+    if (Array.isArray(customWords)) {
+      customWords.forEach(w => {
+        if (!combined.includes(w)) combined.push(w);
+      });
+    }
+    return combined;
   }
-  return combined;
 }
 
 function switchWordSource(sourceKey) {
@@ -105,7 +114,7 @@ function switchWordSource(sourceKey) {
   currentWordSource = sourceKey;
   saveToStorage('vocab_current_source', sourceKey);
 
-  ['original', 'novel', 'all'].forEach(k => {
+  ['original', 'novel', 'trade', 'all'].forEach(k => {
     const btn = document.getElementById(`srcBtn_${k}`);
     if (btn) {
       btn.classList.toggle('active', k === sourceKey);
@@ -688,7 +697,8 @@ function switchSubTab(tab) {
 function updateBadges() {
   const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : [];
   const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
-  const allList = [...new Set([...origList, ...novelList, ...customWords])];
+  const tradeList = (typeof TRADE_BUSINESS_WORDS !== 'undefined' && Array.isArray(TRADE_BUSINESS_WORDS)) ? TRADE_BUSINESS_WORDS : [];
+  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...origList, ...novelList, ...tradeList];
 
   const badgeOriginal = document.getElementById('badgeSrcOriginal');
   if (badgeOriginal) badgeOriginal.textContent = origList.length;
@@ -696,8 +706,11 @@ function updateBadges() {
   const badgeNovel = document.getElementById('badgeSrcNovel');
   if (badgeNovel) badgeNovel.textContent = novelList.length;
 
+  const badgeTrade = document.getElementById('badgeSrcTrade');
+  if (badgeTrade) badgeTrade.textContent = tradeList.length;
+
   const badgeAllSrc = document.getElementById('badgeSrcAll');
-  if (badgeAllSrc) badgeAllSrc.textContent = allList.length;
+  if (badgeAllSrc) badgeAllSrc.textContent = fullList.length;
 
   const activeWords = getActiveWordList();
   const badgeAll = document.getElementById('badgeAll');
