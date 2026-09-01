@@ -1082,6 +1082,7 @@ async function openWordDetails(word) {
   const safeWord = word.toLowerCase().trim();
   const lookup = corrections[safeWord] || safeWord;
   currentLookupWord = safeWord;
+  speakWord(lookup);
 
   // 根据设置初始化当前激活的词典 Tab：默认 'en'，设置了中文模式则默认 'zh'
   currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
@@ -1953,9 +1954,28 @@ async function launchSurvivalGame() {
 
 function renderSurvivalGame(data) {
   const storyText = data.story || "A critical crisis demands your immediate decision!";
+  const clickableStory = renderClickableStory(storyText);
+  const storyCn = data.story_cn || '';
+
   document.getElementById('gameStory').innerHTML = `
-    <div style="font-size: 15px; line-height: 1.6; color: var(--text-primary); font-weight: 500;">
-      ${escapeHtml(storyText)}
+    <div class="novel-interactive-story-wrapper" style="font-size: 15.5px; line-height: 1.75; color: var(--text-primary);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+        <span style="font-size:12px; font-weight:800; color:var(--brand-accent); display:flex; align-items:center; gap:6px;">
+          📖 原著剧情切片 · 单词点查 / 发音 / ★Mark
+        </span>
+        <button class="btn btn-secondary" style="font-size:11px; padding:2px 8px; height:24px;" onclick="speakSentence('${escapeHtml(storyText.replace(/'/g, "\\'"))}')" title="朗读全段原文">
+          🔊 朗读原文
+        </button>
+      </div>
+      <div style="background:var(--paper-surface-sub); padding:16px 18px; border-radius:var(--radius-md); border:1.5px solid var(--paper-border); box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);">
+        ${clickableStory}
+      </div>
+      ${storyCn ? `
+        <div style="margin-top: 10px; padding: 12px 14px; background: rgba(245, 158, 11, 0.05); border-left: 3.5px solid var(--brand-accent); border-radius: var(--radius-sm); font-size: 13.5px; color: var(--text-secondary); line-height: 1.6;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--brand-accent); margin-bottom: 2px;">🇨🇳 剧情译文提示:</div>
+          ${escapeHtml(storyCn)}
+        </div>
+      ` : ''}
     </div>
   `;
 
@@ -1966,13 +1986,17 @@ function renderSurvivalGame(data) {
   data.options.forEach((opt, idx) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
+    const optWordClean = opt.word ? opt.word.toLowerCase() : '';
+    const optWordZh = (typeof chineseDict !== 'undefined' && chineseDict[optWordClean]) ? chineseDict[optWordClean] : (opt.word_zh || '');
     btn.innerHTML = `
       <div class="choice-letter-badge">${letterLabels[idx] || (idx+1)}</div>
       <div class="choice-content">
-        <div class="choice-header-row">
-          <span class="choice-word-badge">[ ${escapeHtml(opt.word)} ]</span>
+        <div class="choice-header-row" style="display:flex; justify-content:space-between; align-items:center;">
+          <span class="choice-word-badge" style="cursor:pointer;" onclick="event.stopPropagation(); inspectStoryWord('${escapeHtml(optWordClean)}', event);" title="点击查词 [${escapeHtml(opt.word)}] / 发音 / ★Mark">[ ${escapeHtml(opt.word)} ] 🔍</span>
+          ${optWordZh ? `<span style="font-size:12px; color:var(--text-secondary); font-weight:600;">${escapeHtml(optWordZh)}</span>` : ''}
         </div>
-        <div class="choice-action-text">${escapeHtml(opt.action)}</div>
+        <div class="choice-action-text" style="margin-top:4px;">${escapeHtml(opt.action)}</div>
+        ${opt.action_cn ? `<div class="choice-action-cn" style="font-size: 12.5px; color: var(--brand-primary); margin-top: 4px; font-weight: 500;">🇨🇳 ${escapeHtml(opt.action_cn)}</div>` : ''}
       </div>
     `;
     btn.onclick = () => handleSurvivalChoice(opt, idx);
