@@ -1156,6 +1156,13 @@
   font-weight: 800;
   border-bottom: 2px solid var(--brand-danger);
 }
+.story-word.target-word-glow {
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--brand-accent);
+  font-weight: 800;
+  border-bottom: 2.5px solid var(--brand-accent);
+  padding: 1px 4px;
+}
 
 /* External Dictionary Jump Links */
 .dict-external-link {

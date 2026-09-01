@@ -676,14 +676,16 @@ function safeJsonParse(str) {
   return JSON.parse(cleaned);
 }
 
-// 6. 可点击交互式文本渲染
-function renderClickableStory(text) {
+// 6. 可点击交互式文本渲染与发音
+function renderClickableStory(text, targetWord = '') {
   if (!text) return '';
+  const tgtClean = targetWord ? targetWord.toLowerCase().trim() : '';
   return text.split(/([A-Za-z'-]+)/g).map(token => {
     if (/^[A-Za-z'-]+$/.test(token)) {
       const cleanWord = token.toLowerCase();
       const isMarked = getMarkCount(cleanWord) > 0;
-      return `<span class="story-word ${isMarked ? 'marked-word-highlight' : ''}" data-word="${cleanWord}" onclick="inspectStoryWord('${cleanWord}', event)" title="Click to inspect & Mark">${escapeHtml(token)}</span>`;
+      const isTarget = (cleanWord === tgtClean);
+      return `<span class="story-word ${isTarget ? 'target-word-glow' : ''} ${isMarked ? 'marked-word-highlight' : ''}" data-word="${cleanWord}" onclick="inspectStoryWord('${cleanWord}', event)" title="点击查词 [${cleanWord}] / 发音 / ★Mark">${escapeHtml(token)}</span>`;
     } else {
       return escapeHtml(token);
     }
@@ -694,6 +696,17 @@ async function inspectStoryWord(word, e) {
   if (e) e.stopPropagation();
   soundClick();
   openWordDetails(word);
+}
+
+function speakSentence(text) {
+  if (!text) return;
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.95;
+    window.speechSynthesis.speak(utter);
+  }
 }
 
 // 7. 视图切换与词库列表
@@ -2008,12 +2021,11 @@ function handleSurvivalChoice(opt, idx) {
   // 1. 组合危机背景与决断后果的完整英文故事与中文翻译
   const storyText = survivalData.story || '';
   const outcomeStoryText = opt.fullOutcomeStory || `${storyText} ${opt.action}`;
-  const clickableHtml = renderClickableStory(outcomeStoryText);
+  const clickableHtml = renderClickableStory(outcomeStoryText, word);
 
-  const isZhMode = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
   const storyCn = survivalData.story_cn || '';
   const outcomeCn = opt.fullOutcomeStory_cn || opt.action_cn || '';
-  const hasCn = Boolean(storyCn || outcomeCn);
+  const targetZh = (typeof chineseDict !== 'undefined' && chineseDict[word.toLowerCase()]) ? chineseDict[word.toLowerCase()] : '';
 
   // 2. 清空选择按钮，直接展示沉浸式折纸战役结算卷轴
   const optionsGrid = document.getElementById('gameOptions');
@@ -2048,30 +2060,31 @@ function handleSurvivalChoice(opt, idx) {
     </div>
 
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:16px;">
-      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm);">
-        <div style="font-size:11px; color:var(--text-secondary);">DECISION WORD</div>
-        <div style="font-size:14px; font-weight:800; color:var(--brand-accent); cursor:pointer;" onclick="openWordDetails('${escapeHtml(word)}')">[ ${escapeHtml(word)} ] 🔍</div>
+      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm); cursor:pointer;" onclick="openWordDetails('${escapeHtml(word)}')">
+        <div style="font-size:11px; color:var(--text-secondary);">DECISION WORD · 考点生词</div>
+        <div style="font-size:14px; font-weight:800; color:var(--brand-accent);">[ ${escapeHtml(word)} ] 🔍</div>
+        ${targetZh ? `<div style="font-size:11.5px; color:var(--text-secondary); margin-top:2px; font-weight:500;">${escapeHtml(targetZh)}</div>` : ''}
       </div>
       <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm);">
-        <div style="font-size:11px; color:var(--text-secondary);">MARK STATUS</div>
+        <div style="font-size:11px; color:var(--text-secondary);">MARK STATUS · 生词星标</div>
         <div style="font-size:14px; font-weight:800; color:${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">★ Mark: ${getMarkCount(word)}</div>
       </div>
       <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); padding:8px 12px; border-radius:var(--radius-sm);">
-        <div style="font-size:11px; color:var(--text-secondary);">HP / SAN</div>
+        <div style="font-size:11px; color:var(--text-secondary);">HP / SAN 状态</div>
         <div style="font-size:14px; font-weight:800; color:var(--text-primary);">${playerProfile.hp} / ${playerProfile.san}</div>
       </div>
     </div>
 
-    <!-- 📜 完整英文战报研读 -->
-    <div style="margin-bottom:16px;">
+    <!-- 📜 英文原著战报研读 (支持每一个单词点击即查/即发音/即Mark) -->
+    <div style="margin-bottom:14px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
         <span style="font-size:13px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:6px;">
-          📜 英文战报研读 (Complete Scene & Outcome)
+          📖 英文原著战报研读 (Original Narrative · 点词即查)
         </span>
         <div style="display:flex; align-items:center; gap:8px;">
-          ${hasCn ? `<button class="btn btn-secondary" id="btnToggleSurvivalCn" style="font-size:11px; padding:2px 10px; height:26px;" onclick="toggleSurvivalCnBlock()">${isZhMode ? '🇬🇧 隐藏中文译文' : '🇨🇳 显示双语对照译文'}</button>` : ''}
-          <span style="font-size:11px; color:var(--brand-primary); font-weight:600;">
-            💡 点击单词查词 & ★ Mark
+          <button class="btn btn-secondary" style="font-size:11px; padding:2px 8px; height:24px;" onclick="speakSentence('${escapeHtml(outcomeStoryText.replace(/'/g, "\\'"))}')" title="朗读全段">🔊 朗读全段</button>
+          <span style="font-size:11px; color:var(--brand-primary); font-weight:700;">
+            💡 任意单词点查 & ★ Mark
           </span>
         </div>
       </div>
@@ -2080,30 +2093,18 @@ function handleSurvivalChoice(opt, idx) {
       </div>
     </div>
 
-    <!-- 🇨🇳 双语深度对照长卷 (原著小说场景原文翻译 + 本幕抉择因果与结局) -->
-    ${hasCn ? `
-      <div id="survivalCnBlock" class="survival-cn-block" style="${isZhMode ? 'display:block;' : 'display:none;'} margin-bottom:18px;">
-        <div style="font-weight:800; color:var(--brand-primary); margin-bottom:10px; font-size:13px; display:flex; align-items:center; gap:6px;">
-          <span>🇨🇳 双语深度对照长卷 (Bilingual Scene & Outcome)</span>
+    <!-- 🇨🇳 精校文学级中文润色译文 (直接呈现) -->
+    ${outcomeCn || storyCn ? `
+      <div style="margin-bottom:18px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:13px; font-weight:800; color:var(--brand-accent); display:flex; align-items:center; gap:6px;">
+            🇨🇳 精校文学级中文润色译文 (Polished Literary Translation)
+          </span>
         </div>
-        
-        ${storyCn ? `
-          <div class="settlement-translation-card" style="border-left:4px solid var(--brand-primary);">
-            <div class="settlement-trans-title" style="color:var(--brand-primary);">
-              <span>📖 ①【原著小说场景原文翻译】</span>
-            </div>
-            <div style="font-size:14px; line-height:1.7; color:var(--text-primary);">${escapeHtml(storyCn)}</div>
-          </div>
-        ` : ''}
-
-        ${outcomeCn ? `
-          <div class="settlement-translation-card" style="border-left:4px solid ${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">
-            <div class="settlement-trans-title" style="color:${isSuccess ? 'var(--brand-success)' : 'var(--brand-danger)'};">
-              <span>⚡ ②【本幕抉择因果与结局】</span>
-            </div>
-            <div style="font-size:14px; line-height:1.7; color:var(--text-primary);">${escapeHtml(outcomeCn)}</div>
-          </div>
-        ` : ''}
+        <div style="background: rgba(245, 158, 11, 0.06); padding:16px 18px; border-radius:var(--radius-md); border:1.5px solid rgba(245, 158, 11, 0.25); border-left: 4px solid var(--brand-accent); font-size:14.5px; line-height:1.8; color:var(--text-primary);">
+          ${outcomeCn ? `<div style="margin-bottom: ${storyCn ? '8px' : '0'}; font-weight:500;">${escapeHtml(outcomeCn)}</div>` : ''}
+          ${storyCn && storyCn !== outcomeCn ? `<div style="font-size:13px; color:var(--text-secondary); border-top:1px dashed rgba(245, 158, 11, 0.2); padding-top:8px; margin-top:8px;">📖 <strong>原著背景</strong>: ${escapeHtml(storyCn)}</div>` : ''}
+        </div>
       </div>
     ` : ''}
 
