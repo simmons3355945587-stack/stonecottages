@@ -84,9 +84,9 @@ function saveToStorage(key, val) {
 }
 
 // 核心数据结构与全量词库
-let currentWordSource = loadFromStorage('vocab_current_source', 'core');
-let currentWordTier = loadFromStorage('vocab_current_tier', 'all');
-let isFilterDrawerOpen = loadFromStorage('vocab_filter_drawer_open', false);
+let currentWordSource = 'core'; // 默认打开词库始终锁定为核心背诵单词
+let currentWordTier = 'all'; // 默认难度为全部难度
+let isFilterDrawerOpen = false; // 默认收起筛选面板保持清爽
 let customWords = loadFromStorage(STORAGE_KEYS.CUSTOM_WORDS, []);
 let savedWords = loadFromStorage(STORAGE_KEYS.WORDS, []);
 
@@ -2732,11 +2732,16 @@ function initApp() {
   const audioBtn = document.getElementById('audioBtn');
   if (audioBtn) audioBtn.textContent = appSettings.audioMuted ? '🔇' : '🔊';
 
+  // 初始化默认锁定为 核心背诵单词 (480 词)
+  currentWordSource = 'core';
+  currentWordTier = 'all';
+  isFilterDrawerOpen = false;
+
   // 初始化折叠抽屉状态与双维度高亮
   const filterBody = document.getElementById('filterDrawerBody');
   const filterChevron = document.getElementById('filterChevron');
-  if (filterBody) filterBody.style.display = isFilterDrawerOpen ? 'flex' : 'none';
-  if (filterChevron) filterChevron.classList.toggle('expanded', isFilterDrawerOpen);
+  if (filterBody) filterBody.style.display = 'none';
+  if (filterChevron) filterChevron.classList.remove('expanded');
   refreshFilterUI();
 
   renderWords();
