@@ -1,27 +1,29 @@
-const tarotArcanaSkills = [
-  { "name": "The Magician", "skill": "真理洞察", "desc": "高亮本局唯一正确生还选项", "icon": "👁️", "type": "reveal_correct", "rarity": "SSR" },
-  { "name": "The High Priestess", "skill": "心智抚慰", "desc": "立即恢复 35 点 SAN 理智值", "icon": "🧠", "type": "heal_san", "rarity": "SR" },
-  { "name": "The Empress", "skill": "生命滋养", "desc": "立即恢复 35 点 HP 生命值", "icon": "💚", "type": "heal_hp", "rarity": "SR" },
-  { "name": "The Emperor", "skill": "绝对支配", "desc": "直接判定生还并获得全额经验", "icon": "👑", "type": "auto_win", "rarity": "SSR" },
-  { "name": "The Hierophant", "skill": "智慧恩赐", "desc": "本回合额外奖励 +50 经验值", "icon": "📜", "type": "xp_boost", "rarity": "SR" },
-  { "name": "The Lovers", "skill": "同盟共鸣", "desc": "连击 Combo +2，战胜经验翻倍", "icon": "⚡", "type": "combo_boost", "rarity": "UR" },
-  { "name": "The Chariot", "skill": "破阵冲锋", "desc": "摧毁并排除 1 个高危陷阱选项", "icon": "🛡️", "type": "eliminate_wrong", "rarity": "SSR" },
-  { "name": "Strength", "skill": "坚韧壁垒", "desc": "生成护盾，抵挡下一次选错伤害", "icon": "🔰", "type": "shield", "rarity": "SR" },
-  { "name": "The Hermit", "skill": "求索之光", "desc": "洞悉生还逻辑与线索提示", "icon": "💡", "type": "hint", "rarity": "SR" },
-  { "name": "Wheel of Fortune", "skill": "命运重铸", "desc": "舍弃当前危机，重抽安全局势", "icon": "🌪️", "type": "reroll", "rarity": "UR" },
-  { "name": "Justice", "skill": "天平平衡", "desc": "HP 与 SAN 同步恢复至 80 点", "icon": "⚖️", "type": "balance", "rarity": "SR" },
-  { "name": "The Hanged Man", "skill": "逆境觉醒", "desc": "残血时瞬间恢复 70% 生命值", "icon": "⏳", "type": "clutch_heal", "rarity": "SR" },
-  { "name": "Death", "skill": "绝境涅槃", "desc": "免死金牌！受到致命伤自动复活", "icon": "🦅", "type": "revive", "rarity": "UR" },
-  { "name": "Temperance", "skill": "平衡回响", "desc": "同时恢复 +20 HP 与 +20 SAN", "icon": "🕊️", "type": "dual_heal", "rarity": "SR" },
-  { "name": "The Devil", "skill": "暗夜豪赌", "desc": "消耗 15 SAN，直接获得 +80 XP", "icon": "🔥", "type": "gamble_xp", "rarity": "SR" },
-  { "name": "The Tower", "skill": "瓦解崩塌", "desc": "直接粉碎 1 个致命错误陷阱", "icon": "💥", "type": "eliminate_wrong", "rarity": "SSR" },
-  { "name": "The Star", "skill": "希望闪耀", "desc": "本场所有生词标记 Mark 全部减 1", "icon": "✨", "type": "cleanse_marks", "rarity": "SSR" },
-  { "name": "The Moon", "skill": "迷雾幻影", "desc": "免疫下一次理智值 SAN 损耗", "icon": "🌙", "type": "san_shield", "rarity": "SR" },
-  { "name": "The Sun", "skill": "黎明荣耀", "desc": "HP与SAN全满恢复 + 获得 100 XP", "icon": "☀️", "type": "full_restore", "rarity": "UR" },
-  { "name": "Judgement", "skill": "终极昭示", "desc": "必定正确并清空目标词错误标记", "icon": "🎺", "type": "verdict", "rarity": "UR" },
-  { "name": "The World", "skill": "全知创世", "desc": "透视正解 + 恢复50 HP + 100 XP", "icon": "🌍", "type": "world_master", "rarity": "UR" },
-  { "name": "The Fool", "skill": "无畏启程", "desc": "随机触发上述任意一种强力神技", "icon": "🃏", "type": "random", "rarity": "SSR" }
-];
+if (typeof tarotArcanaSkills === 'undefined') {
+  window.tarotArcanaSkills = [
+    { "name": "The Magician", "skill": "真理洞察", "desc": "高亮本局唯一正确生还选项", "icon": "👁️", "type": "reveal_correct", "rarity": "SSR" },
+    { "name": "The High Priestess", "skill": "心智抚慰", "desc": "立即恢复 35 点 SAN 理智值", "icon": "🧠", "type": "heal_san", "rarity": "SR" },
+    { "name": "The Empress", "skill": "生命滋养", "desc": "立即恢复 35 点 HP 生命值", "icon": "💚", "type": "heal_hp", "rarity": "SR" },
+    { "name": "The Emperor", "skill": "绝对支配", "desc": "直接判定生还并获得全额经验", "icon": "👑", "type": "auto_win", "rarity": "SSR" },
+    { "name": "The Hierophant", "skill": "智慧恩赐", "desc": "本回合额外奖励 +50 经验值", "icon": "📜", "type": "xp_boost", "rarity": "SR" },
+    { "name": "The Lovers", "skill": "同盟共鸣", "desc": "连击 Combo +2，战胜经验翻倍", "icon": "⚡", "type": "combo_boost", "rarity": "UR" },
+    { "name": "The Chariot", "skill": "破阵冲锋", "desc": "摧毁并排除 1 个高危陷阱选项", "icon": "🛡️", "type": "eliminate_wrong", "rarity": "SSR" },
+    { "name": "Strength", "skill": "坚韧壁垒", "desc": "生成护盾，抵挡下一次选错伤害", "icon": "🔰", "type": "shield", "rarity": "SR" },
+    { "name": "The Hermit", "skill": "求索之光", "desc": "洞悉生还逻辑与线索提示", "icon": "💡", "type": "hint", "rarity": "SR" },
+    { "name": "Wheel of Fortune", "skill": "命运重铸", "desc": "舍弃当前危机，重抽安全局势", "icon": "🌪️", "type": "reroll", "rarity": "UR" },
+    { "name": "Justice", "skill": "天平平衡", "desc": "HP 与 SAN 同步恢复至 80 点", "icon": "⚖️", "type": "balance", "rarity": "SR" },
+    { "name": "The Hanged Man", "skill": "逆境觉醒", "desc": "残血时瞬间恢复 70% 生命值", "icon": "⏳", "type": "clutch_heal", "rarity": "SR" },
+    { "name": "Death", "skill": "绝境涅槃", "desc": "免死金牌！受到致命伤自动复活", "icon": "🦅", "type": "revive", "rarity": "UR" },
+    { "name": "Temperance", "skill": "平衡回响", "desc": "同时恢复 +20 HP 与 +20 SAN", "icon": "🕊️", "type": "dual_heal", "rarity": "SR" },
+    { "name": "The Devil", "skill": "暗夜豪赌", "desc": "消耗 15 SAN，直接获得 +80 XP", "icon": "🔥", "type": "gamble_xp", "rarity": "SR" },
+    { "name": "The Tower", "skill": "瓦解崩塌", "desc": "直接粉碎 1 个致命错误陷阱", "icon": "💥", "type": "eliminate_wrong", "rarity": "SSR" },
+    { "name": "The Star", "skill": "希望闪耀", "desc": "本场所有生词标记 Mark 全部减 1", "icon": "✨", "type": "cleanse_marks", "rarity": "SSR" },
+    { "name": "The Moon", "skill": "迷雾幻影", "desc": "免疫下一次理智值 SAN 损耗", "icon": "🌙", "type": "san_shield", "rarity": "SR" },
+    { "name": "The Sun", "skill": "黎明荣耀", "desc": "HP与SAN全满恢复 + 获得 100 XP", "icon": "☀️", "type": "full_restore", "rarity": "UR" },
+    { "name": "Judgement", "skill": "终极昭示", "desc": "必定正确并清空目标词错误标记", "icon": "🎺", "type": "verdict", "rarity": "UR" },
+    { "name": "The World", "skill": "全知创世", "desc": "透视正解 + 恢复50 HP + 100 XP", "icon": "🌍", "type": "world_master", "rarity": "UR" },
+    { "name": "The Fool", "skill": "无畏启程", "desc": "随机触发上述任意一种强力神技", "icon": "🃏", "type": "random", "rarity": "SSR" }
+  ];
+}
 
 // Global Fallbacks
 if (typeof corrections === 'undefined') window.corrections = {};
@@ -82,43 +84,82 @@ function saveToStorage(key, val) {
 }
 
 // 核心数据结构与全量词库
-let currentWordSource = loadFromStorage('vocab_current_source', 'all');
+let currentWordSource = loadFromStorage('vocab_current_source', 'core');
+let currentWordTier = loadFromStorage('vocab_current_tier', 'all');
+let isFilterDrawerOpen = loadFromStorage('vocab_filter_drawer_open', false);
 let customWords = loadFromStorage(STORAGE_KEYS.CUSTOM_WORDS, []);
 let savedWords = loadFromStorage(STORAGE_KEYS.WORDS, []);
 
-function getActiveWordList() {
-  const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : [];
-  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
-  const tradeList = (typeof TRADE_BUSINESS_WORDS !== 'undefined' && Array.isArray(TRADE_BUSINESS_WORDS)) ? TRADE_BUSINESS_WORDS : [];
-  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...origList, ...novelList, ...tradeList];
-
-  if (currentWordSource === 'original') {
-    return [...origList];
-  } else if (currentWordSource === 'novel') {
-    return [...novelList];
-  } else if (currentWordSource === 'trade') {
-    return [...tradeList];
-  } else {
-    const combined = [...fullList];
-    if (Array.isArray(customWords)) {
-      customWords.forEach(w => {
-        if (!combined.includes(w)) combined.push(w);
-      });
-    }
-    return combined;
-  }
+function toggleFilterDrawer() {
+  soundClick();
+  isFilterDrawerOpen = !isFilterDrawerOpen;
+  saveToStorage('vocab_filter_drawer_open', isFilterDrawerOpen);
+  const body = document.getElementById('filterDrawerBody');
+  const chevron = document.getElementById('filterChevron');
+  if (body) body.style.display = isFilterDrawerOpen ? 'flex' : 'none';
+  if (chevron) chevron.classList.toggle('expanded', isFilterDrawerOpen);
 }
 
-function switchWordSource(sourceKey) {
+function getSourceRawWords(sourceKey) {
+  const coreList = (typeof CORE_STUDY_WORDS !== 'undefined' && Array.isArray(CORE_STUDY_WORDS)) ? CORE_STUDY_WORDS : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined') ? ORIGINAL_STUDY_WORDS : []);
+  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
+  const tradeList = (typeof TRADE_BUSINESS_WORDS !== 'undefined' && Array.isArray(TRADE_BUSINESS_WORDS)) ? TRADE_BUSINESS_WORDS : [];
+  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...coreList, ...novelList, ...tradeList];
+
+  if (sourceKey === 'core' || sourceKey === 'original') return [...coreList];
+  if (sourceKey === 'novel_ihopethisfindsyouwell' || sourceKey === 'novel') return [...novelList];
+  if (sourceKey === 'trade_business' || sourceKey === 'trade') return [...tradeList];
+  
+  const combined = [...fullList];
+  if (Array.isArray(customWords)) {
+    customWords.forEach(w => {
+      if (!combined.includes(w)) combined.push(w);
+    });
+  }
+  return combined;
+}
+
+function getActiveWordList() {
+  const sourceWords = getSourceRawWords(currentWordSource);
+  if (currentWordTier === 'all') {
+    return sourceWords;
+  }
+  const tierDict = (typeof wordTierDict !== 'undefined') ? wordTierDict : {};
+  return sourceWords.filter(w => {
+    const tier = tierDict[w.toLowerCase()] || 'cet4';
+    return tier === currentWordTier;
+  });
+}
+
+function setWordSourceFilter(sourceKey) {
   soundClick();
   currentWordSource = sourceKey;
   saveToStorage('vocab_current_source', sourceKey);
+  refreshFilterUI();
+}
 
-  ['original', 'novel', 'trade', 'all'].forEach(k => {
+function setWordTierFilter(tierKey) {
+  soundClick();
+  currentWordTier = tierKey;
+  saveToStorage('vocab_current_tier', tierKey);
+  refreshFilterUI();
+}
+
+function switchWordSource(sourceKey) {
+  setWordSourceFilter(sourceKey);
+}
+
+function refreshFilterUI() {
+  const sourceBtns = ['core', 'novel_ihopethisfindsyouwell', 'trade_business', 'all'];
+  sourceBtns.forEach(k => {
     const btn = document.getElementById(`srcBtn_${k}`);
-    if (btn) {
-      btn.classList.toggle('active', k === sourceKey);
-    }
+    if (btn) btn.classList.toggle('active', k === currentWordSource || (k === 'core' && currentWordSource === 'original'));
+  });
+
+  const tierBtns = ['all', 'cet4', 'cet6', 'ielts'];
+  tierBtns.forEach(k => {
+    const btn = document.getElementById(`tierBtn_${k}`);
+    if (btn) btn.classList.toggle('active', k === currentWordTier);
   });
 
   words = getActiveWordList();
@@ -695,24 +736,68 @@ function switchSubTab(tab) {
 }
 
 function updateBadges() {
-  const origList = (typeof ORIGINAL_STUDY_WORDS !== 'undefined' && Array.isArray(ORIGINAL_STUDY_WORDS)) ? ORIGINAL_STUDY_WORDS : [];
+  const coreList = (typeof CORE_STUDY_WORDS !== 'undefined' && Array.isArray(CORE_STUDY_WORDS)) ? CORE_STUDY_WORDS : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined') ? ORIGINAL_STUDY_WORDS : []);
   const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
   const tradeList = (typeof TRADE_BUSINESS_WORDS !== 'undefined' && Array.isArray(TRADE_BUSINESS_WORDS)) ? TRADE_BUSINESS_WORDS : [];
-  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...origList, ...novelList, ...tradeList];
+  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...coreList, ...novelList, ...tradeList];
 
-  const badgeOriginal = document.getElementById('badgeSrcOriginal');
-  if (badgeOriginal) badgeOriginal.textContent = origList.length;
+  const bCore = document.getElementById('badgeSrc_core') || document.getElementById('badgeSrcOriginal');
+  if (bCore) bCore.textContent = coreList.length;
 
-  const badgeNovel = document.getElementById('badgeSrcNovel');
-  if (badgeNovel) badgeNovel.textContent = novelList.length;
+  const bNovel = document.getElementById('badgeSrc_novel_ihopethisfindsyouwell') || document.getElementById('badgeSrcNovel');
+  if (bNovel) bNovel.textContent = novelList.length;
 
-  const badgeTrade = document.getElementById('badgeSrcTrade');
-  if (badgeTrade) badgeTrade.textContent = tradeList.length;
+  const bTrade = document.getElementById('badgeSrc_trade_business') || document.getElementById('badgeSrcTrade');
+  if (bTrade) bTrade.textContent = tradeList.length;
 
-  const badgeAllSrc = document.getElementById('badgeSrcAll');
-  if (badgeAllSrc) badgeAllSrc.textContent = fullList.length;
+  const bAll = document.getElementById('badgeSrc_all') || document.getElementById('badgeSrcAll');
+  if (bAll) bAll.textContent = fullList.length;
 
+  // 计算当前来源下的难度分布
+  const sourceWords = getSourceRawWords(currentWordSource);
+  const tierDict = (typeof wordTierDict !== 'undefined') ? wordTierDict : {};
+  let cCet4 = 0, cCet6 = 0, cIelts = 0;
+  sourceWords.forEach(w => {
+    const t = tierDict[w.toLowerCase()] || 'cet4';
+    if (t === 'cet4') cCet4++;
+    else if (t === 'cet6') cCet6++;
+    else if (t === 'ielts') cIelts++;
+  });
+
+  const bTAll = document.getElementById('badgeTier_all');
+  if (bTAll) bTAll.textContent = sourceWords.length;
+  const bTCet4 = document.getElementById('badgeTier_cet4');
+  if (bTCet4) bTCet4.textContent = cCet4;
+  const bTCet6 = document.getElementById('badgeTier_cet6');
+  if (bTCet6) bTCet6.textContent = cCet6;
+  const bTIelts = document.getElementById('badgeTier_ielts');
+  if (bTIelts) bTIelts.textContent = cIelts;
+
+  // 顶部激活状态摘要与结果统计
   const activeWords = getActiveWordList();
+  const summaryMap = {
+    'core': '📖 核心背诵单词',
+    'original': '📖 核心背诵单词',
+    'novel_ihopethisfindsyouwell': '📚 《I Hope This Finds You Well》',
+    'novel': '📚 《I Hope This Finds You Well》',
+    'trade_business': '💼 《国际外贸函电》',
+    'trade': '💼 《国际外贸函电》',
+    'all': '🌐 全部书目总库'
+  };
+  const tierMap = {
+    'all': '全部难度',
+    'cet4': 'CET-4 四级',
+    'cet6': 'CET-6 考研',
+    'ielts': '雅思托福'
+  };
+  const sLabel = summaryMap[currentWordSource] || '📖 核心背诵单词';
+  const tLabel = tierMap[currentWordTier] || '全部难度';
+  const sumEl = document.getElementById('filterActiveSummary');
+  if (sumEl) sumEl.textContent = `${sLabel} · ${tLabel}`;
+
+  const cntChip = document.getElementById('filterResultCountChip');
+  if (cntChip) cntChip.textContent = `${activeWords.length} 词`;
+
   const badgeAll = document.getElementById('badgeAll');
   if (badgeAll) badgeAll.textContent = activeWords.length;
 
@@ -2647,13 +2732,12 @@ function initApp() {
   const audioBtn = document.getElementById('audioBtn');
   if (audioBtn) audioBtn.textContent = appSettings.audioMuted ? '🔇' : '🔊';
 
-  // 初始化词库分类按钮高亮
-  ['original', 'novel', 'all'].forEach(k => {
-    const btn = document.getElementById(`srcBtn_${k}`);
-    if (btn) {
-      btn.classList.toggle('active', k === currentWordSource);
-    }
-  });
+  // 初始化折叠抽屉状态与双维度高亮
+  const filterBody = document.getElementById('filterDrawerBody');
+  const filterChevron = document.getElementById('filterChevron');
+  if (filterBody) filterBody.style.display = isFilterDrawerOpen ? 'flex' : 'none';
+  if (filterChevron) filterChevron.classList.toggle('expanded', isFilterDrawerOpen);
+  refreshFilterUI();
 
   renderWords();
   initNovelModeUI();
@@ -3277,6 +3361,9 @@ if (typeof window !== 'undefined') {
   window.switchNavView = switchNavView;
   window.switchSubTab = switchSubTab;
   window.switchWordSource = switchWordSource;
+  window.toggleFilterDrawer = toggleFilterDrawer;
+  window.setWordSourceFilter = setWordSourceFilter;
+  window.setWordTierFilter = setWordTierFilter;
   window.getActiveWordList = getActiveWordList;
   window.switchSurvivalMode = switchSurvivalMode;
   window.onSelectNovelChapter = onSelectNovelChapter;
