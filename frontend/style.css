@@ -1957,3 +1957,582 @@
   gap: 12px;
   flex-wrap: wrap;
 }
+
+
+/* =========================================================
+   📻 英文电台与卡拉OK双语点读播放器 (English Learning Radio)
+   ========================================================= */
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 1. 悬浮极简黑胶 Mini 播放器 */
+.radio-mini-player {
+  position: fixed;
+  bottom: 82px;
+  right: 20px;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px 8px 8px;
+  background: var(--paper-surface);
+  border: 2px solid var(--paper-border);
+  border-radius: 40px;
+  box-shadow: var(--paper-shadow);
+  backdrop-filter: blur(12px);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  user-select: none;
+}
+
+.radio-mini-player:hover {
+  border-color: var(--brand-accent);
+  box-shadow: 0 8px 24px var(--brand-accent-glow), var(--paper-shadow);
+}
+
+.radio-mini-player.drawer-open {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* 黑胶唱片本体 */
+.radio-mini-disc-wrap {
+  position: relative;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radio-vinyl-disc {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2a2a2a 20%, #111 22%, #333 45%, #181818 70%, #050505 100%);
+  border: 2px solid #555;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.radio-vinyl-disc.playing {
+  animation: spinVinyl 6s linear infinite;
+}
+
+.radio-vinyl-center {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brand-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.radio-mini-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 160px;
+  cursor: pointer;
+}
+
+.radio-mini-title-wrap {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.radio-mini-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.radio-mini-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.radio-badge {
+  font-size: 10px;
+  background: var(--brand-accent-glow);
+  color: var(--brand-accent);
+  padding: 1px 5px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.radio-mini-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.radio-ctrl-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+  transition: transform 0.15s ease, background 0.15s ease;
+  color: var(--text-primary);
+}
+
+.radio-ctrl-btn:hover {
+  background: var(--paper-hover);
+  transform: scale(1.1);
+}
+
+.radio-ctrl-btn:active {
+  transform: scale(0.95);
+}
+
+.radio-play-btn {
+  font-size: 16px;
+}
+
+.radio-expand-btn {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--brand-primary);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-left: 4px;
+}
+
+.radio-expand-btn:hover {
+  background: var(--brand-primary-light);
+}
+
+/* 进度条细线 */
+.radio-mini-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 18px;
+  right: 18px;
+  height: 3px;
+  background: rgba(120, 120, 120, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.radio-mini-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+  transition: width 0.2s linear;
+}
+
+
+/* 2. 卡拉OK双语点读抽屉面板 */
+.radio-karaoke-drawer {
+  position: fixed;
+  bottom: -600px;
+  right: 20px;
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  height: 560px;
+  max-height: calc(85vh - 80px);
+  z-index: 1000;
+  background: var(--paper-surface);
+  border: 2px solid var(--paper-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), var(--paper-shadow);
+  display: flex;
+  flex-direction: column;
+  transition: bottom 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.15), opacity 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.radio-karaoke-drawer.open {
+  bottom: 82px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.radio-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px 16px;
+  border-bottom: 1.5px solid var(--paper-border);
+  background: var(--paper-surface-sub);
+}
+
+.radio-drawer-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radio-drawer-cover-box {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: var(--paper-surface);
+  border: 1px solid var(--paper-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.radio-drawer-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-drawer-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+}
+
+.radio-tag-pill {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: var(--brand-accent-glow);
+  color: var(--brand-accent);
+  font-weight: 700;
+}
+
+.radio-drawer-artist {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.radio-drawer-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-song-select {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--paper-border);
+  background: var(--paper-surface);
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  max-width: 140px;
+}
+
+.radio-close-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease;
+}
+
+.radio-close-btn:hover {
+  color: var(--brand-danger);
+}
+
+/* 提示条 */
+.radio-tips-banner {
+  background: var(--paper-surface);
+  border-bottom: 1px dashed var(--paper-border);
+  padding: 6px 14px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* 歌词滚动视窗 */
+.radio-lyrics-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 16px;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0,0,0,1) 12%, rgba(0,0,0,1) 88%, transparent 100%);
+}
+
+.radio-lyrics-wrap::-webkit-scrollbar {
+  width: 4px;
+}
+.radio-lyrics-wrap::-webkit-scrollbar-thumb {
+  background: var(--paper-border);
+  border-radius: 4px;
+}
+
+/* 单行歌词 */
+.lyrics-line {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
+  opacity: 0.45;
+  cursor: pointer;
+  text-align: center;
+}
+
+.lyrics-line:hover {
+  opacity: 0.8;
+  background: rgba(120, 120, 120, 0.05);
+}
+
+.lyrics-line.active {
+  opacity: 1;
+  transform: scale(1.04);
+  background: var(--paper-surface-sub);
+  border-left: 3px solid var(--brand-accent);
+  border-right: 3px solid var(--brand-accent);
+}
+
+.lyrics-en-row {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.5;
+  word-spacing: 2px;
+}
+
+.lyrics-line.active .lyrics-en-row {
+  color: var(--brand-accent);
+  text-shadow: 0 1px 8px var(--brand-accent-glow);
+}
+
+.lyrics-cn-row {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.lyrics-line.active .lyrics-cn-row {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 单词可点击 Token */
+.radio-word-token {
+  display: inline-block;
+  padding: 0 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  border-bottom: 1px dotted rgba(120, 120, 120, 0.35);
+}
+
+.radio-word-token:hover {
+  background: var(--brand-primary-light);
+  color: #fff !important;
+  transform: translateY(-1px);
+  border-bottom-color: transparent;
+}
+
+/* 底部播放进度条与控制 */
+.radio-drawer-footer {
+  padding: 12px 16px 16px 16px;
+  border-top: 1.5px solid var(--paper-border);
+  background: var(--paper-surface-sub);
+}
+
+.radio-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.time-lbl {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  min-width: 36px;
+}
+
+.radio-progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--paper-border);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.radio-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+  border-radius: 3px;
+  transition: width 0.15s linear;
+}
+
+.radio-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.radio-main-btns {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radio-circle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--paper-border);
+  background: var(--paper-surface);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.radio-circle-btn:hover {
+  background: var(--paper-hover);
+  transform: scale(1.08);
+}
+
+.radio-circle-play {
+  width: 44px;
+  height: 44px;
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff;
+  font-size: 18px;
+}
+
+.radio-circle-play:hover {
+  background: var(--brand-primary-light);
+}
+
+.btn-subtle {
+  background: none;
+  border: none;
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-subtle:hover {
+  background: var(--paper-hover);
+  color: var(--text-primary);
+}
+
+
+/* 3. 单词点查气泡浮窗 Word Popover */
+.radio-word-popover {
+  position: fixed;
+  z-index: 2100;
+  width: 260px;
+  background: var(--paper-surface);
+  border: 2px solid var(--brand-accent);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), var(--paper-shadow);
+  padding: 12px;
+  animation: popoverFadeIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+@keyframes popoverFadeIn {
+  from { opacity: 0; transform: scale(0.9) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.pop-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--paper-border);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.pop-word {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-serif);
+}
+
+.pop-phonetic {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.pop-speak-btn {
+  background: var(--paper-surface-sub);
+  border: 1px solid var(--paper-border);
+  border-radius: 6px;
+  font-size: 11px;
+  padding: 2px 6px;
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.pop-speak-btn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+}
+
+.pop-def {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* 4. 移动端自适应适配 */
+@media (max-width: 640px) {
+  .radio-mini-player {
+    bottom: 74px;
+    right: 12px;
+    left: 12px;
+    padding: 6px 10px;
+  }
+  .radio-mini-info {
+    max-width: 120px;
+  }
+  .radio-karaoke-drawer {
+    right: 0;
+    left: 0;
+    bottom: -100%;
+    width: 100vw;
+    max-width: 100vw;
+    height: 82vh;
+    border-radius: 20px 20px 0 0;
+  }
+  .radio-karaoke-drawer.open {
+    bottom: 0;
+  }
+}
