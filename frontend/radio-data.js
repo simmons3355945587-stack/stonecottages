@@ -10,8 +10,7 @@ const RADIO_PLAYLIST = [
     tag: "🟢 四级听力经典 · 欢快叙事",
     cover: "🍋",
     duration: 198,
-    src: "./audio/lemon_tree.mp3",
-    fallbackUrl: "https://music.163.com/song/media/outer/url?id=441113.mp3",
+    src: "/audio/lemon_tree.mp3",
     lyrics: [
       { time: 0.5, en: "I'm sitting here in the boring room", cn: "我正独自坐在这间无聊的房间里" },
       { time: 4.8, en: "It's just another rainy Sunday afternoon", cn: "这不过是又一个下着雨的周日下午" },
@@ -53,8 +52,7 @@ const RADIO_PLAYLIST = [
     tag: "💖 温暖尤克里里 · 地道高频短语",
     cover: "🎸",
     duration: 197,
-    src: "./audio/count_on_me.mp3",
-    fallbackUrl: "https://music.163.com/song/media/outer/url?id=16260846.mp3",
+    src: "/audio/count_on_me.mp3",
     lyrics: [
       { time: 1.0, en: "If you ever find yourself stuck in the middle of the sea", cn: "若你某天发现自己身陷汪洋大海中央" },
       { time: 7.5, en: "I'll sail the world to find you", cn: "我定会扬帆万里跨越重洋去寻你" },
@@ -85,8 +83,7 @@ const RADIO_PLAYLIST = [
     tag: "🐰 疯狂动物城主题曲 · 活力与绝境生存",
     cover: "🥕",
     duration: 196,
-    src: "./audio/try_everything.mp3",
-    fallbackUrl: "https://music.163.com/song/media/outer/url?id=405078500.mp3",
+    src: "/audio/try_everything.mp3",
     lyrics: [
       { time: 0.5, en: "I messed up tonight, I lost another fight", cn: "今晚我又搞砸了，又输掉了一场较量" },
       { time: 4.8, en: "I still mess up, but I'll just start again", cn: "我依然会犯错，但我会重整旗鼓从头再来" },
@@ -114,8 +111,7 @@ const RADIO_PLAYLIST = [
     tag: "📻 听力发音天花板 · 典雅抒情",
     cover: "🎙️",
     duration: 238,
-    src: "./audio/yesterday_once_more.mp3",
-    fallbackUrl: "https://music.163.com/song/media/outer/url?id=2081055.mp3",
+    src: "/audio/yesterday_once_more.mp3",
     lyrics: [
       { time: 1.0, en: "When I was young I'd listen to the radio", cn: "当我年少稚嫩时，我常常趴在收音机前聆听" },
       { time: 7.2, en: "Waitin' for my favorite songs", cn: "静静期盼着我最心爱的歌曲响起" },
@@ -137,8 +133,7 @@ const RADIO_PLAYLIST = [
     tag: "✨ 50年代复古流行 · 纯正慢摇浪漫",
     cover: "🎷",
     duration: 178,
-    src: "./audio/until_i_found_you.mp3",
-    fallbackUrl: "https://music.163.com/song/media/outer/url?id=1874987114.mp3",
+    src: "/audio/until_i_found_you.mp3",
     lyrics: [
       { time: 1.0, en: "Georgia, wrap me up in all your, I want you in my arms", cn: "乔治亚，用你所有的温存将我拥入怀中" },
       { time: 8.5, en: "Oh, let me hold your heart", cn: "噢，让我细细体会并守护你的心跳" },

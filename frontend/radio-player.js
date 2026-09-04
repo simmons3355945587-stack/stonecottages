@@ -22,7 +22,8 @@
   // 2. 初始化播放器音频元素
   function initAudio() {
     state.audioEl = new Audio();
-    state.audioEl.preload = 'metadata';
+    state.audioEl.preload = 'auto';
+    state.audioEl.volume = 1.0;
 
     state.audioEl.addEventListener('timeupdate', () => {
       if (!state.useSynthBgm) {
@@ -43,10 +44,9 @@
     });
 
     state.audioEl.addEventListener('error', (e) => {
-      console.warn("Radio audio file failed to load, switching to smart synth Lofi companion...", e);
-      // 若原音频因外链防盗链或离线无法播放，无缝启动 Web Audio 伴奏引擎
-      if (state.isPlaying) {
-        startSynthBgm();
+      console.error("Radio audio load error:", e, state.audioEl.error);
+      if (typeof showToast === 'function') {
+        showToast("⚠️ 原声音频加载稍慢，正在重试连接...");
       }
     });
   }
@@ -155,17 +155,20 @@
     updatePlayPauseBtnUI();
     const song = state.playlist[state.currentIndex];
 
-    // 尝试播放音频
+    // 播放真实原声人声音频
     if (state.audioEl) {
+      state.audioEl.volume = 1.0;
       const playPromise = state.audioEl.play();
       if (playPromise !== undefined) {
-        playPromise.catch(err => {
-          console.log("Direct audio playback restricted or failed, starting smart synth BGM:", err);
-          startSynthBgm();
+        playPromise.then(() => {
+          console.log("Audio playing with real vocal:", song.title);
+        }).catch(err => {
+          console.warn("Audio play prevented (requires user gesture):", err);
+          if (typeof showToast === 'function') {
+            showToast("🎵 点击任意处或播放按钮即可启动英文歌声");
+          }
         });
       }
-    } else {
-      startSynthBgm();
     }
 
     // 黑胶旋转动效
