@@ -237,6 +237,34 @@
       return;
     }
 
+    // 🎵 渲染前奏专属绑定卡片 (Prelude & Instrumental Intro Card)
+    const introDuration = song.introDuration || (song.lyrics[0] ? song.lyrics[0].time : 0);
+    const introCard = document.createElement('div');
+    introCard.className = 'radio-intro-card active';
+    introCard.id = 'radioIntroCard';
+    introCard.innerHTML = `
+      <div class="radio-intro-waves">
+        <span class="wave-bar bar1"></span>
+        <span class="wave-bar bar2"></span>
+        <span class="wave-bar bar3"></span>
+        <span class="wave-bar bar4"></span>
+        <span class="wave-bar bar5"></span>
+      </div>
+      <div class="radio-intro-main">
+        <div class="radio-intro-badge-row">
+          <span class="intro-status-pill">🎵 纯音乐前奏播放中 (Intro)</span>
+          <span class="intro-countdown-tag">人声歌唱即将在 <b id="radioIntroCountdown">${Math.ceil(introDuration)}</b> 秒后进入</span>
+        </div>
+        <div class="radio-intro-desc">
+          前奏乐器旋律欣赏中 · 律动磨耳朵
+        </div>
+      </div>
+      <button class="radio-skip-intro-btn" onclick="window.RadioPlayer.skipIntro()" title="跳过前奏，直接跳转至第 1 句歌词开始处">
+        ⏭️ 跳过前奏
+      </button>
+    `;
+    container.appendChild(introCard);
+
     song.lyrics.forEach((line, idx) => {
       const lineEl = document.createElement('div');
       lineEl.className = 'lyrics-line';
@@ -289,17 +317,49 @@
     });
   }
 
-  // 毫秒级歌词同步高亮与自动平滑居中滚动
+  // 毫秒级歌词同步高亮与自动平滑居中滚动 (含前奏UI强绑定状态机)
   function syncLyricsUI(forceScroll = false) {
     const container = document.getElementById('radioLyricsContainer');
     if (!container) return;
 
     const song = state.playlist[state.currentIndex];
-    if (!song || !song.lyrics) return;
+    if (!song || !song.lyrics || song.lyrics.length === 0) return;
 
     const t = state.currentTime;
-    let activeIdx = -1;
+    const introDuration = song.introDuration || (song.lyrics[0]?.time || 0);
+    const isIntro = t < (introDuration - 0.05);
 
+    const introCard = document.getElementById('radioIntroCard');
+    const countdownEl = document.getElementById('radioIntroCountdown');
+
+    if (isIntro) {
+      // 🎵 1. 前奏播放阶段：前奏卡高亮跳动，倒计时递减
+      if (introCard) {
+        introCard.classList.add('active');
+        introCard.classList.remove('passed');
+        if (countdownEl) {
+          const remain = Math.max(0, Math.ceil(introDuration - t));
+          countdownEl.textContent = remain;
+        }
+      }
+      // 严防死守：前奏期绝不高亮第一句歌词！彻底清除所有行 active
+      const lines = container.querySelectorAll('.lyrics-line');
+      lines.forEach(l => l.classList.remove('active'));
+
+      if (forceScroll) {
+        container.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    // 🎵 2. 人声歌唱阶段：前奏卡自然折叠收起
+    if (introCard) {
+      introCard.classList.remove('active');
+      introCard.classList.add('passed');
+    }
+
+    // 精准定位当前人声所在句
+    let activeIdx = 0;
     for (let i = 0; i < song.lyrics.length; i++) {
       if (t >= song.lyrics[i].time) {
         activeIdx = i;
@@ -307,8 +367,6 @@
         break;
       }
     }
-
-    if (activeIdx === -1 && song.lyrics.length > 0) activeIdx = 0;
 
     const lines = container.querySelectorAll('.lyrics-line');
     lines.forEach((l, i) => {
@@ -419,12 +477,38 @@
     return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
   }
 
+  function skipIntro() {
+    const song = state.playlist[state.currentIndex];
+    if (!song) return;
+    const targetTime = song.introDuration || (song.lyrics[0]?.time || 0);
+    state.currentTime = targetTime;
+    if (state.audioEl && !state.useSynthBgm) {
+      state.audioEl.currentTime = targetTime;
+    }
+    syncLyricsUI(true);
+    if (!state.isPlaying) {
+      playSong();
+    }
+    if (typeof showToast === 'function') {
+      showToast(`⏩ 已跳过前奏，直接进入歌词起唱点！`);
+    }
+  }
+
   function updateProgressUI() {
+    const song = state.playlist[state.currentIndex];
     const curTimeStr = formatTime(state.currentTime);
     const totalTimeStr = formatTime(state.duration);
 
     const miniTime = document.getElementById('radioMiniTime');
-    if (miniTime) miniTime.textContent = `${curTimeStr} / ${totalTimeStr}`;
+    if (miniTime) {
+      const introDuration = song?.introDuration || 0;
+      if (introDuration > 0 && state.currentTime < (introDuration - 0.05)) {
+        const remain = Math.max(0, Math.ceil(introDuration - state.currentTime));
+        miniTime.textContent = `${curTimeStr} / ${totalTimeStr} (前奏 ${remain}s)`;
+      } else {
+        miniTime.textContent = `${curTimeStr} / ${totalTimeStr}`;
+      }
+    }
 
     const drawerCur = document.getElementById('radioDrawerCurrentTime');
     if (drawerCur) drawerCur.textContent = curTimeStr;
@@ -630,6 +714,7 @@
       loadSong(parseInt(idx, 10), state.isPlaying);
     },
     toggleDrawer: toggleDrawer,
+    skipIntro: skipIntro,
     toggleMode: function() {
       const modes = ['loop', 'single', 'random'];
       const labels = { 'loop': '🔁 列表循环', 'single': '🔂 单曲循环', 'random': '🔀 随机播放' };

@@ -2536,3 +2536,157 @@
     bottom: 0;
   }
 }
+
+
+/* =========================================================
+   🎵 纯音乐前奏与字幕UI强绑定 (Prelude & Intro UI Binding)
+   ========================================================= */
+.radio-intro-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--paper-surface-sub);
+  border: 1.5px dashed var(--brand-accent);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.radio-intro-card.active {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(217, 119, 6, 0.06) 100%);
+  border: 1.5px solid var(--brand-accent);
+  box-shadow: 0 4px 14px var(--brand-accent-glow);
+  transform: scale(1.01);
+}
+
+.radio-intro-card.passed {
+  opacity: 0.65;
+  border: 1px solid var(--paper-border);
+  background: var(--paper-surface);
+  padding: 6px 12px;
+  margin-bottom: 12px;
+}
+
+.radio-intro-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.wave-bar {
+  width: 3px;
+  background: var(--brand-accent);
+  border-radius: 2px;
+  height: 6px;
+  transition: height 0.2s ease;
+}
+
+.radio-intro-card.active .wave-bar {
+  animation: waveAnim 0.8s ease-in-out infinite alternate;
+}
+
+.wave-bar.bar1 { animation-delay: 0.0s; height: 16px; }
+.wave-bar.bar2 { animation-delay: 0.2s; height: 22px; }
+.wave-bar.bar3 { animation-delay: 0.4s; height: 12px; }
+.wave-bar.bar4 { animation-delay: 0.1s; height: 18px; }
+.wave-bar.bar5 { animation-delay: 0.3s; height: 10px; }
+
+@keyframes waveAnim {
+  0% { height: 4px; }
+  100% { height: 22px; }
+}
+
+.radio-intro-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.radio-intro-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.intro-status-pill {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--brand-accent);
+  background: var(--brand-accent-glow);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.intro-countdown-tag {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+}
+
+.intro-countdown-tag b {
+  font-family: var(--font-mono);
+  color: var(--brand-accent);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.radio-intro-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.radio-skip-intro-btn {
+  background: var(--paper-surface);
+  border: 1.5px solid var(--brand-accent);
+  color: var(--brand-accent);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  box-shadow: 1px 2px 0 var(--brand-accent);
+  flex-shrink: 0;
+}
+
+.radio-skip-intro-btn:hover {
+  background: var(--brand-accent);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 1px 3px 0 #b45309;
+}
+
+.radio-skip-intro-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.radio-intro-card.passed .radio-skip-intro-btn {
+  display: none;
+}
+.radio-intro-card.passed .radio-intro-waves {
+  display: none;
+}
+.radio-intro-card.passed .intro-countdown-tag {
+  display: none;
+}
+.radio-intro-card.passed .radio-intro-desc {
+  display: none;
+}
+.radio-intro-card.passed .intro-status-pill {
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 10px;
+  padding: 0;
+}
