@@ -1535,8 +1535,11 @@ function generateCandyBoard() {
   grid.innerHTML = '';
   matchActiveTile = null;
 
-  // 1. 获取有效全词库池（有中文释义的词汇，全库 670+ 优质考纲词）
-  let validWords = words.filter(w => chineseDict[w] && typeof chineseDict[w] === 'string' && chineseDict[w].trim().length > 0);
+  // 1. 获取有效全词库池（必须有真实中文汉字释义，杜绝纯英占位符）
+  let validWords = words.filter(w => {
+    const raw = chineseDict[w];
+    return raw && typeof raw === 'string' && /[\u4e00-\u9fa5]/.test(raw);
+  });
   
   // 难度等级过滤
   if (currentCandyTier !== 'all' && typeof wordTierDict !== 'undefined') {
@@ -1556,7 +1559,7 @@ function generateCandyBoard() {
   const candidatePool = unpickedWords.length >= 6 ? unpickedWords : validWords;
 
   // 3. 错题/标记词温和回顾策略：每轮最多引入 1~2 个标记词，其余 4~5 个必须从全词库中新鲜抽取
-  const marked = getMarkedWords().map(m => m[0]).filter(w => chineseDict[w] && !recentCandyWordsHistory.includes(w));
+  const marked = getMarkedWords().map(m => m[0]).filter(w => chineseDict[w] && /[\u4e00-\u9fa5]/.test(chineseDict[w]) && !recentCandyWordsHistory.includes(w));
   let pool = [];
   
   if (marked.length > 0) {
@@ -1585,7 +1588,9 @@ function generateCandyBoard() {
     const rawCn = chineseDict[word] || word;
     // 提取最简洁核心释义，去除多余标点和词性前缀
     let cn = rawCn.split(/[,;，；]/)[0].replace(/^[a-z]+\.\s*/i, '').trim();
-    if (!cn) cn = rawCn;
+    if (!cn || !/[\u4e00-\u9fa5]/.test(cn)) {
+      cn = rawCn;
+    }
     const enColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
     const cnColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
 
