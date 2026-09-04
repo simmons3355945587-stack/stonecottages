@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#f5efe6">
+  <title>CET-4 四级听力挖空复读机 · 折纸多模式特训工作台</title>
+  <meta name="description" content="CET-4 四级听力真题精听复读、连读弱读音爆、整句听写打字机、声呐迷雾与小石屋通缉榜联动系统">
+  <link rel="stylesheet" href="style.css?v=20260904_v3">
+</head>
+<body>
+
+  <!-- 顶部折纸风格导航头 (Origami Header) -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-section">
+        <div class="brand-logo">🎧</div>
+        <div class="brand-title">
+          <h1>CET-4 LISTENING</h1>
+          <p>四级听力多模式复读机 · 折纸精听系统</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- 试卷下拉选择器 -->
+        <div class="exam-select-wrap">
+          <select id="examSelect" class="exam-select">
+            <option value="">正在加载 14 套真题...</option>
+          </select>
+        </div>
+
+        <!-- ☀️/🌙 昼夜模式切换 (默认白天) -->
+        <button class="paper-icon-btn" id="themeToggleBtn" title="切换昼夜模式">☀️</button>
+
+        <!-- 返回小石屋主站 -->
+        <a href="/" class="btn-nav-cottage" title="返回小石屋单词生存战">
+          <span>🕊️</span>
+          <span>小石屋词汇</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 移动端选项卡导航条 (手机屏幕显示) -->
+  <nav class="mobile-tab-bar" id="mobileTabBar">
+    <button class="mobile-tab-btn active" data-tab="tab-player">🎧 听力特训</button>
+    <button class="mobile-tab-btn" data-tab="tab-transcript">📜 原文点读</button>
+    <button class="mobile-tab-btn" data-tab="tab-overview">📝 题库对照</button>
+  </nav>
+
+  <!-- 主工作区容器 -->
+  <main class="app-container">
+    <div class="workspace-grid">
+      
+      <!-- ================= 左侧栏：全文点读 (Transcript) ================= -->
+      <aside class="origami-panel panel-section" id="panelTranscript">
+        <div class="panel-header">
+          <h2>📜 全文点读</h2>
+          <span class="badge-pill" id="transcriptCountBadge">0 / 0 句</span>
+        </div>
+
+        <!-- 分类筛选标签 -->
+        <div class="filter-tabs">
+          <button class="tab-chip active" data-filter="all">全部</button>
+          <button class="tab-chip" data-filter="pre">📋 听前</button>
+          <button class="tab-chip" data-filter="body">📝 正文</button>
+          <button class="tab-chip" data-filter="question">❓ 问题</button>
+        </div>
+
+        <!-- 实时快速搜索 -->
+        <input type="text" id="searchInput" class="origami-search-input" placeholder="🔍 搜索原文句子..." autocomplete="off">
+
+        <!-- 句子滚动列表 -->
+        <div class="transcript-list" id="transcriptList">
+          <div style="text-align: center; color: var(--text-tertiary); padding: 40px 0;">正在加载真题数据...</div>
+        </div>
+      </aside>
+
+      <!-- ================= 中间栏：音频控制、波形与特训工作台 (Player) ================= -->
+      <section class="origami-panel panel-section active-tab" id="panelPlayer">
+        
+        <!-- 考试信息横幅 + 可折叠特训控制舱 -->
+        <div class="exam-banner">
+          <div class="exam-banner-left">
+            <h3 id="currentExamName">2026年6月四级听力（第1套）</h3>
+            <p id="currentExamStats">听前准备: 0 | 正文: 0 | 问题: 0</p>
+          </div>
+
+          <!-- ⚙️ 可折叠折纸特训中控舱 (Origami Mode Capsule) -->
+          <div class="mode-capsule-container" id="modeCapsuleContainer">
+            <button class="mode-capsule-trigger" id="modeCapsuleTrigger" title="点击展开/折叠特训模式抽屉">
+              <span class="mode-pulse-dot"></span>
+              <span class="mode-label-text">⚙️ 特训模式:</span>
+              <span class="mode-current-badge" id="currentModeBadge">🎯 核心词挖空</span>
+              <span class="mode-arrow" id="modeArrow">▾</span>
+            </button>
+
+            <!-- 展开式折纸抽屉 -->
+            <div class="mode-drawer" id="modeDrawer">
+              <div class="mode-drawer-header">
+                <span>⚙️ 听觉专项特训模式</span>
+                <span class="drawer-tip">随时切换 · 刻意练习</span>
+              </div>
+              <div class="mode-cards-grid">
+                <button class="mode-card active" data-mode="blank">
+                  <span class="mode-card-icon">🎯</span>
+                  <div class="mode-card-text">
+                    <strong>核心词挖空</strong>
+                    <small>考点实词冲刺 · 0.5x慢放救赎</small>
+                  </div>
+                </button>
+                <button class="mode-card" data-mode="liaison">
+                  <span class="mode-card-icon">⚡</span>
+                  <div class="mode-card-text">
+                    <strong>连读/弱读特训</strong>
+                    <small>音变吞音锁定 · 双词连击音爆</small>
+                  </div>
+                </button>
+                <button class="mode-card" data-mode="dictation">
+                  <span class="mode-card-icon">✍️</span>
+                  <div class="mode-card-text">
+                    <strong>整句打字听写</strong>
+                    <small>空格即时跳格 · 极速肌肉反射</small>
+                  </div>
+                </button>
+                <button class="mode-card" data-mode="sonar">
+                  <span class="mode-card-icon">🌫️</span>
+                  <div class="mode-card-text">
+                    <strong>折纸声呐迷雾</strong>
+                    <small>第1遍首字母 · 第2遍渐进翻开</small>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 折纸波形图 -->
+        <div class="waveform-box">
+          <canvas id="waveformCanvas" class="waveform-canvas" width="800" height="110"></canvas>
+          <!-- 连读音爆警报浮层 -->
+          <div class="liaison-alert-tag" id="liaisonAlertTag" style="display: none;">
+            ⚡ 发现音变连读对 (Liaison Detected)
+          </div>
+        </div>
+
+        <!-- 当前句主卡片 (根据模式动态渲染呈现) -->
+        <div class="current-card">
+          <div class="current-card-header">
+            <span id="currentSegIndex">[ 001 ]</span>
+            <span id="currentSegSectionBadge" class="sec-chip body">📝 正文 (挖空区)</span>
+            <span class="mode-indicator-chip" id="modeIndicatorChip">🎯 核心词挖空</span>
+          </div>
+
+          <!-- 文本展示区 (支持声呐迷雾点阵 / 连读双空高亮 / 核心挖空) -->
+          <div class="current-sentence-text" id="currentSentenceText">
+            点击左侧任意句子开始精听，或在上方切换模式开始特训。
+          </div>
+
+          <!-- 声呐迷雾专用控制器 (仅在 sonar 模式下展示) -->
+          <div class="sonar-controls" id="sonarControls" style="display: none;">
+            <div class="sonar-status-row">
+              <span class="sonar-stage-pill" id="sonarStagePill">第 1 遍 · 盲听声呐态 (仅显首字母)</span>
+              <button class="paper-sub-btn" id="btnRevealAllWords">📖 提前翻开全句</button>
+            </div>
+            <p class="sonar-hint">💡 提示：点击上方任意单词卡片可单独“翻开”，或播放第 2 遍随发音自动展开！</p>
+          </div>
+
+          <!-- 整句打字机专用交互流 (仅在 dictation 模式下展示) -->
+          <div class="dictation-stream-wrap" id="dictationStreamWrap" style="display: none;">
+            <div class="dictation-word-slots" id="dictationWordSlots"></div>
+            <div class="dictation-stats-bar">
+              <span>当前词: <strong id="dictCurrentWord">--</strong></span>
+              <span>准确率: <strong id="dictAccuracy">100%</strong></span>
+              <span>听打速度: <strong id="dictWpm">0 WPM</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 主播放控制器 -->
+        <div class="player-toolbar">
+          <button class="btn-play-main" id="mainPlayBtn" title="播放 / 暂停">▶</button>
+          
+          <div class="time-slider-wrap">
+            <span class="time-label" id="currentTimeLabel">00:00</span>
+            <input type="range" id="timeSlider" class="time-slider" min="0" max="100" value="0" step="0.1">
+            <span class="time-label" id="durationLabel">00:00</span>
+          </div>
+
+          <button class="paper-icon-btn" id="loopModeBtn" title="单句播放 / 连续播放">➡️</button>
+        </div>
+
+        <!-- 精听控制按钮矩阵 -->
+        <div class="playback-controls">
+          <button class="btn-action" id="btnPlayCurrent">
+            <span>🔊</span>
+            <span>当前句</span>
+          </button>
+          <button class="btn-action btn-slow" id="btnPlaySlow">
+            <span>🐌</span>
+            <span>0.5x 慢放</span>
+          </button>
+          <button class="btn-action" id="btnSkipQuiz">
+            <span>⏭</span>
+            <span>跳过</span>
+          </button>
+          <button class="btn-action" id="btnNextQuiz">
+            <span>下一题</span>
+            <span>▶</span>
+          </button>
+        </div>
+
+        <!-- 答题输入区域 (核心词挖空 / 连读双空特训 / 整句打字共用) -->
+        <div class="quiz-input-container" id="quizInputContainer">
+          <div class="quiz-input-box">
+            <input type="text" id="quizInput" class="quiz-input" placeholder="输入空缺处听到的单词..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <button class="btn-submit" id="btnSubmitAnswer">验证</button>
+          </div>
+          <!-- 结果反馈横幅 -->
+          <div id="quizFeedback" class="quiz-feedback"></div>
+        </div>
+
+        <!-- 隐藏式 HTML5 音频元素 -->
+        <audio id="audioPlayer" preload="auto"></audio>
+      </section>
+
+      <!-- ================= 右侧栏：得分 HUD、通缉榜与题库对照 (Quiz & Bounty) ================= -->
+      <aside class="origami-panel panel-section" id="panelQuiz">
+        <div class="panel-header">
+          <h2>🎯 特训战绩与通缉榜</h2>
+          <span class="badge-pill" id="quizModeBadge">20 题特训</span>
+        </div>
+
+        <!-- 折纸得分 HUD -->
+        <div class="origami-hud-row">
+          <div class="origami-hud-card">
+            <span class="hud-title">正确题数</span>
+            <span class="hud-value" style="color: var(--brand-success);" id="scoreCorrect">0</span>
+          </div>
+          <div class="origami-hud-card">
+            <span class="hud-title">当前进度</span>
+            <span class="hud-value" style="color: var(--brand-cyan);" id="scoreProgress">0 / 20</span>
+          </div>
+          <div class="origami-hud-card">
+            <span class="hud-title">连胜纪录</span>
+            <span class="hud-value" style="color: var(--brand-accent);" id="scoreStreak">🔥 0</span>
+          </div>
+        </div>
+
+        <!-- 新一轮特训按钮 -->
+        <button class="btn-new-round" id="btnNewRound">
+          <span>🔄</span>
+          <span id="btnNewRoundText">开始新一轮 (当前模式)</span>
+        </button>
+
+        <!-- 🎧 小石屋「聋子词通缉榜」专属抽屉 -->
+        <div class="deaf-bounty-box" id="deafBountyBox">
+          <div class="deaf-bounty-header">
+            <span>🎧 听力死角通缉令 (Deaf Vocab)</span>
+            <span class="bounty-count-tag" id="bountyCountTag">0 词</span>
+          </div>
+          <p class="bounty-desc">以下单词在听力中连续拼错 2 次，已通缉并同步至小石屋大逃杀：</p>
+          <div class="deaf-words-chips" id="deafWordsChips">
+            <span class="no-bounty-tip">暂无聋子词，耳力处于巅峰状态！⚡</span>
+          </div>
+        </div>
+
+        <!-- 全文挖空/连读题对照预览 -->
+        <div class="panel-header" style="margin-top: 4px;">
+          <h2>📝 特训题目全文对照</h2>
+        </div>
+        <div class="quiz-overview" id="quizOverview">点击「开始新一轮」生成本轮特训题单...</div>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>🕊️ Our Stone Cottages · CET-4 Listening Master · 折纸多模式特训系统</p>
+  </footer>
+
+  <script src="app.js?v=20260904_v3"></script>
+</body>
+</html>

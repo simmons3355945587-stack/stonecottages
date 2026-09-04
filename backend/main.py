@@ -247,6 +247,53 @@ def health():
         "timestamp": int(time.time())
     }
 
+def fetch_fallback_ee(w: str):
+    """Fallback English-English dictionary using Youdao EE (WordNet/Oxford)"""
+    url = f"https://dict.youdao.com/jsonapi?q={urllib.parse.quote(w)}"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+    with urllib.request.urlopen(req, timeout=5) as resp:
+        d = json.loads(resp.read().decode("utf-8"))
+
+    phone = ""
+    simple = d.get("simple", {}).get("word", [])
+    if simple and isinstance(simple, list):
+        phone = simple[0].get("usphone") or simple[0].get("ukphone") or simple[0].get("phone") or ""
+    if not phone and "ec" in d:
+        ec_word = d.get("ec", {}).get("word", [])
+        if ec_word and isinstance(ec_word, list):
+            phone = ec_word[0].get("usphone") or ec_word[0].get("ukphone") or ""
+
+    ee = d.get("ee", {}).get("word", {})
+    trs = ee.get("trs", [])
+    if not trs:
+        return None
+
+    meanings = []
+    for tr in trs:
+        pos = tr.get("pos", "definition")
+        items = tr.get("tr", [])
+        defs = []
+        for it in items:
+            defn = it.get("l", {}).get("i", "")
+            exam = ""
+            exam_obj = it.get("exam", {}).get("i", {}).get("f", {}).get("l", [])
+            if exam_obj and isinstance(exam_obj, list) and len(exam_obj) > 0:
+                exam = exam_obj[0].get("i", "")
+            if defn:
+                defs.append({"definition": defn, "example": exam})
+        if defs:
+            meanings.append({"partOfSpeech": pos, "definitions": defs})
+
+    if not meanings:
+        return None
+
+    return {
+        "word": w,
+        "phonetic": f"/{phone}/" if phone else "",
+        "meanings": meanings,
+        "source": "youdao_ee"
+    }
+
 @app.get("/api/dict/{word}")
 def get_dict_entry(word: str):
     w = word.strip().lower()
@@ -256,21 +303,38 @@ def get_dict_entry(word: str):
         row = cur.fetchone()
         if row and row["data_json"]:
             try:
-                return json.loads(row["data_json"])
+                cached = json.loads(row["data_json"])
+                if cached:
+                    return cached
             except Exception:
                 pass
 
-    url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{urllib.parse.quote(w)}"
+    # 1. Primary: Free Dictionary API (api.dictionaryapi.dev)
     try:
+        url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{urllib.parse.quote(w)}"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=6) as resp:
+        with urllib.request.urlopen(req, timeout=4) as resp:
             data = json.loads(resp.read().decode("utf-8"))
+            if data and (isinstance(data, list) or isinstance(data, dict)):
+                with get_db() as conn:
+                    conn.execute("INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)", (w, json.dumps(data, ensure_ascii=False)))
+                    conn.commit()
+                return data
+    except Exception:
+        pass
+
+    # 2. Fallback: Youdao EE High-Availability English-English definitions
+    try:
+        fb = fetch_fallback_ee(w)
+        if fb:
             with get_db() as conn:
-                conn.execute("INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)", (w, json.dumps(data, ensure_ascii=False)))
+                conn.execute("INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)", (w, json.dumps(fb, ensure_ascii=False)))
                 conn.commit()
-            return data
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=f"Word '{w}' not found in dictionary: {str(e)}")
+            return fb
+    except Exception:
+        pass
+
+    raise HTTPException(status_code=404, detail=f"Word '{w}' not found in dictionary")
 
 @app.get("/api/dict-zh/{word}")
 def get_dict_zh_entry(word: str):

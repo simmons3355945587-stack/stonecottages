@@ -1,0 +1,1118 @@
+/**
+ * CET-4 Listening Master (四级听力多模式复读机) - Origami Web Engine
+ * Pure Vanilla JS · Web Audio & HTML5 Canvas · Full Mobile Responsive
+ * Multi-Mode Station: Core Vocab, Liaison & Weak Forms, Dictation, Sonar Fog
+ */
+
+(function() {
+  'use strict';
+
+  // ════════════════════════════════════════════════════════════
+  // 1. 全局状态与配置
+  // ════════════════════════════════════════════════════════════
+  let manifest = [];
+  let currentExam = null;
+  let currentSegments = [];
+  let currentActiveSegIndex = 0;
+  
+  // Modes: 'blank' | 'liaison' | 'dictation' | 'sonar'
+  let currentMode = localStorage.getItem('cet4_mode') || 'blank';
+
+  // Quiz State
+  let quizItems = [];
+  let currentQuizIndex = 0;
+  let score = { correct: 0, total: 20, streak: 0 };
+  let isQuizMode = false;
+  let loopMode = 'single'; // 'single' or 'continuous'
+  let stopAtTime = null;
+  let currentFilter = 'all';
+
+  // Mode 3: Dictation State
+  let dictWords = [];
+  let dictCurrentIdx = 0;
+  let dictStats = { correctCount: 0, totalTyped: 0, startTime: null };
+
+  // Mode 4: Sonar Fog State
+  let sonarPlayCount = 0;
+  let sonarWords = [];
+
+  // Deaf Vocab Tracker (小石屋通缉榜)
+  let failedWordAttempts = {}; // { word: count }
+  let deafVocabList = JSON.parse(localStorage.getItem('cet4_deaf_vocab') || '[]');
+
+  // ════════════════════════════════════════════════════════════
+  // 2. DOM 元素引用
+  // ════════════════════════════════════════════════════════════
+  const examSelect = document.getElementById('examSelect');
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const transcriptList = document.getElementById('transcriptList');
+  const transcriptCountBadge = document.getElementById('transcriptCountBadge');
+  const searchInput = document.getElementById('searchInput');
+  const filterTabs = document.querySelectorAll('.tab-chip');
+  const mobileTabBtns = document.querySelectorAll('.mobile-tab-btn');
+
+  const panelTranscript = document.getElementById('panelTranscript');
+  const panelPlayer = document.getElementById('panelPlayer');
+  const panelQuiz = document.getElementById('panelQuiz');
+
+  // Capsule Drawer
+  const modeCapsuleTrigger = document.getElementById('modeCapsuleTrigger');
+  const modeDrawer = document.getElementById('modeDrawer');
+  const currentModeBadge = document.getElementById('currentModeBadge');
+  const modeIndicatorChip = document.getElementById('modeIndicatorChip');
+  const modeCards = document.querySelectorAll('.mode-card');
+  const modeArrow = document.getElementById('modeArrow');
+
+  // Player & Banner
+  const currentExamName = document.getElementById('currentExamName');
+  const currentExamStats = document.getElementById('currentExamStats');
+  const currentSegIndex = document.getElementById('currentSegIndex');
+  const currentSegSectionBadge = document.getElementById('currentSegSectionBadge');
+  const currentSentenceText = document.getElementById('currentSentenceText');
+
+  const audioPlayer = document.getElementById('audioPlayer');
+  const mainPlayBtn = document.getElementById('mainPlayBtn');
+  const timeSlider = document.getElementById('timeSlider');
+  const currentTimeLabel = document.getElementById('currentTimeLabel');
+  const durationLabel = document.getElementById('durationLabel');
+  const loopModeBtn = document.getElementById('loopModeBtn');
+
+  const btnPlayCurrent = document.getElementById('btnPlayCurrent');
+  const btnPlaySlow = document.getElementById('btnPlaySlow');
+  const btnSkipQuiz = document.getElementById('btnSkipQuiz');
+  const btnNextQuiz = document.getElementById('btnNextQuiz');
+
+  // Mode Special DOMs
+  const liaisonAlertTag = document.getElementById('liaisonAlertTag');
+  const sonarControls = document.getElementById('sonarControls');
+  const sonarStagePill = document.getElementById('sonarStagePill');
+  const btnRevealAllWords = document.getElementById('btnRevealAllWords');
+
+  const dictationStreamWrap = document.getElementById('dictationStreamWrap');
+  const dictationWordSlots = document.getElementById('dictationWordSlots');
+  const dictCurrentWord = document.getElementById('dictCurrentWord');
+  const dictAccuracy = document.getElementById('dictAccuracy');
+  const dictWpm = document.getElementById('dictWpm');
+
+  // Inputs & HUD
+  const quizInputContainer = document.getElementById('quizInputContainer');
+  const quizInput = document.getElementById('quizInput');
+  const btnSubmitAnswer = document.getElementById('btnSubmitAnswer');
+  const quizFeedback = document.getElementById('quizFeedback');
+  const quizOverview = document.getElementById('quizOverview');
+  const btnNewRound = document.getElementById('btnNewRound');
+  const btnNewRoundText = document.getElementById('btnNewRoundText');
+
+  const scoreCorrect = document.getElementById('scoreCorrect');
+  const scoreProgress = document.getElementById('scoreProgress');
+  const scoreStreak = document.getElementById('scoreStreak');
+  const quizModeBadge = document.getElementById('quizModeBadge');
+
+  // Deaf Bounty Box
+  const bountyCountTag = document.getElementById('bountyCountTag');
+  const deafWordsChips = document.getElementById('deafWordsChips');
+
+  // Waveform
+  const waveformCanvas = document.getElementById('waveformCanvas');
+  const canvasCtx = waveformCanvas.getContext('2d');
+
+  // ════════════════════════════════════════════════════════════
+  // 3. 系统初始化与模式控制
+  // ════════════════════════════════════════════════════════════
+  async function init() {
+    initTheme();
+    setupEventListeners();
+    setupMobileTabs();
+    setupModeCapsule();
+    renderDeafBountyChips();
+    await loadManifest();
+  }
+
+  function setupModeCapsule() {
+    // Set initial active card
+    updateModeDisplay(currentMode);
+
+    modeCapsuleTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = modeDrawer.classList.toggle('open');
+      modeArrow.textContent = isOpen ? '▴' : '▾';
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!modeDrawer.contains(e.target) && !modeCapsuleTrigger.contains(e.target)) {
+        modeDrawer.classList.remove('open');
+        modeArrow.textContent = '▾';
+      }
+    });
+
+    modeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const mode = card.getAttribute('data-mode');
+        switchTrainingMode(mode);
+        modeDrawer.classList.remove('open');
+        modeArrow.textContent = '▾';
+      });
+    });
+  }
+
+  function switchTrainingMode(newMode) {
+    currentMode = newMode;
+    localStorage.setItem('cet4_mode', newMode);
+    updateModeDisplay(newMode);
+
+    // Adapt UI
+    adaptUIForMode(newMode);
+
+    // Restart round for this mode
+    startNewRound();
+  }
+
+  function updateModeDisplay(mode) {
+    modeCards.forEach(c => {
+      c.classList.toggle('active', c.getAttribute('data-mode') === mode);
+    });
+
+    const meta = {
+      blank: { name: '🎯 核心词挖空', badge: '20 题实词', tip: '核心词挖空' },
+      liaison: { name: '⚡ 连读/弱读特训', badge: '20 题音变', tip: '连读与弱读' },
+      dictation: { name: '✍️ 整句打字听写', badge: '全句盲打', tip: '整句听写' },
+      sonar: { name: '🌫️ 折纸声呐迷雾', badge: '两遍解码', tip: '声呐迷雾' }
+    }[mode] || { name: '🎯 核心词挖空', badge: '20 题实词', tip: '核心词挖空' };
+
+    currentModeBadge.textContent = meta.name;
+    modeIndicatorChip.textContent = meta.tip;
+    quizModeBadge.textContent = meta.badge;
+    btnNewRoundText.textContent = `开始新一轮 (${meta.tip})`;
+  }
+
+  function adaptUIForMode(mode) {
+    // Reset specific display blocks
+    liaisonAlertTag.style.display = 'none';
+    sonarControls.style.display = 'none';
+    dictationStreamWrap.style.display = 'none';
+    quizInputContainer.style.display = 'flex';
+
+    if (mode === 'sonar') {
+      quizInputContainer.style.display = 'none';
+      sonarControls.style.display = 'flex';
+      quizInput.placeholder = "声呐迷雾模式无需手动输入，戴上耳机专注辨音...";
+    } else if (mode === 'dictation') {
+      dictationStreamWrap.style.display = 'flex';
+      quizInput.placeholder = "按空格 (Space) 提交当前词并跳格，连贯输入整句...";
+    } else if (mode === 'liaison') {
+      quizInput.placeholder = "输入空缺处的连读双词 (如: turn out / could have)...";
+    } else {
+      quizInput.placeholder = "输入空缺处听到的单词...";
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 4. 数据加载与试卷切换
+  // ════════════════════════════════════════════════════════════
+  async function loadManifest() {
+    try {
+      const res = await fetch('data/manifest.json');
+      if (!res.ok) throw new Error('Failed to load manifest');
+      manifest = await res.json();
+
+      examSelect.innerHTML = '';
+      manifest.forEach((exam) => {
+        const opt = document.createElement('option');
+        opt.value = exam.id;
+        opt.textContent = `${exam.name} (${exam.segments_count} 句)`;
+        examSelect.appendChild(opt);
+      });
+
+      if (manifest.length > 0) {
+        loadExam(manifest[0].id);
+      }
+    } catch (e) {
+      console.error(e);
+      transcriptList.innerHTML = `<div style="color:var(--brand-danger);text-align:center;padding:20px;">加载考试清单失败: ${e.message}</div>`;
+    }
+  }
+
+  async function loadExam(examId) {
+    try {
+      const examMeta = manifest.find(m => m.id === examId);
+      if (!examMeta) return;
+
+      currentExamName.textContent = examMeta.name;
+      currentExamStats.textContent = `听前准备: ${examMeta.stats.pre}句 | 正文: ${examMeta.stats.body}句 | 问题: ${examMeta.stats.question}句`;
+
+      const res = await fetch(examMeta.json_file);
+      currentExam = await res.json();
+      currentSegments = currentExam.segments;
+
+      audioPlayer.src = currentExam.audio;
+      audioPlayer.load();
+
+      currentActiveSegIndex = 0;
+      isQuizMode = false;
+      quizItems = [];
+      renderTranscriptList();
+      selectSegment(0, false);
+      drawWaveformVisual();
+
+      quizOverview.textContent = "点击「开始新一轮」生成特训题目...";
+      quizFeedback.style.display = 'none';
+      score = { correct: 0, total: 20, streak: 0 };
+      updateScoreHUD();
+
+      adaptUIForMode(currentMode);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 5. 移动端选项卡导航
+  // ════════════════════════════════════════════════════════════
+  function setupMobileTabs() {
+    mobileTabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        switchMobileTab(target);
+      });
+    });
+  }
+
+  function switchMobileTab(targetTab) {
+    mobileTabBtns.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === targetTab);
+    });
+
+    if (window.innerWidth <= 960) {
+      panelTranscript.classList.remove('active-tab');
+      panelPlayer.classList.remove('active-tab');
+      panelQuiz.classList.remove('active-tab');
+
+      if (targetTab === 'tab-player') {
+        panelPlayer.classList.add('active-tab');
+      } else if (targetTab === 'tab-transcript') {
+        panelTranscript.classList.add('active-tab');
+      } else if (targetTab === 'tab-overview') {
+        panelQuiz.classList.add('active-tab');
+      }
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 6. 句子点读与渲染
+  // ════════════════════════════════════════════════════════════
+  function renderTranscriptList() {
+    if (!currentSegments || currentSegments.length === 0) return;
+
+    const query = searchInput.value.trim().toLowerCase();
+    transcriptList.innerHTML = '';
+
+    let visibleCount = 0;
+    const secIcons = { pre: '📋', body: '📝', question: '❓' };
+
+    currentSegments.forEach((seg, idx) => {
+      if (currentFilter !== 'all' && seg.sec !== currentFilter) return;
+      if (query && !seg.t.toLowerCase().includes(query)) return;
+
+      visibleCount++;
+      const item = document.createElement('div');
+      item.className = `sentence-item ${idx === currentActiveSegIndex ? 'active' : ''}`;
+      item.id = `seg-item-${idx}`;
+
+      item.innerHTML = `
+        <div class="sentence-meta">
+          <span>${secIcons[seg.sec] || ''} [${String(idx + 1).padStart(3, '0')}]</span>
+          <span>${formatTime(seg.s)} - ${formatTime(seg.e)}</span>
+        </div>
+        <div class="sentence-text">${escapeHtml(seg.t)}</div>
+      `;
+
+      item.addEventListener('click', () => {
+        isQuizMode = false;
+        selectSegment(idx, true);
+        if (window.innerWidth <= 960) switchMobileTab('tab-player');
+      });
+
+      transcriptList.appendChild(item);
+    });
+
+    transcriptCountBadge.textContent = `${visibleCount} / ${currentSegments.length} 句`;
+  }
+
+  function selectSegment(index, autoPlay = true) {
+    if (index < 0 || index >= currentSegments.length) return;
+    currentActiveSegIndex = index;
+    const seg = currentSegments[index];
+
+    document.querySelectorAll('.sentence-item').forEach(el => el.classList.remove('active'));
+    const activeEl = document.getElementById(`seg-item-${index}`);
+    if (activeEl) {
+      activeEl.classList.add('active');
+      activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    currentSegIndex.textContent = `[ ${String(index + 1).padStart(3, '0')} ]`;
+    const secLabels = { pre: '📋 听前准备', body: '📝 正文 (挖空区)', question: '❓ 问题提问' };
+    currentSegSectionBadge.className = `sec-chip ${seg.sec}`;
+    currentSegSectionBadge.textContent = secLabels[seg.sec] || seg.sec;
+
+    // Reset sonar play count for new sentence
+    sonarPlayCount = 0;
+
+    if (currentMode === 'sonar') {
+      renderSonarSentence(seg);
+    } else if (currentMode === 'dictation') {
+      setupDictationSentence(seg);
+    } else {
+      currentSentenceText.textContent = seg.t;
+      drawWaveformVisual(seg);
+    }
+
+    if (autoPlay) {
+      playSegmentTime(seg.s, seg.e);
+    }
+  }
+
+  function playSegmentTime(startTime, endTime, playbackRate = 1.0) {
+    audioPlayer.playbackRate = playbackRate;
+    audioPlayer.currentTime = startTime;
+    stopAtTime = endTime;
+    audioPlayer.play().catch(e => console.log("Autoplay blocked:", e));
+    mainPlayBtn.textContent = '⏸';
+
+    if (currentMode === 'sonar') {
+      sonarPlayCount++;
+      updateSonarStageStatus();
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 7. 特训生成算法与多模式逻辑
+  // ════════════════════════════════════════════════════════════
+  function startNewRound() {
+    if (currentMode === 'blank') {
+      quizItems = generateBlankQuiz(20);
+    } else if (currentMode === 'liaison') {
+      quizItems = generateLiaisonQuiz(20);
+    } else if (currentMode === 'dictation') {
+      quizItems = generateDictationQuiz(15);
+    } else if (currentMode === 'sonar') {
+      quizItems = generateSonarQuiz(20);
+    }
+
+    if (quizItems.length === 0) {
+      alert("当前试卷未解析出符合条件的训练段落！");
+      return;
+    }
+
+    currentQuizIndex = 0;
+    isQuizMode = true;
+    score = { correct: 0, total: quizItems.length, streak: 0 };
+    updateScoreHUD();
+    loadCurrentQuizItem();
+    updateQuizOverviewText();
+
+    if (window.innerWidth <= 960) switchMobileTab('tab-player');
+  }
+
+  // --- 算法 A: 核心词挖空 ---
+  function generateBlankQuiz(n = 20) {
+    if (!currentSegments) return [];
+    const eligible = [];
+    currentSegments.forEach((seg, idx) => {
+      if (seg.sec === 'body' && seg.w && seg.w.length >= 2) {
+        eligible.push({ idx, seg });
+      }
+    });
+
+    const shuffled = [...eligible].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, Math.min(n, shuffled.length));
+
+    const blanks = [];
+    selected.forEach(({ idx, seg }) => {
+      const candidates = seg.w.filter(w => {
+        const clean = w.w.replace(/[^a-zA-Z]/g, '').toLowerCase();
+        return clean.length >= 4;
+      });
+
+      if (candidates.length > 0) {
+        const target = candidates[Math.floor(Math.random() * candidates.length)];
+        const cleanWord = target.w.replace(/[^a-zA-Z]/g, '');
+        const regex = new RegExp(`\\b${escapeRegExp(cleanWord)}\\b`, 'i');
+        const blankedText = seg.t.replace(regex, '____');
+
+        blanks.push({
+          type: 'blank',
+          segIndex: idx,
+          seg: seg,
+          answer: cleanWord,
+          blankedText: blankedText,
+          wordStart: target.s,
+          wordEnd: target.e
+        });
+      }
+    });
+    return blanks;
+  }
+
+  // --- 算法 B: 连读与弱读双词挖空 ---
+  function generateLiaisonQuiz(n = 20) {
+    if (!currentSegments) return [];
+    const items = [];
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    const weakWords = new Set(['of', 'to', 'at', 'in', 'have', 'could', 'would', 'should', 'can', 'it', 'is', 'and', 'but', 'out', 'up', 'on', 'for', 'them', 'him', 'her']);
+
+    currentSegments.forEach((seg, idx) => {
+      if (seg.sec !== 'body' || !seg.w || seg.w.length < 3) return;
+
+      for (let i = 0; i < seg.w.length - 1; i++) {
+        const w1 = seg.w[i];
+        const w2 = seg.w[i + 1];
+        const c1 = w1.w.replace(/[^a-zA-Z]/g, '').toLowerCase();
+        const c2 = w2.w.replace(/[^a-zA-Z]/g, '').toLowerCase();
+
+        if (c1.length === 0 || c2.length === 0) continue;
+
+        const gap = w2.s - w1.e;
+        const lastC1 = c1[c1.length - 1];
+        const firstC2 = c2[0];
+
+        // Criterion: tight temporal gap (< 0.08s) AND (consonant-vowel or weak function word)
+        const isLiaison = (gap <= 0.08) && (!vowels.has(lastC1) && vowels.has(firstC2));
+        const isWeak = (gap <= 0.10) && (weakWords.has(c1) || weakWords.has(c2));
+
+        if (isLiaison || isWeak) {
+          const phrase = `${c1} ${c2}`;
+          const regex = new RegExp(`\\b${escapeRegExp(w1.w)}\\s+${escapeRegExp(w2.w)}\\b`, 'i');
+          const blanked = seg.t.replace(regex, '____ ____');
+
+          items.push({
+            type: 'liaison',
+            segIndex: idx,
+            seg: seg,
+            answer: phrase,
+            blankedText: blanked,
+            wordStart: w1.s,
+            wordEnd: w2.e,
+            phraseTag: isLiaison ? '⚡ 辅元连读' : '💨 弱读吞音'
+          });
+          break; // Max 1 per sentence
+        }
+      }
+    });
+
+    return items.sort(() => 0.5 - Math.random()).slice(0, Math.min(n, items.length));
+  }
+
+  // --- 算法 C: 整句听写打字 ---
+  function generateDictationQuiz(n = 15) {
+    if (!currentSegments) return [];
+    const eligible = currentSegments
+      .map((seg, idx) => ({ seg, idx }))
+      .filter(item => item.seg.sec === 'body' && item.seg.w && item.seg.w.length >= 4 && item.seg.w.length <= 16);
+
+    return eligible.sort(() => 0.5 - Math.random()).slice(0, Math.min(n, eligible.length)).map(item => ({
+      type: 'dictation',
+      segIndex: item.idx,
+      seg: item.seg
+    }));
+  }
+
+  // --- 算法 D: 折纸声呐迷雾 ---
+  function generateSonarQuiz(n = 20) {
+    if (!currentSegments) return [];
+    const eligible = currentSegments
+      .map((seg, idx) => ({ seg, idx }))
+      .filter(item => item.seg.sec === 'body' && item.seg.w && item.seg.w.length >= 4);
+
+    return eligible.sort(() => 0.5 - Math.random()).slice(0, Math.min(n, eligible.length)).map(item => ({
+      type: 'sonar',
+      segIndex: item.idx,
+      seg: item.seg
+    }));
+  }
+
+  // --- 加载当前题型 ---
+  function loadCurrentQuizItem() {
+    if (!isQuizMode || currentQuizIndex >= quizItems.length) {
+      currentSentenceText.textContent = `🎉 本轮特训已完成！最终得分: ${score.correct} / ${score.total}`;
+      quizFeedback.className = 'quiz-feedback success';
+      quizFeedback.textContent = `🏆 太棒了！您完成了本轮特训，准确率: ${Math.round(score.correct / score.total * 100)}%！`;
+      quizFeedback.style.display = 'block';
+      return;
+    }
+
+    const item = quizItems[currentQuizIndex];
+    currentActiveSegIndex = item.segIndex;
+
+    currentSegIndex.textContent = `[ 题 ${currentQuizIndex + 1} / ${quizItems.length} ]`;
+    quizFeedback.style.display = 'none';
+
+    if (item.type === 'blank') {
+      currentSegSectionBadge.className = 'sec-chip body';
+      currentSegSectionBadge.textContent = '🎯 核心挖空';
+      currentSentenceText.innerHTML = escapeHtml(item.blankedText).replace(/____/g, '<span class="blank-highlight">____</span>');
+      quizInput.value = '';
+      quizInput.focus();
+      drawWaveformVisual(item.seg, item.wordStart, item.wordEnd);
+      playSegmentTime(item.seg.s, item.seg.e, 1.0);
+    } else if (item.type === 'liaison') {
+      currentSegSectionBadge.className = 'sec-chip body';
+      currentSegSectionBadge.textContent = item.phraseTag || '⚡ 连读音爆';
+      currentSentenceText.innerHTML = escapeHtml(item.blankedText).replace(/____\s+____/g, '<span class="liaison-highlight">____ ____</span>');
+      liaisonAlertTag.style.display = 'block';
+      liaisonAlertTag.textContent = `${item.phraseTag} (输入双词)`;
+      quizInput.value = '';
+      quizInput.focus();
+      drawWaveformVisual(item.seg, item.wordStart, item.wordEnd);
+      playSegmentTime(item.seg.s, item.seg.e, 1.0);
+    } else if (item.type === 'dictation') {
+      currentSegSectionBadge.className = 'sec-chip body';
+      currentSegSectionBadge.textContent = '✍️ 整句听写';
+      setupDictationSentence(item.seg);
+      quizInput.value = '';
+      quizInput.focus();
+      drawWaveformVisual(item.seg);
+      playSegmentTime(item.seg.s, item.seg.e, 1.0);
+    } else if (item.type === 'sonar') {
+      currentSegSectionBadge.className = 'sec-chip body';
+      currentSegSectionBadge.textContent = '🌫️ 声呐迷雾';
+      renderSonarSentence(item.seg);
+      drawWaveformVisual(item.seg);
+      playSegmentTime(item.seg.s, item.seg.e, 1.0);
+    }
+
+    updateQuizOverviewText();
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 8. 模式交互实现（连读校验、整句打字、声呐迷雾）
+  // ════════════════════════════════════════════════════════════
+
+  // --- 模式 1 & 2 答案校验 ---
+  function checkAnswer() {
+    if (!isQuizMode || currentQuizIndex >= quizItems.length) return;
+    const item = quizItems[currentQuizIndex];
+
+    if (item.type === 'blank') {
+      const userAns = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+      const correctAns = item.answer.trim().toLowerCase().replace(/[^a-z]/g, '');
+
+      if (userAns === correctAns || (userAns.length >= 3 && correctAns.includes(userAns))) {
+        onAnswerSuccess(item.answer);
+      } else {
+        onAnswerFailure(item.answer, item.seg);
+      }
+    } else if (item.type === 'liaison') {
+      const userAns = quizInput.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      const correctAns = item.answer.trim().toLowerCase().replace(/\s+/g, ' ');
+
+      // Allow with or without space: 'turnout' or 'turn out'
+      const normUser = userAns.replace(/[^a-z]/g, '');
+      const normCorrect = correctAns.replace(/[^a-z]/g, '');
+
+      if (normUser === normCorrect) {
+        onAnswerSuccess(`⚡ 连读破解: "${item.answer}"`);
+      } else {
+        onAnswerFailure(item.answer, item.seg);
+      }
+    }
+  }
+
+  function onAnswerSuccess(msg) {
+    score.correct++;
+    score.streak++;
+    updateScoreHUD();
+
+    quizFeedback.className = 'quiz-feedback success';
+    quizFeedback.textContent = `✅ 正确！${msg} (得分: ${score.correct}/${score.total})`;
+    quizFeedback.style.display = 'block';
+
+    setTimeout(() => {
+      currentQuizIndex++;
+      loadCurrentQuizItem();
+    }, 1100);
+  }
+
+  function onAnswerFailure(answer, seg) {
+    score.streak = 0;
+    updateScoreHUD();
+
+    // Track Deaf Vocab
+    trackDeafVocab(answer, currentExam ? currentExam.id : 'cet4');
+
+    quizFeedback.className = 'quiz-feedback error';
+    quizFeedback.textContent = `❌ 错误！正确答案: "${answer}"\n↓ 自动 0.5x 慢放重听，已记入通缉令 ↓`;
+    quizFeedback.style.display = 'block';
+
+    playSegmentTime(seg.s, seg.e, 0.5);
+  }
+
+  // --- 模式 3: 整句打字机逻辑 ---
+  function setupDictationSentence(seg) {
+    if (!seg.w || seg.w.length === 0) {
+      dictWords = seg.t.split(/\s+/).map(w => ({
+        w: w,
+        clean: w.replace(/[^a-zA-Z]/g, '').toLowerCase()
+      }));
+    } else {
+      dictWords = seg.w.map(w => ({
+        w: w.w,
+        clean: w.w.replace(/[^a-zA-Z]/g, '').toLowerCase(),
+        s: w.s,
+        e: w.e
+      }));
+    }
+
+    dictCurrentIdx = 0;
+    dictStats = { correctCount: 0, totalTyped: 0, startTime: Date.now() };
+
+    dictationWordSlots.innerHTML = '';
+    dictWords.forEach((dw, i) => {
+      const slot = document.createElement('span');
+      slot.className = `dict-slot ${i === 0 ? 'active' : ''}`;
+      slot.id = `dict-slot-${i}`;
+      slot.textContent = '____';
+      dictationWordSlots.appendChild(slot);
+    });
+
+    updateDictationHUD();
+    currentSentenceText.innerHTML = `<span style="color:var(--text-tertiary);">[整句听写中] 请在下方输入框按空格连续盲打...</span>`;
+  }
+
+  function handleDictationTyping(e) {
+    if (currentMode !== 'dictation' || dictWords.length === 0) return;
+
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      const currentObj = dictWords[dictCurrentIdx];
+      const typed = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+
+      if (!typed) return;
+
+      const slot = document.getElementById(`dict-slot-${dictCurrentIdx}`);
+      dictStats.totalTyped++;
+
+      if (typed === currentObj.clean) {
+        // Correct
+        dictStats.correctCount++;
+        slot.textContent = currentObj.w;
+        slot.className = 'dict-slot correct';
+      } else {
+        // Wrong
+        slot.textContent = currentObj.w;
+        slot.className = 'dict-slot wrong';
+        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+      }
+
+      quizInput.value = '';
+      dictCurrentIdx++;
+
+      if (dictCurrentIdx < dictWords.length) {
+        const nextSlot = document.getElementById(`dict-slot-${dictCurrentIdx}`);
+        if (nextSlot) nextSlot.classList.add('active');
+        updateDictationHUD();
+      } else {
+        // Sentence finished!
+        dictCurrentWord.textContent = "全句完成! 🎉";
+        quizFeedback.className = 'quiz-feedback success';
+        quizFeedback.textContent = `🏆 本句听写完成！准确率: ${Math.round(dictStats.correctCount / dictWords.length * 100)}%`;
+        quizFeedback.style.display = 'block';
+
+        if (isQuizMode) {
+          score.correct++;
+          updateScoreHUD();
+          setTimeout(() => {
+            currentQuizIndex++;
+            loadCurrentQuizItem();
+          }, 1200);
+        }
+      }
+    }
+  }
+
+  function updateDictationHUD() {
+    if (dictCurrentIdx < dictWords.length) {
+      dictCurrentWord.textContent = `[${dictCurrentIdx + 1}/${dictWords.length}]`;
+    }
+    const acc = dictStats.totalTyped === 0 ? 100 : Math.round((dictStats.correctCount / dictStats.totalTyped) * 100);
+    dictAccuracy.textContent = `${acc}%`;
+
+    const mins = Math.max(0.05, (Date.now() - (dictStats.startTime || Date.now())) / 60000);
+    const wpm = Math.round(dictStats.correctCount / mins);
+    dictWpm.textContent = `${wpm} WPM`;
+  }
+
+  // --- 模式 4: 折纸声呐迷雾逻辑 ---
+  function renderSonarSentence(seg) {
+    currentSentenceText.innerHTML = '';
+    sonarWords = (seg.w && seg.w.length > 0) ? seg.w : seg.t.split(/\s+/).map(w => ({ w }));
+
+    sonarWords.forEach((wObj, idx) => {
+      const fullWord = wObj.w;
+      const clean = fullWord.replace(/[^a-zA-Z]/g, '');
+      const first = clean.length > 0 ? clean[0] : fullWord[0];
+      const dots = '·'.repeat(Math.max(2, clean.length - 1));
+
+      const tile = document.createElement('span');
+      tile.className = 'sonar-word-tile';
+      tile.id = `sonar-tile-${idx}`;
+      tile.setAttribute('data-full', fullWord);
+      tile.setAttribute('data-folded', first + dots);
+      tile.textContent = first + dots;
+
+      // Click to unfold single tile
+      tile.addEventListener('click', () => {
+        tile.classList.toggle('unfolded');
+        tile.textContent = tile.classList.contains('unfolded') ? fullWord : (first + dots);
+      });
+
+      currentSentenceText.appendChild(tile);
+    });
+
+    updateSonarStageStatus();
+  }
+
+  function updateSonarStageStatus() {
+    if (sonarPlayCount <= 1) {
+      sonarStagePill.textContent = `第 1 遍 · 盲听声呐态 (仅显首字母)`;
+      sonarStagePill.style.color = `var(--brand-accent)`;
+    } else {
+      sonarStagePill.textContent = `第 ${sonarPlayCount} 遍 · 声波破雾态 (随音频自动翻开)`;
+      sonarStagePill.style.color = `var(--brand-success)`;
+    }
+  }
+
+  function revealAllSonarWords() {
+    document.querySelectorAll('.sonar-word-tile').forEach(tile => {
+      tile.classList.add('unfolded');
+      tile.textContent = tile.getAttribute('data-full');
+    });
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 9. 小石屋「聋子词通缉榜」联动体系
+  // ════════════════════════════════════════════════════════════
+  function trackDeafVocab(word, examId) {
+    const clean = word.toLowerCase().trim();
+    if (!clean || clean.length < 3) return;
+
+    failedWordAttempts[clean] = (failedWordAttempts[clean] || 0) + 1;
+
+    if (failedWordAttempts[clean] >= 2) {
+      if (!deafVocabList.some(item => item.word === clean)) {
+        deafVocabList.unshift({
+          word: clean,
+          exam: examId,
+          time: new Date().toLocaleDateString()
+        });
+        localStorage.setItem('cet4_deaf_vocab', JSON.stringify(deafVocabList));
+        renderDeafBountyChips();
+
+        // Async report to VPS backend (fire-and-forget)
+        reportDeafWordToBackend(clean, examId);
+      }
+    }
+  }
+
+  function renderDeafBountyChips() {
+    bountyCountTag.textContent = `${deafVocabList.length} 词`;
+    deafWordsChips.innerHTML = '';
+
+    if (deafVocabList.length === 0) {
+      deafWordsChips.innerHTML = `<span class="no-bounty-tip">暂无聋子词，耳力处于巅峰状态！⚡</span>`;
+      return;
+    }
+
+    deafVocabList.slice(0, 15).forEach(item => {
+      const chip = document.createElement('span');
+      chip.className = 'deaf-chip';
+      chip.textContent = `🎧 ${item.word}`;
+      chip.title = `来自真题: ${item.exam}，点击快速检索包含该词的听力真题`;
+
+      chip.addEventListener('click', () => {
+        searchInput.value = item.word;
+        renderTranscriptList();
+        if (window.innerWidth <= 960) switchMobileTab('tab-transcript');
+      });
+
+      deafWordsChips.appendChild(chip);
+    });
+  }
+
+  async function reportDeafWordToBackend(word, examId) {
+    try {
+      fetch('/api/cet4/report-deaf-word', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ word, examId })
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 10. Canvas 折纸波形动态绘制
+  // ════════════════════════════════════════════════════════════
+  function drawWaveformVisual(seg = null, wordStart = null, wordEnd = null) {
+    const width = waveformCanvas.width;
+    const height = waveformCanvas.height;
+    canvasCtx.clearRect(0, 0, width, height);
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+    // Paper background
+    const bgGrad = canvasCtx.createLinearGradient(0, 0, width, height);
+    if (isDark) {
+      bgGrad.addColorStop(0, '#111722');
+      bgGrad.addColorStop(1, '#1e2636');
+    } else {
+      bgGrad.addColorStop(0, '#f5efe6');
+      bgGrad.addColorStop(1, '#ebe2d3');
+    }
+    canvasCtx.fillStyle = bgGrad;
+    canvasCtx.fillRect(0, 0, width, height);
+
+    // Crease line
+    canvasCtx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(180, 150, 120, 0.25)';
+    canvasCtx.lineWidth = 1;
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(0, height / 2);
+    canvasCtx.lineTo(width, height / 2);
+    canvasCtx.stroke();
+
+    const numBars = 110;
+    const barWidth = width / numBars;
+    const seed = seg ? seg.s * 100 : 42;
+
+    for (let i = 0; i < numBars; i++) {
+      const progress = i / numBars;
+      const amp = Math.sin(progress * Math.PI * 6 + seed) * 0.32 + 
+                  Math.sin(progress * Math.PI * 14 + seed * 2) * 0.22 + 
+                  0.38;
+      const barHeight = Math.max(4, amp * (height * 0.76));
+      const x = i * barWidth;
+      const y = (height - barHeight) / 2;
+
+      let isHighlight = false;
+      if (seg && wordStart && wordEnd) {
+        const segDuration = Math.max(0.1, seg.e - seg.s);
+        const wRelStart = (wordStart - seg.s) / segDuration;
+        const wRelEnd = (wordEnd - seg.s) / segDuration;
+        if (progress >= wRelStart && progress <= wRelEnd) {
+          isHighlight = true;
+        }
+      }
+
+      if (isHighlight) {
+        canvasCtx.fillStyle = currentMode === 'liaison' ? '#dc2626' : (isDark ? '#f59e0b' : '#d97706');
+      } else {
+        canvasCtx.fillStyle = isDark ? 'rgba(129, 140, 248, 0.85)' : 'rgba(67, 56, 202, 0.82)';
+      }
+
+      canvasCtx.fillRect(x + 1, y, barWidth - 2, barHeight);
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 11. 全局事件绑定
+  // ════════════════════════════════════════════════════════════
+  function setupEventListeners() {
+    examSelect.addEventListener('change', (e) => loadExam(e.target.value));
+    themeToggleBtn.addEventListener('click', toggleTheme);
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.getAttribute('data-filter');
+        renderTranscriptList();
+      });
+    });
+
+    searchInput.addEventListener('input', renderTranscriptList);
+
+    // Audio Player
+    audioPlayer.addEventListener('timeupdate', () => {
+      const cur = audioPlayer.currentTime;
+      const dur = audioPlayer.duration || 1;
+      timeSlider.value = (cur / dur) * 100;
+      currentTimeLabel.textContent = formatTime(cur);
+
+      // Sonar mode 2nd pass: reveal words as audio reaches them
+      if (currentMode === 'sonar' && sonarPlayCount >= 2 && sonarWords.length > 0) {
+        sonarWords.forEach((wObj, idx) => {
+          if (wObj.s && cur >= wObj.s) {
+            const tile = document.getElementById(`sonar-tile-${idx}`);
+            if (tile && !tile.classList.contains('unfolded')) {
+              tile.classList.add('unfolded');
+              tile.textContent = tile.getAttribute('data-full');
+            }
+          }
+        });
+      }
+
+      // Check single segment stop
+      if (stopAtTime !== null && cur >= stopAtTime) {
+        if (loopMode === 'single') {
+          audioPlayer.pause();
+          mainPlayBtn.textContent = '▶';
+          stopAtTime = null;
+        } else {
+          if (currentActiveSegIndex < currentSegments.length - 1) {
+            selectSegment(currentActiveSegIndex + 1, true);
+          } else {
+            audioPlayer.pause();
+            mainPlayBtn.textContent = '▶';
+            stopAtTime = null;
+          }
+        }
+      }
+    });
+
+    audioPlayer.addEventListener('loadedmetadata', () => {
+      durationLabel.textContent = formatTime(audioPlayer.duration);
+    });
+
+    audioPlayer.addEventListener('play', () => { mainPlayBtn.textContent = '⏸'; });
+    audioPlayer.addEventListener('pause', () => { mainPlayBtn.textContent = '▶'; });
+
+    mainPlayBtn.addEventListener('click', () => {
+      if (audioPlayer.paused) {
+        stopAtTime = null;
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+      }
+    });
+
+    timeSlider.addEventListener('input', () => {
+      stopAtTime = null;
+      const dur = audioPlayer.duration || 1;
+      audioPlayer.currentTime = (timeSlider.value / 100) * dur;
+    });
+
+    loopModeBtn.addEventListener('click', () => {
+      if (loopMode === 'single') {
+        loopMode = 'continuous';
+        loopModeBtn.textContent = '🔁';
+        loopModeBtn.title = '当前模式: 连续播放';
+      } else {
+        loopMode = 'single';
+        loopModeBtn.textContent = '➡️';
+        loopModeBtn.title = '当前模式: 单句播放';
+      }
+    });
+
+    btnPlayCurrent.addEventListener('click', () => {
+      if (!currentSegments || currentSegments.length === 0) return;
+      const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
+      if (seg) playSegmentTime(seg.s, seg.e, 1.0);
+    });
+
+    btnPlaySlow.addEventListener('click', () => {
+      const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
+      if (seg) playSegmentTime(seg.s, seg.e, 0.5);
+    });
+
+    btnSkipQuiz.addEventListener('click', () => {
+      if (isQuizMode && currentQuizIndex < quizItems.length - 1) {
+        score.streak = 0;
+        updateScoreHUD();
+        currentQuizIndex++;
+        loadCurrentQuizItem();
+      } else if (!isQuizMode && currentActiveSegIndex < currentSegments.length - 1) {
+        selectSegment(currentActiveSegIndex + 1, true);
+      }
+    });
+
+    btnNextQuiz.addEventListener('click', () => {
+      if (isQuizMode && currentQuizIndex < quizItems.length - 1) {
+        currentQuizIndex++;
+        loadCurrentQuizItem();
+      } else if (!isQuizMode && currentActiveSegIndex < currentSegments.length - 1) {
+        selectSegment(currentActiveSegIndex + 1, true);
+      }
+    });
+
+    btnNewRound.addEventListener('click', startNewRound);
+    btnSubmitAnswer.addEventListener('click', checkAnswer);
+
+    quizInput.addEventListener('keydown', (e) => {
+      if (currentMode === 'dictation') {
+        handleDictationTyping(e);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        checkAnswer();
+      }
+    });
+
+    if (btnRevealAllWords) {
+      btnRevealAllWords.addEventListener('click', revealAllSonarWords);
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 12. 辅助函数
+  // ════════════════════════════════════════════════════════════
+  function updateScoreHUD() {
+    scoreCorrect.textContent = score.correct;
+    scoreProgress.textContent = `${currentQuizIndex + 1 > score.total ? score.total : currentQuizIndex + 1} / ${score.total}`;
+    scoreStreak.textContent = `🔥 ${score.streak}`;
+  }
+
+  function updateQuizOverviewText() {
+    if (!quizItems || quizItems.length === 0) {
+      quizOverview.textContent = "点击「开始新一轮」生成本轮特训题单...";
+      return;
+    }
+
+    const itemMap = new Map();
+    quizItems.forEach((b) => itemMap.set(b.segIndex, b));
+
+    const lines = [];
+    const secIcons = { pre: '📋', body: '📝', question: '❓' };
+
+    currentSegments.forEach((seg, idx) => {
+      const isCurrent = idx === currentActiveSegIndex;
+      const marker = isCurrent ? '▶ ' : '  ';
+      const icon = secIcons[seg.sec] || '';
+      const text = itemMap.has(idx) ? (itemMap.get(idx).blankedText || seg.t) : seg.t;
+      lines.push(`${marker}${icon} [${String(idx + 1).padStart(3, '0')}] ${text}`);
+    });
+
+    quizOverview.textContent = lines.join('\n');
+  }
+
+  function formatTime(seconds) {
+    if (isNaN(seconds)) return '00:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function escapeHtml(str) {
+    return (str || '').replace(/[&<>"']/g, m => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[m]));
+  }
+
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function initTheme() {
+    const saved = localStorage.getItem('cet4_theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    themeToggleBtn.textContent = saved === 'dark' ? '🌙' : '☀️';
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('cet4_theme', next);
+    themeToggleBtn.textContent = next === 'dark' ? '🌙' : '☀️';
+    drawWaveformVisual(currentSegments[currentActiveSegIndex]);
+  }
+
+  window.addEventListener('DOMContentLoaded', init);
+})();
