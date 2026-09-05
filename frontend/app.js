@@ -925,7 +925,7 @@ function renderWords(filter = '') {
   activeWords.forEach((w, i) => {
     const corrected = corrections[w];
     const mc = getMarkCount(w);
-    const cn = chineseDict[w] || '';
+    let cn = (chineseDict[w] || '').replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
     if (!lf || w.toLowerCase().includes(lf) || (corrected && corrected.toLowerCase().includes(lf)) || (cn && cn.includes(lf)) || String(i + 1) === lf) {
       const card = document.createElement('div');
       card.className = 'origami-word-card';
@@ -962,7 +962,7 @@ function renderMarked() {
     const card = document.createElement('div');
     card.className = 'origami-word-card';
     const corrected = corrections[w];
-    const cn = chineseDict[w] || '';
+    let cn = (chineseDict[w] || '').replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
     const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
     card.innerHTML = `
       <span class="word-num">${i + 1}</span>
@@ -1022,7 +1022,7 @@ function getAdjacentWord(currentWord, direction) {
     if (searchVal) {
       targetList = words.filter((w, i) => {
         const corrected = corrections[w];
-        const cn = chineseDict[w] || '';
+        let cn = (chineseDict[w] || '').replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
         return w.toLowerCase().includes(searchVal) || (corrected && corrected.toLowerCase().includes(searchVal)) || (cn && cn.includes(searchVal)) || String(i + 1) === searchVal;
       });
     }
@@ -1443,7 +1443,7 @@ function openCodexModal() {
         <div class="battle-card-rarity">★ ${c.rarity} ★</div>
         <div class="codex-card-arcana">${escapeHtml(c.arcana)}</div>
         <div class="codex-card-word">${escapeHtml(c.word)}</div>
-        <div class="codex-card-cn">${escapeHtml(chineseDict[c.word] || '')}</div>
+        <div class="codex-card-cn">${escapeHtml((chineseDict[c.word] || '').replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim())}</div>
         <div class="codex-skill-box">
           <div class="codex-skill-title">${c.icon} ${escapeHtml(c.skill)}</div>
           <div class="codex-skill-desc">${escapeHtml(c.desc)}</div>
@@ -1535,10 +1535,13 @@ function generateCandyBoard() {
   grid.innerHTML = '';
   matchActiveTile = null;
 
-  // 1. 获取有效全词库池（必须有真实中文汉字释义，杜绝纯英占位符）
+  // 1. 获取有效全词库池（必须有真实中文汉字释义，杜绝纯英占位符与考纲伪释义）
   let validWords = words.filter(w => {
     const raw = chineseDict[w];
-    return raw && typeof raw === 'string' && /[\u4e00-\u9fa5]/.test(raw);
+    if (!raw || typeof raw !== 'string') return false;
+    const cleanZh = raw.replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
+    if (!cleanZh || cleanZh.toLowerCase() === w.toLowerCase()) return false;
+    return /[\u4e00-\u9fa5]/.test(cleanZh);
   });
   
   // 难度等级过滤
@@ -1559,7 +1562,12 @@ function generateCandyBoard() {
   const candidatePool = unpickedWords.length >= 6 ? unpickedWords : validWords;
 
   // 3. 错题/标记词温和回顾策略：每轮最多引入 1~2 个标记词，其余 4~5 个必须从全词库中新鲜抽取
-  const marked = getMarkedWords().map(m => m[0]).filter(w => chineseDict[w] && /[\u4e00-\u9fa5]/.test(chineseDict[w]) && !recentCandyWordsHistory.includes(w));
+  const marked = getMarkedWords().map(m => m[0]).filter(w => {
+    const raw = chineseDict[w];
+    if (!raw || typeof raw !== 'string') return false;
+    const cleanZh = raw.replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
+    return cleanZh && /[\u4e00-\u9fa5]/.test(cleanZh) && cleanZh.toLowerCase() !== w.toLowerCase() && !recentCandyWordsHistory.includes(w);
+  });
   let pool = [];
   
   if (marked.length > 0) {
@@ -1585,11 +1593,16 @@ function generateCandyBoard() {
   let colorPointer = 0;
 
   pool.forEach((word) => {
-    const rawCn = chineseDict[word] || word;
+    const rawDef = chineseDict[word] || '';
+    const rawCn = rawDef.replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
     // 提取最简洁核心释义，去除多余标点和词性前缀
     let cn = rawCn.split(/[,;，；]/)[0].replace(/^[a-z]+\.\s*/i, '').trim();
-    if (!cn || !/[\u4e00-\u9fa5]/.test(cn)) {
+    if (!cn || !/[\u4e00-\u9fa5]/.test(cn) || cn.toLowerCase() === word.toLowerCase()) {
       cn = rawCn;
+    }
+    // 严密防御：若依然无有效汉字或释义与原英文相同，杜绝渲染该词块
+    if (!cn || !/[\u4e00-\u9fa5]/.test(cn) || cn.toLowerCase() === word.toLowerCase()) {
+      return;
     }
     const enColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
     const cnColorClass = `color-theme-${colorIndices[colorPointer++ % 12]}`;
