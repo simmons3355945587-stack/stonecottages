@@ -171,9 +171,13 @@
       }
     }
 
-    // 黑胶旋转动效
+    // 黑胶旋转动效与状态标记
     const disc = document.getElementById('radioVinylDisc');
     if (disc) disc.classList.add('playing');
+    const miniPlayer = document.getElementById('radioMiniPlayer');
+    if (miniPlayer) miniPlayer.classList.add('playing');
+    const badge = document.getElementById('radioDiscBadge');
+    if (badge) badge.textContent = '🎵';
   }
 
   function pauseSong() {
@@ -186,6 +190,10 @@
 
     const disc = document.getElementById('radioVinylDisc');
     if (disc) disc.classList.remove('playing');
+    const miniPlayer = document.getElementById('radioMiniPlayer');
+    if (miniPlayer) miniPlayer.classList.remove('playing');
+    const badge = document.getElementById('radioDiscBadge');
+    if (badge) badge.textContent = '⏸️';
   }
 
   function togglePlayPause() {
@@ -567,11 +575,174 @@
     state.isDrawerOpen = force !== undefined ? force : !state.isDrawerOpen;
     const drawer = document.getElementById('radioKaraokeDrawer');
     const mini = document.getElementById('radioMiniPlayer');
+    const backdrop = document.getElementById('radioDrawerBackdrop');
     if (drawer) drawer.classList.toggle('open', state.isDrawerOpen);
     if (mini) mini.classList.toggle('drawer-open', state.isDrawerOpen);
+    if (backdrop) backdrop.classList.toggle('open', state.isDrawerOpen);
     if (state.isDrawerOpen) {
       syncLyricsUI(true);
     }
+  }
+
+  // 7.5 可移动黑胶唱片浮窗拖拽与智能贴边吸附引擎
+  function initDraggableVinyl() {
+    const el = document.getElementById('radioMiniPlayer');
+    if (!el) return;
+
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let initialLeft = 0, initialTop = 0;
+    let hasMoved = false;
+
+    // 读取持久化记忆位置
+    try {
+      const saved = localStorage.getItem('vocab_radio_vinyl_pos');
+      if (saved) {
+        const pos = JSON.parse(saved);
+        if (typeof pos.top === 'number' && typeof pos.left === 'number') {
+          const discW = el.offsetWidth || 56;
+          const discH = el.offsetHeight || 56;
+          const maxLeft = window.innerWidth - discW - 8;
+          const maxTop = window.innerHeight - discH - 70;
+          const clampedLeft = Math.max(8, Math.min(maxLeft, pos.left));
+          const clampedTop = Math.max(60, Math.min(maxTop, pos.top));
+          el.style.left = `${clampedLeft}px`;
+          el.style.top = `${clampedTop}px`;
+          el.style.right = 'auto';
+          el.style.bottom = 'auto';
+        }
+      }
+    } catch(e) {}
+
+    function getCoords(e) {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function onPointerDown(e) {
+      if (e.target.closest('button') || e.target.closest('select')) return;
+
+      const pt = getCoords(e);
+      startX = pt.x;
+      startY = pt.y;
+      hasMoved = false;
+      isDragging = true;
+
+      const rect = el.getBoundingClientRect();
+      initialLeft = rect.left;
+      initialTop = rect.top;
+
+      el.style.transition = 'none';
+      el.classList.add('dragging');
+
+      window.addEventListener('mousemove', onPointerMove, { passive: false });
+      window.addEventListener('mouseup', onPointerUp);
+      window.addEventListener('touchmove', onPointerMove, { passive: false });
+      window.addEventListener('touchend', onPointerUp);
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      const pt = getCoords(e);
+      const dx = pt.x - startX;
+      const dy = pt.y - startY;
+
+      if (!hasMoved && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+        hasMoved = true;
+      }
+
+      if (hasMoved) {
+        if (e.cancelable) e.preventDefault();
+
+        let newLeft = initialLeft + dx;
+        let newTop = initialTop + dy;
+
+        const discW = el.offsetWidth || 56;
+        const discH = el.offsetHeight || 56;
+
+        const minLeft = 6;
+        const maxLeft = window.innerWidth - discW - 6;
+        const minTop = 60;
+        const maxTop = window.innerHeight - discH - 70;
+
+        newLeft = Math.max(minLeft, Math.min(maxLeft, newLeft));
+        newTop = Math.max(minTop, Math.min(maxTop, newTop));
+
+        el.style.left = `${newLeft}px`;
+        el.style.top = `${newTop}px`;
+        el.style.right = 'auto';
+        el.style.bottom = 'auto';
+      }
+    }
+
+    function onPointerUp(e) {
+      if (!isDragging) return;
+      isDragging = false;
+      el.classList.remove('dragging');
+
+      window.removeEventListener('mousemove', onPointerMove);
+      window.removeEventListener('mouseup', onPointerUp);
+      window.removeEventListener('touchmove', onPointerMove);
+      window.removeEventListener('touchend', onPointerUp);
+
+      if (hasMoved) {
+        // 智能贴边吸附
+        const rect = el.getBoundingClientRect();
+        const discW = rect.width;
+        const isMobile = window.innerWidth <= 640;
+
+        el.style.transition = 'left 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.3s ease';
+
+        let finalLeft;
+        if (isMobile) {
+          if (rect.left + discW / 2 < window.innerWidth / 2) {
+            finalLeft = 12; // 吸附左边缘
+          } else {
+            finalLeft = window.innerWidth - discW - 12; // 吸附右边缘
+          }
+        } else {
+          finalLeft = Math.max(12, Math.min(window.innerWidth - discW - 12, rect.left));
+        }
+
+        el.style.left = `${finalLeft}px`;
+
+        try {
+          localStorage.setItem('vocab_radio_vinyl_pos', JSON.stringify({
+            left: finalLeft,
+            top: rect.top
+          }));
+        } catch(err){}
+      }
+    }
+
+    // 点击事件（未发生拖拽时展开抽屉）
+    el.addEventListener('click', (e) => {
+      if (hasMoved) {
+        e.stopPropagation();
+        e.preventDefault();
+        hasMoved = false;
+        return;
+      }
+      if (e.target.closest('button') || e.target.closest('select')) return;
+      toggleDrawer();
+    });
+
+    el.addEventListener('mousedown', onPointerDown);
+    el.addEventListener('touchstart', onPointerDown, { passive: false });
+
+    window.addEventListener('resize', () => {
+      const rect = el.getBoundingClientRect();
+      const discW = rect.width;
+      const discH = rect.height;
+      if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
+        const clampedLeft = Math.max(12, Math.min(window.innerWidth - discW - 12, rect.left));
+        const clampedTop = Math.max(60, Math.min(window.innerHeight - discH - 72, rect.top));
+        el.style.left = `${clampedLeft}px`;
+        el.style.top = `${clampedTop}px`;
+      }
+    });
   }
 
   // 8. 创建 DOM 元素并挂载到页面
@@ -582,16 +753,18 @@
     wrap.id = 'radioContainer';
     wrap.className = 'radio-container';
     wrap.innerHTML = `
-      <!-- 💿 1. 极简悬浮黑胶唱机 Mini Player (常驻右下角，不遮挡主游戏) -->
-      <div class="radio-mini-player" id="radioMiniPlayer">
-        <div class="radio-mini-disc-wrap" onclick="window.RadioPlayer.toggleDrawer()" title="点击展开双语卡拉OK歌词与点词学习面板">
+      <!-- 💿 1. 可自由拖拽移动的黑胶唱机模型 Mini Player (手机端为极简悬浮黑胶球，电脑端为胶囊条) -->
+      <div class="radio-mini-player" id="radioMiniPlayer" title="按住可随意拖拽移动位置，点击展开双语歌词与控制">
+        <div class="radio-mini-disc-wrap" id="radioMiniDiscWrap">
           <div class="radio-vinyl-disc" id="radioVinylDisc">
+            <div class="radio-vinyl-grooves"></div>
             <span class="radio-vinyl-center" id="radioMiniCover">🍋</span>
           </div>
-          <div class="radio-stylus"></div>
+          <div class="radio-stylus" id="radioStylus"></div>
+          <div class="radio-disc-badge" id="radioDiscBadge" title="播放状态">🎵</div>
         </div>
 
-        <div class="radio-mini-info" onclick="window.RadioPlayer.toggleDrawer()">
+        <div class="radio-mini-info">
           <div class="radio-mini-title-wrap">
             <span class="radio-mini-title" id="radioMiniTitle">Lemon Tree - Fools Garden</span>
           </div>
@@ -688,6 +861,7 @@
     `;
 
     document.body.appendChild(wrap);
+    initDraggableVinyl();
 
     // 点击空白处关闭点查浮窗
     document.addEventListener('click', (e) => {
