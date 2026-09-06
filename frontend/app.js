@@ -63,7 +63,8 @@ const STORAGE_KEYS = {
   OLD_PROFILE: 'vocab_player_profile',
   SETTINGS: 'vocab_app_settings',
   AUTH: 'vocab_auth_user',
-  TOKEN: 'vocab_auth_token'
+  TOKEN: 'vocab_auth_token',
+  CUSTOM_CHINESE: 'vocab_custom_chinese_dict'
 };
 
 function loadFromStorage(key, defaultVal) {
@@ -88,9 +89,14 @@ let currentWordSource = 'core'; // 默认打开词库始终锁定为核心背诵
 let currentWordTier = 'all'; // 默认难度为全部难度
 let isFilterDrawerOpen = false; // 默认收起筛选面板保持清爽
 let customWords = loadFromStorage(STORAGE_KEYS.CUSTOM_WORDS, []);
+let customChineseDict = loadFromStorage(STORAGE_KEYS.CUSTOM_CHINESE, {});
+if (typeof chineseDict !== 'undefined' && customChineseDict) {
+  Object.assign(chineseDict, customChineseDict);
+}
 let savedWords = loadFromStorage(STORAGE_KEYS.WORDS, []);
 
-function toggleFilterDrawer() {
+function toggleFilterDrawer(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
   soundClick();
   isFilterDrawerOpen = !isFilterDrawerOpen;
   saveToStorage('vocab_filter_drawer_open', isFilterDrawerOpen);
@@ -99,6 +105,20 @@ function toggleFilterDrawer() {
   if (body) body.style.display = isFilterDrawerOpen ? 'flex' : 'none';
   if (chevron) chevron.classList.toggle('expanded', isFilterDrawerOpen);
 }
+
+// 点击外部区域自动收起筛选面板
+document.addEventListener('click', (e) => {
+  if (isFilterDrawerOpen) {
+    const wrap = document.getElementById('vocabFilterPanelWrap');
+    if (wrap && !wrap.contains(e.target)) {
+      isFilterDrawerOpen = false;
+      const body = document.getElementById('filterDrawerBody');
+      const chevron = document.getElementById('filterChevron');
+      if (body) body.style.display = 'none';
+      if (chevron) chevron.classList.remove('expanded');
+    }
+  }
+});
 
 function getSourceRawWords(sourceKey) {
   const coreList = (typeof CORE_STUDY_WORDS !== 'undefined' && Array.isArray(CORE_STUDY_WORDS)) ? CORE_STUDY_WORDS : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined') ? ORIGINAL_STUDY_WORDS : []);
@@ -385,14 +405,69 @@ function soundSpell() {
   setTimeout(() => playTone(1320, 'sine', 0.35, 0.25), 120);
 }
 
-function speakWord(word, e) {
-  if (e) e.stopPropagation();
+let currentWordAudio = null;
+let currentSpeechUtterance = null;
+
+function speakWord(word, e, btn) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  if (!word || typeof word !== 'string') return;
+  const cleanWord = word.trim();
+  if (!cleanWord) return;
+
+  // 视觉脉冲动效
+  const targetBtn = btn || (e && e.currentTarget && e.currentTarget.classList.contains('word-audio-btn') ? e.currentTarget : null) || document.getElementById('dictAudioBtn') || document.getElementById('onlineModalAudioBtn');
+  if (targetBtn) {
+    targetBtn.classList.add('audio-playing-pulse');
+    setTimeout(() => targetBtn.classList.remove('audio-playing-pulse'), 1200);
+  }
+
+  // 停止先前的音频
+  if (currentWordAudio) {
+    try {
+      currentWordAudio.pause();
+      currentWordAudio.currentTime = 0;
+    } catch(err) {}
+    currentWordAudio = null;
+  }
+
+  // 轨 1：优先采用有道高清美音真人发音 CDN (原生 human voice，支持单词与短语，全端通用)
+  const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(cleanWord)}&type=2`;
+  const audio = new Audio(audioUrl);
+  currentWordAudio = audio;
+
+  let hasStarted = false;
+  const playPromise = audio.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      hasStarted = true;
+    }).catch(() => {
+      fallbackSpeechSynthesis(cleanWord);
+    });
+  }
+
+  audio.onerror = () => {
+    if (!hasStarted) {
+      fallbackSpeechSynthesis(cleanWord);
+    }
+  };
+}
+
+function fallbackSpeechSynthesis(word) {
   if (!('speechSynthesis' in window)) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(word);
-  u.lang = 'en-US';
-  u.rate = 0.9;
-  window.speechSynthesis.speak(u);
+  try {
+    window.speechSynthesis.cancel();
+    setTimeout(() => {
+      const u = new SpeechSynthesisUtterance(word);
+      u.lang = 'en-US';
+      u.rate = 0.9;
+      currentSpeechUtterance = u;
+      u.onend = () => { currentSpeechUtterance = null; };
+      u.onerror = () => { currentSpeechUtterance = null; };
+      window.speechSynthesis.speak(u);
+    }, 35);
+  } catch(err) {
+    console.warn("SpeechSynthesis error:", err);
+  }
 }
 
 // 5. 安全服务端 AI 代理 + 离线剧情保底
@@ -789,19 +864,19 @@ function updateBadges() {
   // 顶部激活状态摘要与结果统计
   const activeWords = getActiveWordList();
   const summaryMap = {
-    'core': '📖 核心背诵单词',
-    'original': '📖 核心背诵单词',
-    'novel_ihopethisfindsyouwell': '📚 《I Hope This Finds You Well》',
-    'novel': '📚 《I Hope This Finds You Well》',
-    'trade_business': '💼 《国际外贸函电》',
-    'trade': '💼 《国际外贸函电》',
-    'all': '🌐 全部书目总库'
+    'core': '📖 核心背诵',
+    'original': '📖 核心背诵',
+    'novel_ihopethisfindsyouwell': '📚 职场原著',
+    'novel': '📚 职场原著',
+    'trade_business': '💼 外贸函电',
+    'trade': '💼 外贸函电',
+    'all': '🌐 全部总库'
   };
   const tierMap = {
-    'all': '全部难度',
-    'cet4': 'CET-4 四级',
-    'cet6': 'CET-6 考研',
-    'ielts': '雅思托福'
+    'all': '全部',
+    'cet4': 'CET4',
+    'cet6': 'CET6',
+    'ielts': '雅思'
   };
   const sLabel = summaryMap[currentWordSource] || '📖 核心背诵单词';
   const tLabel = tierMap[currentWordTier] || '全部难度';
@@ -920,8 +995,16 @@ function renderWords(filter = '') {
   if (!container) return;
   container.innerHTML = '';
   const lf = filter.toLowerCase().trim();
-  const activeWords = getActiveWordList();
+  let activeWords = getActiveWordList();
 
+  // 搜索时融合自定义收录词汇，确保无论在哪个书目均能检索到新收录词
+  if (lf && Array.isArray(customWords)) {
+    customWords.forEach(cw => {
+      if (!activeWords.includes(cw)) activeWords.unshift(cw);
+    });
+  }
+
+  let matchedCount = 0;
   activeWords.forEach((w, i) => {
     const corrected = corrections[w];
     const mc = getMarkCount(w);
@@ -945,8 +1028,30 @@ function renderWords(filter = '') {
       `;
       card.onclick = () => openWordDetails(w);
       container.appendChild(card);
+      matchedCount++;
     }
   });
+
+  // 当搜索未命中任何本地词库词条时，展现智能联网查词与一键收录入口
+  if (matchedCount === 0 && lf) {
+    container.innerHTML = `
+      <div class="online-search-prompt-card">
+        <div class="online-prompt-header">
+          <span class="online-prompt-badge">🌐 智能查词</span>
+          <span class="online-prompt-title">词库未收录「<strong>${escapeHtml(lf)}</strong>」</span>
+        </div>
+        <div class="online-prompt-desc">
+          点击下方按钮或直接回车，即可联网检索权威词典释义与真人发音，一键收录至个人词库并同步至账号！
+        </div>
+        <div class="online-prompt-actions">
+          <button class="paper-btn-primary" onclick="handleOnlineSearchAndAdd('${escapeHtml(lf)}')">
+            🔍 立即联网查询并收录
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
   updateBadges();
 }
 
@@ -1078,7 +1183,7 @@ function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl,
 }
 
 async function openWordDetails(word) {
-  soundClick();
+  // 不再调用 soundClick()，防止短促提示音干扰单词首音节
   const safeWord = word.toLowerCase().trim();
   const lookup = corrections[safeWord] || safeWord;
   currentLookupWord = safeWord;
@@ -1107,7 +1212,7 @@ async function openWordDetails(word) {
       <div>
         <div style="font-size: 28px; font-weight: 900; font-family: var(--font-serif); color: var(--text-primary); display:flex; align-items:center; gap:8px;">
           ${escapeHtml(lookup)}
-          <button class="word-audio-btn" style="font-size:20px; color:var(--brand-accent);" onclick="speakWord('${escapeHtml(lookup)}')" title="[Space] 朗读发音">🔊</button>
+          <button class="word-audio-btn" id="dictAudioBtn" style="font-size:20px; color:var(--brand-accent);" onclick="speakWord('${escapeHtml(lookup)}', event, this)" title="[Space] 朗读发音">🔊</button>
         </div>
         <div style="font-size: 14px; color: var(--text-secondary); margin-top: 2px;" id="dictPhonetic">Loading phonetic...</div>
       </div>
@@ -2799,6 +2904,18 @@ function initApp() {
     searchInput.addEventListener('input', (e) => {
       renderWords(e.target.value);
     });
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) return;
+        const exact = words.find(w => w.toLowerCase() === q);
+        if (!exact) {
+          handleOnlineSearchAndAdd(q);
+        } else {
+          openWordDetails(exact);
+        }
+      }
+    });
   }
 
   initCloudSession();
@@ -3472,4 +3589,149 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initApp);
 } else {
   initApp();
+}
+
+
+// ==========================================
+// 🌐 在线智能查词、释义抽取、Mark 标记与账号录入引擎
+// ==========================================
+let pendingOnlineWordData = null;
+
+async function handleOnlineSearchAndAdd(rawWord) {
+  if (!rawWord || !rawWord.trim()) return;
+  const safeWord = rawWord.trim().toLowerCase();
+
+  const modal = document.getElementById('onlineAddModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+
+  document.getElementById('onlineModalWordText').textContent = safeWord;
+  document.getElementById('onlineModalPhonetic').textContent = '正在连接权威词典...';
+  const defInput = document.getElementById('onlineModalDefInput');
+  defInput.value = '';
+  defInput.placeholder = '正在连线词典获取地道中文释义...';
+  const enBox = document.getElementById('onlineModalEnMeaningBox');
+  enBox.style.display = 'none';
+  enBox.innerHTML = '';
+  const confirmBtn = document.getElementById('onlineModalConfirmBtn');
+  if (confirmBtn) confirmBtn.disabled = true;
+
+  // 自动播放真人发音
+  speakWord(safeWord);
+
+  let zhDef = '';
+  let phonetic = '';
+  let enMeaning = '';
+
+  // 1. 优先调用有道词典 Suggest 接口 (快速获取简明权威中文释义)
+  try {
+    const resp = await fetch(`https://dict.youdao.com/suggest?num=1&doctype=json&q=${encodeURIComponent(safeWord)}`);
+    if (resp.ok) {
+      const data = await resp.json();
+      const entries = data?.data?.entries || [];
+      if (entries.length > 0 && entries[0].explain) {
+        zhDef = entries[0].explain.trim();
+      }
+    }
+  } catch(e) {
+    console.warn("Youdao suggest lookup error:", e);
+  }
+
+  // 2. 尝试本地后端代理接口 (若有)
+  if (!zhDef && API_BASE) {
+    try {
+      const resp = await fetch(`${API_BASE}/api/dict-zh/${encodeURIComponent(safeWord)}`);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && data.definitions && data.definitions.length > 0) {
+          zhDef = data.definitions.join('; ');
+          if (data.phonetic_us) phonetic = `/${data.phonetic_us}/`;
+        }
+      }
+    } catch(e) {}
+  }
+
+  // 3. 尝试 Free Dictionary API (获取音标与英文释义，3秒限时)
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const resp = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(safeWord)}`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (resp.ok) {
+      const data = await resp.json();
+      const entry = Array.isArray(data) ? data[0] : data;
+      if (entry) {
+        if (!phonetic && (entry.phonetic || (entry.phonetics && entry.phonetics[0] && entry.phonetics[0].text))) {
+          phonetic = entry.phonetic || entry.phonetics[0].text;
+        }
+        if (entry.meanings && entry.meanings[0] && entry.meanings[0].definitions && entry.meanings[0].definitions[0]) {
+          const pos = entry.meanings[0].partOfSpeech || '';
+          const d = entry.meanings[0].definitions[0].definition || '';
+          enMeaning = `${pos ? `(${pos}) ` : ''}${d}`;
+        }
+      }
+    }
+  } catch(e) {}
+
+  pendingOnlineWordData = {
+    word: safeWord,
+    zh: zhDef,
+    phonetic: phonetic,
+    enMeaning: enMeaning
+  };
+
+  document.getElementById('onlineModalPhonetic').textContent = phonetic || '/在线发音可用/';
+  defInput.value = zhDef;
+  defInput.placeholder = '请输入该词中文释义 (支持自由修改)...';
+  if (confirmBtn) confirmBtn.disabled = false;
+
+  if (enMeaning) {
+    enBox.style.display = 'block';
+    enBox.innerHTML = `<strong>📖 英文权威释义：</strong>${escapeHtml(enMeaning)}`;
+  }
+}
+
+function closeOnlineAddModal(e) {
+  const modal = document.getElementById('onlineAddModal');
+  if (modal) modal.style.display = 'none';
+  pendingOnlineWordData = null;
+}
+
+function confirmAddOnlineWord() {
+  if (!pendingOnlineWordData) return;
+  const word = pendingOnlineWordData.word;
+  const defInput = document.getElementById('onlineModalDefInput');
+  const zh = (defInput ? defInput.value.trim() : '') || pendingOnlineWordData.zh || '暂无释义';
+  const shouldMark = document.getElementById('onlineModalMarkCheckbox') ? document.getElementById('onlineModalMarkCheckbox').checked : true;
+
+  // 1. 持久化自定义中文释义
+  customChineseDict[word] = zh;
+  chineseDict[word] = zh;
+  saveToStorage(STORAGE_KEYS.CUSTOM_CHINESE, customChineseDict);
+
+  // 2. 存入自定义生词库与当前词库
+  if (!customWords.includes(word)) {
+    customWords.unshift(word);
+    saveToStorage(STORAGE_KEYS.CUSTOM_WORDS, customWords);
+  }
+  if (!words.includes(word)) {
+    words.unshift(word);
+    saveToStorage(STORAGE_KEYS.WORDS, words);
+  }
+
+  // 3. 增加 Mark 标记数
+  if (shouldMark) {
+    marks[word] = (marks[word] || 0) + 1;
+    saveToStorage(STORAGE_KEYS.MARKS, marks);
+  }
+
+  // 4. 同步至云端用户账号
+  triggerCloudSync();
+
+  // 5. 刷新视图并打开详情
+  closeOnlineAddModal();
+  updateBadges();
+  renderWords(word);
+  showToast(`✨ 生词「${word}」已成功录入词库并同步至账号 (★ Mark: ${marks[word] || 0})！`);
+  openWordDetails(word);
 }
