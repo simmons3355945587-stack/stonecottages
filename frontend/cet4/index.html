@@ -132,6 +132,13 @@
                     <small>第1遍首字母 · 第2遍渐进翻开</small>
                   </div>
                 </button>
+                <button class="mode-card" data-mode="sequential">
+                  <span class="mode-card-icon">🚶</span>
+                  <div class="mode-card-text">
+                    <strong>全文顺序模式</strong>
+                    <small>首字母线索 · 语境连贯通关</small>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -199,6 +206,16 @@
                 <span>当前词: <strong id="dictCurrentWord">--</strong></span>
                 <span>准确率: <strong id="dictAccuracy">100%</strong></span>
                 <span>听打速度: <strong id="dictWpm">0 WPM</strong></span>
+              </div>
+            </div>
+
+            <!-- 全文顺序模式专属交互流 (仅在 sequential 模式下展示) -->
+            <div class="sequential-stream-wrap" id="sequentialStreamWrap" style="display: none;">
+              <div class="seq-word-slots" id="seqWordSlots"></div>
+              <div class="seq-stats-bar">
+                <span>当前词: <strong id="seqCurrentWord">--</strong></span>
+                <span>词位: <strong id="seqWordProgress">0/0</strong></span>
+                <span>通关: <strong id="seqExamProgress">0/0 句</strong></span>
               </div>
             </div>
           </div>
@@ -285,6 +302,10 @@
           <div class="deaf-bounty-header">
             <span>🎧 听力死角通缉令 (Deaf Vocab)</span>
             <span class="bounty-count-tag" id="bountyCountTag">0 词</span>
+          </div>
+          <div class="bounty-auth-status" id="bountyAuthStatus">
+            <span class="auth-dot guest" id="authDot"></span>
+            <span id="bountyAuthText">🔒 本地记录模式 (登录小石屋主站开启云端同步)</span>
           </div>
           <p class="bounty-desc">以下单词在听力中连续拼错 2 次，已通缉并同步至小石屋大逃杀：</p>
           <div class="deaf-words-chips" id="deafWordsChips">

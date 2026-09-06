@@ -109,6 +109,21 @@ def init_db():
         )
         ''')
         
+        # CET-4 Deaf Word Bounties table
+        cur.execute('''
+        CREATE TABLE IF NOT EXISTS deaf_bounties (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            username TEXT NOT NULL,
+            word TEXT NOT NULL,
+            exam_id TEXT NOT NULL,
+            fail_count INTEGER DEFAULT 2,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(user_id, word) ON CONFLICT REPLACE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        )
+        ''')
+
         # Active IP bindings (1 IP = 1 Active User Account)
         cur.execute('''
         CREATE TABLE IF NOT EXISTS active_ip_sessions (
@@ -857,3 +872,91 @@ def ai_scenario_proxy(req: AIScenarioReq, user: dict = Depends(get_current_user)
         return {"status": "success", "result": cleaned}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"AI 剧情生成失败: {str(e)}")
+
+
+# ==========================================
+# 🎧 CET-4 听力特训专属安全 API (权限严格隔离)
+# ==========================================
+class ReportDeafWordReq(BaseModel):
+    word: str
+    examId: Optional[str] = "cet4"
+    source: Optional[str] = "cet4"
+
+@app.get("/api/cet4/auth-status")
+def cet4_auth_status(user: dict = Depends(get_current_user)):
+    is_admin = bool(user.get("is_admin", False) or user.get("role") == "admin")
+    can_use_quota = bool(user.get("can_use_quota", False)) or is_admin
+    return {
+        "status": "success",
+        "username": user.get("username", ""),
+        "user_id": user.get("sub", ""),
+        "is_admin": is_admin,
+        "can_sync_cloud": can_use_quota
+    }
+
+@app.post("/api/cet4/report-deaf-word")
+def report_deaf_word(req: ReportDeafWordReq, user: dict = Depends(get_current_user)):
+    is_admin = bool(user.get("is_admin", False) or user.get("role") == "admin")
+    can_use_quota = bool(user.get("can_use_quota", False)) or is_admin
+
+    if not can_use_quota:
+        raise HTTPException(
+            status_code=403,
+            detail="该功能仅向站长授权用户开放。当前账号未获得云端同步额度，单词仅保留在您的浏览器本地通缉令中，不写入服务器。"
+        )
+
+    clean_word = req.word.strip().lower()
+    if not clean_word or len(clean_word) < 2:
+        raise HTTPException(status_code=400, detail="生词格式不合规")
+
+    user_id = int(user["sub"])
+    uname = user.get("username", "")
+
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute('''
+        INSERT INTO deaf_bounties (user_id, username, word, exam_id, fail_count)
+        VALUES (?, ?, ?, ?, 2)
+        ON CONFLICT(user_id, word) DO UPDATE SET
+            fail_count = fail_count + 1,
+            exam_id = excluded.exam_id,
+            created_at = CURRENT_TIMESTAMP
+        ''', (user_id, uname, clean_word, req.examId or "cet4"))
+
+        # 联动写入 profiles 的 custom_words_json (小石屋大逃杀生词库)
+        cur.execute("SELECT custom_words_json FROM profiles WHERE user_id = ?", (user_id,))
+        p = cur.fetchone()
+        if p:
+            try:
+                cw = json.loads(p["custom_words_json"] or "[]")
+            except Exception:
+                cw = []
+            if clean_word not in cw:
+                cw.append(clean_word)
+                cur.execute("UPDATE profiles SET custom_words_json = ? WHERE user_id = ?", (json.dumps(cw, ensure_ascii=False), user_id))
+
+        conn.commit()
+
+    return {"status": "success", "word": clean_word, "synced_to_vocab_game": True}
+
+@app.get("/api/cet4/deaf-words")
+def get_deaf_words(user: dict = Depends(get_current_user)):
+    is_admin = bool(user.get("is_admin", False) or user.get("role") == "admin")
+    can_use_quota = bool(user.get("can_use_quota", False)) or is_admin
+
+    if not can_use_quota:
+        return {"status": "unauthorized", "words": [], "message": "游客或未授权账号仅支持本地通缉"}
+
+    user_id = int(user["sub"])
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute("SELECT word, exam_id, fail_count, created_at FROM deaf_bounties WHERE user_id = ? ORDER BY id DESC", (user_id,))
+        rows = cur.fetchall()
+        words = [{
+            "word": r["word"],
+            "exam": r["exam_id"],
+            "fail_count": r["fail_count"],
+            "time": r["created_at"]
+        } for r in rows]
+
+    return {"status": "success", "words": words}

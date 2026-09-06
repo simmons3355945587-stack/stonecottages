@@ -37,8 +37,13 @@
   let sonarWords = [];
   let hasStartedTraining = false;
 
+  // Mode 5: Sequential Flow State (首字母线索通关)
+  let seqWords = [];
+  let seqCurrentIdx = 0;
+  let seqStats = { correctCount: 0, totalWords: 0 };
+
   // Deaf Vocab Tracker (小石屋通缉榜)
-  let failedWordAttempts = {}; // { word: count }
+  let failedWordAttempts = JSON.parse(localStorage.getItem('cet4_failed_attempts') || '{}');
   let deafVocabList = JSON.parse(localStorage.getItem('cet4_deaf_vocab') || '[]');
 
   // ════════════════════════════════════════════════════════════
@@ -127,6 +132,16 @@
   const btnHeroChangeMode = document.getElementById('btnHeroChangeMode');
   const btnHeroFreeBrowse = document.getElementById('btnHeroFreeBrowse');
   const btnStartFromHeader = document.getElementById('btnStartFromHeader');
+
+  // Mode 5 & Bounty Auth DOMs
+  const sequentialStreamWrap = document.getElementById('sequentialStreamWrap');
+  const seqWordSlots = document.getElementById('seqWordSlots');
+  const seqCurrentWord = document.getElementById('seqCurrentWord');
+  const seqWordProgress = document.getElementById('seqWordProgress');
+  const seqExamProgress = document.getElementById('seqExamProgress');
+  const bountyAuthStatus = document.getElementById('bountyAuthStatus');
+  const authDot = document.getElementById('authDot');
+  const bountyAuthText = document.getElementById('bountyAuthText');
 
   // ════════════════════════════════════════════════════════════
   // 3. 系统初始化与模式控制
@@ -234,7 +249,8 @@
       blank: { name: '🎯 核心词挖空', badge: '20 题实词', tip: '核心词挖空' },
       liaison: { name: '⚡ 连读/弱读特训', badge: '20 题音变', tip: '连读与弱读' },
       dictation: { name: '✍️ 整句打字听写', badge: '全句盲打', tip: '整句听写' },
-      sonar: { name: '🌫️ 折纸声呐迷雾', badge: '两遍解码', tip: '声呐迷雾' }
+      sonar: { name: '🌫️ 折纸声呐迷雾', badge: '两遍解码', tip: '声呐迷雾' },
+      sequential: { name: '🚶 全文顺序模式', badge: '全卷通关', tip: '首字母线索' }
     }[mode] || { name: '🎯 核心词挖空', badge: '20 题实词', tip: '核心词挖空' };
 
     currentModeBadge.textContent = meta.name;
@@ -248,6 +264,7 @@
     liaisonAlertTag.style.display = 'none';
     sonarControls.style.display = 'none';
     dictationStreamWrap.style.display = 'none';
+    if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'none';
 
     if (!hasStartedTraining && startTrainingHero && startTrainingHero.style.display !== 'none') {
       quizInputContainer.style.display = 'none';
@@ -263,6 +280,9 @@
     } else if (mode === 'dictation') {
       dictationStreamWrap.style.display = 'flex';
       quizInput.placeholder = "按空格 (Space) 提交当前词并跳格，连贯输入整句...";
+    } else if (mode === 'sequential') {
+      if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'flex';
+      quizInput.placeholder = "输入当前词（完整输入或输后半截均可）+ 空格...";
     } else if (mode === 'liaison') {
       quizInput.placeholder = "输入空缺处的连读双词 (如: turn out / could have)...";
     } else {
@@ -499,6 +519,8 @@
       quizItems = generateDictationQuiz(15);
     } else if (currentMode === 'sonar') {
       quizItems = generateSonarQuiz(20);
+    } else if (currentMode === 'sequential') {
+      quizItems = generateSequentialQuiz();
     }
 
     if (quizItems.length === 0) {
@@ -506,7 +528,15 @@
       return;
     }
 
-    currentQuizIndex = 0;
+    let resumeIndex = 0;
+    if (currentMode === 'sequential' && currentExam) {
+      const savedProg = parseInt(localStorage.getItem(`cet4_seq_prog_${currentExam.id}`) || '0', 10);
+      if (savedProg > 0 && savedProg < quizItems.length) {
+        resumeIndex = savedProg;
+      }
+    }
+
+    currentQuizIndex = resumeIndex;
     isQuizMode = true;
     score = { correct: 0, total: quizItems.length, streak: 0 };
     updateScoreHUD();
@@ -681,9 +711,153 @@
       renderSonarSentence(item.seg);
       drawWaveformVisual(item.seg);
       playSegmentTime(item.seg.s, item.seg.e, 1.0);
+    } else if (item.type === 'sequential') {
+      currentSegSectionBadge.className = `sec-chip ${item.seg.sec}`;
+      currentSegSectionBadge.textContent = item.seg.sec === 'question' ? '❓ 问题通关' : '🚶 顺序正文';
+      setupSequentialSentence(item.seg);
+      quizInput.value = '';
+      quizInput.focus();
+      drawWaveformVisual(item.seg);
+      playSegmentTime(item.seg.s, item.seg.e, 1.0);
     }
 
     updateQuizOverviewText();
+  }
+
+
+  // --- 算法 E: 全文顺序通关算法 (包含正文+问题，严格排除听前导语) ---
+  function generateSequentialQuiz() {
+    if (!currentSegments) return [];
+    const eligible = currentSegments
+      .map((seg, idx) => ({ seg, idx }))
+      .filter(item => (item.seg.sec === 'body' || item.seg.sec === 'question'));
+
+    return eligible.map(item => ({
+      type: 'sequential',
+      segIndex: item.idx,
+      seg: item.seg
+    }));
+  }
+
+  // --- 模式 5: 首字母线索交互逻辑 ---
+  function setupSequentialSentence(seg) {
+    if (!seg.w || seg.w.length === 0) {
+      seqWords = seg.t.split(/\s+/).map(w => ({
+        w: w,
+        clean: w.replace(/[^a-zA-Z]/g, '').toLowerCase()
+      }));
+    } else {
+      seqWords = seg.w.map(w => ({
+        w: w.w,
+        clean: w.w.replace(/[^a-zA-Z]/g, '').toLowerCase(),
+        s: w.s,
+        e: w.e
+      }));
+    }
+
+    seqCurrentIdx = 0;
+    seqStats = { correctCount: 0, totalWords: seqWords.filter(w => w.clean.length > 0).length };
+
+    seqWordSlots.innerHTML = '';
+    seqWords.forEach((dw, i) => {
+      const slot = document.createElement('span');
+      slot.className = `seq-slot ${i === 0 ? 'active' : ''}`;
+      slot.id = `seq-slot-${i}`;
+
+      if (dw.clean.length === 0) {
+        slot.textContent = dw.w;
+        slot.classList.add('punct');
+      } else {
+        const firstLetter = dw.clean[0];
+        const dots = '·'.repeat(Math.max(1, dw.clean.length - 1));
+        slot.innerHTML = `<span class="initial-letter">${escapeHtml(firstLetter)}</span><span class="slot-dots">${dots}</span>`;
+      }
+      seqWordSlots.appendChild(slot);
+    });
+
+    while (seqCurrentIdx < seqWords.length && seqWords[seqCurrentIdx].clean.length === 0) {
+      seqCurrentIdx++;
+      if (seqCurrentIdx < seqWords.length) {
+        const next = document.getElementById(`seq-slot-${seqCurrentIdx}`);
+        if (next) next.classList.add('active');
+      }
+    }
+
+    updateSequentialHUD();
+    currentSentenceText.innerHTML = `<span style="color:var(--text-secondary);">[顺序通关] 请在下方输入完整单词（或后半截）按空格前进...</span>`;
+  }
+
+  function handleSequentialTyping(e) {
+    if (currentMode !== 'sequential' || seqWords.length === 0) return;
+
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      if (seqCurrentIdx >= seqWords.length) return;
+
+      const currentObj = seqWords[seqCurrentIdx];
+      const typed = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+      const slot = document.getElementById(`seq-slot-${seqCurrentIdx}`);
+
+      if (!typed) {
+        // 空格跳过：视作未听懂辨音失败，记入通缉令
+        slot.textContent = currentObj.w;
+        slot.className = 'seq-slot wrong';
+        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+      } else {
+        const isExact = (typed === currentObj.clean);
+        const isSuffix = (currentObj.clean.length >= 2 && typed === currentObj.clean.slice(1));
+
+        if (isExact || isSuffix) {
+          seqStats.correctCount++;
+          slot.textContent = currentObj.w;
+          slot.className = 'seq-slot correct';
+        } else {
+          slot.textContent = currentObj.w;
+          slot.className = 'seq-slot wrong';
+          trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+        }
+      }
+
+      quizInput.value = '';
+      seqCurrentIdx++;
+
+      while (seqCurrentIdx < seqWords.length && seqWords[seqCurrentIdx].clean.length === 0) {
+        seqCurrentIdx++;
+      }
+
+      if (seqCurrentIdx < seqWords.length) {
+        const nextSlot = document.getElementById(`seq-slot-${seqCurrentIdx}`);
+        if (nextSlot) nextSlot.classList.add('active');
+        updateSequentialHUD();
+      } else {
+        seqCurrentWord.textContent = "全句完成! 🎉";
+        quizFeedback.className = 'quiz-feedback success';
+        quizFeedback.textContent = `🏆 本句通关！准确率: ${Math.round(seqStats.correctCount / Math.max(1, seqStats.totalWords) * 100)}%`;
+        quizFeedback.style.display = 'block';
+
+        if (isQuizMode) {
+          score.correct++;
+          updateScoreHUD();
+          if (currentExam) {
+            localStorage.setItem(`cet4_seq_prog_${currentExam.id}`, currentQuizIndex + 1);
+          }
+          setTimeout(() => {
+            currentQuizIndex++;
+            loadCurrentQuizItem();
+          }, 800);
+        }
+      }
+    }
+  }
+
+  function updateSequentialHUD() {
+    if (seqCurrentIdx < seqWords.length) {
+      seqCurrentWord.textContent = `${seqWords[seqCurrentIdx].clean.slice(0, 1).toUpperCase()}...`;
+    }
+    seqWordProgress.textContent = `${Math.min(seqCurrentIdx + 1, seqWords.length)} / ${seqWords.length}`;
+    if (isQuizMode) {
+      seqExamProgress.textContent = `${currentQuizIndex + 1} / ${quizItems.length} 句`;
+    }
   }
 
   // ════════════════════════════════════════════════════════════
@@ -942,13 +1116,57 @@
   }
 
   async function reportDeafWordToBackend(word, examId) {
+    const token = localStorage.getItem('vocab_auth_token');
+    if (!token) {
+      console.log(`[DeafVocab] 游客模式: "${word}" 仅在本地记录，不消耗服务器资源`);
+      return;
+    }
     try {
-      fetch('/api/cet4/report-deaf-word', {
+      const res = await fetch('/api/cet4/report-deaf-word', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ word, examId })
-      }).catch(() => {});
+      });
+      if (res.status === 403) {
+        console.log(`[DeafVocab] 未获站长云端额度授权: "${word}" 仅保存在本地通缉令`);
+      } else if (res.ok) {
+        console.log(`[DeafVocab] 站长授权特权写入成功: "${word}" 已同步至小石屋大逃杀`);
+      }
     } catch (e) {}
+  }
+
+  async function checkBountyAuthStatus() {
+    if (!bountyAuthStatus || !authDot || !bountyAuthText) return;
+    const token = localStorage.getItem('vocab_auth_token');
+    if (!token) {
+      authDot.className = 'auth-dot guest';
+      bountyAuthText.textContent = '🔒 本地通缉模式 (登录小石屋主站开启云端同步)';
+      return;
+    }
+    try {
+      const res = await fetch('/api/cet4/auth-status', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const d = await res.json();
+        if (d.can_sync_cloud) {
+          authDot.className = 'auth-dot active';
+          bountyAuthText.textContent = `🟢 站长特权已激活 · [${d.username}] 实时同步大逃杀`;
+        } else {
+          authDot.className = 'auth-dot pending';
+          bountyAuthText.textContent = `⚠️ 游客体验态 · [${d.username}] 需站长后台开放同步额度`;
+        }
+      } else {
+        authDot.className = 'auth-dot guest';
+        bountyAuthText.textContent = '🔒 本地通缉模式 (登录令牌已失效)';
+      }
+    } catch (e) {
+      authDot.className = 'auth-dot guest';
+      bountyAuthText.textContent = '🔒 本地通缉模式';
+    }
   }
 
   // ════════════════════════════════════════════════════════════
