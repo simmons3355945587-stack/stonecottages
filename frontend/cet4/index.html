@@ -257,8 +257,26 @@
         <!-- 答题输入区域 (核心词挖空 / 连读双空特训 / 整句打字共用) -->
         <div class="quiz-input-container" id="quizInputContainer">
           <div class="quiz-input-box">
-            <input type="text" id="quizInput" class="quiz-input" placeholder="输入空缺处听到的单词..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-            <button class="btn-submit" id="btnSubmitAnswer">验证</button>
+            <input 
+              type="text" 
+              id="quizInput" 
+              class="quiz-input" 
+              placeholder="输入单词按空格提交..." 
+              autocomplete="off" 
+              autocorrect="off" 
+              autocapitalize="none" 
+              spellcheck="false"
+              enterkeyhint="go"
+              inputmode="text"
+            >
+            <button class="btn-submit" id="btnSubmitAnswer">验证 ↵</button>
+          </div>
+          <!-- 移动端轻量快捷按键条 (单手大拇指直达) -->
+          <div class="quiz-quick-actions" id="quizQuickActions">
+            <button type="button" class="quick-chip-btn" id="btnQuickReplay" title="重听当前句">🔊 重听</button>
+            <button type="button" class="quick-chip-btn" id="btnQuickSlow" title="0.5x 慢放重听">🐌 慢放</button>
+            <button type="button" class="quick-chip-btn" id="btnQuickSkip" title="跳过当前词/题">⏭️ 跳过</button>
+            <span class="quick-tip-text" id="quickTipText">敲空格即验证 ␣</span>
           </div>
           <!-- 结果反馈横幅 -->
           <div id="quizFeedback" class="quiz-feedback"></div>

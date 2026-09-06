@@ -1047,6 +1047,54 @@ body {
   transform: translate(2px, 2px);
 }
 
+
+/* 移动端与桌面快捷按键条 */
+.quiz-quick-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.quick-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: 1px 1px 0px var(--paper-border);
+  transition: all var(--transition-fast);
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.quick-chip-btn:hover {
+  background: var(--paper-hover);
+  color: var(--text-primary);
+  border-color: var(--brand-primary);
+  transform: translateY(-1px);
+}
+
+.quick-chip-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+  background: var(--brand-accent-glow);
+}
+
+.quick-tip-text {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
 .quiz-feedback {
   padding: 10px 14px;
   border-radius: var(--radius-sm);

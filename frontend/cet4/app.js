@@ -279,14 +279,23 @@
       quizInput.placeholder = "声呐迷雾模式无需手动输入，戴上耳机专注辨音...";
     } else if (mode === 'dictation') {
       dictationStreamWrap.style.display = 'flex';
-      quizInput.placeholder = "按空格 (Space) 提交当前词并跳格，连贯输入整句...";
+      quizInput.placeholder = "输入单词按空格 (Space) 自动提交并跳格...";
     } else if (mode === 'sequential') {
       if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'flex';
-      quizInput.placeholder = "输入当前词（完整输入或输后半截均可）+ 空格...";
+      quizInput.placeholder = "输入单词敲【空格】自动验证，也可输入后半截...";
     } else if (mode === 'liaison') {
-      quizInput.placeholder = "输入空缺处的连读双词 (如: turn out / could have)...";
+      quizInput.placeholder = "输入连读双词 (如: turn out)，输入后按空格验证...";
     } else {
-      quizInput.placeholder = "输入空缺处听到的单词...";
+      quizInput.placeholder = "输入空缺单词，按【空格】或【验证】提交...";
+    }
+
+    const tip = document.getElementById('quickTipText');
+    if (tip) {
+      if (mode === 'sequential') tip.textContent = "敲空格即验证 ␣";
+      else if (mode === 'dictation') tip.textContent = "敲空格跳格 ␣";
+      else if (mode === 'blank') tip.textContent = "敲空格即验证 ␣";
+      else if (mode === 'liaison') tip.textContent = "双词后按空格 ␣";
+      else tip.textContent = "";
     }
   }
 
@@ -787,65 +796,75 @@
     currentSentenceText.innerHTML = `<span style="color:var(--text-secondary);">[顺序通关] 请在下方输入完整单词（或后半截）按空格前进...</span>`;
   }
 
-  function handleSequentialTyping(e) {
+  function handleSequentialTyping(trigger = 'space') {
     if (currentMode !== 'sequential' || seqWords.length === 0) return;
+    if (seqCurrentIdx >= seqWords.length) return;
 
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      if (seqCurrentIdx >= seqWords.length) return;
+    const currentObj = seqWords[seqCurrentIdx];
+    const typed = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    const slot = document.getElementById(`seq-slot-${seqCurrentIdx}`);
 
-      const currentObj = seqWords[seqCurrentIdx];
-      const typed = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
-      const slot = document.getElementById(`seq-slot-${seqCurrentIdx}`);
-
-      if (!typed) {
-        // 空格跳过：视作未听懂辨音失败，记入通缉令
+    if (trigger === 'skip') {
+      // 显式点击跳过本词：揭晓词汇并计入通缉令
+      if (slot) {
         slot.textContent = currentObj.w;
         slot.className = 'seq-slot wrong';
-        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
-      } else {
-        const isExact = (typed === currentObj.clean);
-        const isSuffix = (currentObj.clean.length >= 2 && typed === currentObj.clean.slice(1));
+      }
+      trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+      quizInput.value = '';
+      seqCurrentIdx++;
+    } else {
+      if (!typed) {
+        // 空格误触：不惩罚、清空输入框防止残留
+        quizInput.value = '';
+        return;
+      }
 
-        if (isExact || isSuffix) {
-          seqStats.correctCount++;
+      const isExact = (typed === currentObj.clean);
+      const isSuffix = (currentObj.clean.length >= 2 && typed === currentObj.clean.slice(1));
+
+      if (isExact || isSuffix) {
+        seqStats.correctCount++;
+        if (slot) {
           slot.textContent = currentObj.w;
           slot.className = 'seq-slot correct';
-        } else {
+        }
+      } else {
+        if (slot) {
           slot.textContent = currentObj.w;
           slot.className = 'seq-slot wrong';
-          trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
         }
+        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
       }
 
       quizInput.value = '';
       seqCurrentIdx++;
+    }
 
-      while (seqCurrentIdx < seqWords.length && seqWords[seqCurrentIdx].clean.length === 0) {
-        seqCurrentIdx++;
-      }
+    while (seqCurrentIdx < seqWords.length && seqWords[seqCurrentIdx].clean.length === 0) {
+      seqCurrentIdx++;
+    }
 
-      if (seqCurrentIdx < seqWords.length) {
-        const nextSlot = document.getElementById(`seq-slot-${seqCurrentIdx}`);
-        if (nextSlot) nextSlot.classList.add('active');
-        updateSequentialHUD();
-      } else {
-        seqCurrentWord.textContent = "全句完成! 🎉";
-        quizFeedback.className = 'quiz-feedback success';
-        quizFeedback.textContent = `🏆 本句通关！准确率: ${Math.round(seqStats.correctCount / Math.max(1, seqStats.totalWords) * 100)}%`;
-        quizFeedback.style.display = 'block';
+    if (seqCurrentIdx < seqWords.length) {
+      const nextSlot = document.getElementById(`seq-slot-${seqCurrentIdx}`);
+      if (nextSlot) nextSlot.classList.add('active');
+      updateSequentialHUD();
+    } else {
+      seqCurrentWord.textContent = "全句完成! 🎉";
+      quizFeedback.className = 'quiz-feedback success';
+      quizFeedback.textContent = `🏆 本句通关！准确率: ${Math.round(seqStats.correctCount / Math.max(1, seqStats.totalWords) * 100)}%`;
+      quizFeedback.style.display = 'block';
 
-        if (isQuizMode) {
-          score.correct++;
-          updateScoreHUD();
-          if (currentExam) {
-            localStorage.setItem(`cet4_seq_prog_${currentExam.id}`, currentQuizIndex + 1);
-          }
-          setTimeout(() => {
-            currentQuizIndex++;
-            loadCurrentQuizItem();
-          }, 800);
+      if (isQuizMode) {
+        score.correct++;
+        updateScoreHUD();
+        if (currentExam) {
+          localStorage.setItem(`cet4_seq_prog_${currentExam.id}`, currentQuizIndex + 1);
         }
+        setTimeout(() => {
+          currentQuizIndex++;
+          loadCurrentQuizItem();
+        }, 800);
       }
     }
   }
@@ -865,12 +884,21 @@
   // ════════════════════════════════════════════════════════════
 
   // --- 模式 1 & 2 答案校验 ---
-  function checkAnswer() {
+  function checkAnswer(trigger = 'submit') {
     if (!isQuizMode || currentQuizIndex >= quizItems.length) return;
     const item = quizItems[currentQuizIndex];
 
+    if (trigger === 'skip') {
+      onAnswerFailure(item.answer, item.seg);
+      return;
+    }
+
     if (item.type === 'blank') {
       const userAns = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+      if (!userAns) {
+        quizInput.value = '';
+        return;
+      }
       const correctAns = item.answer.trim().toLowerCase().replace(/[^a-z]/g, '');
 
       if (userAns === correctAns || (userAns.length >= 3 && correctAns.includes(userAns))) {
@@ -880,9 +908,12 @@
       }
     } else if (item.type === 'liaison') {
       const userAns = quizInput.value.trim().toLowerCase().replace(/\s+/g, ' ');
+      if (!userAns) {
+        quizInput.value = '';
+        return;
+      }
       const correctAns = item.answer.trim().toLowerCase().replace(/\s+/g, ' ');
 
-      // Allow with or without space: 'turnout' or 'turn out'
       const normUser = userAns.replace(/[^a-z]/g, '');
       const normCorrect = correctAns.replace(/[^a-z]/g, '');
 
@@ -955,53 +986,65 @@
     currentSentenceText.innerHTML = `<span style="color:var(--text-tertiary);">[整句听写中] 请在下方输入框按空格连续盲打...</span>`;
   }
 
-  function handleDictationTyping(e) {
+  function handleDictationTyping(trigger = 'space') {
     if (currentMode !== 'dictation' || dictWords.length === 0) return;
+    if (dictCurrentIdx >= dictWords.length) return;
 
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      const currentObj = dictWords[dictCurrentIdx];
-      const typed = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    const currentObj = dictWords[dictCurrentIdx];
+    const typed = quizInput.value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    const slot = document.getElementById(`dict-slot-${dictCurrentIdx}`);
 
-      if (!typed) return;
+    dictStats.totalTyped++;
 
-      const slot = document.getElementById(`dict-slot-${dictCurrentIdx}`);
-      dictStats.totalTyped++;
-
-      if (typed === currentObj.clean) {
-        // Correct
-        dictStats.correctCount++;
-        slot.textContent = currentObj.w;
-        slot.className = 'dict-slot correct';
-      } else {
-        // Wrong
+    if (trigger === 'skip') {
+      if (slot) {
         slot.textContent = currentObj.w;
         slot.className = 'dict-slot wrong';
+      }
+      trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+      quizInput.value = '';
+      dictCurrentIdx++;
+    } else {
+      if (!typed) {
+        quizInput.value = '';
+        return;
+      }
+
+      if (typed === currentObj.clean) {
+        dictStats.correctCount++;
+        if (slot) {
+          slot.textContent = currentObj.w;
+          slot.className = 'dict-slot correct';
+        }
+      } else {
+        if (slot) {
+          slot.textContent = currentObj.w;
+          slot.className = 'dict-slot wrong';
+        }
         trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
       }
 
       quizInput.value = '';
       dictCurrentIdx++;
+    }
 
-      if (dictCurrentIdx < dictWords.length) {
-        const nextSlot = document.getElementById(`dict-slot-${dictCurrentIdx}`);
-        if (nextSlot) nextSlot.classList.add('active');
-        updateDictationHUD();
-      } else {
-        // Sentence finished!
-        dictCurrentWord.textContent = "全句完成! 🎉";
-        quizFeedback.className = 'quiz-feedback success';
-        quizFeedback.textContent = `🏆 本句听写完成！准确率: ${Math.round(dictStats.correctCount / dictWords.length * 100)}%`;
-        quizFeedback.style.display = 'block';
+    if (dictCurrentIdx < dictWords.length) {
+      const nextSlot = document.getElementById(`dict-slot-${dictCurrentIdx}`);
+      if (nextSlot) nextSlot.classList.add('active');
+      updateDictationHUD();
+    } else {
+      dictCurrentWord.textContent = "全句完成! 🎉";
+      quizFeedback.className = 'quiz-feedback success';
+      quizFeedback.textContent = `🏆 本句听写完成！准确率: ${Math.round(dictStats.correctCount / dictWords.length * 100)}%`;
+      quizFeedback.style.display = 'block';
 
-        if (isQuizMode) {
-          score.correct++;
-          updateScoreHUD();
-          setTimeout(() => {
-            currentQuizIndex++;
-            loadCurrentQuizItem();
-          }, 1200);
-        }
+      if (isQuizMode) {
+        score.correct++;
+        updateScoreHUD();
+        setTimeout(() => {
+          currentQuizIndex++;
+          loadCurrentQuizItem();
+        }, 1200);
       }
     }
   }
@@ -1383,7 +1426,87 @@
     });
 
     btnNewRound.addEventListener('click', startNewRound);
-    btnSubmitAnswer.addEventListener('click', checkAnswer);
+
+    // 统一提交分发器 (兼容敲空格、软键盘回车/前往、点击验证按钮、快捷按键)
+    let isSubmitting = false;
+    function submitCurrentAnswer(triggerType = 'space') {
+      if (isSubmitting) return;
+      isSubmitting = true;
+
+      try {
+        if (currentMode === 'sequential') {
+          handleSequentialTyping(triggerType);
+        } else if (currentMode === 'dictation') {
+          handleDictationTyping(triggerType);
+        } else if (currentMode === 'blank' || currentMode === 'liaison') {
+          checkAnswer(triggerType);
+        }
+      } finally {
+        setTimeout(() => { isSubmitting = false; }, 60);
+      }
+    }
+
+    // 1. 验证按钮点击 (全模式通用)
+    btnSubmitAnswer.addEventListener('click', () => {
+      submitCurrentAnswer('click');
+    });
+
+    // 2. 键盘按键监听 (支持物理键盘及大部分软键盘 Space / Enter)
+    quizInput.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.code === 'Space' || e.keyCode === 32) {
+        if (currentMode === 'liaison') {
+          const words = quizInput.value.trim().split(/\s+/).filter(Boolean);
+          if (words.length < 2) {
+            // 连读模式允许输入第 1 个词后的空格
+            return;
+          }
+        }
+        e.preventDefault();
+        submitCurrentAnswer('space');
+      } else if (e.key === 'Enter' || e.keyCode === 13) {
+        e.preventDefault();
+        submitCurrentAnswer('enter');
+      }
+    });
+
+    // 3. 移动端软键盘 input 事件深层兼容 (专治 iOS/Android 软键盘空格不发 keydown 或联想候选词带空格问题)
+    quizInput.addEventListener('input', () => {
+      const val = quizInput.value;
+      if (/\s$/.test(val)) {
+        if (currentMode === 'liaison') {
+          const words = val.trim().split(/\s+/).filter(Boolean);
+          if (words.length < 2) {
+            return; // 连读第 1 词后空格放行
+          }
+        }
+        submitCurrentAnswer('space');
+      }
+    });
+
+    // 4. 移动端轻量快捷按键 (重听、慢放、跳过当前词)
+    const btnQuickReplay = document.getElementById('btnQuickReplay');
+    const btnQuickSlow = document.getElementById('btnQuickSlow');
+    const btnQuickSkip = document.getElementById('btnQuickSkip');
+
+    if (btnQuickReplay) {
+      btnQuickReplay.addEventListener('click', () => {
+        const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
+        if (seg) playSegmentTime(seg.s, seg.e, 1.0);
+      });
+    }
+
+    if (btnQuickSlow) {
+      btnQuickSlow.addEventListener('click', () => {
+        const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
+        if (seg) playSegmentTime(seg.s, seg.e, 0.5);
+      });
+    }
+
+    if (btnQuickSkip) {
+      btnQuickSkip.addEventListener('click', () => {
+        submitCurrentAnswer('skip');
+      });
+    }
 
     if (btnHeroStart) {
       btnHeroStart.addEventListener('click', () => {
@@ -1413,15 +1536,6 @@
         startNewRound();
       });
     }
-
-    quizInput.addEventListener('keydown', (e) => {
-      if (currentMode === 'dictation') {
-        handleDictationTyping(e);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        checkAnswer();
-      }
-    });
 
     if (btnRevealAllWords) {
       btnRevealAllWords.addEventListener('click', revealAllSonarWords);
