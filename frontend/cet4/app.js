@@ -35,6 +35,7 @@
   // Mode 4: Sonar Fog State
   let sonarPlayCount = 0;
   let sonarWords = [];
+  let hasStartedTraining = false;
 
   // Deaf Vocab Tracker (小石屋通缉榜)
   let failedWordAttempts = {}; // { word: count }
@@ -116,6 +117,17 @@
   const waveformCanvas = document.getElementById('waveformCanvas');
   const canvasCtx = waveformCanvas.getContext('2d');
 
+  // Start Training Hero DOM
+  const startTrainingHero = document.getElementById('startTrainingHero');
+  const sentenceStageWrap = document.getElementById('sentenceStageWrap');
+  const heroModePill = document.getElementById('heroModePill');
+  const heroExamTitle = document.getElementById('heroExamTitle');
+  const heroModeDesc = document.getElementById('heroModeDesc');
+  const btnHeroStart = document.getElementById('btnHeroStart');
+  const btnHeroChangeMode = document.getElementById('btnHeroChangeMode');
+  const btnHeroFreeBrowse = document.getElementById('btnHeroFreeBrowse');
+  const btnStartFromHeader = document.getElementById('btnStartFromHeader');
+
   // ════════════════════════════════════════════════════════════
   // 3. 系统初始化与模式控制
   // ════════════════════════════════════════════════════════════
@@ -155,16 +167,62 @@
     });
   }
 
+  function updateHeroDisplay() {
+    if (!startTrainingHero) return;
+    const meta = {
+      blank: {
+        pill: '🎯 核心词挖空特训 · 20 题',
+        desc: '抽取真题对话与短文中的重点实词挖空，专注听音拼写，强化核心生词听觉记忆。'
+      },
+      liaison: {
+        pill: '⚡ 连读/弱读特训 · 20 题',
+        desc: '精准识别辅元连读与 to/of/at 等功能词弱读吞音，击破连音听觉断层。'
+      },
+      dictation: {
+        pill: '✍️ 整句打字听写 · 15 句',
+        desc: '听取整句录音并按空格键连贯盲打，检验瞬时听觉记忆与全句拼写反应。'
+      },
+      sonar: {
+        pill: '🌫️ 折纸声呐迷雾 · 20 题',
+        desc: '第 1 遍首字母盲听建立声呐感知，第 2 遍随音频发音渐进翻开全句。'
+      }
+    }[currentMode] || {
+      pill: '🎯 核心词挖空特训 · 20 题',
+      desc: '基于历年四级真题切片 · 实词盲听针对性特训'
+    };
+
+    if (heroModePill) heroModePill.textContent = meta.pill;
+    if (heroModeDesc) heroModeDesc.textContent = meta.desc;
+    if (heroExamTitle && currentExam) heroExamTitle.textContent = currentExam.name;
+  }
+
+  function showStartHero() {
+    hasStartedTraining = false;
+    if (startTrainingHero) startTrainingHero.style.display = 'flex';
+    if (sentenceStageWrap) sentenceStageWrap.style.display = 'none';
+    if (quizInputContainer) quizInputContainer.style.display = 'none';
+    if (liaisonAlertTag) liaisonAlertTag.style.display = 'none';
+    if (sonarControls) sonarControls.style.display = 'none';
+    if (dictationStreamWrap) dictationStreamWrap.style.display = 'none';
+    updateHeroDisplay();
+  }
+
+  function hideStartHero() {
+    if (startTrainingHero) startTrainingHero.style.display = 'none';
+    if (sentenceStageWrap) sentenceStageWrap.style.display = 'block';
+  }
+
   function switchTrainingMode(newMode) {
     currentMode = newMode;
     localStorage.setItem('cet4_mode', newMode);
     updateModeDisplay(newMode);
-
-    // Adapt UI
     adaptUIForMode(newMode);
 
-    // Restart round for this mode
-    startNewRound();
+    if (!hasStartedTraining) {
+      updateHeroDisplay();
+    } else {
+      startNewRound();
+    }
   }
 
   function updateModeDisplay(mode) {
@@ -190,6 +248,12 @@
     liaisonAlertTag.style.display = 'none';
     sonarControls.style.display = 'none';
     dictationStreamWrap.style.display = 'none';
+
+    if (!hasStartedTraining && startTrainingHero && startTrainingHero.style.display !== 'none') {
+      quizInputContainer.style.display = 'none';
+      return;
+    }
+
     quizInputContainer.style.display = 'flex';
 
     if (mode === 'sonar') {
@@ -253,15 +317,15 @@
       isQuizMode = false;
       quizItems = [];
       renderTranscriptList();
-      selectSegment(startIdx, false);
+
+      // 一进入优先展示「开始训练」起步卡，避免直接进入前奏或未经启动的句子状态
+      showStartHero();
       drawWaveformVisual(currentSegments[startIdx]);
 
-      quizOverview.textContent = "点击「开始新一轮」生成特训题目...";
+      quizOverview.textContent = "点击「开始训练」生成特训题目...";
       quizFeedback.style.display = 'none';
       score = { correct: 0, total: 20, streak: 0 };
       updateScoreHUD();
-
-      adaptUIForMode(currentMode);
     } catch (e) {
       console.error(e);
     }
@@ -342,6 +406,8 @@
 
   function selectSegment(index, autoPlay = true) {
     if (index < 0 || index >= currentSegments.length) return;
+    hideStartHero();
+    if (!isQuizMode && btnStartFromHeader) btnStartFromHeader.style.display = 'inline-block';
     currentActiveSegIndex = index;
     const seg = currentSegments[index];
 
@@ -421,6 +487,10 @@
   // 7. 特训生成算法与多模式逻辑
   // ════════════════════════════════════════════════════════════
   function startNewRound() {
+    hideStartHero();
+    hasStartedTraining = true;
+    if (btnStartFromHeader) btnStartFromHeader.style.display = 'none';
+
     if (currentMode === 'blank') {
       quizItems = generateBlankQuiz(20);
     } else if (currentMode === 'liaison') {
@@ -1015,6 +1085,10 @@
     audioPlayer.addEventListener('pause', () => { mainPlayBtn.textContent = '▶'; });
 
     mainPlayBtn.addEventListener('click', () => {
+      if (!hasStartedTraining) {
+        startNewRound();
+        return;
+      }
       if (audioPlayer.paused) {
         stopAtTime = null;
         audioPlayer.play();
@@ -1042,6 +1116,10 @@
     });
 
     btnPlayCurrent.addEventListener('click', () => {
+      if (!hasStartedTraining) {
+        startNewRound();
+        return;
+      }
       if (!currentSegments || currentSegments.length === 0) return;
       const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
       if (seg) playSegmentTime(seg.s, seg.e, 1.0);
@@ -1053,6 +1131,10 @@
     });
 
     btnSkipQuiz.addEventListener('click', () => {
+      if (!hasStartedTraining) {
+        startNewRound();
+        return;
+      }
       if (isQuizMode && currentQuizIndex < quizItems.length - 1) {
         score.streak = 0;
         updateScoreHUD();
@@ -1067,6 +1149,10 @@
     });
 
     btnNextQuiz.addEventListener('click', () => {
+      if (!hasStartedTraining) {
+        startNewRound();
+        return;
+      }
       if (isQuizMode && currentQuizIndex < quizItems.length - 1) {
         currentQuizIndex++;
         loadCurrentQuizItem();
@@ -1080,6 +1166,35 @@
 
     btnNewRound.addEventListener('click', startNewRound);
     btnSubmitAnswer.addEventListener('click', checkAnswer);
+
+    if (btnHeroStart) {
+      btnHeroStart.addEventListener('click', () => {
+        startNewRound();
+      });
+    }
+
+    if (btnHeroChangeMode) {
+      btnHeroChangeMode.addEventListener('click', () => {
+        modeDrawer.classList.toggle('open');
+        modeArrow.textContent = modeDrawer.classList.contains('open') ? '▴' : '▾';
+      });
+    }
+
+    if (btnHeroFreeBrowse) {
+      btnHeroFreeBrowse.addEventListener('click', () => {
+        hideStartHero();
+        isQuizMode = false;
+        const firstBody = currentSegments.findIndex(s => s.sec === 'body');
+        const targetIdx = firstBody !== -1 ? firstBody : 0;
+        selectSegment(targetIdx, false);
+      });
+    }
+
+    if (btnStartFromHeader) {
+      btnStartFromHeader.addEventListener('click', () => {
+        startNewRound();
+      });
+    }
 
     quizInput.addEventListener('keydown', (e) => {
       if (currentMode === 'dictation') {

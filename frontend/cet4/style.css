@@ -1293,3 +1293,159 @@ body {
     padding: 8px 10px;
   }
 }
+
+
+/* ════════════════════════════════════════════════════════════
+   🚀 迎宾起步卡 (Start Training Hero) - 和纸折纸风格
+   ════════════════════════════════════════════════════════════ */
+.start-training-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+  gap: 12px;
+  background: var(--paper-surface);
+  border: 1.5px dashed var(--paper-border);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.02);
+}
+
+.hero-tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-mode-pill {
+  padding: 4px 12px;
+  background: var(--brand-accent-glow);
+  color: var(--brand-accent);
+  border: 1px solid var(--brand-accent);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.hero-target-pill {
+  padding: 4px 10px;
+  background: var(--badge-body-bg);
+  color: var(--badge-body-color);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.hero-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 2px 0 0 0;
+  line-height: 1.4;
+}
+
+.hero-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0;
+}
+
+.btn-hero-start {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 260px;
+  padding: 13px 28px;
+  margin-top: 6px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-light) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 14px rgba(67, 56, 202, 0.35), 2px 3px 0px var(--paper-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-hero-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(67, 56, 202, 0.45), 2px 4px 0px var(--paper-border);
+}
+
+.btn-hero-start:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(67, 56, 202, 0.25), 1px 1px 0px var(--paper-border);
+}
+
+.hero-start-icon {
+  font-size: 20px;
+  animation: heroRocket 2s ease-in-out infinite;
+}
+
+@keyframes heroRocket {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.hero-sub-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.hero-link-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all var(--transition-fast);
+}
+
+.hero-link-btn:hover {
+  color: var(--brand-primary);
+  background: var(--paper-hover);
+}
+
+.hero-link-divider {
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.sentence-stage-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-start-from-header {
+  margin-left: auto;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand-primary);
+  border: 1px solid var(--brand-primary-light);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-start-from-header:hover {
+  background: var(--brand-primary-light);
+  transform: scale(1.02);
+}

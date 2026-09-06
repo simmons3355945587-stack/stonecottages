@@ -146,35 +146,60 @@
           </div>
         </div>
 
-        <!-- 当前句主卡片 (根据模式动态渲染呈现) -->
+                <!-- 当前句主卡片 (根据模式动态渲染呈现) -->
         <div class="current-card">
-          <div class="current-card-header">
-            <span id="currentSegIndex">[ 001 ]</span>
-            <span id="currentSegSectionBadge" class="sec-chip body">📝 正文</span>
-            <span class="mode-indicator-chip" id="modeIndicatorChip">🎯 核心词挖空</span>
-          </div>
-
-          <!-- 文本展示区 (支持声呐迷雾点阵 / 连读双空高亮 / 核心挖空) -->
-          <div class="current-sentence-text" id="currentSentenceText">
-            点击左侧任意句子开始精听，或在上方切换模式开始特训。
-          </div>
-
-          <!-- 声呐迷雾专用控制器 (仅在 sonar 模式下展示) -->
-          <div class="sonar-controls" id="sonarControls" style="display: none;">
-            <div class="sonar-status-row">
-              <span class="sonar-stage-pill" id="sonarStagePill">第 1 遍 · 盲听声呐态 (仅显首字母)</span>
-              <button class="paper-sub-btn" id="btnRevealAllWords">📖 提前翻开全句</button>
+          <!-- 🚀 迎宾起步卡：一进入页面展示，引导点击「开始训练」 -->
+          <div class="start-training-hero" id="startTrainingHero">
+            <div class="hero-tag-row">
+              <span class="hero-mode-pill" id="heroModePill">🎯 核心词挖空特训 · 20 题</span>
+              <span class="hero-target-pill">四级真题实战</span>
             </div>
-            <p class="sonar-hint">💡 提示：点击上方任意单词卡片可单独“翻开”，或播放第 2 遍随发音自动展开！</p>
+            <h3 class="hero-title" id="heroExamTitle">2023年12月四级听力（第1套）</h3>
+            <p class="hero-desc" id="heroModeDesc">抽取真题对话与短文中的重点实词挖空，专注听音拼写，强化核心生词听觉记忆。</p>
+            
+            <button class="btn-hero-start" id="btnHeroStart" title="立即开启本卷听力特训">
+              <span class="hero-start-icon">🚀</span>
+              <span class="hero-start-text">开始训练</span>
+            </button>
+
+            <div class="hero-sub-actions">
+              <button class="hero-link-btn" id="btnHeroChangeMode">⚙️ 切换模式</button>
+              <span class="hero-link-divider">·</span>
+              <button class="hero-link-btn" id="btnHeroFreeBrowse">📜 自由点读全文</button>
+            </div>
           </div>
 
-          <!-- 整句打字机专用交互流 (仅在 dictation 模式下展示) -->
-          <div class="dictation-stream-wrap" id="dictationStreamWrap" style="display: none;">
-            <div class="dictation-word-slots" id="dictationWordSlots"></div>
-            <div class="dictation-stats-bar">
-              <span>当前词: <strong id="dictCurrentWord">--</strong></span>
-              <span>准确率: <strong id="dictAccuracy">100%</strong></span>
-              <span>听打速度: <strong id="dictWpm">0 WPM</strong></span>
+          <!-- 正式训练/点读区域 (训练开始或点读时展示) -->
+          <div class="sentence-stage-wrap" id="sentenceStageWrap" style="display: none;">
+            <div class="current-card-header">
+              <span id="currentSegIndex">[ 001 ]</span>
+              <span id="currentSegSectionBadge" class="sec-chip body">📝 正文</span>
+              <span class="mode-indicator-chip" id="modeIndicatorChip">🎯 核心词挖空</span>
+              <button class="btn-start-from-header" id="btnStartFromHeader" style="display: none;">🚀 开始特训</button>
+            </div>
+
+            <!-- 文本展示区 (支持声呐迷雾点阵 / 连读双空高亮 / 核心挖空) -->
+            <div class="current-sentence-text" id="currentSentenceText">
+              点击左侧任意句子开始精听，或在上方切换模式开始特训。
+            </div>
+
+            <!-- 声呐迷雾专用控制器 (仅在 sonar 模式下展示) -->
+            <div class="sonar-controls" id="sonarControls" style="display: none;">
+              <div class="sonar-status-row">
+                <span class="sonar-stage-pill" id="sonarStagePill">第 1 遍 · 盲听声呐态 (仅显首字母)</span>
+                <button class="paper-sub-btn" id="btnRevealAllWords">📖 提前翻开全句</button>
+              </div>
+              <p class="sonar-hint">💡 提示：点击上方任意单词卡片可单独“翻开”，或播放第 2 遍随发音自动展开！</p>
+            </div>
+
+            <!-- 整句打字机专用交互流 (仅在 dictation 模式下展示) -->
+            <div class="dictation-stream-wrap" id="dictationStreamWrap" style="display: none;">
+              <div class="dictation-word-slots" id="dictationWordSlots"></div>
+              <div class="dictation-stats-bar">
+                <span>当前词: <strong id="dictCurrentWord">--</strong></span>
+                <span>准确率: <strong id="dictAccuracy">100%</strong></span>
+                <span>听打速度: <strong id="dictWpm">0 WPM</strong></span>
+              </div>
             </div>
           </div>
         </div>
