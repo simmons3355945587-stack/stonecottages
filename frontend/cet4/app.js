@@ -247,12 +247,14 @@
       audioPlayer.src = currentExam.audio;
       audioPlayer.load();
 
-      currentActiveSegIndex = 0;
+      const firstBodyIdx = currentSegments.findIndex(s => s.sec === 'body');
+      const startIdx = firstBodyIdx !== -1 ? firstBodyIdx : 0;
+      currentActiveSegIndex = startIdx;
       isQuizMode = false;
       quizItems = [];
       renderTranscriptList();
-      selectSegment(0, false);
-      drawWaveformVisual();
+      selectSegment(startIdx, false);
+      drawWaveformVisual(currentSegments[startIdx]);
 
       quizOverview.textContent = "点击「开始新一轮」生成特训题目...";
       quizFeedback.style.display = 'none';
@@ -351,20 +353,32 @@
     }
 
     currentSegIndex.textContent = `[ ${String(index + 1).padStart(3, '0')} ]`;
-    const secLabels = { pre: '📋 听前准备', body: '📝 正文 (挖空区)', question: '❓ 问题提问' };
+    const secLabels = { pre: '📋 听前准备', body: '📝 正文', question: '❓ 问题提问' };
     currentSegSectionBadge.className = `sec-chip ${seg.sec}`;
     currentSegSectionBadge.textContent = secLabels[seg.sec] || seg.sec;
 
     // Reset sonar play count for new sentence
     sonarPlayCount = 0;
 
-    if (currentMode === 'sonar') {
-      renderSonarSentence(seg);
-    } else if (currentMode === 'dictation') {
-      setupDictationSentence(seg);
-    } else {
-      currentSentenceText.textContent = seg.t;
+    if (seg.sec === 'pre') {
+      // 听前导语/规则说明：坚决不进入任何训练题型，仅做纯朗读与波形试听
+      if (dictationStreamWrap) dictationStreamWrap.style.display = 'none';
+      if (sonarControls) sonarControls.style.display = 'none';
+      if (liaisonAlertTag) liaisonAlertTag.style.display = 'none';
+      if (quizInputContainer) quizInputContainer.style.display = 'none';
+
+      currentSentenceText.innerHTML = `<span style="color:var(--text-secondary);"><span style="color:var(--brand-primary);font-weight:600;">[听前导语 · 仅供试听]</span> ${escapeHtml(seg.t)}</span>`;
       drawWaveformVisual(seg);
+    } else {
+      adaptUIForMode(currentMode);
+      if (currentMode === 'sonar') {
+        renderSonarSentence(seg);
+      } else if (currentMode === 'dictation') {
+        setupDictationSentence(seg);
+      } else {
+        currentSentenceText.textContent = seg.t;
+        drawWaveformVisual(seg);
+      }
     }
 
     if (autoPlay) {
@@ -383,6 +397,24 @@
       sonarPlayCount++;
       updateSonarStageStatus();
     }
+  }
+
+  // 查找下一个符合当前训练模式的句子索引（严格排除听前导语 pre）
+  function findNextTrainableIndex(fromIdx, direction = 1) {
+    if (!currentSegments || currentSegments.length === 0) return -1;
+    let idx = fromIdx + direction;
+    while (idx >= 0 && idx < currentSegments.length) {
+      const seg = currentSegments[idx];
+      if (currentMode === 'blank') {
+        // 核心词模式：只在正文部分抽取
+        if (seg.sec === 'body') return idx;
+      } else {
+        // 全文蒙答、折纸声呐、连读特训：包含正文与问题，绝不抽听前部分
+        if (seg.sec === 'body' || seg.sec === 'question') return idx;
+      }
+      idx += direction;
+    }
+    return -1;
   }
 
   // ════════════════════════════════════════════════════════════
@@ -462,7 +494,7 @@
     const weakWords = new Set(['of', 'to', 'at', 'in', 'have', 'could', 'would', 'should', 'can', 'it', 'is', 'and', 'but', 'out', 'up', 'on', 'for', 'them', 'him', 'her']);
 
     currentSegments.forEach((seg, idx) => {
-      if (seg.sec !== 'body' || !seg.w || seg.w.length < 3) return;
+      if ((seg.sec !== 'body' && seg.sec !== 'question') || !seg.w || seg.w.length < 3) return;
 
       for (let i = 0; i < seg.w.length - 1; i++) {
         const w1 = seg.w[i];
@@ -503,12 +535,12 @@
     return items.sort(() => 0.5 - Math.random()).slice(0, Math.min(n, items.length));
   }
 
-  // --- 算法 C: 整句听写打字 ---
+  // --- 算法 C: 整句听写打字 (正文+问题，排除听前) ---
   function generateDictationQuiz(n = 15) {
     if (!currentSegments) return [];
     const eligible = currentSegments
       .map((seg, idx) => ({ seg, idx }))
-      .filter(item => item.seg.sec === 'body' && item.seg.w && item.seg.w.length >= 4 && item.seg.w.length <= 16);
+      .filter(item => (item.seg.sec === 'body' || item.seg.sec === 'question') && item.seg.w && item.seg.w.length >= 4 && item.seg.w.length <= 20);
 
     return eligible.sort(() => 0.5 - Math.random()).slice(0, Math.min(n, eligible.length)).map(item => ({
       type: 'dictation',
@@ -517,12 +549,12 @@
     }));
   }
 
-  // --- 算法 D: 折纸声呐迷雾 ---
+  // --- 算法 D: 折纸声呐迷雾 (正文+问题，排除听前) ---
   function generateSonarQuiz(n = 20) {
     if (!currentSegments) return [];
     const eligible = currentSegments
       .map((seg, idx) => ({ seg, idx }))
-      .filter(item => item.seg.sec === 'body' && item.seg.w && item.seg.w.length >= 4);
+      .filter(item => (item.seg.sec === 'body' || item.seg.sec === 'question') && item.seg.w && item.seg.w.length >= 4);
 
     return eligible.sort(() => 0.5 - Math.random()).slice(0, Math.min(n, eligible.length)).map(item => ({
       type: 'sonar',
@@ -548,7 +580,7 @@
     quizFeedback.style.display = 'none';
 
     if (item.type === 'blank') {
-      currentSegSectionBadge.className = 'sec-chip body';
+      currentSegSectionBadge.className = `sec-chip ${item.seg.sec}`;
       currentSegSectionBadge.textContent = '🎯 核心挖空';
       currentSentenceText.innerHTML = escapeHtml(item.blankedText).replace(/____/g, '<span class="blank-highlight">____</span>');
       quizInput.value = '';
@@ -556,8 +588,8 @@
       drawWaveformVisual(item.seg, item.wordStart, item.wordEnd);
       playSegmentTime(item.seg.s, item.seg.e, 1.0);
     } else if (item.type === 'liaison') {
-      currentSegSectionBadge.className = 'sec-chip body';
-      currentSegSectionBadge.textContent = item.phraseTag || '⚡ 连读音爆';
+      currentSegSectionBadge.className = `sec-chip ${item.seg.sec}`;
+      currentSegSectionBadge.textContent = item.phraseTag || (item.seg.sec === 'question' ? '⚡ 问题连读' : '⚡ 连读音爆');
       currentSentenceText.innerHTML = escapeHtml(item.blankedText).replace(/____\s+____/g, '<span class="liaison-highlight">____ ____</span>');
       liaisonAlertTag.style.display = 'block';
       liaisonAlertTag.textContent = `${item.phraseTag} (输入双词)`;
@@ -566,16 +598,16 @@
       drawWaveformVisual(item.seg, item.wordStart, item.wordEnd);
       playSegmentTime(item.seg.s, item.seg.e, 1.0);
     } else if (item.type === 'dictation') {
-      currentSegSectionBadge.className = 'sec-chip body';
-      currentSegSectionBadge.textContent = '✍️ 整句听写';
+      currentSegSectionBadge.className = `sec-chip ${item.seg.sec}`;
+      currentSegSectionBadge.textContent = item.seg.sec === 'question' ? '❓ 问题听写' : '✍️ 整句听写';
       setupDictationSentence(item.seg);
       quizInput.value = '';
       quizInput.focus();
       drawWaveformVisual(item.seg);
       playSegmentTime(item.seg.s, item.seg.e, 1.0);
     } else if (item.type === 'sonar') {
-      currentSegSectionBadge.className = 'sec-chip body';
-      currentSegSectionBadge.textContent = '🌫️ 声呐迷雾';
+      currentSegSectionBadge.className = `sec-chip ${item.seg.sec}`;
+      currentSegSectionBadge.textContent = item.seg.sec === 'question' ? '❓ 问题迷雾' : '🌫️ 声呐迷雾';
       renderSonarSentence(item.seg);
       drawWaveformVisual(item.seg);
       playSegmentTime(item.seg.s, item.seg.e, 1.0);
@@ -957,12 +989,19 @@
           mainPlayBtn.textContent = '▶';
           stopAtTime = null;
         } else {
-          if (currentActiveSegIndex < currentSegments.length - 1) {
-            selectSegment(currentActiveSegIndex + 1, true);
-          } else {
+          if (isQuizMode) {
             audioPlayer.pause();
             mainPlayBtn.textContent = '▶';
             stopAtTime = null;
+          } else {
+            const nextIdx = findNextTrainableIndex(currentActiveSegIndex, 1);
+            if (nextIdx !== -1) {
+              selectSegment(nextIdx, true);
+            } else {
+              audioPlayer.pause();
+              mainPlayBtn.textContent = '▶';
+              stopAtTime = null;
+            }
           }
         }
       }
@@ -1019,8 +1058,11 @@
         updateScoreHUD();
         currentQuizIndex++;
         loadCurrentQuizItem();
-      } else if (!isQuizMode && currentActiveSegIndex < currentSegments.length - 1) {
-        selectSegment(currentActiveSegIndex + 1, true);
+      } else if (!isQuizMode) {
+        const nextIdx = findNextTrainableIndex(currentActiveSegIndex, 1);
+        if (nextIdx !== -1) {
+          selectSegment(nextIdx, true);
+        }
       }
     });
 
@@ -1028,8 +1070,11 @@
       if (isQuizMode && currentQuizIndex < quizItems.length - 1) {
         currentQuizIndex++;
         loadCurrentQuizItem();
-      } else if (!isQuizMode && currentActiveSegIndex < currentSegments.length - 1) {
-        selectSegment(currentActiveSegIndex + 1, true);
+      } else if (!isQuizMode) {
+        const nextIdx = findNextTrainableIndex(currentActiveSegIndex, 1);
+        if (nextIdx !== -1) {
+          selectSegment(nextIdx, true);
+        }
       }
     });
 
