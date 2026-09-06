@@ -224,7 +224,7 @@
 
   function hideStartHero() {
     if (startTrainingHero) startTrainingHero.style.display = 'none';
-    if (sentenceStageWrap) sentenceStageWrap.style.display = 'block';
+    if (sentenceStageWrap) sentenceStageWrap.style.display = 'flex';
   }
 
   function switchTrainingMode(newMode) {
@@ -260,33 +260,37 @@
   }
 
   function adaptUIForMode(mode) {
-    // Reset specific display blocks
-    liaisonAlertTag.style.display = 'none';
-    sonarControls.style.display = 'none';
-    dictationStreamWrap.style.display = 'none';
+    // Reset all specific blocks
+    if (liaisonAlertTag) liaisonAlertTag.style.display = 'none';
+    if (sonarControls) sonarControls.style.display = 'none';
+    if (dictationStreamWrap) dictationStreamWrap.style.display = 'none';
     if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'none';
 
+    // If hero start card is visible, hide the input container
     if (!hasStartedTraining && startTrainingHero && startTrainingHero.style.display !== 'none') {
-      quizInputContainer.style.display = 'none';
+      if (quizInputContainer) quizInputContainer.style.display = 'none';
       return;
     }
 
-    quizInputContainer.style.display = 'flex';
-
+    // Activate current mode UI
     if (mode === 'sonar') {
-      quizInputContainer.style.display = 'none';
-      sonarControls.style.display = 'flex';
-      quizInput.placeholder = "声呐迷雾模式无需手动输入，戴上耳机专注辨音...";
+      if (quizInputContainer) quizInputContainer.style.display = 'none';
+      if (sonarControls) sonarControls.style.display = 'flex';
+      if (quizInput) quizInput.placeholder = "声呐迷雾模式无需手动输入，戴上耳机专注辨音...";
     } else if (mode === 'dictation') {
-      dictationStreamWrap.style.display = 'flex';
-      quizInput.placeholder = "输入单词按空格 (Space) 自动提交并跳格...";
+      if (quizInputContainer) quizInputContainer.style.display = 'flex';
+      if (dictationStreamWrap) dictationStreamWrap.style.display = 'flex';
+      if (quizInput) quizInput.placeholder = "输入单词按空格 (Space) 自动提交并跳格...";
     } else if (mode === 'sequential') {
+      if (quizInputContainer) quizInputContainer.style.display = 'flex';
       if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'flex';
-      quizInput.placeholder = "输入单词敲【空格】自动验证，也可输入后半截...";
+      if (quizInput) quizInput.placeholder = "输入单词敲【空格】自动验证，也可输入后半截...";
     } else if (mode === 'liaison') {
-      quizInput.placeholder = "输入连读双词 (如: turn out)，输入后按空格验证...";
-    } else {
-      quizInput.placeholder = "输入空缺单词，按【空格】或【验证】提交...";
+      if (quizInputContainer) quizInputContainer.style.display = 'flex';
+      if (quizInput) quizInput.placeholder = "输入连读双词 (如: turn out)，输入后按空格验证...";
+    } else { // blank
+      if (quizInputContainer) quizInputContainer.style.display = 'flex';
+      if (quizInput) quizInput.placeholder = "输入空缺单词，按【空格】或【验证】提交...";
     }
 
     const tip = document.getElementById('quickTipText');
@@ -470,6 +474,8 @@
         renderSonarSentence(seg);
       } else if (currentMode === 'dictation') {
         setupDictationSentence(seg);
+      } else if (currentMode === 'sequential') {
+        setupSequentialSentence(seg);
       } else {
         currentSentenceText.textContent = seg.t;
         drawWaveformVisual(seg);
@@ -516,8 +522,9 @@
   // 7. 特训生成算法与多模式逻辑
   // ════════════════════════════════════════════════════════════
   function startNewRound() {
-    hideStartHero();
     hasStartedTraining = true;
+    hideStartHero();
+    adaptUIForMode(currentMode);
     if (btnStartFromHeader) btnStartFromHeader.style.display = 'none';
 
     if (currentMode === 'blank') {
@@ -679,8 +686,11 @@
       quizFeedback.className = 'quiz-feedback success';
       quizFeedback.textContent = `🏆 太棒了！您完成了本轮特训，准确率: ${Math.round(score.correct / score.total * 100)}%！`;
       quizFeedback.style.display = 'block';
+      if (quizInputContainer) quizInputContainer.style.display = 'none';
       return;
     }
+
+    adaptUIForMode(currentMode);
 
     const item = quizItems[currentQuizIndex];
     currentActiveSegIndex = item.segIndex;
@@ -750,6 +760,9 @@
 
   // --- 模式 5: 首字母线索交互逻辑 ---
   function setupSequentialSentence(seg) {
+    if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'flex';
+    if (quizInputContainer) quizInputContainer.style.display = 'flex';
+
     if (!seg.w || seg.w.length === 0) {
       seqWords = seg.t.split(/\s+/).map(w => ({
         w: w,
@@ -956,6 +969,9 @@
 
   // --- 模式 3: 整句打字机逻辑 ---
   function setupDictationSentence(seg) {
+    if (dictationStreamWrap) dictationStreamWrap.style.display = 'flex';
+    if (quizInputContainer) quizInputContainer.style.display = 'flex';
+
     if (!seg.w || seg.w.length === 0) {
       dictWords = seg.t.split(/\s+/).map(w => ({
         w: w,
@@ -1063,6 +1079,8 @@
 
   // --- 模式 4: 折纸声呐迷雾逻辑 ---
   function renderSonarSentence(seg) {
+    if (sonarControls) sonarControls.style.display = 'flex';
+    if (quizInputContainer) quizInputContainer.style.display = 'none';
     currentSentenceText.innerHTML = '';
     sonarWords = (seg.w && seg.w.length > 0) ? seg.w : seg.t.split(/\s+/).map(w => ({ w }));
 
