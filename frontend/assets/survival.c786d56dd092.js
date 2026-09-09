@@ -612,7 +612,7 @@ function handleSurvivalChoice(opt, idx) {
     }
   }
 
-  if (isSuccess && playerProfile.xp >= playerProfile.level * 100) {
+  if (playerProfile.xp >= playerProfile.level * 100) {
     playerProfile.level++;
     playerProfile.hp = 100;
     showToast(`🌟 Survivor Level Up: LV.${playerProfile.level}! HP Restored`);

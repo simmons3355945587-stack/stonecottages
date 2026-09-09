@@ -56,11 +56,15 @@ const context = {
 
 context.window = context;
 
-// 2. 加载 risk-reward-engine.js
+// 2. 加载 gray-health-engine.js
+const grayEngineCode = fs.readFileSync(path.join(__dirname, '../frontend/gray-health-engine.js'), 'utf8');
+vm.runInNewContext(grayEngineCode, context);
+
+// 3. 加载 risk-reward-engine.js
 const riskEngineCode = fs.readFileSync(path.join(__dirname, '../frontend/risk-reward-engine.js'), 'utf8');
 vm.runInNewContext(riskEngineCode, context);
 
-// 3. 加载 survival.js
+// 4. 加载 survival.js
 const survivalCode = fs.readFileSync(path.join(__dirname, '../frontend/survival.js'), 'utf8');
 vm.runInNewContext(survivalCode, context);
 
@@ -113,7 +117,7 @@ context.appSettings = { enableRiskEngine: false };
 
 context.handleSurvivalChoice(optCorrect, 0);
 assert.strictEqual(context.playerProfile.xp, 20, '回退模式下基础奖励应当严格等于 20 * combo (20 XP)');
-assert(context.lastToast === '🎉 战局生还！XP +20', '回退模式下 Toast 应当保持经典无倍率文案');
+assert(context.lastToast.includes('XP +20') && context.lastToast.includes('Gold'), '回退模式下 Toast 应当包含基础 20 XP 与 Gold 产出');
 console.log(`  ✅ PASS: 回退机制 100% 触发，获得纯净经典奖励 20 XP, Toast: "${context.lastToast}"`);
 
 // ----------------------------------------------------
@@ -122,8 +126,9 @@ console.log(`  ✅ PASS: 回退机制 100% 触发，获得纯净经典奖励 20 
 console.log('\n【测试 3/3】答错挫败时的动态能力惩罚与属性结算测试:');
 context.playerProfile = {
   hp: 100,
+  grayHp: 0,
   san: 100,
-  level: 1,
+  level: 5,
   xp: 0,
   combo: 3,
   wonRounds: 5,
@@ -138,12 +143,13 @@ const optWrong = {
 };
 
 context.handleSurvivalChoice(optWrong, 1);
-assert.strictEqual(context.playerProfile.hp, 75, 'HP 应当扣除 25 点');
-assert.strictEqual(context.playerProfile.san, 85, 'SAN 应当扣除 15 点');
+assert.strictEqual(context.playerProfile.hp, 92, '普通失误扣 8 HP');
+assert.strictEqual(context.playerProfile.grayHp, 4, '扣除的 8 HP 中 4 点转化为可愈合灰血');
+assert.strictEqual(context.playerProfile.san, 100, '普通失误绝不扣除清明度 SAN');
 assert.strictEqual(context.playerProfile.combo, 1, '连击应当重置为 1');
 assert(context.playerProfile.riskModel.theta_long < 0.5, '长期能力在答错后应当微降');
 assert.strictEqual(context.playerProfile.riskModel.answer_count, 51, '答题总数应当自增为 51');
-console.log(`  ✅ PASS: HP: ${context.playerProfile.hp}, SAN: ${context.playerProfile.san}, 新能力: ${context.playerProfile.riskModel.theta_long.toFixed(4)}`);
+console.log(`  ✅ PASS: HP: ${context.playerProfile.hp} (Gray HP: ${context.playerProfile.grayHp}), SAN: ${context.playerProfile.san}, 新能力: ${context.playerProfile.riskModel.theta_long.toFixed(4)}`);
 
 console.log('\n==================================================');
 console.log('🎉 战局结算与风险算法端到端深度集成全部通过！');

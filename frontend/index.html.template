@@ -45,19 +45,26 @@
 
   <!-- Player HUD -->
   <div class="player-bar">
-    <div class="origami-hud-card">
+    <div class="origami-hud-card" title="生命值 HP (失误可转化灰血，通过错词有效回忆愈合)">
       <span>❤️</span>
       <span>HP</span>
       <span class="hud-val" id="hudHp">100</span>
-      <div class="origami-meter-wrap"><div class="origami-meter-fill" id="hpBar" style="width: 100%;"></div></div>
+      <div class="origami-meter-wrap">
+        <div class="origami-meter-gray" id="hpGrayBar" style="width: 100%;"></div>
+        <div class="origami-meter-fill" id="hpBar" style="width: 100%;"></div>
+      </div>
     </div>
-    <div class="origami-hud-card">
+    <div class="origami-hud-card" title="心神清明度 SAN (受环境与禁忌事件影响，普通做题不扣除)">
       <span>🧠</span>
       <span>SAN</span>
-      <span class="hud-val" id="hudSan">100</span>
+      <span class="hud-val" id="hudSan">100 · 清明</span>
       <div class="origami-meter-wrap"><div class="origami-meter-fill" id="sanBar" style="width: 100%; background: var(--brand-cyan);"></div></div>
     </div>
-    <div class="origami-hud-card">
+    <div class="origami-hud-card" title="随身金币 (远征生还产出，用于塔罗占卜与补给)">
+      <span>🪙</span>
+      <span class="hud-val" id="hudGold" style="color: #f59e0b; font-weight: 800;">100 Gold</span>
+    </div>
+    <div class="origami-hud-card" title="研习等级与永久经验 (只增不减，衡量探险履历)">
       <span>✦</span>
       <span>LV.<span id="hudLevel">1</span></span>
       <span class="hud-val" id="hudXp" style="color: var(--brand-accent);">0 XP</span>
@@ -737,6 +744,7 @@
 </div>
 
 <script src="performance-runtime.js"></script>
+<script src="gray-health-engine.js"></script>
 <script src="words-data.js"></script>
 
 

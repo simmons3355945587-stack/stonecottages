@@ -27,3 +27,6 @@ Thumbs.db
 *.mp3
 *.wav
 *.m4a
+
+# Local test scratch captures
+scratch/
