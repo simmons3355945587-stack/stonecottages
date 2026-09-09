@@ -102,7 +102,7 @@ async function runTests() {
   // ------------------------------------------------------------
   // 测试 6：营地休整、战术撤退与原子归档 (Camp Rest & Evacuation)
   // ------------------------------------------------------------
-  console.log('\n【测试 6/6】营地休整、战术撤退与终局归档测试:');
+  console.log('\n【测试 6/9】营地休整、战术撤退与终局归档测试:');
   // 踏入营地 (节点 4)
   session1.nodes[3].status = 'available'; // 临时设置可用以测试
   await ExpeditionEngine.enterNode(4);
@@ -117,8 +117,62 @@ async function runTests() {
   assert.strictEqual(ExpeditionEngine.getSession(), null, '归档后当前活跃会话必须已清空');
   console.log('  ✅ PASS: 营地休整抚慰灰血与 SAN，战术撤退原子归档顺利完成');
 
+  // ------------------------------------------------------------
+  // 测试 7：破败石塔古老异象交互抉择 (Anomaly Event Choices)
+  // ------------------------------------------------------------
+  console.log('\n【测试 7/9】破败石塔古老异象抉择交互测试:');
+  const session2 = await ExpeditionEngine.startExpedition(profile, 998877);
+  // 直接解锁并踏入节点 5 (破败石塔)
+  const nodeTower = session2.nodes.find(n => n.id === 5);
+  nodeTower.status = 'available';
+  const towerEntry = await ExpeditionEngine.enterNode(5);
+  assert.strictEqual(towerEntry.encounter.type, 'event', '节点 5 必须呈现古老异象遭遇');
+  assert.strictEqual(towerEntry.encounter.choices.length, 3, '必须提供 3 种不同风险与收益的战术抉择');
+
+  const prevTowerSan = session2.san;
+  const prevTowerGold = session2.goldEarned;
+  const choiceRes = await ExpeditionEngine.resolveAnomalyChoice('relic_sacrifice');
+  assert.strictEqual(choiceRes.sanDelta, -15, '献祭古塔残响扣除 15 SAN');
+  assert.strictEqual(choiceRes.gainedGold, 45, '献祭古塔残响斩获 45 Gold');
+  assert.strictEqual(session2.san, prevTowerSan - 15, 'SAN 准确同步扣除');
+  assert.strictEqual(session2.goldEarned, prevTowerGold + 45, '金币准确增加');
+  assert.strictEqual(nodeTower.status, 'cleared', '抉择后节点 5 标记为已突破');
+  assert.strictEqual(session2.nodes.find(n => n.id === 7).status, 'available', '领主关卡 7 成功解锁');
+  console.log('  ✅ PASS: 异象抉择事件处理严密，献祭代价、收益与后续路线解锁 100% 正确');
+
+  // ------------------------------------------------------------
+  // 测试 8：营火温故深度调息与错词愈合 (Camp Rest Deep Recall)
+  // ------------------------------------------------------------
+  console.log('\n【测试 8/9】营火温故深度调息与错词闭环测试:');
+  const session3 = await ExpeditionEngine.startExpedition({ hp: 80, grayHp: 10, san: 60, battleHand: ['Justice'] }, 554433);
+  session3.recentErrors.push({ word: 'insufferable', translation: '难以忍受的', nodeId: 1 });
+  const campNode = session3.nodes.find(n => n.id === 4);
+  campNode.status = 'available';
+  await ExpeditionEngine.enterNode(4);
+
+  const deepRestRes = await ExpeditionEngine.campRest(true);
+  assert.strictEqual(deepRestRes.deepRecall, true, '标记为深度温故调息');
+  assert.strictEqual(deepRestRes.healedHp, 10, '全部 10 点灰血自愈结痂');
+  assert.strictEqual(deepRestRes.sanRecovered, 25, '深度温故调息抚慰 +25 点 SAN');
+  assert.strictEqual(session3.grayHp, 0, '灰血清空');
+  assert.strictEqual(session3.recentErrors.length, 0, '错词已移入完成温故清单');
+  assert.strictEqual(session3.completedRecalls.length, 1, '温故档案准确记录');
+  console.log('  ✅ PASS: 营火温故深度调息赋予 +25 SAN 强效抚慰，错词自愈闭环完整');
+
+  // ------------------------------------------------------------
+  // 测试 9：倒计时心流压制超时结算测试 (Timeout Penalty)
+  // ------------------------------------------------------------
+  console.log('\n【测试 9/9】倒计时心流压制超时惩罚测试:');
+  const session4 = await ExpeditionEngine.startExpedition({ hp: 100, grayHp: 0, san: 100, battleHand: [] }, 112233);
+  await ExpeditionEngine.enterNode(1, candidates);
+  const timeoutRes = await ExpeditionEngine.submitAnswer(-1); // 超时未作答
+  assert.strictEqual(timeoutRes.isCorrect, false, '倒计时超时判定为未通过');
+  assert.strictEqual(timeoutRes.deltaHp, -8, '超时受到 8 点反噬扣血');
+  assert.strictEqual(timeoutRes.deltaGrayHp, 4, '超时产生 4 点自愈灰血');
+  console.log('  ✅ PASS: 倒计时心流超时判定严谨，生命受损转化为灰血等待后续自愈');
+
   console.log('\n================================================================');
-  console.log('🎉 统一远征状态机与事件引擎全场景单测 100% 全部通过 (6/6 PASSED)!');
+  console.log('🎉 统一远征状态机与事件引擎全场景单测 100% 全部通过 (9/9 PASSED)!');
   console.log('================================================================\n');
 }
 
