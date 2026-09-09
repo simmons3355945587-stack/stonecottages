@@ -173,9 +173,12 @@
         </div>
 
         <!-- 室外专属互动图层 (默认隐藏) -->
-        <div id="cottageExteriorLayers" style="display: none;">
+        <div id="cottageExteriorLayers" style="display: none; flex-direction: column; gap: 8px;">
           <button class="entrance" onclick="toggleCottagePerspective(true)" aria-label="推门进入小石屋">
             <span>推门进入小石屋 <span class="arrow">▶</span></span>
+          </button>
+          <button class="entrance" onclick="openExpeditionPrepModal()" aria-label="踏上荒原远征" style="border-color: var(--brand-accent); background: rgba(245, 158, 11, 0.25);">
+            <span>⚔️ 踏上荒原远征 <span class="arrow">▶</span></span>
           </button>
         </div>
       </div>
