@@ -89,7 +89,7 @@
             <span class="pill-icon">📖</span>
             <span class="pill-text">词库</span>
           </button>
-          <button class="cottage-float-pill" onclick="switchNavView('survival')" title="推门出征 · 小说生存战">
+          <button class="cottage-float-pill" onclick="openExpeditionPrepModal()" title="出征祭坛 · 探险整备">
             <span class="pill-icon">⚔️</span>
             <span class="pill-text">出征</span>
           </button>
@@ -144,10 +144,10 @@
             <span class="object-caption">塔罗秘典 <span class="arrow">↗</span></span>
           </button>
 
-          <!-- 3. 通顶实木书架交互热点 -->
-          <button class="hotspot shelf-spot" onclick="switchNavView('words')" aria-label="打开书架研习词库">
+          <!-- 3. 通顶实木书架交互热点 (安全研习模式 · 0扣血) -->
+          <button class="hotspot shelf-spot" onclick="switchNavView('words')" aria-label="打开书架安全研习词库">
             <span class="marker">📚</span>
-            <span class="hotspot-caption">研习词库</span>
+            <span class="hotspot-caption">书架 · 安全研习 (0扣血)</span>
           </button>
 
           <!-- 4. 壁炉炉火热点 -->
@@ -156,10 +156,16 @@
             <span class="hotspot-caption">炉边歇息</span>
           </button>
 
-          <!-- 5. 推门出征热点 (正门通道) -->
-          <button class="hotspot expedition-spot" onclick="switchNavView('survival')" aria-label="推门出征小说生存战">
+          <!-- 5. 炉边茶几复盘热点 -->
+          <button class="hotspot debrief-spot" onclick="openCottageDebriefModal()" aria-label="炉边茶几复盘">
+            <span class="marker">🕊️</span>
+            <span class="hotspot-caption">炉边复盘</span>
+          </button>
+
+          <!-- 6. 推门出征整备祭坛 -->
+          <button class="hotspot expedition-spot" onclick="openExpeditionPrepModal()" aria-label="推门出征祭坛">
             <span class="marker">⚔️</span>
-            <span class="hotspot-caption">推门出征</span>
+            <span class="hotspot-caption">出征祭坛</span>
           </button>
 
           <!-- 6. 壁炉柔光光晕 (混合模式 screen) -->
