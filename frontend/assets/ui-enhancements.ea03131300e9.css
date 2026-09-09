@@ -508,52 +508,37 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 
 @media (max-width: 640px) {
   .cottage-floating-bar {
-    top: 8px;
-    left: 8px;
-    right: 8px;
+    top: 6px;
+    left: 6px;
+    right: 6px;
   }
   .cottage-floating-actions {
-    gap: 5px;
+    gap: 4px;
   }
   .cottage-float-pill {
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 13.5px;
-    line-height: 1;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    padding: 3px 7px;
+    font-size: 11px;
+    gap: 2px;
+    border-radius: 16px;
   }
-  .cottage-float-pill .pill-text {
+  .cottage-floating-actions .cottage-float-pill span:not([id$="Icon"]) {
     display: none;
   }
   .cottage-loc-pill {
-    width: auto;
-    min-width: 0;
-    height: 30px;
-    min-height: 30px;
-    padding: 0 10px;
-    border-radius: 15px;
-    font-size: 11px;
-    max-width: 120px;
+    font-size: 10.5px;
+    padding: 3px 8px;
+    max-width: 110px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   }
   .scene {
-    border-radius: 16px;
+    border-radius: 14px;
   }
   .marker {
-    width: 24px;
-    height: 24px;
-    font-size: 11px;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
   }
 }
 

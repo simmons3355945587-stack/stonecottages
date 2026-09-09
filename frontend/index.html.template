@@ -69,32 +69,35 @@
 
   <!-- ================= VIEW 0: 小石屋 2.5D 大厅 (COTTAGE) ================= -->
   <div id="viewCottage" class="view-section active">
-    <!-- 顶栏状态与微控 -->
-    <div class="cottage-header-bar">
-      <div class="cottage-location-tag">
-        <span class="cottage-status-dot"></span>
-        <span id="cottageLocationLabel">炉火旁 · 室内</span>
-      </div>
-      <div class="cottage-control-group">
-        <button class="cottage-capsule-btn" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点">
-          <span id="cottagePerspectiveIcon">🌲</span>
-          <span id="cottagePerspectiveText">去屋外看看</span>
-        </button>
-        <button class="cottage-capsule-btn" id="btnCottageWarmth" onclick="toggleCottageWarmth()" title="壁炉暖光开关">
-          <span>🔥</span>
-          <span id="cottageWarmthText">暖光已开启</span>
-        </button>
-        <button class="cottage-capsule-btn" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索交互标记">
-          <span id="cottageHintsIcon">👁️</span>
-          <span id="cottageHintsText">提示</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- 2.5D 石屋视窗场景容器 -->
+    <!-- 2.5D 石屋视窗场景容器 (纯石屋模型 · 日夜随动) -->
     <div class="scene-wrap">
+      <!-- 场景微控悬浮栏 (玻璃拟态 · 精简无遮挡) -->
+      <div class="cottage-floating-bar">
+        <div class="cottage-float-pill cottage-loc-pill" id="cottageLocationBadge">
+          <span class="cottage-status-dot"></span>
+          <span id="cottageLocationLabel">炉火旁 · 室内</span>
+        </div>
+        <div class="cottage-floating-actions">
+          <button class="cottage-float-pill" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点">
+            <span class="pill-icon" id="cottagePerspectiveIcon">🌲</span>
+            <span class="pill-text" id="cottagePerspectiveText">去屋外</span>
+          </button>
+          <button class="cottage-float-pill" id="btnCottageWarmth" onclick="toggleCottageWarmth()" title="壁炉暖光开关">
+            <span class="pill-icon">🔥</span>
+            <span class="pill-text" id="cottageWarmthText">暖光</span>
+          </button>
+          <button class="cottage-float-pill" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索互动标记">
+            <span class="pill-icon" id="cottageHintsIcon">👁️</span>
+            <span class="pill-text" id="cottageHintsText">提示</span>
+          </button>
+          <button class="cottage-float-pill" onclick="openCottageAboutModal()" title="关于小石屋避难所">
+            <span class="pill-icon">🕊️</span>
+          </button>
+        </div>
+      </div>
+
       <div class="scene interior show-hints with-motion" id="cottageScene">
-        <!-- 基础环境背景（WebP 主力，PNG 降级） -->
+        <!-- 基础环境背景（透明 WebP 主力，量化 PNG 降级） -->
         <picture id="cottageBasePicture">
           <source id="cottageBaseSource" srcset="/assets/cottage-interior.webp" type="image/webp">
           <img id="cottageBaseImg" class="scene-base" src="/assets/cottage-interior.png" alt="小石屋内景" width="1448" height="1086" fetchpriority="high">
@@ -149,60 +152,6 @@
           </button>
         </div>
       </div>
-
-      <!-- 场景底栏快捷注脚 -->
-      <div class="scene-caption">
-        <span id="cottageSceneFootnote">小石屋 / 室内剖切等轴视角 · 炉边微暖</span>
-        <div class="cottage-caption-actions">
-          <span class="quiet-note"><span class="dot"></span> 理智抚慰庇护所</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 底部快捷手作卡座 (Object Dock) -->
-    <div class="cottage-object-dock">
-      <button class="cottage-dock-item" onclick="openCottageJournalModal()">
-        <span class="dock-icon">✍️</span>
-        <div class="dock-meta">
-          <span class="dock-title">小石屋手记</span>
-          <span class="dock-sub">本地私人随笔</span>
-        </div>
-      </button>
-      <button class="cottage-dock-item" onclick="switchNavView('words')">
-        <span class="dock-icon">📖</span>
-        <div class="dock-meta">
-          <span class="dock-title">研习词库</span>
-          <span class="dock-sub">480/704 词</span>
-        </div>
-      </button>
-      <button class="cottage-dock-item primary-dock" onclick="switchNavView('survival')">
-        <span class="dock-icon">⚔️</span>
-        <div class="dock-meta">
-          <span class="dock-title">推门出征</span>
-          <span class="dock-sub">51章生存战</span>
-        </div>
-      </button>
-      <button class="cottage-dock-item" onclick="switchNavView('profile').then(() => openCodexModal())">
-        <span class="dock-icon">🃏</span>
-        <div class="dock-meta">
-          <span class="dock-title">塔罗秘典</span>
-          <span class="dock-sub">大阿卡那手牌</span>
-        </div>
-      </button>
-      <a href="/cet4/" class="cottage-dock-item" style="text-decoration: none;">
-        <span class="dock-icon">🎧</span>
-        <div class="dock-meta">
-          <span class="dock-title">四级精听</span>
-          <span class="dock-sub">挖空复读机</span>
-        </div>
-      </a>
-      <button class="cottage-dock-item" onclick="openCottageAboutModal()">
-        <span class="dock-icon">🕊️</span>
-        <div class="dock-meta">
-          <span class="dock-title">关于小石屋</span>
-          <span class="dock-sub">避难所理念</span>
-        </div>
-      </button>
     </div>
   </div>
 
