@@ -189,7 +189,6 @@ body[data-active-view="cottage"] .header,
 body[data-active-view="cottage"] .stone-game-subnav,
 body[data-active-view="cottage"] .bottom-dock,
 body[data-active-view="cottage"] .mobile-nav,
-body[data-active-view="cottage"] .stone-mobile-nav,
 body[data-active-view="cottage"] #stoneRadioLauncher {
   display: none !important;
 }

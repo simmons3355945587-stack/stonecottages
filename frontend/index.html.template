@@ -71,11 +71,21 @@
   <div id="viewCottage" class="view-section active">
     <!-- 2.5D 石屋视窗场景容器 (纯石屋模型 · 日夜随动) -->
     <div class="scene-wrap">
-      <!-- 场景微控悬浮栏 (玻璃拟态 · 精简无遮挡) -->
+      <!-- 场景微控悬浮栏 (玻璃拟态 · 纯模型 HUD) -->
       <div class="cottage-floating-bar">
-        <div class="cottage-float-pill cottage-loc-pill" id="cottageLocationBadge">
-          <span class="cottage-status-dot"></span>
-          <span id="cottageLocationLabel">炉火旁 · 室内</span>
+        <div class="cottage-floating-nav">
+          <div class="cottage-float-pill cottage-loc-pill" id="cottageLocationBadge">
+            <span class="cottage-status-dot"></span>
+            <span id="cottageLocationLabel">炉火旁 · 室内</span>
+          </div>
+          <button class="cottage-float-pill" onclick="switchNavView('words')" title="打开书架 · 词库">
+            <span class="pill-icon">📖</span>
+            <span class="pill-text">词库</span>
+          </button>
+          <button class="cottage-float-pill" onclick="switchNavView('survival')" title="推门出征 · 小说生存战">
+            <span class="pill-icon">⚔️</span>
+            <span class="pill-text">出征</span>
+          </button>
         </div>
         <div class="cottage-floating-actions">
           <button class="cottage-float-pill" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点">
@@ -89,6 +99,10 @@
           <button class="cottage-float-pill" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索互动标记">
             <span class="pill-icon" id="cottageHintsIcon">👁️</span>
             <span class="pill-text" id="cottageHintsText">提示</span>
+          </button>
+          <button class="cottage-float-pill" id="btnCottageOrientation" onclick="toggleCottageOrientation()" title="切换横屏/竖屏模式">
+            <span class="pill-icon" id="cottageOrientationIcon">🔄</span>
+            <span class="pill-text" id="cottageOrientationText">横屏</span>
           </button>
           <button class="cottage-float-pill" onclick="openCottageAboutModal()" title="关于小石屋避难所">
             <span class="pill-icon">🕊️</span>
