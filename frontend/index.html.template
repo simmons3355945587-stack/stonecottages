@@ -67,8 +67,147 @@
 
 <div class="container">
 
+  <!-- ================= VIEW 0: 小石屋 2.5D 大厅 (COTTAGE) ================= -->
+  <div id="viewCottage" class="view-section active">
+    <!-- 顶栏状态与微控 -->
+    <div class="cottage-header-bar">
+      <div class="cottage-location-tag">
+        <span class="cottage-status-dot"></span>
+        <span id="cottageLocationLabel">炉火旁 · 室内</span>
+      </div>
+      <div class="cottage-control-group">
+        <button class="cottage-capsule-btn" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点">
+          <span id="cottagePerspectiveIcon">🌲</span>
+          <span id="cottagePerspectiveText">去屋外看看</span>
+        </button>
+        <button class="cottage-capsule-btn" id="btnCottageWarmth" onclick="toggleCottageWarmth()" title="壁炉暖光开关">
+          <span>🔥</span>
+          <span id="cottageWarmthText">暖光已开启</span>
+        </button>
+        <button class="cottage-capsule-btn" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索交互标记">
+          <span id="cottageHintsIcon">👁️</span>
+          <span id="cottageHintsText">提示</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2.5D 石屋视窗场景容器 -->
+    <div class="scene-wrap">
+      <div class="scene interior show-hints with-motion" id="cottageScene">
+        <!-- 基础环境背景（WebP 主力，PNG 降级） -->
+        <picture id="cottageBasePicture">
+          <source id="cottageBaseSource" srcset="/assets/cottage-interior.webp" type="image/webp">
+          <img id="cottageBaseImg" class="scene-base" src="/assets/cottage-interior.png" alt="小石屋内景" width="1448" height="1086" fetchpriority="high">
+        </picture>
+
+        <!-- 室内专属互动图层与物件 -->
+        <div id="cottageInteriorLayers">
+          <!-- 1. 书桌上的金牛手记 (3D 悬浮微倾斜) -->
+          <button class="paper-object book-object" onclick="openCottageJournalModal()" aria-label="打开书桌上的手记">
+            <picture>
+              <source srcset="/assets/bull-book.webp" type="image/webp">
+              <img src="/assets/bull-book.png" alt="小石屋手记" width="1536" height="1024">
+            </picture>
+            <span class="object-caption">写手记 <span class="arrow">↗</span></span>
+          </button>
+
+          <!-- 2. 壁炉上方悬挂的金牛战旗 (3D 垂坠微动) -->
+          <button class="paper-object banner-object" onclick="switchNavView('profile').then(() => openCodexModal())" aria-label="查看金牛战旗，开启塔罗秘典">
+            <picture>
+              <source srcset="/assets/bull-banner.webp" type="image/webp">
+              <img src="/assets/bull-banner.png" alt="金牛战旗" width="1024" height="1536">
+            </picture>
+            <span class="object-caption">塔罗秘典 <span class="arrow">↗</span></span>
+          </button>
+
+          <!-- 3. 通顶实木书架交互热点 -->
+          <button class="hotspot shelf-spot" onclick="switchNavView('words')" aria-label="打开书架研习词库">
+            <span class="marker">📚</span>
+            <span class="hotspot-caption">研习词库</span>
+          </button>
+
+          <!-- 4. 壁炉炉火热点 -->
+          <button class="hotspot fire-spot" onclick="toggleCottageWarmth()" aria-label="调节壁炉火候">
+            <span class="marker">🔥</span>
+            <span class="hotspot-caption">炉边歇息</span>
+          </button>
+
+          <!-- 5. 推门出征热点 (正门通道) -->
+          <button class="hotspot expedition-spot" onclick="switchNavView('survival')" aria-label="推门出征小说生存战">
+            <span class="marker">⚔️</span>
+            <span class="hotspot-caption">推门出征</span>
+          </button>
+
+          <!-- 6. 壁炉柔光光晕 (混合模式 screen) -->
+          <div class="fire-glow" id="cottageFireGlow" aria-hidden="true"></div>
+        </div>
+
+        <!-- 室外专属互动图层 (默认隐藏) -->
+        <div id="cottageExteriorLayers" style="display: none;">
+          <button class="entrance" onclick="toggleCottagePerspective(true)" aria-label="推门进入小石屋">
+            <span>推门进入小石屋 <span class="arrow">▶</span></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 场景底栏快捷注脚 -->
+      <div class="scene-caption">
+        <span id="cottageSceneFootnote">小石屋 / 室内剖切等轴视角 · 炉边微暖</span>
+        <div class="cottage-caption-actions">
+          <span class="quiet-note"><span class="dot"></span> 理智抚慰庇护所</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部快捷手作卡座 (Object Dock) -->
+    <div class="cottage-object-dock">
+      <button class="cottage-dock-item" onclick="openCottageJournalModal()">
+        <span class="dock-icon">✍️</span>
+        <div class="dock-meta">
+          <span class="dock-title">小石屋手记</span>
+          <span class="dock-sub">本地私人随笔</span>
+        </div>
+      </button>
+      <button class="cottage-dock-item" onclick="switchNavView('words')">
+        <span class="dock-icon">📖</span>
+        <div class="dock-meta">
+          <span class="dock-title">研习词库</span>
+          <span class="dock-sub">480/704 词</span>
+        </div>
+      </button>
+      <button class="cottage-dock-item primary-dock" onclick="switchNavView('survival')">
+        <span class="dock-icon">⚔️</span>
+        <div class="dock-meta">
+          <span class="dock-title">推门出征</span>
+          <span class="dock-sub">51章生存战</span>
+        </div>
+      </button>
+      <button class="cottage-dock-item" onclick="switchNavView('profile').then(() => openCodexModal())">
+        <span class="dock-icon">🃏</span>
+        <div class="dock-meta">
+          <span class="dock-title">塔罗秘典</span>
+          <span class="dock-sub">大阿卡那手牌</span>
+        </div>
+      </button>
+      <a href="/cet4/" class="cottage-dock-item" style="text-decoration: none;">
+        <span class="dock-icon">🎧</span>
+        <div class="dock-meta">
+          <span class="dock-title">四级精听</span>
+          <span class="dock-sub">挖空复读机</span>
+        </div>
+      </a>
+      <button class="cottage-dock-item" onclick="openCottageAboutModal()">
+        <span class="dock-icon">🕊️</span>
+        <div class="dock-meta">
+          <span class="dock-title">关于小石屋</span>
+          <span class="dock-sub">避难所理念</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
   <!-- ================= VIEW 1: 单词库 (WORDS) ================= -->
-  <div id="viewWords" class="view-section active">
+  <div id="viewWords" class="view-section">
     <!-- 🚪 首页核心主行动入口：推门远征 (Hero Action Card) -->
     <div class="expedition-hero-card" id="expeditionHeroCard" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(236, 72, 153, 0.08)); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; box-shadow: var(--shadow-sm);">
       <div style="display: flex; align-items: center; gap: 14px;">
@@ -366,7 +505,11 @@
 
 <!-- Bottom Navigation Dock -->
 <div class="bottom-dock">
-  <button class="nav-item active" onclick="switchNavView('words')" id="navWords">
+  <button class="nav-item active" onclick="switchNavView('cottage')" id="navCottage">
+    <span class="nav-icon">🏠</span>
+    <span>石屋大厅</span>
+  </button>
+  <button class="nav-item" onclick="switchNavView('words')" id="navWords">
     <span class="nav-icon">📚</span>
     <span>折纸词库</span>
   </button>
@@ -393,6 +536,62 @@
 <div class="def-drawer" id="defDrawer">
   <button class="drawer-close-btn" onclick="closeDefDrawer()" title="[ESC] 退出释义">&times;</button>
   <div id="defDrawerContent"></div>
+</div>
+
+<!-- ✍️ 小石屋手记 (Strictly Browser-Local Journal) Modal -->
+<div class="modal-box" id="cottageJournalModal" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--paper-border); padding-bottom: 10px;">
+    <div>
+      <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+        <span>✍️ 小石屋手记</span>
+        <span style="font-size: 11px; background: rgba(34, 197, 94, 0.15); color: var(--brand-success); border: 1px solid rgba(34, 197, 94, 0.3); padding: 2px 8px; border-radius: 10px; font-weight: 700;">纯本地 · 0主机负担</span>
+      </h3>
+      <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">在这张书桌前，留下属于你的文字与思考。</div>
+    </div>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeCottageJournalModal()">&times;</button>
+  </div>
+
+  <div style="margin-bottom: 12px; background: rgba(16, 20, 16, 0.6); border: 1px dashed var(--paper-border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 11.5px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+    <span>🔒 本手记严格仅保存在当前浏览器，绝不占用主机缓存或云端流量。</span>
+    <span id="cottageJournalSaveTime" style="color: var(--brand-accent); font-family: var(--font-mono);">随时自动保存</span>
+  </div>
+
+  <textarea id="cottageJournalText" class="origami-input" rows="12" style="width: 100%; box-sizing: border-box; font-size: 14.5px; line-height: 1.8; padding: 14px; border-radius: var(--radius-sm); resize: vertical; min-height: 240px; font-family: inherit;" placeholder="从一个念头开始……写下阅读笔记、词汇心得或今日所思。" oninput="onCottageJournalInput(this.value)"></textarea>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 8px;">
+    <div style="font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 12px;">
+      <span id="cottageJournalCharCount">0 字</span>
+      <span id="cottageJournalSaveStatus" style="color: var(--brand-success); font-weight: 700;">● 已就绪</span>
+    </div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <button class="btn btn-secondary" style="font-size: 12px; padding: 6px 12px;" onclick="clearCottageJournal()" title="清空当前手记">🗑️ 清空</button>
+      <button class="btn btn-secondary" style="font-size: 12px; padding: 6px 14px; font-weight: 700;" onclick="exportCottageJournal('txt')">📄 导出 TXT</button>
+      <button class="btn btn-primary" style="font-size: 12px; padding: 6px 16px; font-weight: 800;" onclick="exportCottageJournal('md')">📥 导出 Markdown</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🕊️ 关于小石屋 Modal -->
+<div class="modal-box" id="cottageAboutModal" style="max-width: 580px; max-height: 85vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+      <span>🕊️ 关于小石屋 · Our Stone Cottages</span>
+    </h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeCottageAboutModal()">&times;</button>
+  </div>
+  <div style="line-height: 1.9; color: var(--text-primary); font-size: 14.5px;">
+    <p><strong>一间小屋，一点属于自己的时间。</strong></p>
+    <p>在折纸与词汇的废墟世界里，小石屋是所有旅者唯一的避难所。这里燃着永不熄灭的炉火，书架上整理着千百个单词原型，桌上翻开的手记记录着每一次出征的感悟与沉淀。</p>
+    <div style="background: var(--paper-surface-sub); border: 1px solid var(--paper-border); border-radius: var(--radius-sm); padding: 12px 14px; margin: 14px 0; font-size: 13px; color: var(--text-secondary);">
+      <div>✦ <strong>金牛手记</strong>：本地随笔、生词温故与纯客户端文件导出。</div>
+      <div>✦ <strong>金牛战旗</strong>：3D 大阿卡那塔罗卡牌与战术手牌圣殿。</div>
+      <div>✦ <strong>推门出征</strong>：基于 Rasch 认知测量学与风险调整奖励算法的 Roguelike 生存战。</div>
+      <div>✦ <strong>四级精听</strong>：真题逐句挖空特训与废墟电台。</div>
+    </div>
+    <div style="text-align: right; margin-top: 18px;">
+      <button class="btn btn-primary" onclick="closeCottageAboutModal()">回到石屋</button>
+    </div>
+  </div>
 </div>
 
 <!-- 🎒 3D 塔罗卡牌图鉴与背包 Modal -->
@@ -581,6 +780,7 @@
 <script src="vocabulary.js"></script>
 <script src="auth.js"></script>
 <script src="sync.js"></script>
+<script src="cottage.js"></script>
 <script src="app.js"></script>
 
 

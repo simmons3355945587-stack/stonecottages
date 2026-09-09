@@ -1,6 +1,6 @@
 {
   "admin.js": "/assets/admin.61939f695dc3.js",
-  "app.js": "/assets/app.2214ba2df663.js",
+  "app.js": "/assets/app.4164c10e9bc3.js",
   "auth.js": "/assets/auth.cc69922a3644.js",
   "cet4/app.js": "/assets/cet4-app.4e02b306c103.js",
   "cet4/data/exam_01.json": "/assets/cet4-data-exam_01.f6e4247afdec.json",
@@ -70,6 +70,7 @@
   "chapters/7.json": "/assets/chapters-7.4791be678c47.json",
   "chapters/8.json": "/assets/chapters-8.08bf4c2268be.json",
   "chapters/9.json": "/assets/chapters-9.ed183a885450.json",
+  "cottage.js": "/assets/cottage.897df0cdf3e4.js",
   "dictionary.js": "/assets/dictionary.29093c012695.js",
   "extra-definitions.js": "/assets/extra-definitions.73a244a00291.js",
   "match.js": "/assets/match.a1ecfe5cebc1.js",
@@ -82,8 +83,8 @@
   "survival.js": "/assets/survival.e0e37a64ab2c.js",
   "sync.js": "/assets/sync.1ae368888ced.js",
   "tarot.js": "/assets/tarot.4611aeeb8558.js",
-  "ui-enhancements.css": "/assets/ui-enhancements.1266794e2c0e.css",
-  "ui-enhancements.js": "/assets/ui-enhancements.40cd4bd2404e.js",
+  "ui-enhancements.css": "/assets/ui-enhancements.4697b6a462f3.css",
+  "ui-enhancements.js": "/assets/ui-enhancements.b820bf668acc.js",
   "vocabulary.js": "/assets/vocabulary.7146c69f0a10.js",
   "words-data.js": "/assets/words-data.7cdef85a1bcf.js"
 }
