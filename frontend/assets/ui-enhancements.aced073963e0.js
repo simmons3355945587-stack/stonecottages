@@ -50,9 +50,7 @@
     for(const view of document.querySelectorAll('.view-section'))new MutationObserver(syncNavigation).observe(view,{attributes:true,attributeFilter:['class']});syncNavigation();
     const reading=document.createElement('button');reading.id='stoneReadingToggle';reading.className='stone-reading-toggle';reading.textContent='专注阅读';reading.setAttribute('aria-pressed','false');document.getElementById('viewSurvival').prepend(reading);reading.onclick=()=>{const on=document.body.classList.toggle('stone-reading');reading.setAttribute('aria-pressed',String(on));reading.textContent=on?'退出专注阅读':'专注阅读';};
     const route=new URLSearchParams(location.search).get('view');if(['survival','match','profile','words'].includes(route))switchNavView(route);else if(route==='mine')openAccount();else if(route==='marked')switchNavView('words').then(()=>switchSubTab('marked'));
-    document.querySelector('.brand-text h1').textContent='Our Stone Cottages';document.querySelector('.brand-text p').textContent='小石屋 · 在折纸与词汇的废墟中生存';
-    const updateHeroCount=()=>{const c=document.getElementById('filterResultCountChip'),h=document.getElementById('heroStudyCount');if(c&&h)h.textContent=c.textContent.replace(/[^\d]/g,'')||'480';};
-    const chipEl=document.getElementById('filterResultCountChip');if(chipEl){new MutationObserver(updateHeroCount).observe(chipEl,{childList:true,characterData:true,subtree:true});updateHeroCount();}
+    document.querySelector('.brand-text h1').textContent='小石屋';document.querySelector('.brand-text p').textContent='词汇 · 阅读 · 精听';
     const view=document.getElementById('viewWords');
     const density=document.createElement('div');density.className='stone-list-tools';density.innerHTML='<span>词库浏览</span><div role="group" aria-label="词卡显示方式"><button data-density="compact">紧凑列表</button><button data-density="cards">卡片学习</button></div>';
     view.insertBefore(density,document.getElementById('wordsListContainer'));

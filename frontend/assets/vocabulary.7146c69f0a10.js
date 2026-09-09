@@ -1,0 +1,267 @@
+function getSourceRawWords(sourceKey) {
+  const coreList = (typeof CORE_STUDY_WORDS !== 'undefined' && Array.isArray(CORE_STUDY_WORDS)) ? CORE_STUDY_WORDS : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined') ? ORIGINAL_STUDY_WORDS : []);
+  const novelList = (typeof NOVEL_EXTRACTED_WORDS !== 'undefined' && Array.isArray(NOVEL_EXTRACTED_WORDS)) ? NOVEL_EXTRACTED_WORDS : [];
+  const tradeList = (typeof TRADE_BUSINESS_WORDS !== 'undefined' && Array.isArray(TRADE_BUSINESS_WORDS)) ? TRADE_BUSINESS_WORDS : [];
+  const fullList = (typeof defaultWords !== 'undefined' && Array.isArray(defaultWords) && defaultWords.length > 0) ? defaultWords : [...coreList, ...novelList, ...tradeList];
+
+  if (sourceKey === 'core' || sourceKey === 'original') return [...coreList];
+  if (sourceKey === 'novel_ihopethisfindsyouwell' || sourceKey === 'novel') return [...novelList];
+  if (sourceKey === 'trade_business' || sourceKey === 'trade') return [...tradeList];
+  
+  const combined = [...fullList];
+  if (Array.isArray(customWords)) {
+    customWords.forEach(w => {
+      if (!combined.includes(w)) combined.push(w);
+    });
+  }
+  return combined;
+}
+
+function getActiveWordList() {
+  const sourceWords = getSourceRawWords(currentWordSource);
+  if (currentWordTier === 'all') {
+    return sourceWords;
+  }
+  const tierDict = (typeof wordTierDict !== 'undefined') ? wordTierDict : {};
+  return sourceWords.filter(w => {
+    const tier = tierDict[w.toLowerCase()] || 'cet4';
+    return tier === currentWordTier;
+  });
+}
+
+async function setWordSourceFilter(sourceKey) {
+ if(sourceKey!=='core'&&sourceKey!=='original'){try{await Stone.script('extra-definitions.js');}catch(e){showToast(e.message);return;}}
+  soundClick();
+  currentWordSource = sourceKey;
+  saveToStorage('vocab_current_source', sourceKey);
+  refreshFilterUI();
+}
+
+function setWordTierFilter(tierKey) {
+  soundClick();
+  currentWordTier = tierKey;
+  saveToStorage('vocab_current_tier', tierKey);
+  refreshFilterUI();
+}
+
+function switchWordSource(sourceKey) {
+  setWordSourceFilter(sourceKey);
+}
+
+function refreshFilterUI() {
+  const sourceBtns = ['core', 'novel_ihopethisfindsyouwell', 'trade_business', 'all'];
+  sourceBtns.forEach(k => {
+    const btn = document.getElementById(`srcBtn_${k}`);
+    if (btn) btn.classList.toggle('active', k === currentWordSource || (k === 'core' && currentWordSource === 'original'));
+  });
+
+  const tierBtns = ['all', 'cet4', 'cet6', 'ielts'];
+  tierBtns.forEach(k => {
+    const btn = document.getElementById(`tierBtn_${k}`);
+    if (btn) btn.classList.toggle('active', k === currentWordTier);
+  });
+
+  words = getActiveWordList();
+  updateBadges();
+  const searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
+  renderWords(searchVal);
+  if (currentSubTab === 'marked') {
+    renderMarked();
+  }
+}
+
+function getMarkCount(word) {
+  return marks[word.toLowerCase()] || 0;
+}
+
+function updateWordMarkInDOM(word) {
+  if (!word) return;
+  const safeWord = word.toLowerCase().trim();
+  const mc = getMarkCount(safeWord);
+
+  // 1. 同步更新释义抽屉内部的 Mark 计数值与动画
+  const drawerCount = document.getElementById('drawerMarkCount');
+  if (drawerCount && currentLookupWord === safeWord) {
+    drawerCount.textContent = mc;
+    drawerCount.classList.remove('mark-pulse');
+    void drawerCount.offsetWidth; // 触发 reflow
+    drawerCount.classList.add('mark-pulse');
+  }
+
+  // 2. 同步更新词库列表中该词卡的 ★ 徽标
+  document.querySelectorAll('.origami-word-card').forEach(card => {
+    const spelling = card.querySelector('.word-spelling');
+    if (spelling) {
+      const cardWord = spelling.childNodes[0].textContent.trim().toLowerCase();
+      if (cardWord === safeWord) {
+        let pill = card.querySelector('.origami-mark-pill');
+        if (mc > 0) {
+          if (!pill) {
+            pill = document.createElement('span');
+            pill.className = 'origami-mark-pill';
+            card.appendChild(pill);
+          }
+          pill.textContent = `★ ${mc}`;
+        } else {
+          if (pill) pill.remove();
+        }
+      }
+    }
+  });
+
+  // 3. 同步剧情高亮
+  document.querySelectorAll(`.story-word[data-word="${safeWord}"]`).forEach(el => {
+    if (mc > 0) el.classList.add('marked-word-highlight');
+    else el.classList.remove('marked-word-highlight');
+  });
+
+  // 4. 若正处于重点生词本 Tab，实时刷新生词列表
+  if (currentSubTab === 'marked') {
+    renderMarked();
+  }
+}
+
+function addMark(word) {
+  if (!word) return;
+  const w = word.toLowerCase().trim();
+  marks[w] = (marks[w] || 0) + 1;
+  saveToStorage(STORAGE_KEYS.MARKS, marks);
+  updateBadges();
+  updateWordMarkInDOM(w);
+  triggerCloudSync();
+  showToast(`★ Marked [${w}] (Total Mark: ${marks[w]})`);
+}
+
+function reduceMark(word) {
+  if (!word) return;
+  const w = word.toLowerCase().trim();
+  if (marks[w]) {
+    marks[w]--;
+    if (marks[w] <= 0) {
+      delete marks[w];
+    }
+    saveToStorage(STORAGE_KEYS.MARKS, marks);
+    updateBadges();
+    updateWordMarkInDOM(w);
+    triggerCloudSync();
+    showToast(`★ Unmarked [${w}] (Total Mark: ${marks[w] || 0})`);
+  }
+}
+
+function getMarkedWords() {
+  return Object.entries(marks).filter(([k, v]) => v > 0);
+}
+
+function renderWords(filter = '') {
+  const container = document.getElementById('wordsListContainer');
+  if (!container) return;
+  container.innerHTML = '';
+  if(window.stoneWordObserver)window.stoneWordObserver.disconnect();
+  const fragment=document.createDocumentFragment();
+  const pendingCards=[];
+  const lf = filter.toLowerCase().trim();
+ if(/[\u3400-\u9fff]/.test(lf)&&!window.stoneExtraReady){Stone.script('extra-definitions.js').then(()=>{window.stoneExtraReady=true;if(document.getElementById('searchInput').value.trim()===filter.trim())renderWords(filter);}).catch(()=>{});}
+  let activeWords = getActiveWordList();
+
+  // 搜索时融合自定义收录词汇，确保无论在哪个书目均能检索到新收录词
+  if (lf && Array.isArray(customWords)) {
+    customWords.forEach(cw => {
+      if (!activeWords.includes(cw)) activeWords.unshift(cw);
+    });
+  }
+
+  let matchedCount = 0;
+  activeWords.forEach((w, i) => {
+    const corrected = corrections[w];
+    const mc = getMarkCount(w);
+    let cn = (chineseDict[w] || '').replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
+    if (!lf || w.toLowerCase().includes(lf) || (corrected && corrected.toLowerCase().includes(lf)) || (cn && cn.includes(lf)) || String(i + 1) === lf) {
+      const createCard=()=>{
+      const card = document.createElement('div');
+      card.className = 'origami-word-card';
+      const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
+
+      card.innerHTML = `
+        <span class="word-num">${i + 1}</span>
+        <div class="word-info">
+          <div class="word-spelling">
+            ${escapeHtml(w)}
+            <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
+            ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
+          </div>
+          ${isZh && cn ? `<div class="word-chinese-meaning" style="font-size:12.5px; color:var(--text-secondary); margin-top:3px; font-weight:500;">${escapeHtml(cn)}</div>` : ''}
+        </div>
+        ${mc > 0 ? `<span class="origami-mark-pill">★ ${mc}</span>` : ''}
+      `;
+      card.tabIndex=0;card.setAttribute('role','group');card.setAttribute('aria-label',w+'，查看释义');
+      card.onclick = () => openWordDetails(w);
+      card.onkeydown=e=>{if(e.target===card && (e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();openWordDetails(w);}};
+      return card;};
+      if(matchedCount<60)fragment.appendChild(createCard());else pendingCards.push(createCard);
+      matchedCount++;
+    }
+  });
+
+  container.appendChild(fragment);
+  const hiddenCards=pendingCards;
+  if(hiddenCards.length){
+    const more=document.createElement('button');more.className='paper-btn-primary';more.textContent='显示更多词汇';
+    const reveal=()=>{hiddenCards.splice(0,60).forEach(create=>container.insertBefore(create(),more));if(!hiddenCards.length){more.remove();window.stoneWordObserver?.disconnect();}};
+    more.onclick=reveal;container.appendChild(more);
+    if('IntersectionObserver' in window){window.stoneWordObserver=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting))reveal();},{rootMargin:'200px'});window.stoneWordObserver.observe(more);}
+  }
+  // 当搜索未命中任何本地词库词条时，展现智能联网查词与一键收录入口
+  if (matchedCount === 0 && lf) {
+    container.innerHTML = `
+      <div class="online-search-prompt-card">
+        <div class="online-prompt-header">
+          <span class="online-prompt-badge">🌐 智能查词</span>
+          <span class="online-prompt-title">词库未收录「<strong>${escapeHtml(lf)}</strong>」</span>
+        </div>
+        <div class="online-prompt-desc">
+          点击下方按钮或直接回车，即可联网检索权威词典释义与真人发音，一键收录至个人词库并同步至账号！
+        </div>
+        <div class="online-prompt-actions">
+          <button class="paper-btn-primary" onclick="handleOnlineSearchAndAdd('${escapeHtml(lf)}')">
+            🔍 立即联网查询并收录
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  updateBadges();
+}
+
+function renderMarked() {
+  const container = document.getElementById('markedListContainer');
+  container.innerHTML = '';
+  const marked = getMarkedWords();
+  if (marked.length === 0) {
+    container.innerHTML = `<div style="text-align:center; color:var(--text-secondary); padding:40px;">No marked words yet. Click any word to mark!</div>`;
+    return;
+  }
+  marked.forEach(([w, count], i) => {
+    const card = document.createElement('div');
+    card.className = 'origami-word-card';
+    const corrected = corrections[w];
+    let cn = (chineseDict[w] || '').replace(/\(考纲词汇\)|（考纲词汇）/g, '').trim();
+    const isZh = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese);
+    card.innerHTML = `
+      <span class="word-num">${i + 1}</span>
+      <div class="word-info">
+        <div class="word-spelling">
+          ${escapeHtml(w)}
+          <button class="word-audio-btn" onclick="speakWord('${escapeHtml(w)}', event)" title="Listen Pronunciation">🔊</button>
+          ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
+        </div>
+        ${isZh && cn ? `<div class="word-chinese-meaning" style="font-size:12.5px; color:var(--text-secondary); margin-top:3px; font-weight:500;">${escapeHtml(cn)}</div>` : ''}
+      </div>
+      <span class="origami-mark-pill">★ ${count}</span>
+    `;
+    card.tabIndex=0;card.setAttribute('role','group');card.setAttribute('aria-label',w+'，查看释义');
+      card.onclick = () => openWordDetails(w);
+      card.onkeydown=e=>{if(e.target===card && (e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopPropagation();openWordDetails(w);}};
+    container.appendChild(card);
+  });
+}
