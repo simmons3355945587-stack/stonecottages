@@ -225,6 +225,7 @@ class LoginReq(BaseModel):
     password: str
 
 class ProfileSyncReq(BaseModel):
+    expectedRevision: Optional[int] = None
     hp: Optional[int] = 100
     san: Optional[int] = 100
     level: Optional[int] = 1
@@ -513,7 +514,7 @@ def get_profile(user: dict = Depends(get_current_user)):
     user_id = int(user["sub"])
     with get_db() as conn:
         cur = conn.cursor()
-        cur.execute("SELECT hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json, novel_progress_json, novel_saves_json FROM profiles WHERE user_id = ?", (user_id,))
+        cur.execute("SELECT hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json, novel_progress_json, novel_saves_json, revision FROM profiles WHERE user_id = ?", (user_id,))
         p = cur.fetchone()
         if not p:
             cur.execute("INSERT OR IGNORE INTO profiles (user_id, hp, san, level, xp, combo, won_rounds) VALUES (?, 100, 100, 1, 100, 1, 0)", (user_id,))
@@ -525,6 +526,7 @@ def get_profile(user: dict = Depends(get_current_user)):
             }
 
         return {
+            "revision": p["revision"],
             "hp": p["hp"],
             "san": p["san"],
             "level": p["level"],
@@ -544,6 +546,11 @@ def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
     user_id = int(user["sub"])
     with get_db() as conn:
         cur = conn.cursor()
+        cur.execute("BEGIN IMMEDIATE")
+        row = cur.execute("SELECT revision FROM profiles WHERE user_id=?", (user_id,)).fetchone()
+        revision = row["revision"] if row else 0
+        if req.expectedRevision is not None and req.expectedRevision != revision:
+            raise HTTPException(status_code=409, detail="Profile changed on another device")
         cur.execute('''
         INSERT INTO profiles (user_id, hp, san, level, xp, combo, won_rounds, gacha_cards, marks_json, custom_words_json, novel_progress_json, novel_saves_json, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
@@ -574,8 +581,9 @@ def sync_profile(req: ProfileSyncReq, user: dict = Depends(get_current_user)):
             json.dumps(req.novelProgress, ensure_ascii=False),
             json.dumps(req.novelSaves, ensure_ascii=False)
         ))
+        cur.execute("UPDATE profiles SET revision=revision+1 WHERE user_id=?", (user_id,))
         conn.commit()
-    return {"status": "synced", "timestamp": int(time.time())}
+    return {"revision": revision+1, "status": "synced", "timestamp": int(time.time())}
 
 # ==========================================
 # 👑 Admin 控制台专属 API
@@ -878,6 +886,7 @@ def ai_scenario_proxy(req: AIScenarioReq, user: dict = Depends(get_current_user)
 # 🎧 CET-4 听力特训专属安全 API (权限严格隔离)
 # ==========================================
 class ReportDeafWordReq(BaseModel):
+    eventId: Optional[str] = None
     word: str
     examId: Optional[str] = "cet4"
     source: Optional[str] = "cet4"
@@ -914,6 +923,13 @@ def report_deaf_word(req: ReportDeafWordReq, user: dict = Depends(get_current_us
 
     with get_db() as conn:
         cur = conn.cursor()
+        cur.execute("BEGIN IMMEDIATE")
+        if req.eventId:
+            event_id = req.eventId[:100]
+            inserted = cur.execute("INSERT OR IGNORE INTO sync_events(user_id,event_id) VALUES (?,?)", (user_id,event_id))
+            if inserted.rowcount == 0:
+                return {"status":"success", "word":clean_word, "duplicate":True}
+            cur.execute("DELETE FROM sync_events WHERE created_at < datetime('now','-30 days')")
         cur.execute('''
         INSERT INTO deaf_bounties (user_id, username, word, exam_id, fail_count)
         VALUES (?, ?, ?, ?, 2)
@@ -933,7 +949,7 @@ def report_deaf_word(req: ReportDeafWordReq, user: dict = Depends(get_current_us
                 cw = []
             if clean_word not in cw:
                 cw.append(clean_word)
-                cur.execute("UPDATE profiles SET custom_words_json = ? WHERE user_id = ?", (json.dumps(cw, ensure_ascii=False), user_id))
+                cur.execute("UPDATE profiles SET custom_words_json = ?, revision=revision+1 WHERE user_id = ?", (json.dumps(cw, ensure_ascii=False), user_id))
 
         conn.commit()
 
@@ -960,3 +976,13 @@ def get_deaf_words(user: dict = Depends(get_current_user)):
         } for r in rows]
 
     return {"status": "success", "words": words}
+
+# Additive performance release migration. Original profile fields remain unchanged.
+with get_db() as _db:
+    if "revision" not in [r[1] for r in _db.execute("PRAGMA table_info(profiles)")]:
+        _db.execute("ALTER TABLE profiles ADD COLUMN revision INTEGER NOT NULL DEFAULT 0")
+    _db.commit()
+
+with get_db() as _db:
+    _db.execute("CREATE TABLE IF NOT EXISTS sync_events(user_id INTEGER, event_id TEXT, created_at TEXT DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,event_id))")
+    _db.commit()

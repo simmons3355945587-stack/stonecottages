@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "node build.cjs",
+    "test": "node tests/input.cjs"
+  },
+  "devDependencies": {
+    "terser": "5.51.2"
+  }
+}

@@ -22,7 +22,7 @@
   // 2. 初始化播放器音频元素
   function initAudio() {
     state.audioEl = new Audio();
-    state.audioEl.preload = 'auto';
+    state.audioEl.preload = 'none';
     state.audioEl.volume = 1.0;
 
     state.audioEl.addEventListener('timeupdate', () => {
@@ -137,8 +137,8 @@
     stopSynthBgm();
 
     if (state.audioEl) {
-      state.audioEl.src = song.src;
-      state.audioEl.load();
+      state.audioEl.pause();
+      state.audioEl.removeAttribute("src");
     }
 
     renderCurrentSongInfo();
@@ -157,6 +157,11 @@
 
     // 播放真实原声人声音频
     if (state.audioEl) {
+      if(state.audioEl.getAttribute("src") !== song.src) {
+        const startAt=state.currentTime;
+        state.audioEl.src = song.src;
+        if(startAt>0)state.audioEl.currentTime=startAt;
+      }
       state.audioEl.volume = 1.0;
       const playPromise = state.audioEl.play();
       if (playPromise !== undefined) {
@@ -588,6 +593,11 @@
   function initDraggableVinyl() {
     const el = document.getElementById('radioMiniPlayer');
     if (!el) return;
+    if(document.body.classList.contains('stone-home')) {
+      el.title='英文电台，点击展开歌词与控制';
+      el.addEventListener('click',e=>{if(!e.target.closest('button,select'))toggleDrawer();});
+      return;
+    }
 
     let isDragging = false;
     let startX = 0, startY = 0;
@@ -875,6 +885,7 @@
   // 9. 对外暴露全局调用接口
   window.RadioPlayer = {
     init: function() {
+      if(state.audioEl)return;
       initAudio();
       buildRadioDOM();
       loadSong(0, false); // 默认加载第一首 Lemon Tree

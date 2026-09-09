@@ -16,7 +16,7 @@
   let currentActiveSegIndex = 0;
   
   // Modes: 'blank' | 'liaison' | 'dictation' | 'sonar'
-  let currentMode = localStorage.getItem('cet4_mode') || 'blank';
+  let currentMode = StoneStorage.getItem('cet4_mode') || 'blank';
 
   // Quiz State
   let quizItems = [];
@@ -43,8 +43,132 @@
   let seqStats = { correctCount: 0, totalWords: 0 };
 
   // Deaf Vocab Tracker (小石屋通缉榜)
-  let failedWordAttempts = JSON.parse(localStorage.getItem('cet4_failed_attempts') || '{}');
-  let deafVocabList = JSON.parse(localStorage.getItem('cet4_deaf_vocab') || '[]');
+  let failedWordAttempts = JSON.parse(StoneStorage.getItem('cet4_failed_attempts') || '{}');
+  let deafVocabList = JSON.parse(StoneStorage.getItem('cet4_deaf_vocab') || '[]');
+
+  // ════════════════════════════════════════════════════════════
+  // 自动循环重播调度器 (未输完自动停顿重播)
+  // ════════════════════════════════════════════════════════════
+  let replayTimer = null;
+  function cancelPendingReplay() {
+    if (replayTimer) {
+      clearTimeout(replayTimer);
+      replayTimer = null;
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // 词形/屈折/派生智能比对引擎 (免除-s/-ed/词性派生的听力误伤)
+  // ════════════════════════════════════════════════════════════
+  function isMorphologicalMatch(w1, w2) {
+    if (!w1 || !w2) return false;
+    w1 = w1.toLowerCase().replace(/[^a-z]/g, '');
+    w2 = w2.toLowerCase().replace(/[^a-z]/g, '');
+    if (w1 === w2) return true;
+    if (w1.length < 2 || w2.length < 2) return false;
+
+    // 1. 直接屈折变化: s, es, d, ed, ing, ly, ion, tion, ation
+    if (w1 + 's' === w2 || w2 + 's' === w1) return true;
+    if (w1 + 'es' === w2 || w2 + 'es' === w1) return true;
+    if (w1 + 'd' === w2 || w2 + 'd' === w1) return true;
+    if (w1 + 'ed' === w2 || w2 + 'ed' === w1) return true;
+    if (w1 + 'ing' === w2 || w2 + 'ing' === w1) return true;
+    if (w1 + 'ly' === w2 || w2 + 'ly' === w1) return true;
+    if (w1 + 'ion' === w2 || w2 + 'ion' === w1) return true;
+    if (w1 + 'tion' === w2 || w2 + 'tion' === w1) return true;
+
+    // y <-> ies, ied, ily, ier, iest
+    const yPairs = [['y', 'ies'], ['y', 'ied'], ['y', 'ily'], ['y', 'ier'], ['y', 'iest']];
+    for (const [ey, ei] of yPairs) {
+      if (w1.endsWith(ey) && w1.slice(0, -ey.length) + ei === w2) return true;
+      if (w2.endsWith(ey) && w2.slice(0, -ey.length) + ei === w1) return true;
+    }
+
+    // 双写辅音: run/running, stop/stopped, plan/planned
+    if (w1.length >= 3 && w2.length >= 5) {
+      const last1 = w1[w1.length - 1];
+      if (w2 === w1 + last1 + 'ing' || w2 === w1 + last1 + 'ed') return true;
+    }
+    if (w2.length >= 3 && w1.length >= 5) {
+      const last2 = w2[w2.length - 1];
+      if (w1 === w2 + last2 + 'ing' || w1 === w2 + last2 + 'ed') return true;
+    }
+
+    // 去不发音 e + ing/ed/ion/ation: make/making, operate/operating, create/creation
+    if (w1.endsWith('e') && w1.length >= 3) {
+      const stem = w1.slice(0, -1);
+      if (stem + 'ing' === w2 || stem + 'ed' === w2 || stem + 'ion' === w2 || stem + 'ation' === w2) return true;
+    }
+    if (w2.endsWith('e') && w2.length >= 3) {
+      const stem = w2.slice(0, -1);
+      if (stem + 'ing' === w1 || stem + 'ed' === w1 || stem + 'ion' === w1 || stem + 'ation' === w1) return true;
+    }
+
+    // 拉丁词源动名词转化: -de / -d <-> -sion (decide/decision, divide/division, provide/provision)
+    if (w1.endsWith('de') && w1.slice(0, -2) + 'sion' === w2) return true;
+    if (w2.endsWith('de') && w2.slice(0, -2) + 'sion' === w1) return true;
+    if (w1.endsWith('d') && w1.slice(0, -1) + 'sion' === w2) return true;
+    if (w2.endsWith('d') && w2.slice(0, -1) + 'sion' === w1) return true;
+
+    // 2. 经典形容词与名词互转: -ent/-ence, -ant/-ance, -ent/-ency, -ant/-ancy
+    const adjNounPairs = [['ent', 'ence'], ['ant', 'ance'], ['ent', 'ency'], ['ant', 'ancy']];
+    for (const [s1, s2] of adjNounPairs) {
+      if (w1.endsWith(s1) && w2.endsWith(s2) && w1.slice(0, -s1.length) === w2.slice(0, -s2.length)) return true;
+      if (w2.endsWith(s1) && w1.endsWith(s2) && w2.slice(0, -s1.length) === w1.slice(0, -s2.length)) return true;
+    }
+
+    // 3. 词根归一化比对 (getSimpleStem 剥离常见派生词缀)
+    const root1 = getSimpleStem(w1);
+    const root2 = getSimpleStem(w2);
+    if (root1 && root2 && root1 === root2 && root1.length >= 3) {
+      return true;
+    }
+
+    // 4. 派生词缀比对 (基于共同前缀 + 合法构词后缀集合)
+    const minLen = Math.min(w1.length, w2.length);
+    let cp = 0;
+    while (cp < minLen && w1[cp] === w2[cp]) cp++;
+
+    if (cp >= 4 && (cp / minLen) >= 0.60) {
+      const s1 = w1.slice(cp);
+      const s2 = w2.slice(cp);
+
+      const validSuffixes = new Set([
+        '', 'e', 'y', 's', 'es', 'ed', 'd', 'ing', 'ly', 'er', 'est',
+        'al', 'ial', 'ical', 'ic', 'tion', 'sion', 'ation', 'ition', 'ion',
+        'ment', 'ments', 'able', 'ible',
+        'ive', 'ity', 'ty', 'ful', 'fully', 'less', 'lessly', 'ness',
+        'ous', 'ious', 'ate', 'ize', 'ise', 'ism', 'ist', 'ng', 'on'
+      ]);
+
+      if (validSuffixes.has(s1) && validSuffixes.has(s2)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function getSimpleStem(word) {
+    if (!word || word.length <= 3) return word;
+    let w = word;
+    const sfxList = [
+      'ization', 'isation', 'ational', 'fulness', 'ousness',
+      'ation', 'ition', 'ments', 'tions', 'sions',
+      'ment', 'tion', 'sion', 'ance', 'ence', 'able', 'ible',
+      'ness', 'less', 'full', 'fully', 'ing', 'ied', 'ies',
+      'ive', 'ity', 'ous', 'ial', 'ical', 'ic', 'al', 'ed', 'ly', 'er', 'es'
+    ];
+    for (const sfx of sfxList) {
+      if (w.endsWith(sfx) && w.length - sfx.length >= 3) {
+        w = w.slice(0, -sfx.length);
+        break;
+      }
+    }
+    if (w.endsWith('s') && !w.endsWith('ss') && w.length > 3) w = w.slice(0, -1);
+    if (w.endsWith('e') && w.length > 3) w = w.slice(0, -1);
+    return w;
+  }
 
   // ════════════════════════════════════════════════════════════
   // 2. DOM 元素引用
@@ -153,6 +277,7 @@
     setupModeCapsule();
     renderDeafBountyChips();
     await loadManifest();
+    flushBounties();
   }
 
   function setupModeCapsule() {
@@ -195,7 +320,7 @@
       },
       dictation: {
         pill: '✍️ 整句打字听写 · 15 句',
-        desc: '听取整句录音并按空格键连贯盲打，检验瞬时听觉记忆与全句拼写反应。'
+        desc: '听取整句录音并逐词提交答案，检验瞬时听觉记忆与全句拼写反应。'
       },
       sonar: {
         pill: '🌫️ 折纸声呐迷雾 · 20 题',
@@ -229,7 +354,7 @@
 
   function switchTrainingMode(newMode) {
     currentMode = newMode;
-    localStorage.setItem('cet4_mode', newMode);
+    StoneStorage.setItem('cet4_mode', newMode);
     updateModeDisplay(newMode);
     adaptUIForMode(newMode);
 
@@ -280,25 +405,25 @@
     } else if (mode === 'dictation') {
       if (quizInputContainer) quizInputContainer.style.display = 'flex';
       if (dictationStreamWrap) dictationStreamWrap.style.display = 'flex';
-      if (quizInput) quizInput.placeholder = "输入单词按空格 (Space) 自动提交并跳格...";
+      if (quizInput) quizInput.placeholder = "输入单词，按 Enter 或点击验证...";
     } else if (mode === 'sequential') {
       if (quizInputContainer) quizInputContainer.style.display = 'flex';
       if (sequentialStreamWrap) sequentialStreamWrap.style.display = 'flex';
-      if (quizInput) quizInput.placeholder = "输入单词敲【空格】自动验证，也可输入后半截...";
+      if (quizInput) quizInput.placeholder = "输入单词或后半截，按 Enter 验证...";
     } else if (mode === 'liaison') {
       if (quizInputContainer) quizInputContainer.style.display = 'flex';
-      if (quizInput) quizInput.placeholder = "输入连读双词 (如: turn out)，输入后按空格验证...";
+      if (quizInput) quizInput.placeholder = "输入连读双词（如 turn out），按 Enter 验证...";
     } else { // blank
       if (quizInputContainer) quizInputContainer.style.display = 'flex';
-      if (quizInput) quizInput.placeholder = "输入空缺单词，按【空格】或【验证】提交...";
+      if (quizInput) quizInput.placeholder = "输入空缺单词，按 Enter 或点击验证...";
     }
 
     const tip = document.getElementById('quickTipText');
     if (tip) {
-      if (mode === 'sequential') tip.textContent = "敲空格即验证 ␣";
-      else if (mode === 'dictation') tip.textContent = "敲空格跳格 ␣";
-      else if (mode === 'blank') tip.textContent = "敲空格即验证 ␣";
-      else if (mode === 'liaison') tip.textContent = "双词后按空格 ␣";
+      if (mode === 'sequential') tip.textContent = "Enter 验证 ↵ | 未完自动重播 🔁";
+      else if (mode === 'dictation') tip.textContent = "Enter 提交 ↵ | 未完自动重播 🔁";
+      else if (mode === 'blank') tip.textContent = "Enter 验证 ↵";
+      else if (mode === 'liaison') tip.textContent = "双词后按 Enter ↵";
       else tip.textContent = "";
     }
   }
@@ -308,7 +433,7 @@
   // ════════════════════════════════════════════════════════════
   async function loadManifest() {
     try {
-      const res = await fetch('data/manifest.json');
+      const res = await fetch(Stone.url('cet4/data/manifest.json'));
       if (!res.ok) throw new Error('Failed to load manifest');
       manifest = await res.json();
 
@@ -337,7 +462,7 @@
       currentExamName.textContent = examMeta.name;
       currentExamStats.textContent = `听前准备: ${examMeta.stats.pre}句 | 正文: ${examMeta.stats.body}句 | 问题: ${examMeta.stats.question}句`;
 
-      const res = await fetch(examMeta.json_file);
+      const res = await fetch(Stone.url('cet4/'+examMeta.json_file));
       currentExam = await res.json();
       currentSegments = currentExam.segments;
 
@@ -546,7 +671,7 @@
 
     let resumeIndex = 0;
     if (currentMode === 'sequential' && currentExam) {
-      const savedProg = parseInt(localStorage.getItem(`cet4_seq_prog_${currentExam.id}`) || '0', 10);
+      const savedProg = parseInt(StoneStorage.getItem(`cet4_seq_prog_${currentExam.id}`) || '0', 10);
       if (savedProg > 0 && savedProg < quizItems.length) {
         resumeIndex = savedProg;
       }
@@ -579,7 +704,9 @@
     selected.forEach(({ idx, seg }) => {
       const candidates = seg.w.filter(w => {
         const clean = w.w.replace(/[^a-zA-Z]/g, '').toLowerCase();
-        return clean.length >= 4;
+        if (clean.length < 4) return false;
+        const testRegex = new RegExp(`\\b${escapeRegExp(clean)}\\b`, 'i');
+        return testRegex.test(seg.t);
       });
 
       if (candidates.length > 0) {
@@ -681,6 +808,7 @@
 
   // --- 加载当前题型 ---
   function loadCurrentQuizItem() {
+    cancelPendingReplay();
     if (!isQuizMode || currentQuizIndex >= quizItems.length) {
       currentSentenceText.textContent = `🎉 本轮特训已完成！最终得分: ${score.correct} / ${score.total}`;
       quizFeedback.className = 'quiz-feedback success';
@@ -806,7 +934,7 @@
     }
 
     updateSequentialHUD();
-    currentSentenceText.innerHTML = `<span style="color:var(--text-secondary);">[顺序通关] 请在下方输入完整单词（或后半截）按空格前进...</span>`;
+    currentSentenceText.innerHTML = `<span style="color:var(--text-secondary);">[顺序通关] 请在下方输入完整单词（或后半截）按 Enter 前进...</span>`;
   }
 
   function handleSequentialTyping(trigger = 'space') {
@@ -835,8 +963,10 @@
 
       const isExact = (typed === currentObj.clean);
       const isSuffix = (currentObj.clean.length >= 2 && typed === currentObj.clean.slice(1));
+      const isMorph = isMorphologicalMatch(typed, currentObj.clean) ||
+        (currentObj.clean.length >= 2 && isMorphologicalMatch(currentObj.clean[0] + typed, currentObj.clean));
 
-      if (isExact || isSuffix) {
+      if (isExact || isSuffix || isMorph) {
         seqStats.correctCount++;
         if (slot) {
           slot.textContent = currentObj.w;
@@ -847,7 +977,7 @@
           slot.textContent = currentObj.w;
           slot.className = 'seq-slot wrong';
         }
-        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4', typed);
       }
 
       quizInput.value = '';
@@ -863,6 +993,8 @@
       if (nextSlot) nextSlot.classList.add('active');
       updateSequentialHUD();
     } else {
+      cancelPendingReplay();
+      audioPlayer.pause();
       seqCurrentWord.textContent = "全句完成! 🎉";
       quizFeedback.className = 'quiz-feedback success';
       quizFeedback.textContent = `🏆 本句通关！准确率: ${Math.round(seqStats.correctCount / Math.max(1, seqStats.totalWords) * 100)}%`;
@@ -872,7 +1004,7 @@
         score.correct++;
         updateScoreHUD();
         if (currentExam) {
-          localStorage.setItem(`cet4_seq_prog_${currentExam.id}`, currentQuizIndex + 1);
+          StoneStorage.setItem(`cet4_seq_prog_${currentExam.id}`, currentQuizIndex + 1);
         }
         setTimeout(() => {
           currentQuizIndex++;
@@ -914,10 +1046,10 @@
       }
       const correctAns = item.answer.trim().toLowerCase().replace(/[^a-z]/g, '');
 
-      if (userAns === correctAns || (userAns.length >= 3 && correctAns.includes(userAns))) {
+      if (userAns === correctAns || isMorphologicalMatch(userAns, correctAns) || (userAns.length >= 3 && correctAns.includes(userAns))) {
         onAnswerSuccess(item.answer);
       } else {
-        onAnswerFailure(item.answer, item.seg);
+        onAnswerFailure(item.answer, item.seg, userAns);
       }
     } else if (item.type === 'liaison') {
       const userAns = quizInput.value.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -939,6 +1071,7 @@
   }
 
   function onAnswerSuccess(msg) {
+    cancelPendingReplay();
     score.correct++;
     score.streak++;
     updateScoreHUD();
@@ -953,12 +1086,13 @@
     }, 1100);
   }
 
-  function onAnswerFailure(answer, seg) {
+  function onAnswerFailure(answer, seg, userAns = null) {
+    cancelPendingReplay();
     score.streak = 0;
     updateScoreHUD();
 
-    // Track Deaf Vocab
-    trackDeafVocab(answer, currentExam ? currentExam.id : 'cet4');
+    // Track Deaf Vocab (仅在真正未听懂时记入，若仅为词形词性变体则豁免)
+    trackDeafVocab(answer, currentExam ? currentExam.id : 'cet4', userAns);
 
     quizFeedback.className = 'quiz-feedback error';
     quizFeedback.textContent = `❌ 错误！正确答案: "${answer}"\n↓ 自动 0.5x 慢放重听，已记入通缉令 ↓`;
@@ -999,7 +1133,7 @@
     });
 
     updateDictationHUD();
-    currentSentenceText.innerHTML = `<span style="color:var(--text-tertiary);">[整句听写中] 请在下方输入框按空格连续盲打...</span>`;
+    currentSentenceText.innerHTML = `<span style="color:var(--text-tertiary);">[整句听写中] 请在下方输入框输入当前单词，按 Enter 继续...</span>`;
   }
 
   function handleDictationTyping(trigger = 'space') {
@@ -1026,7 +1160,10 @@
         return;
       }
 
-      if (typed === currentObj.clean) {
+      const isExact = (typed === currentObj.clean);
+      const isMorph = isMorphologicalMatch(typed, currentObj.clean);
+
+      if (isExact || isMorph) {
         dictStats.correctCount++;
         if (slot) {
           slot.textContent = currentObj.w;
@@ -1037,7 +1174,7 @@
           slot.textContent = currentObj.w;
           slot.className = 'dict-slot wrong';
         }
-        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4');
+        trackDeafVocab(currentObj.clean, currentExam ? currentExam.id : 'cet4', typed);
       }
 
       quizInput.value = '';
@@ -1049,6 +1186,8 @@
       if (nextSlot) nextSlot.classList.add('active');
       updateDictationHUD();
     } else {
+      cancelPendingReplay();
+      audioPlayer.pause();
       dictCurrentWord.textContent = "全句完成! 🎉";
       quizFeedback.className = 'quiz-feedback success';
       quizFeedback.textContent = `🏆 本句听写完成！准确率: ${Math.round(dictStats.correctCount / dictWords.length * 100)}%`;
@@ -1129,9 +1268,18 @@
   // ════════════════════════════════════════════════════════════
   // 9. 小石屋「聋子词通缉榜」联动体系
   // ════════════════════════════════════════════════════════════
-  function trackDeafVocab(word, examId) {
+  function trackDeafVocab(word, examId, userTyped = null) {
     const clean = word.toLowerCase().trim();
     if (!clean || clean.length < 3) return;
+
+    // 格式/词形/词性偏差豁免：如果用户输入的是合法词根派生或屈折形态，说明耳朵已听懂，坚决不入通缉令！
+    if (userTyped) {
+      const cleanTyped = userTyped.toLowerCase().trim().replace(/[^a-z]/g, '');
+      if (cleanTyped && isMorphologicalMatch(cleanTyped, clean)) {
+        console.log(`[DeafVocab Exempt] "${cleanTyped}" is morphological variant of "${clean}", exempt from bounty.`);
+        return;
+      }
+    }
 
     failedWordAttempts[clean] = (failedWordAttempts[clean] || 0) + 1;
 
@@ -1142,7 +1290,7 @@
           exam: examId,
           time: new Date().toLocaleDateString()
         });
-        localStorage.setItem('cet4_deaf_vocab', JSON.stringify(deafVocabList));
+        StoneStorage.setItem('cet4_deaf_vocab', JSON.stringify(deafVocabList));
         renderDeafBountyChips();
 
         // Async report to VPS backend (fire-and-forget)
@@ -1176,32 +1324,29 @@
     });
   }
 
-  async function reportDeafWordToBackend(word, examId) {
-    const token = localStorage.getItem('vocab_auth_token');
-    if (!token) {
-      console.log(`[DeafVocab] 游客模式: "${word}" 仅在本地记录，不消耗服务器资源`);
-      return;
-    }
-    try {
-      const res = await fetch('/api/cet4/report-deaf-word', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ word, examId })
-      });
-      if (res.status === 403) {
-        console.log(`[DeafVocab] 未获站长云端额度授权: "${word}" 仅保存在本地通缉令`);
-      } else if (res.ok) {
-        console.log(`[DeafVocab] 站长授权特权写入成功: "${word}" 已同步至小石屋大逃杀`);
-      }
-    } catch (e) {}
+  let bountyFlushBusy=false;
+  async function reportDeafWordToBackend(word,examId) {
+    if(!StoneStorage.getItem('vocab_auth_token'))return;
+    const queue=JSON.parse(StoneStorage.getItem('cet4_report_queue')||'[]');
+    queue.push({word,examId,eventId:crypto.randomUUID()});
+    StoneStorage.setItem('cet4_report_queue',JSON.stringify(queue));
+    await flushBounties();
   }
-
+  async function flushBounties(){
+    if(bountyFlushBusy)return;
+    const raw=StoneStorage.getItem('vocab_auth_token');let token;try{token=JSON.parse(raw);}catch{token=raw;}if(!token)return;
+    bountyFlushBusy=true;
+    try{while(true){const queue=JSON.parse(StoneStorage.getItem('cet4_report_queue')||'[]');if(!queue.length)break;
+      const r=await fetch('/api/cet4/report-deaf-word',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(queue[0]),signal:AbortSignal.timeout(10000)});
+      if(r.status===403||r.status===401)break;if(!r.ok)throw new Error('sync unavailable');
+      const latest=JSON.parse(StoneStorage.getItem('cet4_report_queue')||'[]').filter(x=>x.eventId!==queue[0].eventId);StoneStorage.setItem('cet4_report_queue',JSON.stringify(latest));
+    }}catch{}finally{bountyFlushBusy=false;}
+  }
+  window.addEventListener('online',flushBounties);
   async function checkBountyAuthStatus() {
     if (!bountyAuthStatus || !authDot || !bountyAuthText) return;
-    const token = localStorage.getItem('vocab_auth_token');
+    const storedToken = StoneStorage.getItem('vocab_auth_token');
+    let token;try{token=JSON.parse(storedToken);}catch{token=storedToken;}
     if (!token) {
       authDot.className = 'auth-dot guest';
       bountyAuthText.textContent = '🔒 本地通缉模式 (登录小石屋主站开启云端同步)';
@@ -1331,25 +1476,36 @@
         });
       }
 
-      // Check single segment stop
+      // Check single segment stop & auto-replay incomplete sentence
       if (stopAtTime !== null && cur >= stopAtTime) {
-        if (loopMode === 'single') {
-          audioPlayer.pause();
-          mainPlayBtn.textContent = '▶';
-          stopAtTime = null;
-        } else {
-          if (isQuizMode) {
-            audioPlayer.pause();
-            mainPlayBtn.textContent = '▶';
-            stopAtTime = null;
-          } else {
+        audioPlayer.pause();
+        mainPlayBtn.textContent = '▶';
+        stopAtTime = null;
+
+        // 核心判断：当前句子是否尚未输入完成？
+        const isSeqIncomplete = (currentMode === 'sequential' && seqWords.length > 0 && seqCurrentIdx < seqWords.length);
+        const isDictIncomplete = (currentMode === 'dictation' && dictWords.length > 0 && dictCurrentIdx < dictWords.length);
+        const isContinuousQuiz = (isQuizMode && loopMode === 'continuous');
+
+        if (isSeqIncomplete || isDictIncomplete || isContinuousQuiz) {
+          // 当前句未输完，自动留出 1.0 秒呼吸间隔后重新播放当前句（真正闭环精听）
+          cancelPendingReplay();
+          const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
+          if (seg) {
+            replayTimer = setTimeout(() => {
+              const stillIncomplete = (currentMode === 'sequential' ? (seqCurrentIdx < seqWords.length) :
+                                       currentMode === 'dictation' ? (dictCurrentIdx < dictWords.length) :
+                                       isQuizMode);
+              if (stillIncomplete && audioPlayer.paused) {
+                playSegmentTime(seg.s, seg.e, audioPlayer.playbackRate || 1.0);
+              }
+            }, 1000);
+          }
+        } else if (!isQuizMode) {
+          if (loopMode === 'continuous') {
             const nextIdx = findNextTrainableIndex(currentActiveSegIndex, 1);
             if (nextIdx !== -1) {
               selectSegment(nextIdx, true);
-            } else {
-              audioPlayer.pause();
-              mainPlayBtn.textContent = '▶';
-              stopAtTime = null;
             }
           }
         }
@@ -1369,9 +1525,15 @@
         return;
       }
       if (audioPlayer.paused) {
-        stopAtTime = null;
-        audioPlayer.play();
+        cancelPendingReplay();
+        const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
+        if (seg && (audioPlayer.currentTime < seg.s || audioPlayer.currentTime >= seg.e)) {
+          playSegmentTime(seg.s, seg.e, 1.0);
+        } else {
+          audioPlayer.play();
+        }
       } else {
+        cancelPendingReplay();
         audioPlayer.pause();
       }
     });
@@ -1395,6 +1557,7 @@
     });
 
     btnPlayCurrent.addEventListener('click', () => {
+      cancelPendingReplay();
       if (!hasStartedTraining) {
         startNewRound();
         return;
@@ -1405,6 +1568,7 @@
     });
 
     btnPlaySlow.addEventListener('click', () => {
+      cancelPendingReplay();
       const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
       if (seg) playSegmentTime(seg.s, seg.e, 0.5);
     });
@@ -1469,35 +1633,13 @@
       submitCurrentAnswer('click');
     });
 
-    // 2. 键盘按键监听 (支持物理键盘及大部分软键盘 Space / Enter)
+    // Enter is the safe default. Optional Space mode never processes IME input events.
     quizInput.addEventListener('keydown', (e) => {
-      if (e.key === ' ' || e.code === 'Space' || e.keyCode === 32) {
-        if (currentMode === 'liaison') {
-          const words = quizInput.value.trim().split(/\s+/).filter(Boolean);
-          if (words.length < 2) {
-            // 连读模式允许输入第 1 个词后的空格
-            return;
-          }
-        }
-        e.preventDefault();
-        submitCurrentAnswer('space');
-      } else if (e.key === 'Enter' || e.keyCode === 13) {
-        e.preventDefault();
-        submitCurrentAnswer('enter');
-      }
-    });
-
-    // 3. 移动端软键盘 input 事件深层兼容 (专治 iOS/Android 软键盘空格不发 keydown 或联想候选词带空格问题)
-    quizInput.addEventListener('input', () => {
-      const val = quizInput.value;
-      if (/\s$/.test(val)) {
-        if (currentMode === 'liaison') {
-          const words = val.trim().split(/\s+/).filter(Boolean);
-          if (words.length < 2) {
-            return; // 连读第 1 词后空格放行
-          }
-        }
-        submitCurrentAnswer('space');
+      if(e.isComposing || e.keyCode===229 || e.repeat || e.ctrlKey || e.metaKey || e.altKey)return;
+      if(e.key==='Enter') {e.preventDefault();submitCurrentAnswer('enter');return;}
+      if(e.code==='Space' && window.StoneUI?.spaceSubmit) {
+        if(currentMode==='liaison' && quizInput.value.trim().split(/\s+/).filter(Boolean).length<2)return;
+        e.preventDefault();submitCurrentAnswer('space');
       }
     });
 
@@ -1508,6 +1650,7 @@
 
     if (btnQuickReplay) {
       btnQuickReplay.addEventListener('click', () => {
+        cancelPendingReplay();
         const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
         if (seg) playSegmentTime(seg.s, seg.e, 1.0);
       });
@@ -1515,6 +1658,7 @@
 
     if (btnQuickSlow) {
       btnQuickSlow.addEventListener('click', () => {
+        cancelPendingReplay();
         const seg = isQuizMode ? quizItems[currentQuizIndex]?.seg : currentSegments[currentActiveSegIndex];
         if (seg) playSegmentTime(seg.s, seg.e, 0.5);
       });
@@ -1610,7 +1754,7 @@
   }
 
   function initTheme() {
-    const saved = localStorage.getItem('cet4_theme') || 'light';
+    const saved = StoneStorage.getItem('cet4_theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
     themeToggleBtn.textContent = saved === 'dark' ? '🌙' : '☀️';
   }
@@ -1619,7 +1763,7 @@
     const current = document.documentElement.getAttribute('data-theme') || 'light';
     const next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('cet4_theme', next);
+    StoneStorage.setItem('cet4_theme', next);
     themeToggleBtn.textContent = next === 'dark' ? '🌙' : '☀️';
     drawWaveformVisual(currentSegments[currentActiveSegIndex]);
   }

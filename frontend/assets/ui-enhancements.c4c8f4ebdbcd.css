@@ -1,0 +1,28 @@
+/* Round 1: readable text, deliberate input, accessible controls. */
+:root {--stone-words-size:18px;--stone-story-size:18px;--stone-listening-size:18px;}
+.stone-home .word-spelling{font-size:var(--stone-words-size);line-height:1.5;}
+.stone-home .story-scroll{font-size:var(--stone-story-size);line-height:1.85;}
+.stone-listening .current-sentence-text,.stone-listening .transcript-text{font-size:var(--stone-listening-size);line-height:1.75;}
+button,a,input,select,summary{touch-action:manipulation;}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--brand-primary);outline-offset:3px;}
+#stonePreferences{margin:auto;width:min(460px,calc(100% - 24px));max-height:calc(100dvh - 32px);overflow:auto;padding:24px;border:1px solid var(--paper-border);border-radius:18px;background:var(--paper-surface);color:var(--text-primary);box-shadow:0 20px 70px #0003;font:16px/1.6 var(--font-sans);}
+#stonePreferences::backdrop{background:#11182770;backdrop-filter:blur(3px);}
+.stone-dialog-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;}.stone-dialog-heading h2{font-size:20px;}
+#stonePreferences button{min-width:44px;min-height:44px;border:1px solid var(--paper-border);border-radius:10px;color:var(--text-primary);background:var(--paper-surface-sub);font-size:16px;cursor:pointer;}#stonePreferences button:disabled{opacity:.4;cursor:default;}
+.stone-muted{font-size:14px;color:var(--text-secondary);}.stone-preference-section{padding:18px 0;border-bottom:1px solid var(--paper-border);}.stone-preference-section h3{font-size:15px;margin-bottom:10px;}
+.stone-size-row{display:grid;grid-template-columns:1fr 44px 60px 44px;gap:10px;align-items:center;margin:10px 0;}.stone-size-row output{text-align:center;}
+#stoneAppearance{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}.stone-check{display:flex;align-items:center;gap:12px;min-height:44px;}.stone-check input{width:20px;height:20px;}.stone-shortcut-help{padding:16px 0;}.stone-shortcut-help summary{cursor:pointer;min-height:44px;}#stoneAdvanced{padding:8px 16px;}
+@media(max-width:760px){
+ .stone-home .header-actions>a.btn-admin-top{display:none!important;}
+ .stone-home .paper-icon-btn,.stone-listening .paper-icon-btn{min-width:44px;min-height:44px;font-size:17px;}
+ .stone-home .brand-text h1{font-size:15px;}.stone-home .header-top{gap:8px;}.stone-home .header-actions{gap:8px;}
+ .stone-home button:not(.nav-item),.stone-listening button{min-height:44px;}
+ .stone-home .word-audio-btn{min-width:44px;min-height:44px;}.stone-home .word-num{font-size:13px;}
+ .stone-home .origami-input,.stone-home .form-input,.stone-home .form-select,.stone-listening input,.stone-listening select{font-size:16px;}
+ .stone-home .nav-item{font-size:12px;min-height:56px;}.stone-home .choice-action-text,.stone-home .choice-btn{font-size:16px;line-height:1.65;}
+ .stone-home .tarot-meaning,.stone-home .candy-tile .tile-word-text{font-size:15px;}.stone-home .tarot-back-tip{font-size:12px;}
+ .stone-listening .quick-controls-row{flex-wrap:wrap;}.stone-home .player-bar{display:flex;flex-wrap:wrap;}.stone-home .origami-hud-card{flex:1;font-size:12px;}
+ .stone-keyboard-open .bottom-dock,.stone-keyboard-open #stoneRadioLauncher,.stone-keyboard-open #radioMiniPlayer,.stone-keyboard-open .mobile-tab-bar{display:none!important;}
+ .stone-listening.stone-keyboard-open .app-header{position:static;}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}

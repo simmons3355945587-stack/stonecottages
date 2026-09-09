@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1a202c">
+  <title>Vocabulary Survival 2.0 - 折纸塔罗词汇生存战</title>
+  <meta name="description" content="Vocabulary Survival 2.0 - 折纸塔罗风格的CET-4/6英语词汇学习应用。通过RPG生存战、词汇解剖、塔罗抽卡等创新模式高效背单词。">
+  <meta property="og:title" content="Vocabulary Survival 2.0 - 折纸塔罗词汇生存战">
+  <meta property="og:description" content="通过RPG生存战、词汇解剖、消消乐、塔罗抽卡等创新模式高效背CET-4/6英语单词">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/ui-enhancements.css">
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-logo">🕊️</div>
+      <div class="brand-text">
+        <h1>VOCAB SURVIVAL</h1>
+        <p>折纸塔罗 · 跨端全天候词汇系统</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <!-- 🎧 四级精听复读机直达 -->
+      <a href="/cet4/" class="btn-admin-top" title="四级听力挖空复读机" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">🎧 四级精听</a>
+      <!-- 👤 账号与云端同步 -->
+      <button class="btn-admin-top" onclick="openAdminConsole()" id="topAdminBtn" style="display:none" title="站长控制台">👑 控制台</button>
+      <button class="paper-icon-btn" onclick="openAuthModal()" id="userBtn" title="用户账号与云端同步" style="font-size: 13px; font-weight: 700; width: auto; padding: 0 10px; gap: 4px; display: inline-flex; align-items: center;">
+        <span id="userBtnIcon">👤</span>
+        <span id="userBtnName" style="max-width: 75px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">登录</span>
+      </button>
+      <!-- ☀️/🌙 昼夜主题切换 -->
+      <button class="paper-icon-btn" onclick="toggleTheme()" id="themeBtn" title="切换昼夜模式">🌙</button>
+      <button class="paper-icon-btn" onclick="toggleAudioMute()" id="audioBtn" title="音效开关">🔊</button>
+      <button class="paper-icon-btn" onclick="openSettingsModal()" id="settingsBtn" title="阅读与学习设置" aria-label="阅读与学习设置">⚙️</button>
+    </div>
+  </div>
+
+  <!-- Player HUD -->
+  <div class="player-bar">
+    <div class="origami-hud-card">
+      <span>❤️</span>
+      <span>HP</span>
+      <span class="hud-val" id="hudHp">100</span>
+      <div class="origami-meter-wrap"><div class="origami-meter-fill" id="hpBar" style="width: 100%;"></div></div>
+    </div>
+    <div class="origami-hud-card">
+      <span>🧠</span>
+      <span>SAN</span>
+      <span class="hud-val" id="hudSan">100</span>
+      <div class="origami-meter-wrap"><div class="origami-meter-fill" id="sanBar" style="width: 100%; background: var(--brand-cyan);"></div></div>
+    </div>
+    <div class="origami-hud-card">
+      <span>✦</span>
+      <span>LV.<span id="hudLevel">1</span></span>
+      <span class="hud-val" id="hudXp" style="color: var(--brand-accent);">0 XP</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ================= VIEW 1: 单词库 (WORDS) ================= -->
+  <div id="viewWords" class="view-section active">
+    <!-- 🗂️ 极简紧凑型双维度词库与难度筛选面板 (Compact Filter Box) -->
+    <div class="vocab-filter-panel-wrap" id="vocabFilterPanelWrap">
+      <!-- 极简微型触发条 (高度紧凑，移动端不占位) -->
+      <div class="filter-header-bar" onclick="toggleFilterDrawer(event)">
+        <div class="filter-header-left">
+          <span class="filter-icon">🗂️</span>
+          <span class="filter-active-summary" id="filterActiveSummary">📖 核心背诵 · 全部</span>
+        </div>
+        <div class="filter-header-right">
+          <span class="filter-count-chip" id="filterResultCountChip">480 词</span>
+          <span class="filter-chevron" id="filterChevron">▼</span>
+        </div>
+      </div>
+
+      <!-- 可折叠内部双维度按钮组（轻量化紧凑设计） -->
+      <div class="filter-drawer-body" id="filterDrawerBody" style="display: none;">
+        <div class="filter-dimension-row">
+          <div class="dimension-label">
+            <span>📚 词库分类</span>
+          </div>
+          <div class="dimension-pills" id="sourcePillGroup">
+            <button class="source-pill active" id="srcBtn_core" onclick="setWordSourceFilter('core')">
+              📖 核心背诵 <span class="badge-pill-count" id="badgeSrc_core">480</span>
+            </button>
+            <button class="source-pill" id="srcBtn_novel_ihopethisfindsyouwell" onclick="setWordSourceFilter('novel_ihopethisfindsyouwell')">
+              📚 职场原著 <span class="badge-pill-count" id="badgeSrc_novel_ihopethisfindsyouwell">49</span>
+            </button>
+            <button class="source-pill" id="srcBtn_trade_business" onclick="setWordSourceFilter('trade_business')">
+              💼 外贸函电 <span class="badge-pill-count" id="badgeSrc_trade_business">201</span>
+            </button>
+            <button class="source-pill" id="srcBtn_all" onclick="setWordSourceFilter('all')">
+              🌐 全部总库 <span class="badge-pill-count" id="badgeSrc_all">704</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-dimension-row">
+          <div class="dimension-label">
+            <span>🎯 难度分级</span>
+          </div>
+          <div class="dimension-pills" id="tierPillGroup">
+            <button class="tier-filter-pill active" id="tierBtn_all" onclick="setWordTierFilter('all')">
+              🎲 全部 <span class="badge-pill-count" id="badgeTier_all">704</span>
+            </button>
+            <button class="tier-filter-pill" id="tierBtn_cet4" onclick="setWordTierFilter('cet4')">
+              🟢 CET-4 <span class="badge-pill-count" id="badgeTier_cet4">0</span>
+            </button>
+            <button class="tier-filter-pill" id="tierBtn_cet6" onclick="setWordTierFilter('cet6')">
+              🔵 CET-6 <span class="badge-pill-count" id="badgeTier_cet6">0</span>
+            </button>
+            <button class="tier-filter-pill" id="tierBtn_ielts" onclick="setWordTierFilter('ielts')">
+              🟣 雅思托福 <span class="badge-pill-count" id="badgeTier_ielts">0</span>
+            </button>
+          </div>
+        </div>
+      </div>    </div>
+
+    <div class="search-row">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="origami-input" id="searchInput" placeholder="搜索生词 / 词义 / 序号..." autocomplete="off">
+      </div>
+      <button class="paper-btn-primary" id="btnQuickLangToggle" onclick="toggleQuickDictLang()" title="一键切换中英释义显示" style="font-size: 12px; padding: 0 10px; min-width: 68px;">🇨🇳 中文</button>
+      <button class="paper-btn-primary" onclick="addNewWordModal()">+ 录词</button>
+    </div>
+
+    <div class="origami-tabs">
+      <button class="origami-tab-btn active" id="subTabAll" onclick="switchSubTab('all')">
+        全部折纸词库 <span class="origami-chip" id="badgeAll">0</span>
+      </button>
+      <button class="origami-tab-btn" id="subTabMarked" onclick="switchSubTab('marked')">
+        重点生词本 <span class="origami-chip" id="badgeMarked">0</span>
+      </button>
+    </div>
+
+    <div id="wordsListContainer" class="word-grid"></div>
+    <div id="markedListContainer" class="word-grid" style="display: none;"></div>
+  </div>
+
+  <!-- ================= VIEW 2: RPG 文字大逃杀与小说模式 (SURVIVAL) ================= -->
+  <div id="viewSurvival" class="view-section">
+    <!-- 🎮 生存战模式选择 Tab (Novel Mode / Classic Mode) -->
+    <div class="origami-tabs" style="margin-bottom: 12px;">
+      <button class="origami-tab-btn active" id="modeTabNovel" onclick="switchSurvivalMode('novel')">
+        📖 职场大冒险：《I Hope This Finds You Well》
+      </button>
+      <button class="origami-tab-btn" id="modeTabClassic" onclick="switchSurvivalMode('classic')">
+        ⚡ 经典绝境生存战 (无限词库推演)
+      </button>
+    </div>
+
+    <!-- 📖 小说闯关控制横幅 (Novel Mode Banner) -->
+    <div id="novelBanner" class="origami-banner" style="border-color: var(--brand-primary); background: var(--paper-surface); margin-bottom: 14px; flex-direction: column; align-items: stretch; gap: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 240px;">
+          <div class="banner-title" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span>📖 《I Hope This Finds You Well》</span>
+            <span class="origami-chip" style="background:var(--brand-primary); color:#fff; font-size:10px;">51 章节完整原著互动</span>
+          </div>
+          <div class="banner-desc" id="novelChapterSynopsis" style="margin-top: 4px;">
+            33岁打工人 Jolene 误获全员邮件偷窥权限，化解裁员危机，职场宫斗大冒险！
+          </div>
+        </div>
+
+        <!-- 💾 存档与进度控制胶囊 -->
+        <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+          <div id="autoSaveIndicator" style="font-size: 11px; font-weight: 700; color: var(--brand-success); background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 14px; display: inline-flex; align-items: center; gap: 4px;">
+            <span>🟢</span> <span id="autoSaveText">自动存档：第 1 章 · 第 1 幕</span>
+          </div>
+          <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 10px; height: 30px;" onclick="manualSaveCurrentProgress()" title="立即手动保存快照">
+            💾 手动存档
+          </button>
+          <button class="btn btn-secondary" style="font-size: 12px; padding: 4px 10px; height: 30px;" onclick="openSaveLoadModal()" title="打开存档档案室与卡槽管理">
+            📂 读档/卡槽
+          </button>
+        </div>
+      </div>
+
+      <!-- 章节选择与快速继续栏 -->
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items:center; justify-content: space-between; border-top: 1px dashed var(--paper-border); padding-top: 10px;">
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">选择章节:</span>
+          <select id="novelChapterSelect" class="form-select" style="font-size: 12px; height: 36px; min-width: 180px; max-width: 240px;" onchange="onSelectNovelChapter(this.value)">
+            <!-- 动态加载 51 章节 -->
+          </select>
+          <button class="btn btn-secondary" style="padding:0 12px; height:36px; white-space:nowrap; font-size:12px;" onclick="launchSurvivalGame()">
+            🎬 开启本章
+          </button>
+        </div>
+        
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn btn-primary" id="btnResumeLastPlay" style="padding:0 16px; height:36px; white-space:nowrap; font-weight: 800;" onclick="resumeFromSavedProgress()">
+            ▶️ 继续上次冒险 (<span id="resumeBadgeText">第 1 章 · 第 1 幕</span>)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⚡ 经典绝境生存战横幅 (Classic Mode Banner) -->
+    <div id="classicBanner" class="origami-banner" style="display: none; margin-bottom: 14px;">
+      <div>
+        <div class="banner-title">⚡ 经典绝境生存战 (Roguelike RPG)</div>
+        <div class="banner-desc">大模型因果剧情推演，从生词本中抽取 3 词构建未知灾变冒险！</div>
+      </div>
+      <button class="btn btn-accent" style="flex:0; padding:8px 16px; white-space:nowrap;" onclick="launchSurvivalGame()">
+        ⚡ 开启战局
+      </button>
+    </div>
+
+    <!-- 🎮 生存战核心交互区 -->
+    <div id="survivalGameBox" class="origami-box" style="display: block;">
+      <div class="game-header">
+        <div class="theme-badge" id="gameTheme">📖 职场大冒险 · 见信如晤</div>
+        <div style="display:flex; gap:12px; font-weight:800; font-family:var(--font-mono); font-size:13px;">
+          <span style="color:var(--brand-danger)">❤️ <span id="gameHp">100</span></span>
+          <span style="color:var(--brand-accent)">🔥 <span id="gameCombo">x1</span> 连击</span>
+          <span style="color:var(--brand-cyan)">第 <span id="gameRound">1</span> 局</span>
+        </div>
+      </div>
+
+      <div class="story-scroll" id="gameStory">正在加载原著小说章节与互动剧情...</div>
+      <div id="gameOptions"></div>
+      <div id="gameOutcomeArea"></div>
+
+      <!-- ⚡ 战术卡牌手牌栏 (实时施放神技) -->
+      <div class="battle-hand-dock" id="battleHandDock">
+        <div class="battle-hand-header">
+          <div class="battle-hand-title">⚡ 战术卡牌技能手牌 (点击直接施放神技 · 扭转战局)</div>
+          <button class="btn btn-secondary" style="font-size:11px; padding:2px 8px;" onclick="openCodexModal()">🎒 卡牌背包</button>
+        </div>
+        <div class="battle-cards-row" id="battleHandDeck">
+          <!-- 动态加载出战卡牌 -->
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top: 16px;">
+        <button class="btn btn-secondary" onclick="useHintBuff()">👁️ 全视之眼提示</button>
+        <button class="btn btn-secondary" onclick="abortSurvivalGame()">🚪 撤退回词库</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= VIEW 4: 🍬 糖果色块中英配对消消乐 (CANDY MATCH) ================= -->
+  <div id="viewMatch" class="view-section">
+    <div class="origami-banner" style="border-color: var(--brand-accent);">
+      <div>
+        <div class="banner-title">🍬 糖果色块中英消消乐 (Candy Match)</div>
+        <div class="banner-desc">中英双语立体色块对撞消除！⚠️ 若选错该单词 Mark 自动 +1 惩罚并进入错题本！</div>
+      </div>
+      <button class="btn btn-accent" style="flex:0; padding:8px 16px;" onclick="startCandyMatchGame()">
+        ⏱️ 立即开战
+      </button>
+    </div>
+
+    <div id="candyMatchGameBox" class="candy-game-wrap" style="display: none;">
+      <div class="candy-stats-bar">
+        <div class="candy-stat-item">
+          <span class="candy-stat-lbl">消除得分</span>
+          <span class="candy-stat-val" id="matchScoreVal">0</span>
+        </div>
+        <div class="candy-stat-item">
+          <span class="candy-stat-lbl">极速连击</span>
+          <span class="candy-stat-val" id="matchComboVal" style="color: var(--brand-accent);">x1</span>
+        </div>
+        <div class="candy-stat-item">
+          <span class="candy-stat-lbl">倒计时</span>
+          <span class="candy-stat-val" id="matchTimerVal" style="color: var(--brand-danger);">45s</span>
+        </div>
+        <div class="candy-stat-item">
+          <span class="candy-stat-lbl">通关波次</span>
+          <span class="candy-stat-val" id="matchWaveVal" style="color: var(--brand-success);">WAVE 1</span>
+        </div>
+      </div>
+
+      <div class="candy-timer-bar-wrap">
+        <div class="candy-timer-bar-fill" id="matchTimerBar" style="width: 100%;"></div>
+      </div>
+
+      <div style="background: var(--paper-surface-sub); border: 1px solid var(--paper-border); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 14px; font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
+        <span>🍬 <strong>规则</strong>：点击英文色块与对应中文释义配对消除。</span>
+        <span style="color: var(--brand-danger); font-weight: 800;">⚠️ 选错惩罚：错选单词 Mark 自动 +1 并扣血！</span>
+      </div>
+
+      <!-- 🎯 难度与出题范围筛选器 -->
+      <div class="candy-tier-filter-bar" style="display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px;">
+        <button class="tier-pill active" id="tierPill_all" onclick="setCandyTierFilter('all')">🎲 全部高级词库</button>
+        <button class="tier-pill" id="tierPill_cet4" onclick="setCandyTierFilter('cet4')">🟢 CET-4 核心</button>
+        <button class="tier-pill" id="tierPill_cet6" onclick="setCandyTierFilter('cet6')">🔵 CET-6 · 考研</button>
+        <button class="tier-pill" id="tierPill_ielts" onclick="setCandyTierFilter('ielts')">🟣 雅思托福 · 菁英</button>
+      </div>
+
+      <!-- 糖果立体色块消除网格 -->
+      <div class="candy-grid" id="candyGrid"></div>
+      <div id="matchSettlementArea" style="display:none; margin-top:14px;"></div>
+
+      <div style="display: flex; gap: 10px; margin-top: 12px;">
+        <button class="btn btn-primary" style="flex: 1;" onclick="startCandyMatchGame()">⚡ 重新开局</button>
+        <button class="btn btn-secondary" onclick="abortMatchGame()">退出对局</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= VIEW 5: 塔罗牌抽卡圣殿与战术背包 (TAROT SANCTUM) ================= -->
+  <div id="viewProfile" class="view-section">
+    <div class="tarot-sanctum">
+      <div class="tarot-altar">
+        <div class="tarot-altar-header">
+          <div class="tarot-altar-title">✦ 塔罗词汇命运圣殿 ✦</div>
+          <div class="tarot-altar-sub">点击神秘未翻开的塔罗牌，消耗 50 XP 揭晓你的专属真题大阿卡那战斗卡！</div>
+        </div>
+
+        <!-- 4张未翻开的塔罗牌阵列 -->
+        <div class="tarot-spread" id="tarotSpread"></div>
+
+        <div style="display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
+          <button class="btn btn-accent" style="max-width: 220px;" onclick="reshuffleTarotDeck()">
+            🔮 洗牌重置法阵
+          </button>
+          <button class="btn btn-primary" style="max-width: 220px;" onclick="openCodexModal()">
+            🎒 我的卡牌图鉴与背包
+          </button>
+        </div>
+      </div>
+
+      <!-- 战报与图鉴统计 -->
+      <div class="origami-box" style="text-align: left; margin-top: 20px;">
+        <h3 style="font-family: var(--font-serif); font-size: 16px; margin-bottom: 14px; color: var(--text-primary);">
+          📜 幸存者誓约战报与图鉴
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" id="achievementGrid"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Navigation Dock -->
+<div class="bottom-dock">
+  <button class="nav-item active" onclick="switchNavView('words')" id="navWords">
+    <span class="nav-icon">📚</span>
+    <span>折纸词库</span>
+  </button>
+  <button class="nav-item" onclick="switchNavView('survival')" id="navSurvival">
+    <span class="nav-icon">🎮</span>
+    <span>文字生存</span>
+  </button>
+  <button class="nav-item" onclick="switchNavView('match')" id="navMatch">
+    <span class="nav-icon">⚡</span>
+    <span>消消乐</span>
+  </button>
+  <button class="nav-item" onclick="switchNavView('profile')" id="navProfile">
+    <span class="nav-icon">🃏</span>
+    <span>塔罗抽卡</span>
+  </button>
+  <a href="/cet4/" class="nav-item" id="navCet4" style="text-decoration: none; color: inherit;" title="四级精听复读机">
+    <span class="nav-icon">🎧</span>
+    <span>四级精听</span>
+  </a>
+</div>
+
+<!-- Slide Definition Drawer -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDefDrawer()"></div>
+<div class="def-drawer" id="defDrawer">
+  <button class="drawer-close-btn" onclick="closeDefDrawer()" title="[ESC] 退出释义">&times;</button>
+  <div id="defDrawerContent"></div>
+</div>
+
+<!-- 🎒 3D 塔罗卡牌图鉴与背包 Modal -->
+<div class="modal-box" id="codexModal" style="max-width: 720px; max-height: 85vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+      🎒 3D 战术卡牌背包 & 技能图鉴 <span style="font-size: 11px; background: var(--brand-accent); color: #fff; padding: 2px 8px; border-radius: 10px;" id="codexTotalBadge">0 张</span>
+    </h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeCodexModal()">&times;</button>
+  </div>
+  <div id="codexGrid" class="codex-grid"></div>
+</div>
+
+<!-- 👑 Admin 控制台面板 Modal -->
+<div class="modal-box" id="adminModal" style="max-width: 680px; max-height: 85vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+      👑 站长后台控制台 <span style="font-size: 11px; background: var(--brand-primary); color: #fff; padding: 2px 8px; border-radius: 10px;">Master Console</span>
+    </h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeAdminModal()">&times;</button>
+  </div>
+  <div id="adminModalBody"></div>
+</div>
+
+<!-- Auth & Cloud Sync Modal -->
+<div class="modal-box" id="authModal">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0;" id="authModalTitle">👤 用户登录 / 注册</h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeAuthModal()">&times;</button>
+  </div>
+
+  <!-- Logged-in Profile View -->
+  <div id="authLoggedInSection" style="display: none;">
+    <div style="background: var(--paper-surface-sub); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 18px 16px; margin-bottom: 16px; text-align: center;">
+      <div style="font-size: 38px; margin-bottom: 8px;" id="authRoleIcon">👑</div>
+      <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);" id="authUserName">用户</div>
+      <div style="font-size: 12px; color: var(--brand-accent); font-weight: 700; margin-top: 4px;" id="authRoleBadge">👑 首席管理员 (Admin · 专属特权)</div>
+      <div style="font-size: 11px; color: var(--text-secondary); margin-top: 8px;" id="authSyncStatus">☁️ 云端战报实时同步已激活 · 跨设备漫游</div>
+    </div>
+    
+    <button class="btn btn-primary" id="adminLaunchBtn" style="width: 100%; margin-bottom: 8px; display: none;" onclick="closeAuthModal(); openAdminConsole();">👑 打开站长管理后台</button>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="manualSyncCloud(true)">☁️ 立即同步云端</button>
+      <button class="btn btn-secondary" onclick="logoutUser()">🚪 退出登录</button>
+    </div>
+  </div>
+
+  <!-- Unlogged-in Form View -->
+  <div id="authFormSection">
+    <div class="origami-tabs" style="margin-bottom: 16px;">
+      <button class="origami-tab-btn active" id="tabAuthLogin" onclick="switchAuthTab('login')">🔑 账号登录</button>
+      <button class="origami-tab-btn" id="tabAuthReg" onclick="switchAuthTab('reg')">✨ 注册新账号</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">用户名 (Username)</label>
+      <input type="text" class="form-input" id="authInputUser" placeholder="例如: 林允安 或 英文名" autocomplete="username">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">密码 (Password)</label>
+      <input type="password" class="form-input" id="authInputPass" placeholder="至少4位密码" autocomplete="current-password">
+    </div>
+
+    <div class="form-group" id="grpRegApiKey" style="display: none;">
+      <label class="form-label">个人 Gemini API Key (选填 · 独享AI)</label>
+      <input type="password" class="form-input" id="authInputApiKey" placeholder="AIzaSy... (若不填则默认离线剧情算法)">
+      <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">普通用户绑定专属 Key，首个注册用户自动成为最高管理员。</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="authSubmitBtn" onclick="handleAuthSubmit()">🔑 立即登录</button>
+      <button class="btn btn-secondary" onclick="closeAuthModal()">取消</button>
+    </div>
+    <div style="text-align: center; margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--paper-border); font-size: 12px; color: var(--text-secondary);">
+      🔐 忘记密码或解绑 IP？请联系站长重置：<a href="mailto:3355945587@qq.com" style="color: var(--brand-primary); font-weight: 800; text-decoration: underline;">3355945587@qq.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- 💾 冒险进度与存档档案室 Modal (Save / Load Archive) -->
+<div class="modal-box" id="saveLoadModal" style="max-width: 650px; max-height: 85vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
+    <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
+      💾 冒险进度与存档档案室 <span style="font-size: 11px; background: var(--brand-primary); color: #fff; padding: 2px 8px; border-radius: 10px;">Save & Load</span>
+    </h3>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeSaveLoadModal()">&times;</button>
+  </div>
+  <div id="saveLoadModalBody"></div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-box" id="settingsModal">
+  <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin-bottom: 16px;">⚙️ 驱动引擎与跨端设置</h3>
+  
+  <div class="form-group">
+    <label class="form-label">核心驱动通道 (Driver Mode)</label>
+    <select class="form-select" id="cfgDriverMode" onchange="onDriverModeChange()">
+      <option value="gemini_native">Google Gemini (Antigravity 官方云端/手机通用)</option>
+      <option value="custom_openai">自定义 OpenAI / Antigravity Gateway 代理</option>
+      <option value="mimo_backup">MiMo v2.5 备用通道</option>
+      <option value="offline_matrix">离线赛博矩阵 (无网畅玩算法)</option>
+    </select>
+  </div>
+
+  <div class="form-group" id="grpGeminiKey">
+    <label class="form-label">Google Gemini API Key (手机端推荐)</label>
+    <input type="password" class="form-input" id="cfgGeminiKey" placeholder="AIzaSy...">
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">由 Google AI Studio 获取，手机端全球直连秒级响应。</div>
+  </div>
+
+  <div class="form-group" id="grpGeminiModel">
+    <label class="form-label">Google Gemini 模型版本 (Model Version)</label>
+    <select class="form-select" id="cfgGeminiModel">
+      <option value="gemini-3.7-flash" selected>Gemini 3.7 Flash (最新旗舰 · 秒级响应与深度思维)</option>
+      <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+      <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+    </select>
+  </div>
+
+  <div class="form-group" id="grpCustomUrl" style="display: none;">
+    <label class="form-label">Custom API Base URL</label>
+    <input type="text" class="form-input" id="cfgCustomUrl" placeholder="http://192.168.x.x:8081/v1/chat/completions">
+  </div>
+
+  <div class="form-group" id="grpCustomModel" style="display: none;">
+    <label class="form-label">Model Name</label>
+    <input type="text" class="form-input" id="cfgCustomModel" placeholder="gemini-3.7-flash">
+  </div>
+
+  <div style="background: var(--paper-surface-sub); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 14px; margin-bottom: 16px; margin-top: 14px;">
+    <div style="font-size: 13px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">📬 站长技术支持与密码重置</div>
+    <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
+      如有问题、密码遗忘或申请解绑 IP，请联系站长邮箱 / QQ：<br/>
+      <a href="mailto:3355945587@qq.com" style="color: var(--brand-accent); font-family: var(--font-mono); font-size: 13px; font-weight: 800; text-decoration: underline;">3355945587@qq.com</a>
+    </div>
+  </div>
+
+  <div class="form-group" style="margin-top: 12px; border-top: 1px dashed var(--paper-border); padding-top: 12px;">
+    <label class="form-label">🌐 语言与释义模式 (Language & Definition Mode)</label>
+    <select class="form-select" id="cfgDictLangMode">
+      <option value="en" selected>🇬🇧 纯英沉浸模式（默认 · 词库只显英文，词典优先英文，生存站纯英推演）</option>
+      <option value="zh">🇨🇳 中文双语增强（词库常驻简明中文，词典优先中文，生存站结算显中文译文）</option>
+    </select>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">开启后，词库列表、释义抽屉及生存站战役结算卷轴均自动呈现贴心中文辅助。</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-secondary" onclick="testApiConnection()">⚡ 测试连通性</button>
+    <button class="btn btn-primary" onclick="saveSettings()">💾 保存生效</button>
+  </div>
+  <div class="btn-row" style="margin-top: 12px;">
+    <button class="btn btn-secondary" onclick="exportAllData()">📤 导出全部数据</button>
+    <button class="btn btn-secondary" onclick="importAllData()">📥 导入数据</button>
+  </div>
+  <button class="btn btn-secondary" style="width: 100%; margin-top: 8px;" onclick="closeSettingsModal()">取消</button>
+</div>
+
+<!-- Toast Notice -->
+<div class="toast" id="appToast">
+  <span id="toastIcon">🕊️</span>
+  <span id="toastMsg">Notification</span>
+</div>
+
+<script src="performance-runtime.js"></script>
+<script src="words-data.js"></script>
+
+
+<script src="vocabulary.js"></script>
+<script src="auth.js"></script>
+<script src="sync.js"></script>
+<script src="app.js"></script>
+
+
+  <!-- 🌐 在线查词并收录模态框 (Online Word Add Modal) -->
+  <div id="onlineAddModal" class="online-add-modal-overlay" style="display: none;" onclick="closeOnlineAddModal(event)">
+    <div class="online-add-modal-box" onclick="event.stopPropagation();">
+      <div class="online-modal-title-row">
+        <div>
+          <div class="online-modal-word" id="onlineModalWord">
+            <span id="onlineModalWordText">ephemeral</span>
+            <button class="word-audio-btn" id="onlineModalAudioBtn" onclick="speakWord(document.getElementById('onlineModalWordText').textContent, event, this)" title="朗读发音">🔊</button>
+          </div>
+          <div class="online-modal-phonetic" id="onlineModalPhonetic">/ɪˈfem(ə)rəl/</div>
+        </div>
+        <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 16px; border-radius: 6px;" onclick="closeOnlineAddModal()">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">🇨🇳 中文释义 (可直接修改或微调):</label>
+        <textarea id="onlineModalDefInput" class="origami-input" rows="2" style="font-size: 14px; padding: 8px; resize: none;" placeholder="正在获取词典释义..."></textarea>
+      </div>
+
+      <div id="onlineModalEnMeaningBox" style="display:none; background: var(--paper-surface-sub); border: 1px solid var(--paper-border); border-radius: var(--radius-sm); padding: 8px 10px; font-size: 12px; color: var(--text-secondary); max-height: 80px; overflow-y: auto;">
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0;">
+        <label style="font-size: 13px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="checkbox" id="onlineModalMarkCheckbox" checked style="width: 16px; height: 16px; accent-color: var(--brand-accent);">
+          ★ 增加生词标记 (Mark +1)
+        </label>
+        <span style="font-size: 11px; color: var(--text-secondary);">自动同步至本地与云端</span>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px;">
+        <button class="btn btn-secondary" onclick="closeOnlineAddModal()">取消</button>
+        <button class="btn btn-primary" id="onlineModalConfirmBtn" onclick="confirmAddOnlineWord()">★ 确认录入词库</button>
+      </div>
+    </div>
+  </div>
+<button id="stoneRadioLauncher" class="paper-btn-primary" style="position:fixed;bottom:90px;right:20px;z-index:80" onclick="this.disabled=true;Stone.script('radio-data.js').then(()=>Stone.script('radio-player.js')).then(()=>this.remove()).catch(()=>{this.disabled=false;showToast('电台加载失败，请重试');})">📻 打开电台</button>
+<script src="/ui-enhancements.js"></script>
+</body>
+</html>

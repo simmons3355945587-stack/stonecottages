@@ -1,0 +1,170 @@
+[
+  {
+    "id": "exam_01",
+    "name": "2023年12月四级听力（第1套）",
+    "audio": "audio/exam_01.mp3",
+    "segments_count": 140,
+    "stats": {
+      "pre": 14,
+      "body": 75,
+      "question": 51
+    },
+    "json_file": "data/exam_01.json"
+  },
+  {
+    "id": "exam_02",
+    "name": "2023年12月四级听力（第2套）",
+    "audio": "audio/exam_02.mp3",
+    "segments_count": 147,
+    "stats": {
+      "pre": 17,
+      "body": 29,
+      "question": 101
+    },
+    "json_file": "data/exam_02.json"
+  },
+  {
+    "id": "exam_03",
+    "name": "2023年6月四级听力（第1套）",
+    "audio": "audio/exam_03.mp3",
+    "segments_count": 160,
+    "stats": {
+      "pre": 14,
+      "body": 112,
+      "question": 34
+    },
+    "json_file": "data/exam_03.json"
+  },
+  {
+    "id": "exam_04",
+    "name": "2023年6月四级听力（第2套）",
+    "audio": "audio/exam_04.mp3",
+    "segments_count": 154,
+    "stats": {
+      "pre": 14,
+      "body": 61,
+      "question": 79
+    },
+    "json_file": "data/exam_04.json"
+  },
+  {
+    "id": "exam_05",
+    "name": "2024年12月四级听力（第1套）",
+    "audio": "audio/exam_05.mp3",
+    "segments_count": 159,
+    "stats": {
+      "pre": 24,
+      "body": 92,
+      "question": 43
+    },
+    "json_file": "data/exam_05.json"
+  },
+  {
+    "id": "exam_06",
+    "name": "2024年12月四级听力（第2套）",
+    "audio": "audio/exam_06.mp3",
+    "segments_count": 159,
+    "stats": {
+      "pre": 14,
+      "body": 97,
+      "question": 48
+    },
+    "json_file": "data/exam_06.json"
+  },
+  {
+    "id": "exam_07",
+    "name": "2024年6月四级听力（第1套）",
+    "audio": "audio/exam_07.mp3",
+    "segments_count": 151,
+    "stats": {
+      "pre": 14,
+      "body": 45,
+      "question": 92
+    },
+    "json_file": "data/exam_07.json"
+  },
+  {
+    "id": "exam_08",
+    "name": "2024年6月四级听力（第2套）",
+    "audio": "audio/exam_08.mp3",
+    "segments_count": 150,
+    "stats": {
+      "pre": 16,
+      "body": 69,
+      "question": 65
+    },
+    "json_file": "data/exam_08.json"
+  },
+  {
+    "id": "exam_09",
+    "name": "2025年12月四级听力（第1套）",
+    "audio": "audio/exam_09.mp3",
+    "segments_count": 148,
+    "stats": {
+      "pre": 47,
+      "body": 49,
+      "question": 52
+    },
+    "json_file": "data/exam_09.json"
+  },
+  {
+    "id": "exam_10",
+    "name": "2025年12月四级听力（第2套）",
+    "audio": "audio/exam_10.mp3",
+    "segments_count": 158,
+    "stats": {
+      "pre": 31,
+      "body": 41,
+      "question": 86
+    },
+    "json_file": "data/exam_10.json"
+  },
+  {
+    "id": "exam_11",
+    "name": "2025年6月四级听力（第1套）",
+    "audio": "audio/exam_11.mp3",
+    "segments_count": 208,
+    "stats": {
+      "pre": 20,
+      "body": 59,
+      "question": 129
+    },
+    "json_file": "data/exam_11.json"
+  },
+  {
+    "id": "exam_12",
+    "name": "2025年6月四级听力（第2套）",
+    "audio": "audio/exam_12.mp3",
+    "segments_count": 211,
+    "stats": {
+      "pre": 22,
+      "body": 118,
+      "question": 71
+    },
+    "json_file": "data/exam_12.json"
+  },
+  {
+    "id": "exam_13",
+    "name": "2026年6月四级听力（第1套）",
+    "audio": "audio/exam_13.mp3",
+    "segments_count": 173,
+    "stats": {
+      "pre": 22,
+      "body": 82,
+      "question": 69
+    },
+    "json_file": "data/exam_13.json"
+  },
+  {
+    "id": "exam_14",
+    "name": "2026年6月四级听力（第2套）",
+    "audio": "audio/exam_14.mp3",
+    "segments_count": 141,
+    "stats": {
+      "pre": 23,
+      "body": 55,
+      "question": 63
+    },
+    "json_file": "data/exam_14.json"
+  }
+]
