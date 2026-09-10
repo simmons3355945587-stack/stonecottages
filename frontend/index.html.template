@@ -47,7 +47,7 @@
   <div class="player-bar">
     <div class="origami-hud-card" title="生命值 HP (失误可转化灰血，通过错词有效回忆愈合)">
       <span>❤️</span>
-      <span>HP</span>
+      <span class="hud-label">HP</span>
       <span class="hud-val" id="hudHp">100</span>
       <div class="origami-meter-wrap">
         <div class="origami-meter-gray" id="hpGrayBar" style="width: 100%;"></div>
@@ -56,18 +56,18 @@
     </div>
     <div class="origami-hud-card" title="心神清明度 SAN (受环境与禁忌事件影响，普通做题不扣除)">
       <span>🧠</span>
-      <span>SAN</span>
-      <span class="hud-val" id="hudSan">100 · 清明</span>
+      <span class="hud-label">SAN</span>
+      <span class="hud-val" id="hudSan"><span class="hud-num">100</span><span class="hud-san-tag"> · 清明</span></span>
       <div class="origami-meter-wrap"><div class="origami-meter-fill" id="sanBar" style="width: 100%; background: var(--brand-cyan);"></div></div>
     </div>
     <div class="origami-hud-card" title="随身金币 (远征生还产出，用于塔罗占卜与补给)">
       <span>🪙</span>
-      <span class="hud-val" id="hudGold" style="color: #f59e0b; font-weight: 800;">100 Gold</span>
+      <span class="hud-val" id="hudGold" style="color: #f59e0b; font-weight: 800;">100<span class="hud-gold-unit"> G</span></span>
     </div>
     <div class="origami-hud-card" title="研习等级与永久经验 (只增不减，衡量探险履历)">
       <span>✦</span>
       <span>LV.<span id="hudLevel">1</span></span>
-      <span class="hud-val" id="hudXp" style="color: var(--brand-accent);">0 XP</span>
+      <span class="hud-val hud-xp-val" id="hudXp" style="color: var(--brand-accent);">0 XP</span>
     </div>
   </div>
 </div>
@@ -254,25 +254,6 @@
 
   <!-- ================= VIEW 1: 单词库 (WORDS) ================= -->
   <div id="viewWords" class="view-section">
-    <!-- 🚪 首页核心主行动入口：推门远征 (Hero Action Card) -->
-    <div class="expedition-hero-card" id="expeditionHeroCard" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(236, 72, 153, 0.08)); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; box-shadow: var(--shadow-sm);">
-      <div style="display: flex; align-items: center; gap: 14px;">
-        <div style="font-size: 32px; line-height: 1;">🚪</div>
-        <div>
-          <div style="font-weight: 800; font-size: 15px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-            <span>推门远征 · 词汇生存战</span>
-            <span class="origami-chip" style="background: var(--brand-accent); color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 10px;">Roguelike</span>
-          </div>
-          <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">
-            在折纸与词汇的废墟中生存 · 今日在学词库 <strong id="heroStudyCount" style="color: var(--brand-primary); font-family: var(--font-mono);">480</strong> 词
-          </div>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="switchNavView('survival');" style="padding: 9px 20px; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35); cursor: pointer;">
-        <span>推门出征</span> <span>▶</span>
-      </button>
-    </div>
-
     <!-- 🗂️ 极简紧凑型双维度词库与难度筛选面板 (Compact Filter Box) -->
     <div class="vocab-filter-panel-wrap" id="vocabFilterPanelWrap">
       <!-- 极简微型触发条 (高度紧凑，移动端不占位) -->
