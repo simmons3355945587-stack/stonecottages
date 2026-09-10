@@ -854,6 +854,7 @@
 <script src="expedition-engine.js"></script>
 <script src="expedition-map.js"></script>
 <script src="words-data.js"></script>
+<script src="extra-definitions.js"></script>
 
 
 <script src="vocabulary.js"></script>
