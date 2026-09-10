@@ -132,7 +132,9 @@ async function runWordScopeTests() {
   console.log('================================================================\n');
 }
 
-runWordScopeTests().catch(err => {
+runWordScopeTests().then(() => {
+  process.exit(0);
+}).catch(err => {
   console.error('❌ Test failed:', err);
   process.exit(1);
 });

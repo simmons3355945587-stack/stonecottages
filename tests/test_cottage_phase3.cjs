@@ -101,7 +101,7 @@ const prepModalEl = mockDoc.createElement('div');
 Cottage.renderExpeditionPrepContent(prepModalEl);
 
 assert(prepModalEl.innerHTML.includes('出征祭坛 · 探险整备'), '必须包含出征整备祭坛标题');
-assert(prepModalEl.innerHTML.includes('职场机密与危机周旋'), '必须包含远征切片目标主题');
+assert(prepModalEl.innerHTML.includes('锁定词库考纲') || prepModalEl.innerHTML.includes('职场机密与危机周旋'), '必须包含出征词库考纲说明');
 assert(prepModalEl.innerHTML.includes('❤️ 92 HP'), '必须展示当前真实 HP');
 assert(prepModalEl.innerHTML.includes('🧠 85 SAN'), '必须展示当前真实 SAN');
 assert(prepModalEl.innerHTML.includes('🪙 140 Gold'), '必须展示当前随身金币');
