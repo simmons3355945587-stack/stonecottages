@@ -11,14 +11,17 @@ function openAuthModal() {
     loggedSection.style.display = 'block';
     formSection.style.display = 'none';
     document.getElementById('authUserName').textContent = authUser.username;
-    if (authUser.is_admin) {
-      document.getElementById('authRoleBadge').textContent = '👑 首席管理员 (Admin · 拥有全部额度与后台特权)';
+    const isMasterAdmin = Boolean(authUser.is_admin || authUser.role === 'admin' || ['林允安', '允安'].includes(authUser.username));
+    const showAdminParam = new URLSearchParams(window.location.search).get('admin') === '1';
+
+    if (isMasterAdmin) {
+      document.getElementById('authRoleBadge').textContent = showAdminParam ? '🛠️ 系统管理员 (Admin Console Active)' : '✨ 探险学员 (Cloud Sync Active)';
     } else if (authUser.can_use_quota) {
-      document.getElementById('authRoleBadge').textContent = '⚡ 探险生还者 (User · 站长已授权使用 AI 额度)';
+      document.getElementById('authRoleBadge').textContent = '⚡ 探险学员 (已开通专属 AI 云端服务)';
     } else {
-      document.getElementById('authRoleBadge').textContent = '👤 探险生还者 (User · 离线矩阵保底)';
+      document.getElementById('authRoleBadge').textContent = '👤 探险学员 (本地与云端档案同步已开启)';
     }
-    document.getElementById('adminLaunchBtn').style.display = authUser.is_admin ? 'block' : 'none';
+    document.getElementById('adminLaunchBtn').style.display = (isMasterAdmin && showAdminParam) ? 'block' : 'none';
   } else {
     loggedSection.style.display = 'none';
     formSection.style.display = 'block';
@@ -37,14 +40,12 @@ function switchAuthTab(mode) {
   authTabMode = mode;
   document.getElementById('tabAuthLogin').classList.toggle('active', mode === 'login');
   document.getElementById('tabAuthReg').classList.toggle('active', mode === 'reg');
-  document.getElementById('grpRegApiKey').style.display = mode === 'reg' ? 'block' : 'none';
   document.getElementById('authSubmitBtn').textContent = mode === 'login' ? '🔑 立即登录' : '✨ 注册新账号';
 }
 
 async function handleAuthSubmit() {
   const u = document.getElementById('authInputUser').value.trim();
   const p = document.getElementById('authInputPass').value.trim();
-  const k = document.getElementById('authInputApiKey').value.trim();
 
   if (!u || !p) {
     showToast("⚠️ 请输入用户名和密码");
@@ -57,7 +58,7 @@ async function handleAuthSubmit() {
 
   try {
     const endpoint = authTabMode === 'login' ? '/api/login' : '/api/register';
-    const payload = authTabMode === 'login' ? { username: u, password: p } : { username: u, password: p, custom_api_key: k };
+    const payload = { username: u, password: p };
     
     const resp = await fetch(API_BASE + endpoint, {
       method: 'POST',
@@ -102,28 +103,38 @@ function updateAuthUI() {
   authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
   authUser = loadFromStorage(STORAGE_KEYS.AUTH, null);
 
-  // 顶部站长控制台常驻展示，点击即触发智能引导或直达面板
+  // 顶部管理后台入口默认从前台彻底隐藏，避免普通访客与学员感知
   if (adminBadgeBtn) {
     adminBadgeBtn.style.display = 'none';
+  }
+  if (adminLaunchBtn) {
+    adminLaunchBtn.style.display = 'none';
   }
 
   if (authToken && authUser) {
     btnName.textContent = authUser.username;
     const isMasterAdmin = Boolean(authUser.is_admin || authUser.role === 'admin' || ['林允安', '允安'].includes(authUser.username));
-    if (adminBadgeBtn) {
-      adminBadgeBtn.style.display = isMasterAdmin ? 'inline-flex' : 'none';
-      adminBadgeBtn.textContent = isMasterAdmin ? '👑 控制台 (Admin)' : '👑 控制台';
+    const showAdminParam = new URLSearchParams(window.location.search).get('admin') === '1';
+
+    // 仅在显式带有 ?admin=1 参数且为管理员时才展示入口
+    if (adminBadgeBtn && isMasterAdmin && showAdminParam) {
+      adminBadgeBtn.style.display = 'inline-flex';
+      adminBadgeBtn.textContent = '🛠️ 管理后台';
     }
-    if (adminLaunchBtn) {
-      adminLaunchBtn.style.display = isMasterAdmin ? 'block' : 'none';
+    if (adminLaunchBtn && isMasterAdmin && showAdminParam) {
+      adminLaunchBtn.style.display = 'block';
     }
   } else {
     btnName.textContent = '登录';
-    if (adminBadgeBtn) {
-      adminBadgeBtn.textContent = '👑 控制台';
-    }
-    if (adminLaunchBtn) {
-      adminLaunchBtn.style.display = 'none';
-    }
   }
 }
+
+// 快捷键支持：按下 Ctrl+Alt+A 即可无缝调出管理后台（仅限管理员认证后生效）
+window.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.altKey && (e.key === 'a' || e.key === 'A')) {
+    e.preventDefault();
+    if (typeof openAdminConsole === 'function') {
+      openAdminConsole();
+    }
+  }
+});

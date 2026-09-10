@@ -40,16 +40,12 @@ function switchAuthTab(mode) {
   authTabMode = mode;
   document.getElementById('tabAuthLogin').classList.toggle('active', mode === 'login');
   document.getElementById('tabAuthReg').classList.toggle('active', mode === 'reg');
-  const regKeyGroup = document.getElementById('grpRegApiKey');
-  if (regKeyGroup) regKeyGroup.style.display = mode === 'reg' ? 'block' : 'none';
   document.getElementById('authSubmitBtn').textContent = mode === 'login' ? '🔑 立即登录' : '✨ 注册新账号';
 }
 
 async function handleAuthSubmit() {
   const u = document.getElementById('authInputUser').value.trim();
   const p = document.getElementById('authInputPass').value.trim();
-  const kInput = document.getElementById('authInputApiKey');
-  const k = kInput ? kInput.value.trim() : '';
 
   if (!u || !p) {
     showToast("⚠️ 请输入用户名和密码");
@@ -62,7 +58,7 @@ async function handleAuthSubmit() {
 
   try {
     const endpoint = authTabMode === 'login' ? '/api/login' : '/api/register';
-    const payload = authTabMode === 'login' ? { username: u, password: p } : { username: u, password: p, custom_api_key: k };
+    const payload = { username: u, password: p };
     
     const resp = await fetch(API_BASE + endpoint, {
       method: 'POST',

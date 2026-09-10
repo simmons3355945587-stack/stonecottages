@@ -7,8 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#f5efe6">
-  <title>CET-4 四级听力挖空复读机 · 折纸多模式特训工作台</title>
-  <meta name="description" content="CET-4 四级听力真题精听复读、连读弱读音爆、整句听写打字机、声呐迷雾与小石屋通缉榜联动系统">
+  <title>Our Stone · CET-4 英语四级听力真题复读机 | 听力实验室</title>
+  <meta name="description" content="Our Stone (小石屋) · 听力实验室 - 英语四级真题无死角精听复读、连读弱读音爆、整句听写打字机与词汇生存战联动系统">
+  <meta name="keywords" content="CET-4,英语四级听力,四级听力复读机,四级真题精听,四级词汇,Our Stone,听力实验室">
   <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="/ui-enhancements.css">
 </head>
@@ -20,8 +21,8 @@
       <div class="brand-section">
         <div class="brand-logo">🎧</div>
         <div class="brand-title">
-          <h1>CET-4 LISTENING</h1>
-          <p>四级听力多模式复读机 · 折纸精听系统</p>
+          <h1>Our Stone · Listening Lab</h1>
+          <p>四级听力真题精听复读机 · 折纸精听实验室</p>
         </div>
       </div>
 
@@ -37,9 +38,9 @@
         <button class="paper-icon-btn" id="themeToggleBtn" title="切换昼夜模式">☀️</button>
 
         <!-- 返回小石屋主站 -->
-        <a href="/" class="btn-nav-cottage" title="返回小石屋单词生存战">
+        <a href="/" class="btn-nav-cottage" title="返回 Our Stone 词汇生存战">
           <span>🕊️</span>
-          <span>小石屋词汇</span>
+          <span>Our Stone 词汇</span>
         </a>
       </div>
     </div>

@@ -9,6 +9,7 @@
   <meta name="theme-color" content="#1a202c">
   <title>Our Stone Cottages · 词汇生存战 | CET-4 / CET-6 英语四六级生词与精听特训</title>
   <meta name="description" content="Our Stone Cottages (小石屋) - 在折纸与词汇的废墟中生存。融合RPG冒险、CET-4/6英语四六级生词本、真题精听复读与塔罗特训的高效学习空间。">
+  <meta name="keywords" content="CET-4,CET-6,英语四级,英语六级,四级听力,四级词汇,考研英语,词汇生存,Our Stone,小石屋">
   <meta property="og:title" content="Our Stone Cottages · 词汇生存战 | CET-4 / CET-6 英语四六级生词与精听特训">
   <meta property="og:description" content="在折纸与词汇的废墟中生存，通过RPG冒险与四级精听复读高效掌握英语核心考点">
   <meta property="og:type" content="website">
@@ -180,7 +181,23 @@
           <button class="entrance" onclick="openExpeditionPrepModal()" aria-label="踏上荒原远征" style="border-color: var(--brand-accent); background: rgba(245, 158, 11, 0.25);">
             <span>⚔️ 踏上荒原远征 <span class="arrow">▶</span></span>
           </button>
-        </div>
+      </div>
+    </div>
+
+    <!-- 🎯 首页聚焦核心行动点 (Hero Quick-Start CTA - 破除新用户迷茫) -->
+    <div class="cottage-hero-cta-banner">
+      <div class="hero-cta-info">
+        <div class="hero-cta-pill">🎯 今日特训 · QUICK START</div>
+        <h3 class="hero-cta-title">词汇生存战 · 认知突围</h3>
+        <p class="hero-cta-sub">直面 4 阶形近/近义词谱陷阱，在危机抉择中掌握核心考纲词汇</p>
+      </div>
+      <div class="hero-cta-actions">
+        <button class="btn btn-primary hero-btn-main" onclick="switchNavView('survival')">
+          <span>🎮 立即出征生存战</span>
+        </button>
+        <a href="/cet4/" class="btn btn-secondary hero-btn-sub" title="四级听力真题精听复读机">
+          <span>🎧 四级精听实验室</span>
+        </a>
       </div>
     </div>
   </div>
@@ -523,12 +540,26 @@
         </div>
       </div>
 
-      <!-- 战报与图鉴统计 -->
-      <div class="origami-box" style="text-align: left; margin-top: 20px;">
-        <h3 style="font-family: var(--font-serif); font-size: 16px; margin-bottom: 14px; color: var(--text-primary);">
-          📜 幸存者誓约战报与图鉴
-        </h3>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" id="achievementGrid"></div>
+      <!-- 📊 学情全景与认知仪表盘 (Learning Analytics Dashboard) -->
+      <div class="origami-box learning-dashboard-box" style="text-align: left; margin-top: 20px;">
+        <div class="dashboard-header-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1.5px solid var(--paper-border); padding-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h3 style="font-family: var(--font-serif); font-size: 17px; margin: 0; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
+              📊 学情全景与认知仪表盘 <span style="font-size: 11px; background: rgba(99, 102, 241, 0.15); color: var(--brand-primary); padding: 2px 8px; border-radius: 12px; font-family: var(--font-sans); font-weight: 700;">Learning Analytics</span>
+            </h3>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">基于 4 阶形近词谱、错题生还记忆与多维认知抗压轨迹</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn btn-secondary btn-sm" onclick="switchNavView('words'); switchSubTab('marked');" style="font-size: 12px; padding: 4px 10px;">
+              📝 错题生词本
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="openCodexModal()" style="font-size: 12px; padding: 4px 10px;">
+              🎒 塔罗背包
+            </button>
+          </div>
+        </div>
+        <div id="learningDashboardBody"></div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px;" id="achievementGrid"></div>
       </div>
     </div>
   </div>
@@ -547,15 +578,15 @@
   </button>
   <button class="nav-item" onclick="switchNavView('survival')" id="navSurvival">
     <span class="nav-icon">🎮</span>
-    <span>文字生存</span>
+    <span>词汇生存</span>
   </button>
   <button class="nav-item" onclick="switchNavView('match')" id="navMatch">
     <span class="nav-icon">⚡</span>
     <span>消消乐</span>
   </button>
   <button class="nav-item" onclick="switchNavView('profile')" id="navProfile">
-    <span class="nav-icon">🃏</span>
-    <span>塔罗抽卡</span>
+    <span class="nav-icon">📊</span>
+    <span>手记学情</span>
   </button>
   <a href="/cet4/" class="nav-item" id="navCet4" style="text-decoration: none; color: inherit;" title="四级精听复读机">
     <span class="nav-icon">🎧</span>
