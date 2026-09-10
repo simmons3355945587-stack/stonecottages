@@ -7,10 +7,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#1a202c">
-  <title>Our Stone Cottages - 折纸词汇生存战</title>
-  <meta name="description" content="Our Stone Cottages (小石屋) - 在折纸与词汇的废墟中生存。融合RPG冒险、塔罗卡牌与精听特训的高效英语学习空间。">
-  <meta property="og:title" content="Our Stone Cottages - 折纸词汇生存战">
-  <meta property="og:description" content="在折纸与词汇的废墟中生存，通过RPG冒险与精听特训高效掌握核心英语词汇">
+  <title>Our Stone Cottages · 词汇生存战 | CET-4 / CET-6 英语四六级生词与精听特训</title>
+  <meta name="description" content="Our Stone Cottages (小石屋) - 在折纸与词汇的废墟中生存。融合RPG冒险、CET-4/6英语四六级生词本、真题精听复读与塔罗特训的高效学习空间。">
+  <meta property="og:title" content="Our Stone Cottages · 词汇生存战 | CET-4 / CET-6 英语四六级生词与精听特训">
+  <meta property="og:description" content="在折纸与词汇的废墟中生存，通过RPG冒险与四级精听复读高效掌握英语核心考点">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="/ui-enhancements.css">
@@ -732,12 +732,6 @@
       <input type="password" class="form-input" id="authInputPass" placeholder="至少4位密码" autocomplete="current-password">
     </div>
 
-    <div class="form-group" id="grpRegApiKey" style="display: none;">
-      <label class="form-label">自定义 API 密钥 (选填 · 高级通道)</label>
-      <input type="password" class="form-input" id="authInputApiKey" placeholder="选填 (留空默认使用高速离线通道)">
-      <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">用于驱动模型生成个性化剧情，密钥仅加密保存在本地浏览器。</div>
-    </div>
-
     <div class="btn-row">
       <button class="btn btn-primary" id="authSubmitBtn" onclick="handleAuthSubmit()">🔑 立即登录</button>
       <button class="btn btn-secondary" onclick="closeAuthModal()">取消</button>
@@ -852,6 +846,7 @@
 <script src="performance-runtime.js"></script>
 <script src="gray-health-engine.js"></script>
 <script src="expedition-engine.js"></script>
+<script src="lexical-graph.js"></script>
 <script src="expedition-map.js"></script>
 <script src="words-data.js"></script>
 <script src="extra-definitions.js"></script>

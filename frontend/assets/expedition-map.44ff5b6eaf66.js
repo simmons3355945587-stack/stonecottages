@@ -237,9 +237,6 @@
       const candidates = [];
       const session = (typeof ExpeditionEngine !== 'undefined') ? ExpeditionEngine.getSession() : null;
       const config = (session && session.config) ? session.config : {};
-      const currentSan = (session && typeof session.san === 'number')
-        ? session.san
-        : (typeof playerSan === 'number' ? playerSan : 100);
       const wordSource = config.wordSource || 'core';
       const markedOnly = !!config.markedOnly;
 
