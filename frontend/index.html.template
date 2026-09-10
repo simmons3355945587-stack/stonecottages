@@ -222,6 +222,11 @@
           <span class="stat-label">战利金币</span>
           <strong id="expeditionGoldVal" style="color: var(--brand-accent);">+0 G</strong>
         </div>
+        <div class="hud-stat-pill" id="expeditionScopePill" title="当前远征锁定的单词考纲范围">
+          <span class="stat-icon">🎯</span>
+          <span class="stat-label">锁定考纲</span>
+          <strong id="expeditionScopeVal" style="color: var(--brand-primary); font-size: 11px;">核心背诵</strong>
+        </div>
         <div class="hud-stat-pill">
           <span class="stat-icon">🗺️</span>
           <span class="stat-label">远征进度</span>
