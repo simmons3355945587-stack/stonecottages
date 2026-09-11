@@ -666,6 +666,18 @@ body[data-active-view="cottage"] .container {
     width: 88dvh !important;
     overflow-y: auto !important;
   }
+
+  body[data-active-view="cottage"]:not(.cottage-portrait-mode) .modal-box.stone-onboarding-modal {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 94vw !important;
+    width: min(640px, 94vw) !important;
+    max-height: 90dvh !important;
+    overflow-y: auto !important;
+    z-index: 250 !important;
+  }
 }
 
 /* 手机物理横屏状态适配 (用户横握手机) */
@@ -1367,7 +1379,7 @@ body[data-active-view="cottage"] .container {
   }
   .hero-cta-actions {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
   .hero-btn-main, .hero-btn-sub {

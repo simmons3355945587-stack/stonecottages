@@ -106,7 +106,19 @@
   document.getElementById('stoneAdvanced')?.addEventListener('click',()=>{dialog.close();openSettingsModal();});
   let opener=document.getElementById('settingsBtn');
   if(!opener){opener=document.createElement('button');opener.className='paper-icon-btn';opener.id='stoneSettingsBtn';opener.textContent='⚙';document.querySelector('.header-controls').append(opener);}
-  opener.removeAttribute('onclick');opener.setAttribute('aria-label','阅读与学习设置');opener.title='阅读与学习设置';opener.onclick=()=>{updateLabels();dialog.showModal();};
+  const showStonePreferences = () => {
+    updateLabels();
+    if (typeof appSettings !== 'undefined' && appSettings) {
+      const expPref = document.getElementById('stoneExpeditionAutoReduceMark');
+      if (expPref) expPref.value = String(appSettings.expeditionAutoReduceMark !== false);
+      const langPref = document.getElementById('stoneLangModePref');
+      if (langPref) langPref.value = appSettings.dictLanguageMode || (appSettings.showChinese ? 'zh' : 'en');
+    }
+    dialog.showModal();
+  };
+  opener.removeAttribute('onclick');opener.setAttribute('aria-label','阅读与学习设置');opener.title='阅读与学习设置';opener.onclick=showStonePreferences;
+  window.openStonePreferences = showStonePreferences;
+  window.closeStonePreferences = () => dialog.close();
   window.addEventListener('keydown',e=>{if(e.isComposing||e.ctrlKey||e.metaKey||e.altKey||e.repeat)return;const typing=e.target.closest?.('input,textarea,select,[contenteditable="true"]');if(e.key==='?'&&!typing&&!dialog.open){e.preventDefault();dialog.showModal();}if(listening&&e.code==='Space'&&!typing&&!dialog.open&&!e.target.closest?.('button,a,summary')){e.preventDefault();document.getElementById('mainPlayBtn')?.click();}});
   const keyboardState=()=>{const editing=!!document.activeElement?.matches('input,textarea,[contenteditable="true"]');const compressed=window.visualViewport&&window.innerHeight-window.visualViewport.height>140;document.body.classList.toggle('stone-keyboard-open',!!(editing&&compressed));};
   window.visualViewport?.addEventListener('resize',keyboardState);document.addEventListener('focusin',keyboardState);document.addEventListener('focusout',()=>setTimeout(keyboardState,0));
@@ -175,6 +187,8 @@
 
   function openOnboardingTutorial(forceManual = false) {
     if (typeof soundClick === 'function') soundClick();
+    const prefs = document.getElementById('stonePreferences');
+    if (prefs && prefs.open) prefs.close();
     const modal = document.getElementById('stoneOnboardingModal');
     const overlay = document.getElementById('drawerOverlay');
     if (!modal) return;
@@ -262,9 +276,7 @@
       const seen = (typeof StoneStorage !== 'undefined' && StoneStorage.getItem ? StoneStorage.getItem('stone_tutorial_seen') : null) ||
                    (typeof localStorage !== 'undefined' ? localStorage.getItem('stone_tutorial_seen') : null);
       if (!seen) {
-        setTimeout(() => {
-          openOnboardingTutorial(false);
-        }, 700);
+        openOnboardingTutorial(false);
       }
     } catch (e) {}
   }
@@ -275,4 +287,14 @@
   window.prevOnboardingStep = prevOnboardingStep;
   window.goToOnboardingStep = goToOnboardingStep;
   window.checkAndTriggerOnboarding = checkAndTriggerOnboarding;
+
+  // Auto trigger check for first-time visitors on load
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => setTimeout(checkAndTriggerOnboarding, 500));
+    } else {
+      setTimeout(checkAndTriggerOnboarding, 500);
+    }
+  }
 })();
+
