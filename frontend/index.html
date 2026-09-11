@@ -150,76 +150,50 @@
               <source srcset="/assets/bull-book.webp" type="image/webp">
               <img src="/assets/bull-book.png" alt="小石屋手记" width="1536" height="1024">
             </picture>
-            <div class="object-bubble">
-              <div class="bubble-title">📖 金牛手记</div>
-              <div class="bubble-sub">本地随笔 · 生词温故</div>
-            </div>
+            <span class="object-caption">写手记 <span class="arrow">↗</span></span>
           </button>
 
-          <!-- 2. 金牛战旗 / 占卜残卷 (3D 墙面微缩卷轴) -->
-          <button class="paper-object banner-object" onclick="openCodexModal()" aria-label="查看战术卡牌图鉴">
+          <!-- 2. 壁炉上方悬挂的金牛战旗 (3D 垂坠微动) -->
+          <button class="paper-object banner-object" onclick="switchNavView('profile').then(() => openCodexModal())" aria-label="查看金牛战旗，开启塔罗秘典">
             <picture>
               <source srcset="/assets/bull-banner.webp" type="image/webp">
-              <img src="/assets/bull-banner.png" alt="金牛战旗" width="600" height="900">
+              <img src="/assets/bull-banner.png" alt="金牛战旗" width="1024" height="1536">
             </picture>
-            <div class="object-bubble banner-bubble">
-              <div class="bubble-title">🚩 战旗圣殿</div>
-              <div class="bubble-sub">22张塔罗大阿卡那</div>
-            </div>
+            <span class="object-caption">塔罗秘典 <span class="arrow">↗</span></span>
           </button>
 
-          <!-- 3. 避难所壁炉 (常明之火 · 核心能量) -->
-          <div class="paper-object fireplace-object" aria-label="常明壁炉">
-            <picture>
-              <source srcset="/assets/fireplace-glow.webp" type="image/webp">
-              <img src="/assets/fireplace-glow.png" alt="壁炉火光" width="800" height="800">
-            </picture>
-          </div>
+          <!-- 3. 通顶实木书架交互热点 (安全研习模式 · 0扣血) -->
+          <button class="hotspot shelf-spot" onclick="switchNavView('words')" aria-label="打开书架安全研习词库">
+            <span class="marker">📚</span>
+            <span class="hotspot-caption">书架 · 安全研习 (0扣血)</span>
+          </button>
+
+          <!-- 4. 壁炉炉火热点 -->
+          <button class="hotspot fire-spot" onclick="toggleCottageWarmth()" aria-label="调节壁炉火候">
+            <span class="marker">🔥</span>
+            <span class="hotspot-caption">炉边歇息</span>
+          </button>
+
+          <!-- 5. 炉边茶几复盘热点 -->
+          <button class="hotspot debrief-spot" onclick="openCottageDebriefModal()" aria-label="炉边茶几复盘">
+            <span class="marker">🕊️</span>
+            <span class="hotspot-caption">炉边复盘</span>
+          </button>
+
+          <!-- 6. 推门出征整备祭坛 -->
+          <button class="hotspot expedition-spot" onclick="openExpeditionPrepModal()" aria-label="推门出征祭坛">
+            <span class="marker">⚔️</span>
+            <span class="hotspot-caption">出征祭坛</span>
+          </button>
+
+          <!-- 6. 壁炉柔光光晕 (混合模式 screen) -->
+          <div class="fire-glow" id="cottageFireGlow" aria-hidden="true"></div>
         </div>
 
-        <!-- 场景内原生空间交互热区 (精确定位至石屋核心家具) -->
-        <div class="cottage-spatial-hotspots">
-          <button class="hotspot-trigger hotspot-desk" onclick="switchNavView('words')" aria-label="走近研习书桌">
-            <span class="hotspot-badge">📚</span>
-            <span class="hotspot-label">书架 · 安全研习 (0扣血)</span>
-          </button>
-          <button class="hotspot-trigger hotspot-fireplace" onclick="openCottageJournalModal()" aria-label="围坐常明壁炉">
-            <span class="hotspot-badge">🔥</span>
-            <span class="hotspot-label">炉边歇息</span>
-          </button>
-          <button class="hotspot-trigger hotspot-altar" onclick="openCodexModal()" aria-label="检视战旗祭坛">
-            <span class="hotspot-badge">🕊️</span>
-            <span class="hotspot-label">炉边复盘</span>
-          </button>
-        </div>
-
-        <!-- 场景内直观操作锚点 -->
-        <div class="scene-direct-actions">
-          <button class="action-btn action-door" onclick="openExpeditionPrepModal()">
-            <span class="icon">⚔️</span>
-            <span class="text">推门出征</span>
-          </button>
-          <button class="action-btn action-desk" onclick="switchNavView('words')">
-            <span class="icon">📖</span>
-            <span class="text">安全研习</span>
-          </button>
-          <button class="action-btn action-book" onclick="openCottageJournalModal()">
-            <span class="icon">✍️</span>
-            <span class="text">翻开手记</span>
-          </button>
-        </div>
-
-        <!-- 场景交互提示气泡 (动态根据状态更新) -->
-        <div class="scene-hint-bubble" id="cottageSceneHint">
-          <span class="hint-icon">🕊️</span>
-          <span class="hint-text" id="cottageSceneHintText">常明壁炉安宁如初，可在书架安全背词，或推门踏上荒原远征。</span>
-        </div>
-
-        <!-- 场景快速出征悬浮门 (右下角核心入口) -->
-        <div class="cottage-quick-expedition">
-          <button class="resumed-btn" id="cottageResumeBtn" onclick="resumeActiveExpedition()" style="display: none;">
-            <span class="pulse-ring"></span>
-            <span>⚡ 续战 (第 <strong id="cottageResumeNodeNum">1</strong> 节点)</span>
+        <!-- 室外专属互动图层 (默认隐藏) -->
+        <div id="cottageExteriorLayers" style="display: none; flex-direction: column; gap: 8px;">
+          <button class="entrance" onclick="toggleCottagePerspective(true)" aria-label="推门进入小石屋">
+            <span>推门进入小石屋 <span class="arrow">▶</span></span>
           </button>
           <button class="entrance" onclick="openExpeditionPrepModal()" aria-label="踏上荒原远征" style="border-color: var(--brand-accent); background: rgba(245, 158, 11, 0.25);">
             <span>⚔️ 踏上荒原远征 <span class="arrow">▶</span></span>
@@ -242,12 +216,6 @@
         <a href="/cet4/" class="btn btn-secondary hero-btn-sub" title="四级听力真题精听复读机">
           <span>🎧 四级精听实验室</span>
         </a>
-        <button type="button" class="btn btn-secondary hero-btn-sub" onclick="if(window.openOnboardingTutorial)openOnboardingTutorial(true);" title="5步新手快速上手指南">
-          <span>📖 新手教程指南</span>
-        </button>
-        <button type="button" class="btn btn-secondary hero-btn-sub" onclick="if(window.openStonePreferences)openStonePreferences();else if(window.openSettingsModal)openSettingsModal();" title="阅读、学习与系统偏好设置">
-          <span>⚙️ 偏好设置</span>
-        </button>
       </div>
     </div>
   </div>
