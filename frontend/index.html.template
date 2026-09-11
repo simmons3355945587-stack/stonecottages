@@ -40,6 +40,11 @@
       <!-- ☀️/🌙 昼夜主题切换 -->
       <button class="paper-icon-btn" onclick="toggleTheme()" id="themeBtn" title="切换昼夜模式">🌙</button>
       <button class="paper-icon-btn" onclick="toggleAudioMute()" id="audioBtn" title="音效开关">🔊</button>
+      <!-- ❓ 新手引导教程 -->
+      <button class="paper-icon-btn" onclick="openOnboardingTutorial(true)" id="tutorialBtn" title="小石屋新手引导教程" style="font-size: 13px; font-weight: 700; width: auto; padding: 0 8px; gap: 3px; display: inline-flex; align-items: center;">
+        <span>❓</span>
+        <span style="font-size: 11px;">教程</span>
+      </button>
       <button class="paper-icon-btn" onclick="openSettingsModal()" id="settingsBtn" title="阅读与学习设置" aria-label="阅读与学习设置">⚙️</button>
     </div>
   </div>
@@ -679,6 +684,262 @@
   </div>
 </div>
 
+<!-- 🧭 新手引导教程 (Onboarding Walkthrough) Modal -->
+<div class="modal-box stone-onboarding-modal" id="stoneOnboardingModal" style="max-width: 640px; max-height: 90vh; overflow-y: auto;">
+  <div class="onboarding-modal-header">
+    <div>
+      <div class="onboarding-badge-pill">
+        <span>🧭 新手旅者指南</span>
+        <span class="onboarding-step-indicator" id="onboardingStepIndicator">1 / 5</span>
+      </div>
+      <h3 class="onboarding-title" id="onboardingModalTitle">欢迎来到小石屋 · 避难所世界观</h3>
+    </div>
+    <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeOnboardingTutorial(true)" title="关闭教程">&times;</button>
+  </div>
+
+  <!-- 步骤导航指示器 -->
+  <div class="onboarding-steps-nav" id="onboardingStepsNav">
+    <button class="onboarding-step-dot active" data-step="1" onclick="goToOnboardingStep(1)" title="1. 避难所与状态">
+      <span class="dot-num">1</span>
+      <span class="dot-text">生存状态</span>
+    </button>
+    <button class="onboarding-step-dot" data-step="2" onclick="goToOnboardingStep(2)" title="2. 词库与Mark">
+      <span class="dot-num">2</span>
+      <span class="dot-text">词库与标记</span>
+    </button>
+    <button class="onboarding-step-dot" data-step="3" onclick="goToOnboardingStep(3)" title="3. 推门远征">
+      <span class="dot-num">3</span>
+      <span class="dot-text">推门出征</span>
+    </button>
+    <button class="onboarding-step-dot" data-step="4" onclick="goToOnboardingStep(4)" title="4. 灰血与塔罗">
+      <span class="dot-num">4</span>
+      <span class="dot-text">灰血与塔罗</span>
+    </button>
+    <button class="onboarding-step-dot" data-step="5" onclick="goToOnboardingStep(5)" title="5. 偏好与启程">
+      <span class="dot-num">5</span>
+      <span class="dot-text">偏好与起航</span>
+    </button>
+  </div>
+
+  <!-- 幻灯片内容区域 -->
+  <div class="onboarding-carousel-viewport">
+    <!-- Slide 1: 避难所与四大核心状态 -->
+    <div class="onboarding-slide active" id="onboardingSlide1" data-step="1">
+      <div class="onboarding-hero-banner">
+        <div class="hero-symbol">🕊️</div>
+        <div class="hero-text">
+          <strong>小石屋是一座在折纸与词汇废墟中的避难所。</strong>
+          <p>在这里，每一记单词的背诵都化为一次荒原的生还探险。首先认识顶部的四大生存状态：</p>
+        </div>
+      </div>
+      <div class="onboarding-feature-grid">
+        <div class="onboarding-card">
+          <div class="card-icon">❤️</div>
+          <div class="card-content">
+            <div class="card-title">生命值 HP & 灰血保护</div>
+            <div class="card-desc">远征答错扣除生命，但会自动结痂转化为<strong>灰血</strong>。后续答对考题可直接<strong>自愈恢复真实 HP</strong>，告别一错即亡！</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🧠</div>
+          <div class="card-content">
+            <div class="card-title">理智值 SAN</div>
+            <div class="card-desc">探索未知险境、石塔共鸣与禁忌事件的代价。保持理智可抵御深渊异象，可在营火休整或黑市品茗抚平。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🪙</div>
+          <div class="card-content">
+            <div class="card-title">随身金币 Gold</div>
+            <div class="card-desc">闯关答对考题产出，用于黑市采购补给品（粗硬黑面包、安神茶）或抽取高阶战术塔罗神牌。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">✦</div>
+          <div class="card-content">
+            <div class="card-title">研习等级 LV / XP</div>
+            <div class="card-desc">长期备考的真实印记，经验只增不减。记录你攻克考点、穿行废墟的学者履历。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: 词库与生词标记阶梯 -->
+    <div class="onboarding-slide" id="onboardingSlide2" data-step="2">
+      <div class="onboarding-hero-banner">
+        <div class="hero-symbol">📚</div>
+        <div class="hero-text">
+          <strong>海量四六级真题词库，配备科学阶梯记忆。</strong>
+          <p>无需机械死记，通过阶梯星级标记与动态出库算法，精准消灭记忆盲区：</p>
+        </div>
+      </div>
+      <div class="onboarding-feature-grid">
+        <div class="onboarding-card">
+          <div class="card-icon">⭐</div>
+          <div class="card-content">
+            <div class="card-title">★ 生词标记 (Mark 记忆阶梯)</div>
+            <div class="card-desc">遇到生词随时点击星标，加入生词本。支持 <strong>1~3 星逐级强化</strong>，星数越多代表该词越需重点复习。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🔄</div>
+          <div class="card-content">
+            <div class="card-title">答对自动减 1 闭环出库</div>
+            <div class="card-desc">在远征中答对该考点，系统<strong>默认自动扣减 1 次 Mark</strong>（熟练后归零自然出库），亦可在系统设置中自由关闭。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🔍</div>
+          <div class="card-content">
+            <div class="card-title">词典抽屉与即时微调</div>
+            <div class="card-desc">点击任意单词展开折纸释义抽屉，底部配有 <strong>【-1 减标记】</strong> 与 <strong>【+1 强化】</strong> 专属按钮，随时随地自由调控。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🌐</div>
+          <div class="card-content">
+            <div class="card-title">中英双语 / 纯英沉浸</div>
+            <div class="card-desc">点击顶栏语言按钮或设置，随时在<strong>纯英学术沉浸</strong>与<strong>中文双语辅助</strong>间无缝自由切换。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: 荒原出征与两大学习模式 -->
+    <div class="onboarding-slide" id="onboardingSlide3" data-step="3">
+      <div class="onboarding-hero-banner">
+        <div class="hero-symbol">⚔️</div>
+        <div class="hero-text">
+          <strong>推门出征：两种学习模式与认知间隔复现。</strong>
+          <p>点击石屋大厅【⚔️ 出征】或底部【词汇生存】，开启 Roguelike 荒原探索：</p>
+        </div>
+      </div>
+      <div class="onboarding-feature-grid">
+        <div class="onboarding-card highlight">
+          <div class="card-icon">🎯</div>
+          <div class="card-content">
+            <div class="card-title">重点突击模式 (高分推荐)</div>
+            <div class="card-desc">推门出征时勾选，引擎将<strong>严格仅从你的 Mark 生词中抽选考题</strong>，集中火力攻克死角，快速给生词消星！</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🌲</div>
+          <div class="card-content">
+            <div class="card-title">全量探索模式</div>
+            <div class="card-desc">在所选词库的全量真题中随机探索，演进遭遇各阶段词汇，适合全面摸底与日常泛读挑战。</div>
+          </div>
+        </div>
+        <div class="onboarding-card highlight">
+          <div class="card-icon">🔁</div>
+          <div class="card-content">
+            <div class="card-title">认知心理学错词复现 (Review Queue)</div>
+            <div class="card-desc">考题失误后绝不无序乱刷！错词将进入认知队列，严格在<strong>间隔 3~7 步后精准安排「阶段研习」</strong>，彻底战胜遗忘曲线！</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🏕️</div>
+          <div class="card-content">
+            <div class="card-title">丰富节点事件与黑市商人</div>
+            <div class="card-desc">沿途可探索破败石塔、荒原营火深度调息（回复 SAN 抚慰灰血），以及在流浪黑市采购救急干粮与塔罗残卷。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: 灰血自愈与塔罗战术神牌 -->
+    <div class="onboarding-slide" id="onboardingSlide4" data-step="4">
+      <div class="onboarding-hero-banner">
+        <div class="hero-symbol">🃏</div>
+        <div class="hero-text">
+          <strong>博弈自愈与 22 张大阿卡那战术神牌。</strong>
+          <p>在石屋点击【金牛战旗】或底部【手记学情】，构筑专属于你的出征战斗手牌：</p>
+        </div>
+      </div>
+      <div class="onboarding-feature-grid">
+        <div class="onboarding-card">
+          <div class="card-icon">🌟</div>
+          <div class="card-content">
+            <div class="card-title">The World · 世界</div>
+            <div class="card-desc">达成 <strong>3 连击自动触发</strong>！万物和谐共鸣，瞬间抚平自愈当前全部灰血结痂并回复大量生命！</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🕯️</div>
+          <div class="card-content">
+            <div class="card-title">The Hermit · 隐士</div>
+            <div class="card-desc">遇到棘手难词时消耗战术牌，获得专属例句语境线索与词根提示，且<strong>保底金币绝不扣除</strong>！</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🛡️</div>
+          <div class="card-content">
+            <div class="card-title">The Fool · 愚者</div>
+            <div class="card-desc">随性无畏的护佑，在受到致命伤害即将阵亡的危急关头，<strong>免除一次致命创伤</strong>，绝处逢生！</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🪄</div>
+          <div class="card-content">
+            <div class="card-title">The Magician · 魔术师</div>
+            <div class="card-desc">奥术洞察，出征作答时使用可<strong>瞬间排除 2 个致命干扰选项</strong>，50/50 轻松决断正解！</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: 偏好设置与启航 -->
+    <div class="onboarding-slide" id="onboardingSlide5" data-step="5">
+      <div class="onboarding-hero-banner">
+        <div class="hero-symbol">⚙️</div>
+        <div class="hero-text">
+          <strong>个性偏好已就绪，随时开启你的英语生存之旅！</strong>
+          <p>小石屋支持高度自由的配置与离线体验，随时温习与回顾：</p>
+        </div>
+      </div>
+      <div class="onboarding-feature-grid">
+        <div class="onboarding-card">
+          <div class="card-icon">⚙️</div>
+          <div class="card-content">
+            <div class="card-title">系统设置自由调配</div>
+            <div class="card-desc">右上角 ⚙️ 可自由调整「答对自动减 1 Mark」策略、词典中英模式、音效开关与自定义 AI 通道。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">🎧</div>
+          <div class="card-content">
+            <div class="card-title">四级精听复读机直达</div>
+            <div class="card-desc">点击顶栏 <strong>🎧【四级精听】</strong>，进入历年真题逐句挖空拼写、声呐迷雾辨音与废墟随身听电台。</div>
+          </div>
+        </div>
+        <div class="onboarding-card">
+          <div class="card-icon">❓</div>
+          <div class="card-content">
+            <div class="card-title">随时点击顶栏【❓ 教程】重温</div>
+            <div class="card-desc">若日后遗忘任何规则，随时点击顶栏的【❓ 教程】按钮或石屋手记，即可随时翻开本指南！</div>
+          </div>
+        </div>
+        <div class="onboarding-card highlight">
+          <div class="card-icon">🛡️</div>
+          <div class="card-content">
+            <div class="card-title">本地纯净与云端同步</div>
+            <div class="card-desc">数据默认保存在本地，亦可点击顶栏 👤 登录实现跨设备云端存档同步，备考记录永不丢失。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部操作按钮栏 -->
+  <div class="onboarding-modal-footer">
+    <button type="button" class="btn btn-secondary btn-sm" onclick="closeOnboardingTutorial(true)">跳过教程</button>
+    <div style="display: flex; gap: 8px;">
+      <button type="button" class="btn btn-secondary" id="onboardingBtnPrev" onclick="prevOnboardingStep()" style="display: none;">◀ 上一步</button>
+      <button type="button" class="btn btn-primary" id="onboardingBtnNext" onclick="nextOnboardingStep()">下一步 ▶</button>
+      <button type="button" class="btn btn-primary" id="onboardingBtnFinish" onclick="closeOnboardingTutorial(true)" style="display: none; background: linear-gradient(135deg, #10b981, #059669);">🌟 启程！开启小石屋之旅</button>
+    </div>
+  </div>
+</div>
+
 <!-- 🕊️ 关于小石屋 Modal -->
 <div class="modal-box" id="cottageAboutModal" style="max-width: 580px; max-height: 85vh; overflow-y: auto;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 2px solid var(--paper-border); padding-bottom: 12px;">
@@ -696,7 +957,8 @@
       <div>✦ <strong>推门出征</strong>：基于 Rasch 认知测量学与风险调整奖励算法的 Roguelike 生存战。</div>
       <div>✦ <strong>四级精听</strong>：真题逐句挖空特训与废墟电台。</div>
     </div>
-    <div style="text-align: right; margin-top: 18px;">
+    <div style="text-align: right; margin-top: 18px; display: flex; justify-content: flex-end; gap: 8px;">
+      <button class="btn btn-secondary" onclick="closeCottageAboutModal(); openOnboardingTutorial(true);">📖 新手教程</button>
       <button class="btn btn-primary" onclick="closeCottageAboutModal()">回到石屋</button>
     </div>
   </div>
@@ -805,6 +1067,15 @@
       <option value="zh">🇨🇳 中文双语增强（词库常驻简明中文，词典优先中文，生存站结算显中文译文）</option>
     </select>
     <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">开启后，词库列表、释义抽屉及生存站战役结算卷轴均自动呈现贴心中文辅助。</div>
+  </div>
+
+  <div class="form-group" style="margin-bottom: 16px;">
+    <label class="form-label">⚔️ 远征闯关生词联动 (Expedition Mark Decrement)</label>
+    <select class="form-select" id="cfgExpeditionAutoReduceMark">
+      <option value="true" selected>★ 答对自动扣减 1 次 Mark（默认 · 熟练掌握后生词递减出库）</option>
+      <option value="false">🔒 答对不减 Mark（生词标记保持不变，需在词典或生词本中手动调整）</option>
+    </select>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">控制在远征或剧情闯关中回答正确时，是否自动扣减生词本上的 Mark 标记计数。</div>
   </div>
 
   <!-- 🛠️ 折叠收纳的高级网络与AI通道配置 -->
