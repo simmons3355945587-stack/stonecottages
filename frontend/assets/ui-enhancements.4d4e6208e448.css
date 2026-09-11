@@ -582,6 +582,13 @@ body[data-active-view="cottage"] .container {
   .cottage-float-pill .pill-text {
     display: none;
   }
+  /* 手机端首页顶部悬浮栏极简：只保留眼睛 (👁️)、设置 (⚙️)、问号 (❓) */
+  .cottage-floating-actions #btnCottagePerspective,
+  .cottage-floating-actions #btnCottageWarmth,
+  .cottage-floating-actions #btnCottageOrientation,
+  .cottage-floating-actions #btnCottageAbout {
+    display: none !important;
+  }
   .cottage-loc-pill {
     width: auto;
     min-width: 0;

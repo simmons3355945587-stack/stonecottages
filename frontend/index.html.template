@@ -101,6 +101,21 @@
           </button>
         </div>
         <div class="cottage-floating-actions">
+          <!-- 核心三大常驻按钮：眼睛、设置、问号 -->
+          <button class="cottage-float-pill" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索互动标记 (眼睛)">
+            <span class="pill-icon" id="cottageHintsIcon">👁️</span>
+            <span class="pill-text" id="cottageHintsText">提示</span>
+          </button>
+          <button class="cottage-float-pill" id="btnCottageSettings" onclick="if(window.openStonePreferences)openStonePreferences();else if(window.openSettingsModal)openSettingsModal();" title="偏好与系统设置 (设置)">
+            <span class="pill-icon">⚙️</span>
+            <span class="pill-text">设置</span>
+          </button>
+          <button class="cottage-float-pill" id="btnCottageTutorial" onclick="if(window.openOnboardingTutorial)openOnboardingTutorial(true);" title="新手入门指南教程 (问号)">
+            <span class="pill-icon">❓</span>
+            <span class="pill-text">教程</span>
+          </button>
+
+          <!-- 辅助微控按钮（手机端隐藏以保持极简） -->
           <button class="cottage-float-pill" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点">
             <span class="pill-icon" id="cottagePerspectiveIcon">🌲</span>
             <span class="pill-text" id="cottagePerspectiveText">去屋外</span>
@@ -109,23 +124,11 @@
             <span class="pill-icon">🔥</span>
             <span class="pill-text" id="cottageWarmthText">暖光</span>
           </button>
-          <button class="cottage-float-pill" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索互动标记">
-            <span class="pill-icon" id="cottageHintsIcon">👁️</span>
-            <span class="pill-text" id="cottageHintsText">提示</span>
-          </button>
           <button class="cottage-float-pill" id="btnCottageOrientation" onclick="toggleCottageOrientation()" title="切换横屏/竖屏模式">
             <span class="pill-icon" id="cottageOrientationIcon">🔄</span>
             <span class="pill-text" id="cottageOrientationText">横屏</span>
           </button>
-          <button class="cottage-float-pill" onclick="if(window.openStonePreferences)openStonePreferences();else if(window.openSettingsModal)openSettingsModal();" title="偏好与系统设置">
-            <span class="pill-icon">⚙️</span>
-            <span class="pill-text">设置</span>
-          </button>
-          <button class="cottage-float-pill" onclick="if(window.openOnboardingTutorial)openOnboardingTutorial(true);" title="新手入门指南教程">
-            <span class="pill-icon">❓</span>
-            <span class="pill-text">教程</span>
-          </button>
-          <button class="cottage-float-pill" onclick="openCottageAboutModal()" title="关于小石屋避难所">
+          <button class="cottage-float-pill" id="btnCottageAbout" onclick="openCottageAboutModal()" title="关于小石屋避难所">
             <span class="pill-icon">🕊️</span>
           </button>
         </div>
