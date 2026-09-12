@@ -313,7 +313,7 @@
           <span class="filter-active-summary" id="filterActiveSummary">📖 核心背诵 · 全部</span>
         </div>
         <div class="filter-header-right">
-          <span class="filter-count-chip" id="filterResultCountChip">480 词</span>
+          <span class="filter-count-chip" id="filterResultCountChip">3837 词</span>
           <span class="filter-chevron" id="filterChevron">▼</span>
         </div>
       </div>
@@ -326,7 +326,7 @@
           </div>
           <div class="dimension-pills" id="sourcePillGroup">
             <button class="source-pill active" id="srcBtn_core" onclick="setWordSourceFilter('core')">
-              📖 核心背诵 <span class="badge-pill-count" id="badgeSrc_core">480</span>
+              📖 核心背诵 <span class="badge-pill-count" id="badgeSrc_core">3837</span>
             </button>
             <button class="source-pill" id="srcBtn_novel_ihopethisfindsyouwell" onclick="setWordSourceFilter('novel_ihopethisfindsyouwell')">
               📚 职场原著 <span class="badge-pill-count" id="badgeSrc_novel_ihopethisfindsyouwell">49</span>
@@ -335,7 +335,7 @@
               💼 外贸函电 <span class="badge-pill-count" id="badgeSrc_trade_business">201</span>
             </button>
             <button class="source-pill" id="srcBtn_all" onclick="setWordSourceFilter('all')">
-              🌐 全部总库 <span class="badge-pill-count" id="badgeSrc_all">704</span>
+              🌐 全部总库 <span class="badge-pill-count" id="badgeSrc_all">4087</span>
             </button>
           </div>
         </div>

@@ -70,7 +70,7 @@
   "chapters/7.json": "/assets/chapters-7.4791be678c47.json",
   "chapters/8.json": "/assets/chapters-8.08bf4c2268be.json",
   "chapters/9.json": "/assets/chapters-9.ed183a885450.json",
-  "cottage.js": "/assets/cottage.efd2260f05e9.js",
+  "cottage.js": "/assets/cottage.55dc687bfbca.js",
   "dictionary.js": "/assets/dictionary.dd8dedb0a605.js",
   "expedition-engine.js": "/assets/expedition-engine.a11d31a746e9.js",
   "expedition-map.js": "/assets/expedition-map.adcad9cb3ec1.js",
@@ -87,9 +87,9 @@
   "style.css": "/assets/style.4689fc3bbe0e.css",
   "survival.js": "/assets/survival.24eb0f9c52ed.js",
   "sync.js": "/assets/sync.f6b47636cd2b.js",
-  "tarot.js": "/assets/tarot.96ed0e9d69f9.js",
+  "tarot.js": "/assets/tarot.7abd5f26bd25.js",
   "ui-enhancements.css": "/assets/ui-enhancements.28ef4c03d648.css",
-  "ui-enhancements.js": "/assets/ui-enhancements.fa47854af243.js",
+  "ui-enhancements.js": "/assets/ui-enhancements.e7146f327a25.js",
   "vocabulary.js": "/assets/vocabulary.7ce601568874.js",
   "words-data.js": "/assets/words-data.2e65f6b6ce39.js"
 }
