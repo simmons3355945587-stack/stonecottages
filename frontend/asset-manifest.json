@@ -76,7 +76,7 @@
   "expedition-map.js": "/assets/expedition-map.adcad9cb3ec1.js",
   "extra-definitions.js": "/assets/extra-definitions.73a244a00291.js",
   "gray-health-engine.js": "/assets/gray-health-engine.3e7ba03ac0f1.js",
-  "lexical-graph.js": "/assets/lexical-graph.4d417cb02710.js",
+  "lexical-graph.js": "/assets/lexical-graph.346b59a29c38.js",
   "match.js": "/assets/match.a1ecfe5cebc1.js",
   "novel-index.json": "/assets/novel-index.d065c7a427d0.json",
   "performance-runtime.js": "/assets/performance-runtime.259d552f3999.js",
@@ -91,5 +91,5 @@
   "ui-enhancements.css": "/assets/ui-enhancements.3634f7d4ff05.css",
   "ui-enhancements.js": "/assets/ui-enhancements.fa47854af243.js",
   "vocabulary.js": "/assets/vocabulary.7ce601568874.js",
-  "words-data.js": "/assets/words-data.147598ef670b.js"
+  "words-data.js": "/assets/words-data.2e65f6b6ce39.js"
 }

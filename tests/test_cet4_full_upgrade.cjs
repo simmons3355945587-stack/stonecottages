@@ -49,15 +49,22 @@ console.log('================================================================\n'
 // 1. 核心词库总量与顺位
 console.log('👉 [Case 1] 校验核心词库总量与全书顺位...');
 assert.strictEqual(Array.isArray(CORE_STUDY_WORDS), true);
-assert.strictEqual(CORE_STUDY_WORDS.length, 3878, `Core words count should be 3878, got ${CORE_STUDY_WORDS.length}`);
+assert.strictEqual(CORE_STUDY_WORDS.length, 3837, `Core words count should be 3837, got ${CORE_STUDY_WORDS.length}`);
 assert.strictEqual(CORE_STUDY_WORDS[0], 'universe', `First word must be universe, got ${CORE_STUDY_WORDS[0]}`);
-console.log(`   ✔ 核心词库规模达标: ${CORE_STUDY_WORDS.length} 词，首词为【${CORE_STUDY_WORDS[0]}】`);
+
+// 确保已彻底剔除词根、代词及例句渗漏标记
+const FORBIDDEN_TOKENS = ['fr', 'ur', 'ge', 'mi', 'cap', 'cord', 'mate', 'para', 'trans', 'pre', 'fac', 'com', 'un', 'ise', 'os', 'sent', 'ate', 'cur', 'you', 'he', 'she', 'is', 'would', 'they', 'days', 'we', 'more', 'when', 'do', 'dollar', 'minute', 'pound', 'ounce', 'reader', 'year', 'woman', 'parent', 'million', 'think', 'last', 'air', 'vigo'];
+for (const bad of FORBIDDEN_TOKENS) {
+  assert.ok(!CORE_STUDY_WORDS.includes(bad), `CORE_STUDY_WORDS must NOT contain leaked token '${bad}'`);
+}
+assert.ok(CORE_STUDY_WORDS.includes('vigor'), "CORE_STUDY_WORDS must include corrected 'vigor'");
+console.log(`   ✔ 核心词库规模达标: ${CORE_STUDY_WORDS.length} 词，且 100% 杜绝词根/代词/例句渗漏标记`);
 
 // 2. 单元课时与词群元数据校验
 console.log('\n👉 [Case 2] 校验全书单元标、课时与词群元数据 (WORD_UNIT_META)...');
 assert.ok(typeof WORD_UNIT_META === 'object' && WORD_UNIT_META !== null);
 const metaKeys = Object.keys(WORD_UNIT_META);
-assert.ok(metaKeys.length >= 3878, `Metadata must cover all core words, got ${metaKeys.length}`);
+assert.ok(metaKeys.length >= 3837, `Metadata must cover all core words, got ${metaKeys.length}`);
 
 // Check specific words
 const uMeta = WORD_UNIT_META['universe'];
