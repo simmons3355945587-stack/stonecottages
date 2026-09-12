@@ -95,6 +95,10 @@
             <span class="pill-icon">📖</span>
             <span class="pill-text">词库</span>
           </button>
+          <a href="/cet4/" class="cottage-float-pill cottage-listening-pill" id="btnCottageListening" title="四级听力真题精听复读机 · 听力特训">
+            <span class="pill-icon">🎧</span>
+            <span class="pill-text">听力</span>
+          </a>
           <button class="cottage-float-pill" onclick="openExpeditionPrepModal()" title="出征祭坛 · 探险整备">
             <span class="pill-icon">⚔️</span>
             <span class="pill-text">出征</span>
@@ -167,7 +171,13 @@
             <span class="hotspot-caption">书架 · 安全研习 (0扣血)</span>
           </button>
 
-          <!-- 4. 壁炉炉火热点 -->
+          <!-- 4. 留声机 / 四级精听真题复读机交互热点 -->
+          <a href="/cet4/" class="hotspot radio-spot" aria-label="打开四级听力复读机" style="text-decoration: none;">
+            <span class="marker">🎧</span>
+            <span class="hotspot-caption">四级精听复读</span>
+          </a>
+
+          <!-- 5. 壁炉炉火热点 -->
           <button class="hotspot fire-spot" onclick="toggleCottageWarmth()" aria-label="调节壁炉火候">
             <span class="marker">🔥</span>
             <span class="hotspot-caption">炉边歇息</span>
