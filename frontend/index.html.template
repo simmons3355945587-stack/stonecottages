@@ -1162,6 +1162,7 @@
 <script src="gray-health-engine.js"></script>
 <script src="expedition-engine.js"></script>
 <script src="lexical-graph.js"></script>
+<script src="question-validator.js"></script>
 <script src="expedition-map.js"></script>
 <script src="words-data.js"></script>
 <script src="extra-definitions.js"></script>

@@ -1442,8 +1442,7 @@
         "zh": "汇聚；聚合"
       }
     ],
-    "notes": "【搭配考点】reunite for/with 强调分离后的重逢或重新统一（如乐队重组或战后家庭团聚）；【形近辨析】unite (联合/结合)，require (需要)，retaliate (报复)；【近义辨析】reunite 侧重经历分散后再度团聚，assemble 强调依指令组织集合，gather 强调个体聚拢，converge 强调向同一焦点会合。",
-    "phonetic": "/,ri:ju:'nait/"
+    "notes": "【搭配考点】reunite for/with 强调分离后的重逢或重新统一（如乐队重组或战后家庭团聚）；【形近辨析】unite (联合/结合)，require (需要)，retaliate (报复)；【近义辨析】reunite 侧重经历分散后再度团聚，assemble 强调依指令组织集合，gather 强调个体聚拢，converge 强调向同一焦点会合。"
   },
   "union": {
     "word": "union",
@@ -1489,8 +1488,7 @@
         "zh": "联邦；同盟"
       }
     ],
-    "notes": "【搭配考点】trade union (工会)，in union with (与...结合/一致)；【形近辨析】uniform (制服/一致的)，unison (齐唱/和谐一致)，onion (洋葱)；【近义辨析】union 强调各成员凝聚为一个不可分割的法定或社团整体，alliance 强调独立国家或政党间的战略结盟，coalition 侧重为特定目标组成的临时政治联盟，federation 强调联邦制的多机构联合。",
-    "phonetic": "/'ju:niən/"
+    "notes": "【搭配考点】trade union (工会)，in union with (与...结合/一致)；【形近辨析】uniform (制服/一致的)，unison (齐唱/和谐一致)，onion (洋葱)；【近义辨析】union 强调各成员凝聚为一个不可分割的法定或社团整体，alliance 强调独立国家或政党间的战略结盟，coalition 侧重为特定目标组成的临时政治联盟，federation 强调联邦制的多机构联合。"
   },
   "anniversary": {
     "word": "anniversary",
@@ -1536,8 +1534,7 @@
         "zh": "大禧年；周年盛典"
       }
     ],
-    "notes": "【搭配考点】wedding anniversary (结婚周年日)，celebrate an anniversary (庆祝周年纪念)；【形近辨析】adversary (对手/敌手)，universal (普遍的)，diversity (多样性)；【近义辨析】anniversary 专指按公历年重复回归的特定日期纪念，celebration 侧重庆祝活动本身，commemoration 强调对逝者或历史事件的庄重缅怀，jubilee 专指重要整数年份（如25或50周年）的盛大庆典。",
-    "phonetic": "/,æni'və:səri/"
+    "notes": "【搭配考点】wedding anniversary (结婚周年日)，celebrate an anniversary (庆祝周年纪念)；【形近辨析】adversary (对手/敌手)，universal (普遍的)，diversity (多样性)；【近义辨析】anniversary 专指按公历年重复回归的特定日期纪念，celebration 侧重庆祝活动本身，commemoration 强调对逝者或历史事件的庄重缅怀，jubilee 专指重要整数年份（如25或50周年）的盛大庆典。"
   },
   "annual": {
     "word": "annual",
@@ -1583,8 +1580,7 @@
         "zh": "周期的；定期的"
       }
     ],
-    "notes": "【搭配考点】annual report (年度报告)，annual meeting/budget (年会/年度预算)；【形近辨析】annul (宣告无效/废止)，actual (实际的)，sensual (感官的)；【近义辨析】annual 强调每隔一年一度发生一次的正式规程，yearly 偏日常口语表达，perennial 强调持续多年或反复出现，periodic 强调按一定周期循环出现（不限于一年）。",
-    "phonetic": "/'ænjuəl/"
+    "notes": "【搭配考点】annual report (年度报告)，annual meeting/budget (年会/年度预算)；【形近辨析】annul (宣告无效/废止)，actual (实际的)，sensual (感官的)；【近义辨析】annual 强调每隔一年一度发生一次的正式规程，yearly 偏日常口语表达，perennial 强调持续多年或反复出现，periodic 强调按一定周期循环出现（不限于一年）。"
   },
   "controversy": {
     "word": "controversy",
@@ -1630,8 +1626,7 @@
         "zh": "辩论；研讨"
       }
     ],
-    "notes": "【搭配考点】heated controversy (激烈的争论)，cause/provoke controversy (引发争议)；【形近辨析】contemporary (当代的)，contrary (相反的)，counterpart (对应方)；【近义辨析】controversy 专指在公众舆论层面长期、广泛存在的原则性分歧与争论，dispute 侧重具体利益、边界或劳动合同的纠纷，argument 侧重人与人之间的争吵辩驳，debate 侧重正式有规则的辩论会。",
-    "phonetic": "/'kɔntrə,və:si/"
+    "notes": "【搭配考点】heated controversy (激烈的争论)，cause/provoke controversy (引发争议)；【形近辨析】contemporary (当代的)，contrary (相反的)，counterpart (对应方)；【近义辨析】controversy 专指在公众舆论层面长期、广泛存在的原则性分歧与争论，dispute 侧重具体利益、边界或劳动合同的纠纷，argument 侧重人与人之间的争吵辩驳，debate 侧重正式有规则的辩论会。"
   },
   "contrary": {
     "word": "contrary",
@@ -1677,8 +1672,7 @@
         "zh": "冲突的；相克相悖的"
       }
     ],
-    "notes": "【搭配考点】contrary to (与...背道而驰/相反)，on the contrary (恰恰相反)；【形近辨析】contrast (对比/反差)，controversy (争议)，contract (合同/收缩)；【近义辨析】contrary 强调性质、方向或意图与既定标准直接抵触，opposite 强调在空间方位或极端对立面的相对，contradictory 强调逻辑上的互相矛盾不可兼得，conflicting 侧重利益或意见的碰撞冲突。",
-    "phonetic": "/'kɔntrəri/"
+    "notes": "【搭配考点】contrary to (与...背道而驰/相反)，on the contrary (恰恰相反)；【形近辨析】contrast (对比/反差)，controversy (争议)，contract (合同/收缩)；【近义辨析】contrary 强调性质、方向或意图与既定标准直接抵触，opposite 强调在空间方位或极端对立面的相对，contradictory 强调逻辑上的互相矛盾不可兼得，conflicting 侧重利益或意见的碰撞冲突。"
   },
   "contrast": {
     "word": "contrast",
@@ -1724,8 +1718,7 @@
         "zh": "区别；差别"
       }
     ],
-    "notes": "【搭配考点】in sharp contrast to (与...形成鲜明对照)，contrast with (与...形成对比)；【形近辨析】contract (合同/缩小)，contrary (相反的)，contact (联系/接触)；【近义辨析】contrast 专指把两种差异显著的事物放在一起突显出的反差与对比度，comparison 侧重横向综合权衡异同点，difference 仅客观陈述不相同，distinction 侧重细致辨明特征差异。",
-    "phonetic": "/kən'trɑ:st; -'træst; 'kɔntrɑ:st; -træst/"
+    "notes": "【搭配考点】in sharp contrast to (与...形成鲜明对照)，contrast with (与...形成对比)；【形近辨析】contract (合同/缩小)，contrary (相反的)，contact (联系/接触)；【近义辨析】contrast 专指把两种差异显著的事物放在一起突显出的反差与对比度，comparison 侧重横向综合权衡异同点，difference 仅客观陈述不相同，distinction 侧重细致辨明特征差异。"
   },
   "nasty": {
     "word": "nasty",
@@ -1771,8 +1764,7 @@
         "zh": "恶臭的；下流的"
       }
     ],
-    "notes": "【搭配考点】nasty injury/accident (严重的伤害/事故)，nasty smell/taste (令人作呕的气味/味道)；【形近辨析】tasty (美味的)，pastry (糕点)，hasty (草率的/仓促的)；【近义辨析】nasty 强调令人极度反感、棘手甚至带来身体伤害的恶劣性质，unpleasant 语气较温和仅表示不愉快，severe 强调程度之深重严肃，foul 侧重肮脏污秽或恶臭违规。",
-    "phonetic": "/'nɑ:sti; 'næs-/"
+    "notes": "【搭配考点】nasty injury/accident (严重的伤害/事故)，nasty smell/taste (令人作呕的气味/味道)；【形近辨析】tasty (美味的)，pastry (糕点)，hasty (草率的/仓促的)；【近义辨析】nasty 强调令人极度反感、棘手甚至带来身体伤害的恶劣性质，unpleasant 语气较温和仅表示不愉快，severe 强调程度之深重严肃，foul 侧重肮脏污秽或恶臭违规。"
   },
   "astronaut": {
     "word": "astronaut",
@@ -1818,8 +1810,7 @@
         "zh": "飞行员；领航员"
       }
     ],
-    "notes": "【搭配考点】veteran astronaut (资深宇航员)，astronaut training (航天员训练)；【形近辨析】astronomer (天文学家)，astrologer (占星术士)，asteroid (小行星)；【近义辨析】astronaut 强调接受过严格航天训练的专业宇航员（源自希腊语 astro- 星星 + naut 水手），spaceman 偏口语科幻色彩，cosmonaut 专指苏俄体系宇航员，pilot 泛指常规飞行器驾驶员。",
-    "phonetic": "/'æstrənɔ:t/"
+    "notes": "【搭配考点】veteran astronaut (资深宇航员)，astronaut training (航天员训练)；【形近辨析】astronomer (天文学家)，astrologer (占星术士)，asteroid (小行星)；【近义辨析】astronaut 强调接受过严格航天训练的专业宇航员（源自希腊语 astro- 星星 + naut 水手），spaceman 偏口语科幻色彩，cosmonaut 专指苏俄体系宇航员，pilot 泛指常规飞行器驾驶员。"
   },
   "heaven": {
     "word": "heaven",
@@ -1865,8 +1856,7 @@
         "zh": "乌托邦；理想国"
       }
     ],
-    "notes": "【搭配考点】pure heaven (极致享受/如同天堂)，a match made in heaven (天作之合)；【形近辨析】haven (安全港湾/庇护所)，heavy (沉重的)，heave (用力举起/起伏)；【近义辨析】heaven 具有浓厚宗教天国色彩，日常中比喻至高无上的舒适享受，paradise 侧重如诗如画的花园式乐土，bliss 侧重内心情感的极度幸福，utopia 侧重理想化完美的社会制度。",
-    "phonetic": "/'hevən/"
+    "notes": "【搭配考点】pure heaven (极致享受/如同天堂)，a match made in heaven (天作之合)；【形近辨析】haven (安全港湾/庇护所)，heavy (沉重的)，heave (用力举起/起伏)；【近义辨析】heaven 具有浓厚宗教天国色彩，日常中比喻至高无上的舒适享受，paradise 侧重如诗如画的花园式乐土，bliss 侧重内心情感的极度幸福，utopia 侧重理想化完美的社会制度。"
   },
   "satellite": {
     "word": "satellite",
@@ -1912,8 +1902,7 @@
         "zh": "发射机；传送器"
       }
     ],
-    "notes": "【搭配考点】communication satellite (通信卫星)，via satellite (通过卫星传输)；【形近辨析】settle (安顿/解决)，subtle (微妙精细的)，appetite (食欲)；【近义辨析】satellite 专指围绕行星轨道运转的天体或人造探测发射装置，orbiter 特指进入轨道执行科学测绘的飞行器，spacecraft 泛指各类载人或无人宇宙飞船，transmitter 侧重信号发射硬件设备。",
-    "phonetic": "/'sætəlait/"
+    "notes": "【搭配考点】communication satellite (通信卫星)，via satellite (通过卫星传输)；【形近辨析】settle (安顿/解决)，subtle (微妙精细的)，appetite (食欲)；【近义辨析】satellite 专指围绕行星轨道运转的天体或人造探测发射装置，orbiter 特指进入轨道执行科学测绘的飞行器，spacecraft 泛指各类载人或无人宇宙飞船，transmitter 侧重信号发射硬件设备。"
   },
   "moon": {
     "word": "moon",
@@ -1959,8 +1948,7 @@
         "zh": "天体；圆球"
       }
     ],
-    "notes": "【搭配考点】surface of the moon (月球表面)，once in a blue moon (千载难逢/罕见)；【形近辨析】mood (心情/情绪)，doom (厄运/毁灭)，boom (繁荣/剧增)；【近义辨析】moon 专指行星的天然卫星（大写特指月球），satellite 涵盖天然天体与人造发射装置，celestial 泛指一切天空天体，orb 偏诗意文学指圆满发光的天体球体。",
-    "phonetic": "/mu:n/"
+    "notes": "【搭配考点】surface of the moon (月球表面)，once in a blue moon (千载难逢/罕见)；【形近辨析】mood (心情/情绪)，doom (厄运/毁灭)，boom (繁荣/剧增)；【近义辨析】moon 专指行星的天然卫星（大写特指月球），satellite 涵盖天然天体与人造发射装置，celestial 泛指一切天空天体，orb 偏诗意文学指圆满发光的天体球体。"
   },
   "evolve": {
     "word": "evolve",
@@ -2006,8 +1994,7 @@
         "zh": "变异；突变"
       }
     ],
-    "notes": "【搭配考点】evolve into/from (从...演变成...)，evolve rapidly (快速演进)；【形近辨析】revolve (绕轴旋转)，involve (牵连包含)，dissolve (溶解/解散)；【近义辨析】evolve 强调经由时间推移从低级到高级的自然演进演变，develop 强调人类主观规划推动的发展完善，progress 强调向着更佳目标前行，mutate 专指基因或形态上的突变。",
-    "phonetic": "/i'vɔlv/"
+    "notes": "【搭配考点】evolve into/from (从...演变成...)，evolve rapidly (快速演进)；【形近辨析】revolve (绕轴旋转)，involve (牵连包含)，dissolve (溶解/解散)；【近义辨析】evolve 强调经由时间推移从低级到高级的自然演进演变，develop 强调人类主观规划推动的发展完善，progress 强调向着更佳目标前行，mutate 专指基因或形态上的突变。"
   },
   "revolve": {
     "word": "revolve",
@@ -2053,8 +2040,7 @@
         "zh": "沿轨道环绕"
       }
     ],
-    "notes": "【搭配考点】revolve around (围绕...旋转/以...为核心)；【形近辨析】evolve (逐步演变)，involve (卷入涉及)，resolve (下决心/化解)；【近义辨析】revolve 专指天体围绕某一外部轴心或星体公转，rotate 侧重物体自身绕自转轴旋转，spin 强调高速陀螺式原地打转，orbit 强调严格依物理引力轨道环绕运动。",
-    "phonetic": "/ri'vɔlv; -'vɔ:lv/"
+    "notes": "【搭配考点】revolve around (围绕...旋转/以...为核心)；【形近辨析】evolve (逐步演变)，involve (卷入涉及)，resolve (下决心/化解)；【近义辨析】revolve 专指天体围绕某一外部轴心或星体公转，rotate 侧重物体自身绕自转轴旋转，spin 强调高速陀螺式原地打转，orbit 强调严格依物理引力轨道环绕运动。"
   },
   "involve": {
     "word": "involve",
@@ -2100,8 +2086,7 @@
         "zh": "牵涉犯罪；暗示"
       }
     ],
-    "notes": "【搭配考点】involve doing sth (必然包含做某事)，be involved in (参与/卷入)；【形近辨析】revolve (旋转环绕)，evolve (演进演化)，invoke (援引法律/祈求保佑)；【近义辨析】involve 强调事物内在必然牵涉或作为必要组成部分，entail 侧重某一决定必然招致的代价或负担，include 侧重罗列所属集合的部分元素，implicate 专指涉嫌卷入违法犯罪案件。",
-    "phonetic": "/in'vɔlv/"
+    "notes": "【搭配考点】involve doing sth (必然包含做某事)，be involved in (参与/卷入)；【形近辨析】revolve (旋转环绕)，evolve (演进演化)，invoke (援引法律/祈求保佑)；【近义辨析】involve 强调事物内在必然牵涉或作为必要组成部分，entail 侧重某一决定必然招致的代价或负担，include 侧重罗列所属集合的部分元素，implicate 专指涉嫌卷入违法犯罪案件。"
   },
   "advance": {
     "word": "advance",
@@ -2147,8 +2132,7 @@
         "zh": "转交；推进"
       }
     ],
-    "notes": "【搭配考点】advance to/into (推进到...)，in advance (提前/预先)；【形近辨析】advantage (优势好处)，advice (建议忠告)，adverse (逆境的/有害的)；【近义辨析】advance 侧重按部就班向前迈进推进实质进程，promote 强调提高地位、声誉或宣传推广，propel 侧重施加强大机械力或驱动力向前推动，forward 偏向物流转运或信息转交。",
-    "phonetic": "/əd'vɑ:ns; əd'væns/"
+    "notes": "【搭配考点】advance to/into (推进到...)，in advance (提前/预先)；【形近辨析】advantage (优势好处)，advice (建议忠告)，adverse (逆境的/有害的)；【近义辨析】advance 侧重按部就班向前迈进推进实质进程，promote 强调提高地位、声誉或宣传推广，propel 侧重施加强大机械力或驱动力向前推动，forward 偏向物流转运或信息转交。"
   },
   "ahead": {
     "word": "ahead",
@@ -2194,8 +2178,7 @@
         "zh": "向前；向未来"
       }
     ],
-    "notes": "【搭配考点】ahead of schedule (提前于工期)，go ahead (继续进行/着手推进)；【形近辨析】head (头目/首脑)，overhead (高空的/企业管理费用)，forehead (前额)；【近义辨析】ahead of 突出在时间表或空间序列上的相对领先超前，beforehand 强调在特定事件发生之前做好预备，in front 强调空间物理位置的正前方，forward 侧重运动朝向前方。",
-    "phonetic": "/ə'hed/"
+    "notes": "【搭配考点】ahead of schedule (提前于工期)，go ahead (继续进行/着手推进)；【形近辨析】head (头目/首脑)，overhead (高空的/企业管理费用)，forehead (前额)；【近义辨析】ahead of 突出在时间表或空间序列上的相对领先超前，beforehand 强调在特定事件发生之前做好预备，in front 强调空间物理位置的正前方，forward 侧重运动朝向前方。"
   },
   "ongoing": {
     "word": "ongoing",
@@ -2241,8 +2224,7 @@
         "zh": "永久的；长期的"
       }
     ],
-    "notes": "【搭配考点】ongoing investigation/effort (正在持续进行的调查/努力)；【形近辨析】outgoing (外向开朗的/即将离任的)，incoming (新进的/来电的)，undergoing (承受/正在经历)；【近义辨析】ongoing 强调当前正处于推进过程之中且尚未结束，continuous 强调时间空间上无间断紧密连接，persistent 侧重遇到阻碍依然执着坚持，perpetual 强调无休无止直至永恒。",
-    "phonetic": "/'ɔn,ɡəuiŋ; 'ɔ:n-/"
+    "notes": "【搭配考点】ongoing investigation/effort (正在持续进行的调查/努力)；【形近辨析】outgoing (外向开朗的/即将离任的)，incoming (新进的/来电的)，undergoing (承受/正在经历)；【近义辨析】ongoing 强调当前正处于推进过程之中且尚未结束，continuous 强调时间空间上无间断紧密连接，persistent 侧重遇到阻碍依然执着坚持，perpetual 强调无休无止直至永恒。"
   },
   "approve": {
     "word": "approve",
@@ -2288,8 +2270,7 @@
         "zh": "授权；核准"
       }
     ],
-    "notes": "【搭配考点】approve of sth (赞同某事)，approve the budget/plan (正式批准预算/方案)；【形近辨析】prove (证明检验)，improve (增进改善)，reprove (训诫谴责)；【近义辨析】approve 强调上级或权力机构通过审核予以认可通过，endorse 侧重名人公众公开背书声援，sanction 正式核准法律规范（亦具制裁义），authorize 强调授予下级行事权力。",
-    "phonetic": "/ə'pru:v/"
+    "notes": "【搭配考点】approve of sth (赞同某事)，approve the budget/plan (正式批准预算/方案)；【形近辨析】prove (证明检验)，improve (增进改善)，reprove (训诫谴责)；【近义辨析】approve 强调上级或权力机构通过审核予以认可通过，endorse 侧重名人公众公开背书声援，sanction 正式核准法律规范（亦具制裁义），authorize 强调授予下级行事权力。"
   },
   "proof": {
     "word": "proof",
@@ -2335,8 +2316,7 @@
         "zh": "确认；证实"
       }
     ],
-    "notes": "【搭配考点】conclusive proof (确凿证据)，proof of purchase/residence (购买凭证/居住证明)；【形近辨析】roof (房顶)，spoof (滑稽戏仿)，aloof (超然冷漠的)；【近义辨析】proof 强调具有无可辩驳决定性说服力的铁证，evidence 泛指司法或科研中支持某假说的各类迹象材料，testimony 专指法庭证人宣誓提供的口供证词，confirmation 强调对已有信息的进一步印证确认。",
-    "phonetic": "/pru:f/"
+    "notes": "【搭配考点】conclusive proof (确凿证据)，proof of purchase/residence (购买凭证/居住证明)；【形近辨析】roof (房顶)，spoof (滑稽戏仿)，aloof (超然冷漠的)；【近义辨析】proof 强调具有无可辩驳决定性说服力的铁证，evidence 泛指司法或科研中支持某假说的各类迹象材料，testimony 专指法庭证人宣誓提供的口供证词，confirmation 强调对已有信息的进一步印证确认。"
   },
   "enhance": {
     "word": "enhance",
@@ -2382,8 +2362,7 @@
         "zh": "加剧；提高"
       }
     ],
-    "notes": "【搭配考点】enhance quality/performance (提升品质/性能)，enhance reputation (提高声誉)；【形近辨析】chance (机会/偶然)，enchant (使着迷迷醉)，entrance (大门入口/使出神)；【近义辨析】enhance 强调在现有基础上增加价值、吸引力或效率，boost 侧重短时间内从外部给予推动使之剧增，amplify 侧重声音、信号或效果在物理尺度上的扩大放大，heighten 侧重情感、警惕性或紧张局势的加剧升温。",
-    "phonetic": "/in'hɑ:ns; -hæns/"
+    "notes": "【搭配考点】enhance quality/performance (提升品质/性能)，enhance reputation (提高声誉)；【形近辨析】chance (机会/偶然)，enchant (使着迷迷醉)，entrance (大门入口/使出神)；【近义辨析】enhance 强调在现有基础上增加价值、吸引力或效率，boost 侧重短时间内从外部给予推动使之剧增，amplify 侧重声音、信号或效果在物理尺度上的扩大放大，heighten 侧重情感、警惕性或紧张局势的加剧升温。"
   },
   "enable": {
     "word": "enable",
@@ -2429,8 +2408,7 @@
         "zh": "促进；使便利"
       }
     ],
-    "notes": "【搭配考点】enable sb to do sth (使某人能够做某事)；【形近辨析】unable (无法做到的)，stable (稳固安定的)，noble (尊贵崇高的)；【近义辨析】enable 强调提供手段、工具或必要条件使其具备完成某事的能力，empower 侧重赋予法律权利、信心或自主权，allow 强调许可放行不加阻拦，facilitate 强调减少障碍使流程变得容易快捷。",
-    "phonetic": "/i'neibl/"
+    "notes": "【搭配考点】enable sb to do sth (使某人能够做某事)；【形近辨析】unable (无法做到的)，stable (稳固安定的)，noble (尊贵崇高的)；【近义辨析】enable 强调提供手段、工具或必要条件使其具备完成某事的能力，empower 侧重赋予法律权利、信心或自主权，allow 强调许可放行不加阻拦，facilitate 强调减少障碍使流程变得容易快捷。"
   },
   "enlarge": {
     "word": "enlarge",
@@ -2476,8 +2454,7 @@
         "zh": "延伸；延长"
       }
     ],
-    "notes": "【搭配考点】enlarge a photo/room (放大照片/扩建房间)，enlarge on/upon (详述/阐述)；【形近辨析】engage (订婚/吸引)，enforce (强行执行)，engulf (吞没/淹没)；【近义辨析】enlarge 侧重物体体积、尺寸或面积在物理空间上的实质扩增放大，expand 侧重边界向外扩张或业务范围拓展，magnify 专指通过透镜把微观图像光学放大，extend 强调在长度、时间或手臂范围上的拉长延伸。",
-    "phonetic": "/in'lɑ:dʒ/"
+    "notes": "【搭配考点】enlarge a photo/room (放大照片/扩建房间)，enlarge on/upon (详述/阐述)；【形近辨析】engage (订婚/吸引)，enforce (强行执行)，engulf (吞没/淹没)；【近义辨析】enlarge 侧重物体体积、尺寸或面积在物理空间上的实质扩增放大，expand 侧重边界向外扩张或业务范围拓展，magnify 专指通过透镜把微观图像光学放大，extend 强调在长度、时间或手臂范围上的拉长延伸。"
   },
   "enrich": {
     "word": "enrich",
@@ -2523,8 +2500,7 @@
         "zh": "扩大；提高"
       }
     ],
-    "notes": "【搭配考点】enrich the mind/experience (充实头脑/丰富阅历)，enrich soil (肥沃土壤)；【形近辨析】reach (伸手够到/到达)，encroach (逐步侵占侵犯)，enlist (参军/争取赞同)；【近义辨析】enrich 侧重注入深厚营养、内涵或财富使其更为厚重充盈，enhance 侧重增加吸引力或外在性能，fortify 强调加固防御或添加微量营养素增强体质，augment 强调在数量或规模上的渐进追加。",
-    "phonetic": "/in'ritʃ/"
+    "notes": "【搭配考点】enrich the mind/experience (充实头脑/丰富阅历)，enrich soil (肥沃土壤)；【形近辨析】reach (伸手够到/到达)，encroach (逐步侵占侵犯)，enlist (参军/争取赞同)；【近义辨析】enrich 侧重注入深厚营养、内涵或财富使其更为厚重充盈，enhance 侧重增加吸引力或外在性能，fortify 强调加固防御或添加微量营养素增强体质，augment 强调在数量或规模上的渐进追加。"
   },
   "fasten": {
     "word": "fasten",
@@ -2570,8 +2546,7 @@
         "zh": "附上；系上"
       }
     ],
-    "notes": "【搭配考点】fasten seat belt (系安全带)，fasten the door/gate (把门栓扣紧)；【形近辨析】faster (更快捷)，hasten (加速轻率前行)，fatten (使...变肥发胖)；【近义辨析】fasten 强调使用卡扣、纽扣、钉子或带子把两个物体紧密联结固定锁牢，secure 强调固定使其稳固不脱落且免受破坏，tie 专指用绳索打结绑缚，attach 强调粘贴或附着其上并未必紧扣。",
-    "phonetic": "/'fɑ:sən; 'fæ-/"
+    "notes": "【搭配考点】fasten seat belt (系安全带)，fasten the door/gate (把门栓扣紧)；【形近辨析】faster (更快捷)，hasten (加速轻率前行)，fatten (使...变肥发胖)；【近义辨析】fasten 强调使用卡扣、纽扣、钉子或带子把两个物体紧密联结固定锁牢，secure 强调固定使其稳固不脱落且免受破坏，tie 专指用绳索打结绑缚，attach 强调粘贴或附着其上并未必紧扣。"
   },
   "tight": {
     "word": "tight",
@@ -2617,8 +2592,7 @@
         "zh": "牢靠的；固定的"
       }
     ],
-    "notes": "【搭配考点】tight grip (紧握)，tight schedule/budget (紧张的时间表/预算)；【形近辨析】sight (视力/景象)，slight (轻微的)，night (夜晚)；【近义辨析】tight 强调紧实、紧扣无缝隙或紧贴无空隙，firm 强调结实坚定不晃动，taut 专指绳索、肌肉或皮肤被两端用力拉扯处于紧绷状态，secure 侧重安全牢靠不易脱落。",
-    "phonetic": "/tait/"
+    "notes": "【搭配考点】tight grip (紧握)，tight schedule/budget (紧张的时间表/预算)；【形近辨析】sight (视力/景象)，slight (轻微的)，night (夜晚)；【近义辨析】tight 强调紧实、紧扣无缝隙或紧贴无空隙，firm 强调结实坚定不晃动，taut 专指绳索、肌肉或皮肤被两端用力拉扯处于紧绷状态，secure 侧重安全牢靠不易脱落。"
   },
   "buckle": {
     "word": "buckle",
@@ -2664,8 +2638,7 @@
         "zh": "屈服；让步"
       }
     ],
-    "notes": "【搭配考点】buckle under pressure (在重压下崩溃/屈服)，buckle up (系好安全带)；【形近辨析】bubble (气泡)，bundle (包裹/一捆)，chuckle (暗自发笑)；【近义辨析】buckle 专指金属结构或长条物在轴向巨大压力或高温下失稳弯曲折曲，warp 强调木材等因受潮受热面产生的翘曲不平，collapse 侧重整体支撑瓦解轰然倒塌，yield 侧重物理抵抗力极限下的屈服让步。",
-    "phonetic": "/'bʌkl/"
+    "notes": "【搭配考点】buckle under pressure (在重压下崩溃/屈服)，buckle up (系好安全带)；【形近辨析】bubble (气泡)，bundle (包裹/一捆)，chuckle (暗自发笑)；【近义辨析】buckle 专指金属结构或长条物在轴向巨大压力或高温下失稳弯曲折曲，warp 强调木材等因受潮受热面产生的翘曲不平，collapse 侧重整体支撑瓦解轰然倒塌，yield 侧重物理抵抗力极限下的屈服让步。"
   },
   "watertight": {
     "word": "watertight",
@@ -2711,8 +2684,7 @@
         "zh": "无可争辩的；攻不破的"
       }
     ],
-    "notes": "【搭配考点】watertight alibi/argument (无懈可击的不在场证明/论点)，watertight compartment (水密舱)；【形近辨析】waterproof (防水材料/防雨的)，watershed (分水岭/重大转折)，waterline (水线/吃水标尺)；【近义辨析】watertight 既指物理上的完全防水不漏，更常引申为法律逻辑毫无漏洞破绽，foolproof 侧重设计简单不易因人为疏忽出错，airtight 强调气密性好或无缝隙，unassailable 侧重地位立场坚不可摧无法攻破。",
-    "phonetic": "/'wɔ:tətait; 'wɔ-/"
+    "notes": "【搭配考点】watertight alibi/argument (无懈可击的不在场证明/论点)，watertight compartment (水密舱)；【形近辨析】waterproof (防水材料/防雨的)，watershed (分水岭/重大转折)，waterline (水线/吃水标尺)；【近义辨析】watertight 既指物理上的完全防水不漏，更常引申为法律逻辑毫无漏洞破绽，foolproof 侧重设计简单不易因人为疏忽出错，airtight 强调气密性好或无缝隙，unassailable 侧重地位立场坚不可摧无法攻破。"
   },
   "loose": {
     "word": "loose",
@@ -2758,8 +2730,7 @@
         "zh": "宽松下垂的"
       }
     ],
-    "notes": "【搭配考点】loose screw/bolt (松动的螺丝/螺栓)，break loose (挣脱束缚)；【形近辨析】lose (丢失/失败)，loss (名词损失)，choose (挑选决定)；【近义辨析】loose 强调未固定紧、未绑紧或具有晃动间隙，slack 专指绳索处于未拉直松弛状态或市场不景气，lax 专指纪律规章执行上的松懈放任，baggy 专指衣物裤子肥大晃荡。",
-    "phonetic": "/lu:s/"
+    "notes": "【搭配考点】loose screw/bolt (松动的螺丝/螺栓)，break loose (挣脱束缚)；【形近辨析】lose (丢失/失败)，loss (名词损失)，choose (挑选决定)；【近义辨析】loose 强调未固定紧、未绑紧或具有晃动间隙，slack 专指绳索处于未拉直松弛状态或市场不景气，lax 专指纪律规章执行上的松懈放任，baggy 专指衣物裤子肥大晃荡。"
   },
   "undo": {
     "word": "undo",
@@ -2805,8 +2776,7 @@
         "zh": "撤销；废除"
       }
     ],
-    "notes": "【搭配考点】undo damage/progress (消除损害/抵消进展)，undo a button/knot (解开纽扣/绳结)；【形近辨析】undue (过分的/不适度的)，under (下方)，redo (重做)；【近义辨析】undo 强调撤销既有成果使事物恢复未完成前状态（亦指解开结扣），reverse 侧重方向或决定颠倒走向相反极，untie 专指解开打结的绳线，revoke 侧重官方机构依法吊销吊销执照。",
-    "phonetic": "/,ʌn'du:/"
+    "notes": "【搭配考点】undo damage/progress (消除损害/抵消进展)，undo a button/knot (解开纽扣/绳结)；【形近辨析】undue (过分的/不适度的)，under (下方)，redo (重做)；【近义辨析】undo 强调撤销既有成果使事物恢复未完成前状态（亦指解开结扣），reverse 侧重方向或决定颠倒走向相反极，untie 专指解开打结的绳线，revoke 侧重官方机构依法吊销吊销执照。"
   },
   "form": {
     "word": "form",
@@ -2852,8 +2822,7 @@
         "zh": "结构；体系"
       }
     ],
-    "notes": "【搭配考点】form of exercise/art (运动/艺术形式)，fill in a form (填写表格)；【形近辨析】from (介词来自)，firm (公司/坚挺的)，farm (农田)；【近义辨析】form 侧重事物存在、表现的内在组织模式或类别样式，shape 强调肉眼可见的外在物理轮廓形态，type 强调分类学上的特定品种或类型，structure 侧重内部各构件之间的搭接关系。",
-    "phonetic": "/fɔ:m/"
+    "notes": "【搭配考点】form of exercise/art (运动/艺术形式)，fill in a form (填写表格)；【形近辨析】from (介词来自)，firm (公司/坚挺的)，farm (农田)；【近义辨析】form 侧重事物存在、表现的内在组织模式或类别样式，shape 强调肉眼可见的外在物理轮廓形态，type 强调分类学上的特定品种或类型，structure 侧重内部各构件之间的搭接关系。"
   },
   "formal": {
     "word": "formal",
@@ -2899,8 +2868,7 @@
         "zh": "传统的；常规的"
       }
     ],
-    "notes": "【搭配考点】formal invitation/dress (正式邀请/正装)，formal education (正规学校教育)；【形近辨析】former (前任的/前者)，format (版面格式)，formula (配方/化学式)；【近义辨析】formal 强调遵循官方礼仪、严谨标准或社交规矩，official 侧重经过政府或法定权威机构确认发布的，ceremonial 侧重在隆重庆典场合专用的仪仗仪式，conventional 侧重符合社会约定俗成的老规矩。",
-    "phonetic": "/'fɔ:məl/"
+    "notes": "【搭配考点】formal invitation/dress (正式邀请/正装)，formal education (正规学校教育)；【形近辨析】former (前任的/前者)，format (版面格式)，formula (配方/化学式)；【近义辨析】formal 强调遵循官方礼仪、严谨标准或社交规矩，official 侧重经过政府或法定权威机构确认发布的，ceremonial 侧重在隆重庆典场合专用的仪仗仪式，conventional 侧重符合社会约定俗成的老规矩。"
   },
   "uniform": {
     "word": "uniform",
@@ -2946,8 +2914,7 @@
         "zh": "始终如一的；一致的"
       }
     ],
-    "notes": "【搭配考点】wear a uniform (穿制服)，uniform standards/thickness (统一标准/均匀厚度)；【形近辨析】unicorn (传说中的独角兽)，unite (联合团结)，conform (遵照符合)；【近义辨析】uniform 作名词专指某一特定团体或职业统一配备的服装，作形容词强调各部分无差别的整齐划一；attire 泛指正式服装打扮，outfit 侧重个人整套搭配好的装束，consistent 侧重品质前后逻辑始终如一。",
-    "phonetic": "/'ju:nifɔ:m/"
+    "notes": "【搭配考点】wear a uniform (穿制服)，uniform standards/thickness (统一标准/均匀厚度)；【形近辨析】unicorn (传说中的独角兽)，unite (联合团结)，conform (遵照符合)；【近义辨析】uniform 作名词专指某一特定团体或职业统一配备的服装，作形容词强调各部分无差别的整齐划一；attire 泛指正式服装打扮，outfit 侧重个人整套搭配好的装束，consistent 侧重品质前后逻辑始终如一。"
   },
   "formation": {
     "word": "formation",
@@ -2993,8 +2960,7 @@
         "zh": "排列；整理"
       }
     ],
-    "notes": "【搭配考点】rock formation (岩层地貌)，flight formation (飞行编队)，the formation of clouds (云层的形成)；【形近辨析】foundation (地基基础)，information (情报信息)，animation (生动动画)；【近义辨析】formation 强调经历动态演化过程所形成的稳定结构或特定队形，structure 侧重静态骨架与构成成分，configuration 侧重各组成要素的相对空间布局或参数配置，arrangement 侧重人为的整齐排列摆放。",
-    "phonetic": "/span>ma<span style='vertical-align:25%;font-size:35%;'>•</"
+    "notes": "【搭配考点】rock formation (岩层地貌)，flight formation (飞行编队)，the formation of clouds (云层的形成)；【形近辨析】foundation (地基基础)，information (情报信息)，animation (生动动画)；【近义辨析】formation 强调经历动态演化过程所形成的稳定结构或特定队形，structure 侧重静态骨架与构成成分，configuration 侧重各组成要素的相对空间布局或参数配置，arrangement 侧重人为的整齐排列摆放。"
   },
   "reform": {
     "word": "reform",
@@ -3040,8 +3006,7 @@
         "zh": "彻底转变；使改观"
       }
     ],
-    "notes": "【搭配考点】reform the system/law (改革体制/法律)，economic reform (经济体制改革)；【形近辨析】perform (表演/履行)，inform (通知告诫)，deform (使残缺畸形)；【近义辨析】reform 侧重政治、体制或制度上的改良除弊使之向善，restructure 侧重企业或部门层级组织的重新架构调整，revamp 侧重对陈旧事物进行翻新包装局部修整，transform 侧重外貌或性质的彻底巨大转变。",
-    "phonetic": "/ri'fɔ:m/"
+    "notes": "【搭配考点】reform the system/law (改革体制/法律)，economic reform (经济体制改革)；【形近辨析】perform (表演/履行)，inform (通知告诫)，deform (使残缺畸形)；【近义辨析】reform 侧重政治、体制或制度上的改良除弊使之向善，restructure 侧重企业或部门层级组织的重新架构调整，revamp 侧重对陈旧事物进行翻新包装局部修整，transform 侧重外貌或性质的彻底巨大转变。"
   },
   "format": {
     "word": "format",
@@ -3087,8 +3052,7 @@
         "zh": "架构；结构"
       }
     ],
-    "notes": "【搭配考点】file format (文件格式)，format of a debate/show (辩论赛/节目的组织形式)；【形近辨析】former (前者/之前的)，formal (正式合规矩的)，forward (向前发件)；【近义辨析】format 强调出版物、广播电视节目或计算机文档的预设安排规格与版式，layout 侧重纸面上文字、图画的具体视觉位置排版，pattern 强调反复出现的规律模型，structure 侧重深层骨架构造。",
-    "phonetic": "/'fɔ:mæt/"
+    "notes": "【搭配考点】file format (文件格式)，format of a debate/show (辩论赛/节目的组织形式)；【形近辨析】former (前者/之前的)，formal (正式合规矩的)，forward (向前发件)；【近义辨析】format 强调出版物、广播电视节目或计算机文档的预设安排规格与版式，layout 侧重纸面上文字、图画的具体视觉位置排版，pattern 强调反复出现的规律模型，structure 侧重深层骨架构造。"
   },
   "formulate": {
     "word": "formulate",
@@ -3134,8 +3098,7 @@
         "zh": "清晰阐述；清楚表达"
       }
     ],
-    "notes": "【搭配考点】formulate a policy/strategy (制定方针/策略)，formulate an opinion (形成观点)；【形近辨析】emulate (努力赶超/效仿)，stimulate (刺激激励)，insulate (绝缘隔离)；【近义辨析】formulate 强调经过深思熟虑、运用系统逻辑严密地构思并制定成文，devise 侧重发挥聪明才智巧妙设计发明解决之道，draft 侧重动笔起草文本初稿，articulate 侧重用精准语言口头或书面表述清晰。",
-    "phonetic": "/'fɔ:mjuleit/"
+    "notes": "【搭配考点】formulate a policy/strategy (制定方针/策略)，formulate an opinion (形成观点)；【形近辨析】emulate (努力赶超/效仿)，stimulate (刺激激励)，insulate (绝缘隔离)；【近义辨析】formulate 强调经过深思熟虑、运用系统逻辑严密地构思并制定成文，devise 侧重发挥聪明才智巧妙设计发明解决之道，draft 侧重动笔起草文本初稿，articulate 侧重用精准语言口头或书面表述清晰。"
   },
   "formula": {
     "word": "formula",
@@ -3181,8 +3144,7 @@
         "zh": "蓝图；行动规划"
       }
     ],
-    "notes": "【搭配考点】mathematical formula (数学公式)，formula for success (成功秘诀)；【形近辨析】formulation (配方/阐述表达)，form (形式)，formidable (令人敬畏强大的)；【近义辨析】formula 专指用符号表示的科学数学法则，或行之有效的定式方法，equation 强调含有等号两边平衡的数学方程式，recipe 侧重烹调食材步骤或隐喻产生某后果的诱因，blueprint 侧重宏观工程建设蓝图。",
-    "phonetic": "/'fɔ:mjulə/"
+    "notes": "【搭配考点】mathematical formula (数学公式)，formula for success (成功秘诀)；【形近辨析】formulation (配方/阐述表达)，form (形式)，formidable (令人敬畏强大的)；【近义辨析】formula 专指用符号表示的科学数学法则，或行之有效的定式方法，equation 强调含有等号两边平衡的数学方程式，recipe 侧重烹调食材步骤或隐喻产生某后果的诱因，blueprint 侧重宏观工程建设蓝图。"
   },
   "program": {
     "word": "program",
@@ -3228,8 +3190,7 @@
         "zh": "课程体系"
       }
     ],
-    "notes": "【搭配考点】training program (培训项目)，computer program (计算机程序)；【形近辨析】progress (进步)，prologue (戏剧前言/序幕)，pilgrim (朝圣旅行者)；【近义辨析】program 强调经过系统规划、具有明确时间表和连续步骤的系列项目，scheme 偏向英国政府或机构的宏观方案，project 侧重针对单一具体目标的工程项目，curriculum 专指学校设置的全部学科课程总和。",
-    "phonetic": "/'prəuɡræm; -ɡrəm/"
+    "notes": "【搭配考点】training program (培训项目)，computer program (计算机程序)；【形近辨析】progress (进步)，prologue (戏剧前言/序幕)，pilgrim (朝圣旅行者)；【近义辨析】program 强调经过系统规划、具有明确时间表和连续步骤的系列项目，scheme 偏向英国政府或机构的宏观方案，project 侧重针对单一具体目标的工程项目，curriculum 专指学校设置的全部学科课程总和。"
   },
   "perform": {
     "word": "perform",
@@ -3275,8 +3236,7 @@
         "zh": "履行职责；释放"
       }
     ],
-    "notes": "【搭配考点】perform an operation/experiment (实施手术/实验)，perform a duty/role (履行职责/扮演角色)；【形近辨析】reform (改革)，conform (遵从合规)，inform (报告通知)；【近义辨析】perform 强调按照专业规程完成严肃复杂的动作、手术或上台表演，execute 强调严格不走样地将计划、命令予以付诸实施，accomplish 侧重克服艰难困苦圆满实现目标，discharge 专指正式解除、卸除法定职责或义务。",
-    "phonetic": "/pə'fɔ:m/"
+    "notes": "【搭配考点】perform an operation/experiment (实施手术/实验)，perform a duty/role (履行职责/扮演角色)；【形近辨析】reform (改革)，conform (遵从合规)，inform (报告通知)；【近义辨析】perform 强调按照专业规程完成严肃复杂的动作、手术或上台表演，execute 强调严格不走样地将计划、命令予以付诸实施，accomplish 侧重克服艰难困苦圆满实现目标，discharge 专指正式解除、卸除法定职责或义务。"
   },
   "drill": {
     "word": "drill",
@@ -3322,8 +3282,7 @@
         "zh": "练习；实践"
       }
     ],
-    "notes": "【搭配考点】evacuation drill (疏散演习)，fire drill (消防演练)，drill down (深入探究)；【形近辨析】thrill (兴奋激动)，grill (烧烤铁架/严加盘问)，spill (溅出泼洒)；【近义辨析】drill 强调高强度、机械重复性强的军事化严格操练或应急演习，exercise 侧重一般的综合体能锻炼或宏观战术演习，rehearsal 专指戏剧文艺演出正式登台前的反复排练彩排，practice 泛指日常知识技能的学习操练。",
-    "phonetic": "/dril/"
+    "notes": "【搭配考点】evacuation drill (疏散演习)，fire drill (消防演练)，drill down (深入探究)；【形近辨析】thrill (兴奋激动)，grill (烧烤铁架/严加盘问)，spill (溅出泼洒)；【近义辨析】drill 强调高强度、机械重复性强的军事化严格操练或应急演习，exercise 侧重一般的综合体能锻炼或宏观战术演习，rehearsal 专指戏剧文艺演出正式登台前的反复排练彩排，practice 泛指日常知识技能的学习操练。"
   },
   "inform": {
     "word": "inform",
@@ -3369,8 +3328,7 @@
         "zh": "使知悉；告知"
       }
     ],
-    "notes": "【搭配考点】inform sb of/about sth (通知某人某事)，regret to inform (遗憾通知)；【形近辨析】perform (表演履行)，conform (顺应规则)，reform (除弊改革)；【近义辨析】inform 为最通用、正式的通知交代信息词，notify 强调带有官方公文色彩、需被通知方确认知悉的事务性通告，advise 在商务公文中意为正式告知（如出货通知），apprise 属极其典雅的书面用语指让某人全面掌握事态进展。",
-    "phonetic": "/in'fɔ:m/"
+    "notes": "【搭配考点】inform sb of/about sth (通知某人某事)，regret to inform (遗憾通知)；【形近辨析】perform (表演履行)，conform (顺应规则)，reform (除弊改革)；【近义辨析】inform 为最通用、正式的通知交代信息词，notify 强调带有官方公文色彩、需被通知方确认知悉的事务性通告，advise 在商务公文中意为正式告知（如出货通知），apprise 属极其典雅的书面用语指让某人全面掌握事态进展。"
   },
   "notify": {
     "word": "notify",
@@ -3416,8 +3374,7 @@
         "zh": "汇报；报案"
       }
     ],
-    "notes": "【搭配考点】notify the police/bank (向警方/银行报备通知)，notify sb in writing (书面通知某人)；【形近辨析】modify (修改修饰)，qualify (具备资历)，certify (官方核准认证)；【近义辨析】notify 专指按照正规章程向机构或有关当事人发出具备事务效应的正式通告，alert 侧重对突发危机、灾难发出紧急预警，inform 侧重传递事实情报，report 强调下级向上级汇报或向执法机构报案。",
-    "phonetic": "/'nəutifai/"
+    "notes": "【搭配考点】notify the police/bank (向警方/银行报备通知)，notify sb in writing (书面通知某人)；【形近辨析】modify (修改修饰)，qualify (具备资历)，certify (官方核准认证)；【近义辨析】notify 专指按照正规章程向机构或有关当事人发出具备事务效应的正式通告，alert 侧重对突发危机、灾难发出紧急预警，inform 侧重传递事实情报，report 强调下级向上级汇报或向执法机构报案。"
   },
   "noticeable": {
     "word": "noticeable",
@@ -3463,8 +3420,7 @@
         "zh": "截然分明的；清晰的"
       }
     ],
-    "notes": "【搭配考点】noticeable difference/improvement (显著的差异/改善)；【形近辨析】notable (著名的/值得记录的)，negotiable (可协商谈判的)，negligible (微不足道可忽略的)；【近义辨析】noticeable 强调某种变化或特征十分明显足以轻易引起感官注意，conspicuous 强调因不同寻常在环境中极为扎眼显眼，perceptible 侧重勉强能被感官察觉捕捉到（门槛更低），distinct 强调轮廓界限清晰分明互不混淆。",
-    "phonetic": "/'nəutisəbl/"
+    "notes": "【搭配考点】noticeable difference/improvement (显著的差异/改善)；【形近辨析】notable (著名的/值得记录的)，negotiable (可协商谈判的)，negligible (微不足道可忽略的)；【近义辨析】noticeable 强调某种变化或特征十分明显足以轻易引起感官注意，conspicuous 强调因不同寻常在环境中极为扎眼显眼，perceptible 侧重勉强能被感官察觉捕捉到（门槛更低），distinct 强调轮廓界限清晰分明互不混淆。"
   },
   "coast": {
     "word": "coast",
@@ -3510,8 +3466,7 @@
         "zh": "海岸线"
       }
     ],
-    "notes": "【搭配考点】along the coast (沿着海岸线)，off the coast (在离岸海域)，coast along (不费力地顺势滑行)；【形近辨析】toast (敬酒/烤面包)，roast (烤肉烘焙)，boast (夸口自夸)；【近义辨析】coast 专指陆地毗邻大洋大面积的地理沿海区域，shore 指一切大型水体（海、大湖、大河）水陆交界狭窄带，seaside 专指度假休闲的海边胜地，coastline 侧重地图上绵延起伏的几何边界线。",
-    "phonetic": "/kəust/"
+    "notes": "【搭配考点】along the coast (沿着海岸线)，off the coast (在离岸海域)，coast along (不费力地顺势滑行)；【形近辨析】toast (敬酒/烤面包)，roast (烤肉烘焙)，boast (夸口自夸)；【近义辨析】coast 专指陆地毗邻大洋大面积的地理沿海区域，shore 指一切大型水体（海、大湖、大河）水陆交界狭窄带，seaside 专指度假休闲的海边胜地，coastline 侧重地图上绵延起伏的几何边界线。"
   },
   "toast": {
     "word": "toast",
@@ -3557,8 +3512,7 @@
         "zh": "干杯；欢呼"
       }
     ],
-    "notes": "【搭配考点】propose a toast to sb (向某人提议祝酒)，a slice of toast (一片烤吐司)；【形近辨析】roast (烘烤肉类)，coast (海岸线)，boast (自负吹嘘)；【近义辨析】toast 专指社交宴会中举杯向某人致以美好祝愿的仪式或发言，salute 强调军人举手行礼或对英雄壮举表示崇高敬意，tribute 侧重通过演说、礼物献上长久的敬意与赞誉，cheers 偏口语碰杯时的感叹词。",
-    "phonetic": "/'təust/"
+    "notes": "【搭配考点】propose a toast to sb (向某人提议祝酒)，a slice of toast (一片烤吐司)；【形近辨析】roast (烘烤肉类)，coast (海岸线)，boast (自负吹嘘)；【近义辨析】toast 专指社交宴会中举杯向某人致以美好祝愿的仪式或发言，salute 强调军人举手行礼或对英雄壮举表示崇高敬意，tribute 侧重通过演说、礼物献上长久的敬意与赞誉，cheers 偏口语碰杯时的感叹词。"
   },
   "roast": {
     "word": "roast",
@@ -3604,8 +3558,7 @@
         "zh": "在铁栅架上烧烤"
       }
     ],
-    "notes": "【搭配考点】roast meat/chicken (烤肉/烤鸡)，roast coffee beans (烘焙咖啡豆)；【形近辨析】toast (烤面包片/祝酒)，coast (沿海)，rust (铁锈生锈)；【近义辨析】roast 专指用烤箱或明火高温烘烤肉类或坚果使表面香脆内部多汁，bake 专指用烤箱烘烤面粉类糕点面包，broil 强调来自上方电热丝的强直火炙烤，grill 专指放在格栅铁网上直接火烤。",
-    "phonetic": "/rəust/"
+    "notes": "【搭配考点】roast meat/chicken (烤肉/烤鸡)，roast coffee beans (烘焙咖啡豆)；【形近辨析】toast (烤面包片/祝酒)，coast (沿海)，rust (铁锈生锈)；【近义辨析】roast 专指用烤箱或明火高温烘烤肉类或坚果使表面香脆内部多汁，bake 专指用烤箱烘烤面粉类糕点面包，broil 强调来自上方电热丝的强直火炙烤，grill 专指放在格栅铁网上直接火烤。"
   },
   "sail": {
     "word": "sail",
@@ -3651,8 +3604,7 @@
         "zh": "远航；长途航海"
       }
     ],
-    "notes": "【搭配考点】set sail (扬帆启航)，smooth sailing (一帆风顺)；【形近辨析】rail (铁路轨道)，nail (长钉/指甲)，tail (动物尾巴)；【近义辨析】sail 侧重利用风帆驾船在水面上平稳航行行进，navigate 强调根据海图、罗盘或仪器制定并控制航向，cruise 侧重乘坐游轮出于休闲度假目的巡游，voyage 作名词强调漫长壮烈的远洋探险探秘之旅。",
-    "phonetic": "/seil/"
+    "notes": "【搭配考点】set sail (扬帆启航)，smooth sailing (一帆风顺)；【形近辨析】rail (铁路轨道)，nail (长钉/指甲)，tail (动物尾巴)；【近义辨析】sail 侧重利用风帆驾船在水面上平稳航行行进，navigate 强调根据海图、罗盘或仪器制定并控制航向，cruise 侧重乘坐游轮出于休闲度假目的巡游，voyage 作名词强调漫长壮烈的远洋探险探秘之旅。"
   },
   "shore": {
     "word": "shore",
@@ -3698,8 +3650,7 @@
         "zh": "沙滩；砾石滩"
       }
     ],
-    "notes": "【搭配考点】rocky/sandy shore (岩石海岸/沙质海滨)，shore up (加固支撑)；【形近辨析】share (分享/股票)，chore (家庭日常繁重杂务)，spore (菌类孢子)；【近义辨析】shore 专指紧靠海水或大湖水面的泥水边缘带，bank 专指河流或运河两侧倾斜抬高的堤岸，beach 特指适合游玩铺满沙子或细卵石的平缓海滩，coast 侧重宏观省份级别的沿海地理区域。",
-    "phonetic": "/ʃɔ:/"
+    "notes": "【搭配考点】rocky/sandy shore (岩石海岸/沙质海滨)，shore up (加固支撑)；【形近辨析】share (分享/股票)，chore (家庭日常繁重杂务)，spore (菌类孢子)；【近义辨析】shore 专指紧靠海水或大湖水面的泥水边缘带，bank 专指河流或运河两侧倾斜抬高的堤岸，beach 特指适合游玩铺满沙子或细卵石的平缓海滩，coast 侧重宏观省份级别的沿海地理区域。"
   },
   "island": {
     "word": "island",
@@ -3745,8 +3696,7 @@
         "zh": "半岛"
       }
     ],
-    "notes": "【搭配考点】tropical/volcanic island (热带/火山岛)，traffic island (交通安全岛)；【形近辨析】inland (内陆地区的)，highland (高山高原)，isle (诗意用法的小岛，如 British Isles)；【近义辨析】island 最通用的标准地理术语，指完全被水包围且面积小于大陆的陆地，isle 偏古雅诗意指较小的海岛，atoll 专指由珊瑚礁围绕潟湖形成的环状珊瑚礁岛，peninsula 专指三面环水一面连陆的半岛。",
-    "phonetic": "/'ailənd/"
+    "notes": "【搭配考点】tropical/volcanic island (热带/火山岛)，traffic island (交通安全岛)；【形近辨析】inland (内陆地区的)，highland (高山高原)，isle (诗意用法的小岛，如 British Isles)；【近义辨析】island 最通用的标准地理术语，指完全被水包围且面积小于大陆的陆地，isle 偏古雅诗意指较小的海岛，atoll 专指由珊瑚礁围绕潟湖形成的环状珊瑚礁岛，peninsula 专指三面环水一面连陆的半岛。"
   },
   "inland": {
     "word": "inland",
@@ -3792,8 +3742,7 @@
         "zh": "大陆的；大陆性的"
       }
     ],
-    "notes": "【搭配考点】travel inland (向内陆旅行)，inland waterways/trade (内陆水道/国内贸易)；【形近辨析】island (岛屿)，highland (高地)，mainland (大陆本土)；【近义辨析】inland 作副词或形容词强调位置远离海岸线深入陆地深处，interior 侧重国家或建筑物内部核心区域，upcountry 指远离沿海大都市的内陆乡村偏远地区，continental 强调整个大洲层面的广袤大陆性特征。",
-    "phonetic": "/'inlənd; -lænd/"
+    "notes": "【搭配考点】travel inland (向内陆旅行)，inland waterways/trade (内陆水道/国内贸易)；【形近辨析】island (岛屿)，highland (高地)，mainland (大陆本土)；【近义辨析】inland 作副词或形容词强调位置远离海岸线深入陆地深处，interior 侧重国家或建筑物内部核心区域，upcountry 指远离沿海大都市的内陆乡村偏远地区，continental 强调整个大洲层面的广袤大陆性特征。"
   },
   "beach": {
     "word": "beach",
@@ -3839,8 +3788,7 @@
         "zh": "海滨；沙滩"
       }
     ],
-    "notes": "【搭配考点】sandy beach (沙滩)，pebble beach (卵石滩)，beach umbrella (遮阳伞)；【形近辨析】bench (长凳/法官席)，bleach (漂白剂)，reach (伸手到达)；【近义辨析】beach 专指铺有细沙或鹅卵石、坡度平缓供人游玩休憩的滨水岸边，seashore 泛指大海与陆地交界的广阔自然海岸，coastline 侧重地图上的几何沿海轮廓，strand 偏诗意文学指沙滩海岸。",
-    "phonetic": "/bi:tʃ/"
+    "notes": "【搭配考点】sandy beach (沙滩)，pebble beach (卵石滩)，beach umbrella (遮阳伞)；【形近辨析】bench (长凳/法官席)，bleach (漂白剂)，reach (伸手到达)；【近义辨析】beach 专指铺有细沙或鹅卵石、坡度平缓供人游玩休憩的滨水岸边，seashore 泛指大海与陆地交界的广阔自然海岸，coastline 侧重地图上的几何沿海轮廓，strand 偏诗意文学指沙滩海岸。"
   },
   "bench": {
     "word": "bench",
@@ -3886,8 +3834,7 @@
         "zh": "教堂长椅"
       }
     ],
-    "notes": "【搭配考点】park bench (公园长椅)，the judicial bench (法官席/司法界)，bench test (台架测试)；【形近辨析】beach (海滩沙滩)，branch (分行/树枝)，pinch (拧掐/匮乏)；【近义辨析】bench 专指可容纳多人并排坐的无靠背或木质硬长凳，或工匠操作的长条工作台；seat 泛指任何供人坐下的设施，workstation 强调配备电脑工具的工作卡位，pew 专指教堂固定排椅。",
-    "phonetic": "/bentʃ/"
+    "notes": "【搭配考点】park bench (公园长椅)，the judicial bench (法官席/司法界)，bench test (台架测试)；【形近辨析】beach (海滩沙滩)，branch (分行/树枝)，pinch (拧掐/匮乏)；【近义辨析】bench 专指可容纳多人并排坐的无靠背或木质硬长凳，或工匠操作的长条工作台；seat 泛指任何供人坐下的设施，workstation 强调配备电脑工具的工作卡位，pew 专指教堂固定排椅。"
   },
   "harbor": {
     "word": "harbor",
@@ -3933,8 +3880,7 @@
         "zh": "码头；船坞"
       }
     ],
-    "notes": "【搭配考点】natural harbor (天然海港)，harbor doubts/feelings (心怀疑虑/感情)；【形近辨析】hard (艰难硬朗)，hammer (铁锤)，horror (极度惊恐)；【近义辨析】harbor 侧重提供停泊避风风浪掩护的水域港湾，port 侧重具备海关物流仓储设施的商贸口岸城市，haven 强调免受外界风暴危险侵袭的宁静避难所，dock 专指装卸货物修船的码头泊位。",
-    "phonetic": "/'hɑ:bə/"
+    "notes": "【搭配考点】natural harbor (天然海港)，harbor doubts/feelings (心怀疑虑/感情)；【形近辨析】hard (艰难硬朗)，hammer (铁锤)，horror (极度惊恐)；【近义辨析】harbor 侧重提供停泊避风风浪掩护的水域港湾，port 侧重具备海关物流仓储设施的商贸口岸城市，haven 强调免受外界风暴危险侵袭的宁静避难所，dock 专指装卸货物修船的码头泊位。"
   },
   "embrace": {
     "word": "embrace",
@@ -3980,8 +3926,7 @@
         "zh": "包罗；环绕"
       }
     ],
-    "notes": "【搭配考点】embrace new ideas/technology (热情接纳新观念/技术)，warm embrace (热情拥抱)；【形近辨析】embarrass (使难为情)，erase (抹去消除)，embark (着手开展/登机)；【近义辨析】embrace 强调发自内心地热情拥抱、欣然接受新事物，或宏观涵盖多种元素；adopt 侧重正式通过审议后挑选并采纳某种制度方案，welcome 侧重对某提议表示欣然欢迎赞许，encompass 强调外延广泛包罗万象。",
-    "phonetic": "/im'breis/"
+    "notes": "【搭配考点】embrace new ideas/technology (热情接纳新观念/技术)，warm embrace (热情拥抱)；【形近辨析】embarrass (使难为情)，erase (抹去消除)，embark (着手开展/登机)；【近义辨析】embrace 强调发自内心地热情拥抱、欣然接受新事物，或宏观涵盖多种元素；adopt 侧重正式通过审议后挑选并采纳某种制度方案，welcome 侧重对某提议表示欣然欢迎赞许，encompass 强调外延广泛包罗万象。"
   },
   "bay": {
     "word": "bay",
@@ -4027,8 +3972,7 @@
         "zh": "水湾；小港湾"
       }
     ],
-    "notes": "【搭配考点】keep sb/sth at bay (使...无法靠近/牵制住)，loading bay (装卸货区)；【形近辨析】ray (光芒/光线)，bat (蝙蝠/球棒)，boy (男孩)；【近义辨析】bay 专指陆地向内凹进形成的中等开阔弧形海湾，gulf 专指口窄腹大极其广阔的深大洋湾，cove 专指海岸边隐蔽幽静狭小的小海湾，inlet 强调向陆地深处窄条延伸的小水道港湾。",
-    "phonetic": "/bei/"
+    "notes": "【搭配考点】keep sb/sth at bay (使...无法靠近/牵制住)，loading bay (装卸货区)；【形近辨析】ray (光芒/光线)，bat (蝙蝠/球棒)，boy (男孩)；【近义辨析】bay 专指陆地向内凹进形成的中等开阔弧形海湾，gulf 专指口窄腹大极其广阔的深大洋湾，cove 专指海岸边隐蔽幽静狭小的小海湾，inlet 强调向陆地深处窄条延伸的小水道港湾。"
   },
   "shelter": {
     "word": "shelter",
@@ -4074,8 +4018,7 @@
         "zh": "政治避难；庇护"
       }
     ],
-    "notes": "【搭配考点】take shelter from (躲避风雨)，tax shelter (避税手段)，emergency shelter (应急避难所)；【形近辨析】shatter (摔得粉碎)，slender (纤细苗条的)，shudder (不寒而栗发抖)；【近义辨析】shelter 强调提供抵御暴风雨、烈日或危险的物理掩体建筑物，refuge 侧重逃离险境后获得的安身庇护，sanctuary 强调不可侵犯的宗教圣所或濒危动物保护区，asylum 专指国家法律层面的政治避难。",
-    "phonetic": "/'ʃeltə/"
+    "notes": "【搭配考点】take shelter from (躲避风雨)，tax shelter (避税手段)，emergency shelter (应急避难所)；【形近辨析】shatter (摔得粉碎)，slender (纤细苗条的)，shudder (不寒而栗发抖)；【近义辨析】shelter 强调提供抵御暴风雨、烈日或危险的物理掩体建筑物，refuge 侧重逃离险境后获得的安身庇护，sanctuary 强调不可侵犯的宗教圣所或濒危动物保护区，asylum 专指国家法律层面的政治避难。"
   },
   "shade": {
     "word": "shade",
@@ -4121,8 +4064,7 @@
         "zh": "细微差别"
       }
     ],
-    "notes": "【搭配考点】in the shade (在阴凉处)，shades of meaning (细微涵义差异)，draw the shades (拉下百叶窗)；【形近辨析】shadow (具体投射的轮廓影子)，blade (刀刃草叶)，shame (羞耻羞愧)；【近义辨析】shade 专指阳光被树木或建筑物遮挡后形成的无直射光的凉爽区域（不可数），shadow 专指光线受阻在地面或墙面投下的黑影轮廓（可数），tint 侧重在基础颜色中掺入的细微淡色，nuance 侧重语言情感或见解上的极其微细层次差异。",
-    "phonetic": "/ʃeid/"
+    "notes": "【搭配考点】in the shade (在阴凉处)，shades of meaning (细微涵义差异)，draw the shades (拉下百叶窗)；【形近辨析】shadow (具体投射的轮廓影子)，blade (刀刃草叶)，shame (羞耻羞愧)；【近义辨析】shade 专指阳光被树木或建筑物遮挡后形成的无直射光的凉爽区域（不可数），shadow 专指光线受阻在地面或墙面投下的黑影轮廓（可数），tint 侧重在基础颜色中掺入的细微淡色，nuance 侧重语言情感或见解上的极其微细层次差异。"
   },
   "shave": {
     "word": "shave",
@@ -4168,8 +4110,7 @@
         "zh": "夹住；剪下"
       }
     ],
-    "notes": "【搭配考点】a clean shave (刮得干净的脸)，a close shave (死里逃生/侥幸脱险)，shave off costs (削减开支)；【形近辨析】shame (羞愧)，shape (形态塑造)，save (挽救保存)；【近义辨析】shave 专指用剃刀贴紧皮肤刮净毛发，或用刨刀薄薄刨去一层表面，trim 强调对树篱、头发边缘进行修葺整理使之整齐齐整，pare 强调水果削皮或层层剥减预算，clip 侧重用剪刀剪断一小截。",
-    "phonetic": "/ʃeiv/"
+    "notes": "【搭配考点】a clean shave (刮得干净的脸)，a close shave (死里逃生/侥幸脱险)，shave off costs (削减开支)；【形近辨析】shame (羞愧)，shape (形态塑造)，save (挽救保存)；【近义辨析】shave 专指用剃刀贴紧皮肤刮净毛发，或用刨刀薄薄刨去一层表面，trim 强调对树篱、头发边缘进行修葺整理使之整齐齐整，pare 强调水果削皮或层层剥减预算，clip 侧重用剪刀剪断一小截。"
   },
   "belt": {
     "word": "belt",
@@ -4215,8 +4156,7 @@
         "zh": "狭长条带"
       }
     ],
-    "notes": "【搭配考点】seat belt (安全带)，conveyor belt (传送带)，tighten one's belt (勒紧裤腰带/节衣缩食)；【形近辨析】bolt (螺栓/狂奔)，melt (熔化消融)，felt (feel过去式/毛毡)；【近义辨析】belt 作区域解时专指在地理上呈长条带状分布的特定产业或气候地带，作服饰解指腰带；zone 强调人为依据法规或功能划分的明确行政区划，strap 专指箱包相机上的窄负重背带，strip 强调纯粹狭长的一小块土地或纸条。",
-    "phonetic": "/belt/"
+    "notes": "【搭配考点】seat belt (安全带)，conveyor belt (传送带)，tighten one's belt (勒紧裤腰带/节衣缩食)；【形近辨析】bolt (螺栓/狂奔)，melt (熔化消融)，felt (feel过去式/毛毡)；【近义辨析】belt 作区域解时专指在地理上呈长条带状分布的特定产业或气候地带，作服饰解指腰带；zone 强调人为依据法规或功能划分的明确行政区划，strap 专指箱包相机上的窄负重背带，strip 强调纯粹狭长的一小块土地或纸条。"
   },
   "bond": {
     "word": "bond",
@@ -4262,8 +4202,7 @@
         "zh": "链环；纽带"
       }
     ],
-    "notes": "【搭配考点】emotional bond (情感纽带)，government bond (政府债券)，chemical bond (化学键)；【形近辨析】bind (捆绑动词)，blond (金发碧眼的)，bound (受约束的/开往)；【近义辨析】bond 强调经历深厚情感经历所锻造出的极为紧密持久的精神连结，或分子间化学键，tie 侧重社会关系、血缘或条约带来的牵连约束，connection 侧重因果逻辑或社交人脉关系，link 强调在链条上连接两个端点的关键节点。",
-    "phonetic": "/bɔnd/"
+    "notes": "【搭配考点】emotional bond (情感纽带)，government bond (政府债券)，chemical bond (化学键)；【形近辨析】bind (捆绑动词)，blond (金发碧眼的)，bound (受约束的/开往)；【近义辨析】bond 强调经历深厚情感经历所锻造出的极为紧密持久的精神连结，或分子间化学键，tie 侧重社会关系、血缘或条约带来的牵连约束，connection 侧重因果逻辑或社交人脉关系，link 强调在链条上连接两个端点的关键节点。"
   },
   "bind": {
     "word": "bind",
@@ -4309,8 +4248,7 @@
         "zh": "迫使；使承担义务"
       }
     ],
-    "notes": "【搭配考点】bind together (紧密凝聚在一起)，legally binding (具有法律约束力的)，bind a book (装订书籍)；【形近辨析】blind (盲目的)，bend (弯曲弯折)，blend (融合混合)；【近义辨析】bind 强调通过绳索物理扎牢，或通过道义法律条文施加强有力的不可违背约束力；fasten 侧重机械固定扣紧，constrain 强调受到外界环境条件限制束缚而无法施展，oblige 强调在法律义务或礼貌道义上不得不做。",
-    "phonetic": "/baind/"
+    "notes": "【搭配考点】bind together (紧密凝聚在一起)，legally binding (具有法律约束力的)，bind a book (装订书籍)；【形近辨析】blind (盲目的)，bend (弯曲弯折)，blend (融合混合)；【近义辨析】bind 强调通过绳索物理扎牢，或通过道义法律条文施加强有力的不可违背约束力；fasten 侧重机械固定扣紧，constrain 强调受到外界环境条件限制束缚而无法施展，oblige 强调在法律义务或礼貌道义上不得不做。"
   },
   "blind": {
     "word": "blind",
@@ -4356,8 +4294,7 @@
         "zh": "未察觉的；健忘的"
       }
     ],
-    "notes": "【搭配考点】blind to (对...视而不见/视若无睹)，blind trust/faith (盲目的信任/信仰)，turn a blind eye to (对...睁一只眼闭一只眼)；【形近辨析】blend (混合融合)，blond (金发)，bind (捆绑扎紧)；【近义辨析】blind 既指眼部器官失明，更常隐喻因偏见狂热而丧失起码判断力；sightless 偏庄重医学文学指丧失视力，unseeing 侧重两眼睁着但未关注焦点，oblivious 强调沉浸在自己世界中完全未留意周围环境。",
-    "phonetic": "/blaind/"
+    "notes": "【搭配考点】blind to (对...视而不见/视若无睹)，blind trust/faith (盲目的信任/信仰)，turn a blind eye to (对...睁一只眼闭一只眼)；【形近辨析】blend (混合融合)，blond (金发)，bind (捆绑扎紧)；【近义辨析】blind 既指眼部器官失明，更常隐喻因偏见狂热而丧失起码判断力；sightless 偏庄重医学文学指丧失视力，unseeing 侧重两眼睁着但未关注焦点，oblivious 强调沉浸在自己世界中完全未留意周围环境。"
   },
   "deaf": {
     "word": "deaf",
@@ -4403,8 +4340,7 @@
         "zh": "漠不关心的"
       }
     ],
-    "notes": "【搭配考点】turn a deaf ear to (对...置若罔闻/充耳不闻)，fall on deaf ears (未被理睬/被当成耳旁风)；【形近辨析】dead (死去的)，deal (协议交易)，defeat (战败挫败)；【近义辨析】deaf 指生理上丧失听觉，搭配中专指主观上傲慢固执、拒不倾听劝告的顽固态度；unheeding 强调听到但并未听从遵循警示，unresponsive 侧重外界给予刺激但无互动反馈，indifferent 侧重心态上的冷漠无动于衷。",
-    "phonetic": "/def/"
+    "notes": "【搭配考点】turn a deaf ear to (对...置若罔闻/充耳不闻)，fall on deaf ears (未被理睬/被当成耳旁风)；【形近辨析】dead (死去的)，deal (协议交易)，defeat (战败挫败)；【近义辨析】deaf 指生理上丧失听觉，搭配中专指主观上傲慢固执、拒不倾听劝告的顽固态度；unheeding 强调听到但并未听从遵循警示，unresponsive 侧重外界给予刺激但无互动反馈，indifferent 侧重心态上的冷漠无动于衷。"
   },
   "bend": {
     "word": "bend",
@@ -4450,8 +4386,7 @@
         "zh": "鞠躬；俯首弯腰"
       }
     ],
-    "notes": "【搭配考点】bend the rules (通融/变通规则)，bend over backwards (竭尽全力)，sharp bend (急转弯)；【形近辨析】bind (捆扎)，blend (混合调和)，tend (倾向/照料)；【近义辨析】bend 强调受外力作用从直线状态转变成角度倾斜或弓形弯曲，flex 专指有弹性地弯曲关节肌肉或展示弹性，curve 强调平滑优雅的弧度线条，bow 强调庄重地俯下身体鞠躬屈从。",
-    "phonetic": "/bend/"
+    "notes": "【搭配考点】bend the rules (通融/变通规则)，bend over backwards (竭尽全力)，sharp bend (急转弯)；【形近辨析】bind (捆扎)，blend (混合调和)，tend (倾向/照料)；【近义辨析】bend 强调受外力作用从直线状态转变成角度倾斜或弓形弯曲，flex 专指有弹性地弯曲关节肌肉或展示弹性，curve 强调平滑优雅的弧度线条，bow 强调庄重地俯下身体鞠躬屈从。"
   },
   "twist": {
     "word": "twist",
@@ -4497,8 +4432,7 @@
         "zh": "盘绕；卷曲"
       }
     ],
-    "notes": "【搭配考点】plot twist (情节反转)，twist one's ankle (扭伤脚踝)，twist words (曲解文义)；【形近辨析】wrist (手腕)，twin (孪生双胞)，twine (盘绕编结/细麻线)；【近义辨析】twist 强调旋转缠绕力道造成的扭结变形，或文艺作品中陡然生变的情节大转折；turn 侧重方向的常规改变转折，distortion 强调事实真相声波形态的失真歪曲，coil 强调如同弹簧或蛇般规则地盘圈打卷。",
-    "phonetic": "/twist/"
+    "notes": "【搭配考点】plot twist (情节反转)，twist one's ankle (扭伤脚踝)，twist words (曲解文义)；【形近辨析】wrist (手腕)，twin (孪生双胞)，twine (盘绕编结/细麻线)；【近义辨析】twist 强调旋转缠绕力道造成的扭结变形，或文艺作品中陡然生变的情节大转折；turn 侧重方向的常规改变转折，distortion 强调事实真相声波形态的失真歪曲，coil 强调如同弹簧或蛇般规则地盘圈打卷。"
   },
   "blend": {
     "word": "blend",
@@ -4544,8 +4478,7 @@
         "zh": "相交融；社交应酬"
       }
     ],
-    "notes": "【搭配考点】blend in/with (与...融为一体/和谐共处)，a unique blend of styles (独特交融风格)；【形近辨析】bend (弯曲屈服)，blind (失明的)，bleed (出血流淌)；【近义辨析】blend 强调多种不同性质成分巧妙调和在一起形成天衣无缝、令人愉悦的新整体；merge 侧重两个独立的实体组织合并成一个单一整体，fuse 强调高温高压下物理熔化结合为不可分割体，mingle 强调在社交聚会中穿梭交谈或各要素混合但彼此仍可区分。",
-    "phonetic": "/blend/"
+    "notes": "【搭配考点】blend in/with (与...融为一体/和谐共处)，a unique blend of styles (独特交融风格)；【形近辨析】bend (弯曲屈服)，blind (失明的)，bleed (出血流淌)；【近义辨析】blend 强调多种不同性质成分巧妙调和在一起形成天衣无缝、令人愉悦的新整体；merge 侧重两个独立的实体组织合并成一个单一整体，fuse 强调高温高压下物理熔化结合为不可分割体，mingle 强调在社交聚会中穿梭交谈或各要素混合但彼此仍可区分。"
   },
   "mix": {
     "word": "mix",
@@ -4591,8 +4524,7 @@
         "zh": "调制；捏造"
       }
     ],
-    "notes": "【搭配考点】mix with (与...混合/交往)，mix up (搞混/弄乱)；【形近辨析】fix (修理固定)，mist (薄雾迷雾)，six (数字6)；【近义辨析】mix 是最通用的日常混合词，指将两种或多种物质倒在一起掺杂；combine 强调逻辑力量或功能的联合协作，stir 专指用勺棒在液体中圆周搅动加速溶解，concoct 侧重把多种配料奇特调配在一起或密谋虚构借口。",
-    "phonetic": "/miks/"
+    "notes": "【搭配考点】mix with (与...混合/交往)，mix up (搞混/弄乱)；【形近辨析】fix (修理固定)，mist (薄雾迷雾)，six (数字6)；【近义辨析】mix 是最通用的日常混合词，指将两种或多种物质倒在一起掺杂；combine 强调逻辑力量或功能的联合协作，stir 专指用勺棒在液体中圆周搅动加速溶解，concoct 侧重把多种配料奇特调配在一起或密谋虚构借口。"
   },
   "stir": {
     "word": "stir",
@@ -4638,8 +4570,7 @@
         "zh": "煽动；使焦虑不安"
       }
     ],
-    "notes": "【搭配考点】stir emotions/interest (激起情感/兴趣)，cause a stir (引起轰动)，stir the soup (搅动汤)；【形近辨析】spur (策马激励)，star (星星)，sir (长官阁下)；【近义辨析】stir 作心理动词强调原本沉寂的情感、记忆或思绪被徐徐唤醒激荡；provoke 强调通过挑衅行为引发强烈愤怒抵触情绪，arouse 侧重唤醒原本沉睡的生理欲望或好奇心，agitate 强调激烈煽动群众情绪使其焦躁不安。",
-    "phonetic": "/stə:/"
+    "notes": "【搭配考点】stir emotions/interest (激起情感/兴趣)，cause a stir (引起轰动)，stir the soup (搅动汤)；【形近辨析】spur (策马激励)，star (星星)，sir (长官阁下)；【近义辨析】stir 作心理动词强调原本沉寂的情感、记忆或思绪被徐徐唤醒激荡；provoke 强调通过挑衅行为引发强烈愤怒抵触情绪，arouse 侧重唤醒原本沉睡的生理欲望或好奇心，agitate 强调激烈煽动群众情绪使其焦躁不安。"
   },
   "mountain": {
     "word": "mountain",
@@ -4685,8 +4616,7 @@
         "zh": "悬崖；绝壁"
       }
     ],
-    "notes": "【搭配考点】mountain range/summit (山脉/山顶)，a mountain of debt/work (堆积如山的债务/工作)；【形近辨析】fountain (喷泉)，maintain (保养维持)，mount (登上底座)；【近义辨析】mountain 强调规模宏大、拔地而起、地形高耸险峻的整个高山山体；peak 专指高山最尖锐顶端或事业顶峰，ridge 强调连绵起伏狭长的山脊分水线，cliff 专指垂直近乎九十度陡峭的悬崖绝壁。",
-    "phonetic": "/'mauntin/"
+    "notes": "【搭配考点】mountain range/summit (山脉/山顶)，a mountain of debt/work (堆积如山的债务/工作)；【形近辨析】fountain (喷泉)，maintain (保养维持)，mount (登上底座)；【近义辨析】mountain 强调规模宏大、拔地而起、地形高耸险峻的整个高山山体；peak 专指高山最尖锐顶端或事业顶峰，ridge 强调连绵起伏狭长的山脊分水线，cliff 专指垂直近乎九十度陡峭的悬崖绝壁。"
   },
   "fountain": {
     "word": "fountain",
@@ -4732,8 +4662,7 @@
         "zh": "喷射流；喷嘴"
       }
     ],
-    "notes": "【搭配考点】drinking fountain (饮水机喷泉)，fountain of knowledge/youth (知识宝库/青春之泉)；【形近辨析】mountain (山岳)，foundation (地基基石)，maintain (坚守维系)；【近义辨析】fountain 专指城市花园中人工建造供观赏或引水喷射的喷水池喷泉，比喻知识创意的源泉；spring 强调地表下天然涌出甘冽清泉的泉眼，geyser 专指受地热压力周期性喷发的炽热间歇泉，jet 强调高压细口喷射出的强劲液体射流。",
-    "phonetic": "/'fauntin/"
+    "notes": "【搭配考点】drinking fountain (饮水机喷泉)，fountain of knowledge/youth (知识宝库/青春之泉)；【形近辨析】mountain (山岳)，foundation (地基基石)，maintain (坚守维系)；【近义辨析】fountain 专指城市花园中人工建造供观赏或引水喷射的喷水池喷泉，比喻知识创意的源泉；spring 强调地表下天然涌出甘冽清泉的泉眼，geyser 专指受地热压力周期性喷发的炽热间歇泉，jet 强调高压细口喷射出的强劲液体射流。"
   },
   "profound": {
     "word": "profound",
@@ -4779,8 +4708,7 @@
         "zh": "根本的；激进的"
       }
     ],
-    "notes": "【搭配考点】profound impact/effect (深远深刻的影响)，profound gratitude (由衷的感激)，profound silence (一片死寂)；【形近辨析】propagate (繁衍宣传)，proud (自豪自负)，found (创立)；【近义辨析】profound 强调思想哲理境界极高极深，或对社会命运带来翻天覆地的历史性深远影响；deep 为基础通用词多指物理深度或感情深厚，insightful 侧重看透事物本质极具敏锐洞察力，radical 侧重从根基处变革或政治激进。",
-    "phonetic": "/prəu'faund/"
+    "notes": "【搭配考点】profound impact/effect (深远深刻的影响)，profound gratitude (由衷的感激)，profound silence (一片死寂)；【形近辨析】propagate (繁衍宣传)，proud (自豪自负)，found (创立)；【近义辨析】profound 强调思想哲理境界极高极深，或对社会命运带来翻天覆地的历史性深远影响；deep 为基础通用词多指物理深度或感情深厚，insightful 侧重看透事物本质极具敏锐洞察力，radical 侧重从根基处变革或政治激进。"
   },
   "foundation": {
     "word": "foundation",
@@ -4826,8 +4754,7 @@
         "zh": "底部；基地"
       }
     ],
-    "notes": "【搭配考点】lay the foundation for (为...奠定根基)，charitable foundation (慈善基金会)，solid foundation (坚实基础)；【形近辨析】formation (队形构造)，fountain (喷水泉)，function (职能功能)；【近义辨析】foundation 专指承载庞大建筑重量的地下钢筋混凝土基坑地基，或支持宏伟理论体系的深厚理论根基；basis 强调论证推理所依赖的逻辑前提或规章依据，cornerstone 强调建筑物拐角最核心受力的基石，base 侧重几何物体的底座或军事作业基地。",
-    "phonetic": "/faun'deiʃən/"
+    "notes": "【搭配考点】lay the foundation for (为...奠定根基)，charitable foundation (慈善基金会)，solid foundation (坚实基础)；【形近辨析】formation (队形构造)，fountain (喷水泉)，function (职能功能)；【近义辨析】foundation 专指承载庞大建筑重量的地下钢筋混凝土基坑地基，或支持宏伟理论体系的深厚理论根基；basis 强调论证推理所依赖的逻辑前提或规章依据，cornerstone 强调建筑物拐角最核心受力的基石，base 侧重几何物体的底座或军事作业基地。"
   },
   "base": {
     "word": "base",
@@ -4873,8 +4800,7 @@
         "zh": "根基；地基"
       }
     ],
-    "notes": "【搭配考点】military/logistics base (军事/物流基地)，base on/upon (建立在...基础上)，customer base (客户群体)；【形近辨析】bass (低音声部)，bare (光秃秃赤裸的)，case (事实案件)；【近义辨析】base 专指军事行军营地、大型商业活动据点，或承托物体的底脚平面；headquarters 专指最高统帅部或跨国集团总部机关，pedestal 专指承托半身雕像或花瓶的高雅大理石底座，foundation 强调深埋地下的承重地基。",
-    "phonetic": "/beis/"
+    "notes": "【搭配考点】military/logistics base (军事/物流基地)，base on/upon (建立在...基础上)，customer base (客户群体)；【形近辨析】bass (低音声部)，bare (光秃秃赤裸的)，case (事实案件)；【近义辨析】base 专指军事行军营地、大型商业活动据点，或承托物体的底脚平面；headquarters 专指最高统帅部或跨国集团总部机关，pedestal 专指承托半身雕像或花瓶的高雅大理石底座，foundation 强调深埋地下的承重地基。"
   },
   "basic": {
     "word": "basic",
@@ -4920,8 +4846,7 @@
         "zh": "原始简陋的；未成熟的"
       }
     ],
-    "notes": "【搭配考点】basic needs/skills (基本需求/基本技能)，basic salary (基本底薪)；【形近辨析】basis (名词依据)，basin (盆地/脸盆)，logic (逻辑规律)；【近义辨析】basic 强调满足生存、入门或起步的最不可或缺的底层底线要素；fundamental 强调对整个体系架构起决定性支配作用的深层核心原则，elementary 强调教学启蒙阶段的初级简单内容，rudimentary 侧重原始简陋或处于萌芽初级阶段。",
-    "phonetic": "/'beisik/"
+    "notes": "【搭配考点】basic needs/skills (基本需求/基本技能)，basic salary (基本底薪)；【形近辨析】basis (名词依据)，basin (盆地/脸盆)，logic (逻辑规律)；【近义辨析】basic 强调满足生存、入门或起步的最不可或缺的底层底线要素；fundamental 强调对整个体系架构起决定性支配作用的深层核心原则，elementary 强调教学启蒙阶段的初级简单内容，rudimentary 侧重原始简陋或处于萌芽初级阶段。"
   },
   "basis": {
     "word": "basis",
@@ -4967,8 +4892,7 @@
         "zh": "根基；地基"
       }
     ],
-    "notes": "【搭配考点】on the basis of (在...的基础上/依据)，daily/monthly basis (以按日/月为基准)；【形近辨析】basic (形容词基础的)，basin (盆地水盆)，bias (偏见偏颇)；【近义辨析】basis 强调进行逻辑推理、做出决定或制定行动规则的根本依据与基准；ground 强调采取法律行动或道德谴责的合情合理由，premise 强调逻辑三段论推导所必须设立的前提假设，foundation 侧重宏大体系物理或理论的底层根基。",
-    "phonetic": "/'beisis/"
+    "notes": "【搭配考点】on the basis of (在...的基础上/依据)，daily/monthly basis (以按日/月为基准)；【形近辨析】basic (形容词基础的)，basin (盆地水盆)，bias (偏见偏颇)；【近义辨析】basis 强调进行逻辑推理、做出决定或制定行动规则的根本依据与基准；ground 强调采取法律行动或道德谴责的合情合理由，premise 强调逻辑三段论推导所必须设立的前提假设，foundation 侧重宏大体系物理或理论的底层根基。"
   },
   "mount": {
     "word": "mount",
@@ -5014,8 +4938,7 @@
         "zh": "组织；筹备"
       }
     ],
-    "notes": "【搭配考点】mount a campaign/challenge (发起运动/挑战)，mounting pressure/debts (日益增加的压力/债务)；【形近辨析】amount (数量总数)，mourn (哀悼悲恸)，count (计算有价值)；【近义辨析】mount 强调逐步积蓄力量、组织资源发起声势浩大的行动或战役；launch 强调如同火箭点火出膛般全力启动新项目，initiate 侧重由最初一人破冰引头发起，organize 侧重繁琐的人员日程统筹安排。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】mount a campaign/challenge (发起运动/挑战)，mounting pressure/debts (日益增加的压力/债务)；【形近辨析】amount (数量总数)，mourn (哀悼悲恸)，count (计算有价值)；【近义辨析】mount 强调逐步积蓄力量、组织资源发起声势浩大的行动或战役；launch 强调如同火箭点火出膛般全力启动新项目，initiate 侧重由最初一人破冰引头发起，organize 侧重繁琐的人员日程统筹安排。"
   },
   "amount": {
     "word": "amount",
@@ -5061,8 +4984,7 @@
         "zh": "容积；体量"
       }
     ],
-    "notes": "【搭配考点】a large amount of (大量的+不可数名词)，amount to (总计达到/相当于)；【形近辨析】mount (登上/组织发起)，account (账户/记账)，amaze (惊叹惊奇)；【近义辨析】amount 专用于不可数名词指不可分割的整体数量或款项，quantity 可修饰可数或不可数偏重客观度量衡测量，sum 专指货币数字总和或数学加法结果，volume 强调液体空间容量、交通车流量或货物交易总体规模。",
-    "phonetic": "/ə'maunt/"
+    "notes": "【搭配考点】a large amount of (大量的+不可数名词)，amount to (总计达到/相当于)；【形近辨析】mount (登上/组织发起)，account (账户/记账)，amaze (惊叹惊奇)；【近义辨析】amount 专用于不可数名词指不可分割的整体数量或款项，quantity 可修饰可数或不可数偏重客观度量衡测量，sum 专指货币数字总和或数学加法结果，volume 强调液体空间容量、交通车流量或货物交易总体规模。"
   },
   "soar": {
     "word": "soar",
@@ -5108,8 +5030,7 @@
         "zh": "逐步升级；加剧"
       }
     ],
-    "notes": "【搭配考点】prices/temperatures soar (物价/气温急剧飙升)，soar into the sky (翱翔天际)；【形近辨析】sour (酸涩腐败)，roar (狮吼轰鸣)，sore (肌肉酸痛)；【近义辨析】soar 强调如同雄鹰展翅般轻盈、极高且极其迅速地攀升到惊人高度；surge 强调如同汹涌浪潮般势不可挡地瞬间涌起猛增，skyrocket 形象比喻如同烟花火箭般垂直笔直蹿升，escalate 强调危机、矛盾或战火由点及面逐步升级加剧。",
-    "phonetic": "/sɔ:/"
+    "notes": "【搭配考点】prices/temperatures soar (物价/气温急剧飙升)，soar into the sky (翱翔天际)；【形近辨析】sour (酸涩腐败)，roar (狮吼轰鸣)，sore (肌肉酸痛)；【近义辨析】soar 强调如同雄鹰展翅般轻盈、极高且极其迅速地攀升到惊人高度；surge 强调如同汹涌浪潮般势不可挡地瞬间涌起猛增，skyrocket 形象比喻如同烟花火箭般垂直笔直蹿升，escalate 强调危机、矛盾或战火由点及面逐步升级加剧。"
   },
   "ascend": {
     "word": "ascend",
@@ -5155,8 +5076,7 @@
         "zh": "攀登；翻越"
       }
     ],
-    "notes": "【搭配考点】ascend the throne (登基为王)，ascend the stairs/mountain (登楼梯/爬山)；【形近辨析】descend (下降跌落)，accent (地方口音)，accept (接纳接受)；【近义辨析】ascend 属极正式文雅的动词，指物体平稳持续垂直向上运动或地位登临至尊；rise 为日常基础词多指自然升起无需借力，climb 强调手脚并用用力克服重力向上爬，scale 专指攀登极其陡峭险峻的垂直崖壁或城墙。",
-    "phonetic": "/ə'send/"
+    "notes": "【搭配考点】ascend the throne (登基为王)，ascend the stairs/mountain (登楼梯/爬山)；【形近辨析】descend (下降跌落)，accent (地方口音)，accept (接纳接受)；【近义辨析】ascend 属极正式文雅的动词，指物体平稳持续垂直向上运动或地位登临至尊；rise 为日常基础词多指自然升起无需借力，climb 强调手脚并用用力克服重力向上爬，scale 专指攀登极其陡峭险峻的垂直崖壁或城墙。"
   },
   "descend": {
     "word": "descend",
@@ -5202,8 +5122,7 @@
         "zh": "下沉；沉没"
       }
     ],
-    "notes": "【搭配考点】descend from (起源于/是...后裔)，descend the stairs (走下楼梯)，darkness descends (夜幕降临)；【形近辨析】ascend (升起攀登)，descent (名词下降/血统)，dissent (持不同政见)；【近义辨析】descend 强调平稳、有控制、平缓地从高处向下运动滑行，drop 侧重失去支撑突然掉落或指标下降，plunge 强调垂直直插深渊般猛烈剧跌骤降，sink 强调在液体中受自身重力缓缓下沉淹没。",
-    "phonetic": "/di'send/"
+    "notes": "【搭配考点】descend from (起源于/是...后裔)，descend the stairs (走下楼梯)，darkness descends (夜幕降临)；【形近辨析】ascend (升起攀登)，descent (名词下降/血统)，dissent (持不同政见)；【近义辨析】descend 强调平稳、有控制、平缓地从高处向下运动滑行，drop 侧重失去支撑突然掉落或指标下降，plunge 强调垂直直插深渊般猛烈剧跌骤降，sink 强调在液体中受自身重力缓缓下沉淹没。"
   },
   "decline": {
     "word": "decline",
@@ -5249,8 +5168,7 @@
         "zh": "断然拒绝；回绝"
       }
     ],
-    "notes": "【搭配考点】decline an invitation/offer (礼貌婉言谢绝)，economic decline (经济衰退)，on the decline (在衰落中)；【形近辨析】incline (倾斜倾向)，recline (靠背斜躺)，declare (正式宣告)；【近义辨析】decline 作拒绝时语气最为委婉客气合乎礼节，作衰退时指长期温和下滑；refuse 语气极其坚定直截了当，reject 侧重公事公办不予采纳驳回提案，rebuff 强调带有冷漠甚至生硬意味的当面回绝。",
-    "phonetic": "/di'klain/"
+    "notes": "【搭配考点】decline an invitation/offer (礼貌婉言谢绝)，economic decline (经济衰退)，on the decline (在衰落中)；【形近辨析】incline (倾斜倾向)，recline (靠背斜躺)，declare (正式宣告)；【近义辨析】decline 作拒绝时语气最为委婉客气合乎礼节，作衰退时指长期温和下滑；refuse 语气极其坚定直截了当，reject 侧重公事公办不予采纳驳回提案，rebuff 强调带有冷漠甚至生硬意味的当面回绝。"
   },
   "incline": {
     "word": "incline",
@@ -5296,8 +5214,7 @@
         "zh": "倾斜；带偏向"
       }
     ],
-    "notes": "【搭配考点】incline toward/to (倾向于)，be inclined to do sth (倾向于做某事/有意愿做)；【形近辨析】decline (拒绝/衰落)，include (包含)，outline (大纲轮廓)；【近义辨析】incline 强调在权衡判断后内心天平发生轻微倾斜偏向某一方；tend 侧重客观规律上往往呈现某种统计趋势，lean 侧重身体物理靠向或政治观点偏向某派别，slant 强调在叙述中带有主观倾向性地呈现。",
-    "phonetic": "/in'klain/"
+    "notes": "【搭配考点】incline toward/to (倾向于)，be inclined to do sth (倾向于做某事/有意愿做)；【形近辨析】decline (拒绝/衰落)，include (包含)，outline (大纲轮廓)；【近义辨析】incline 强调在权衡判断后内心天平发生轻微倾斜偏向某一方；tend 侧重客观规律上往往呈现某种统计趋势，lean 侧重身体物理靠向或政治观点偏向某派别，slant 强调在叙述中带有主观倾向性地呈现。"
   },
   "ancestor": {
     "word": "ancestor",
@@ -5343,8 +5260,7 @@
         "zh": "祖先；宗族"
       }
     ],
-    "notes": "【搭配考点】common ancestor (共同祖先)，ancestor worship (祖先崇拜)；【形近辨析】ancestry (集合名词家系血统)，anchor (船锚/主持人)，actor (演员)；【近义辨析】ancestor 专指人类家族世代向上追溯的祖辈或生物演化谱系上的原始始祖，forefather 强调开创民族国家的先贤先驱，predecessor 专指同一职位上的前任人选或某种设备的原型上一代，forebear 属文学庄重用词指世系先人。",
-    "phonetic": "/'ænsestə/"
+    "notes": "【搭配考点】common ancestor (共同祖先)，ancestor worship (祖先崇拜)；【形近辨析】ancestry (集合名词家系血统)，anchor (船锚/主持人)，actor (演员)；【近义辨析】ancestor 专指人类家族世代向上追溯的祖辈或生物演化谱系上的原始始祖，forefather 强调开创民族国家的先贤先驱，predecessor 专指同一职位上的前任人选或某种设备的原型上一代，forebear 属文学庄重用词指世系先人。"
   },
   "ancient": {
     "word": "ancient",
@@ -5390,8 +5306,7 @@
         "zh": "原始的；粗糙的"
       }
     ],
-    "notes": "【搭配考点】ancient civilization/history (古代文明/古代史)，ancient ruins (古代废墟)；【形近辨析】accent (口音腔调)，agent (特工经纪人)，patient (病人有耐心的)；【近义辨析】ancient 专指人类文明发轫至中世纪以前远古时代的悠久历史，antique 侧重具有收藏投资价值的古玩古董家俱，archaic 专指古体词汇语言或落后陈腐的习俗，primitive 强调人类早期茹毛饮血的原始蛮荒状态。",
-    "phonetic": "/'einʃənt/"
+    "notes": "【搭配考点】ancient civilization/history (古代文明/古代史)，ancient ruins (古代废墟)；【形近辨析】accent (口音腔调)，agent (特工经纪人)，patient (病人有耐心的)；【近义辨析】ancient 专指人类文明发轫至中世纪以前远古时代的悠久历史，antique 侧重具有收藏投资价值的古玩古董家俱，archaic 专指古体词汇语言或落后陈腐的习俗，primitive 强调人类早期茹毛饮血的原始蛮荒状态。"
   },
   "consensus": {
     "word": "consensus",
@@ -5437,8 +5352,7 @@
         "zh": "全体一致；无异议"
       }
     ],
-    "notes": "【搭配考点】reach a consensus (达成共识)，general/broad consensus (广泛共识)；【形近辨析】census (人口户籍普查)，consent (个人批准同意)，conscious (神志清醒的)；【近义辨析】consensus 专指大型团体、社会或跨国谈判中经反复协商求同存异形成的集体共同决议；agreement 泛指任何双方达成的协议赞同，accord 强调庄严的国家间和平条约或步调一致，unanimity 专指百分之百全票赞成的绝对一致。",
-    "phonetic": "/kən'sensəs/"
+    "notes": "【搭配考点】reach a consensus (达成共识)，general/broad consensus (广泛共识)；【形近辨析】census (人口户籍普查)，consent (个人批准同意)，conscious (神志清醒的)；【近义辨析】consensus 专指大型团体、社会或跨国谈判中经反复协商求同存异形成的集体共同决议；agreement 泛指任何双方达成的协议赞同，accord 强调庄严的国家间和平条约或步调一致，unanimity 专指百分之百全票赞成的绝对一致。"
   },
   "proceed": {
     "word": "proceed",
@@ -5484,8 +5398,7 @@
         "zh": "暂停后重新恢复"
       }
     ],
-    "notes": "【搭配考点】proceed with (继续推进某事)，proceed to do sth (接着做某事)，proceeds (复数收益)；【形近辨析】precede (时间空间上先于)，exceed (超出上限)，concede (被迫让步承认)；【近义辨析】proceed 强调在某一阶段工作就绪或指令下达后正式开动、按章办事继续推行；continue 强调动作前后无间断延展，advance 侧重突破阻碍在物理或学术上向前拓展，resume 专指被打断或休会后重新拾起。",
-    "phonetic": "/prəu'si:d/"
+    "notes": "【搭配考点】proceed with (继续推进某事)，proceed to do sth (接着做某事)，proceeds (复数收益)；【形近辨析】precede (时间空间上先于)，exceed (超出上限)，concede (被迫让步承认)；【近义辨析】proceed 强调在某一阶段工作就绪或指令下达后正式开动、按章办事继续推行；continue 强调动作前后无间断延展，advance 侧重突破阻碍在物理或学术上向前拓展，resume 专指被打断或休会后重新拾起。"
   },
   "procession": {
     "word": "procession",
@@ -5531,8 +5444,7 @@
         "zh": "马队；车队"
       }
     ],
-    "notes": "【搭配考点】funeral/carnival procession (送葬队伍/狂欢节游行)，in procession (列队前进)；【形近辨析】profession (职业领域)，possession (财产占有)，concession (妥协让步)；【近义辨析】procession 专指宗教仪式、国葬或盛大典礼中井然有序、缓慢前行的列队；parade 侧重节假日供公众围观欢庆的彩色花车军乐队大游行，march 强调步调铿锵整齐的军事行军或政治抗议示威行进，cavalcade 专指长列骑兵或贵宾车队。",
-    "phonetic": "/prəu'seʃən/"
+    "notes": "【搭配考点】funeral/carnival procession (送葬队伍/狂欢节游行)，in procession (列队前进)；【形近辨析】profession (职业领域)，possession (财产占有)，concession (妥协让步)；【近义辨析】procession 专指宗教仪式、国葬或盛大典礼中井然有序、缓慢前行的列队；parade 侧重节假日供公众围观欢庆的彩色花车军乐队大游行，march 强调步调铿锵整齐的军事行军或政治抗议示威行进，cavalcade 专指长列骑兵或贵宾车队。"
   },
   "troop": {
     "word": "troop",
@@ -5578,8 +5490,7 @@
         "zh": "军团；大批"
       }
     ],
-    "notes": "【搭配考点】peacekeeping troop/troops (维和部队)，troop withdrawal (军队撤出)；【形近辨析】trap (圈套陷阱)，drop (掉落滴下)，loop (圆环回路)；【近义辨析】troop 单数常指装甲连队或骑兵小队，复数 troops 泛指成建制正规陆军大部队；squad 专指执行特定任务的特警班或战斗小组，contingent 专指某一国家派出参与联合作战的一支分遣部队，legion 专指古罗马军团或庞大志愿者组织。",
-    "phonetic": "/tru:p/"
+    "notes": "【搭配考点】peacekeeping troop/troops (维和部队)，troop withdrawal (军队撤出)；【形近辨析】trap (圈套陷阱)，drop (掉落滴下)，loop (圆环回路)；【近义辨析】troop 单数常指装甲连队或骑兵小队，复数 troops 泛指成建制正规陆军大部队；squad 专指执行特定任务的特警班或战斗小组，contingent 专指某一国家派出参与联合作战的一支分遣部队，legion 专指古罗马军团或庞大志愿者组织。"
   },
   "process": {
     "word": "process",
@@ -5625,8 +5536,7 @@
         "zh": "进阶次序；递进"
       }
     ],
-    "notes": "【搭配考点】gradual/natural process (渐进/自然过程)，in the process of (在...过程中)，process data/food (处理数据/加工食品)；【形近辨析】proceed (推进继续)，profess (公开声称)，possess (占有拥有)；【近义辨析】process 强调事物从开端到结局所经历的一系列连续阶段与动态演变，procedure 专指办事时必须严格逐条履行的法定制式办事手续规程，course 侧重历史潮流或航船行进的路线轨迹，progression 强调按部就班有节奏的进阶次序。",
-    "phonetic": "/'prəuses; 'prɔ-/"
+    "notes": "【搭配考点】gradual/natural process (渐进/自然过程)，in the process of (在...过程中)，process data/food (处理数据/加工食品)；【形近辨析】proceed (推进继续)，profess (公开声称)，possess (占有拥有)；【近义辨析】process 强调事物从开端到结局所经历的一系列连续阶段与动态演变，procedure 专指办事时必须严格逐条履行的法定制式办事手续规程，course 侧重历史潮流或航船行进的路线轨迹，progression 强调按部就班有节奏的进阶次序。"
   },
   "procedure": {
     "word": "procedure",
@@ -5672,8 +5582,7 @@
         "zh": "常规惯例"
       }
     ],
-    "notes": "【搭配考点】standard operating procedure (标准作业程序SOP)，surgical procedure (外科手术步骤)；【形近辨析】proceed (继续推进)，precedence (居先优先地位)，posture (姿态姿势)；【近义辨析】procedure 专指行政、医疗或法律上必须按既定顺序一步步履行的规范化办事程序；protocol 侧重国际外交条约礼仪规约或严密的科学实验方案，process 强调从头到尾自然连贯的整个动态过程，routine 强调日常惯常做法。",
-    "phonetic": "/prə'si:dʒə/"
+    "notes": "【搭配考点】standard operating procedure (标准作业程序SOP)，surgical procedure (外科手术步骤)；【形近辨析】proceed (继续推进)，precedence (居先优先地位)，posture (姿态姿势)；【近义辨析】procedure 专指行政、医疗或法律上必须按既定顺序一步步履行的规范化办事程序；protocol 侧重国际外交条约礼仪规约或严密的科学实验方案，process 强调从头到尾自然连贯的整个动态过程，routine 强调日常惯常做法。"
   },
   "access": {
     "word": "access",
@@ -5719,8 +5628,7 @@
         "zh": "可得性；可利用性"
       }
     ],
-    "notes": "【搭配考点】gain/have access to (获得接触/使用...的权利)，wheelchair access (轮椅无障碍通道)；【形近辨析】assess (估价评估)，accept (采纳接收)，excess (过度过剩)；【近义辨析】access 强调能够接近、进入某地或获取利用某种资源的权利与通路；entry 侧重跨过门槛物理进入的动作，admission 强调经过资格审核或购票后获得准许入场，availability 强调资源现成摆在那里可供随时取用。",
-    "phonetic": "/'ækses; 'æksəs; æk'ses/"
+    "notes": "【搭配考点】gain/have access to (获得接触/使用...的权利)，wheelchair access (轮椅无障碍通道)；【形近辨析】assess (估价评估)，accept (采纳接收)，excess (过度过剩)；【近义辨析】access 强调能够接近、进入某地或获取利用某种资源的权利与通路；entry 侧重跨过门槛物理进入的动作，admission 强调经过资格审核或购票后获得准许入场，availability 强调资源现成摆在那里可供随时取用。"
   },
   "assess": {
     "word": "assess",
@@ -5766,8 +5674,7 @@
         "zh": "专业鉴定估价"
       }
     ],
-    "notes": "【搭配考点】assess damage/risk (评估损害/风险)，assess property taxes (核定房产税)；【形近辨析】access (使用通路)，asset (财富资产)，assert (强力断言坚持)；【近义辨析】assess 强调综合考察各种事实细节以得出量化或性质上的正式判断；evaluate 侧重依据既定指标对质量、绩效或成果的高低优劣打分评定，estimate 强调在数据不全情况下靠经验粗略估算数字金额，appraise 专指珠宝、艺术品由专家进行官方价值鉴定估价。",
-    "phonetic": "/ə'ses/"
+    "notes": "【搭配考点】assess damage/risk (评估损害/风险)，assess property taxes (核定房产税)；【形近辨析】access (使用通路)，asset (财富资产)，assert (强力断言坚持)；【近义辨析】assess 强调综合考察各种事实细节以得出量化或性质上的正式判断；evaluate 侧重依据既定指标对质量、绩效或成果的高低优劣打分评定，estimate 强调在数据不全情况下靠经验粗略估算数字金额，appraise 专指珠宝、艺术品由专家进行官方价值鉴定估价。"
   },
   "exceed": {
     "word": "exceed",
@@ -5813,8 +5720,7 @@
         "zh": "超车；赶超"
       }
     ],
-    "notes": "【搭配考点】exceed expectations (超出预期)，exceed the speed limit (超速)；【形近辨析】succeed (继承成功)，excel (擅长卓越)，accede (应允加入)；【近义辨析】exceed 专指在明确数字、法定限额或预期指标上越过规定红线；surpass 强调在智慧、勇气、艺术水准等正面品质上超越前人，outstrip 侧重以更快速度遥遥甩开竞争对手，overtake 强调原本落后于人但后来居上超车赶超。",
-    "phonetic": "/ik'si:d/"
+    "notes": "【搭配考点】exceed expectations (超出预期)，exceed the speed limit (超速)；【形近辨析】succeed (继承成功)，excel (擅长卓越)，accede (应允加入)；【近义辨析】exceed 专指在明确数字、法定限额或预期指标上越过规定红线；surpass 强调在智慧、勇气、艺术水准等正面品质上超越前人，outstrip 侧重以更快速度遥遥甩开竞争对手，overtake 强调原本落后于人但后来居上超车赶超。"
   },
   "beyond": {
     "word": "beyond",
@@ -5860,8 +5766,7 @@
         "zh": "在...之外"
       }
     ],
-    "notes": "【搭配考点】beyond comprehension/doubt (难以理解/无可置疑)，beyond the horizon (在地平线以外)；【形近辨析】behind (在背后)，bond (羁绊纽带)，blond (金发的)；【近义辨析】beyond 强调在空间上跨过了某一界线到达更远处，或在能力、认知上彻底超出了边界掌控；past 侧重物理上从某物身旁走过穿过，exceeding 作分词强调数量超越，outside 强调单纯处于空间或法规边界之外。",
-    "phonetic": "/bi'jɔnd/"
+    "notes": "【搭配考点】beyond comprehension/doubt (难以理解/无可置疑)，beyond the horizon (在地平线以外)；【形近辨析】behind (在背后)，bond (羁绊纽带)，blond (金发的)；【近义辨析】beyond 强调在空间上跨过了某一界线到达更远处，或在能力、认知上彻底超出了边界掌控；past 侧重物理上从某物身旁走过穿过，exceeding 作分词强调数量超越，outside 强调单纯处于空间或法规边界之外。"
   },
   "surplus": {
     "word": "surplus",
@@ -5907,8 +5812,7 @@
         "zh": "供应过剩；充塞"
       }
     ],
-    "notes": "【搭配考点】trade/budget surplus (贸易顺差/预算盈余)，surplus grain (余粮)；【形近辨析】surprise (惊异吃惊)，surface (地表表面)，surpass (胜过超越)；【近义辨析】surplus 专指在经济贸易结算中收入大于支出的良性资金结余或超出消费额的可用储备；excess 侧重超越正常适度限度的多余滥用，remainder 强调扣除主要部分后留下的零头尾数，glut 强调市场上商品严重滞销积压成灾。",
-    "phonetic": "/'sə:plʌs; -pləs/"
+    "notes": "【搭配考点】trade/budget surplus (贸易顺差/预算盈余)，surplus grain (余粮)；【形近辨析】surprise (惊异吃惊)，surface (地表表面)，surpass (胜过超越)；【近义辨析】surplus 专指在经济贸易结算中收入大于支出的良性资金结余或超出消费额的可用储备；excess 侧重超越正常适度限度的多余滥用，remainder 强调扣除主要部分后留下的零头尾数，glut 强调市场上商品严重滞销积压成灾。"
   },
   "extra": {
     "word": "extra",
@@ -5954,8 +5858,7 @@
         "zh": "备用的；多余的"
       }
     ],
-    "notes": "【搭配考点】extra fee/charge (额外收费)，take extra care (格外留心)，work extra hours (加班)；【形近辨析】extract (提炼拔出)，exact (严谨精确的)，extant (现存尚在的)；【近义辨析】extra 偏口语和日常商业用语，强调在标准基准之外附带追加的内容；additional 属较正式官方书面语强调在已有基础上增补，supplemental 侧重为了弥补不足而特意配齐的辅助补充材料，spare 强调备用不时之需。",
-    "phonetic": "/'ekstrə/"
+    "notes": "【搭配考点】extra fee/charge (额外收费)，take extra care (格外留心)，work extra hours (加班)；【形近辨析】extract (提炼拔出)，exact (严谨精确的)，extant (现存尚在的)；【近义辨析】extra 偏口语和日常商业用语，强调在标准基准之外附带追加的内容；additional 属较正式官方书面语强调在已有基础上增补，supplemental 侧重为了弥补不足而特意配齐的辅助补充材料，spare 强调备用不时之需。"
   },
   "excess": {
     "word": "excess",
@@ -6001,8 +5904,7 @@
         "zh": "多余；过剩物"
       }
     ],
-    "notes": "【搭配考点】in excess of (超过...额度)，excess baggage (超重行李)，to excess (无节制地/过度地)；【形近辨析】access (通路使用权)，assess (评估核算)，accept (接纳认可)；【近义辨析】excess 强调超越了健康、安全或理性的恰当限度而产生负面危害的多余；surplus 强调经管核算后有益的富余结余物资，overkill 侧重小题大做用力过猛导致反效果，superfluity 偏典雅哲理用语指奢侈多余之物。",
-    "phonetic": "/ik'ses; 'ek-; 'ekses; ik's-/"
+    "notes": "【搭配考点】in excess of (超过...额度)，excess baggage (超重行李)，to excess (无节制地/过度地)；【形近辨析】access (通路使用权)，assess (评估核算)，accept (接纳认可)；【近义辨析】excess 强调超越了健康、安全或理性的恰当限度而产生负面危害的多余；surplus 强调经管核算后有益的富余结余物资，overkill 侧重小题大做用力过猛导致反效果，superfluity 偏典雅哲理用语指奢侈多余之物。"
   },
   "success": {
     "word": "success",
@@ -6048,8 +5950,7 @@
         "zh": "非凡胜利；凯旋"
       }
     ],
-    "notes": "【搭配考点】key to success (成功的关键)，entrepreneurial success (创业成功)，achieve success (获得成功)；【形近辨析】succeed (动词成功)，excess (过度过量)，access (进入使用)；【近义辨析】success 专指达到预定目标、获得财富地位或事业圆满的总体良好结局；achievement 侧重付出艰苦智力心血所获得的实质性丰硕成果，victory 专指在军事打仗、竞技赛场战胜对手赢得胜局，triumph 强调克服巨大厄运之后迎来的光辉耀眼凯旋。",
-    "phonetic": "/sək'ses/"
+    "notes": "【搭配考点】key to success (成功的关键)，entrepreneurial success (创业成功)，achieve success (获得成功)；【形近辨析】succeed (动词成功)，excess (过度过量)，access (进入使用)；【近义辨析】success 专指达到预定目标、获得财富地位或事业圆满的总体良好结局；achievement 侧重付出艰苦智力心血所获得的实质性丰硕成果，victory 专指在军事打仗、竞技赛场战胜对手赢得胜局，triumph 强调克服巨大厄运之后迎来的光辉耀眼凯旋。"
   },
   "succeed": {
     "word": "succeed",
@@ -6095,8 +5996,7 @@
         "zh": "繁荣；茁壮成长"
       }
     ],
-    "notes": "【搭配考点】succeed in doing sth (成功做成某事)，succeed to the throne (继承王位)，succeed sb as (接替某人担任...)；【形近辨析】success (名词成功)，exceed (超出突破)，secede (正式退出联邦)；【近义辨析】succeed in 强调经过努力如愿以偿办成预想目标；triumph 强调战胜强敌或艰难险阻后的欢欣胜利，prevail 侧重在激烈辩论或力量角逐中压倒对手最终占据上风，thrive 强调在良好环境下蓬勃发展生机盎然。",
-    "phonetic": "/sək'si:d/"
+    "notes": "【搭配考点】succeed in doing sth (成功做成某事)，succeed to the throne (继承王位)，succeed sb as (接替某人担任...)；【形近辨析】success (名词成功)，exceed (超出突破)，secede (正式退出联邦)；【近义辨析】succeed in 强调经过努力如愿以偿办成预想目标；triumph 强调战胜强敌或艰难险阻后的欢欣胜利，prevail 侧重在激烈辩论或力量角逐中压倒对手最终占据上风，thrive 强调在良好环境下蓬勃发展生机盎然。"
   },
   "successor": {
     "word": "successor",
@@ -6142,8 +6042,7 @@
         "zh": "代替者；替换物"
       }
     ],
-    "notes": "【搭配考点】appoint a successor (任命继任者)，successor to the post (该职位的接替者)；【形近辨析】success (成功)，succession (连串接替/王位继承权)，predecessor (前任者)；【近义辨析】successor 专指在政治职务、公司岗位或历史使命上按正规程序顺位接替前任的人；heir 专指按血缘或遗嘱继承王位巨额财产的法定继承人，inheritor 侧重承受物质遗产或文化衣钵的接受者，replacement 强调因缺勤、故障找来的替工替代品。",
-    "phonetic": "/sək'sesə/"
+    "notes": "【搭配考点】appoint a successor (任命继任者)，successor to the post (该职位的接替者)；【形近辨析】success (成功)，succession (连串接替/王位继承权)，predecessor (前任者)；【近义辨析】successor 专指在政治职务、公司岗位或历史使命上按正规程序顺位接替前任的人；heir 专指按血缘或遗嘱继承王位巨额财产的法定继承人，inheritor 侧重承受物质遗产或文化衣钵的接受者，replacement 强调因缺勤、故障找来的替工替代品。"
   },
   "excel": {
     "word": "excel",
@@ -6189,8 +6088,7 @@
         "zh": "发光；出众"
       }
     ],
-    "notes": "【搭配考点】excel in/at (在...方面出类拔萃/极其擅长)；【形近辨析】exceed (数值上超过)，except (介词除了)，excess (过剩过度)；【近义辨析】excel 强调在某项技艺或学问上表现出异乎寻常的卓越才华高人一等；surpass 侧重在具体品质水准上凌驾超越某特定对手，outdo 强调在竞争打擂中压倒对手，shine 侧重在特定场合或众人面前大放异彩闪光。",
-    "phonetic": "/ik'sel/"
+    "notes": "【搭配考点】excel in/at (在...方面出类拔萃/极其擅长)；【形近辨析】exceed (数值上超过)，except (介词除了)，excess (过剩过度)；【近义辨析】excel 强调在某项技艺或学问上表现出异乎寻常的卓越才华高人一等；surpass 侧重在具体品质水准上凌驾超越某特定对手，outdo 强调在竞争打擂中压倒对手，shine 侧重在特定场合或众人面前大放异彩闪光。"
   },
   "stride": {
     "word": "stride",
@@ -6236,8 +6134,7 @@
         "zh": "重大突破"
       }
     ],
-    "notes": "【搭配考点】make strides in (在...取得长足进展)，take sth in one's stride (从容应对某事)，with long strides (大步流星)；【形近辨析】strike (罢工袭击)，stripe (斑纹条纹)，strident (尖叫刺耳的)；【近义辨析】stride 专指步幅宽阔坚定的大踏步，引申为事业取得实质性跨越式重大进展；pace 强调行走或发展的节奏频率速度，step 侧重细碎普通的日常脚步或具体措施步骤，breakthrough 专指冲破瓶颈障碍的突破性成就。",
-    "phonetic": "/straid/"
+    "notes": "【搭配考点】make strides in (在...取得长足进展)，take sth in one's stride (从容应对某事)，with long strides (大步流星)；【形近辨析】strike (罢工袭击)，stripe (斑纹条纹)，strident (尖叫刺耳的)；【近义辨析】stride 专指步幅宽阔坚定的大踏步，引申为事业取得实质性跨越式重大进展；pace 强调行走或发展的节奏频率速度，step 侧重细碎普通的日常脚步或具体措施步骤，breakthrough 专指冲破瓶颈障碍的突破性成就。"
   },
   "wander": {
     "word": "wander",
@@ -6283,8 +6180,7 @@
         "zh": "漂流；随波逐流"
       }
     ],
-    "notes": "【搭配考点】wander off (走失/离题)，mind/thoughts wander (思绪走神)，wander the streets (漫步街头)；【形近辨析】wonder (惊异纳闷)，waiter (服务员)，warmer (加热器)；【近义辨析】wander 强调漫无固定目的地悠闲晃荡漫游，或思绪脱缰走神；roam 侧重在广阔无垠的荒野大自然中长距离跋涉漫步，stroll 侧重为放松身心在公园林荫道慢悠悠散步，drift 强调毫无主见被水流空气随风裹挟漂动。",
-    "phonetic": "/'wɔndə/"
+    "notes": "【搭配考点】wander off (走失/离题)，mind/thoughts wander (思绪走神)，wander the streets (漫步街头)；【形近辨析】wonder (惊异纳闷)，waiter (服务员)，warmer (加热器)；【近义辨析】wander 强调漫无固定目的地悠闲晃荡漫游，或思绪脱缰走神；roam 侧重在广阔无垠的荒野大自然中长距离跋涉漫步，stroll 侧重为放松身心在公园林荫道慢悠悠散步，drift 强调毫无主见被水流空气随风裹挟漂动。"
   },
   "crawl": {
     "word": "crawl",
@@ -6330,8 +6226,7 @@
         "zh": "极其缓慢地微动"
       }
     ],
-    "notes": "【搭配考点】slow to a crawl (慢如蜗牛爬行)，crawl on all fours (四肢着地爬)，crawl out of bed (挣扎着爬起床)；【形近辨析】brawl (聚众斗殴闹事)，claw (猛兽爪子)，drawl (懒散拖长调说话)；【近义辨析】crawl 强调婴儿或蜥蜴肚皮贴地手脚着地挪动，或车辆极度拥堵以龟速挪移；creep 强调为了不被发现猫着腰蹑手蹑脚鬼祟潜行，slither 专指蛇类无足腹部蛇形滑行，inch 强调一英寸一英寸微弱艰难前挪。",
-    "phonetic": "/krɔ:l/"
+    "notes": "【搭配考点】slow to a crawl (慢如蜗牛爬行)，crawl on all fours (四肢着地爬)，crawl out of bed (挣扎着爬起床)；【形近辨析】brawl (聚众斗殴闹事)，claw (猛兽爪子)，drawl (懒散拖长调说话)；【近义辨析】crawl 强调婴儿或蜥蜴肚皮贴地手脚着地挪动，或车辆极度拥堵以龟速挪移；creep 强调为了不被发现猫着腰蹑手蹑脚鬼祟潜行，slither 专指蛇类无足腹部蛇形滑行，inch 强调一英寸一英寸微弱艰难前挪。"
   },
   "climb": {
     "word": "climb",
@@ -6377,8 +6272,7 @@
         "zh": "急剧飙升"
       }
     ],
-    "notes": "【搭配考点】climb the corporate ladder (在公司节节高升)，temperatures/prices climb (气温/物价稳步攀升)；【形近辨析】claim (声称索赔)，limb (肢体大枝)，calm (从容平静)；【近义辨析】climb 强调克服阻力依靠自身体能向上攀登，或统计曲线平稳有序持续走高；scale 强调借助绳索机械翻越陡峭城墙悬崖，mount 侧重跨上马背或走上讲台底座，soar 强调爆发式暴涨。",
-    "phonetic": "/klaim/"
+    "notes": "【搭配考点】climb the corporate ladder (在公司节节高升)，temperatures/prices climb (气温/物价稳步攀升)；【形近辨析】claim (声称索赔)，limb (肢体大枝)，calm (从容平静)；【近义辨析】climb 强调克服阻力依靠自身体能向上攀登，或统计曲线平稳有序持续走高；scale 强调借助绳索机械翻越陡峭城墙悬崖，mount 侧重跨上马背或走上讲台底座，soar 强调爆发式暴涨。"
   },
   "progress": {
     "word": "progress",
@@ -6424,8 +6318,7 @@
         "zh": "前进进展"
       }
     ],
-    "notes": "【搭配考点】make progress (取得进步)，in progress (正在进行中)，economic progress (经济发展)；【形近辨析】congress (国会代表大会)，process (过程程序)，program (规划程序)；【近义辨析】progress 专指在学识、技术或文明道德上朝着更高级完美状态的实质迈进；advancement 侧重职务头衔晋升或技术前沿推进，development 强调规模由小到大结构由简单到复杂的全面发育，headway 强调克服阻碍后艰难取得的前进进展。",
-    "phonetic": "/'prəuɡres; 'prɔ-; prəu'ɡres/"
+    "notes": "【搭配考点】make progress (取得进步)，in progress (正在进行中)，economic progress (经济发展)；【形近辨析】congress (国会代表大会)，process (过程程序)，program (规划程序)；【近义辨析】progress 专指在学识、技术或文明道德上朝着更高级完美状态的实质迈进；advancement 侧重职务头衔晋升或技术前沿推进，development 强调规模由小到大结构由简单到复杂的全面发育，headway 强调克服阻碍后艰难取得的前进进展。"
   },
   "congress": {
     "word": "congress",
@@ -6471,8 +6364,7 @@
         "zh": "集会；立法议会"
       }
     ],
-    "notes": "【搭配考点】international congress (国际学术代表大会)，Library of Congress (美国国会图书馆)，pass through Congress (通过国会审议)；【形近辨析】progress (进步)，digress (偏离主题)，ingress (入场进入权)；【近义辨析】congress 专指美国等总统制国家的最高立法机构（首字母大写），或大型国际专业学术团体的正式代表大会；convention 侧重行业展销年会或政党全国提名大会，parliament 专指英国内阁议会制立法机关，assembly 泛指公民集会或联合国大会。",
-    "phonetic": "/'kɔŋɡres; kən'ɡres/"
+    "notes": "【搭配考点】international congress (国际学术代表大会)，Library of Congress (美国国会图书馆)，pass through Congress (通过国会审议)；【形近辨析】progress (进步)，digress (偏离主题)，ingress (入场进入权)；【近义辨析】congress 专指美国等总统制国家的最高立法机构（首字母大写），或大型国际专业学术团体的正式代表大会；convention 侧重行业展销年会或政党全国提名大会，parliament 专指英国内阁议会制立法机关，assembly 泛指公民集会或联合国大会。"
   },
   "aggressive": {
     "word": "aggressive",
@@ -6518,8 +6410,7 @@
         "zh": "雄心勃勃的"
       }
     ],
-    "notes": "【搭配考点】aggressive marketing (激进营销)，aggressive behavior (攻击性行为)；【形近辨析】progressive (进步开明的)，regressive (退步倒退的)，oppressive (暴虐压抑的)；【近义辨析】aggressive 具有双刃剑词义：在军事人际交往中指凶狠好斗、挑衅侵略，在商业和职场中指充满狼性冲劲、敢于进取；assertive 褒义指敢于自信维护自身权益但绝不侵犯他人，belligerent 专指赤裸裸的好战挑衅，ambitious 强调胸怀远大志向抱负。",
-    "phonetic": "/ə'ɡresiv/"
+    "notes": "【搭配考点】aggressive marketing (激进营销)，aggressive behavior (攻击性行为)；【形近辨析】progressive (进步开明的)，regressive (退步倒退的)，oppressive (暴虐压抑的)；【近义辨析】aggressive 具有双刃剑词义：在军事人际交往中指凶狠好斗、挑衅侵略，在商业和职场中指充满狼性冲劲、敢于进取；assertive 褒义指敢于自信维护自身权益但绝不侵犯他人，belligerent 专指赤裸裸的好战挑衅，ambitious 强调胸怀远大志向抱负。"
   },
   "move": {
     "word": "move",
@@ -6565,8 +6456,7 @@
         "zh": "策略计谋；调动"
       }
     ],
-    "notes": "【搭配考点】strategic move (战略举措)，make a move (采取行动/动身)，on the move (在行进中/活跃中)；【形近辨析】movie (电影院影片)，more (更多)，mode (运转模式)；【近义辨析】move 强调在棋局博弈、商业竞争或政治斗争中走出的关键一步棋或策略动作；action 泛指落实到身体动作的行动实践，step 侧重流程步骤中的单一措施，maneuver 强调老谋深算、巧妙闪转腾挪的军政战术机动手段。",
-    "phonetic": "/mu:v/"
+    "notes": "【搭配考点】strategic move (战略举措)，make a move (采取行动/动身)，on the move (在行进中/活跃中)；【形近辨析】movie (电影院影片)，more (更多)，mode (运转模式)；【近义辨析】move 强调在棋局博弈、商业竞争或政治斗争中走出的关键一步棋或策略动作；action 泛指落实到身体动作的行动实践，step 侧重流程步骤中的单一措施，maneuver 强调老谋深算、巧妙闪转腾挪的军政战术机动手段。"
   },
   "mobile": {
     "word": "mobile",
@@ -6612,8 +6502,7 @@
         "zh": "可挪动的"
       }
     ],
-    "notes": "【搭配考点】mobile phone/app (移动电话/应用)，mobile clinic/unit (流动诊所/机动分队)，socially mobile (阶层流动的)；【形近辨析】mobilize (战备动员)，noble (崇高尊贵的)，automobile (机动小汽车)；【近义辨析】mobile 强调本身具备机动行走能力、或通过车辆巡回作业的流动特性；portable 强调体积小巧轻便、个人单手可随时随身携带，transportable 强调体量虽大但可通过卡车船舶吊装运走，movable 强调非固定死、可搬动挪位。",
-    "phonetic": "/'məubail; -bil; məu'bi:l/"
+    "notes": "【搭配考点】mobile phone/app (移动电话/应用)，mobile clinic/unit (流动诊所/机动分队)，socially mobile (阶层流动的)；【形近辨析】mobilize (战备动员)，noble (崇高尊贵的)，automobile (机动小汽车)；【近义辨析】mobile 强调本身具备机动行走能力、或通过车辆巡回作业的流动特性；portable 强调体积小巧轻便、个人单手可随时随身携带，transportable 强调体量虽大但可通过卡车船舶吊装运走，movable 强调非固定死、可搬动挪位。"
   },
   "static": {
     "word": "static",
@@ -6659,8 +6548,7 @@
         "zh": "恒定不变的"
       }
     ],
-    "notes": "【搭配考点】remain static (保持静止/停滞不前)，static electricity (静电)，static friction (静摩擦力)；【形近辨析】statistic (统计数据)，station (岗位车站)，status (社会地位身份)；【近义辨析】static 专指在一段时间内缺乏变化、发展或内部运动停滞的状态；stationary 专指物体在空间物理位置上未在移动行走，stagnant 贬义指水流不畅发臭腐败、经济萎靡死气沉沉，constant 强调数值或伴随状态持之以恒稳定不变。",
-    "phonetic": "/'stætik/"
+    "notes": "【搭配考点】remain static (保持静止/停滞不前)，static electricity (静电)，static friction (静摩擦力)；【形近辨析】statistic (统计数据)，station (岗位车站)，status (社会地位身份)；【近义辨析】static 专指在一段时间内缺乏变化、发展或内部运动停滞的状态；stationary 专指物体在空间物理位置上未在移动行走，stagnant 贬义指水流不畅发臭腐败、经济萎靡死气沉沉，constant 强调数值或伴随状态持之以恒稳定不变。"
   },
   "motive": {
     "word": "motive",
@@ -6706,8 +6594,7 @@
         "zh": "主观意图；打算"
       }
     ],
-    "notes": "【搭配考点】financial/ulterior motive (经济/别有用心的动机)，motive power (原动力)；【形近辨析】motor (马达电动机)，motivate (激发促使)，motion (提议手势)；【近义辨析】motive 强调深藏于人内心深处、直接诱发其做出特定行为的心理诱因；incentive 侧重外部设立用来诱惑刺激人努力工作的奖金或税收优惠，rationale 强调行为背后的系统理性解释与理论依据，intention 侧重脑海中既定的主观设想与打算。",
-    "phonetic": "/'məutiv/"
+    "notes": "【搭配考点】financial/ulterior motive (经济/别有用心的动机)，motive power (原动力)；【形近辨析】motor (马达电动机)，motivate (激发促使)，motion (提议手势)；【近义辨析】motive 强调深藏于人内心深处、直接诱发其做出特定行为的心理诱因；incentive 侧重外部设立用来诱惑刺激人努力工作的奖金或税收优惠，rationale 强调行为背后的系统理性解释与理论依据，intention 侧重脑海中既定的主观设想与打算。"
   },
   "motivate": {
     "word": "motivate",
@@ -6753,8 +6640,7 @@
         "zh": "刺激；激发活力"
       }
     ],
-    "notes": "【搭配考点】motivate sb to do sth (激励某人做某事)，highly motivated (积极性极高的)；【形近辨析】mutate (生物变异)，mitigate (缓解减轻)，mediate (居中调解)；【近义辨析】motivate 强调注入强大内在驱动力使其具有强烈行动渴望；inspire 侧重通过榜样或艺术作品震撼心灵赋予崇高灵感，encourage 侧重给予打气支持消除恐惧心理，stimulate 强调给予外界生理或脑力刺激促其加快反应。",
-    "phonetic": "/'məutiveit/"
+    "notes": "【搭配考点】motivate sb to do sth (激励某人做某事)，highly motivated (积极性极高的)；【形近辨析】mutate (生物变异)，mitigate (缓解减轻)，mediate (居中调解)；【近义辨析】motivate 强调注入强大内在驱动力使其具有强烈行动渴望；inspire 侧重通过榜样或艺术作品震撼心灵赋予崇高灵感，encourage 侧重给予打气支持消除恐惧心理，stimulate 强调给予外界生理或脑力刺激促其加快反应。"
   },
   "remove": {
     "word": "remove",
@@ -6800,8 +6686,7 @@
         "zh": "拔出；提炼"
       }
     ],
-    "notes": "【搭配考点】remove from office (免除职务)，remove obstacles/stains (清除障碍/污渍)；【形近辨析】remote (偏远冷漠的)，remake (重新制作翻拍)，resolve (化解纷争)；【近义辨析】remove 为最通用的清除移开动词，指将某物从原所在位置拿走剥离；eliminate 强调彻底剔除不再有残留或在锦标赛中淘汰出局，eradicate 强调像拔除毒草般彻底消灭绝迹，extract 强调克服附着力使劲拔出或用溶剂提取萃取。",
-    "phonetic": "/ri'mu:v/"
+    "notes": "【搭配考点】remove from office (免除职务)，remove obstacles/stains (清除障碍/污渍)；【形近辨析】remote (偏远冷漠的)，remake (重新制作翻拍)，resolve (化解纷争)；【近义辨析】remove 为最通用的清除移开动词，指将某物从原所在位置拿走剥离；eliminate 强调彻底剔除不再有残留或在锦标赛中淘汰出局，eradicate 强调像拔除毒草般彻底消灭绝迹，extract 强调克服附着力使劲拔出或用溶剂提取萃取。"
   },
   "emotion": {
     "word": "emotion",
@@ -6847,8 +6732,7 @@
         "zh": "炽烈激情；热情"
       }
     ],
-    "notes": "【搭配考点】intense/deep emotion (强烈/深厚的情感)，choked with emotion (哽咽激动)；【形近辨析】motion (物理运动/提议)，promotion (职位晋升/推销)，emission (气体排放)；【近义辨析】emotion 强调伴随生理心理强烈激荡的主观情感状态；feeling 范围最广可指触觉冷暖也可指心绪直觉，sentiment 强调伴随浪漫感伤文艺情调的思绪或舆论倾向，passion 专指对某种爱好或爱人炽热狂热的情感火焰。",
-    "phonetic": "/i'məuʃən/"
+    "notes": "【搭配考点】intense/deep emotion (强烈/深厚的情感)，choked with emotion (哽咽激动)；【形近辨析】motion (物理运动/提议)，promotion (职位晋升/推销)，emission (气体排放)；【近义辨析】emotion 强调伴随生理心理强烈激荡的主观情感状态；feeling 范围最广可指触觉冷暖也可指心绪直觉，sentiment 强调伴随浪漫感伤文艺情调的思绪或舆论倾向，passion 专指对某种爱好或爱人炽热狂热的情感火焰。"
   },
   "rational": {
     "word": "rational",
@@ -6894,8 +6778,7 @@
         "zh": "通情达理的；合乎情理的"
       }
     ],
-    "notes": "【搭配考点】rational decision/choice (理性决策/选择)，rational being (具有理性的人类)；【形近辨析】ratio (数学比率)，national (国家民族的)，rotational (轮换旋转的)；【近义辨析】rational 强调能够运用人类理性大脑进行清醒思考、不受盲目情感偏见左右；logical 侧重严密遵循形式逻辑推理的因果链条，sensible 侧重结合实际经验表现出的精明现实明智，reasonable 强调不偏激、公道合情合理不强人所难。",
-    "phonetic": "/'ræʃənəl/"
+    "notes": "【搭配考点】rational decision/choice (理性决策/选择)，rational being (具有理性的人类)；【形近辨析】ratio (数学比率)，national (国家民族的)，rotational (轮换旋转的)；【近义辨析】rational 强调能够运用人类理性大脑进行清醒思考、不受盲目情感偏见左右；logical 侧重严密遵循形式逻辑推理的因果链条，sensible 侧重结合实际经验表现出的精明现实明智，reasonable 强调不偏激、公道合情合理不强人所难。"
   },
   "ratio": {
     "word": "ratio",
@@ -6941,8 +6824,7 @@
         "zh": "比率；速率"
       }
     ],
-    "notes": "【搭配考点】ratio of A to B (A与B的比率)，price-earnings ratio (市盈率P/E)；【形近辨析】rational (理性的)，radio (广播无线电)，rating (等级收视率)；【近义辨析】ratio 专指数学上表示两个独立数量相对关系的对比商数；proportion 强调某个局部组成部分在整个总数中所占据的分量份额，percentage 强调按百进制表达的精确比率，rate 侧重一种数量随另一种变量发生变动的关联速度或收费标准。",
-    "phonetic": "/'reiʃiəu; -ʃəu/"
+    "notes": "【搭配考点】ratio of A to B (A与B的比率)，price-earnings ratio (市盈率P/E)；【形近辨析】rational (理性的)，radio (广播无线电)，rating (等级收视率)；【近义辨析】ratio 专指数学上表示两个独立数量相对关系的对比商数；proportion 强调某个局部组成部分在整个总数中所占据的分量份额，percentage 强调按百进制表达的精确比率，rate 侧重一种数量随另一种变量发生变动的关联速度或收费标准。"
   },
   "rate": {
     "word": "rate",
@@ -6988,8 +6870,7 @@
         "zh": "关税；资费表"
       }
     ],
-    "notes": "【搭配考点】interest rate (利率)，unemployment rate (失业率)，at any rate (无论如何)；【形近辨析】ratio (A与B数学比例)，date (日期)，fate (宿命命运)；【近义辨析】rate 专指按单位时间、距离计算的指标变动幅度或官方统一规定的服务费率；speed 专指物体物理位移的快慢程度，pace 强调动作迈步的平稳韵律节奏，tariff 专指海关向进出口货品征收的关税税率。",
-    "phonetic": "/reit/"
+    "notes": "【搭配考点】interest rate (利率)，unemployment rate (失业率)，at any rate (无论如何)；【形近辨析】ratio (A与B数学比例)，date (日期)，fate (宿命命运)；【近义辨析】rate 专指按单位时间、距离计算的指标变动幅度或官方统一规定的服务费率；speed 专指物体物理位移的快慢程度，pace 强调动作迈步的平稳韵律节奏，tariff 专指海关向进出口货品征收的关税税率。"
   },
   "percentage": {
     "word": "percentage",
@@ -7035,8 +6916,7 @@
         "zh": "股份；应得份额"
       }
     ],
-    "notes": "【搭配考点】high/small percentage of (高/低百分比的)，percentage points (百分点)；【形近辨析】heritage (历史文化遗产)，patronage (赞助庇护)，peerage (贵族阶层地位)；【近义辨析】percentage 明确指以百分之几为单位表达的数额比例；proportion 强调局部相对于总体的和谐平衡分配，fraction 强调微乎其微的一小点点零头碎屑，share 侧重个人在利润、任务中分得的一份。",
-    "phonetic": "/pə'sentidʒ/"
+    "notes": "【搭配考点】high/small percentage of (高/低百分比的)，percentage points (百分点)；【形近辨析】heritage (历史文化遗产)，patronage (赞助庇护)，peerage (贵族阶层地位)；【近义辨析】percentage 明确指以百分之几为单位表达的数额比例；proportion 强调局部相对于总体的和谐平衡分配，fraction 强调微乎其微的一小点点零头碎屑，share 侧重个人在利润、任务中分得的一份。"
   },
   "remote": {
     "word": "remote",
@@ -7082,8 +6962,7 @@
         "zh": "幽静隐蔽的"
       }
     ],
-    "notes": "【搭配考点】remote area/village (偏远地区/村庄)，remote possibility/chance (微茫渺茫的可能)，remote control (遥控器)；【形近辨析】remove (拆除消除)，promote (升职推广)，devote (奉献致力于)；【近义辨析】remote 强调远离人类文明活动中心、交通极其不便的孤立偏僻荒野，或希望极度渺茫；distant 仅客观指空间距离或时间相隔遥远，isolated 强调四面隔绝形单影只，secluded 强调幽静、不受喧嚣打扰的宜人隐蔽环境。",
-    "phonetic": "/ri'məut/"
+    "notes": "【搭配考点】remote area/village (偏远地区/村庄)，remote possibility/chance (微茫渺茫的可能)，remote control (遥控器)；【形近辨析】remove (拆除消除)，promote (升职推广)，devote (奉献致力于)；【近义辨析】remote 强调远离人类文明活动中心、交通极其不便的孤立偏僻荒野，或希望极度渺茫；distant 仅客观指空间距离或时间相隔遥远，isolated 强调四面隔绝形单影只，secluded 强调幽静、不受喧嚣打扰的宜人隐蔽环境。"
   },
   "promote": {
     "word": "promote",
@@ -7129,8 +7008,7 @@
         "zh": "推进；晋升"
       }
     ],
-    "notes": "【搭配考点】promote economic growth (促进经济增长)，promote sb to manager (提拔某人为经理)，promote a product (促销产品)；【形近辨析】remote (偏远冷落)，provide (供给)，provoke (激起愤怒)；【近义辨析】promote 强调从外部积极宣传助推使事物向良性、繁荣方向发展，或提高员工岗位薪资；foster 侧重像抚养婴儿一样悉心培植、培育某种良好风气或技能，boost 侧重在短时间内从外部猛推一把，advance 侧重推进实质业务流程。",
-    "phonetic": "/prəu'məut/"
+    "notes": "【搭配考点】promote economic growth (促进经济增长)，promote sb to manager (提拔某人为经理)，promote a product (促销产品)；【形近辨析】remote (偏远冷落)，provide (供给)，provoke (激起愤怒)；【近义辨析】promote 强调从外部积极宣传助推使事物向良性、繁荣方向发展，或提高员工岗位薪资；foster 侧重像抚养婴儿一样悉心培植、培育某种良好风气或技能，boost 侧重在短时间内从外部猛推一把，advance 侧重推进实质业务流程。"
   },
   "action": {
     "word": "action",
@@ -7176,8 +7054,7 @@
         "zh": "日常行为举止"
       }
     ],
-    "notes": "【搭配考点】take decisive action (采取果断行动)，course of action (行动方针)，bring an action against (对...提起诉讼)；【形近辨析】auction (拍卖会)，fraction (小分数)，active (活跃的)；【近义辨析】action 强调为了达到某一特定目的而全力调动资源所展开的实质性行动；deed 专指具有显著道德色彩的单个善举恶行事迹，measure 侧重政府或行政机构制定的强制性立法政策措施，behavior 侧重心理学上的日常言行举止表现。",
-    "phonetic": "/'ækʃən/"
+    "notes": "【搭配考点】take decisive action (采取果断行动)，course of action (行动方针)，bring an action against (对...提起诉讼)；【形近辨析】auction (拍卖会)，fraction (小分数)，active (活跃的)；【近义辨析】action 强调为了达到某一特定目的而全力调动资源所展开的实质性行动；deed 专指具有显著道德色彩的单个善举恶行事迹，measure 侧重政府或行政机构制定的强制性立法政策措施，behavior 侧重心理学上的日常言行举止表现。"
   },
   "deed": {
     "word": "deed",
@@ -7223,8 +7100,7 @@
         "zh": "卓越技艺；壮举"
       }
     ],
-    "notes": "【搭配考点】good deed (善行好事)，noble deed (崇高事迹)，title deed (产权证书)；【形近辨析】dead (死去的)，feed (喂养)，seed (种子)；【近义辨析】deed 偏文学庄重语体，专指具有道德评价意义的善行、暴行或具有法律效力的房产契约地契；exploit 强调在战场或探险中立下的名垂青史的英雄伟业，act 泛指人类一切瞬时的具体行动行为，feat 侧重克服巨大身体或智力极限完成的高难惊人壮举。",
-    "phonetic": "/di:d/"
+    "notes": "【搭配考点】good deed (善行好事)，noble deed (崇高事迹)，title deed (产权证书)；【形近辨析】dead (死去的)，feed (喂养)，seed (种子)；【近义辨析】deed 偏文学庄重语体，专指具有道德评价意义的善行、暴行或具有法律效力的房产契约地契；exploit 强调在战场或探险中立下的名垂青史的英雄伟业，act 泛指人类一切瞬时的具体行动行为，feat 侧重克服巨大身体或智力极限完成的高难惊人壮举。"
   },
   "behave": {
     "word": "behave",
@@ -7270,8 +7146,7 @@
         "zh": "举止端正；驱逐"
       }
     ],
-    "notes": "【搭配考点】behave oneself (守规矩/举止得体)，behave well/badly (表现好/差)；【形近辨析】behalf (在...利益代表下)，believe (笃信)，bereave (剥夺夺走亲人)；【近义辨析】behave 不及物动词单用时专指孩子或当事人懂得规矩礼貌、不做越轨行为；conduct 反身动词兼及物动词侧重成人在严肃社会职业场合的举止风度品行，act 强调在特定瞬间采取的针对性对策举动，deport 作行为解时属典雅古语强调仪态风度。",
-    "phonetic": "/bi'heiv/"
+    "notes": "【搭配考点】behave oneself (守规矩/举止得体)，behave well/badly (表现好/差)；【形近辨析】behalf (在...利益代表下)，believe (笃信)，bereave (剥夺夺走亲人)；【近义辨析】behave 不及物动词单用时专指孩子或当事人懂得规矩礼貌、不做越轨行为；conduct 反身动词兼及物动词侧重成人在严肃社会职业场合的举止风度品行，act 强调在特定瞬间采取的针对性对策举动，deport 作行为解时属典雅古语强调仪态风度。"
   },
   "active": {
     "word": "active",
@@ -7317,8 +7192,7 @@
         "zh": "强有力的；充满生机的"
       }
     ],
-    "notes": "【搭配考点】stay active (保持活跃)，take an active part in (积极参加)，active service/duty (现役)；【形近辨析】action (行动行为)，actor (男演员)，captive (战俘被囚禁的)；【近义辨析】active 强调经常处于运动、劳作、参与活动的状态，不懒散闲置；energetic 侧重内生精力极其充沛像有使不完的劲，dynamic 侧重性格或系统充满变革活力与创新精神，vigorous 侧重肌肉力量强劲、生长旺盛茁壮。",
-    "phonetic": "/'æktiv/"
+    "notes": "【搭配考点】stay active (保持活跃)，take an active part in (积极参加)，active service/duty (现役)；【形近辨析】action (行动行为)，actor (男演员)，captive (战俘被囚禁的)；【近义辨析】active 强调经常处于运动、劳作、参与活动的状态，不懒散闲置；energetic 侧重内生精力极其充沛像有使不完的劲，dynamic 侧重性格或系统充满变革活力与创新精神，vigorous 侧重肌肉力量强劲、生长旺盛茁壮。"
   },
   "react": {
     "word": "react",
@@ -7364,8 +7238,7 @@
         "zh": "抵消；中和"
       }
     ],
-    "notes": "【搭配考点】react to (对...做出反应)，react with (与...起化学反应)，react against (反抗/反对)；【形近辨析】reject (断然拒绝)，retract (撤回收回声明)，redact (隐去保密字句)；【近义辨析】react 强调在受到外部刺激、事件冲击后不由自主或本能地产生的应激反应；respond 侧重深思熟虑后给出针对性的回应或行动对策，reply 侧重口头或信件上的语言问答回复，counteract 强调施加反向力量以抵消中和某种不良影响。",
-    "phonetic": "/ri'ækt; ri:-/"
+    "notes": "【搭配考点】react to (对...做出反应)，react with (与...起化学反应)，react against (反抗/反对)；【形近辨析】reject (断然拒绝)，retract (撤回收回声明)，redact (隐去保密字句)；【近义辨析】react 强调在受到外部刺激、事件冲击后不由自主或本能地产生的应激反应；respond 侧重深思熟虑后给出针对性的回应或行动对策，reply 侧重口头或信件上的语言问答回复，counteract 强调施加反向力量以抵消中和某种不良影响。"
   },
   "exact": {
     "word": "exact",
@@ -7411,8 +7284,7 @@
         "zh": "正确的；无误的"
       }
     ],
-    "notes": "【搭配考点】exact words/amount (原话/确切金额)，to be exact (确切地说)，exact a toll on (带来沉重代价)；【形近辨析】expect (期盼预料)，exalt (高度赞扬/拔高)，enact (立法颁布)；【近义辨析】exact 强调在数据、细节、字句上完全契合、分毫不差，排斥任何微小容差；precise 侧重测量或界定边界极其精细工整，accurate 强调与客观真实标准吻合没有差错，correct 侧重符合既定规矩事实或答案无误。",
-    "phonetic": "/iɡ'zækt/"
+    "notes": "【搭配考点】exact words/amount (原话/确切金额)，to be exact (确切地说)，exact a toll on (带来沉重代价)；【形近辨析】expect (期盼预料)，exalt (高度赞扬/拔高)，enact (立法颁布)；【近义辨析】exact 强调在数据、细节、字句上完全契合、分毫不差，排斥任何微小容差；precise 侧重测量或界定边界极其精细工整，accurate 强调与客观真实标准吻合没有差错，correct 侧重符合既定规矩事实或答案无误。"
   },
   "actual": {
     "word": "actual",
@@ -7458,8 +7330,7 @@
         "zh": "真诚的；名副其实的"
       }
     ],
-    "notes": "【搭配考点】actual cost/fact (实际成本/事实真相)，in actual fact (事实上/实际上)；【形近辨析】factual (基于证据事实的)，annual (每年的)，casual (漫不经心的)；【近义辨析】actual 强调与理论假设、账面数字或想象相对照之下的客观现实存在；real 强调存在性（非虚构、非人工伪造），tangible 侧重具有物理实体可以触摸抓取感知，genuine 专指物品真伪或感情真诚名副其实。",
-    "phonetic": "/'æktʃuəl/"
+    "notes": "【搭配考点】actual cost/fact (实际成本/事实真相)，in actual fact (事实上/实际上)；【形近辨析】factual (基于证据事实的)，annual (每年的)，casual (漫不经心的)；【近义辨析】actual 强调与理论假设、账面数字或想象相对照之下的客观现实存在；real 强调存在性（非虚构、非人工伪造），tangible 侧重具有物理实体可以触摸抓取感知，genuine 专指物品真伪或感情真诚名副其实。"
   },
   "practical": {
     "word": "practical",
@@ -7505,8 +7376,7 @@
         "zh": "现实的；脚踏实地的"
       }
     ],
-    "notes": "【搭配考点】practical experience/skills (实践经验/实用技能)，for all practical purposes (实际上/事实上)；【形近辨析】practice (名词练习实践)，practiced (熟稔老练的)，partial (局部偏心的)；【近义辨析】practical 侧重能够用于实际生活生产中行之有效、具有实用价值；pragmatic 强调从功利、现实利益出发不拘泥于意识形态的务实态度，functional 侧重满足基本功能使用无需华丽装饰，realistic 强调立足客观现实不抱幻想。",
-    "phonetic": "/'præktikəl/"
+    "notes": "【搭配考点】practical experience/skills (实践经验/实用技能)，for all practical purposes (实际上/事实上)；【形近辨析】practice (名词练习实践)，practiced (熟稔老练的)，partial (局部偏心的)；【近义辨析】practical 侧重能够用于实际生活生产中行之有效、具有实用价值；pragmatic 强调从功利、现实利益出发不拘泥于意识形态的务实态度，functional 侧重满足基本功能使用无需华丽装饰，realistic 强调立足客观现实不抱幻想。"
   },
   "virtual": {
     "word": "virtual",
@@ -7552,8 +7422,7 @@
         "zh": "隐含的；实质上的"
       }
     ],
-    "notes": "【搭配考点】virtual reality (虚拟现实VR)，virtual tour/classroom (虚拟游览/在线课堂)，virtual monopoly (实质上的垄断)；【形近辨析】virtue (品德美德)，visual (肉眼视觉的)，vital (生命攸关的)；【近义辨析】virtual 作计算机术语指通过数字算法在屏幕上模拟构建但非物理实体的存在，作引申义指虽无名义但实质上已无异于；simulated 侧重人工模仿制造以用于训练的仿真模拟环境，cyber 专指与互联网电脑网络空间相关，implicit 强调言语中隐含暗示而非表面明示。",
-    "phonetic": "/'və:tʃuəl/"
+    "notes": "【搭配考点】virtual reality (虚拟现实VR)，virtual tour/classroom (虚拟游览/在线课堂)，virtual monopoly (实质上的垄断)；【形近辨析】virtue (品德美德)，visual (肉眼视觉的)，vital (生命攸关的)；【近义辨析】virtual 作计算机术语指通过数字算法在屏幕上模拟构建但非物理实体的存在，作引申义指虽无名义但实质上已无异于；simulated 侧重人工模仿制造以用于训练的仿真模拟环境，cyber 专指与互联网电脑网络空间相关，implicit 强调言语中隐含暗示而非表面明示。"
   },
   "fragment": {
     "word": "fragment",
@@ -7599,8 +7468,7 @@
         "zh": "残余物；幸存者"
       }
     ],
-    "notes": "【搭配考点】pottery/glass fragment (陶器/玻璃碎片)，fragment of conversation (谈话片段)；【形近辨析】fragrant (香气扑鼻的)，flagrant (明目张胆肆无忌惮的)，pigment (颜料色素)；【近义辨析】fragment 强调坚硬物体被打碎、炸裂后脱落的不规则残破小块，或思想记忆残片；shard 专指陶瓷、玻璃等锋利割手的锐利碎片，scrap 强调纸张、布头、金属废料等零碎丢弃物，remnant 强调宏大整体被消耗摧毁后幸存遗留下的残余存留。",
-    "phonetic": "/'fræɡmənt/"
+    "notes": "【搭配考点】pottery/glass fragment (陶器/玻璃碎片)，fragment of conversation (谈话片段)；【形近辨析】fragrant (香气扑鼻的)，flagrant (明目张胆肆无忌惮的)，pigment (颜料色素)；【近义辨析】fragment 强调坚硬物体被打碎、炸裂后脱落的不规则残破小块，或思想记忆残片；shard 专指陶瓷、玻璃等锋利割手的锐利碎片，scrap 强调纸张、布头、金属废料等零碎丢弃物，remnant 强调宏大整体被消耗摧毁后幸存遗留下的残余存留。"
   },
   "somewhat": {
     "word": "somewhat",
@@ -7646,8 +7514,7 @@
         "zh": "适度地；温和地"
       }
     ],
-    "notes": "【搭配考点】somewhat surprised/disappointed (有些吃惊/失望)，somewhat different/higher (稍微不同/高出一些)；【形近辨析】somewhere (在某地点)，somehow (莫名其妙地/设法)，someone (某个人)；【近义辨析】somewhat 正式程度高于 a bit，修饰形容词副词强调程度有限、客观可察觉；slightly 侧重在幅度数值上极其微弱轻细的变动，rather 侧重超越预期的一定程度，moderately 侧重保持在中等适度区间。",
-    "phonetic": "/'sʌmhwɔt; -hwət/"
+    "notes": "【搭配考点】somewhat surprised/disappointed (有些吃惊/失望)，somewhat different/higher (稍微不同/高出一些)；【形近辨析】somewhere (在某地点)，somehow (莫名其妙地/设法)，someone (某个人)；【近义辨析】somewhat 正式程度高于 a bit，修饰形容词副词强调程度有限、客观可察觉；slightly 侧重在幅度数值上极其微弱轻细的变动，rather 侧重超越预期的一定程度，moderately 侧重保持在中等适度区间。"
   },
   "fraction": {
     "word": "fraction",
@@ -7693,8 +7560,7 @@
         "zh": "组成成分；部件"
       }
     ],
-    "notes": "【搭配考点】a fraction of (仅仅一小部分/极小份额)，fraction of a second (一刹那/一瞬间)；【形近辨析】friction (物理摩擦/人际摩擦)，faction (政治派系斗争)，fracture (骨裂断裂)；【近义辨析】fraction 专指与庞大整体相比微乎其微的极小一部分；portion 强调经过切分分配给特定对象享用的一份，percentage 侧重按百进制量化的比例，component 侧重构成复杂机器或系统的关键功能构件。",
-    "phonetic": "/'frækʃən/"
+    "notes": "【搭配考点】a fraction of (仅仅一小部分/极小份额)，fraction of a second (一刹那/一瞬间)；【形近辨析】friction (物理摩擦/人际摩擦)，faction (政治派系斗争)，fracture (骨裂断裂)；【近义辨析】fraction 专指与庞大整体相比微乎其微的极小一部分；portion 强调经过切分分配给特定对象享用的一份，percentage 侧重按百进制量化的比例，component 侧重构成复杂机器或系统的关键功能构件。"
   },
   "portion": {
     "word": "portion",
@@ -7740,8 +7606,7 @@
         "zh": "切片；部分"
       }
     ],
-    "notes": "【搭配考点】generous/small portion (大/小份食物)，portion of one's income (收入的一部分)；【形近辨析】potion (毒药水/魔法药剂)，position (社会地位岗位)，partition (室内隔断墙/国土分裂)；【近义辨析】portion 强调从整体中切割划拨出来供一人享用或专门处置的特定份额或食物份量；serving 专指菜单标明的一盘饭菜份量，share 侧重个人在财产、权益中按比例应得的一份，segment 侧重水果橘瓣或圆形图表中的扇形自然切段。",
-    "phonetic": "/'pɔ:ʃən; 'pəu-/"
+    "notes": "【搭配考点】generous/small portion (大/小份食物)，portion of one's income (收入的一部分)；【形近辨析】potion (毒药水/魔法药剂)，position (社会地位岗位)，partition (室内隔断墙/国土分裂)；【近义辨析】portion 强调从整体中切割划拨出来供一人享用或专门处置的特定份额或食物份量；serving 专指菜单标明的一盘饭菜份量，share 侧重个人在财产、权益中按比例应得的一份，segment 侧重水果橘瓣或圆形图表中的扇形自然切段。"
   },
   "proportion": {
     "word": "proportion",
@@ -7787,8 +7652,7 @@
         "zh": "配额；定额"
       }
     ],
-    "notes": "【搭配考点】in proportion to (与...成比例)，out of all proportion (极不成比例/夸大)，sense of proportion (分寸感)；【形近辨析】proposition (商业主张/命题)，preparation (筹备工作)，projection (财务预测/投影)；【近义辨析】proportion 强调某个局部在总体中所占的比重份额，或艺术构图中各部分尺寸协调匀称的美感；percentage 带有百进制计算色彩，ratio 侧重A与B两组数值的除法比值，quota 强调官方分配给企业或港口的强制性上限配额指标。",
-    "phonetic": "/prəu'pɔ:ʃən/"
+    "notes": "【搭配考点】in proportion to (与...成比例)，out of all proportion (极不成比例/夸大)，sense of proportion (分寸感)；【形近辨析】proposition (商业主张/命题)，preparation (筹备工作)，projection (财务预测/投影)；【近义辨析】proportion 强调某个局部在总体中所占的比重份额，或艺术构图中各部分尺寸协调匀称的美感；percentage 带有百进制计算色彩，ratio 侧重A与B两组数值的除法比值，quota 强调官方分配给企业或港口的强制性上限配额指标。"
   },
   "skeleton": {
     "word": "skeleton",
@@ -7834,8 +7698,7 @@
         "zh": "雕塑内胆骨架"
       }
     ],
-    "notes": "【搭配考点】skeleton staff/crew (骨干维保人员/最低限度编制人员)，skeleton in the closet (家丑/隐秘)；【形近辨析】seldom (难得很少)，solemn (庄严庄重的)，skillet (煎锅)；【近义辨析】skeleton 专指动物人体的全套骨骼骨架，或引申为剥离了一切修饰皮肉的最简陋骨架、核心梗概；framework 侧重建筑物钢架或法律学术的深层理论架构，bone 仅指单独一块骨质，armature 专指泥塑内部的金属支撑内架。",
-    "phonetic": "/'skelitən/"
+    "notes": "【搭配考点】skeleton staff/crew (骨干维保人员/最低限度编制人员)，skeleton in the closet (家丑/隐秘)；【形近辨析】seldom (难得很少)，solemn (庄严庄重的)，skillet (煎锅)；【近义辨析】skeleton 专指动物人体的全套骨骼骨架，或引申为剥离了一切修饰皮肉的最简陋骨架、核心梗概；framework 侧重建筑物钢架或法律学术的深层理论架构，bone 仅指单独一块骨质，armature 专指泥塑内部的金属支撑内架。"
   },
   "frame": {
     "word": "frame",
@@ -7881,8 +7744,7 @@
         "zh": "汽车底盘；机箱底架"
       }
     ],
-    "notes": "【搭配考点】frame of mind (心境/心态)，picture/window frame (相框/窗框)，frame an innocent suspect (构陷无辜嫌疑人)；【形近辨析】flame (烈火火焰)，fame (赫赫名声)，flare (照明弹闪烁)；【近义辨析】frame 强调环绕并支撑画作、镜子、门窗四周的硬质外边框结构，或人体骨骼体格；border 侧重平面的色彩花纹镶边或国家地理边界线，casing 强调紧密包裹机械零件的密封防护外壳，chassis 专指承载汽车车身与引擎的底盘总成。",
-    "phonetic": "/freim/"
+    "notes": "【搭配考点】frame of mind (心境/心态)，picture/window frame (相框/窗框)，frame an innocent suspect (构陷无辜嫌疑人)；【形近辨析】flame (烈火火焰)，fame (赫赫名声)，flare (照明弹闪烁)；【近义辨析】frame 强调环绕并支撑画作、镜子、门窗四周的硬质外边框结构，或人体骨骼体格；border 侧重平面的色彩花纹镶边或国家地理边界线，casing 强调紧密包裹机械零件的密封防护外壳，chassis 专指承载汽车车身与引擎的底盘总成。"
   },
   "framework": {
     "word": "framework",
@@ -7928,8 +7790,7 @@
         "zh": "基础设施；基建"
       }
     ],
-    "notes": "【搭配考点】legal/conceptual framework (法律体系/概念框架)，within the framework of (在...体制框架之内)；【形近辨析】network (人际网络/通信网络)，patchwork (拼布百纳被/拼凑体系)，fieldwork (实地田野调查)；【近义辨析】framework 强调由各项法律条文、思想原则或概念搭建起来的宏观支撑架构体系；structure 侧重各构件实体的组织方式，scheme 强调经过规划设计的操作机制方案，infrastructure 强调铁路水利电网等公共物理底座。",
-    "phonetic": "/'freimwə:k/"
+    "notes": "【搭配考点】legal/conceptual framework (法律体系/概念框架)，within the framework of (在...体制框架之内)；【形近辨析】network (人际网络/通信网络)，patchwork (拼布百纳被/拼凑体系)，fieldwork (实地田野调查)；【近义辨析】framework 强调由各项法律条文、思想原则或概念搭建起来的宏观支撑架构体系；structure 侧重各构件实体的组织方式，scheme 强调经过规划设计的操作机制方案，infrastructure 强调铁路水利电网等公共物理底座。"
   },
   "flame": {
     "word": "flame",
@@ -7975,8 +7836,7 @@
         "zh": "突发强光；耀斑"
       }
     ],
-    "notes": "【搭配考点】burst into flame (突然起火/迸发火焰)，Olympic flame (奥运圣火)，fan the flames (煽风点火)；【形近辨析】frame (镜框架构)，blame (责备抱怨)，tame (驯化家养)；【近义辨析】flame 专指由燃烧气体发光显现出的单一、跃动发亮的火舌火焰；fire 泛指一切产生热与灰烬的燃烧现象或火灾，blaze 强调声势浩大光芒万丈的漫天大火，flare 强调突然猛烈爆发后迅速减退的耀眼闪光。",
-    "phonetic": "/fleim/"
+    "notes": "【搭配考点】burst into flame (突然起火/迸发火焰)，Olympic flame (奥运圣火)，fan the flames (煽风点火)；【形近辨析】frame (镜框架构)，blame (责备抱怨)，tame (驯化家养)；【近义辨析】flame 专指由燃烧气体发光显现出的单一、跃动发亮的火舌火焰；fire 泛指一切产生热与灰烬的燃烧现象或火灾，blaze 强调声势浩大光芒万丈的漫天大火，flare 强调突然猛烈爆发后迅速减退的耀眼闪光。"
   },
   "burn": {
     "word": "burn",
@@ -8022,8 +7882,7 @@
         "zh": "烧焦；烤焦表面"
       }
     ],
-    "notes": "【搭配考点】burn calories/fuel (消耗卡路里/燃烧燃料)，burn out (筋疲力尽/燃尽)，burn with curiosity (充满好奇心)；【形近辨析】born (bear过去分词出生)，turn (转动扭转)，bury (掩埋掩盖)；【近义辨析】burn 是最广泛使用的动词，指物体被火氧化消耗发光发热，或皮肤遭受热力灼伤；ignite 强调点火引燃的起始瞬间动作，combust 属专业化学科技术语指发生燃烧反应，scorch 强调高温仅将织物纸张表面烤黄烤焦并未彻底化为灰烬。",
-    "phonetic": "/bə:n/"
+    "notes": "【搭配考点】burn calories/fuel (消耗卡路里/燃烧燃料)，burn out (筋疲力尽/燃尽)，burn with curiosity (充满好奇心)；【形近辨析】born (bear过去分词出生)，turn (转动扭转)，bury (掩埋掩盖)；【近义辨析】burn 是最广泛使用的动词，指物体被火氧化消耗发光发热，或皮肤遭受热力灼伤；ignite 强调点火引燃的起始瞬间动作，combust 属专业化学科技术语指发生燃烧反应，scorch 强调高温仅将织物纸张表面烤黄烤焦并未彻底化为灰烬。"
   },
   "flash": {
     "word": "flash",
@@ -8069,8 +7928,7 @@
         "zh": "闪烁光斑；灿烂"
       }
     ],
-    "notes": "【搭配考点】flash of lightning/inspiration (闪电/灵光一闪)，in a flash (转眼间/一瞬间)，flash a badge (亮出徽章)；【形近辨析】flesh (血肉果肉)，flush (面部潮红/冲水)，flask (化学烧瓶/随身扁酒壶)；【近义辨析】flash 强调骤然出现又刹那消失的极强单次光芒，比喻灵感稍纵即逝；spark 专指两块铁石摩擦击打崩溅出的小火星火花，gleam 侧重在暗处透过微隙隐约透出的柔和光线，glitter 侧重钻石碎片折射出的连续多角度细碎闪烁光芒。",
-    "phonetic": "/flæʃ/"
+    "notes": "【搭配考点】flash of lightning/inspiration (闪电/灵光一闪)，in a flash (转眼间/一瞬间)，flash a badge (亮出徽章)；【形近辨析】flesh (血肉果肉)，flush (面部潮红/冲水)，flask (化学烧瓶/随身扁酒壶)；【近义辨析】flash 强调骤然出现又刹那消失的极强单次光芒，比喻灵感稍纵即逝；spark 专指两块铁石摩擦击打崩溅出的小火星火花，gleam 侧重在暗处透过微隙隐约透出的柔和光线，glitter 侧重钻石碎片折射出的连续多角度细碎闪烁光芒。"
   },
   "flesh": {
     "word": "flesh",
@@ -8116,8 +7974,7 @@
         "zh": "肌肉；体能"
       }
     ],
-    "notes": "【搭配考点】flesh and blood (血肉之躯/亲骨肉)，in the flesh (本人亲自到场)，flesh out a plan (充实方案细节)；【形近辨析】flash (闪电闪亮)，fresh (新鲜鲜活)，flee (逃亡逃遁)；【近义辨析】flesh 专指活人活兽包裹在骨骼外面的软组织，或水果多汁厚实的果肉层；meat 专指经过宰杀后供烹饪食用的动物肉类，pulp 强调水果被捣烂挤压后的粘稠果泥软浆，muscle 专指具备收缩舒张功能的肌肉组织纤维。",
-    "phonetic": "/fleʃ/"
+    "notes": "【搭配考点】flesh and blood (血肉之躯/亲骨肉)，in the flesh (本人亲自到场)，flesh out a plan (充实方案细节)；【形近辨析】flash (闪电闪亮)，fresh (新鲜鲜活)，flee (逃亡逃遁)；【近义辨析】flesh 专指活人活兽包裹在骨骼外面的软组织，或水果多汁厚实的果肉层；meat 专指经过宰杀后供烹饪食用的动物肉类，pulp 强调水果被捣烂挤压后的粘稠果泥软浆，muscle 专指具备收缩舒张功能的肌肉组织纤维。"
   },
   "fresh": {
     "word": "fresh",
@@ -8163,8 +8020,7 @@
         "zh": "新颖别致的"
       }
     ],
-    "notes": "【搭配考点】fresh air/water (新鲜空气/淡水)，fresh start (崭新起点)，fresh in one's mind (记忆犹新)；【形近辨析】flesh (肉体果肉)，free (免费自由)，freeze (冰冻冷藏)；【近义辨析】fresh 强调刚生产制作采摘出来、未经陈放变质处于最佳品质状态，或水流未被盐碱矿化；crisp 强调果蔬多汁脆爽咬下去咔嚓作响，refreshing 侧重使疲惫身心重新恢复活力清爽，novel 强调构思立意别出心裁前所未见。",
-    "phonetic": "/freʃ/"
+    "notes": "【搭配考点】fresh air/water (新鲜空气/淡水)，fresh start (崭新起点)，fresh in one's mind (记忆犹新)；【形近辨析】flesh (肉体果肉)，free (免费自由)，freeze (冰冻冷藏)；【近义辨析】fresh 强调刚生产制作采摘出来、未经陈放变质处于最佳品质状态，或水流未被盐碱矿化；crisp 强调果蔬多汁脆爽咬下去咔嚓作响，refreshing 侧重使疲惫身心重新恢复活力清爽，novel 强调构思立意别出心裁前所未见。"
   },
   "refresh": {
     "word": "refresh",
@@ -8210,8 +8066,7 @@
         "zh": "更新；恢复"
       }
     ],
-    "notes": "【搭配考点】refresh one's memory (唤醒记忆)，refresh the webpage (刷新网页)，refreshing drink (提神解渴饮料)；【形近辨析】fresh (形容词新鲜)，reform (体制改革)，repress (严酷压制压抑)；【近义辨析】refresh 强调经过休息、冲凉洗脸或饮品让疲倦的身体脑力重新清醒舒适；revitalize 侧重让濒临破产的企业或衰落的社区重新焕发生机与活力，rejuvenate 侧重容颜精神返老还童重现年轻态，renew 强调合同到期续约或对誓言重新确认。",
-    "phonetic": "/ri'freʃ; ri:-/"
+    "notes": "【搭配考点】refresh one's memory (唤醒记忆)，refresh the webpage (刷新网页)，refreshing drink (提神解渴饮料)；【形近辨析】fresh (形容词新鲜)，reform (体制改革)，repress (严酷压制压抑)；【近义辨析】refresh 强调经过休息、冲凉洗脸或饮品让疲倦的身体脑力重新清醒舒适；revitalize 侧重让濒临破产的企业或衰落的社区重新焕发生机与活力，rejuvenate 侧重容颜精神返老还童重现年轻态，renew 强调合同到期续约或对誓言重新确认。"
   },
   "flourish": {
     "word": "flourish",
@@ -8257,8 +8112,7 @@
         "zh": "开花；大放异彩"
       }
     ],
-    "notes": "【搭配考点】arts/economy flourish (艺术/经济繁荣昌盛)，with a flourish (华丽夸张地一挥)；【形近辨析】polish (打磨抛光/波兰的)，nourish (滋润养育)，furnish (布置家具/供应)；【近义辨析】flourish 侧重生命体在最佳生存环境下展现出最健康、繁茂、旺盛、生机盎然的顶峰状态；thrive 强调在严苛竞争考验中依然顽强旺盛生长，prosper 专指商业贸易在金钱物质上赚得盆满钵满飞黄腾达，bloom 侧重植物含苞盛开或少女容颜光彩照人。",
-    "phonetic": "/'flauriʃ/"
+    "notes": "【搭配考点】arts/economy flourish (艺术/经济繁荣昌盛)，with a flourish (华丽夸张地一挥)；【形近辨析】polish (打磨抛光/波兰的)，nourish (滋润养育)，furnish (布置家具/供应)；【近义辨析】flourish 侧重生命体在最佳生存环境下展现出最健康、繁茂、旺盛、生机盎然的顶峰状态；thrive 强调在严苛竞争考验中依然顽强旺盛生长，prosper 专指商业贸易在金钱物质上赚得盆满钵满飞黄腾达，bloom 侧重植物含苞盛开或少女容颜光彩照人。"
   },
   "flour": {
     "word": "flour",
@@ -8304,8 +8158,7 @@
         "zh": "灰尘；尘土"
       }
     ],
-    "notes": "【搭配考点】wheat flour (小麦面粉)，sift flour (过筛面粉)，flour and water (面粉和水)；【形近辨析】flower (花卉盛开)，floor (建筑楼层地面)，sour (酸味败坏)；【近义辨析】flour 专指由小麦、黑麦等谷物经石磨或机械研磨而成的烹饪烘焙面粉；powder 泛指任何固体物质被捣碎研磨成的细微干粉末，meal 专指玉米或燕麦粗粗磨出的颗粒较粗的粗粉，dust 专指自然积攒飘浮在空气中的微尘碎屑。",
-    "phonetic": "/'flauə/"
+    "notes": "【搭配考点】wheat flour (小麦面粉)，sift flour (过筛面粉)，flour and water (面粉和水)；【形近辨析】flower (花卉盛开)，floor (建筑楼层地面)，sour (酸味败坏)；【近义辨析】flour 专指由小麦、黑麦等谷物经石磨或机械研磨而成的烹饪烘焙面粉；powder 泛指任何固体物质被捣碎研磨成的细微干粉末，meal 专指玉米或燕麦粗粗磨出的颗粒较粗的粗粉，dust 专指自然积攒飘浮在空气中的微尘碎屑。"
   },
   "powder": {
     "word": "powder",
@@ -8351,8 +8204,7 @@
         "zh": "粗砂；砂砾"
       }
     ],
-    "notes": "【搭配考点】fine/coarse powder (细/粗粉末)，baking powder (发酵粉)，face powder (定妆粉/散粉)；【形近辨析】power (力量电力)，ponder (凝神深思)，pounder (捣碎工具)；【近义辨析】powder 专指通过机械研磨制成的质地干燥、颗粒微细的均匀固体粉末；dust 强调无需研磨、自然飘落或残留的无价值脏灰尘，flour 专用于谷物烘焙食品面粉，grit 专指坚硬粗糙有磨损性的小石子砂砾。",
-    "phonetic": "/'paudə/"
+    "notes": "【搭配考点】fine/coarse powder (细/粗粉末)，baking powder (发酵粉)，face powder (定妆粉/散粉)；【形近辨析】power (力量电力)，ponder (凝神深思)，pounder (捣碎工具)；【近义辨析】powder 专指通过机械研磨制成的质地干燥、颗粒微细的均匀固体粉末；dust 强调无需研磨、自然飘落或残留的无价值脏灰尘，flour 专用于谷物烘焙食品面粉，grit 专指坚硬粗糙有磨损性的小石子砂砾。"
   },
   "cure": {
     "word": "cure",
@@ -8398,8 +8250,7 @@
         "zh": "专业理疗；心理治疗"
       }
     ],
-    "notes": "【搭配考点】cure for a disease (某疾病的根治疗法)，prevention is better than cure (预防胜于治疗)；【形近辨析】pure (纯净纯粹)，care (关怀关照)，curse (降灾诅咒)；【近义辨析】cure 强调彻底消除病因使患者完全康复痊愈的根除手段；remedy 侧重缓解症状的家庭小偏方或解决争端纠纷的补救措施，treatment 强调医生所施行的整个医疗用药过程，therapy 专指不用吃药开刀的长期心理疏导或物理康复理疗。",
-    "phonetic": "/kjuə/"
+    "notes": "【搭配考点】cure for a disease (某疾病的根治疗法)，prevention is better than cure (预防胜于治疗)；【形近辨析】pure (纯净纯粹)，care (关怀关照)，curse (降灾诅咒)；【近义辨析】cure 强调彻底消除病因使患者完全康复痊愈的根除手段；remedy 侧重缓解症状的家庭小偏方或解决争端纠纷的补救措施，treatment 强调医生所施行的整个医疗用药过程，therapy 专指不用吃药开刀的长期心理疏导或物理康复理疗。"
   },
   "curious": {
     "word": "curious",
@@ -8445,8 +8296,7 @@
         "zh": "深感兴趣被吸引的"
       }
     ],
-    "notes": "【搭配考点】curious about (对...充满好奇)，curious coincidence (奇特的巧合)，out of curiosity (出于好奇)；【形近辨析】furious (暴怒盛怒)，various (各种各样的)，serious (严肃认真的)；【近义辨析】curious 强调发自本真、健康旺盛的求知探索欲望；inquisitive 偏向学术探究追根问底，nosy 贬义专指刺探邻里隐私爱管闲事的八卦心理，intrigued 强调被神秘复杂的事物深深吸引勾起极大探知兴趣。",
-    "phonetic": "/'kjuəriəs/"
+    "notes": "【搭配考点】curious about (对...充满好奇)，curious coincidence (奇特的巧合)，out of curiosity (出于好奇)；【形近辨析】furious (暴怒盛怒)，various (各种各样的)，serious (严肃认真的)；【近义辨析】curious 强调发自本真、健康旺盛的求知探索欲望；inquisitive 偏向学术探究追根问底，nosy 贬义专指刺探邻里隐私爱管闲事的八卦心理，intrigued 强调被神秘复杂的事物深深吸引勾起极大探知兴趣。"
   },
   "accurate": {
     "word": "accurate",
@@ -8492,8 +8342,7 @@
         "zh": "基于事实证据的"
       }
     ],
-    "notes": "【搭配考点】accurate description/record (准确的描述/记录)，accurate to within (精确到...以内)；【形近辨析】accuse (控诉指控)，acquire (习得收购)，articulate (口齿清晰表达)；【近义辨析】accurate 强调经得起检验核实、与客观事实完全相符毫无误差差错；precise 强调界限刻度划分极其细致入微，exact 强调分毫不差完全等同排斥任何微小容差，factual 强调句句有据、陈述纯粹基于客观事实。",
-    "phonetic": "/'ækjurət/"
+    "notes": "【搭配考点】accurate description/record (准确的描述/记录)，accurate to within (精确到...以内)；【形近辨析】accuse (控诉指控)，acquire (习得收购)，articulate (口齿清晰表达)；【近义辨析】accurate 强调经得起检验核实、与客观事实完全相符毫无误差差错；precise 强调界限刻度划分极其细致入微，exact 强调分毫不差完全等同排斥任何微小容差，factual 强调句句有据、陈述纯粹基于客观事实。"
   },
   "secure": {
     "word": "secure",
@@ -8539,8 +8388,7 @@
         "zh": "固定；使稳固"
       }
     ],
-    "notes": "【搭配考点】secure funding/contracts (设法争取到资金/合同)，feel secure (感到有安全感)，secure a door/rope (把门关严/绳索系牢)；【形近辨析】rescue (援救解救)，secret (隐秘保密)，seduce (引诱诱惑)；【近义辨析】secure 及物动词专指历经艰辛努力或竞争谈判之后成功搞到手、牢牢锁定稀缺资源；obtain 强调通过合法申请、采购获得，acquire 侧重逐步自学掌握或公司巨资并购，anchor 强调如铁锚般牢固固定支撑。",
-    "phonetic": "/si'kjuə/"
+    "notes": "【搭配考点】secure funding/contracts (设法争取到资金/合同)，feel secure (感到有安全感)，secure a door/rope (把门关严/绳索系牢)；【形近辨析】rescue (援救解救)，secret (隐秘保密)，seduce (引诱诱惑)；【近义辨析】secure 及物动词专指历经艰辛努力或竞争谈判之后成功搞到手、牢牢锁定稀缺资源；obtain 强调通过合法申请、采购获得，acquire 侧重逐步自学掌握或公司巨资并购，anchor 强调如铁锚般牢固固定支撑。"
   },
   "rescue": {
     "word": "rescue",
@@ -8586,8 +8434,7 @@
         "zh": "解救；交付"
       }
     ],
-    "notes": "【搭配考点】rescue team/operation (救援队/救援行动)，come to the rescue (前来解围救助)；【形近辨析】secure (安全稳妥/系牢)，residue (化学残余物)，resume (重新开始/个人履历)；【近义辨析】rescue 强调置身生死悬于一线的绝险关头，采取紧急英勇行动将人抢救生还；save 范围最广可拯救灵魂、生命或积攒金钱，salvage 专指从沉船、火灾废墟中打捞抢救幸免于难的财物零件，deliver 强调从暴政苦难中使之得释放解脱。",
-    "phonetic": "/'reskju:/"
+    "notes": "【搭配考点】rescue team/operation (救援队/救援行动)，come to the rescue (前来解围救助)；【形近辨析】secure (安全稳妥/系牢)，residue (化学残余物)，resume (重新开始/个人履历)；【近义辨析】rescue 强调置身生死悬于一线的绝险关头，采取紧急英勇行动将人抢救生还；save 范围最广可拯救灵魂、生命或积攒金钱，salvage 专指从沉船、火灾废墟中打捞抢救幸免于难的财物零件，deliver 强调从暴政苦难中使之得释放解脱。"
   },
   "injure": {
     "word": "injure",
@@ -8633,8 +8480,7 @@
         "zh": "损坏物品；损害"
       }
     ],
-    "notes": "【搭配考点】injure one's reputation/pride (损害声誉/自尊)，badly/seriously injure (严重受伤)；【形近辨析】endure (坚忍忍受)，ensure (保证确保)，ignite (点火发火)；【近义辨析】injure 专指因意外事故导致身体机能损伤骨折，或在比喻义中指名誉、感情遭到侵犯受损；wound 专指战争枪炮刀剑造成的皮开肉绽的开放性创口，harm 强调行为物质带来隐性或渐进的危害毒害，damage 专指对建筑物、商品或系统的物理破坏损毁。",
-    "phonetic": "/'indʒə/"
+    "notes": "【搭配考点】injure one's reputation/pride (损害声誉/自尊)，badly/seriously injure (严重受伤)；【形近辨析】endure (坚忍忍受)，ensure (保证确保)，ignite (点火发火)；【近义辨析】injure 专指因意外事故导致身体机能损伤骨折，或在比喻义中指名誉、感情遭到侵犯受损；wound 专指战争枪炮刀剑造成的皮开肉绽的开放性创口，harm 强调行为物质带来隐性或渐进的危害毒害，damage 专指对建筑物、商品或系统的物理破坏损毁。"
   },
   "wound": {
     "word": "wound",
@@ -8680,8 +8526,7 @@
         "zh": "病灶；器官损伤"
       }
     ],
-    "notes": "【搭配考点】open wound (开放性伤口)，inflict a wound (造成创伤)，heal the wounds of war (抚平战争创伤)；【形近辨析】bound (受缚的/开往)，found (建立创立)，round (圆满回合)；【近义辨析】wound 专指遭受枪弹、刀刃暴力攻击造成的肉体深度破损出血创伤，或心灵遭受刻骨铭心的重创；injury 泛指车祸摔跌造成的骨折肌肉拉伤，trauma 专指重症医学上的严重多发创伤或精神重创应激综合征，lesion 专指病理学上的组织病变病灶。",
-    "phonetic": "/waund/"
+    "notes": "【搭配考点】open wound (开放性伤口)，inflict a wound (造成创伤)，heal the wounds of war (抚平战争创伤)；【形近辨析】bound (受缚的/开往)，found (建立创立)，round (圆满回合)；【近义辨析】wound 专指遭受枪弹、刀刃暴力攻击造成的肉体深度破损出血创伤，或心灵遭受刻骨铭心的重创；injury 泛指车祸摔跌造成的骨折肌肉拉伤，trauma 专指重症医学上的严重多发创伤或精神重创应激综合征，lesion 专指病理学上的组织病变病灶。"
   },
   "harm": {
     "word": "harm",
@@ -8727,8 +8572,7 @@
         "zh": "损害；伤害"
       }
     ],
-    "notes": "【搭配考点】cause harm to (对...造成危害)，do more harm than good (弊大于利)，come to no harm (安然无恙)；【形近辨析】farm (农场耕作)，charm (迷人魔力)，warm (温暖热情)；【近义辨析】harm 强调不良因素、毒素或恶习带来的潜移默化、广泛的健康、道德或生态危害损害；damage 强调外力打击造成的物质破损损坏，injury 强调急性身体创伤，detriment 强调对权益利益造成的实质损害削弱。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】cause harm to (对...造成危害)，do more harm than good (弊大于利)，come to no harm (安然无恙)；【形近辨析】farm (农场耕作)，charm (迷人魔力)，warm (温暖热情)；【近义辨析】harm 强调不良因素、毒素或恶习带来的潜移默化、广泛的健康、道德或生态危害损害；damage 强调外力打击造成的物质破损损坏，injury 强调急性身体创伤，detriment 强调对权益利益造成的实质损害削弱。"
   },
   "hazard": {
     "word": "hazard",
@@ -8774,8 +8618,7 @@
         "zh": "通用危险状态"
       }
     ],
-    "notes": "【搭配考点】safety/health hazard (安全/健康隐患)，occupational hazard (职业风险/职业病)，hazard lights (危险警报闪光灯)；【形近辨析】wizard (魔法巫师)，lizard (蜥蜴爬虫)，buzzard (大鵟秃鹰)；【近义辨析】hazard 强调客观环境中本身潜伏存在、随时可能引发事故的危险源或险情条件；risk 强调主体主动权衡做出的决策冒险概率，peril 强调命悬一线的极其严峻的致命险境，danger 为基础通用词泛指危险威胁。",
-    "phonetic": "/'hæzəd/"
+    "notes": "【搭配考点】safety/health hazard (安全/健康隐患)，occupational hazard (职业风险/职业病)，hazard lights (危险警报闪光灯)；【形近辨析】wizard (魔法巫师)，lizard (蜥蜴爬虫)，buzzard (大鵟秃鹰)；【近义辨析】hazard 强调客观环境中本身潜伏存在、随时可能引发事故的危险源或险情条件；risk 强调主体主动权衡做出的决策冒险概率，peril 强调命悬一线的极其严峻的致命险境，danger 为基础通用词泛指危险威胁。"
   },
   "danger": {
     "word": "danger",
@@ -8821,8 +8664,7 @@
         "zh": "威胁之物；恐吓"
       }
     ],
-    "notes": "【搭配考点】in danger of (处于...危险之中)，out of danger (脱离危险期)，danger zone (危险区域)；【形近辨析】dagger (双刃短剑匕首)，ranger (国家公园巡警)，anger (怒气火气)；【近义辨析】danger 是最核心通用词，指受到伤害、死亡或毁灭的可能性与境遇；threat 侧重他人恶意的恐吓言辞或隐隐显现的威胁征兆，jeopardy 专指命运前途受到严重危害的不测险境，menace 强调让人感到持续受恐吓、令人生畏的危险分子。",
-    "phonetic": "/'deindʒə/"
+    "notes": "【搭配考点】in danger of (处于...危险之中)，out of danger (脱离危险期)，danger zone (危险区域)；【形近辨析】dagger (双刃短剑匕首)，ranger (国家公园巡警)，anger (怒气火气)；【近义辨析】danger 是最核心通用词，指受到伤害、死亡或毁灭的可能性与境遇；threat 侧重他人恶意的恐吓言辞或隐隐显现的威胁征兆，jeopardy 专指命运前途受到严重危害的不测险境，menace 强调让人感到持续受恐吓、令人生畏的危险分子。"
   },
   "stake": {
     "word": "stake",
@@ -8868,8 +8710,7 @@
         "zh": "投资；投入"
       }
     ],
-    "notes": "【搭配考点】at stake (处于危险关头/利害攸关)，have a stake in (在...有重大利害关系)，pull up stakes (拔营搬迁)；【形近辨析】steak (煎牛排)，snake (长蛇)，stack (整齐堆叠)；【近义辨析】stake 专指在某项事业或竞赛中押上的真金白银资本、或事关自身切身利益的深层利害关系；share 侧重公司账面量化的普通股股份，interest 泛指法律经济或政治上的正当权益利益，investment 强调注入资本期望未来获取回报的投资动作。",
-    "phonetic": "/steik/"
+    "notes": "【搭配考点】at stake (处于危险关头/利害攸关)，have a stake in (在...有重大利害关系)，pull up stakes (拔营搬迁)；【形近辨析】steak (煎牛排)，snake (长蛇)，stack (整齐堆叠)；【近义辨析】stake 专指在某项事业或竞赛中押上的真金白银资本、或事关自身切身利益的深层利害关系；share 侧重公司账面量化的普通股股份，interest 泛指法律经济或政治上的正当权益利益，investment 强调注入资本期望未来获取回报的投资动作。"
   },
   "risk": {
     "word": "risk",
@@ -8915,8 +8756,7 @@
         "zh": "威胁"
       }
     ],
-    "notes": "【搭配考点】at risk (处于危险中)，take a risk (冒风险)，risk one's life (冒着生命危险)；【形近辨析】brisk (轻快矫健的)，disk (计算机磁盘)，rink (旱冰溜冰场)；【近义辨析】risk 强调在行动前可以进行概率估算、权衡后果的主动承担性风险；hazard 侧重外部物理环境中的固有危险隐患，gamble 强调依靠纯粹运气、输赢胜负未卜的豪赌冒险，threat 强调来自敌意实体的潜在攻击威逼。",
-    "phonetic": "/risk/"
+    "notes": "【搭配考点】at risk (处于危险中)，take a risk (冒风险)，risk one's life (冒着生命危险)；【形近辨析】brisk (轻快矫健的)，disk (计算机磁盘)，rink (旱冰溜冰场)；【近义辨析】risk 强调在行动前可以进行概率估算、权衡后果的主动承担性风险；hazard 侧重外部物理环境中的固有危险隐患，gamble 强调依靠纯粹运气、输赢胜负未卜的豪赌冒险，threat 强调来自敌意实体的潜在攻击威逼。"
   },
   "gamble": {
     "word": "gamble",
@@ -8962,8 +8802,7 @@
         "zh": "商业冒险投机"
       }
     ],
-    "notes": "【搭配考点】take a gamble (孤注一掷冒险)，gamble away (赌光输光)，gamble on (在...上押宝赌一把)；【形近辨析】fumble (笨手笨脚乱摸)，humble (谦逊低调的)，stumble (跌跌撞撞绊倒)；【近义辨析】gamble 强调押上身家性命、全凭运气的大胆投机行为，带有严重非理性与潜在灾难性后果；bet 偏口语日常表示对某事结果进行小额打赌押注，wager 属正式法律文雅用语指赌约押金，venture 强调面临市场不确定性的商业风险投资。",
-    "phonetic": "/'ɡæmbl/"
+    "notes": "【搭配考点】take a gamble (孤注一掷冒险)，gamble away (赌光输光)，gamble on (在...上押宝赌一把)；【形近辨析】fumble (笨手笨脚乱摸)，humble (谦逊低调的)，stumble (跌跌撞撞绊倒)；【近义辨析】gamble 强调押上身家性命、全凭运气的大胆投机行为，带有严重非理性与潜在灾难性后果；bet 偏口语日常表示对某事结果进行小额打赌押注，wager 属正式法律文雅用语指赌约押金，venture 强调面临市场不确定性的商业风险投资。"
   },
   "bet": {
     "word": "bet",
@@ -9009,8 +8848,7 @@
         "zh": "押上赌注"
       }
     ],
-    "notes": "【搭配考点】bet on (在...下注/押宝)，one's best bet (最佳选择/最靠谱做法)，you bet (当然/一点没错)；【形近辨析】bit (咬/少许)，bed (床铺)，beg (乞讨恳求)；【近义辨析】bet 为最日常高频词，口语中广泛表示坚信某事一定会发生或在赛马比赛下注；wager 偏书面正式强调立下庄重契约押下赌金，gamble 强调大额高危的投机赌博，stake 侧重把具体的名誉金钱作为赌注压在台面上。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】bet on (在...下注/押宝)，one's best bet (最佳选择/最靠谱做法)，you bet (当然/一点没错)；【形近辨析】bit (咬/少许)，bed (床铺)，beg (乞讨恳求)；【近义辨析】bet 为最日常高频词，口语中广泛表示坚信某事一定会发生或在赛马比赛下注；wager 偏书面正式强调立下庄重契约押下赌金，gamble 强调大额高危的投机赌博，stake 侧重把具体的名誉金钱作为赌注压在台面上。"
   },
   "current": {
     "word": "current",
@@ -9056,8 +8894,7 @@
         "zh": "流动；水流"
       }
     ],
-    "notes": "【搭配考点】current events/situation (时事/当前局势)，electric current (电流)，against the current (逆流而上)；【形近辨析】currency (法定货币流通)，correct (正确的)，corrupt (贪污腐化的)；【近义辨析】current 强调此时此刻正在流行、处于行使效力之中的当前现状；present 侧重时间刻度上的“现在”，contemporary 侧重与我们处于同一个现代大时代的，flow 强调流体连续滑动的动态过程。",
-    "phonetic": "/'kʌrənt/"
+    "notes": "【搭配考点】current events/situation (时事/当前局势)，electric current (电流)，against the current (逆流而上)；【形近辨析】currency (法定货币流通)，correct (正确的)，corrupt (贪污腐化的)；【近义辨析】current 强调此时此刻正在流行、处于行使效力之中的当前现状；present 侧重时间刻度上的“现在”，contemporary 侧重与我们处于同一个现代大时代的，flow 强调流体连续滑动的动态过程。"
   },
   "currency": {
     "word": "currency",
@@ -9103,8 +8940,7 @@
         "zh": "造币；硬币体系"
       }
     ],
-    "notes": "【搭配考点】foreign currency (外币)，currency exchange/fluctuations (货币兑换/汇率波动)，gain currency (广为流传/被普遍接受)；【形近辨析】current (现行的/潮流)，urgency (紧迫紧要)，fluency (语言流利)；【近义辨析】currency 专指主权国家发行的、作为流通交易媒介的法定通货制度体系；money 泛指一切具有支付能力的财富金钱，cash 专指纸币硬币实物现钞，coinage 侧重金属硬币铸造体系。",
-    "phonetic": "/'kərənsi/"
+    "notes": "【搭配考点】foreign currency (外币)，currency exchange/fluctuations (货币兑换/汇率波动)，gain currency (广为流传/被普遍接受)；【形近辨析】current (现行的/潮流)，urgency (紧迫紧要)，fluency (语言流利)；【近义辨析】currency 专指主权国家发行的、作为流通交易媒介的法定通货制度体系；money 泛指一切具有支付能力的财富金钱，cash 专指纸币硬币实物现钞，coinage 侧重金属硬币铸造体系。"
   },
   "rental": {
     "word": "rental",
@@ -9150,8 +8986,7 @@
         "zh": "租用期；租赁物业"
       }
     ],
-    "notes": "【搭配考点】rental car/agreement (租用车/租赁协议)，rental property (出租物业)，monthly rental (月租金)；【形近辨析】retail (零售商品)，mental (心理精神上的)，denial (断然否认)；【近义辨析】rental 常作定语形容短期出租的设备车辆，或指租赁业务收入；lease 专指签署严格法律合同的中长期房屋土地租赁合约，rent 侧重定期支付的实际房租款项或日常出租动作，tenancy 侧重租户合法居住占用的法定期限与租权状态。",
-    "phonetic": "/'rentəl/"
+    "notes": "【搭配考点】rental car/agreement (租用车/租赁协议)，rental property (出租物业)，monthly rental (月租金)；【形近辨析】retail (零售商品)，mental (心理精神上的)，denial (断然否认)；【近义辨析】rental 常作定语形容短期出租的设备车辆，或指租赁业务收入；lease 专指签署严格法律合同的中长期房屋土地租赁合约，rent 侧重定期支付的实际房租款项或日常出租动作，tenancy 侧重租户合法居住占用的法定期限与租权状态。"
   },
   "lease": {
     "word": "lease",
@@ -9197,8 +9032,7 @@
         "zh": "包租飞机船舶"
       }
     ],
-    "notes": "【搭配考点】sign a lease (签署租约)，expire of a lease (租约到期)，a new lease of life (焕发新生/重获活力)；【形近辨析】release (释放发行)，please (令人欣悦)，cease (停息停歇)；【近义辨析】lease 专指针对地产、飞机或贵重设备的严格法律中长期租赁契约；rent 侧重民用住房的按月租用，hire 强调支付报酬短租车辆工具或雇佣员工，charter 专指包机、包船作为专属商业出行。",
-    "phonetic": "/li:s/"
+    "notes": "【搭配考点】sign a lease (签署租约)，expire of a lease (租约到期)，a new lease of life (焕发新生/重获活力)；【形近辨析】release (释放发行)，please (令人欣悦)，cease (停息停歇)；【近义辨析】lease 专指针对地产、飞机或贵重设备的严格法律中长期租赁契约；rent 侧重民用住房的按月租用，hire 强调支付报酬短租车辆工具或雇佣员工，charter 专指包机、包船作为专属商业出行。"
   },
   "release": {
     "word": "release",
@@ -9244,8 +9078,7 @@
         "zh": "释放出院；排放"
       }
     ],
-    "notes": "【搭配考点】press release (新闻通稿)，release an album/movie (发行专辑/上映电影)，release from prison (刑满出狱)；【形近辨析】lease (租借租约)，relieve (缓解疼痛)，reliant (依赖他人的)；【近义辨析】release 强调解除拘束、推向市场公之于众；issue 侧重政府官方发布通告、护照或印钞行发行货币，publish 专指把文字作品在纸质媒介或电子刊物上正式出版印行，discharge 专指病人康复出院或军事人员退伍。",
-    "phonetic": "/ri'li:s/"
+    "notes": "【搭配考点】press release (新闻通稿)，release an album/movie (发行专辑/上映电影)，release from prison (刑满出狱)；【形近辨析】lease (租借租约)，relieve (缓解疼痛)，reliant (依赖他人的)；【近义辨析】release 强调解除拘束、推向市场公之于众；issue 侧重政府官方发布通告、护照或印钞行发行货币，publish 专指把文字作品在纸质媒介或电子刊物上正式出版印行，discharge 专指病人康复出院或军事人员退伍。"
   },
   "recently": {
     "word": "recently",
@@ -9291,8 +9124,7 @@
         "zh": "重新；再次"
       }
     ],
-    "notes": "【搭配考点】until recently (直到最近)，recently published (最新出版的)；【形近辨析】decently (大方得体地)，presently (现在/立刻)，recession (经济萧条萧条期)；【近义辨析】recently 既可与过去时连用表示不久前的某一确切时刻发生的单次事件，亦可与完成时连用；lately 侧重与现在完成时连用表示近一段时间持续不断发生的状态，newly 强调刚经历某种状态转变，afresh 强调推倒重来从头开始。",
-    "phonetic": "/'ri:səntli/"
+    "notes": "【搭配考点】until recently (直到最近)，recently published (最新出版的)；【形近辨析】decently (大方得体地)，presently (现在/立刻)，recession (经济萧条萧条期)；【近义辨析】recently 既可与过去时连用表示不久前的某一确切时刻发生的单次事件，亦可与完成时连用；lately 侧重与现在完成时连用表示近一段时间持续不断发生的状态，newly 强调刚经历某种状态转变，afresh 强调推倒重来从头开始。"
   },
   "modern": {
     "word": "modern",
@@ -9338,8 +9170,7 @@
         "zh": "进步的；革新的"
       }
     ],
-    "notes": "【搭配考点】modern technology/architecture (现代技术/现代建筑)，modern times (当今时代)；【形近辨析】model (模型典范)，modest (谦和朴实的)，mode (风尚模式)；【近义辨析】modern 侧重与古代中世纪相对立的近现代、遵循现代科学生活方式的设计风格；advanced 强调经过深厚研发达到的前沿高阶水平，contemporary 侧重当下共处同一时代的，progressive 侧重思想政治制度上的开明进步。",
-    "phonetic": "/'mɔdən/"
+    "notes": "【搭配考点】modern technology/architecture (现代技术/现代建筑)，modern times (当今时代)；【形近辨析】model (模型典范)，modest (谦和朴实的)，mode (风尚模式)；【近义辨析】modern 侧重与古代中世纪相对立的近现代、遵循现代科学生活方式的设计风格；advanced 强调经过深厚研发达到的前沿高阶水平，contemporary 侧重当下共处同一时代的，progressive 侧重思想政治制度上的开明进步。"
   },
   "era": {
     "word": "era",
@@ -9385,8 +9216,7 @@
         "zh": "一段历史时期"
       }
     ],
-    "notes": "【搭配考点】new era (新时代)，dawn of an era (时代的拂晓黎明)，end of an era (一个时代的终结)；【形近辨析】ear (耳朵)，err (出差错犯错)，area (地区区域)；【近义辨析】era 专指历史上由某一重大科技变革、政治革命或领袖统治所界定的具有鲜明时代特征的历史纪元；epoch 强调标志人类历史发生划时代翻天覆地重大转折的起点时代，age 偏自然考古历史大跨度，period 泛指任何一段有起止的常规历史阶段。",
-    "phonetic": "/span><span style='display:block;'><span style='font-style:normal;font-weight:normal;'><span style='font-style:italic;color:rgb(098,008,031);'>BrE</"
+    "notes": "【搭配考点】new era (新时代)，dawn of an era (时代的拂晓黎明)，end of an era (一个时代的终结)；【形近辨析】ear (耳朵)，err (出差错犯错)，area (地区区域)；【近义辨析】era 专指历史上由某一重大科技变革、政治革命或领袖统治所界定的具有鲜明时代特征的历史纪元；epoch 强调标志人类历史发生划时代翻天覆地重大转折的起点时代，age 偏自然考古历史大跨度，period 泛指任何一段有起止的常规历史阶段。"
   },
   "up-to-date": {
     "word": "up-to-date",
@@ -9432,8 +9262,7 @@
         "zh": "时髦的；流行的"
       }
     ],
-    "notes": "【搭配考点】keep up-to-date with (与...保持同步更新)，up-to-date information/data (最新信息/数据)；【形近辨析】update (动词更新)，outdated (反义词落伍过时的)，upgrade (装备升级)；【近义辨析】up-to-date 强调信息、软件或思想包含了一直到当下最新发生的修改与进展、绝无落后；current 强调现行正在发生，cutting-edge 侧重在科学工程尖端前沿遥遥领先，fashionable 侧重受到社会流行追捧时髦。",
-    "phonetic": "/'ʌptə'deit/"
+    "notes": "【搭配考点】keep up-to-date with (与...保持同步更新)，up-to-date information/data (最新信息/数据)；【形近辨析】update (动词更新)，outdated (反义词落伍过时的)，upgrade (装备升级)；【近义辨析】up-to-date 强调信息、软件或思想包含了一直到当下最新发生的修改与进展、绝无落后；current 强调现行正在发生，cutting-edge 侧重在科学工程尖端前沿遥遥领先，fashionable 侧重受到社会流行追捧时髦。"
   },
   "outdated": {
     "word": "outdated",
@@ -9479,8 +9308,7 @@
         "zh": "古老作废的"
       }
     ],
-    "notes": "【搭配考点】outdated technology/methods (过时的技术/方法)，outdated views/ideas (陈旧的思想观念)；【形近辨析】outmoded (同义词过时落伍)，update (更新)，outright (彻底坦白的)；【近义辨析】outdated 强调因为时间推移、新事物诞生而显得跟不上时代、失去效能；obsolete 强调在工业制造中已被全新标准彻底替代而停产淘汰报废，antiquated 带有贬义讽刺如同老古董般迂腐荒谬，archaic 专指古老语言或早已废弛的古代典制。",
-    "phonetic": "/span>dated</"
+    "notes": "【搭配考点】outdated technology/methods (过时的技术/方法)，outdated views/ideas (陈旧的思想观念)；【形近辨析】outmoded (同义词过时落伍)，update (更新)，outright (彻底坦白的)；【近义辨析】outdated 强调因为时间推移、新事物诞生而显得跟不上时代、失去效能；obsolete 强调在工业制造中已被全新标准彻底替代而停产淘汰报废，antiquated 带有贬义讽刺如同老古董般迂腐荒谬，archaic 专指古老语言或早已废弛的古代典制。"
   },
   "stale": {
     "word": "stale",
@@ -9526,8 +9354,7 @@
         "zh": "陈腐平庸的话题"
       }
     ],
-    "notes": "【搭配考点】stale bread/air (走味变硬的面包/污浊的空气)，stale jokes/ideas (老掉牙的笑话/陈腐观念)；【形近辨析】scale (测量尺度/鱼鳞)，stole (偷窃过去式)，state (陈述/州)；【近义辨析】stale 专指面包、啤酒等暴露在空气中失去脆嫩芳香变得干硬走味，或比喻论调毫无新意炒冷饭；expired 强调超过了商品法定的保质期限，decayed 侧重细菌真菌分解产生的腐烂发臭，trite 专指文章言论陈词滥调俗不可耐。",
-    "phonetic": "/steil/"
+    "notes": "【搭配考点】stale bread/air (走味变硬的面包/污浊的空气)，stale jokes/ideas (老掉牙的笑话/陈腐观念)；【形近辨析】scale (测量尺度/鱼鳞)，stole (偷窃过去式)，state (陈述/州)；【近义辨析】stale 专指面包、啤酒等暴露在空气中失去脆嫩芳香变得干硬走味，或比喻论调毫无新意炒冷饭；expired 强调超过了商品法定的保质期限，decayed 侧重细菌真菌分解产生的腐烂发臭，trite 专指文章言论陈词滥调俗不可耐。"
   },
   "fashion": {
     "word": "fashion",
@@ -9573,8 +9400,7 @@
         "zh": "时髦式样；风格"
       }
     ],
-    "notes": "【搭配考点】in fashion (流行中/入时)，out of fashion (过时)，in a timely fashion (及时地/以迅速的方式)；【形近辨析】faction (宗派集团)，fraction (小比例分数)，cushion (坐垫减震)；【近义辨析】fashion 专指特定时期在服饰装扮、生活方式上广受社会崇尚风靡的大众流行风气；vogue 强调在某特定短暂时间窗口内的极盛时髦状态，trend 侧重数据科技或社会观念发生宏观位移的发展走向，mode 专指南欧古典高雅的时装式样或运转模式。",
-    "phonetic": "/'fæʃən/"
+    "notes": "【搭配考点】in fashion (流行中/入时)，out of fashion (过时)，in a timely fashion (及时地/以迅速的方式)；【形近辨析】faction (宗派集团)，fraction (小比例分数)，cushion (坐垫减震)；【近义辨析】fashion 专指特定时期在服饰装扮、生活方式上广受社会崇尚风靡的大众流行风气；vogue 强调在某特定短暂时间窗口内的极盛时髦状态，trend 侧重数据科技或社会观念发生宏观位移的发展走向，mode 专指南欧古典高雅的时装式样或运转模式。"
   },
   "contemporary": {
     "word": "contemporary",
@@ -9620,8 +9446,7 @@
         "zh": "同时共存的"
       }
     ],
-    "notes": "【搭配考点】contemporary art/music (当代艺术/音乐)，contemporary with (与...同时代)，one's contemporaries (同龄人/同时代人)；【形近辨析】temporary (短暂临时的)，contempt (鄙视轻蔑)，contemplate (凝视深思熟虑)；【近义辨析】contemporary 核心强调“时间上的并存性”——要么指活在当今眼下的同代在世艺术家作品，要么指与历史上某人同处于同一时代的同代人；modern 侧重打破传统旧规范的现代主义设计哲学，present-day 侧重客观纪年上的当今现下阶段。",
-    "phonetic": "/kən'tempərəri/"
+    "notes": "【搭配考点】contemporary art/music (当代艺术/音乐)，contemporary with (与...同时代)，one's contemporaries (同龄人/同时代人)；【形近辨析】temporary (短暂临时的)，contempt (鄙视轻蔑)，contemplate (凝视深思熟虑)；【近义辨析】contemporary 核心强调“时间上的并存性”——要么指活在当今眼下的同代在世艺术家作品，要么指与历史上某人同处于同一时代的同代人；modern 侧重打破传统旧规范的现代主义设计哲学，present-day 侧重客观纪年上的当今现下阶段。"
   },
   "temple": {
     "word": "temple",
@@ -9668,8 +9493,7 @@
         "zh": "祭坛；圣坛"
       }
     ],
-    "notes": "【搭配考点】temple precincts 专指寺庙周边界限与庭院区域；【形近辨析】ample (充足的/宽裕的)，tempo (音乐节奏/行进步调)，template (模板/样板)；【近义辨析】shrine 侧重供奉神圣人物或遗物的神龛，sanctuary 侧重神圣不可侵犯的庇护圣所，altar 仅指举行仪式的祭坛，在此处指供奉神明的宗教殿堂建筑整体唯一契合 temple。",
-    "phonetic": "/'templ/"
+    "notes": "【搭配考点】temple precincts 专指寺庙周边界限与庭院区域；【形近辨析】ample (充足的/宽裕的)，tempo (音乐节奏/行进步调)，template (模板/样板)；【近义辨析】shrine 侧重供奉神圣人物或遗物的神龛，sanctuary 侧重神圣不可侵犯的庇护圣所，altar 仅指举行仪式的祭坛，在此处指供奉神明的宗教殿堂建筑整体唯一契合 temple。"
   },
   "temporary": {
     "word": "temporary",
@@ -9716,8 +9540,7 @@
         "zh": "片刻的；瞬间的"
       }
     ],
-    "notes": "【搭配考点】temporary solution/measure 临时解决方案/权宜之计；【形近辨析】contemporary (同代人/当代的)，tempting (诱人的)，temperature (温度)；【近义辨析】provisional 侧重在正式确定前暂定的，interim 侧重政权或过渡阶段的暂时安排，momentary 仅强调持续一瞬间，在此处指应急性的临时解决手段唯一契合 temporary。",
-    "phonetic": "/'tempərəri/"
+    "notes": "【搭配考点】temporary solution/measure 临时解决方案/权宜之计；【形近辨析】contemporary (同代人/当代的)，tempting (诱人的)，temperature (温度)；【近义辨析】provisional 侧重在正式确定前暂定的，interim 侧重政权或过渡阶段的暂时安排，momentary 仅强调持续一瞬间，在此处指应急性的临时解决手段唯一契合 temporary。"
   },
   "abundant": {
     "word": "abundant",
@@ -9764,8 +9587,7 @@
         "zh": "大量的；丰富详尽的"
       }
     ],
-    "notes": "【搭配考点】abundant natural resources/supply 强调自然资源或供给极度富足；【形近辨析】redundant (多余的/累赘的/下岗的)，abandon (遗弃/抛弃)，radiant (容光焕发的/光芒四射的)；【近义辨析】plentiful 侧重数量充足满足需求，ample 强调宽裕不显紧凑，copious 强调大量甚至冗余的产出，在此处形容土地与自然恩赐之丰饶富足唯一契合 abundant。",
-    "phonetic": "/ə'bʌndənt/"
+    "notes": "【搭配考点】abundant natural resources/supply 强调自然资源或供给极度富足；【形近辨析】redundant (多余的/累赘的/下岗的)，abandon (遗弃/抛弃)，radiant (容光焕发的/光芒四射的)；【近义辨析】plentiful 侧重数量充足满足需求，ample 强调宽裕不显紧凑，copious 强调大量甚至冗余的产出，在此处形容土地与自然恩赐之丰饶富足唯一契合 abundant。"
   },
   "ample": {
     "word": "ample",
@@ -9812,8 +9634,7 @@
         "zh": "丰厚的；慷慨的"
       }
     ],
-    "notes": "【搭配考点】ample time/opportunity 强调时间或机会非常充裕、绰绰有余；【形近辨析】temple (寺庙)，sample (样品)，maple (枫树)；【近义辨析】sufficient 侧重客观数量上刚刚够用，adequate 侧重符合最低资质或要求但不出色，generous 侧重给予得极为大方厚实，在此处强调余地很大的充裕唯一契合 ample。",
-    "phonetic": "/'æmpl/"
+    "notes": "【搭配考点】ample time/opportunity 强调时间或机会非常充裕、绰绰有余；【形近辨析】temple (寺庙)，sample (样品)，maple (枫树)；【近义辨析】sufficient 侧重客观数量上刚刚够用，adequate 侧重符合最低资质或要求但不出色，generous 侧重给予得极为大方厚实，在此处强调余地很大的充裕唯一契合 ample。"
   },
   "mass": {
     "word": "mass",
@@ -9860,8 +9681,7 @@
         "zh": "数量；数额"
       }
     ],
-    "notes": "【搭配考点】total mass/mass production 物理学上指物体所含物质总量（质量）或社会层面的大众规模；【形近辨析】massive (巨大的/重大的)，massage (按摩/推拿)，mess (混乱/脏乱)；【近义辨析】bulk 侧重体积庞大或主要大部分，volume 侧重立体空间容积，quantity 侧重抽象数量大小，在此处物理学天体总质量唯一契合 mass。",
-    "phonetic": "/span><span style='display:block;'><span style='font-style:normal;font-weight:normal;'><span style='font-style:italic;color:rgb(098,008,031);'>BrE</"
+    "notes": "【搭配考点】total mass/mass production 物理学上指物体所含物质总量（质量）或社会层面的大众规模；【形近辨析】massive (巨大的/重大的)，massage (按摩/推拿)，mess (混乱/脏乱)；【近义辨析】bulk 侧重体积庞大或主要大部分，volume 侧重立体空间容积，quantity 侧重抽象数量大小，在此处物理学天体总质量唯一契合 mass。"
   },
   "massive": {
     "word": "massive",
@@ -9908,8 +9728,7 @@
         "zh": "巨大的；极大的"
       }
     ],
-    "notes": "【搭配考点】massive financial loss/massive scale 强调规模、程度或重量上的极其庞大与沉重；【形近辨析】passive (消极被动的)，missile (导弹)，mission (使命/代表团)；【近义辨析】colossal 侧重体积或耗资极其惊人，gigantic 强调如巨人般的尺寸，enormous 侧重超出常规尺度的巨大，在此处形容财务损失之惨重与规模巨大唯一契合 massive。",
-    "phonetic": "/'mæsiv/"
+    "notes": "【搭配考点】massive financial loss/massive scale 强调规模、程度或重量上的极其庞大与沉重；【形近辨析】passive (消极被动的)，missile (导弹)，mission (使命/代表团)；【近义辨析】colossal 侧重体积或耗资极其惊人，gigantic 强调如巨人般的尺寸，enormous 侧重超出常规尺度的巨大，在此处形容财务损失之惨重与规模巨大唯一契合 massive。"
   },
   "massage": {
     "word": "massage",
@@ -9956,8 +9775,7 @@
         "zh": "手法推拿；操作"
       }
     ],
-    "notes": "【搭配考点】gentle massage / heart massage 理疗中的按摩抚摩或心脏复苏按压；【形近辨析】message (信息/短信)，passage (通道/文章段落)，voyage (航海旅程)；【近义辨析】therapy 涵盖所有医疗治疗手段范围极广，rubbing 仅指表面皮肤机械摩擦，manipulation 偏向整骨外科手法，在此处针对肌肉舒缓的专业按摩唯一契合 massage。",
-    "phonetic": "/'mæsɑ:ʒ; mə's-/"
+    "notes": "【搭配考点】gentle massage / heart massage 理疗中的按摩抚摩或心脏复苏按压；【形近辨析】message (信息/短信)，passage (通道/文章段落)，voyage (航海旅程)；【近义辨析】therapy 涵盖所有医疗治疗手段范围极广，rubbing 仅指表面皮肤机械摩擦，manipulation 偏向整骨外科手法，在此处针对肌肉舒缓的专业按摩唯一契合 massage。"
   },
   "vast": {
     "word": "vast",
@@ -10004,8 +9822,7 @@
         "zh": "广阔的；扩张性的"
       }
     ],
-    "notes": "【搭配考点】the vast majority of 绝大多数（固定高频考点）；【形近辨析】fast (快速的/绝食)，cast (铸造/投射)，past (过去的/经过)；【近义辨析】immense 强调浩瀚无边无法测量，broad 侧重两端距离宽阔，expansive 侧重向外延展扩张，在修饰 majority 表示压倒性多数时固定唯一契合 vast。",
-    "phonetic": "/vɑ:st; væst/"
+    "notes": "【搭配考点】the vast majority of 绝大多数（固定高频考点）；【形近辨析】fast (快速的/绝食)，cast (铸造/投射)，past (过去的/经过)；【近义辨析】immense 强调浩瀚无边无法测量，broad 侧重两端距离宽阔，expansive 侧重向外延展扩张，在修饰 majority 表示压倒性多数时固定唯一契合 vast。"
   },
   "scope": {
     "word": "scope",
@@ -10052,8 +9869,7 @@
         "zh": "界限；罗盘"
       }
     ],
-    "notes": "【搭配考点】geographical/broad scope 强调研究、行动、调查或市场所涵盖的广度与管辖范围；【形近辨析】score (比分/二十)，scape (景观词根，如 landscape)，cope (处理/应对)；【近义辨析】extent 侧重事态蔓延或严重的程度，range 侧重上下限之间的跨度波动，compass 偏文雅指活动界限，在此处指涉足与覆盖的领域范围唯一契合 scope。",
-    "phonetic": "/skəup/"
+    "notes": "【搭配考点】geographical/broad scope 强调研究、行动、调查或市场所涵盖的广度与管辖范围；【形近辨析】score (比分/二十)，scape (景观词根，如 landscape)，cope (处理/应对)；【近义辨析】extent 侧重事态蔓延或严重的程度，range 侧重上下限之间的跨度波动，compass 偏文雅指活动界限，在此处指涉足与覆盖的领域范围唯一契合 scope。"
   },
   "scale": {
     "word": "scale",
@@ -10100,8 +9916,7 @@
         "zh": "阶梯；途径"
       }
     ],
-    "notes": "【搭配考点】pay scale (工资级别表) / on a large scale (大规模地)；【形近辨析】scare (使恐惧/惊吓)，stare (凝视/瞪视)，stale (不新鲜的/陈旧的)；【近义辨析】tier 强调多层结构中的分层级，grade 侧重产品品质档次或学业成绩，ladder 强调职场向上攀爬的职业阶梯，在构成既定薪级表固定术语时唯一契合 scale。",
-    "phonetic": "/skeil/"
+    "notes": "【搭配考点】pay scale (工资级别表) / on a large scale (大规模地)；【形近辨析】scare (使恐惧/惊吓)，stare (凝视/瞪视)，stale (不新鲜的/陈旧的)；【近义辨析】tier 强调多层结构中的分层级，grade 侧重产品品质档次或学业成绩，ladder 强调职场向上攀爬的职业阶梯，在构成既定薪级表固定术语时唯一契合 scale。"
   },
   "sculpture": {
     "word": "sculpture",
@@ -10148,8 +9963,7 @@
         "zh": "雕刻品"
       }
     ],
-    "notes": "【搭配考点】marble sculpture / bronze sculpture 强调三维立体雕塑艺术或雕塑作品；【形近辨析】script (剧本/脚本)，structure (建筑/结构)，rupture (决裂/破裂)；【近义辨析】statue 专指人物或动物的全身立像，monument 侧重纪念性建筑或纪念碑，carving 强调木雕或石刻等平面凹凸雕工，在此处泛指立体大理石艺术雕塑整体唯一契合 sculpture。",
-    "phonetic": "/'skʌlptʃə/"
+    "notes": "【搭配考点】marble sculpture / bronze sculpture 强调三维立体雕塑艺术或雕塑作品；【形近辨析】script (剧本/脚本)，structure (建筑/结构)，rupture (决裂/破裂)；【近义辨析】statue 专指人物或动物的全身立像，monument 侧重纪念性建筑或纪念碑，carving 强调木雕或石刻等平面凹凸雕工，在此处泛指立体大理石艺术雕塑整体唯一契合 sculpture。"
   },
   "campaign": {
     "word": "campaign",
@@ -10196,8 +10010,7 @@
         "zh": "长期的改革斗争；圣战"
       }
     ],
-    "notes": "【搭配考点】launch a nationwide campaign 发起全国性活动/宣传运动；【形近辨析】champion (冠军/拥护者)，camp (露营/营地)，companion (伴侣/同伴)；【近义辨析】drive 侧重短期有明确特定目标的动员冲击（如 blood drive），movement 侧重自下而上持久庞大的历史社会思潮运动，crusade 带有强烈的道义与狂热斗争色彩，在此处由机构发起的大型组织宣传活动唯一契合 campaign。",
-    "phonetic": "/kæm'pein/"
+    "notes": "【搭配考点】launch a nationwide campaign 发起全国性活动/宣传运动；【形近辨析】champion (冠军/拥护者)，camp (露营/营地)，companion (伴侣/同伴)；【近义辨析】drive 侧重短期有明确特定目标的动员冲击（如 blood drive），movement 侧重自下而上持久庞大的历史社会思潮运动，crusade 带有强烈的道义与狂热斗争色彩，在此处由机构发起的大型组织宣传活动唯一契合 campaign。"
   },
   "champion": {
     "word": "champion",
@@ -10244,8 +10057,7 @@
         "zh": "卫冕者；头衔拥有者"
       }
     ],
-    "notes": "【搭配考点】reigning world champion 现役/卫冕世界冠军；【形近辨析】campaign (运动/战役)，champagne (香槟酒)，championship (锦标赛/夺冠状态)；【近义辨析】winner 泛指任何单场或抽奖获胜的人，victor 多用于战争或重大抗争中的胜利方，titleholder 侧重法律或赛事头衔持有者，在体育赛场上代表登顶至高宝座的冠军唯一契合 champion。",
-    "phonetic": "/'tʃæmpiən/"
+    "notes": "【搭配考点】reigning world champion 现役/卫冕世界冠军；【形近辨析】campaign (运动/战役)，champagne (香槟酒)，championship (锦标赛/夺冠状态)；【近义辨析】winner 泛指任何单场或抽奖获胜的人，victor 多用于战争或重大抗争中的胜利方，titleholder 侧重法律或赛事头衔持有者，在体育赛场上代表登顶至高宝座的冠军唯一契合 champion。"
   },
   "chance": {
     "word": "chance",
@@ -10292,8 +10104,7 @@
         "zh": "几率；概率"
       }
     ],
-    "notes": "【搭配考点】in with a chance of 有很大希望/有赢得...的机会（高频习语）；【形近辨析】change (改变/零钱)，charm (魅力/吸引力)，charge (收费/指控)；【近义辨析】opportunity 强调主观上可利用的有利良机，possibility 强调理论上的存在可能，probability 侧重数学统计上的概率大小，在 in with a chance of 固定习语搭配中唯一契合 chance。",
-    "phonetic": "/tʃɑ:ns; tʃæns/"
+    "notes": "【搭配考点】in with a chance of 有很大希望/有赢得...的机会（高频习语）；【形近辨析】change (改变/零钱)，charm (魅力/吸引力)，charge (收费/指控)；【近义辨析】opportunity 强调主观上可利用的有利良机，possibility 强调理论上的存在可能，probability 侧重数学统计上的概率大小，在 in with a chance of 固定习语搭配中唯一契合 chance。"
   },
   "candidate": {
     "word": "candidate",
@@ -10340,8 +10151,7 @@
         "zh": "竞争者；角逐者"
       }
     ],
-    "notes": "【搭配考点】stand as a candidate / run as a candidate 竞选候选人；【形近辨析】calculate (计算)，dedicate (奉献/致力于)，candid (率直坦诚的，源于同根 cand-白)；【近义辨析】applicant 侧重递交求职信或申请书的申请者，nominee 侧重已被某机构官方正式提名的代表，contender 强调争夺冠军或职位的竞争对抗者，在政治选举被提名参选的正式身份上唯一契合 candidate。",
-    "phonetic": "/'kændideit; -dət/"
+    "notes": "【搭配考点】stand as a candidate / run as a candidate 竞选候选人；【形近辨析】calculate (计算)，dedicate (奉献/致力于)，candid (率直坦诚的，源于同根 cand-白)；【近义辨析】applicant 侧重递交求职信或申请书的申请者，nominee 侧重已被某机构官方正式提名的代表，contender 强调争夺冠军或职位的竞争对抗者，在政治选举被提名参选的正式身份上唯一契合 candidate。"
   },
   "channel": {
     "word": "channel",
@@ -10388,8 +10198,7 @@
         "zh": "路线；途径"
       }
     ],
-    "notes": "【搭配考点】TV/YouTube channel 广播电视频道，或渠道途径（channel of communication）；【形近辨析】chapel (小礼拜堂)，tunnel (地道/隧道)，cancel (取消)；【近义辨析】conduit 侧重物理导管或隐蔽的情报资金渠道，medium 侧重传播信息的媒介载体，route 侧重实际行进物理线路，在广播电视与网络专有频道表述上唯一契合 channel。",
-    "phonetic": "/'tʃænəl/"
+    "notes": "【搭配考点】TV/YouTube channel 广播电视频道，或渠道途径（channel of communication）；【形近辨析】chapel (小礼拜堂)，tunnel (地道/隧道)，cancel (取消)；【近义辨析】conduit 侧重物理导管或隐蔽的情报资金渠道，medium 侧重传播信息的媒介载体，route 侧重实际行进物理线路，在广播电视与网络专有频道表述上唯一契合 channel。"
   },
   "chapter": {
     "word": "chapter",
@@ -10436,8 +10245,7 @@
         "zh": "舞台；阶段"
       }
     ],
-    "notes": "【搭配考点】a new chapter in one's life 开启人生新篇章（高频生动隐喻）；【形近辨析】character (性格/角色)，charter (宪章/特许状)，shatter (粉碎/破灭)；【近义辨析】phase 侧重发展周期中特定的短期阶段，epoch 强调开启历史性新纪元的宏大时代，stage 侧重逐步递进推进的步骤环节，在人生如书的比喻性文学搭配中唯一契合 chapter。",
-    "phonetic": "/'tʃæptə/"
+    "notes": "【搭配考点】a new chapter in one's life 开启人生新篇章（高频生动隐喻）；【形近辨析】character (性格/角色)，charter (宪章/特许状)，shatter (粉碎/破灭)；【近义辨析】phase 侧重发展周期中特定的短期阶段，epoch 强调开启历史性新纪元的宏大时代，stage 侧重逐步递进推进的步骤环节，在人生如书的比喻性文学搭配中唯一契合 chapter。"
   },
   "character": {
     "word": "character",
@@ -10484,8 +10292,7 @@
         "zh": "正直；完整品格"
       }
     ],
-    "notes": "【搭配考点】build character 磨炼道德品格与坚韧毅力；【形近辨析】characteristic (特征/典型的)，chart (图表/海图)，charm (魅力)；【近义辨析】personality 侧重外在社交表现出来的性格魅力与态度，nature 侧重生来俱有的自然本性，integrity 强调道德操守上的诚实正直，在指经受磨砺体现出的内在道德坚韧品格时唯一契合 character。",
-    "phonetic": "/'kærəktə/"
+    "notes": "【搭配考点】build character 磨炼道德品格与坚韧毅力；【形近辨析】characteristic (特征/典型的)，chart (图表/海图)，charm (魅力)；【近义辨析】personality 侧重外在社交表现出来的性格魅力与态度，nature 侧重生来俱有的自然本性，integrity 强调道德操守上的诚实正直，在指经受磨砺体现出的内在道德坚韧品格时唯一契合 character。"
   },
   "characteristic": {
     "word": "characteristic",
@@ -10532,8 +10339,7 @@
         "zh": "特有的；古怪的"
       }
     ],
-    "notes": "【搭配考点】characteristic of / characteristic symptoms 典型的/特有的特征与症状；【形近辨析】characterize (动词：以...为特征/描绘)，character (名词：性格/品格)，charisma (超凡个人魅力)；【近义辨析】typical 侧重符合某一类别的普遍共性常态，distinctive 强调区别于其他事物的一目了然的独特性，peculiar 往往微带奇怪罕见的色彩，在医学与科学上描述某种事物固有的特征性标志时唯一契合 characteristic。",
-    "phonetic": "/,kærəktə'ristik/"
+    "notes": "【搭配考点】characteristic of / characteristic symptoms 典型的/特有的特征与症状；【形近辨析】characterize (动词：以...为特征/描绘)，character (名词：性格/品格)，charisma (超凡个人魅力)；【近义辨析】typical 侧重符合某一类别的普遍共性常态，distinctive 强调区别于其他事物的一目了然的独特性，peculiar 往往微带奇怪罕见的色彩，在医学与科学上描述某种事物固有的特征性标志时唯一契合 characteristic。"
   },
   "characterize": {
     "word": "characterize",
@@ -10580,8 +10386,7 @@
         "zh": "代表；作为...的典型"
       }
     ],
-    "notes": "【搭配考点】be characterized by 以...为显著特征；【形近辨析】criticize (批评/批判)，customize (个性化定制)，centralize (集中/集权)；【近义辨析】define 侧重下定义或划定本质界限，distinguish 侧重通过差异将事物区分开来，typify 侧重作为代表性样本进行体现，在客观描述某一时期或系统最核心的面貌特征时唯一契合 characterize。",
-    "phonetic": "/'kærəktəraiz/"
+    "notes": "【搭配考点】be characterized by 以...为显著特征；【形近辨析】criticize (批评/批判)，customize (个性化定制)，centralize (集中/集权)；【近义辨析】define 侧重下定义或划定本质界限，distinguish 侧重通过差异将事物区分开来，typify 侧重作为代表性样本进行体现，在客观描述某一时期或系统最核心的面貌特征时唯一契合 characterize。"
   },
   "chart": {
     "word": "chart",
@@ -10628,8 +10433,7 @@
         "zh": "表格；数据表"
       }
     ],
-    "notes": "【搭配考点】medical chart 病历记录表 / sales chart 销售走势图；【形近辨析】chant (吟唱/反复呼喊)，chat (闲聊)，part (部分/角色)；【近义辨析】graph 侧重展现变量函数关系的坐标折线图，diagram 侧重阐释原理运作的结构示意图，table 侧重行列数字的排布清单，而在医疗领域表示综合病历卡档案时固定唯一契合 chart。",
-    "phonetic": "/tʃɑ:t/"
+    "notes": "【搭配考点】medical chart 病历记录表 / sales chart 销售走势图；【形近辨析】chant (吟唱/反复呼喊)，chat (闲聊)，part (部分/角色)；【近义辨析】graph 侧重展现变量函数关系的坐标折线图，diagram 侧重阐释原理运作的结构示意图，table 侧重行列数字的排布清单，而在医疗领域表示综合病历卡档案时固定唯一契合 chart。"
   },
   "chase": {
     "word": "chase",
@@ -10676,8 +10480,7 @@
         "zh": "追踪；描摹"
       }
     ],
-    "notes": "【搭配考点】give up the chase 放弃追捕 / high-speed chase 高速追击；【形近辨析】choose (选择)，cease (终止/停息)，phase (阶段/相位)；【近义辨析】pursuit 较为正式书面，侧重长期的追随或追求（如 the pursuit of happiness），hunt 侧重地毯式搜捕或狩猎猎物，trace 侧重寻找遗留痕迹，在此处强调现场紧张追赶逃犯的动作过程唯一契合 chase。",
-    "phonetic": "/tʃeis/"
+    "notes": "【搭配考点】give up the chase 放弃追捕 / high-speed chase 高速追击；【形近辨析】choose (选择)，cease (终止/停息)，phase (阶段/相位)；【近义辨析】pursuit 较为正式书面，侧重长期的追随或追求（如 the pursuit of happiness），hunt 侧重地毯式搜捕或狩猎猎物，trace 侧重寻找遗留痕迹，在此处强调现场紧张追赶逃犯的动作过程唯一契合 chase。"
   },
   "cheat": {
     "word": "cheat",
@@ -10724,8 +10527,7 @@
         "zh": "诈骗；套取"
       }
     ],
-    "notes": "【搭配考点】cheat in the exam 考试作弊 / cheat on somebody 背叛伴侣；【形近辨析】cheap (廉价的)，treat (招待/治疗)，wheat (小麦)；【近义辨析】deceive 侧重利用假象隐瞒真相以误导他人，defraud 侧重利用法律或财务漏洞实施金融欺诈，swindle 强调通过巧妙花招骗取金钱财物，而在规则、游戏与考场违规弄虚作假上唯一契合 cheat。",
-    "phonetic": "/tʃi:t/"
+    "notes": "【搭配考点】cheat in the exam 考试作弊 / cheat on somebody 背叛伴侣；【形近辨析】cheap (廉价的)，treat (招待/治疗)，wheat (小麦)；【近义辨析】deceive 侧重利用假象隐瞒真相以误导他人，defraud 侧重利用法律或财务漏洞实施金融欺诈，swindle 强调通过巧妙花招骗取金钱财物，而在规则、游戏与考场违规弄虚作假上唯一契合 cheat。"
   },
   "check": {
     "word": "check",
@@ -10772,8 +10574,7 @@
         "zh": "检查；审视"
       }
     ],
-    "notes": "【搭配考点】check that... 核查确保某种事实状态 / double check 复查；【形近辨析】cheek (面颊/厚脸皮)，cheer (欢呼/鼓励)，clerk (办事员/店员)；【近义辨析】verify 强调通过权威证据或步骤证明事实真伪，inspect 侧重带着官方标准实地视察挑刺，examine 强调学术、医学或深入剖析体检，在此处日常安全确认是否关妥操作唯一契合 check。",
-    "phonetic": "/tʃek/"
+    "notes": "【搭配考点】check that... 核查确保某种事实状态 / double check 复查；【形近辨析】cheek (面颊/厚脸皮)，cheer (欢呼/鼓励)，clerk (办事员/店员)；【近义辨析】verify 强调通过权威证据或步骤证明事实真伪，inspect 侧重带着官方标准实地视察挑刺，examine 强调学术、医学或深入剖析体检，在此处日常安全确认是否关妥操作唯一契合 check。"
   },
   "cheek": {
     "word": "cheek",
@@ -10820,8 +10621,7 @@
         "zh": "下巴；颏"
       }
     ],
-    "notes": "【搭配考点】pale cheek 苍白的面颊 / turn the other cheek 逆来顺受/容忍宽恕；【形近辨析】check (核对/检查)，cheer (欢呼/鼓励)，choke (窒息/卡喉)；【近义辨析】face 专指整个面部整体，jaw 指咬合骨骼下颌结构，chin 专指面部最下方的下巴颏尖，在此处眼泪流经的侧脸颊区域唯一契合 cheek。",
-    "phonetic": "/tʃi:k/"
+    "notes": "【搭配考点】pale cheek 苍白的面颊 / turn the other cheek 逆来顺受/容忍宽恕；【形近辨析】check (核对/检查)，cheer (欢呼/鼓励)，choke (窒息/卡喉)；【近义辨析】face 专指整个面部整体，jaw 指咬合骨骼下颌结构，chin 专指面部最下方的下巴颏尖，在此处眼泪流经的侧脸颊区域唯一契合 cheek。"
   },
   "cheer": {
     "word": "cheer",
@@ -10868,8 +10668,7 @@
         "zh": "呼喊；喊叫"
       }
     ],
-    "notes": "【搭配考点】give a loud/thunderous cheer 发出雷鸣般的欢呼；cheer up 振作起来；【形近辨析】cheek (脸颊)，cherry (樱桃)，peer (同龄人/凝视)；【近义辨析】applause 侧重双手拍打发出的掌声，ovation 强调全场起立致敬的热烈鼓掌欢呼，shout 仅表示大声叫嚷呼喊，在此处指发自肺腑的集体呐喊欢呼唯一契合 cheer。",
-    "phonetic": "/tʃiə/"
+    "notes": "【搭配考点】give a loud/thunderous cheer 发出雷鸣般的欢呼；cheer up 振作起来；【形近辨析】cheek (脸颊)，cherry (樱桃)，peer (同龄人/凝视)；【近义辨析】applause 侧重双手拍打发出的掌声，ovation 强调全场起立致敬的热烈鼓掌欢呼，shout 仅表示大声叫嚷呼喊，在此处指发自肺腑的集体呐喊欢呼唯一契合 cheer。"
   },
   "cheese": {
     "word": "cheese",
@@ -10916,8 +10715,7 @@
         "zh": "凝乳；酪蛋白"
       }
     ],
-    "notes": "【搭配考点】grated cheese 奶酪碎 / goat's cheese 山羊奶酪；【形近辨析】choose (挑选/选择)，chase (追逐/追捕)，cheek (面颊/厚脸皮)；【近义辨析】butter 专指从牛奶提炼的脂肪黄油，dairy 泛指整个乳制品行业或产品，curd 指牛奶初凝形成的凝乳结块，在此处指经发酵熟化制成的干酪食品唯一契合 cheese。",
-    "phonetic": "/tʃi:z/"
+    "notes": "【搭配考点】grated cheese 奶酪碎 / goat's cheese 山羊奶酪；【形近辨析】choose (挑选/选择)，chase (追逐/追捕)，cheek (面颊/厚脸皮)；【近义辨析】butter 专指从牛奶提炼的脂肪黄油，dairy 泛指整个乳制品行业或产品，curd 指牛奶初凝形成的凝乳结块，在此处指经发酵熟化制成的干酪食品唯一契合 cheese。"
   },
   "chef": {
     "word": "chef",
@@ -10964,8 +10762,7 @@
         "zh": "酒席承办商；餐饮供应人"
       }
     ],
-    "notes": "【搭配考点】executive chef 行政总厨 / pastry chef 面点厨师长；【形近辨析】chief (主要首脑/长官)，thief (窃贼/小偷)，brief (简短的/摘要)；【近义辨析】cook 泛指在家里或小餐馆做饭的人（注重动作本身），baker 专职制作面包甜点，caterer 侧重大型宴会餐饮配送承包商，在高级餐厅担任专业菜品研发与厨房统领的职业大师唯一契合 chef。",
-    "phonetic": "/ʃef/"
+    "notes": "【搭配考点】executive chef 行政总厨 / pastry chef 面点厨师长；【形近辨析】chief (主要首脑/长官)，thief (窃贼/小偷)，brief (简短的/摘要)；【近义辨析】cook 泛指在家里或小餐馆做饭的人（注重动作本身），baker 专职制作面包甜点，caterer 侧重大型宴会餐饮配送承包商，在高级餐厅担任专业菜品研发与厨房统领的职业大师唯一契合 chef。"
   },
   "chemical": {
     "word": "chemical",
@@ -11012,8 +10809,7 @@
         "zh": "污染物"
       }
     ],
-    "notes": "【搭配考点】chemical waste/reaction 化学废料/化学反应；【形近辨析】chemist (化学家/药房)，clinical (临床门诊的/客观冷漠的)，magical (魔术的/极好的)；【近义辨析】compound 侧重多种元素化合而成的特定化合物，substance 泛指一切具有物理属性的物质，pollutant 强调造成污染的结果，在此处修饰人造化学工业产物属性唯一契合 chemical。",
-    "phonetic": "/'kemikəl/"
+    "notes": "【搭配考点】chemical waste/reaction 化学废料/化学反应；【形近辨析】chemist (化学家/药房)，clinical (临床门诊的/客观冷漠的)，magical (魔术的/极好的)；【近义辨析】compound 侧重多种元素化合而成的特定化合物，substance 泛指一切具有物理属性的物质，pollutant 强调造成污染的结果，在此处修饰人造化学工业产物属性唯一契合 chemical。"
   },
   "chemist": {
     "word": "chemist",
@@ -11060,8 +10856,7 @@
         "zh": "药房；草药师"
       }
     ],
-    "notes": "【搭配考点】go to the chemist's 去药店/药房配药（英式英语高频用法）；【形近辨析】chemical (化学的/化学制品)，chemistry (化学学科/人际吸引力)，chest (胸口/木箱)；【近义辨析】pharmacist 为现代全球通用的药剂师专业职称，druggist 多用于美式英语指药材零售商，apothecary 属于历史古典用词，在英式日常口语中指代街边药店及驻店药剂师最地道且唯一契合 chemist。",
-    "phonetic": "/'kemist/"
+    "notes": "【搭配考点】go to the chemist's 去药店/药房配药（英式英语高频用法）；【形近辨析】chemical (化学的/化学制品)，chemistry (化学学科/人际吸引力)，chest (胸口/木箱)；【近义辨析】pharmacist 为现代全球通用的药剂师专业职称，druggist 多用于美式英语指药材零售商，apothecary 属于历史古典用词，在英式日常口语中指代街边药店及驻店药剂师最地道且唯一契合 chemist。"
   },
   "chemistry": {
     "word": "chemistry",
@@ -11108,8 +10903,7 @@
         "zh": "亲近感；密切关系"
       }
     ],
-    "notes": "【搭配考点】personal/romantic chemistry 两人之间的默契相投或情感化学反应（高频熟词生义）；【形近辨析】chemical (化学的/化学品)，chemist (药剂师/化学家)，cherry (樱桃)；【近义辨析】rapport 侧重通过沟通建立的良好互信与和谐关系，attraction 强调单向或外貌上的吸引力，affinity 侧重基于相似爱好的亲近感，在此处强调男女演员之间无形而强烈的火花感唯一契合 chemistry。",
-    "phonetic": "/'kemistri/"
+    "notes": "【搭配考点】personal/romantic chemistry 两人之间的默契相投或情感化学反应（高频熟词生义）；【形近辨析】chemical (化学的/化学品)，chemist (药剂师/化学家)，cherry (樱桃)；【近义辨析】rapport 侧重通过沟通建立的良好互信与和谐关系，attraction 强调单向或外貌上的吸引力，affinity 侧重基于相似爱好的亲近感，在此处强调男女演员之间无形而强烈的火花感唯一契合 chemistry。"
   },
   "cherish": {
     "word": "cherish",
@@ -11156,8 +10950,7 @@
         "zh": "感激；欣赏"
       }
     ],
-    "notes": "【搭配考点】cherish memories/hopes 珍藏美好回忆或怀抱希望；【形近辨析】cheer (欢呼/喝彩)，parish (教堂教区)，perish (毁灭/死亡，常混考 perish vs cherish)；【近义辨析】treasure 侧重如对待珠宝般万分宝贵地收藏，value 侧重从价值或重要性角度客观评估看重，appreciate 侧重领略美感或表达感谢，在注入深厚温情与眷恋的珍视上唯一契合 cherish。",
-    "phonetic": "/'tʃeriʃ/"
+    "notes": "【搭配考点】cherish memories/hopes 珍藏美好回忆或怀抱希望；【形近辨析】cheer (欢呼/喝彩)，parish (教堂教区)，perish (毁灭/死亡，常混考 perish vs cherish)；【近义辨析】treasure 侧重如对待珠宝般万分宝贵地收藏，value 侧重从价值或重要性角度客观评估看重，appreciate 侧重领略美感或表达感谢，在注入深厚温情与眷恋的珍视上唯一契合 cherish。"
   },
   "chest": {
     "word": "chest",
@@ -11204,8 +10997,7 @@
         "zh": "躯干"
       }
     ],
-    "notes": "【搭配考点】chest pain 胸痛 / treasure chest 藏宝箱；【形近辨析】cheat (欺骗/作弊)，chase (追逐)，crest (山顶/羽冠)；【近义辨析】breast 偏向女性乳房或诗意象征心扉，thorax 属于生物学与医学解剖专用术语（胸廓），torso 专指除头与四肢之外的整个人体躯干，在此处日常描述身体胸膛部位剧痛唯一契合 chest。",
-    "phonetic": "/tʃest/"
+    "notes": "【搭配考点】chest pain 胸痛 / treasure chest 藏宝箱；【形近辨析】cheat (欺骗/作弊)，chase (追逐)，crest (山顶/羽冠)；【近义辨析】breast 偏向女性乳房或诗意象征心扉，thorax 属于生物学与医学解剖专用术语（胸廓），torso 专指除头与四肢之外的整个人体躯干，在此处日常描述身体胸膛部位剧痛唯一契合 chest。"
   },
   "child": {
     "word": "child",
@@ -11252,8 +11044,7 @@
         "zh": "婴儿；幼儿"
       }
     ],
-    "notes": "【搭配考点】vulnerable child 弱势儿童 / child support 抚养费；【形近辨析】chill (寒战/受凉)，chin (下巴)，mild (温和轻微的)；【近义辨析】kid 属于口语和非正式用语，youngster 偏向精力充沛的青少年，infant 严格指刚出生不久的母乳期婴儿，在正式慈善救助与法定未成年人表述上唯一契合 child。",
-    "phonetic": "/tʃaild/"
+    "notes": "【搭配考点】vulnerable child 弱势儿童 / child support 抚养费；【形近辨析】chill (寒战/受凉)，chin (下巴)，mild (温和轻微的)；【近义辨析】kid 属于口语和非正式用语，youngster 偏向精力充沛的青少年，infant 严格指刚出生不久的母乳期婴儿，在正式慈善救助与法定未成年人表述上唯一契合 child。"
   },
   "childhood": {
     "word": "childhood",
@@ -11300,8 +11091,7 @@
         "zh": "青春期"
       }
     ],
-    "notes": "【搭配考点】happy childhood / in early childhood 童年时代/在童年早期；【形近辨析】boyhood (男童时期/少年时代)，likelihood (可能性)，neighborhood (邻里社区)；【近义辨析】youth 涵盖青少年乃至年轻成年时期，infancy 专指婴儿初生阶段或事物萌芽期，adolescence 严格指十三四岁到十八岁的青春发育期，在指人生自幼童到少年的整个成长阶段唯一契合 childhood。",
-    "phonetic": "/'tʃaildhud/"
+    "notes": "【搭配考点】happy childhood / in early childhood 童年时代/在童年早期；【形近辨析】boyhood (男童时期/少年时代)，likelihood (可能性)，neighborhood (邻里社区)；【近义辨析】youth 涵盖青少年乃至年轻成年时期，infancy 专指婴儿初生阶段或事物萌芽期，adolescence 严格指十三四岁到十八岁的青春发育期，在指人生自幼童到少年的整个成长阶段唯一契合 childhood。"
   },
   "chip": {
     "word": "chip",
@@ -11348,8 +11138,7 @@
         "zh": "晶圆；薄片"
       }
     ],
-    "notes": "【搭配考点】silicon chip 硅芯片 / microchip 微型芯片；【形近辨析】chop (斩剁/排骨)，chin (下巴)，clip (夹子/剪短/修剪)；【近义辨析】semiconductor 指半导体材料或泛指整个器件类别，microchip 虽近义但在此处 silicon chip 构成了行业内最经典普遍的固定搭配，wafer 专指切削出来尚未封装的裸晶圆盘，在此处唯一契合 chip。",
-    "phonetic": "/tʃip/"
+    "notes": "【搭配考点】silicon chip 硅芯片 / microchip 微型芯片；【形近辨析】chop (斩剁/排骨)，chin (下巴)，clip (夹子/剪短/修剪)；【近义辨析】semiconductor 指半导体材料或泛指整个器件类别，microchip 虽近义但在此处 silicon chip 构成了行业内最经典普遍的固定搭配，wafer 专指切削出来尚未封装的裸晶圆盘，在此处唯一契合 chip。"
   },
   "choke": {
     "word": "choke",
@@ -11396,8 +11185,7 @@
         "zh": "勒死；绞死"
       }
     ],
-    "notes": "【搭配考点】choke on smoke / choke with emotion 被烟呛住窒息/激动哽咽；【形近辨析】cheek (面部脸颊)，joke (玩笑)，clock (钟表)；【近义辨析】suffocate 强调因缺氧而窒息死亡的结果，smother 侧重用厚物覆盖闷熄火苗或捂死，strangle 强调外力死死卡掐颈部勒毙，在此处形容被烟雾呛得喉咙受阻咳嗽唯一契合 choke。",
-    "phonetic": "/tʃəuk/"
+    "notes": "【搭配考点】choke on smoke / choke with emotion 被烟呛住窒息/激动哽咽；【形近辨析】cheek (面部脸颊)，joke (玩笑)，clock (钟表)；【近义辨析】suffocate 强调因缺氧而窒息死亡的结果，smother 侧重用厚物覆盖闷熄火苗或捂死，strangle 强调外力死死卡掐颈部勒毙，在此处形容被烟雾呛得喉咙受阻咳嗽唯一契合 choke。"
   },
   "choose": {
     "word": "choose",
@@ -11444,8 +11232,7 @@
         "zh": "挑选；采摘"
       }
     ],
-    "notes": "【搭配考点】choose freely between... 在两者或多者中自由选择；【形近辨析】chase (追逐/追击)，cheese (奶酪)，chore (日常家务杂活)；【近义辨析】select 侧重带有严格高标准去精心甄选剔除劣质，elect 专指通过投票机制推举政治人选，pick 属于口语日常随手挑选，在强调主观意志与自由决定权时唯一契合 choose。",
-    "phonetic": "/tʃu:z/"
+    "notes": "【搭配考点】choose freely between... 在两者或多者中自由选择；【形近辨析】chase (追逐/追击)，cheese (奶酪)，chore (日常家务杂活)；【近义辨析】select 侧重带有严格高标准去精心甄选剔除劣质，elect 专指通过投票机制推举政治人选，pick 属于口语日常随手挑选，在强调主观意志与自由决定权时唯一契合 choose。"
   },
   "chop": {
     "word": "chop",
@@ -11492,8 +11279,7 @@
         "zh": "绞碎；剁成肉糜"
       }
     ],
-    "notes": "【搭配考点】chop into tiny pieces 切碎/剁成细块；chop down a tree 砍倒大树；【形近辨析】chip (碎屑/芯片)，crop (农作物/平头)，drop (水滴/跌落)；【近义辨析】slice 专指切成整齐平整的薄片，dice 专指切成规则的小立方体肉丁菜丁，mince 强调极细极烂的绞肉操作，在此处用刀反复下切粗细均匀的切剁唯一契合 chop。",
-    "phonetic": "/tʃɔp/"
+    "notes": "【搭配考点】chop into tiny pieces 切碎/剁成细块；chop down a tree 砍倒大树；【形近辨析】chip (碎屑/芯片)，crop (农作物/平头)，drop (水滴/跌落)；【近义辨析】slice 专指切成整齐平整的薄片，dice 专指切成规则的小立方体肉丁菜丁，mince 强调极细极烂的绞肉操作，在此处用刀反复下切粗细均匀的切剁唯一契合 chop。"
   },
   "cigarette": {
     "word": "cigarette",
@@ -11540,8 +11326,7 @@
         "zh": "烟草；烟叶"
       }
     ],
-    "notes": "【搭配考点】light/smoke a cigarette 点燃/抽一支香烟；cigarette pack 烟盒；【形近辨析】cigar (雪茄烟，无纸卷滤嘴纯烟叶)，vignette (插图/生活剪影)，etiquette (社交礼仪)；【近义辨析】cigar 特指粗大的全纯烟叶雪茄，smoke 是不可数烟雾或泛称口语抽烟，tobacco 指作为农产品原料的烟草烟叶，在此处指机卷带过滤嘴的单支纸卷烟唯一契合 cigarette。",
-    "phonetic": "/,siɡə'ret; 'siɡ-/"
+    "notes": "【搭配考点】light/smoke a cigarette 点燃/抽一支香烟；cigarette pack 烟盒；【形近辨析】cigar (雪茄烟，无纸卷滤嘴纯烟叶)，vignette (插图/生活剪影)，etiquette (社交礼仪)；【近义辨析】cigar 特指粗大的全纯烟叶雪茄，smoke 是不可数烟雾或泛称口语抽烟，tobacco 指作为农产品原料的烟草烟叶，在此处指机卷带过滤嘴的单支纸卷烟唯一契合 cigarette。"
   },
   "cinema": {
     "word": "cinema",
@@ -11588,8 +11373,7 @@
         "zh": "剧院；电影院"
       }
     ],
-    "notes": "【搭配考点】European/contemporary cinema 泛指特定流派的电影艺术文化与电影工业；【形近辨析】climate (气候/大环境)，chrome (铬金属/谷歌浏览器内核)，scheme (规划/阴谋诡计)；【近义辨析】movie 偏美式口语侧重商业片实体娱乐，film 偏严肃艺术创作拍摄，theater 侧重带舞台的物理放映剧场，在此处作为宏观文化与银幕艺术流派表述唯一契合 cinema。",
-    "phonetic": "/'sinəmə/"
+    "notes": "【搭配考点】European/contemporary cinema 泛指特定流派的电影艺术文化与电影工业；【形近辨析】climate (气候/大环境)，chrome (铬金属/谷歌浏览器内核)，scheme (规划/阴谋诡计)；【近义辨析】movie 偏美式口语侧重商业片实体娱乐，film 偏严肃艺术创作拍摄，theater 侧重带舞台的物理放映剧场，在此处作为宏观文化与银幕艺术流派表述唯一契合 cinema。"
   },
   "circle": {
     "word": "circle",
@@ -11636,8 +11420,7 @@
         "zh": "旋转；围绕运转"
       }
     ],
-    "notes": "【搭配考点】circle above/over 在某地上空盘旋绕飞；inner circle 核心朋友圈；【形近辨析】circuit (环路/电路)，circulate (动词：流通/传播)，circus (马戏表演团)；【近义辨析】hover 侧重直升机等在固定空中位置静止悬停，orbit 强调人造卫星在外太空沿特定天体引力轨道公转，revolve 强调物体绕轴心旋转自转，飞机沿水平圆形路径飞行盘旋唯一契合 circle。",
-    "phonetic": "/'sə:kl/"
+    "notes": "【搭配考点】circle above/over 在某地上空盘旋绕飞；inner circle 核心朋友圈；【形近辨析】circuit (环路/电路)，circulate (动词：流通/传播)，circus (马戏表演团)；【近义辨析】hover 侧重直升机等在固定空中位置静止悬停，orbit 强调人造卫星在外太空沿特定天体引力轨道公转，revolve 强调物体绕轴心旋转自转，飞机沿水平圆形路径飞行盘旋唯一契合 circle。"
   },
   "circuit": {
     "word": "circuit",
@@ -11684,8 +11467,7 @@
         "zh": "通道；频道"
       }
     ],
-    "notes": "【搭配考点】short circuit 短路（固定高频电工术语）；racing/lecture circuit 巡回演讲/巡回锦标赛；【形近辨析】circus (马戏团)，circle (圆形/盘旋)，biscuit (饼干)；【近义辨析】loop 强调代码循环或导线物理环状闭环，route 强调旅行通勤线路，channel 侧重流通导管通路，在此处与 short 搭配构成电流非正常闭合故障的专业术语唯一契合 circuit。",
-    "phonetic": "/'sə:kit/"
+    "notes": "【搭配考点】short circuit 短路（固定高频电工术语）；racing/lecture circuit 巡回演讲/巡回锦标赛；【形近辨析】circus (马戏团)，circle (圆形/盘旋)，biscuit (饼干)；【近义辨析】loop 强调代码循环或导线物理环状闭环，route 强调旅行通勤线路，channel 侧重流通导管通路，在此处与 short 搭配构成电流非正常闭合故障的专业术语唯一契合 circuit。"
   },
   "circulate": {
     "word": "circulate",
@@ -11732,8 +11514,7 @@
         "zh": "循环往复"
       }
     ],
-    "notes": "【搭配考点】blood circulates 血液循环；rumours circulate 谣言流传；【形近辨析】calculate (计算)，articulate (口齿清晰地表达)，stimulate (刺激/激发)；【近义辨析】flow 强调流体单一方向顺势流淌，distribute 侧重从中心节点向外部扩散分发，spread 强调事态或病毒向四周蔓延扩散，在封闭闭环系统中有规律流动循环唯一契合 circulate。",
-    "phonetic": "/'sə:kjuleit/"
+    "notes": "【搭配考点】blood circulates 血液循环；rumours circulate 谣言流传；【形近辨析】calculate (计算)，articulate (口齿清晰地表达)，stimulate (刺激/激发)；【近义辨析】flow 强调流体单一方向顺势流淌，distribute 侧重从中心节点向外部扩散分发，spread 强调事态或病毒向四周蔓延扩散，在封闭闭环系统中有规律流动循环唯一契合 circulate。"
   },
   "circumstance": {
     "word": "circumstance",
@@ -11780,8 +11561,7 @@
         "zh": "状态；情况"
       }
     ],
-    "notes": "【搭配考点】under no circumstance(s) 绝不/在任何情况下都不（高频倒装句核心考点）；【形近辨析】stance (政治立场/站姿)，substance (实质/物质)，distance (距离)；【近义辨析】condition 强调健康生理状态或合同前提条件，situation 侧重当下所处的动态综合局势，state 强调事物某一瞬间的静止状态，在构成强力否定状语从句“在任何情况下”固定搭配中唯一契合 circumstance。",
-    "phonetic": "/'sə:kəmstəns/"
+    "notes": "【搭配考点】under no circumstance(s) 绝不/在任何情况下都不（高频倒装句核心考点）；【形近辨析】stance (政治立场/站姿)，substance (实质/物质)，distance (距离)；【近义辨析】condition 强调健康生理状态或合同前提条件，situation 侧重当下所处的动态综合局势，state 强调事物某一瞬间的静止状态，在构成强力否定状语从句“在任何情况下”固定搭配中唯一契合 circumstance。"
   },
   "cite": {
     "word": "cite",
@@ -11828,8 +11608,7 @@
         "zh": "引用参考；提及"
       }
     ],
-    "notes": "【搭配考点】cite examples/articles 引用文献论据或援引例证；【形近辨析】site (地点/场所/遗址)，sight (视力/视觉风光)，bite (咬伤/一口)；【近义辨析】quote 严格指一字不差地摘抄原文原话，mention 仅为漫不经心地随口提起，reference 侧重在文末或注释中给出参考出处，在此处作为学术论文举证支持论点的正式学术动作唯一契合 cite。",
-    "phonetic": "/sait/"
+    "notes": "【搭配考点】cite examples/articles 引用文献论据或援引例证；【形近辨析】site (地点/场所/遗址)，sight (视力/视觉风光)，bite (咬伤/一口)；【近义辨析】quote 严格指一字不差地摘抄原文原话，mention 仅为漫不经心地随口提起，reference 侧重在文末或注释中给出参考出处，在此处作为学术论文举证支持论点的正式学术动作唯一契合 cite。"
   },
   "citizen": {
     "word": "citizen",
@@ -11876,8 +11655,7 @@
         "zh": "臣民；国民"
       }
     ],
-    "notes": "【搭配考点】law-abiding/ordinary citizen 守法公民/普通市民；dual citizen 双重国籍公民；【形近辨析】civilization (人类文明)，city (城市)，civil (民事的/有礼貌的)；【近义辨析】resident 仅指在某地居住具备居住证的居民并不必然享有政治选票，inhabitant 偏地理学强调某个区域的栖居者或土著，subject 专指君主制国家的封臣百姓，在强调拥有宪法政治投票权利的法律资格上唯一契合 citizen。",
-    "phonetic": "/'sitizən/"
+    "notes": "【搭配考点】law-abiding/ordinary citizen 守法公民/普通市民；dual citizen 双重国籍公民；【形近辨析】civilization (人类文明)，city (城市)，civil (民事的/有礼貌的)；【近义辨析】resident 仅指在某地居住具备居住证的居民并不必然享有政治选票，inhabitant 偏地理学强调某个区域的栖居者或土著，subject 专指君主制国家的封臣百姓，在强调拥有宪法政治投票权利的法律资格上唯一契合 citizen。"
   },
   "city": {
     "word": "city",
@@ -11924,8 +11702,7 @@
         "zh": "市镇；集镇"
       }
     ],
-    "notes": "【搭配考点】global/capital city 国际化大都市/首都城市；city council 市议会；【形近辨析】pity (同情/令人惋惜之事)，cite (引用/传讯)，citizen (城市公民)；【近义辨析】metropolis 强调区域政治文化与商业核心超级都会，municipality 专指具有独立地方行政管理权的市政建制体，town 规模远小于城市多指小集镇，在此处与 global 搭配构成“全球城市”标准规范术语唯一契合 city。",
-    "phonetic": "/'siti/"
+    "notes": "【搭配考点】global/capital city 国际化大都市/首都城市；city council 市议会；【形近辨析】pity (同情/令人惋惜之事)，cite (引用/传讯)，citizen (城市公民)；【近义辨析】metropolis 强调区域政治文化与商业核心超级都会，municipality 专指具有独立地方行政管理权的市政建制体，town 规模远小于城市多指小集镇，在此处与 global 搭配构成“全球城市”标准规范术语唯一契合 city。"
   },
   "civil": {
     "word": "civil",
@@ -11972,8 +11749,7 @@
         "zh": "恭敬的；尊重的"
       }
     ],
-    "notes": "【搭配考点】civil rights 公民权利；remain civil 保持表面礼貌与客气；civil case 民事诉讼；【形近辨析】civic (专指属于市民社区职责的，如 civic duty)，evil (邪恶的)，rival (竞争对手)；【近义辨析】polite 属于普遍意义上的知书达理，courteous 带有高雅绅士风度，respectful 强调发自内心的敬重，而在存在敌意或紧张氛围下依然克制脾气、维持最低限度社交礼节的品性唯一契合 civil。",
-    "phonetic": "/'sivəl/"
+    "notes": "【搭配考点】civil rights 公民权利；remain civil 保持表面礼貌与客气；civil case 民事诉讼；【形近辨析】civic (专指属于市民社区职责的，如 civic duty)，evil (邪恶的)，rival (竞争对手)；【近义辨析】polite 属于普遍意义上的知书达理，courteous 带有高雅绅士风度，respectful 强调发自内心的敬重，而在存在敌意或紧张氛围下依然克制脾气、维持最低限度社交礼节的品性唯一契合 civil。"
   },
   "civilian": {
     "word": "civilian",
@@ -12020,8 +11796,7 @@
         "zh": "外行；门外汉"
       }
     ],
-    "notes": "【搭配考点】civilian casualties/targets 平民伤亡/平民目标；return to civilian life 复员回到平民生活；【形近辨析】civil (公民的/民事的)，silicon (硅元素)，villain (坏人/反派角色)；【近义辨析】citizen 强调政治权利与国籍身份，noncombatant 专指战场上的医护、战地记者等非战斗员，layman 侧重某学科或技术专业领域的外行门外汉，在同正规军队军职人员形成严格区分的普通群众概念上唯一契合 civilian。",
-    "phonetic": "/si'viljən/"
+    "notes": "【搭配考点】civilian casualties/targets 平民伤亡/平民目标；return to civilian life 复员回到平民生活；【形近辨析】civil (公民的/民事的)，silicon (硅元素)，villain (坏人/反派角色)；【近义辨析】citizen 强调政治权利与国籍身份，noncombatant 专指战场上的医护、战地记者等非战斗员，layman 侧重某学科或技术专业领域的外行门外汉，在同正规军队军职人员形成严格区分的普通群众概念上唯一契合 civilian。"
   },
   "civilization": {
     "word": "civilization",
@@ -12068,8 +11843,7 @@
         "zh": "帝国；大企业"
       }
     ],
-    "notes": "【搭配考点】human/ancient civilization 人类文明/古代文明；cradle of civilization 文明摇篮；【形近辨析】citizen (公民)，civil (民事的/有礼的)，civilian (平民)；【近义辨析】culture 侧重精神艺术与生活习俗传统，society 侧重群体人际组织架构，empire 强调政治军事武力征服建立的庞大帝国，在代表人类社会脱离原始蒙昧达到高度组织与技术阶梯的总体文明形态上唯一契合 civilization。",
-    "phonetic": "/,sivilai'zeiʃən; -li'z-/"
+    "notes": "【搭配考点】human/ancient civilization 人类文明/古代文明；cradle of civilization 文明摇篮；【形近辨析】citizen (公民)，civil (民事的/有礼的)，civilian (平民)；【近义辨析】culture 侧重精神艺术与生活习俗传统，society 侧重群体人际组织架构，empire 强调政治军事武力征服建立的庞大帝国，在代表人类社会脱离原始蒙昧达到高度组织与技术阶梯的总体文明形态上唯一契合 civilization。"
   },
   "claim": {
     "word": "claim",
@@ -12116,8 +11890,7 @@
         "zh": "宣布；宣称"
       }
     ],
-    "notes": "【搭配考点】claim that... 声称/坚称某事；lay claim to 对...提出所有权索求；【形近辨析】climb (攀爬)，clam (蛤蜊/闭口不言)，acclaim (欢呼/喝彩赞誉)；【近义辨析】assert 侧重满怀信心地硬气坚持立场，allege 强调在未经法庭证实前的主张指控，declare 侧重公开正式宣告，在无确凿独立旁证下为自身利益辩护声称时唯一契合 claim。",
-    "phonetic": "/kleim/"
+    "notes": "【搭配考点】claim that... 声称/坚称某事；lay claim to 对...提出所有权索求；【形近辨析】climb (攀爬)，clam (蛤蜊/闭口不言)，acclaim (欢呼/喝彩赞誉)；【近义辨析】assert 侧重满怀信心地硬气坚持立场，allege 强调在未经法庭证实前的主张指控，declare 侧重公开正式宣告，在无确凿独立旁证下为自身利益辩护声称时唯一契合 claim。"
   },
   "clap": {
     "word": "clap",
@@ -12164,8 +11937,7 @@
         "zh": "赞扬；称赞"
       }
     ],
-    "notes": "【搭配考点】clap and cheer 鼓掌并欢呼；clap one's hands 拍手；a clap of thunder 一声炸雷；【形近辨析】flap (鸟翼拍打/旗帜飘动)，slap (狠狠掌掴/拍击耳光)，clip (回形针/修剪)；【近义辨析】applaud 较为正式，泛指以鼓掌方式表达赞赏，cheer 强调口头呐喊呼号，praise 强调言语上的高度评价夸奖，在此处强调两掌相拍发出清脆物理声响的直接动作唯一契合 clap。",
-    "phonetic": "/klæp/"
+    "notes": "【搭配考点】clap and cheer 鼓掌并欢呼；clap one's hands 拍手；a clap of thunder 一声炸雷；【形近辨析】flap (鸟翼拍打/旗帜飘动)，slap (狠狠掌掴/拍击耳光)，clip (回形针/修剪)；【近义辨析】applaud 较为正式，泛指以鼓掌方式表达赞赏，cheer 强调口头呐喊呼号，praise 强调言语上的高度评价夸奖，在此处强调两掌相拍发出清脆物理声响的直接动作唯一契合 clap。"
   },
   "clarify": {
     "word": "clarify",
@@ -12212,8 +11984,7 @@
         "zh": "照亮；阐明"
       }
     ],
-    "notes": "【搭配考点】clarify the situation/position 澄清事实真相或表明立场；【形近辨析】classify (分类/分等)，glorify (赞美/光荣化)，verify (核实/证实)；【近义辨析】elucidate 属于高度学术严肃用语深入解析深奥理论，explain 偏通俗日常讲明因果缘由，illuminate 偏文艺修辞用光照亮隐喻启发，在此处针对公众误解或含混不清之处进行梳理说明使之清白分明唯一契合 clarify。",
-    "phonetic": "/'klærifai/"
+    "notes": "【搭配考点】clarify the situation/position 澄清事实真相或表明立场；【形近辨析】classify (分类/分等)，glorify (赞美/光荣化)，verify (核实/证实)；【近义辨析】elucidate 属于高度学术严肃用语深入解析深奥理论，explain 偏通俗日常讲明因果缘由，illuminate 偏文艺修辞用光照亮隐喻启发，在此处针对公众误解或含混不清之处进行梳理说明使之清白分明唯一契合 clarify。"
   },
   "clash": {
     "word": "clash",
@@ -12260,8 +12031,7 @@
         "zh": "对抗；对峙"
       }
     ],
-    "notes": "【搭配考点】violent clash between... 双方之间的暴力冲突；head-on clash 正面交锋；【形近辨析】crash (车辆失事/电脑崩溃)，flash (闪光/一刹那)，smash (猛砸打碎)；【近义辨析】conflict 侧重长期的利益理念不合或武装战争状态，collision 强调高速运动物体的直接物理碰撞，confrontation 侧重怒目相视剑拔弩张的僵持状态，在此处指街头爆发的短兵相接突发混战唯一契合 clash。",
-    "phonetic": "/klæʃ/"
+    "notes": "【搭配考点】violent clash between... 双方之间的暴力冲突；head-on clash 正面交锋；【形近辨析】crash (车辆失事/电脑崩溃)，flash (闪光/一刹那)，smash (猛砸打碎)；【近义辨析】conflict 侧重长期的利益理念不合或武装战争状态，collision 强调高速运动物体的直接物理碰撞，confrontation 侧重怒目相视剑拔弩张的僵持状态，在此处指街头爆发的短兵相接突发混战唯一契合 clash。"
   },
   "classic": {
     "word": "classic",
@@ -12308,8 +12078,7 @@
         "zh": "典范的；模范的"
       }
     ],
-    "notes": "【搭配考点】a classic example 经典范例/典型写照（高频固定搭配）；classic novel 经典名著；【形近辨析】classical (严谨古典乐、古希腊罗马古典文化的，如 classical music)，plastic (塑料/可塑的)，classy (时髦高级的)；【近义辨析】typical 仅指符合常规平均水准的普通代表，archetypal 侧重心理学或文艺神话中的原始母题，exemplary 侧重道德楷模值得学习表彰，而在讽刺或评点事物最具代表性戏剧特质的“典型范例”搭配中唯一契合 classic。",
-    "phonetic": "/'klæsik/"
+    "notes": "【搭配考点】a classic example 经典范例/典型写照（高频固定搭配）；classic novel 经典名著；【形近辨析】classical (严谨古典乐、古希腊罗马古典文化的，如 classical music)，plastic (塑料/可塑的)，classy (时髦高级的)；【近义辨析】typical 仅指符合常规平均水准的普通代表，archetypal 侧重心理学或文艺神话中的原始母题，exemplary 侧重道德楷模值得学习表彰，而在讽刺或评点事物最具代表性戏剧特质的“典型范例”搭配中唯一契合 classic。"
   },
   "classify": {
     "word": "classify",
@@ -12356,8 +12125,7 @@
         "zh": "分组；聚合"
       }
     ],
-    "notes": "【搭配考点】classify... according to/into 按照某种科学标准分类；classified information 机密涉密信息；【形近辨析】clarify (澄清/讲清楚)，testify (法庭出庭作证)，notify (正式通知)；【近义辨析】categorize 强调按照属性标签装入各自抽屉类别，sort 偏向日常把杂乱无章的东西按大小颜色物理挑拣分拣，group 侧重把彼此靠近的人或物聚集到一起，在遵循系统严谨的科学谱系与等级定性归类上唯一契合 classify。",
-    "phonetic": "//'klæsifai//"
+    "notes": "【搭配考点】classify... according to/into 按照某种科学标准分类；classified information 机密涉密信息；【形近辨析】clarify (澄清/讲清楚)，testify (法庭出庭作证)，notify (正式通知)；【近义辨析】categorize 强调按照属性标签装入各自抽屉类别，sort 偏向日常把杂乱无章的东西按大小颜色物理挑拣分拣，group 侧重把彼此靠近的人或物聚集到一起，在遵循系统严谨的科学谱系与等级定性归类上唯一契合 classify。"
   },
   "clause": {
     "word": "clause",
@@ -12404,8 +12172,7 @@
         "zh": "条款；文章；物品"
       }
     ],
-    "notes": "【搭配考点】confidentiality/penalty clause 保密条款/违约罚则条款；relative clause 语法定语从句；【形近辨析】pause (停顿)，cause (原因/引发)，applause (掌声)；【近义辨析】provision 侧重合同在宏观上设立的权责安排与法律规定，stipulation 强调谈判中达成的具体苛刻约定，article 侧重宪法或法典中编撰成章的大条款序号，而在商业合同特定短款子项名称上唯一契合 clause。",
-    "phonetic": "/klɔ:z/"
+    "notes": "【搭配考点】confidentiality/penalty clause 保密条款/违约罚则条款；relative clause 语法定语从句；【形近辨析】pause (停顿)，cause (原因/引发)，applause (掌声)；【近义辨析】provision 侧重合同在宏观上设立的权责安排与法律规定，stipulation 强调谈判中达成的具体苛刻约定，article 侧重宪法或法典中编撰成章的大条款序号，而在商业合同特定短款子项名称上唯一契合 clause。"
   },
   "clay": {
     "word": "clay",
@@ -12452,8 +12219,7 @@
         "zh": "尘垢；泥土"
       }
     ],
-    "notes": "【搭配考点】wet clay 湿陶土；clay pottery 陶器；feet of clay 致命弱点/人格污点；【形近辨析】play (玩耍/演奏)，slay (斩杀/屠杀)，tray (托盘)；【近义辨析】mud 纯指混杂大量脏水的稀烂稀泥，silt 专指河流冲积沉淀在河床底部的细沙淤泥，dirt 泛指地面的灰尘泥土或污物，而专指具有高可塑性、可烧制陶瓷或塑像的特殊黏性矿物土质唯一契合 clay。",
-    "phonetic": "/klei/"
+    "notes": "【搭配考点】wet clay 湿陶土；clay pottery 陶器；feet of clay 致命弱点/人格污点；【形近辨析】play (玩耍/演奏)，slay (斩杀/屠杀)，tray (托盘)；【近义辨析】mud 纯指混杂大量脏水的稀烂稀泥，silt 专指河流冲积沉淀在河床底部的细沙淤泥，dirt 泛指地面的灰尘泥土或污物，而专指具有高可塑性、可烧制陶瓷或塑像的特殊黏性矿物土质唯一契合 clay。"
   },
   "clean": {
     "word": "clean",
@@ -12500,8 +12266,7 @@
         "zh": "一尘不染的"
       }
     ],
-    "notes": "【搭配考点】clean drinking water 清洁饮用水；keep clean 保持卫生；clean energy 清洁能源；【形近辨析】clear (明澈的/清晰的)，lean (倚靠/倾斜/无脂肪的)，glean (艰难搜集/拾麦穗)；【近义辨析】pure 强调不含任何杂质的化学或道德纯粹，sanitary 侧重预防疾病的公共卫生条件合格，spotless 强调表面毫无污点纤尘不染，在描述日常水质与能源未被脏污污染的状态上唯一契合 clean。",
-    "phonetic": "/kli:n/"
+    "notes": "【搭配考点】clean drinking water 清洁饮用水；keep clean 保持卫生；clean energy 清洁能源；【形近辨析】clear (明澈的/清晰的)，lean (倚靠/倾斜/无脂肪的)，glean (艰难搜集/拾麦穗)；【近义辨析】pure 强调不含任何杂质的化学或道德纯粹，sanitary 侧重预防疾病的公共卫生条件合格，spotless 强调表面毫无污点纤尘不染，在描述日常水质与能源未被脏污污染的状态上唯一契合 clean。"
   },
   "clear": {
     "word": "clear",
@@ -12548,8 +12313,7 @@
         "zh": "显而易见的"
       }
     ],
-    "notes": "【搭配考点】clear instructions/evidence 清晰的指令/确凿的证据；make clear 明确阐述；【形近辨析】clean (干净整洁的)，clerk (办事员)，spear (标枪)；【近义辨析】distinct 侧重轮廓边缘分明容易辨识，explicit 强调毫无保留字面直接点透绝无含蓄，obvious 侧重显而易见一目了然不需动脑，在此处修饰言辞通俗透明没有混淆语义唯一契合 clear。",
-    "phonetic": "/kliə/"
+    "notes": "【搭配考点】clear instructions/evidence 清晰的指令/确凿的证据；make clear 明确阐述；【形近辨析】clean (干净整洁的)，clerk (办事员)，spear (标枪)；【近义辨析】distinct 侧重轮廓边缘分明容易辨识，explicit 强调毫无保留字面直接点透绝无含蓄，obvious 侧重显而易见一目了然不需动脑，在此处修饰言辞通俗透明没有混淆语义唯一契合 clear。"
   },
   "clerk": {
     "word": "clerk",
@@ -12596,8 +12360,7 @@
         "zh": "接待员"
       }
     ],
-    "notes": "【搭配考点】court clerk 法院书记官；bank/desk clerk 银行职员/前台接待；【形近辨析】cloak (斗篷/遮盖物)，clock (时钟)，clear (清晰明白的)；【近义辨析】secretary 专指辅助高管安排日程处理文书的私人或官方秘书，assistant 强调辅助他人工作的协作者助手，receptionist 专职负责大堂前台迎送接待登记，在此处从事法院登记、归档等文牍文职事务专员唯一契合 clerk。",
-    "phonetic": "/klɑ:k; klə:k/"
+    "notes": "【搭配考点】court clerk 法院书记官；bank/desk clerk 银行职员/前台接待；【形近辨析】cloak (斗篷/遮盖物)，clock (时钟)，clear (清晰明白的)；【近义辨析】secretary 专指辅助高管安排日程处理文书的私人或官方秘书，assistant 强调辅助他人工作的协作者助手，receptionist 专职负责大堂前台迎送接待登记，在此处从事法院登记、归档等文牍文职事务专员唯一契合 clerk。"
   },
   "clever": {
     "word": "clever",
@@ -12644,8 +12407,7 @@
         "zh": "精明的；敏锐的"
       }
     ],
-    "notes": "【搭配考点】clever idea/device 机巧的点子/巧妙的装置；clever at 擅长...；【形近辨析】clover (三叶草/红花草)，lever (杠杆/操纵杆)，fever (发烧/狂热)；【近义辨析】ingenious 强调结构复杂、设计别出心裁的极致精巧，smart 侧重思维反应敏捷或行事得体，shrewd 侧重涉及商业金钱或政治时的老练精明，在此处修饰点子机灵灵光一闪的巧思唯一契合 clever。",
-    "phonetic": "/'klevə/"
+    "notes": "【搭配考点】clever idea/device 机巧的点子/巧妙的装置；clever at 擅长...；【形近辨析】clover (三叶草/红花草)，lever (杠杆/操纵杆)，fever (发烧/狂热)；【近义辨析】ingenious 强调结构复杂、设计别出心裁的极致精巧，smart 侧重思维反应敏捷或行事得体，shrewd 侧重涉及商业金钱或政治时的老练精明，在此处修饰点子机灵灵光一闪的巧思唯一契合 clever。"
   },
   "client": {
     "word": "client",
@@ -12692,8 +12454,7 @@
         "zh": "最终消费者"
       }
     ],
-    "notes": "【搭配考点】client confidentiality 客户保密原则；attorney-client privilege 律师与当事人保密特权；【形近辨析】climate (气候环境)，cliff (绝壁)，silent (寂静无声的)；【近义辨析】customer 专指在商场超市买东西或饭店消费的普通散客，patron 侧重艺术展馆饭店的资助者或常客老主顾，consumer 是宏观经济学中产品终端消费者，在律师、会计师、咨询公司等高端专业服务领域接受顾问服务的当事人唯一契合 client。",
-    "phonetic": "/'klaiənt/"
+    "notes": "【搭配考点】client confidentiality 客户保密原则；attorney-client privilege 律师与当事人保密特权；【形近辨析】climate (气候环境)，cliff (绝壁)，silent (寂静无声的)；【近义辨析】customer 专指在商场超市买东西或饭店消费的普通散客，patron 侧重艺术展馆饭店的资助者或常客老主顾，consumer 是宏观经济学中产品终端消费者，在律师、会计师、咨询公司等高端专业服务领域接受顾问服务的当事人唯一契合 client。"
   },
   "cliff": {
     "word": "cliff",
@@ -12740,8 +12501,7 @@
         "zh": "崎岖岩壁；峭壁"
       }
     ],
-    "notes": "【搭配考点】steep/sheer cliff 陡峭的/刀削般的悬崖；cliff-hanger 悬念故事；【形近辨析】client (客户/委托人)，stiff (僵直生硬的)，sniff (吸鼻子/嗅探)；【近义辨析】precipice 文艺色彩浓郁常喻指破产或灾难边缘，bluff 侧重沿河或海边宽阔平坦且垂直的断崖（兼有诈唬之意），crag 特指犬牙交错、怪石突兀的崎岖裸岩，在海滨耸立的大型陡直岩壁地理实体上唯一契合 cliff。",
-    "phonetic": "/klif/"
+    "notes": "【搭配考点】steep/sheer cliff 陡峭的/刀削般的悬崖；cliff-hanger 悬念故事；【形近辨析】client (客户/委托人)，stiff (僵直生硬的)，sniff (吸鼻子/嗅探)；【近义辨析】precipice 文艺色彩浓郁常喻指破产或灾难边缘，bluff 侧重沿河或海边宽阔平坦且垂直的断崖（兼有诈唬之意），crag 特指犬牙交错、怪石突兀的崎岖裸岩，在海滨耸立的大型陡直岩壁地理实体上唯一契合 cliff。"
   },
   "climate": {
     "word": "climate",
@@ -12788,8 +12548,7 @@
         "zh": "自然环境；周边环境"
       }
     ],
-    "notes": "【搭配考点】climate change 气候变化（全球核心术语）；political/investment climate 政治风向/投资环境；【形近辨析】climax (小说故事的高潮/顶峰)，cinema (电影院)，intimate (亲密的/宣布)；【近义辨析】weather 专指某一天或某一小时局部的刮风下雨（不可数瞬时状态），atmosphere 侧重某个房间现场的心理氛围或地球大气层，environment 泛指生态大自然周围总条件，指跨越数十年百年漫长时间周期的宏观气候与社会大势唯一契合 climate。",
-    "phonetic": "/'klaimit/"
+    "notes": "【搭配考点】climate change 气候变化（全球核心术语）；political/investment climate 政治风向/投资环境；【形近辨析】climax (小说故事的高潮/顶峰)，cinema (电影院)，intimate (亲密的/宣布)；【近义辨析】weather 专指某一天或某一小时局部的刮风下雨（不可数瞬时状态），atmosphere 侧重某个房间现场的心理氛围或地球大气层，environment 泛指生态大自然周围总条件，指跨越数十年百年漫长时间周期的宏观气候与社会大势唯一契合 climate。"
   },
   "cling": {
     "word": "cling",
@@ -12836,8 +12595,7 @@
         "zh": "黏附；粘贴"
       }
     ],
-    "notes": "【搭配考点】cling to/on to 紧紧抓住不放；cling to hope 抱有一线希望；【形近辨析】fling (用力扔甩/纵情跳跃)，sling (吊带/投石器/挂起)，ring (圆环/铃响)；【近义辨析】grasp 侧重有意识伸手握住或理解掌握知识，clutch 强调在极度恐慌急迫中一把死死抠抓，stick 侧重胶水胶带式的物理黏合，在此处因依赖、恐慌而双手长时间死缠不放唯一契合 cling。",
-    "phonetic": "/kliŋ/"
+    "notes": "【搭配考点】cling to/on to 紧紧抓住不放；cling to hope 抱有一线希望；【形近辨析】fling (用力扔甩/纵情跳跃)，sling (吊带/投石器/挂起)，ring (圆环/铃响)；【近义辨析】grasp 侧重有意识伸手握住或理解掌握知识，clutch 强调在极度恐慌急迫中一把死死抠抓，stick 侧重胶水胶带式的物理黏合，在此处因依赖、恐慌而双手长时间死缠不放唯一契合 cling。"
   },
   "clinic": {
     "word": "clinic",
@@ -12884,8 +12642,7 @@
         "zh": "医务室；疗养院"
       }
     ],
-    "notes": "【搭配考点】dental/health clinic 牙科/健康诊所；run a clinic 开设门诊；【形近辨析】clinical (临床的/缺乏感情的)，panic (惊慌失措)，cynic (玩世不恭者)；【近义辨析】dispensary 侧重配药发药的小药局，surgery 在英式英语中兼指全科医生的门诊诊疗室，infirmary 专指学校、监狱或兵营内部设立的小型医务室，而在城镇中专注于特定专科门诊检查治疗的小型独立医疗机构唯一契合 clinic。",
-    "phonetic": "/'klinik/"
+    "notes": "【搭配考点】dental/health clinic 牙科/健康诊所；run a clinic 开设门诊；【形近辨析】clinical (临床的/缺乏感情的)，panic (惊慌失措)，cynic (玩世不恭者)；【近义辨析】dispensary 侧重配药发药的小药局，surgery 在英式英语中兼指全科医生的门诊诊疗室，infirmary 专指学校、监狱或兵营内部设立的小型医务室，而在城镇中专注于特定专科门诊检查治疗的小型独立医疗机构唯一契合 clinic。"
   },
   "clip": {
     "word": "clip",
@@ -12932,8 +12689,7 @@
         "zh": "影像资料；镜头"
       }
     ],
-    "notes": "【搭配考点】video/audio clip 视频/音频剪辑片段；paper clip 回形针；【形近辨析】chip (集成电路芯片/土豆片)，flip (快速翻转)，slip (滑跌/纸条便签)；【近义辨析】excerpt 侧重从文学巨著或长篇演说中摘抄的正式引言文字，snippet 强调零星散碎随手截取的小片断语，footage 侧重未经剪辑编辑的原生态新闻拍摄素材胶片，在此处用于多媒体教学演示的独立小段剪辑唯一契合 clip。",
-    "phonetic": "/span><span style='font-style:normal;font-weight:normal;'> </"
+    "notes": "【搭配考点】video/audio clip 视频/音频剪辑片段；paper clip 回形针；【形近辨析】chip (集成电路芯片/土豆片)，flip (快速翻转)，slip (滑跌/纸条便签)；【近义辨析】excerpt 侧重从文学巨著或长篇演说中摘抄的正式引言文字，snippet 强调零星散碎随手截取的小片断语，footage 侧重未经剪辑编辑的原生态新闻拍摄素材胶片，在此处用于多媒体教学演示的独立小段剪辑唯一契合 clip。"
   },
   "clock": {
     "word": "clock",
@@ -12980,8 +12736,7 @@
         "zh": "精密记时计"
       }
     ],
-    "notes": "【搭配考点】grandfather clock 落地长摆大钟；around the clock 昼夜不停地；clock in/out 打卡上下班；【形近辨析】cloak (斗篷/假面具)，block (大楼/障碍物)，lock (门锁)；【近义辨析】watch 专指佩戴在手腕上的随身手表，timepiece 属于典雅书面语涵盖所有计时艺术仪器，chronometer 专指航海或航空极端环境下的精密计时陀飞轮仪表，固定摆放在墙壁或地面的大型鸣钟器具唯一契合 clock。",
-    "phonetic": "/klɔk/"
+    "notes": "【搭配考点】grandfather clock 落地长摆大钟；around the clock 昼夜不停地；clock in/out 打卡上下班；【形近辨析】cloak (斗篷/假面具)，block (大楼/障碍物)，lock (门锁)；【近义辨析】watch 专指佩戴在手腕上的随身手表，timepiece 属于典雅书面语涵盖所有计时艺术仪器，chronometer 专指航海或航空极端环境下的精密计时陀飞轮仪表，固定摆放在墙壁或地面的大型鸣钟器具唯一契合 clock。"
   },
   "clone": {
     "word": "clone",
@@ -13028,8 +12783,7 @@
         "zh": "影印件；复印件"
       }
     ],
-    "notes": "【搭配考点】first mammal clone 第一只克隆哺乳动物；clone an animal 克隆动物；【形近辨析】clown (马戏团小丑)，cone (圆锥/冰淇淋甜筒)，alone (孤独独自的)；【近义辨析】replica 侧重艺术品、模型按原样手工精确复刻的实体，duplicate 侧重公文钥匙等一式两份的副本，photocopy 专指静电复印纸质复印件，在分子生物学利用体细胞核移植培育无性繁殖生命体上唯一契合 clone。",
-    "phonetic": "/kləun/"
+    "notes": "【搭配考点】first mammal clone 第一只克隆哺乳动物；clone an animal 克隆动物；【形近辨析】clown (马戏团小丑)，cone (圆锥/冰淇淋甜筒)，alone (孤独独自的)；【近义辨析】replica 侧重艺术品、模型按原样手工精确复刻的实体，duplicate 侧重公文钥匙等一式两份的副本，photocopy 专指静电复印纸质复印件，在分子生物学利用体细胞核移植培育无性繁殖生命体上唯一契合 clone。"
   },
   "cloth": {
     "word": "cloth",
@@ -13076,8 +12830,7 @@
         "zh": "纺织品；织物"
       }
     ],
-    "notes": "【搭配考点】damp cloth 湿布/抹布；cut one's coat according to one's cloth 量入为出；【形近辨析】clothe (动词：为...提供衣服穿)，clothes (复数名词：成套衣服)，cloud (云朵)；【近义辨析】fabric 侧重作为服装加工原料的面料质感与纤维构造，rag 强调破旧撕碎残缺的破布条，textile 偏工业与商贸术语指大规模纺织工业产物，在此处日常用于擦拭清洁的一块布料抹布唯一契合 cloth。",
-    "phonetic": "/klɔθ; klɔ:θ/"
+    "notes": "【搭配考点】damp cloth 湿布/抹布；cut one's coat according to one's cloth 量入为出；【形近辨析】clothe (动词：为...提供衣服穿)，clothes (复数名词：成套衣服)，cloud (云朵)；【近义辨析】fabric 侧重作为服装加工原料的面料质感与纤维构造，rag 强调破旧撕碎残缺的破布条，textile 偏工业与商贸术语指大规模纺织工业产物，在此处日常用于擦拭清洁的一块布料抹布唯一契合 cloth。"
   },
   "clothe": {
     "word": "clothe",
@@ -13124,8 +12877,7 @@
         "zh": "覆盖；掩盖"
       }
     ],
-    "notes": "【搭配考点】feed and clothe 供吃供穿/吃饱穿暖（生活温饱经典核心熟语）；clothe in 赋予.../穿上...；【形近辨析】cloth (不可数布料)，clothes (衣服名词)，clone (克隆体)；【近义辨析】dress 强调每天穿脱打扮的具体动作（如 get dressed），attire 极为典雅正式侧重华丽盛装亮相，cover 强调表面物理覆盖遮蔽，在此处与 feed 并列指履行抚养职责、提供衣服穿戴的温饱义务唯一契合 clothe。",
-    "phonetic": "/kləuð/"
+    "notes": "【搭配考点】feed and clothe 供吃供穿/吃饱穿暖（生活温饱经典核心熟语）；clothe in 赋予.../穿上...；【形近辨析】cloth (不可数布料)，clothes (衣服名词)，clone (克隆体)；【近义辨析】dress 强调每天穿脱打扮的具体动作（如 get dressed），attire 极为典雅正式侧重华丽盛装亮相，cover 强调表面物理覆盖遮蔽，在此处与 feed 并列指履行抚养职责、提供衣服穿戴的温饱义务唯一契合 clothe。"
   },
   "cloud": {
     "word": "cloud",
@@ -13172,8 +12924,7 @@
         "zh": "水汽；蒸汽"
       }
     ],
-    "notes": "【搭配考点】storm/rain cloud 暴风雨云/积雨云；under a cloud 受到怀疑/名誉受损；cloud one's judgement 蒙蔽某人的判断；【形近辨析】cloth (织物/抹布)，aloud (出声地/大声地)，proud (引以为豪的)；【近义辨析】fog 专指接触地表导致能见度骤降的水汽浓雾，haze 强调由悬浮灰尘干烟微粒引起的灰蒙蒙阴霾，vapor 侧重物理形态的气化水蒸气分子，在高空悬浮聚集成团的典型云块唯一契合 cloud。",
-    "phonetic": "/klaud/"
+    "notes": "【搭配考点】storm/rain cloud 暴风雨云/积雨云；under a cloud 受到怀疑/名誉受损；cloud one's judgement 蒙蔽某人的判断；【形近辨析】cloth (织物/抹布)，aloud (出声地/大声地)，proud (引以为豪的)；【近义辨析】fog 专指接触地表导致能见度骤降的水汽浓雾，haze 强调由悬浮灰尘干烟微粒引起的灰蒙蒙阴霾，vapor 侧重物理形态的气化水蒸气分子，在高空悬浮聚集成团的典型云块唯一契合 cloud。"
   },
   "club": {
     "word": "club",
@@ -13220,8 +12971,7 @@
         "zh": "行会；同业工会"
       }
     ],
-    "notes": "【搭配考点】debating/golf club 辩论社团/高尔夫俱乐部；night club 夜总会；【形近辨析】clue (线索/破案提示)，curb (控制/路牙石)，cub (狮虎熊等幼崽)；【近义辨析】society 侧重历史悠久、学术性强的专业学者学会，association 强调正式注册、范围广泛的行业或全权行业联盟，guild 专指中世纪手工业行会或同仁盟会，在校园中基于共同爱好成立的学生社团组织唯一契合 club。",
-    "phonetic": "/klʌb/"
+    "notes": "【搭配考点】debating/golf club 辩论社团/高尔夫俱乐部；night club 夜总会；【形近辨析】clue (线索/破案提示)，curb (控制/路牙石)，cub (狮虎熊等幼崽)；【近义辨析】society 侧重历史悠久、学术性强的专业学者学会，association 强调正式注册、范围广泛的行业或全权行业联盟，guild 专指中世纪手工业行会或同仁盟会，在校园中基于共同爱好成立的学生社团组织唯一契合 club。"
   },
   "clue": {
     "word": "clue",
@@ -13268,8 +13018,7 @@
         "zh": "痕迹；踪迹"
       }
     ],
-    "notes": "【搭配考点】vital/crucial clue 关键线索；not have a clue 一无所知/毫无头绪；【形近辨析】club (俱乐部/棍棒)，cue (剧场提示/台球杆)，blue (蓝色/忧郁)；【近义辨析】hint 侧重说话者隐晦给出的字面或言语提示，lead 侧重指引刑侦或调查向前推进的重大侦查方向，trace 强调现场物理残留的细微痕迹（如指纹毛发），在指解答谜团破案的指示性线索物证上唯一契合 clue。",
-    "phonetic": "/klu:/"
+    "notes": "【搭配考点】vital/crucial clue 关键线索；not have a clue 一无所知/毫无头绪；【形近辨析】club (俱乐部/棍棒)，cue (剧场提示/台球杆)，blue (蓝色/忧郁)；【近义辨析】hint 侧重说话者隐晦给出的字面或言语提示，lead 侧重指引刑侦或调查向前推进的重大侦查方向，trace 强调现场物理残留的细微痕迹（如指纹毛发），在指解答谜团破案的指示性线索物证上唯一契合 clue。"
   },
   "clumsy": {
     "word": "clumsy",
@@ -13316,8 +13065,7 @@
         "zh": "不圆通的；不得体的"
       }
     ],
-    "notes": "【搭配考点】clumsy attempt/fingers 拙劣的企图/笨手笨脚；clumsy of someone 某人行事笨拙；【形近辨析】crumb (面包碎屑)，clamp (夹钳/死死夹紧)，classy (优雅高级的)；【近义辨析】awkward 侧重因不协调引发的社交尴尬或局促不安，ungraceful 侧重动作体态缺乏美感，tactless 强调说话缺乏策略情商伤人，在此处形容言行举止缺乏技巧、弄巧成拙的粗笨拙劣唯一契合 clumsy。",
-    "phonetic": "/'klʌmzi/"
+    "notes": "【搭配考点】clumsy attempt/fingers 拙劣的企图/笨手笨脚；clumsy of someone 某人行事笨拙；【形近辨析】crumb (面包碎屑)，clamp (夹钳/死死夹紧)，classy (优雅高级的)；【近义辨析】awkward 侧重因不协调引发的社交尴尬或局促不安，ungraceful 侧重动作体态缺乏美感，tactless 强调说话缺乏策略情商伤人，在此处形容言行举止缺乏技巧、弄巧成拙的粗笨拙劣唯一契合 clumsy。"
   },
   "coach": {
     "word": "coach",
@@ -13364,8 +13112,7 @@
         "zh": "家庭教师；课业导师"
       }
     ],
-    "notes": "【搭配考点】head coach 主教练；travel by coach 乘坐长途大巴；coach someone in 辅导某人某项技能；【形近辨析】couch (长沙发)，poach (偷猎/水煮蛋/非法挖墙脚)，roach (蟑螂)；【近义辨析】trainer 侧重通过反复肢体动作强化体能或训练动物，instructor 侧重传授驾车、滑雪等具体技术规范的教练，tutor 侧重学业辅导家教，在团队体育运动中指挥赛场战术决策的总指挥官唯一契合 coach。",
-    "phonetic": "/kəutʃ/"
+    "notes": "【搭配考点】head coach 主教练；travel by coach 乘坐长途大巴；coach someone in 辅导某人某项技能；【形近辨析】couch (长沙发)，poach (偷猎/水煮蛋/非法挖墙脚)，roach (蟑螂)；【近义辨析】trainer 侧重通过反复肢体动作强化体能或训练动物，instructor 侧重传授驾车、滑雪等具体技术规范的教练，tutor 侧重学业辅导家教，在团队体育运动中指挥赛场战术决策的总指挥官唯一契合 coach。"
   },
   "coal": {
     "word": "coal",
@@ -13412,8 +13159,7 @@
         "zh": "化石"
       }
     ],
-    "notes": "【搭配考点】coal power plant 燃煤电厂；burn coal 烧煤；coal mine 煤矿；【形近辨析】goal (目标/球门)，coat (大衣/外层)，foal (幼马驹)；【近义辨析】charcoal 专指木材在隔绝空气条件下炭化烧制而成的木炭，fuel 泛指包括石油、天然气在内的所有能量燃料总称，fossil 强调古代地质生物遗骸化石，专指在地层中开采的传统黑色可燃矿物能源唯一契合 coal。",
-    "phonetic": "/kəul/"
+    "notes": "【搭配考点】coal power plant 燃煤电厂；burn coal 烧煤；coal mine 煤矿；【形近辨析】goal (目标/球门)，coat (大衣/外层)，foal (幼马驹)；【近义辨析】charcoal 专指木材在隔绝空气条件下炭化烧制而成的木炭，fuel 泛指包括石油、天然气在内的所有能量燃料总称，fossil 强调古代地质生物遗骸化石，专指在地层中开采的传统黑色可燃矿物能源唯一契合 coal。"
   },
   "coalition": {
     "word": "coalition",
@@ -13460,8 +13206,7 @@
         "zh": "工会；联合会"
       }
     ],
-    "notes": "【搭配考点】governing coalition 执政联盟/联合政府；form a coalition 组建联合政府；【形近辨析】collision (车辆相撞/物理碰撞，常混考 coalition vs collision)，condition (条件)，cognition (认知)；【近义辨析】alliance 侧重国家间通过正式条约签署的长期军事或外交同盟（如北约），partnership 侧重平等的商业合伙或协作关系，union 强调融为一体不可分割的联邦或工会，在政党间为夺取议会多数而暂时结成妥协执政集团上唯一契合 coalition。",
-    "phonetic": "/,kəuə'liʃən/"
+    "notes": "【搭配考点】governing coalition 执政联盟/联合政府；form a coalition 组建联合政府；【形近辨析】collision (车辆相撞/物理碰撞，常混考 coalition vs collision)，condition (条件)，cognition (认知)；【近义辨析】alliance 侧重国家间通过正式条约签署的长期军事或外交同盟（如北约），partnership 侧重平等的商业合伙或协作关系，union 强调融为一体不可分割的联邦或工会，在政党间为夺取议会多数而暂时结成妥协执政集团上唯一契合 coalition。"
   },
   "coarse": {
     "word": "coarse",
@@ -13508,8 +13253,7 @@
         "zh": "严酷的；刺耳的"
       }
     ],
-    "notes": "【搭配考点】rough and coarse hands 粗糙皲裂的双手；coarse language/manners 粗俗言语/粗鄙举止；coarse salt 粗盐；【形近辨析】course (课程/路线，同音异义词混淆核心)，cause (引起/缘由)，hoarse (喉咙嘶哑的)；【近义辨析】rough 强调表面凹凸不平触摸阻力大，crude 侧重技术原始、粗制滥造或未经提炼（如 crude oil），harsh 侧重气候或批评异常严厉刺耳，在形容纤维、颗粒或皮肤纹理粗厚质感时唯一契合 coarse。",
-    "phonetic": "/kɔ:s/"
+    "notes": "【搭配考点】rough and coarse hands 粗糙皲裂的双手；coarse language/manners 粗俗言语/粗鄙举止；coarse salt 粗盐；【形近辨析】course (课程/路线，同音异义词混淆核心)，cause (引起/缘由)，hoarse (喉咙嘶哑的)；【近义辨析】rough 强调表面凹凸不平触摸阻力大，crude 侧重技术原始、粗制滥造或未经提炼（如 crude oil），harsh 侧重气候或批评异常严厉刺耳，在形容纤维、颗粒或皮肤纹理粗厚质感时唯一契合 coarse。"
   },
   "code": {
     "word": "code",
@@ -13556,8 +13300,7 @@
         "zh": "规则；条规"
       }
     ],
-    "notes": "【搭配考点】code of conduct 行为守则（高频职场考点）；source code 源代码；area code 电话区号；【形近辨析】core (果核/核心灵魂)，mode (运作模式)，node (网络节点)；【近义辨析】standard 强调衡量高低的客观尺度水平，regulation 强调行政或政府机构颁布的具有强制力的成文法规条例，rule 侧重简单的个别规则条文，由一系列成体系系统化编纂的道德或法律守则集唯一契合 code。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】code of conduct 行为守则（高频职场考点）；source code 源代码；area code 电话区号；【形近辨析】core (果核/核心灵魂)，mode (运作模式)，node (网络节点)；【近义辨析】standard 强调衡量高低的客观尺度水平，regulation 强调行政或政府机构颁布的具有强制力的成文法规条例，rule 侧重简单的个别规则条文，由一系列成体系系统化编纂的道德或法律守则集唯一契合 code。"
   },
   "cognitive": {
     "word": "cognitive",
@@ -13604,8 +13347,7 @@
         "zh": "知觉的；感官的"
       }
     ],
-    "notes": "【搭配考点】cognitive function/development 认知功能/认知发育；cognitive psychology 认知心理学；【形近辨析】recognize (认出/认可)，ignite (点燃/引发)，positive (阳性的/正向的)；【近义辨析】intellectual 侧重高层次的理性思辨或学术知识素养，mental 侧重涵盖情绪、心理健康与精神意识的整个心理范畴，perceptual 侧重五官感知外界信号的第一步输入阶段，在指大脑信息加工、记忆、逻辑计算等系统思维机能上唯一契合 cognitive。",
-    "phonetic": "/'kɔɡnitiv/"
+    "notes": "【搭配考点】cognitive function/development 认知功能/认知发育；cognitive psychology 认知心理学；【形近辨析】recognize (认出/认可)，ignite (点燃/引发)，positive (阳性的/正向的)；【近义辨析】intellectual 侧重高层次的理性思辨或学术知识素养，mental 侧重涵盖情绪、心理健康与精神意识的整个心理范畴，perceptual 侧重五官感知外界信号的第一步输入阶段，在指大脑信息加工、记忆、逻辑计算等系统思维机能上唯一契合 cognitive。"
   },
   "coincide": {
     "word": "coincide",
@@ -13652,8 +13394,7 @@
         "zh": "匹配；相吻合"
       }
     ],
-    "notes": "【搭配考点】coincide with 时间上重叠巧合，或观点立场高度吻合；【形近辨析】collide (碰撞/相撞)，confide (吐露心事/委托)，suicide (自杀)；【近义辨析】synchronize 强调人为通过技术手段校准钟表节奏使之步调一致，concur 强调多人意见经讨论达成一致或两事凑巧同时出现，match 强调外貌、性质相互匹配对应，在时间自然巧合叠合或立场完全重合上唯一契合 coincide。",
-    "phonetic": "/,kəuin'said/"
+    "notes": "【搭配考点】coincide with 时间上重叠巧合，或观点立场高度吻合；【形近辨析】collide (碰撞/相撞)，confide (吐露心事/委托)，suicide (自杀)；【近义辨析】synchronize 强调人为通过技术手段校准钟表节奏使之步调一致，concur 强调多人意见经讨论达成一致或两事凑巧同时出现，match 强调外貌、性质相互匹配对应，在时间自然巧合叠合或立场完全重合上唯一契合 coincide。"
   },
   "coincidence": {
     "word": "coincidence",
@@ -13700,8 +13441,7 @@
         "zh": "意外事件"
       }
     ],
-    "notes": "【搭配考点】by coincidence 碰巧地/出于巧合；pure/incredible coincidence 纯粹的巧合；【形近辨析】incidence (疾病等发生率)，confidence (自信心)，evidence (客观证据)；【近义辨析】chance 侧重随机概率与不确定性，fluke 强调出乎意料的一鸣惊人侥幸碰上（口语），accident 偏向不测的突发祸事意外，指两件互不相干的事在时间地点上奇迹般撞在了一起的事件唯一契合 coincidence。",
-    "phonetic": "/kəu'insidəns/"
+    "notes": "【搭配考点】by coincidence 碰巧地/出于巧合；pure/incredible coincidence 纯粹的巧合；【形近辨析】incidence (疾病等发生率)，confidence (自信心)，evidence (客观证据)；【近义辨析】chance 侧重随机概率与不确定性，fluke 强调出乎意料的一鸣惊人侥幸碰上（口语），accident 偏向不测的突发祸事意外，指两件互不相干的事在时间地点上奇迹般撞在了一起的事件唯一契合 coincidence。"
   },
   "collaborate": {
     "word": "collaborate",
@@ -13748,8 +13488,7 @@
         "zh": "结成伙伴"
       }
     ],
-    "notes": "【搭配考点】collaborate on a project / with someone 在项目上携手协作；【形近辨析】corroborate (提供证据证实)，elaborate (精心制作/详细说明)，calibrate (校准仪器量程)；【近义辨析】cooperate 侧重顺从配合某人的要求或各干各的共同履约，coordinate 侧重协调调度多方资源使之不冲突，partner 侧重法律商业上的挂牌合伙，在指知识分子、艺术家、科学家共同动脑创造产出的深层协同攻关上唯一契合 collaborate。",
-    "phonetic": "/kə'læbəreit/"
+    "notes": "【搭配考点】collaborate on a project / with someone 在项目上携手协作；【形近辨析】corroborate (提供证据证实)，elaborate (精心制作/详细说明)，calibrate (校准仪器量程)；【近义辨析】cooperate 侧重顺从配合某人的要求或各干各的共同履约，coordinate 侧重协调调度多方资源使之不冲突，partner 侧重法律商业上的挂牌合伙，在指知识分子、艺术家、科学家共同动脑创造产出的深层协同攻关上唯一契合 collaborate。"
   },
   "collapse": {
     "word": "collapse",
@@ -13796,8 +13535,7 @@
         "zh": "失效；衰竭"
       }
     ],
-    "notes": "【搭配考点】collapse under pressure/weight 在压力或重压下坍塌崩塌；economic collapse 经济崩溃；【形近辨析】elapse (时间悄然流逝)，relapse (病情复发/倒退)，eclipse (日食月食/使黯然失色)；【近义辨析】crumble 侧重一点点风化剥落瓦解成细碎渣滓，tumble 侧重重心不稳沿斜坡翻滚跌落，fail 强调系统无法运转故障，在结构失去内部支撑瞬间整体垮掉陷落唯一契合 collapse。",
-    "phonetic": "/kə'læps/"
+    "notes": "【搭配考点】collapse under pressure/weight 在压力或重压下坍塌崩塌；economic collapse 经济崩溃；【形近辨析】elapse (时间悄然流逝)，relapse (病情复发/倒退)，eclipse (日食月食/使黯然失色)；【近义辨析】crumble 侧重一点点风化剥落瓦解成细碎渣滓，tumble 侧重重心不稳沿斜坡翻滚跌落，fail 强调系统无法运转故障，在结构失去内部支撑瞬间整体垮掉陷落唯一契合 collapse。"
   },
   "collar": {
     "word": "collar",
@@ -13844,8 +13582,7 @@
         "zh": "西服翻领"
       }
     ],
-    "notes": "【搭配考点】pull up one's collar 竖起衣领；white-collar/blue-collar 白领/蓝领阶层；dog collar 狗项圈；【形近辨析】dollar (美元货币)，pillar (立柱/中流砥柱)，cellar (地下酒窖)；【近义辨析】neckband 仅指缝在衣服领口的那一圈固定布条，choker 专指贴紧喉咙佩戴的女性首饰项圈，lapel 专指西装胸前向下折叠的宽大外翻驳领，在环绕脖颈提供遮风保暖或作为衬衫正装标准的独立翻立领结构上唯一契合 collar。",
-    "phonetic": "/'kɔlə/"
+    "notes": "【搭配考点】pull up one's collar 竖起衣领；white-collar/blue-collar 白领/蓝领阶层；dog collar 狗项圈；【形近辨析】dollar (美元货币)，pillar (立柱/中流砥柱)，cellar (地下酒窖)；【近义辨析】neckband 仅指缝在衣服领口的那一圈固定布条，choker 专指贴紧喉咙佩戴的女性首饰项圈，lapel 专指西装胸前向下折叠的宽大外翻驳领，在环绕脖颈提供遮风保暖或作为衬衫正装标准的独立翻立领结构上唯一契合 collar。"
   },
   "colleague": {
     "word": "colleague",
@@ -13892,8 +13629,7 @@
         "zh": "同行同辈；同龄人"
       }
     ],
-    "notes": "【搭配考点】colleague from the office / respected colleague 办公室同事/受尊敬的同僚；【形近辨析】college (大学学院)，league (联赛/联盟)，delegate (代表团代表/授权)；【近义辨析】coworker 属于偏日常口语的美式表达，强调在同一办公室或物理空间共同打工的人，associate 侧重商业合伙人或律师事务所初级合伙律师，peer 强调学术上具有同等资历评议地位的同业学者，在正式职业语境中称呼同在一个组织内从事专业文职工作的同仁唯一契合 colleague。",
-    "phonetic": "/'kɔli:ɡ/"
+    "notes": "【搭配考点】colleague from the office / respected colleague 办公室同事/受尊敬的同僚；【形近辨析】college (大学学院)，league (联赛/联盟)，delegate (代表团代表/授权)；【近义辨析】coworker 属于偏日常口语的美式表达，强调在同一办公室或物理空间共同打工的人，associate 侧重商业合伙人或律师事务所初级合伙律师，peer 强调学术上具有同等资历评议地位的同业学者，在正式职业语境中称呼同在一个组织内从事专业文职工作的同仁唯一契合 colleague。"
   },
   "collect": {
     "word": "collect",
@@ -13940,8 +13676,7 @@
         "zh": "逐渐积累；积聚"
       }
     ],
-    "notes": "【搭配考点】collect rubbish/data 收集垃圾/汇总数据；collect stamps 集邮；collect oneself 镇定下来；【形近辨析】correct (纠正/正确的)，connect (连接联系)，elect (推举选举)；【近义辨析】gather 侧重人从四面八方聚集或田间采摘水果，assemble 强调将分散的零部件按图纸组装成整体或正式召集集会，accumulate 强调随着时间推移自然增多积少成多，在有意识地逐一拣拾并归拢到一起的动作上唯一契合 collect。",
-    "phonetic": "/kə'lekt/"
+    "notes": "【搭配考点】collect rubbish/data 收集垃圾/汇总数据；collect stamps 集邮；collect oneself 镇定下来；【形近辨析】correct (纠正/正确的)，connect (连接联系)，elect (推举选举)；【近义辨析】gather 侧重人从四面八方聚集或田间采摘水果，assemble 强调将分散的零部件按图纸组装成整体或正式召集集会，accumulate 强调随着时间推移自然增多积少成多，在有意识地逐一拣拾并归拢到一起的动作上唯一契合 collect。"
   },
   "collection": {
     "word": "collection",
@@ -13988,8 +13723,7 @@
         "zh": "累积物；堆积"
       }
     ],
-    "notes": "【搭配考点】a collection of paintings/artifacts 艺术画作/珍贵文物藏品；autumn/spring collection 换季时装系列；【形近辨析】correction (订正修改)，connection (关系连结)，selection (选品/精选物)；【近义辨析】assortment 强调各色不同种类点心杂物的混合拼盘组合，compilation 专指诗文乐曲汇编成集的文集唱片合辑，accumulation 侧重不自觉堆积起来的一大堆杂乱东西，在经过专业策展、系统归档的成套珍贵文物与艺术品群体上唯一契合 collection。",
-    "phonetic": "/kə'lekʃən/"
+    "notes": "【搭配考点】a collection of paintings/artifacts 艺术画作/珍贵文物藏品；autumn/spring collection 换季时装系列；【形近辨析】correction (订正修改)，connection (关系连结)，selection (选品/精选物)；【近义辨析】assortment 强调各色不同种类点心杂物的混合拼盘组合，compilation 专指诗文乐曲汇编成集的文集唱片合辑，accumulation 侧重不自觉堆积起来的一大堆杂乱东西，在经过专业策展、系统归档的成套珍贵文物与艺术品群体上唯一契合 collection。"
   },
   "collective": {
     "word": "collective",
@@ -14036,8 +13770,7 @@
         "zh": "共同的；普遍的"
       }
     ],
-    "notes": "【搭配考点】collective effort/responsibility 集体努力/共同责任；collective memory 集体记忆；【形近辨析】elective (选修课/可选择的)，corrective (纠正性质的)，connective (起连接作用的)；【近义辨析】joint 强调两个或多个独立实体签署联合声明或共建合营（如 joint venture），shared 强调在同伴之间分担痛苦或共享红利，common 强调大家拥有的普遍共性，在强调由所有成员作为不可分割的集体共同行动时唯一契合 collective。",
-    "phonetic": "/kə'lektiv/"
+    "notes": "【搭配考点】collective effort/responsibility 集体努力/共同责任；collective memory 集体记忆；【形近辨析】elective (选修课/可选择的)，corrective (纠正性质的)，connective (起连接作用的)；【近义辨析】joint 强调两个或多个独立实体签署联合声明或共建合营（如 joint venture），shared 强调在同伴之间分担痛苦或共享红利，common 强调大家拥有的普遍共性，在强调由所有成员作为不可分割的集体共同行动时唯一契合 collective。"
   },
   "college": {
     "word": "college",
@@ -14084,8 +13817,7 @@
         "zh": "研究所；专门学院"
       }
     ],
-    "notes": "【搭配考点】community college 社区学院；go to college 上大学（美式高频通用）；electoral college 选举人团；【形近辨析】colleague (工作同事)，cottage (乡村农舍别墅)，courage (勇敢无畏)；【近义辨析】university 严格指下辖众多学院、具备本科硕士博士全体系授予权的综合性大学，academy 侧重军事学院、美术学院或国家科学院，institute 侧重理工科研学院或研究机构，在指本科独立学院或大众高等教育阶段通用泛称时唯一契合 college。",
-    "phonetic": "/'kɔlidʒ/"
+    "notes": "【搭配考点】community college 社区学院；go to college 上大学（美式高频通用）；electoral college 选举人团；【形近辨析】colleague (工作同事)，cottage (乡村农舍别墅)，courage (勇敢无畏)；【近义辨析】university 严格指下辖众多学院、具备本科硕士博士全体系授予权的综合性大学，academy 侧重军事学院、美术学院或国家科学院，institute 侧重理工科研学院或研究机构，在指本科独立学院或大众高等教育阶段通用泛称时唯一契合 college。"
   },
   "collision": {
     "word": "collision",
@@ -14132,8 +13864,7 @@
         "zh": "粉碎性猛撞"
       }
     ],
-    "notes": "【搭配考点】collision with a car/barrier 与车辆或障碍物猛烈相撞；on a collision course 走在冲突的轨道上；【形近辨析】coalition (政党联合政府)，collusion (非法勾结共谋)，illusion (虚幻假象)；【近义辨析】crash 侧重伴随着震耳欲聋巨响的破碎损毁灾难，impact 侧重物理学撞击瞬间产生的冲击力和挤压力，smash 侧重撞得四分五裂，在描述两个运动实体之间发生剧烈物理相撞的规范事故术语上唯一契合 collision。",
-    "phonetic": "/kə'liʒən/"
+    "notes": "【搭配考点】collision with a car/barrier 与车辆或障碍物猛烈相撞；on a collision course 走在冲突的轨道上；【形近辨析】coalition (政党联合政府)，collusion (非法勾结共谋)，illusion (虚幻假象)；【近义辨析】crash 侧重伴随着震耳欲聋巨响的破碎损毁灾难，impact 侧重物理学撞击瞬间产生的冲击力和挤压力，smash 侧重撞得四分五裂，在描述两个运动实体之间发生剧烈物理相撞的规范事故术语上唯一契合 collision。"
   },
   "colonial": {
     "word": "colonial",
@@ -14180,8 +13911,7 @@
         "zh": "附庸的；依赖的"
       }
     ],
-    "notes": "【搭配考点】colonial rule/architecture/era 殖民统治/殖民地风格建筑/殖民时代；【形近辨析】colony (名词：殖民地)，colonist (名词：殖民拓荒定居者)，colossal (庞大绝伦的)；【近义辨析】imperial 侧重属于宗主国皇帝或中央帝国本身的威严气派，provincial 仅指帝国本土远离首都的偏远外省，dependent 侧重在财政经济上完全依附他国，在此处特指由海外宗主国在占领地推行并带有该历史印记的建筑制度风格唯一契合 colonial。",
-    "phonetic": "/kə'ləunjəl/"
+    "notes": "【搭配考点】colonial rule/architecture/era 殖民统治/殖民地风格建筑/殖民时代；【形近辨析】colony (名词：殖民地)，colonist (名词：殖民拓荒定居者)，colossal (庞大绝伦的)；【近义辨析】imperial 侧重属于宗主国皇帝或中央帝国本身的威严气派，provincial 仅指帝国本土远离首都的偏远外省，dependent 侧重在财政经济上完全依附他国，在此处特指由海外宗主国在占领地推行并带有该历史印记的建筑制度风格唯一契合 colonial。"
   },
   "colony": {
     "word": "colony",
@@ -14228,8 +13958,7 @@
         "zh": "属地；附属国"
       }
     ],
-    "notes": "【搭配考点】trade/penal colony 商业殖民地/流放犯殖民地；ant/bee colony 蚂蚁/蜜蜂群落；【形近辨析】colonial (形容词：殖民的)，colon (标点冒号/医学结肠)，felony (法学重罪)；【近义辨析】settlement 侧重拓荒者白手起家搭建的小型定居村落，outpost 强调边陲荒野驻扎的军事或贸易小前哨站，dependency 侧重在外交上由母国代管的现代海外属地，在指宗主国移民族群开拓并在政治上隶属母国的广大拓殖实体上唯一契合 colony。",
-    "phonetic": "/'kɔləni/"
+    "notes": "【搭配考点】trade/penal colony 商业殖民地/流放犯殖民地；ant/bee colony 蚂蚁/蜜蜂群落；【形近辨析】colonial (形容词：殖民的)，colon (标点冒号/医学结肠)，felony (法学重罪)；【近义辨析】settlement 侧重拓荒者白手起家搭建的小型定居村落，outpost 强调边陲荒野驻扎的军事或贸易小前哨站，dependency 侧重在外交上由母国代管的现代海外属地，在指宗主国移民族群开拓并在政治上隶属母国的广大拓殖实体上唯一契合 colony。"
   },
   "color": {
     "word": "color",
@@ -14276,8 +14005,7 @@
         "zh": "淡色；微光色"
       }
     ],
-    "notes": "【搭配考点】change color 变色；bright/vibrant color 鲜艳的色彩；with flying colors 成绩优异出色；【形近辨析】collar (衣领)，colon (冒号)，valor (英雄气概)；【近义辨析】hue 属于美术与物理光学术语指可见光谱中最纯正的色相，shade 专指加入黑色后颜色的深浅明暗层次，tint 强调在原色中加入少许白色调出的淡薄微亮底色，日常生活中概括视觉呈现的客观色彩总概念唯一契合 color。",
-    "phonetic": "/'kʌlə/"
+    "notes": "【搭配考点】change color 变色；bright/vibrant color 鲜艳的色彩；with flying colors 成绩优异出色；【形近辨析】collar (衣领)，colon (冒号)，valor (英雄气概)；【近义辨析】hue 属于美术与物理光学术语指可见光谱中最纯正的色相，shade 专指加入黑色后颜色的深浅明暗层次，tint 强调在原色中加入少许白色调出的淡薄微亮底色，日常生活中概括视觉呈现的客观色彩总概念唯一契合 color。"
   },
   "column": {
     "word": "column",
@@ -14324,8 +14052,7 @@
         "zh": "专题特写；报道"
       }
     ],
-    "notes": "【搭配考点】weekly/regular column 定期报刊专栏；stone column 支撑石柱；fifth column 第五纵队（潜伏内奸）；【形近辨析】autumn (秋天)，solemn (庄严沉痛的)，volume (音量/容积/书籍卷册)；【近义辨析】editorial 代表报社编辑部官方立场的重磅社论，section 指报纸分成财经、体育等大版面分区，feature 侧重深度挖掘人物故事的图文长篇特写，由特定签约名家定期主持撰稿的固定板块唯一契合 column。",
-    "phonetic": "/'kɔləm/"
+    "notes": "【搭配考点】weekly/regular column 定期报刊专栏；stone column 支撑石柱；fifth column 第五纵队（潜伏内奸）；【形近辨析】autumn (秋天)，solemn (庄严沉痛的)，volume (音量/容积/书籍卷册)；【近义辨析】editorial 代表报社编辑部官方立场的重磅社论，section 指报纸分成财经、体育等大版面分区，feature 侧重深度挖掘人物故事的图文长篇特写，由特定签约名家定期主持撰稿的固定板块唯一契合 column。"
   },
   "combination": {
     "word": "combination",
@@ -14372,8 +14099,7 @@
         "zh": "大熔炉；混合体"
       }
     ],
-    "notes": "【搭配考点】toxic/winning combination 致命的坏组合/取胜的绝妙组合；safe combination 保险箱密码组合；【形近辨析】communication (信息交流/通讯)，compensation (经济赔偿/薪资)，computation (数据计算)；【近义辨析】mixture 强调多种不同物理成分混在一起各自保留特征（如药水配方），blend 强调咖啡茶香等原料经过调配融为一体难以分割，amalgam 偏书面化学语比喻文化思想大熔炉，在此处指多个不利经济要素汇聚产生的共同综合后果唯一契合 combination。",
-    "phonetic": "/,kɔmbi'neiʃən/"
+    "notes": "【搭配考点】toxic/winning combination 致命的坏组合/取胜的绝妙组合；safe combination 保险箱密码组合；【形近辨析】communication (信息交流/通讯)，compensation (经济赔偿/薪资)，computation (数据计算)；【近义辨析】mixture 强调多种不同物理成分混在一起各自保留特征（如药水配方），blend 强调咖啡茶香等原料经过调配融为一体难以分割，amalgam 偏书面化学语比喻文化思想大熔炉，在此处指多个不利经济要素汇聚产生的共同综合后果唯一契合 combination。"
   },
   "combine": {
     "word": "combine",
@@ -14420,8 +14146,7 @@
         "zh": "熔合；熔接"
       }
     ],
-    "notes": "【搭配考点】combine A with B 把A与B结合起来；combine forces 协同联手；【形近辨析】confine (限制/禁闭)，comply (服从规章 comply with)，compile (收集编写字典/编译器编译)；【近义辨析】merge 侧重两个公司或政体合并为一个新组织吞并吸收，integrate 强调把零部件嵌入系统使之和谐运转，fuse 强调高温下熔化融为一个金属整体，在此处指在人格品行上兼具两种互补品质并施展运用唯一契合 combine。",
-    "phonetic": "/kəm'bain/"
+    "notes": "【搭配考点】combine A with B 把A与B结合起来；combine forces 协同联手；【形近辨析】confine (限制/禁闭)，comply (服从规章 comply with)，compile (收集编写字典/编译器编译)；【近义辨析】merge 侧重两个公司或政体合并为一个新组织吞并吸收，integrate 强调把零部件嵌入系统使之和谐运转，fuse 强调高温下熔化融为一个金属整体，在此处指在人格品行上兼具两种互补品质并施展运用唯一契合 combine。"
   },
   "come": {
     "word": "come",
@@ -14468,8 +14193,7 @@
         "zh": "出现；显现"
       }
     ],
-    "notes": "【搭配考点】when it comes to 当谈及/一涉及（高频写作核心搭配）；come true 实现；come across 偶遇；【形近辨析】home (家园)，cone (圆锥体)，dome (半球形穹顶)；【近义辨析】arrive 侧重物理行程到达终点站，approach 强调空间或时间上距离逐渐缩短接近，appear 强调突然从无到有露出水面，在 when it comes to 固定习语转折引出谈论主题时唯一契合 come。",
-    "phonetic": "/kʌm/"
+    "notes": "【搭配考点】when it comes to 当谈及/一涉及（高频写作核心搭配）；come true 实现；come across 偶遇；【形近辨析】home (家园)，cone (圆锥体)，dome (半球形穹顶)；【近义辨析】arrive 侧重物理行程到达终点站，approach 强调空间或时间上距离逐渐缩短接近，appear 强调突然从无到有露出水面，在 when it comes to 固定习语转折引出谈论主题时唯一契合 come。"
   },
   "comedy": {
     "word": "comedy",
@@ -14516,8 +14240,7 @@
         "zh": "幽默；诙谐"
       }
     ],
-    "notes": "【搭配考点】a comedy of errors 一连串阴差阳错的可笑闹剧（源于莎士比亚经典同名戏剧成语）；stand-up comedy 单口喜剧/脱口秀；【形近辨析】tragedy (反义词：悲剧)，remedy (补救措施/治疗方案)，commodity (货物商品)；【近义辨析】farce 侧重情节荒诞不经、人物行为夸张怪诞的闹剧，satire 强调辛辣讽刺现实黑暗与丑态的讽刺剧，humor 侧重抽象的幽默感特质，在指以引人发笑为结构目的的戏剧体裁及成语搭配中唯一契合 comedy。",
-    "phonetic": "/'kɔmidi/"
+    "notes": "【搭配考点】a comedy of errors 一连串阴差阳错的可笑闹剧（源于莎士比亚经典同名戏剧成语）；stand-up comedy 单口喜剧/脱口秀；【形近辨析】tragedy (反义词：悲剧)，remedy (补救措施/治疗方案)，commodity (货物商品)；【近义辨析】farce 侧重情节荒诞不经、人物行为夸张怪诞的闹剧，satire 强调辛辣讽刺现实黑暗与丑态的讽刺剧，humor 侧重抽象的幽默感特质，在指以引人发笑为结构目的的戏剧体裁及成语搭配中唯一契合 comedy。"
   },
   "comfort": {
     "word": "comfort",
@@ -14564,8 +14287,7 @@
         "zh": "安慰；慰藉"
       }
     ],
-    "notes": "【搭配考点】comfort food 治愈系抚慰美食（高频生动词汇）；in comfort 舒适地；words of comfort 抚慰人心的话语；【形近辨析】conform (顺从符合 conform to/with)，confront (迎面遭遇对抗)，effort (付出努力)；【近义辨析】solace 侧重在悲痛逆境中获得的宁静与精神寄托，relief 侧重沉重压力或剧烈痛苦消除后的轻松释怀感，consolation 强调在遭遇失败或失去后给予的补偿性安慰，与 food 搭配构成暖心饮食文化固定术语唯一契合 comfort。",
-    "phonetic": "/'kʌmfət/"
+    "notes": "【搭配考点】comfort food 治愈系抚慰美食（高频生动词汇）；in comfort 舒适地；words of comfort 抚慰人心的话语；【形近辨析】conform (顺从符合 conform to/with)，confront (迎面遭遇对抗)，effort (付出努力)；【近义辨析】solace 侧重在悲痛逆境中获得的宁静与精神寄托，relief 侧重沉重压力或剧烈痛苦消除后的轻松释怀感，consolation 强调在遭遇失败或失去后给予的补偿性安慰，与 food 搭配构成暖心饮食文化固定术语唯一契合 comfort。"
   },
   "comfortable": {
     "word": "comfortable",
@@ -14612,8 +14334,7 @@
         "zh": "宁静宜人的；安歇的"
       }
     ],
-    "notes": "【搭配考点】feel comfortable with 感觉舒心踏实/放心；comfortable income 宽裕的收入；【形近辨析】profitable (盈利赚钱的)，compatible (软硬件兼容的)，acceptable (差强人意的)；【近义辨析】cozy 侧重房间炉火等狭小空间带来的温馨暖和氛围，snug 强调衣服鞋子贴身合脚或小木屋遮蔽风雨的安全包裹感，restful 强调环境静谧安宁利于入眠修养，指消除身体酸痛疲劳的生理惬意状态唯一契合 comfortable。",
-    "phonetic": "/'kʌmfətəbl/"
+    "notes": "【搭配考点】feel comfortable with 感觉舒心踏实/放心；comfortable income 宽裕的收入；【形近辨析】profitable (盈利赚钱的)，compatible (软硬件兼容的)，acceptable (差强人意的)；【近义辨析】cozy 侧重房间炉火等狭小空间带来的温馨暖和氛围，snug 强调衣服鞋子贴身合脚或小木屋遮蔽风雨的安全包裹感，restful 强调环境静谧安宁利于入眠修养，指消除身体酸痛疲劳的生理惬意状态唯一契合 comfortable。"
   },
   "command": {
     "word": "command",
@@ -14660,8 +14381,7 @@
         "zh": "权威；权力"
       }
     ],
-    "notes": "【搭配考点】in command of 指挥掌管...；have a good command of English 精通熟练掌握英语（写作高频核心搭配）；command a fine view 俯瞰壮美全景；【形近辨析】commend (高度赞赏/推荐表扬)，comment (发表评论)，demand (苛求/强烈要求)；【近义辨析】order 仅指上级对下级发布的单项具体事务指令，control 侧重技术机械操纵或把控局势，authority 侧重法律条文赋予的法定抽象职权，指军事部队或全局作战统率领导权唯一契合 command。",
-    "phonetic": "/kə'mɑ:nd/"
+    "notes": "【搭配考点】in command of 指挥掌管...；have a good command of English 精通熟练掌握英语（写作高频核心搭配）；command a fine view 俯瞰壮美全景；【形近辨析】commend (高度赞赏/推荐表扬)，comment (发表评论)，demand (苛求/强烈要求)；【近义辨析】order 仅指上级对下级发布的单项具体事务指令，control 侧重技术机械操纵或把控局势，authority 侧重法律条文赋予的法定抽象职权，指军事部队或全局作战统率领导权唯一契合 command。"
   },
   "commander": {
     "word": "commander",
@@ -14708,8 +14428,7 @@
         "zh": "领袖；领导人"
       }
     ],
-    "notes": "【搭配考点】commander-in-chief 陆海空三军总司令；naval/military commander 海军/军事指挥官；【形近辨析】commuter (每日往返通勤的上班族)，comment (评论意见)，commerce (商业经贸)；【近义辨析】general 专指陆军或空军高阶将官军衔，captain 专指轮船船长、客机机长或军队上尉军衔，leader 泛指政界企业等宽泛的带头领袖，在海军及联合作战部队统帅特定军职称号上唯一契合 commander。",
-    "phonetic": "/kə'mɑ:ndə/"
+    "notes": "【搭配考点】commander-in-chief 陆海空三军总司令；naval/military commander 海军/军事指挥官；【形近辨析】commuter (每日往返通勤的上班族)，comment (评论意见)，commerce (商业经贸)；【近义辨析】general 专指陆军或空军高阶将官军衔，captain 专指轮船船长、客机机长或军队上尉军衔，leader 泛指政界企业等宽泛的带头领袖，在海军及联合作战部队统帅特定军职称号上唯一契合 commander。"
   },
   "comment": {
     "word": "comment",
@@ -14756,8 +14475,7 @@
         "zh": "声明；阐述"
       }
     ],
-    "notes": "【搭配考点】decline to comment on 拒绝就...置评（新闻发布会高频考点）；make a comment 发表评论；no comment 无可奉告；【形近辨析】commit (托付/承诺/犯下过失)，command (统领命令)，commend (称赞表扬)；【近义辨析】remark 侧重非正式的简短即兴评语，observe 强调基于细致观察后发表的敏锐洞察，state 强调官方正式宣读立场事实，在面对记者采访表达口头意见观点的规范动词上唯一契合 comment。",
-    "phonetic": "/'kɔment/"
+    "notes": "【搭配考点】decline to comment on 拒绝就...置评（新闻发布会高频考点）；make a comment 发表评论；no comment 无可奉告；【形近辨析】commit (托付/承诺/犯下过失)，command (统领命令)，commend (称赞表扬)；【近义辨析】remark 侧重非正式的简短即兴评语，observe 强调基于细致观察后发表的敏锐洞察，state 强调官方正式宣读立场事实，在面对记者采访表达口头意见观点的规范动词上唯一契合 comment。"
   },
   "commerce": {
     "word": "commerce",
@@ -14804,8 +14522,7 @@
         "zh": "交易市场"
       }
     ],
-    "notes": "【搭配考点】chamber of commerce 商会；electronic commerce (e-commerce) 电子商务；international commerce 国际商贸；【形近辨析】commence (正式开始/启动)，commercial (形容词：商业的；名词：电视广告)，comment (评论)；【近义辨析】trade 侧重具体商品货物或货币在两地两方之间的进出口买卖流转，business 侧重单个企业的日常经营营利活动，market 侧重交易供需场所，泛指宏观社会经济商品交换运行机制的大商业体系唯一契合 commerce。",
-    "phonetic": "/'kɔmə:s/"
+    "notes": "【搭配考点】chamber of commerce 商会；electronic commerce (e-commerce) 电子商务；international commerce 国际商贸；【形近辨析】commence (正式开始/启动)，commercial (形容词：商业的；名词：电视广告)，comment (评论)；【近义辨析】trade 侧重具体商品货物或货币在两地两方之间的进出口买卖流转，business 侧重单个企业的日常经营营利活动，market 侧重交易供需场所，泛指宏观社会经济商品交换运行机制的大商业体系唯一契合 commerce。"
   },
   "commercial": {
     "word": "commercial",
@@ -14852,8 +14569,7 @@
         "zh": "金融财政的"
       }
     ],
-    "notes": "【搭配考点】commercial success 商业成功/票房大卖；commercial vehicle 商用车；commercial break 电视插播广告时段；【形近辨析】memorial (纪念馆/纪念性的)，editorial (编辑的/社论)，torrential (倾盆倾泻的)；【近义辨析】business 偏口语作名词定语修饰（如 business trip），mercantile 属于历史经济学术语（如重商主义），financial 专指资金筹措、股市资产等金融账目维度，在强调以大众市场赚钱营利为导向的商业性质属性时唯一契合 commercial。",
-    "phonetic": "/kə'mə:ʃəl/"
+    "notes": "【搭配考点】commercial success 商业成功/票房大卖；commercial vehicle 商用车；commercial break 电视插播广告时段；【形近辨析】memorial (纪念馆/纪念性的)，editorial (编辑的/社论)，torrential (倾盆倾泻的)；【近义辨析】business 偏口语作名词定语修饰（如 business trip），mercantile 属于历史经济学术语（如重商主义），financial 专指资金筹措、股市资产等金融账目维度，在强调以大众市场赚钱营利为导向的商业性质属性时唯一契合 commercial。"
   },
   "commission": {
     "word": "commission",
@@ -14900,8 +14616,7 @@
         "zh": "掌管职责；收费"
       }
     ],
-    "notes": "【搭配考点】receive a commission to do... 获得委托设计/创作...；work on commission 拿销售提成佣金；European Commission 欧盟委员会；【形近辨析】mission (宗教传教使命/航天飞行任务)，emission (温室气体排放)，transmission (疾病传播/汽车变速器)；【近义辨析】assignment 侧重公司或老师派发的常规工作作业，errand 仅指顺路买咖啡寄信等生活跑腿小差事，charge 侧重托管看管的责任，在向专业艺术家、学者出资定制作画设计重大项目时唯一契合 commission。",
-    "phonetic": "/kə'miʃən/"
+    "notes": "【搭配考点】receive a commission to do... 获得委托设计/创作...；work on commission 拿销售提成佣金；European Commission 欧盟委员会；【形近辨析】mission (宗教传教使命/航天飞行任务)，emission (温室气体排放)，transmission (疾病传播/汽车变速器)；【近义辨析】assignment 侧重公司或老师派发的常规工作作业，errand 仅指顺路买咖啡寄信等生活跑腿小差事，charge 侧重托管看管的责任，在向专业艺术家、学者出资定制作画设计重大项目时唯一契合 commission。"
   },
   "commit": {
     "word": "commit",
@@ -14948,8 +14663,7 @@
         "zh": "保证；发誓"
       }
     ],
-    "notes": "【搭配考点】commit funds/resources to 调拨投入资金资源于...；commit a crime 犯罪；commit oneself to 承诺致力于；【形近辨析】admit (承认/准许入场)，submit (提交报告/顺从屈服)，emit (散发气味/放射光线)；【近义辨析】dedicate 强调道德或精神上把一生心血奉献给崇高事业，allocate 侧重财务按比例预算切割分配，pledge 侧重口头或道义上郑重宣誓保证，在将实质人力资金等实体资源长期绑定投入特定方向时唯一契合 commit。",
-    "phonetic": "/kə'mit/"
+    "notes": "【搭配考点】commit funds/resources to 调拨投入资金资源于...；commit a crime 犯罪；commit oneself to 承诺致力于；【形近辨析】admit (承认/准许入场)，submit (提交报告/顺从屈服)，emit (散发气味/放射光线)；【近义辨析】dedicate 强调道德或精神上把一生心血奉献给崇高事业，allocate 侧重财务按比例预算切割分配，pledge 侧重口头或道义上郑重宣誓保证，在将实质人力资金等实体资源长期绑定投入特定方向时唯一契合 commit。"
   },
   "commitment": {
     "word": "commitment",
@@ -14996,8 +14710,7 @@
         "zh": "忠心；忠诚度"
       }
     ],
-    "notes": "【搭配考点】unwavering commitment 坚定不移的承诺与投入；make a commitment to 许下庄重承诺；financial commitment 财务支出承诺；【形近辨析】committee (委员会机构)，commission (佣金/委员会)，containment (遏制战略/控制)；【近义辨析】dedication 强调出于高度崇敬或职业道德而倾注全部心力，devotion 侧重对宗教上帝、爱人家庭的深深爱意眷恋，loyalty 强调对国家雇员君主的顺从忠心，在强调排除万难长期坚守约定与目标的恒心毅力上唯一契合 commitment。",
-    "phonetic": "/kə'mitmənt/"
+    "notes": "【搭配考点】unwavering commitment 坚定不移的承诺与投入；make a commitment to 许下庄重承诺；financial commitment 财务支出承诺；【形近辨析】committee (委员会机构)，commission (佣金/委员会)，containment (遏制战略/控制)；【近义辨析】dedication 强调出于高度崇敬或职业道德而倾注全部心力，devotion 侧重对宗教上帝、爱人家庭的深深爱意眷恋，loyalty 强调对国家雇员君主的顺从忠心，在强调排除万难长期坚守约定与目标的恒心毅力上唯一契合 commitment。"
   },
   "committee": {
     "word": "committee",
@@ -15044,8 +14757,7 @@
         "zh": "地方议会；政务会"
       }
     ],
-    "notes": "【搭配考点】ethics/steering committee 道德审查委员会/指导筹备委员会；on the committee 担任委员；【形近辨析】commitment (投入与承诺)，commodity (大宗商品)，commute (上下班通勤)；【近义辨析】commission 侧重政府以官方特命授权设立的高规格独立法定调查机构，board 专指公司企业负责战略决策的董事会或考官委员会，council 侧重由选民推选的地方市议会或区域市政机构，在机关内部设立处理具体专业事务的内部工作委员会唯一契合 committee。",
-    "phonetic": "/kə'miti/"
+    "notes": "【搭配考点】ethics/steering committee 道德审查委员会/指导筹备委员会；on the committee 担任委员；【形近辨析】commitment (投入与承诺)，commodity (大宗商品)，commute (上下班通勤)；【近义辨析】commission 侧重政府以官方特命授权设立的高规格独立法定调查机构，board 专指公司企业负责战略决策的董事会或考官委员会，council 侧重由选民推选的地方市议会或区域市政机构，在机关内部设立处理具体专业事务的内部工作委员会唯一契合 committee。"
   },
   "commodity": {
     "word": "commodity",
@@ -15092,8 +14804,7 @@
         "zh": "制成品；产物"
       }
     ],
-    "notes": "【搭配考点】valuable commodity 宝贵之物；commodity market 大宗商品期货市场（原油黄金农产品等）；【形近辨析】community (社区社群)，committee (委员会)，modesty (谦恭虚心)；【近义辨析】merchandise 专指在商场货架上陈列待售的百货包装零售品，goods 侧重由卡车货船运输的物理货物总称，product 强调由工厂研发流水线加工出来的制成品，在经济学上指未经差异化加工的基础原料货品，或生动比喻抽象具有巨大价值的事物唯一契合 commodity。",
-    "phonetic": "/kə'mɔditi/"
+    "notes": "【搭配考点】valuable commodity 宝贵之物；commodity market 大宗商品期货市场（原油黄金农产品等）；【形近辨析】community (社区社群)，committee (委员会)，modesty (谦恭虚心)；【近义辨析】merchandise 专指在商场货架上陈列待售的百货包装零售品，goods 侧重由卡车货船运输的物理货物总称，product 强调由工厂研发流水线加工出来的制成品，在经济学上指未经差异化加工的基础原料货品，或生动比喻抽象具有巨大价值的事物唯一契合 commodity。"
   },
   "common": {
     "word": "common",
@@ -15140,8 +14851,7 @@
         "zh": "无所不在的"
       }
     ],
-    "notes": "【搭配考点】common knowledge 常识；have something in common 有共同之处；common sense 普遍常理；【形近辨析】command (下达指令/统率)，comment (评论意见)，summon (传唤召集)；【近义辨析】widespread 强调在地理分布上跨越辽阔区域广泛扩散，prevalent 属于正式学学术语强调某种不良风气或疾病在某时期极度流行，ubiquitous 强调无所不在随处可见（如智能手机），在此处表达日常出现频率极高、司空见惯的普遍现象唯一契合 common。",
-    "phonetic": "/'kɔmən/"
+    "notes": "【搭配考点】common knowledge 常识；have something in common 有共同之处；common sense 普遍常理；【形近辨析】command (下达指令/统率)，comment (评论意见)，summon (传唤召集)；【近义辨析】widespread 强调在地理分布上跨越辽阔区域广泛扩散，prevalent 属于正式学学术语强调某种不良风气或疾病在某时期极度流行，ubiquitous 强调无所不在随处可见（如智能手机），在此处表达日常出现频率极高、司空见惯的普遍现象唯一契合 common。"
   },
   "communicate": {
     "word": "communicate",
@@ -15188,8 +14898,7 @@
         "zh": "清晰阐明"
       }
     ],
-    "notes": "【搭配考点】communicate clearly with 良好沟通；communicate disease 传染疾病；communicate ideas 交流思想；【形近辨析】commute (往返通勤)，complicate (使事情节外生枝复杂化)，compute (电脑计算运算)；【近义辨析】convey 侧重如运输货物般将无形的情感深意传递给对方领悟，express 侧重用言辞哭笑肢体向外宣泄内心思想，articulate 强调言辞清晰工整、一字一句透彻剖析，在此处指双向信息对齐与理念传达完整过程唯一契合 communicate。",
-    "phonetic": "/kə'mju:nikeit/"
+    "notes": "【搭配考点】communicate clearly with 良好沟通；communicate disease 传染疾病；communicate ideas 交流思想；【形近辨析】commute (往返通勤)，complicate (使事情节外生枝复杂化)，compute (电脑计算运算)；【近义辨析】convey 侧重如运输货物般将无形的情感深意传递给对方领悟，express 侧重用言辞哭笑肢体向外宣泄内心思想，articulate 强调言辞清晰工整、一字一句透彻剖析，在此处指双向信息对齐与理念传达完整过程唯一契合 communicate。"
   },
   "communication": {
     "word": "communication",
@@ -15236,8 +14945,7 @@
         "zh": "相互作用；人际互动"
       }
     ],
-    "notes": "【搭配考点】breakdown in communication 沟通中断/脱节；means of communication 通讯工具；non-verbal communication 非语言沟通；【形近辨析】combination (结合组合)，compensation (薪酬待遇/损失补偿)，computation (数据核算)；【近义辨析】correspondence 专指书信电邮等正式书面文本信函往来，conversation 专指两人或多人的口头随性闲聊对话，interaction 侧重彼此之间的物理接触或社交互动反应，在指无线电指挥调度等信息精准交互链条唯一契合 communication。",
-    "phonetic": "/kə,mju:ni'keiʃən/"
+    "notes": "【搭配考点】breakdown in communication 沟通中断/脱节；means of communication 通讯工具；non-verbal communication 非语言沟通；【形近辨析】combination (结合组合)，compensation (薪酬待遇/损失补偿)，computation (数据核算)；【近义辨析】correspondence 专指书信电邮等正式书面文本信函往来，conversation 专指两人或多人的口头随性闲聊对话，interaction 侧重彼此之间的物理接触或社交互动反应，在指无线电指挥调度等信息精准交互链条唯一契合 communication。"
   },
   "communist": {
     "word": "communist",
@@ -15284,8 +14992,7 @@
         "zh": "集体主义的"
       }
     ],
-    "notes": "【搭配考点】communist party 共产党；Communist Manifesto 《共产党宣言》；【形近辨析】community (社区大众)，columnist (报刊专栏作者)，immunologist (免疫学医学专家)；【近义辨析】socialist 侧重民主社会主义福利国家制度等更广泛的左翼经济体制，marxist 侧重从马克思阶级斗争与辩证唯物主义历史哲学理论分析，collectivist 侧重反对个人主义提倡集体至上的价值观，在指代具体特定历史政党与无产阶级政权意识形态实体标签上唯一契合 communist。",
-    "phonetic": "/'kɔmjunist/"
+    "notes": "【搭配考点】communist party 共产党；Communist Manifesto 《共产党宣言》；【形近辨析】community (社区大众)，columnist (报刊专栏作者)，immunologist (免疫学医学专家)；【近义辨析】socialist 侧重民主社会主义福利国家制度等更广泛的左翼经济体制，marxist 侧重从马克思阶级斗争与辩证唯物主义历史哲学理论分析，collectivist 侧重反对个人主义提倡集体至上的价值观，在指代具体特定历史政党与无产阶级政权意识形态实体标签上唯一契合 communist。"
   },
   "community": {
     "word": "community",
@@ -15332,8 +15039,7 @@
         "zh": "社会"
       }
     ],
-    "notes": "【搭配考点】sense of community 社区归属感/共同体意识；international community 国际社会；scientific community 科学界；【形近辨析】commodity (货物产品)，communist (共产党员)，immunity (人体免疫系统/法律豁免权)；【近义辨析】neighborhood 仅指家门口周围几条街区的狭义物理地理区域，public 泛指作为看客受众的没有亲密纽带的广大公众，society 强调国家制度法律管辖下的宏观人类社会总体，在强调由共同价值观、温情互助纽带连结的社群共同体上唯一契合 community。",
-    "phonetic": "/kə'mju:niti/"
+    "notes": "【搭配考点】sense of community 社区归属感/共同体意识；international community 国际社会；scientific community 科学界；【形近辨析】commodity (货物产品)，communist (共产党员)，immunity (人体免疫系统/法律豁免权)；【近义辨析】neighborhood 仅指家门口周围几条街区的狭义物理地理区域，public 泛指作为看客受众的没有亲密纽带的广大公众，society 强调国家制度法律管辖下的宏观人类社会总体，在强调由共同价值观、温情互助纽带连结的社群共同体上唯一契合 community。"
   },
   "compact": {
     "word": "compact",
@@ -15380,8 +15086,7 @@
         "zh": "高密度的；稠密的"
       }
     ],
-    "notes": "【搭配考点】compact design/size 紧凑型设计/小巧尺寸；compact car 紧凑型轿车；Mayflower Compact 《五月花号公约》；【形近辨析】impact (撞击力/重大影响)，contract (商业合同/收缩痉挛)，contact (联络交往)；【近义辨析】portable 侧重便于单手携带或放进背包带走，miniature 强调把庞然大物缩小比例做成微型玩偶模型，dense 侧重分子间隙极小或人口拥挤稠密，在指所有零件精密合理排布、占用极小立体空间的紧凑性上唯一契合 compact。",
-    "phonetic": "/kəm'pækt; 'kɔmpækt/"
+    "notes": "【搭配考点】compact design/size 紧凑型设计/小巧尺寸；compact car 紧凑型轿车；Mayflower Compact 《五月花号公约》；【形近辨析】impact (撞击力/重大影响)，contract (商业合同/收缩痉挛)，contact (联络交往)；【近义辨析】portable 侧重便于单手携带或放进背包带走，miniature 强调把庞然大物缩小比例做成微型玩偶模型，dense 侧重分子间隙极小或人口拥挤稠密，在指所有零件精密合理排布、占用极小立体空间的紧凑性上唯一契合 compact。"
   },
   "companion": {
     "word": "companion",
@@ -15428,8 +15133,7 @@
         "zh": "护送人员；伴护"
       }
     ],
-    "notes": "【搭配考点】constant companion 常伴左右的伴侣；traveling companion 旅伴；Oxford Companion 牛津指南系列；【形近辨析】company (不可数名词陪伴，或企业公司)，champion (优胜冠军)，campaign (宣传竞选战役)；【近义辨析】partner 侧重法律商业上的合伙人或婚姻缔约伴侣，comrade 强调拥有共同政治理想或战壕中同生共死的同志战友，escort 侧重拿报酬提供安保陪护护送人员，指朝夕相伴分享生活孤独体验的忠实伙伴唯一契合 companion。",
-    "phonetic": "/kəm'pænjən/"
+    "notes": "【搭配考点】constant companion 常伴左右的伴侣；traveling companion 旅伴；Oxford Companion 牛津指南系列；【形近辨析】company (不可数名词陪伴，或企业公司)，champion (优胜冠军)，campaign (宣传竞选战役)；【近义辨析】partner 侧重法律商业上的合伙人或婚姻缔约伴侣，comrade 强调拥有共同政治理想或战壕中同生共死的同志战友，escort 侧重拿报酬提供安保陪护护送人员，指朝夕相伴分享生活孤独体验的忠实伙伴唯一契合 companion。"
   },
   "company": {
     "word": "company",
@@ -15476,8 +15180,7 @@
         "zh": "交往社交；社会"
       }
     ],
-    "notes": "【搭配考点】keep someone company 陪伴某人（极高频地道短语）；for company 作伴；in good company 有很多人也有同样情况/不乏同道者；【形近辨析】companion (可数名词：具体的旅伴个体积)，compose (编曲写作/平复心情)，compass (罗盘指南针)；【近义辨析】companionship 侧重长年累月培养建立的深厚友情伴侣情谊，presence 仅客观表明某人在场出席并未离开，society 属于古雅英语指与上流社会的社交往来，用于 keep someone company 搭配中指具体有人在旁消除寂寞的陪伴唯一契合 company。",
-    "phonetic": "/'kʌmpəni/"
+    "notes": "【搭配考点】keep someone company 陪伴某人（极高频地道短语）；for company 作伴；in good company 有很多人也有同样情况/不乏同道者；【形近辨析】companion (可数名词：具体的旅伴个体积)，compose (编曲写作/平复心情)，compass (罗盘指南针)；【近义辨析】companionship 侧重长年累月培养建立的深厚友情伴侣情谊，presence 仅客观表明某人在场出席并未离开，society 属于古雅英语指与上流社会的社交往来，用于 keep someone company 搭配中指具体有人在旁消除寂寞的陪伴唯一契合 company。"
   },
   "compare": {
     "word": "compare",
@@ -15524,8 +15227,7 @@
         "zh": "匹敌；抗衡"
       }
     ],
-    "notes": "【搭配考点】compare A with B 将A与B比照异同；compare A to B 把A比作B（打比方）；compare notes 交换看法；【形近辨析】compete (参与竞争比赛)，compile (汇编数据/编译代码)，compensate (经济赔偿/弥补短板)；【近义辨析】contrast 严格侧重只比较两者之间的显著差异与对立反差，equate 强调认为两件事完全画等号等同，match 侧重力量势均力敌能够匹敌，在全面权衡两者的优缺点或比照异同上唯一契合 compare。",
-    "phonetic": "/kəm'pεə/"
+    "notes": "【搭配考点】compare A with B 将A与B比照异同；compare A to B 把A比作B（打比方）；compare notes 交换看法；【形近辨析】compete (参与竞争比赛)，compile (汇编数据/编译代码)，compensate (经济赔偿/弥补短板)；【近义辨析】contrast 严格侧重只比较两者之间的显著差异与对立反差，equate 强调认为两件事完全画等号等同，match 侧重力量势均力敌能够匹敌，在全面权衡两者的优缺点或比照异同上唯一契合 compare。"
   },
   "comparison": {
     "word": "comparison",
@@ -15572,8 +15274,7 @@
         "zh": "相关性"
       }
     ],
-    "notes": "【搭配考点】by comparison with 与...相比（核心连词短语）；stand/bear comparison 经得起比较；draw a comparison 作比较；【形近辨析】compass (罗盘罗网)，companion (同行伴侣)，champion (金牌冠军)；【近义辨析】contrast 强调黑白分明的水火反差，analogy 侧重通过阐述相似点以帮助理解复杂事物的修辞类比，correlation 专指两组变量之间的数学统计关联程度，构成 by comparison 习惯用语唯一契合 comparison。",
-    "phonetic": "/kəm'pærisən/"
+    "notes": "【搭配考点】by comparison with 与...相比（核心连词短语）；stand/bear comparison 经得起比较；draw a comparison 作比较；【形近辨析】compass (罗盘罗网)，companion (同行伴侣)，champion (金牌冠军)；【近义辨析】contrast 强调黑白分明的水火反差，analogy 侧重通过阐述相似点以帮助理解复杂事物的修辞类比，correlation 专指两组变量之间的数学统计关联程度，构成 by comparison 习惯用语唯一契合 comparison。"
   },
   "compete": {
     "word": "compete",
@@ -15620,8 +15321,7 @@
         "zh": "比得上；相匹敌"
       }
     ],
-    "notes": "【搭配考点】compete with/against 与...相抗衡竞争；compete in a tournament 参加锦标赛；compete for market share 争夺市场份额；【形近辨析】complete (动词完成/形容词完全的)，compute (计算估算)，compile (编辑整理程序)；【近义辨析】vie 侧重两个体为夺取眼球或微小荣耀短时间暗自较劲较量（vie for attention），contend 带有在恶劣困境中奋力抗争搏斗的色彩，rival 作为及物动词侧重在品质水平上足以与某人并驾齐驱，在商业市场与正规体育赛事公开比拼较量上唯一契合 compete。",
-    "phonetic": "/kəm'pi:t/"
+    "notes": "【搭配考点】compete with/against 与...相抗衡竞争；compete in a tournament 参加锦标赛；compete for market share 争夺市场份额；【形近辨析】complete (动词完成/形容词完全的)，compute (计算估算)，compile (编辑整理程序)；【近义辨析】vie 侧重两个体为夺取眼球或微小荣耀短时间暗自较劲较量（vie for attention），contend 带有在恶劣困境中奋力抗争搏斗的色彩，rival 作为及物动词侧重在品质水平上足以与某人并驾齐驱，在商业市场与正规体育赛事公开比拼较量上唯一契合 compete。"
   },
   "competent": {
     "word": "competent",
@@ -15668,8 +15368,7 @@
         "zh": "熟练精通的"
       }
     ],
-    "notes": "【搭配考点】competent to do sth 能胜任做某事；competent authority 主管机关/有管辖权的当局；【形近辨析】competition (体育竞争比赛)，component (机器零部件/组成要素)，complacent (盲目自满自鸣得意的)；【近义辨析】qualified 侧重持有官方颁发的证书或文凭达到资质门槛，capable 侧重具有潜在的身体智力承受能力（capable of doing），proficient 强调技能操练得极其娴熟熟巧，在指拥有充足的学识能力合格完成特定岗位职责使命上唯一契合 competent。",
-    "phonetic": "/'kɔmpitənt/"
+    "notes": "【搭配考点】competent to do sth 能胜任做某事；competent authority 主管机关/有管辖权的当局；【形近辨析】competition (体育竞争比赛)，component (机器零部件/组成要素)，complacent (盲目自满自鸣得意的)；【近义辨析】qualified 侧重持有官方颁发的证书或文凭达到资质门槛，capable 侧重具有潜在的身体智力承受能力（capable of doing），proficient 强调技能操练得极其娴熟熟巧，在指拥有充足的学识能力合格完成特定岗位职责使命上唯一契合 competent。"
   },
   "competition": {
     "word": "competition",
@@ -15716,8 +15415,7 @@
         "zh": "淘汰制锦标赛"
       }
     ],
-    "notes": "【搭配考点】fierce/intense competition 激烈的市场竞争；enter/win a competition 参加/赢得竞赛；【形近辨析】composition (化学成分/音乐作文创作)，compensation (赔偿金/薪资待遇)，completion (圆满竣工/结束)；【近义辨析】rivalry 强调两大家族、企业或死敌之间长达数年不可调和的争霸对抗，contest 侧重由评委按打分规则评选胜负的选秀或演讲比赛，tournament 专指多轮循环淘汰的多队伍锦标赛，在指经济规律下商家角逐生存空间的市场竞争大环境唯一契合 competition。",
-    "phonetic": "/,kɔmpi'tiʃən/"
+    "notes": "【搭配考点】fierce/intense competition 激烈的市场竞争；enter/win a competition 参加/赢得竞赛；【形近辨析】composition (化学成分/音乐作文创作)，compensation (赔偿金/薪资待遇)，completion (圆满竣工/结束)；【近义辨析】rivalry 强调两大家族、企业或死敌之间长达数年不可调和的争霸对抗，contest 侧重由评委按打分规则评选胜负的选秀或演讲比赛，tournament 专指多轮循环淘汰的多队伍锦标赛，在指经济规律下商家角逐生存空间的市场竞争大环境唯一契合 competition。"
   },
   "competitive": {
     "word": "competitive",
@@ -15764,8 +15462,7 @@
         "zh": "买得起的；实惠的"
       }
     ],
-    "notes": "【搭配考点】competitive price/edge 具有竞争力的实惠价格/竞争优势；highly competitive 竞争异常激烈的；【形近辨析】comparative (相对的/比较级)，comprehensive (全面的/综合性的)，conservative (保守守旧的)；【近义辨析】aggressive 侧重攻击性强、狼性十足的争抢，cutthroat 强调同行之间杀红了眼的恶性低价绞杀，affordable 侧重普通工薪家庭勉强能够买得起，在商业上形容价格既划算又比同行更具吸引力唯有与 prices 搭配唯一契合 competitive。",
-    "phonetic": "/kəm'petitiv/"
+    "notes": "【搭配考点】competitive price/edge 具有竞争力的实惠价格/竞争优势；highly competitive 竞争异常激烈的；【形近辨析】comparative (相对的/比较级)，comprehensive (全面的/综合性的)，conservative (保守守旧的)；【近义辨析】aggressive 侧重攻击性强、狼性十足的争抢，cutthroat 强调同行之间杀红了眼的恶性低价绞杀，affordable 侧重普通工薪家庭勉强能够买得起，在商业上形容价格既划算又比同行更具吸引力唯有与 prices 搭配唯一契合 competitive。"
   },
   "competitor": {
     "word": "competitor",
@@ -15812,8 +15509,7 @@
         "zh": "选拔赛选手"
       }
     ],
-    "notes": "【搭配考点】main/chief competitor 主要竞争对手；registered competitor 注册参赛选手；【形近辨析】compositor (报刊印刷排字员)，conductor (交响乐指挥/列车售票员/物理良导体)，collaborator (合著者/战时通敌叛徒)；【近义辨析】rival 强调势均力敌、怀有敌意的争霸夙敌，opponent 侧重在网球棋盘辩论赛场上站在网对面直接过招的当场对手，contestant 专指电视问答或选美秀等选拔性比赛的选手，在大型体育赛事参赛选手总称上唯一契合 competitor。",
-    "phonetic": "/kəm'petitə/"
+    "notes": "【搭配考点】main/chief competitor 主要竞争对手；registered competitor 注册参赛选手；【形近辨析】compositor (报刊印刷排字员)，conductor (交响乐指挥/列车售票员/物理良导体)，collaborator (合著者/战时通敌叛徒)；【近义辨析】rival 强调势均力敌、怀有敌意的争霸夙敌，opponent 侧重在网球棋盘辩论赛场上站在网对面直接过招的当场对手，contestant 专指电视问答或选美秀等选拔性比赛的选手，在大型体育赛事参赛选手总称上唯一契合 competitor。"
   },
   "complain": {
     "word": "complain",
@@ -15860,8 +15556,7 @@
         "zh": "抗议；提出异议"
       }
     ],
-    "notes": "【搭配考点】complain about/of 针对某事进行抱怨或投诉；complain to the manager 向经理投诉；【形近辨析】compile (搜集整理汇编)，campaign (有组织的社会运动)，explain (澄清解释说明)；【近义辨析】grumble 侧重在私底下低声咕哝埋怨不顺从，whine 强调带有孩子气尖叫抽泣、无病呻吟的烦人哭诉，protest 强调在大街上举牌或在法庭上正式提出抗议坚决不服，在指基于自身权益受损向主管方正式提出不满意见诉求时唯一契合 complain。",
-    "phonetic": "/kəm'plein/"
+    "notes": "【搭配考点】complain about/of 针对某事进行抱怨或投诉；complain to the manager 向经理投诉；【形近辨析】compile (搜集整理汇编)，campaign (有组织的社会运动)，explain (澄清解释说明)；【近义辨析】grumble 侧重在私底下低声咕哝埋怨不顺从，whine 强调带有孩子气尖叫抽泣、无病呻吟的烦人哭诉，protest 强调在大街上举牌或在法庭上正式提出抗议坚决不服，在指基于自身权益受损向主管方正式提出不满意见诉求时唯一契合 complain。"
   },
   "complaint": {
     "word": "complaint",
@@ -15908,8 +15603,7 @@
         "zh": "控告；谴责"
       }
     ],
-    "notes": "【搭配考点】lodge/file a formal complaint 提出正式书面投诉/提起诉讼；minor complaint 身体微恙/小毛病；【形近辨析】compliant (顺从听话的)，compliance (法律监管合规性)，complement (互补之物/增光添彩)；【近义辨析】grievance 侧重劳工因遭受不公待遇而积蓄已久、向工会倾诉的委屈苦水，objection 专指在会议或法庭辩护中当场喊出的异议反对意见，accusation 强调指控某人犯有严重罪行，在正式渠道向监管机构呈交的消费者维权投诉案上唯一契合 complaint。",
-    "phonetic": "/kəm'pleint/"
+    "notes": "【搭配考点】lodge/file a formal complaint 提出正式书面投诉/提起诉讼；minor complaint 身体微恙/小毛病；【形近辨析】compliant (顺从听话的)，compliance (法律监管合规性)，complement (互补之物/增光添彩)；【近义辨析】grievance 侧重劳工因遭受不公待遇而积蓄已久、向工会倾诉的委屈苦水，objection 专指在会议或法庭辩护中当场喊出的异议反对意见，accusation 强调指控某人犯有严重罪行，在正式渠道向监管机构呈交的消费者维权投诉案上唯一契合 complaint。"
   },
   "complete": {
     "word": "complete",
@@ -15956,8 +15650,7 @@
         "zh": "圆满达成目标"
       }
     ],
-    "notes": "【搭配考点】complete a degree/course 修完全部学位与课业；complete silence 彻底死一般的寂静；【形近辨析】compete (参与竞争较量)，compute (数学精密计算)，complex (错综复杂的)；【近义辨析】finish 仅强调把手头事情做到了末尾停下来（可能马虎了事），conclude 侧重演讲会议拉下帷幕正式收尾，accomplish 强调克服艰险达成宏伟使命，在将包含多个严密模块的所有环节完整履行完毕上唯一契合 complete。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】complete a degree/course 修完全部学位与课业；complete silence 彻底死一般的寂静；【形近辨析】compete (参与竞争较量)，compute (数学精密计算)，complex (错综复杂的)；【近义辨析】finish 仅强调把手头事情做到了末尾停下来（可能马虎了事），conclude 侧重演讲会议拉下帷幕正式收尾，accomplish 强调克服艰险达成宏伟使命，在将包含多个严密模块的所有环节完整履行完毕上唯一契合 complete。"
   },
   "completely": {
     "word": "completely",
@@ -16004,8 +15697,7 @@
         "zh": "详尽细致地"
       }
     ],
-    "notes": "【搭配考点】completely different 截然不同/天壤之别；completely agree 完全赞同；【形近辨析】competitively (有竞争优势地)，complexly (复杂多变地)，quietly (静悄悄地)；【近义辨析】entirely 侧重在数量或范围整体上无一遗漏百分百覆盖，totally 偏口语强化感情色彩（如 totally wrong），thoroughly 强调工作、清洁或调查做得极为深入细致绝无遗漏，修饰 different 表达事物属性无任何重合交集时最通用且唯一契合 completely。",
-    "phonetic": "/kəm'pli:tli/"
+    "notes": "【搭配考点】completely different 截然不同/天壤之别；completely agree 完全赞同；【形近辨析】competitively (有竞争优势地)，complexly (复杂多变地)，quietly (静悄悄地)；【近义辨析】entirely 侧重在数量或范围整体上无一遗漏百分百覆盖，totally 偏口语强化感情色彩（如 totally wrong），thoroughly 强调工作、清洁或调查做得极为深入细致绝无遗漏，修饰 different 表达事物属性无任何重合交集时最通用且唯一契合 completely。"
   },
   "complex": {
     "word": "complex",
@@ -16052,8 +15744,7 @@
         "zh": "尖端复杂的"
       }
     ],
-    "notes": "【搭配考点】complex structure/system 复杂的内部结构或系统；sports complex 大型综合体育中心；inferiority complex 自卑情结；【形近辨析】perplex (使人丈二和尚摸不着头脑/困惑)，duplex (双拼双层跃层公寓)，simplex (单项简单的)；【近义辨析】intricate 强调如蕾丝刺绣或精密钟表机芯般细小齿轮交织缠绕，convoluted 带有贬义侧重文章句子或论述逻辑拐弯抹角晦涩难读，sophisticated 侧重技术成熟老练先进，指由众多功能单元互联交织成复杂机体网络系统唯一契合 complex。",
-    "phonetic": "/'kɔmpleks/"
+    "notes": "【搭配考点】complex structure/system 复杂的内部结构或系统；sports complex 大型综合体育中心；inferiority complex 自卑情结；【形近辨析】perplex (使人丈二和尚摸不着头脑/困惑)，duplex (双拼双层跃层公寓)，simplex (单项简单的)；【近义辨析】intricate 强调如蕾丝刺绣或精密钟表机芯般细小齿轮交织缠绕，convoluted 带有贬义侧重文章句子或论述逻辑拐弯抹角晦涩难读，sophisticated 侧重技术成熟老练先进，指由众多功能单元互联交织成复杂机体网络系统唯一契合 complex。"
   },
   "complexity": {
     "word": "complexity",
@@ -16100,8 +15791,7 @@
         "zh": "精密度；老练"
       }
     ],
-    "notes": "【搭配考点】immense complexity 难以估量的庞大复杂性；reduce complexity 简化复杂度；【形近辨析】perplexity (丈二摸不着头脑的茫然困惑心境)，simplicity (反义词：纯朴简洁)，flexibility (柔韧度/灵活机动性)；【近义辨析】intricacy 侧重设计、花纹或法律条款的细节环环相扣精巧之处，complication 侧重原有问题之上节外生枝出现的节外问题或医学并发症，sophistication 强调技术或品味的成熟高深，在此处描述由千万物种组成的巨型生态网络系统属性唯一契合 complexity。",
-    "phonetic": "/kəm'pleksiti/"
+    "notes": "【搭配考点】immense complexity 难以估量的庞大复杂性；reduce complexity 简化复杂度；【形近辨析】perplexity (丈二摸不着头脑的茫然困惑心境)，simplicity (反义词：纯朴简洁)，flexibility (柔韧度/灵活机动性)；【近义辨析】intricacy 侧重设计、花纹或法律条款的细节环环相扣精巧之处，complication 侧重原有问题之上节外生枝出现的节外问题或医学并发症，sophistication 强调技术或品味的成熟高深，在此处描述由千万物种组成的巨型生态网络系统属性唯一契合 complexity。"
   },
   "complicated": {
     "word": "complicated",
@@ -16148,8 +15838,7 @@
         "zh": "困难吃力的"
       }
     ],
-    "notes": "【搭配考点】complicated situation/rules 错综复杂的局势/繁琐复杂的规则；make things complicated 节外生枝把事情弄复杂；【形近辨析】implicated (卷入案件被牵连的)，duplicated (被完全翻印重样的)，populated (有人居住生活的)；【近义辨析】tangled 侧重绳索电线真真切切打结缠成一团乱麻，knotty 强调问题充满坚硬节疤极难下刀劈开（knotty problem 棘手难题），difficult 侧重单纯耗费体力智力难度大，而在强调由于条文条款细节过于繁复冗长导致人难以理顺看懂唯一契合 complicated。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】complicated situation/rules 错综复杂的局势/繁琐复杂的规则；make things complicated 节外生枝把事情弄复杂；【形近辨析】implicated (卷入案件被牵连的)，duplicated (被完全翻印重样的)，populated (有人居住生活的)；【近义辨析】tangled 侧重绳索电线真真切切打结缠成一团乱麻，knotty 强调问题充满坚硬节疤极难下刀劈开（knotty problem 棘手难题），difficult 侧重单纯耗费体力智力难度大，而在强调由于条文条款细节过于繁复冗长导致人难以理顺看懂唯一契合 complicated。"
   },
   "component": {
     "word": "component",
@@ -16196,8 +15885,7 @@
         "zh": "组成成分；选民"
       }
     ],
-    "notes": "【搭配考点】core/key component 核心部件/关键组件；electronic components 电子元器件；【形近辨析】opponent (赛场对立面对手)，competent (有胜任能力的)，proponent (倡议者/支持拥护方)；【近义辨析】ingredient 专指做蛋糕做菜或熬药时按食谱加进去的物理食材调料，element 侧重化学元素或抽象概念中的不可分割的基本组成要素，constituent 侧重选区选民或宪法成分，在现代工业机械装备制造中指物理上可拆装测试的硬件功能元器件唯一契合 component。",
-    "phonetic": "/kəm'pəunənt/"
+    "notes": "【搭配考点】core/key component 核心部件/关键组件；electronic components 电子元器件；【形近辨析】opponent (赛场对立面对手)，competent (有胜任能力的)，proponent (倡议者/支持拥护方)；【近义辨析】ingredient 专指做蛋糕做菜或熬药时按食谱加进去的物理食材调料，element 侧重化学元素或抽象概念中的不可分割的基本组成要素，constituent 侧重选区选民或宪法成分，在现代工业机械装备制造中指物理上可拆装测试的硬件功能元器件唯一契合 component。"
   },
   "compose": {
     "word": "compose",
@@ -16244,8 +15932,7 @@
         "zh": "包含；由...组成"
       }
     ],
-    "notes": "【搭配考点】be composed of 由...所组成（高频考点）；compose oneself 沉着平复心情；compose music 谱写交响曲；【形近辨析】decompose (有机物腐败腐化分解)，compile (汇总编写字典程序)，compromise (妥协让步)；【近义辨析】constitute 侧重在逻辑法理上相当于、等同于某种性质，form 强调赋予某种形状结构塑造出来，comprise 主动语态通常以整体作主语包含部分，而以所有基础成分作为主语拼装成整体时唯一契合 compose。",
-    "phonetic": "/kəm'pəuz/"
+    "notes": "【搭配考点】be composed of 由...所组成（高频考点）；compose oneself 沉着平复心情；compose music 谱写交响曲；【形近辨析】decompose (有机物腐败腐化分解)，compile (汇总编写字典程序)，compromise (妥协让步)；【近义辨析】constitute 侧重在逻辑法理上相当于、等同于某种性质，form 强调赋予某种形状结构塑造出来，comprise 主动语态通常以整体作主语包含部分，而以所有基础成分作为主语拼装成整体时唯一契合 compose。"
   },
   "composition": {
     "word": "composition",
@@ -16292,8 +15979,7 @@
         "zh": "结构布局；配置"
       }
     ],
-    "notes": "【搭配考点】chemical composition 化学成分；English composition 英语命题作文；musical composition 音乐作品；【形近辨析】competition (体育竞争比赛)，compensation (经济补偿金)，disposition (脾气秉性/财产处置)；【近义辨析】makeup 偏通俗口语侧重团队人员配比或心理构造，structure 侧重支撑骨骼各个构件之间的空间框架搭建方式，configuration 强调计算机软硬件参数布局配置，在指矿物岩石在分子元素层面的内在成分配比唯一契合 composition。",
-    "phonetic": "/,kɔmpə'ziʃən/"
+    "notes": "【搭配考点】chemical composition 化学成分；English composition 英语命题作文；musical composition 音乐作品；【形近辨析】competition (体育竞争比赛)，compensation (经济补偿金)，disposition (脾气秉性/财产处置)；【近义辨析】makeup 偏通俗口语侧重团队人员配比或心理构造，structure 侧重支撑骨骼各个构件之间的空间框架搭建方式，configuration 强调计算机软硬件参数布局配置，在指矿物岩石在分子元素层面的内在成分配比唯一契合 composition。"
   },
   "comprehensive": {
     "word": "comprehensive",
@@ -16340,8 +16026,7 @@
         "zh": "包罗万象的；全包的"
       }
     ],
-    "notes": "【搭配考点】comprehensive review/study 全面综合审查/系统研究；comprehensive school 综合中学；【形近辨析】comprehensible (能听懂读懂的，常混考 comprehensive vs comprehensible)，apprehensive (忧心忡忡害怕的)，extensive (面积广大宽泛的)；【近义辨析】thorough 侧重做事情认真细致不留死角，exhaustive 侧重耗尽力气把所有名单可能查了个底朝天令人筋疲力尽，all-inclusive 强调度假酒店把吃住门票费用全打包在一块，在涵盖广泛学科领域所有方面形成的综合全局性上唯一契合 comprehensive。",
-    "phonetic": "/,kɔmpri'hensiv/"
+    "notes": "【搭配考点】comprehensive review/study 全面综合审查/系统研究；comprehensive school 综合中学；【形近辨析】comprehensible (能听懂读懂的，常混考 comprehensive vs comprehensible)，apprehensive (忧心忡忡害怕的)，extensive (面积广大宽泛的)；【近义辨析】thorough 侧重做事情认真细致不留死角，exhaustive 侧重耗尽力气把所有名单可能查了个底朝天令人筋疲力尽，all-inclusive 强调度假酒店把吃住门票费用全打包在一块，在涵盖广泛学科领域所有方面形成的综合全局性上唯一契合 comprehensive。"
   },
   "comprise": {
     "word": "comprise",
@@ -16388,8 +16073,7 @@
         "zh": "由...组成(consist of)"
       }
     ],
-    "notes": "【搭配考点】comprise four nations 由四个国家组成（整体作主语 + comprise + 各部分，或各部分 + comprise + 整体）；【形近辨析】compromise (妥协折中/危害安全)，promise (承诺许诺)，surmise (瞎猜推断)；【近义辨析】include 仅指从全部成员中例举出其中一部分并不要求穷尽，encompass 侧重地理边界如同城墙般将周边领土尽收眼底，consist 必须与 of 搭配连用才能接宾语，在由整体直接及物统辖所有全部法定分支实体时唯一契合 comprise。",
-    "phonetic": "/kəm'praiz/"
+    "notes": "【搭配考点】comprise four nations 由四个国家组成（整体作主语 + comprise + 各部分，或各部分 + comprise + 整体）；【形近辨析】compromise (妥协折中/危害安全)，promise (承诺许诺)，surmise (瞎猜推断)；【近义辨析】include 仅指从全部成员中例举出其中一部分并不要求穷尽，encompass 侧重地理边界如同城墙般将周边领土尽收眼底，consist 必须与 of 搭配连用才能接宾语，在由整体直接及物统辖所有全部法定分支实体时唯一契合 comprise。"
   },
   "compromise": {
     "word": "compromise",
@@ -16436,8 +16120,7 @@
         "zh": "迁就调和；住所"
       }
     ],
-    "notes": "【搭配考点】reach/hammer out a compromise 达成折中妥协；compromise national security 危害国家安全（高频熟词生义）；【形近辨析】comprise (包含由...构成)，compose (组成/写作)，improvise (即席发挥/临时制作)；【近义辨析】concession 侧重其中一方迫于形势做出单方面的利益割舍让步，settlement 侧重法庭平息财产争议纠纷最终敲定官司，accommodation 侧重为了照顾某人特殊需求进行的迁就安排，指谈判双方各自让出一步达成中间平衡唯一契合 compromise。",
-    "phonetic": "/'kɔmprəmaiz/"
+    "notes": "【搭配考点】reach/hammer out a compromise 达成折中妥协；compromise national security 危害国家安全（高频熟词生义）；【形近辨析】comprise (包含由...构成)，compose (组成/写作)，improvise (即席发挥/临时制作)；【近义辨析】concession 侧重其中一方迫于形势做出单方面的利益割舍让步，settlement 侧重法庭平息财产争议纠纷最终敲定官司，accommodation 侧重为了照顾某人特殊需求进行的迁就安排，指谈判双方各自让出一步达成中间平衡唯一契合 compromise。"
   },
   "compute": {
     "word": "compute",
@@ -16484,8 +16167,7 @@
         "zh": "估测；估价"
       }
     ],
-    "notes": "【搭配考点】compute trajectories/averages 计算精密轨迹/算平均值；cloud computing 云计算；【形近辨析】compete (竞争比试)，commute (每日坐车上下班)，dispute (民事土地争议)；【近义辨析】calculate 侧重手工或心算解答常规算术题目，reckon 属于口语侧重心中主观盘算估计，estimate 侧重在缺乏精确数据时对工期价格的大致概算估测，在依赖严密数学公式和机器算法处理海量复杂数据时唯一契合 compute。",
-    "phonetic": "/kəm'pju:t/"
+    "notes": "【搭配考点】compute trajectories/averages 计算精密轨迹/算平均值；cloud computing 云计算；【形近辨析】compete (竞争比试)，commute (每日坐车上下班)，dispute (民事土地争议)；【近义辨析】calculate 侧重手工或心算解答常规算术题目，reckon 属于口语侧重心中主观盘算估计，estimate 侧重在缺乏精确数据时对工期价格的大致概算估测，在依赖严密数学公式和机器算法处理海量复杂数据时唯一契合 compute。"
   },
   "computer": {
     "word": "computer",
@@ -16532,8 +16214,7 @@
         "zh": "专业工作站"
       }
     ],
-    "notes": "【搭配考点】computer simulation/program 计算机仿真模拟/电脑程序；personal computer (PC) 个人电脑；【形近辨析】commuter (每日城际通勤客)，consumer (商品消费者)，compiler (代码编译器/文献编纂者)；【近义辨析】processor 专指负责运算的芯片中央处理器硬件核心，mainframe 专指银行科研所机房占用数个机柜的大型服务器主机，workstation 侧重给工程师专门画图做视频的高性能工作站，作为现代一切通用可编程数字计算设备的标准总称唯一契合 computer。",
-    "phonetic": "/kəm'pju:tə/"
+    "notes": "【搭配考点】computer simulation/program 计算机仿真模拟/电脑程序；personal computer (PC) 个人电脑；【形近辨析】commuter (每日城际通勤客)，consumer (商品消费者)，compiler (代码编译器/文献编纂者)；【近义辨析】processor 专指负责运算的芯片中央处理器硬件核心，mainframe 专指银行科研所机房占用数个机柜的大型服务器主机，workstation 侧重给工程师专门画图做视频的高性能工作站，作为现代一切通用可编程数字计算设备的标准总称唯一契合 computer。"
   },
   "concentrate": {
     "word": "concentrate",
@@ -16580,8 +16261,7 @@
         "zh": "汇聚于一点"
       }
     ],
-    "notes": "【搭配考点】concentrate on (doing) sth 全神贯注于某事（高频必考搭配）；concentrated juice 浓缩果汁；【形近辨析】contemplate (冥想沉思)，concrete (混凝土/具体的实物)，consolidate (巩固权力/重组整合)；【近义辨析】focus 侧重调整镜头或注意力将其对准单一焦点，center 侧重把话题或争论重心放在某人身上（center around），converge 强调物理上多条道路或人流汇合，在强调排除一切外在杂念、汇集全身心智力应对挑战上唯一契合 concentrate。",
-    "phonetic": "/'kɔnsəntreit/"
+    "notes": "【搭配考点】concentrate on (doing) sth 全神贯注于某事（高频必考搭配）；concentrated juice 浓缩果汁；【形近辨析】contemplate (冥想沉思)，concrete (混凝土/具体的实物)，consolidate (巩固权力/重组整合)；【近义辨析】focus 侧重调整镜头或注意力将其对准单一焦点，center 侧重把话题或争论重心放在某人身上（center around），converge 强调物理上多条道路或人流汇合，在强调排除一切外在杂念、汇集全身心智力应对挑战上唯一契合 concentrate。"
   },
   "concentration": {
     "word": "concentration",
@@ -16628,8 +16308,7 @@
         "zh": "全神贯注；吸收"
       }
     ],
-    "notes": "【搭配考点】intense concentration 高度聚精会神；high concentration of chemicals 化学品高浓度；concentration camp 集中营；【形近辨析】contemplation (静思冥想)，consideration (周密考量/体谅)，condensation (水汽凝结珠滴)；【近义辨析】attentiveness 侧重侍者或学生表现出随叫随到、恭敬倾听的专注态度，density 侧重空间单位体积内物质的密集程度，absorption 侧重被精彩书籍彻底吸引沉浸其中，在此处指主刀医生在手术室凝神屏气的心智高度聚敛状态唯一契合 concentration。",
-    "phonetic": "/,kɔnsən'treiʃən/"
+    "notes": "【搭配考点】intense concentration 高度聚精会神；high concentration of chemicals 化学品高浓度；concentration camp 集中营；【形近辨析】contemplation (静思冥想)，consideration (周密考量/体谅)，condensation (水汽凝结珠滴)；【近义辨析】attentiveness 侧重侍者或学生表现出随叫随到、恭敬倾听的专注态度，density 侧重空间单位体积内物质的密集程度，absorption 侧重被精彩书籍彻底吸引沉浸其中，在此处指主刀医生在手术室凝神屏气的心智高度聚敛状态唯一契合 concentration。"
   },
   "concept": {
     "word": "concept",
@@ -16676,8 +16355,7 @@
         "zh": "理论学说"
       }
     ],
-    "notes": "【搭配考点】revolutionary/new concept 颠覆性的新概念；concept car 概念车；the basic concepts of economics 经济学基本概念；【形近辨析】percept (知觉感知产物)，precept (行为守则道德戒律)，concert (音乐会/一致行动)；【近义辨析】notion 侧重未经严密论证的模糊主观看法甚或带有偏见的假想，idea 泛指脑海中随想出来的点子念头，theory 强调由众多公理定理构筑的庞大假说体系，在指通过归纳提炼形成的具有学术界定意义的单元理念范畴唯一契合 concept。",
-    "phonetic": "/'kɔnsept/"
+    "notes": "【搭配考点】revolutionary/new concept 颠覆性的新概念；concept car 概念车；the basic concepts of economics 经济学基本概念；【形近辨析】percept (知觉感知产物)，precept (行为守则道德戒律)，concert (音乐会/一致行动)；【近义辨析】notion 侧重未经严密论证的模糊主观看法甚或带有偏见的假想，idea 泛指脑海中随想出来的点子念头，theory 强调由众多公理定理构筑的庞大假说体系，在指通过归纳提炼形成的具有学术界定意义的单元理念范畴唯一契合 concept。"
   },
   "concern": {
     "word": "concern",
@@ -16724,8 +16402,7 @@
         "zh": "忧虑恐惧"
       }
     ],
-    "notes": "【搭配考点】voice/express grave concern over 对...表达深切关切/担忧；as far as I am concerned 就我而言；concern oneself with 关心关注；【形近辨析】concert (音乐会/协力)，discern (敏锐察觉)，confirm (核实验证)；【近义辨析】worry 偏通俗口语侧重个人因柴米油盐感到发愁，anxiety 偏病理心理学术语强调伴有心慌的极度焦躁，apprehension 侧重预感灾祸即将来临的不安，而在公共事务社会新闻中针对政策后果表达的正式关切唯一契合 concern。",
-    "phonetic": "/kən'sə:n/"
+    "notes": "【搭配考点】voice/express grave concern over 对...表达深切关切/担忧；as far as I am concerned 就我而言；concern oneself with 关心关注；【形近辨析】concert (音乐会/协力)，discern (敏锐察觉)，confirm (核实验证)；【近义辨析】worry 偏通俗口语侧重个人因柴米油盐感到发愁，anxiety 偏病理心理学术语强调伴有心慌的极度焦躁，apprehension 侧重预感灾祸即将来临的不安，而在公共事务社会新闻中针对政策后果表达的正式关切唯一契合 concern。"
   },
   "concerned": {
     "word": "concerned",
@@ -16772,8 +16449,7 @@
         "zh": "聚焦对准的"
       }
     ],
-    "notes": "【搭配考点】be concerned with 关注/事关/旨在探讨（学术高频考点）；be concerned about 对...感到担忧焦虑；to whom it may concern 致相关人士；【形近辨析】concerted (共同协同发起的，如 concerted effort)，discerned (被敏锐识别出的)，confirmed (经过核实的/习惯根深蒂固的)；【近义辨析】involved 侧重参与了具体行动或卷入复杂事件，engaged 强调全身心投入参与某项活动，focused 强调将焦距镜头明确缩紧，在学术议题描述“主要关涉、围绕某主题展开研究”唯有与 with 搭配唯一契合 concerned。",
-    "phonetic": "/kən'sə:nd/"
+    "notes": "【搭配考点】be concerned with 关注/事关/旨在探讨（学术高频考点）；be concerned about 对...感到担忧焦虑；to whom it may concern 致相关人士；【形近辨析】concerted (共同协同发起的，如 concerted effort)，discerned (被敏锐识别出的)，confirmed (经过核实的/习惯根深蒂固的)；【近义辨析】involved 侧重参与了具体行动或卷入复杂事件，engaged 强调全身心投入参与某项活动，focused 强调将焦距镜头明确缩紧，在学术议题描述“主要关涉、围绕某主题展开研究”唯有与 with 搭配唯一契合 concerned。"
   },
   "concert": {
     "word": "concert",
@@ -16820,8 +16496,7 @@
         "zh": "统筹协调"
       }
     ],
-    "notes": "【搭配考点】act in concert (with) 与...齐心协力/协同采取一致行动（高频高级书面搭配）；rock/classical concert 摇滚/古典音乐会；【形近辨析】concern (担忧/关切)，concrete (水泥混凝土/具体的)，convert (皈依/转换格式)；【近义辨析】unison 侧重合唱团齐声歌唱发出同一音高或步调整齐划一，harmony 侧重声部和谐共处融洽无冲突，coordination 强调调度员理顺各个齿轮各司其职，在国际政治大国一致同心携手应对危机时唯有 act in concert 唯一契合 concert。",
-    "phonetic": "/kən'sə:t; 'kɔnsə:t/"
+    "notes": "【搭配考点】act in concert (with) 与...齐心协力/协同采取一致行动（高频高级书面搭配）；rock/classical concert 摇滚/古典音乐会；【形近辨析】concern (担忧/关切)，concrete (水泥混凝土/具体的)，convert (皈依/转换格式)；【近义辨析】unison 侧重合唱团齐声歌唱发出同一音高或步调整齐划一，harmony 侧重声部和谐共处融洽无冲突，coordination 强调调度员理顺各个齿轮各司其职，在国际政治大国一致同心携手应对危机时唯有 act in concert 唯一契合 concert。"
   },
   "conclusion": {
     "word": "conclusion",
@@ -16868,8 +16543,7 @@
         "zh": "调查发现"
       }
     ],
-    "notes": "【搭配考点】reach/draw a conclusion 得出结论（高频固定动宾）；in conclusion 最后/总而言之；bring to a conclusion 使...圆满终结；【形近辨析】delusion (荒唐错觉/被迫害妄想)，collusion (非法串通共谋)，confusion (思想困惑/局面混乱)；【近义辨析】inference 侧重根据字里行间蛛丝马迹做出的合理推断，deduction 专指从一般规律推导个案的逻辑三段论演绎，finding 强调经过严密实验调查收集到的第一手客观事实数据，在经过全盘论证得出的决定性总判断上唯一契合 conclusion。",
-    "phonetic": "/kən'klu:ʒən/"
+    "notes": "【搭配考点】reach/draw a conclusion 得出结论（高频固定动宾）；in conclusion 最后/总而言之；bring to a conclusion 使...圆满终结；【形近辨析】delusion (荒唐错觉/被迫害妄想)，collusion (非法串通共谋)，confusion (思想困惑/局面混乱)；【近义辨析】inference 侧重根据字里行间蛛丝马迹做出的合理推断，deduction 专指从一般规律推导个案的逻辑三段论演绎，finding 强调经过严密实验调查收集到的第一手客观事实数据，在经过全盘论证得出的决定性总判断上唯一契合 conclusion。"
   },
   "concrete": {
     "word": "concrete",
@@ -16916,8 +16590,7 @@
         "zh": "扎实的；结实的"
       }
     ],
-    "notes": "【搭配考点】concrete proposal/evidence 具体的切实方案/确凿扎实的证据；reinforced concrete 钢筋混凝土；【形近辨析】discreet (守口如瓶言行谨慎的)，discrete (数学离散孤立的)，recreate (娱乐休闲/使再现)；【近义辨析】specific 强调具有明确指向、排他性的特定细节（如 specific instructions），tangible 侧重真真切切伸手能摸得着的物理实物或清晰可感的红利，solid 侧重论据根基扎实无漏洞，在反驳空洞抽象、强调具有可落地操作细节的“具体方案”时唯一契合 concrete。",
-    "phonetic": "/kən'kri:t; 'kɔnkri:t/"
+    "notes": "【搭配考点】concrete proposal/evidence 具体的切实方案/确凿扎实的证据；reinforced concrete 钢筋混凝土；【形近辨析】discreet (守口如瓶言行谨慎的)，discrete (数学离散孤立的)，recreate (娱乐休闲/使再现)；【近义辨析】specific 强调具有明确指向、排他性的特定细节（如 specific instructions），tangible 侧重真真切切伸手能摸得着的物理实物或清晰可感的红利，solid 侧重论据根基扎实无漏洞，在反驳空洞抽象、强调具有可落地操作细节的“具体方案”时唯一契合 concrete。"
   },
   "condition": {
     "word": "condition",
@@ -16964,8 +16637,7 @@
         "zh": "严重疾病"
       }
     ],
-    "notes": "【搭配考点】heart/medical condition 心脏病症/健康状况（医学委婉用语）；working conditions 工作条件；on condition that 在...条件下；【形近辨析】coalition (政治联合政府)，collision (车辆相撞)，tradition (世代相传的传统)；【近义辨析】ailment 侧重头疼脑热等不致命的慢性小病痛，disorder 侧重生理或神经系统内部机制紊乱失衡（如 bipolar disorder），disease 强调具有明确病原体感染或明确病理病变的严重疾病，而在医学诊断中委婉统称身体器官机能长期异常病症时唯一契合 condition。",
-    "phonetic": "/kən'diʃən/"
+    "notes": "【搭配考点】heart/medical condition 心脏病症/健康状况（医学委婉用语）；working conditions 工作条件；on condition that 在...条件下；【形近辨析】coalition (政治联合政府)，collision (车辆相撞)，tradition (世代相传的传统)；【近义辨析】ailment 侧重头疼脑热等不致命的慢性小病痛，disorder 侧重生理或神经系统内部机制紊乱失衡（如 bipolar disorder），disease 强调具有明确病原体感染或明确病理病变的严重疾病，而在医学诊断中委婉统称身体器官机能长期异常病症时唯一契合 condition。"
   },
   "conduct": {
     "word": "conduct",
@@ -17012,8 +16684,7 @@
         "zh": "履行；表现"
       }
     ],
-    "notes": "【搭配考点】conduct an experiment/survey/investigation 开展实验/调查/审查（学术极高频固定动宾）；code of conduct 行为准则；conduct electricity 导电；【形近辨析】deduct (工资等扣减)，induct (正式吸收进入名人堂/征召就任)，product (工业产物)；【近义辨析】carry out 偏向日常短语动词侧重把既定指示落到实处，execute 侧重按严密合同程序正式签字生效或处决死刑，perform 侧重公开在观众面前演奏展示才艺，在指遵循严密科学方法组织开展长周期研究实验时唯一契合 conduct。",
-    "phonetic": "/'kɔndʌkt; kən'dʌkt/"
+    "notes": "【搭配考点】conduct an experiment/survey/investigation 开展实验/调查/审查（学术极高频固定动宾）；code of conduct 行为准则；conduct electricity 导电；【形近辨析】deduct (工资等扣减)，induct (正式吸收进入名人堂/征召就任)，product (工业产物)；【近义辨析】carry out 偏向日常短语动词侧重把既定指示落到实处，execute 侧重按严密合同程序正式签字生效或处决死刑，perform 侧重公开在观众面前演奏展示才艺，在指遵循严密科学方法组织开展长周期研究实验时唯一契合 conduct。"
   },
   "conference": {
     "word": "conference",
@@ -17060,8 +16731,7 @@
         "zh": "学术研讨班"
       }
     ],
-    "notes": "【搭配考点】press/annual conference 新闻发布会/年度大会；video conference 视频电话会议；in conference 正在闭门开会；【形近辨析】deference (毕恭毕敬的遵从)，preference (个人偏爱喜好)，reference (参考书目/提及)；【近义辨析】convention 侧重某一政党提名候选人或某一商界行会举办的大型展示大会，summit 专指仅限最高领导人出席的顶级首脑闭门峰会，seminar 专指教授带领十几名研究生围绕单一学术论文讨论的小型研讨课，在指汇聚多方代表就某一全球重大议题深入磋商的多日正式学术政治大会唯一契合 conference。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】press/annual conference 新闻发布会/年度大会；video conference 视频电话会议；in conference 正在闭门开会；【形近辨析】deference (毕恭毕敬的遵从)，preference (个人偏爱喜好)，reference (参考书目/提及)；【近义辨析】convention 侧重某一政党提名候选人或某一商界行会举办的大型展示大会，summit 专指仅限最高领导人出席的顶级首脑闭门峰会，seminar 专指教授带领十几名研究生围绕单一学术论文讨论的小型研讨课，在指汇聚多方代表就某一全球重大议题深入磋商的多日正式学术政治大会唯一契合 conference。"
   },
   "confess": {
     "word": "confess",
@@ -17108,8 +16778,7 @@
         "zh": "让步承认"
       }
     ],
-    "notes": "【搭配考点】confess to a crime/murder 供认罪行/谋杀；confess one's sins 忏悔罪孽；confess that... 坦白承认某事；【形近辨析】profess (公开大言不惭宣称/信仰)，possess (具有品质/私有财产)，excess (过多过剩)；【近义辨析】admit 侧重很不情愿地承认自己犯了小错或客观事实属实，acknowledge 侧重官方公开面对既成事实（如承认新政权），concede 强调辩论或选举输了之后迫于事实承认落败，在指就自己做过的触犯法律道德的亏心事全盘吐露招供上唯一契合 confess。",
-    "phonetic": "/kən'fes/"
+    "notes": "【搭配考点】confess to a crime/murder 供认罪行/谋杀；confess one's sins 忏悔罪孽；confess that... 坦白承认某事；【形近辨析】profess (公开大言不惭宣称/信仰)，possess (具有品质/私有财产)，excess (过多过剩)；【近义辨析】admit 侧重很不情愿地承认自己犯了小错或客观事实属实，acknowledge 侧重官方公开面对既成事实（如承认新政权），concede 强调辩论或选举输了之后迫于事实承认落败，在指就自己做过的触犯法律道德的亏心事全盘吐露招供上唯一契合 confess。"
   },
   "confidence": {
     "word": "confidence",
@@ -17156,8 +16825,7 @@
         "zh": "担保；确信"
       }
     ],
-    "notes": "【搭配考点】public/consumer confidence 公众/消费者信心（宏观核心经济指标）；gain/lose confidence 获得/丧失自信心；in strict confidence 绝密地；【形近辨析】coincidence (奇妙的巧合)，incidence (发病率/发生范围)，diffidence (反义词：自卑羞怯)；【近义辨析】trust 强调建立在诚实可靠基础上的情感信赖与委托，faith 强调不依赖证据的狂热精神信仰与宗教坚信，assurance 强调他人给出的令人放心的担保表态，在此处指全社会对金融经济体制稳健性抱有的客观信心预期唯一契合 confidence。",
-    "phonetic": "/'kɔnfidəns/"
+    "notes": "【搭配考点】public/consumer confidence 公众/消费者信心（宏观核心经济指标）；gain/lose confidence 获得/丧失自信心；in strict confidence 绝密地；【形近辨析】coincidence (奇妙的巧合)，incidence (发病率/发生范围)，diffidence (反义词：自卑羞怯)；【近义辨析】trust 强调建立在诚实可靠基础上的情感信赖与委托，faith 强调不依赖证据的狂热精神信仰与宗教坚信，assurance 强调他人给出的令人放心的担保表态，在此处指全社会对金融经济体制稳健性抱有的客观信心预期唯一契合 confidence。"
   },
   "confident": {
     "word": "confident",
@@ -17204,8 +16872,7 @@
         "zh": "乐观积极的"
       }
     ],
-    "notes": "【搭配考点】confident of/about 对...有充分信心；feel confident 感到胸有成竹；confident smile 自信的微笑；【形近辨析】confidant (名词：能够倾诉绝密的知心好友)，confidential (形容词：绝密的/保密的)，convenient (便利的)；【近义辨析】assured 侧重举止泰然自若、绝不慌乱的风度，self-reliant 侧重不依靠外人施舍独立解决问题，optimistic 侧重对未来事态发展抱有盲目或理性的积极预期，在此处形容因技术纯熟而散发出的内在自信底气唯一契合 confident。",
-    "phonetic": "/'kɔnfidənt/"
+    "notes": "【搭配考点】confident of/about 对...有充分信心；feel confident 感到胸有成竹；confident smile 自信的微笑；【形近辨析】confidant (名词：能够倾诉绝密的知心好友)，confidential (形容词：绝密的/保密的)，convenient (便利的)；【近义辨析】assured 侧重举止泰然自若、绝不慌乱的风度，self-reliant 侧重不依靠外人施舍独立解决问题，optimistic 侧重对未来事态发展抱有盲目或理性的积极预期，在此处形容因技术纯熟而散发出的内在自信底气唯一契合 confident。"
   },
   "confine": {
     "word": "confine",
@@ -17252,8 +16919,7 @@
         "zh": "束缚；抑制"
       }
     ],
-    "notes": "【搭配考点】confine oneself/remarks to 局限于/将发言限定在...；be confined to bed/wheelchair 卧病在床/被困在轮椅上；【形近辨析】confirm (证实核对)，conform (遵从一致 conform to)，conflict (产生矛盾冲突)；【近义辨析】restrict 侧重法规条例对人流物流施加的限行限购，limit 侧重数字上限（如 speed limit），constrain 强调外界条件不利构成的外部束缚压制，在此处指在空间、论述范围上划定封闭圈子绝不越雷池一步唯一契合 confine。",
-    "phonetic": "/kən'fain; 'kɔnfain/"
+    "notes": "【搭配考点】confine oneself/remarks to 局限于/将发言限定在...；be confined to bed/wheelchair 卧病在床/被困在轮椅上；【形近辨析】confirm (证实核对)，conform (遵从一致 conform to)，conflict (产生矛盾冲突)；【近义辨析】restrict 侧重法规条例对人流物流施加的限行限购，limit 侧重数字上限（如 speed limit），constrain 强调外界条件不利构成的外部束缚压制，在此处指在空间、论述范围上划定封闭圈子绝不越雷池一步唯一契合 confine。"
   },
   "confirm": {
     "word": "confirm",
@@ -17300,8 +16966,7 @@
         "zh": "使生效；确认有效"
       }
     ],
-    "notes": "【搭配考点】confirm a reservation/flight 确认酒店预订/航班行程；confirm a diagnosis 确诊病情；confirm a rumor 证实传言；【形近辨析】conform (符合规范 conform with/to)，comfort (安慰慰藉)，confine (限制束缚)；【近义辨析】verify 侧重比对身份证明或账目单据核查是否属实，corroborate 侧重证人出庭或提供独立物证从旁佐证主证据，validate 强调在法律程序上加盖公章使其产生法定效力，在用决定性事实和科学结果消除疑虑彻底定性上唯一契合 confirm。",
-    "phonetic": "/kən'fə:m/"
+    "notes": "【搭配考点】confirm a reservation/flight 确认酒店预订/航班行程；confirm a diagnosis 确诊病情；confirm a rumor 证实传言；【形近辨析】conform (符合规范 conform with/to)，comfort (安慰慰藉)，confine (限制束缚)；【近义辨析】verify 侧重比对身份证明或账目单据核查是否属实，corroborate 侧重证人出庭或提供独立物证从旁佐证主证据，validate 强调在法律程序上加盖公章使其产生法定效力，在用决定性事实和科学结果消除疑虑彻底定性上唯一契合 confirm。"
   },
   "conflict": {
     "word": "conflict",
@@ -17348,8 +17013,7 @@
         "zh": "不和睦；不谐调"
       }
     ],
-    "notes": "【搭配考点】in conflict with 与...产生冲突抵触；conflict of interest 利益冲突（职场法律核心术语）；armed conflict 武装冲突；【形近辨析】convict (法庭宣判有罪/服刑犯)，inflict (给他人施加重击惩罚)，afflict (长期疾病折磨)；【近义辨析】friction 侧重日常相处中的磕磕碰碰与微小龃龉，dispute 侧重边界或合同文本上由争吵诉讼体现的民事争执，discord 侧重乐声刺耳或家庭不睦失和，在指根本原则理念势成水火难以相容的直接正面对抗上唯一契合 conflict。",
-    "phonetic": "/kən'flikt; 'kɔnflikt/"
+    "notes": "【搭配考点】in conflict with 与...产生冲突抵触；conflict of interest 利益冲突（职场法律核心术语）；armed conflict 武装冲突；【形近辨析】convict (法庭宣判有罪/服刑犯)，inflict (给他人施加重击惩罚)，afflict (长期疾病折磨)；【近义辨析】friction 侧重日常相处中的磕磕碰碰与微小龃龉，dispute 侧重边界或合同文本上由争吵诉讼体现的民事争执，discord 侧重乐声刺耳或家庭不睦失和，在指根本原则理念势成水火难以相容的直接正面对抗上唯一契合 conflict。"
   },
   "confuse": {
     "word": "confuse",
@@ -17396,8 +17060,7 @@
         "zh": "弄乱；颠倒顺序"
       }
     ],
-    "notes": "【搭配考点】confuse A with/for B 把A同B搞混张冠李戴；confused by 对...感到困惑不解；【形近辨析】refuse (断然拒绝/生活废弃垃圾)，diffuse (光线散射/思想弥散)，infuse (注入新鲜血液/泡茶)；【近义辨析】bewilder 强调身处迷宫或大量信息轰炸下大脑一片空白的茫然失措，confound 侧重事态出乎预料彻底推翻专家假设，muddle 侧重把抽屉文件或头脑次序颠三倒四乱放，在因相似性而发生认错、颠倒两者的认知错误上唯一契合 confuse。",
-    "phonetic": "/kən'fju:z/"
+    "notes": "【搭配考点】confuse A with/for B 把A同B搞混张冠李戴；confused by 对...感到困惑不解；【形近辨析】refuse (断然拒绝/生活废弃垃圾)，diffuse (光线散射/思想弥散)，infuse (注入新鲜血液/泡茶)；【近义辨析】bewilder 强调身处迷宫或大量信息轰炸下大脑一片空白的茫然失措，confound 侧重事态出乎预料彻底推翻专家假设，muddle 侧重把抽屉文件或头脑次序颠三倒四乱放，在因相似性而发生认错、颠倒两者的认知错误上唯一契合 confuse。"
   },
   "confusion": {
     "word": "confusion",
@@ -17444,8 +17107,7 @@
         "zh": "杂乱散乱"
       }
     ],
-    "notes": "【搭配考点】utter/total confusion 彻底的一团混乱；cause confusion 造成混乱和困惑；clear up the confusion 澄清解开困惑；【形近辨析】conclusion (推断结论)，infusion (资本注入/静脉输液)，diffusion (文化或气味扩散)；【近义辨析】chaos 强调社会秩序完全瓦解失控的恐怖无政府状态，turmoil 侧重政局激烈动荡翻滚的惊涛骇浪，disarray 强调原本整齐摆放的队伍衣物被弄散乱，而在指信息不明导致人们团团转、不知所措的骚动困惑上唯一契合 confusion。",
-    "phonetic": "/kən'fju:ʒən/"
+    "notes": "【搭配考点】utter/total confusion 彻底的一团混乱；cause confusion 造成混乱和困惑；clear up the confusion 澄清解开困惑；【形近辨析】conclusion (推断结论)，infusion (资本注入/静脉输液)，diffusion (文化或气味扩散)；【近义辨析】chaos 强调社会秩序完全瓦解失控的恐怖无政府状态，turmoil 侧重政局激烈动荡翻滚的惊涛骇浪，disarray 强调原本整齐摆放的队伍衣物被弄散乱，而在指信息不明导致人们团团转、不知所措的骚动困惑上唯一契合 confusion。"
   },
   "connect": {
     "word": "connect",
@@ -17492,8 +17154,7 @@
         "zh": "贴上；附着"
       }
     ],
-    "notes": "【搭配考点】connect A with/to B 将A与B连接/把...与...联系起来；connect to the internet 连接互联网；connecting flight 中转航班；【形近辨析】collect (收集聚集)，correct (批改改正/正确的)，infect (病毒病菌感染)；【近义辨析】link 侧重通过中间纽带链环建立起两者的间接关联，join 侧重把两根绳子打结或两块木板拼在一处消除缝隙，attach 侧重把小物件通过别针胶水粘在大物体表面，在修建铁路管线贯通两个核心地理枢纽时唯一契合 connect。",
-    "phonetic": "/kə'nekt/"
+    "notes": "【搭配考点】connect A with/to B 将A与B连接/把...与...联系起来；connect to the internet 连接互联网；connecting flight 中转航班；【形近辨析】collect (收集聚集)，correct (批改改正/正确的)，infect (病毒病菌感染)；【近义辨析】link 侧重通过中间纽带链环建立起两者的间接关联，join 侧重把两根绳子打结或两块木板拼在一处消除缝隙，attach 侧重把小物件通过别针胶水粘在大物体表面，在修建铁路管线贯通两个核心地理枢纽时唯一契合 connect。"
   },
   "connection": {
     "word": "connection",
@@ -17540,8 +17201,7 @@
         "zh": "纽带关系"
       }
     ],
-    "notes": "【搭配考点】in connection with 与...有关（高频书面用语）；have connections 有深厚人脉背景关系；miss one's connection 错过了中转联运航班；【形近辨析】collection (艺术珍藏品)，correction (订正批改)，confection (糖果面点点心)；【近义辨析】network 强调结构交织如同渔网般的专业圈层组织架构，contact 强调手机通讯录里能够拨通电话的具体联系人，ties 侧重国家或家族之间血浓于水的深层政治文化纽带，在指职场升迁、政商圈中具有重大影响力的社会关系背景时唯一契合 connection。",
-    "phonetic": "/kə'nekʃən/"
+    "notes": "【搭配考点】in connection with 与...有关（高频书面用语）；have connections 有深厚人脉背景关系；miss one's connection 错过了中转联运航班；【形近辨析】collection (艺术珍藏品)，correction (订正批改)，confection (糖果面点点心)；【近义辨析】network 强调结构交织如同渔网般的专业圈层组织架构，contact 强调手机通讯录里能够拨通电话的具体联系人，ties 侧重国家或家族之间血浓于水的深层政治文化纽带，在指职场升迁、政商圈中具有重大影响力的社会关系背景时唯一契合 connection。"
   },
   "conscience": {
     "word": "conscience",
@@ -17588,8 +17248,7 @@
         "zh": "正直诚实"
       }
     ],
-    "notes": "【搭配考点】a guilty/clear conscience 问心有愧/问心无愧；for conscience' sake 为了求得良心平安；prisoner of conscience 良心犯；【形近辨析】conscious (形容词：有知觉的)，conscientious (形容词：极度敬业认真一丝不苟的，极常混考)，consciousness (名词：知觉意识)；【近义辨析】morals 强调社会公认制约行为的道德规范准则，scruples 侧重在动手做坏事前内心产生的犹豫顾忌，integrity 强调经得起任何金钱诱惑的崇高品格，而在内心深处审判善恶、产生内疚自责感的道德心灵器官唯一契合 conscience。",
-    "phonetic": "/'kɔnʃəns/"
+    "notes": "【搭配考点】a guilty/clear conscience 问心有愧/问心无愧；for conscience' sake 为了求得良心平安；prisoner of conscience 良心犯；【形近辨析】conscious (形容词：有知觉的)，conscientious (形容词：极度敬业认真一丝不苟的，极常混考)，consciousness (名词：知觉意识)；【近义辨析】morals 强调社会公认制约行为的道德规范准则，scruples 侧重在动手做坏事前内心产生的犹豫顾忌，integrity 强调经得起任何金钱诱惑的崇高品格，而在内心深处审判善恶、产生内疚自责感的道德心灵器官唯一契合 conscience。"
   },
   "conscious": {
     "word": "conscious",
@@ -17636,8 +17295,7 @@
         "zh": "察觉意识到的"
       }
     ],
-    "notes": "【搭配考点】fully conscious 神志完全清醒；make a conscious effort 做出自觉刻意的努力；environmentally conscious 具有环保意识的；【形近辨析】conscience (名词良心)，continuous (时间连续不中断的)，ambitious (有抱负雄心的)；【近义辨析】awake 仅指生理状态没有睡着（睁着眼），alert 强调感官高度敏锐随时防范危险，aware 侧重头脑中知道并掌握了某项事实或潜在风险，在医学与生理上指大脑皮层恢复知觉并具备认知反应的生命状态唯一契合 conscious。",
-    "phonetic": "/'kɔnʃəs/"
+    "notes": "【搭配考点】fully conscious 神志完全清醒；make a conscious effort 做出自觉刻意的努力；environmentally conscious 具有环保意识的；【形近辨析】conscience (名词良心)，continuous (时间连续不中断的)，ambitious (有抱负雄心的)；【近义辨析】awake 仅指生理状态没有睡着（睁着眼），alert 强调感官高度敏锐随时防范危险，aware 侧重头脑中知道并掌握了某项事实或潜在风险，在医学与生理上指大脑皮层恢复知觉并具备认知反应的生命状态唯一契合 conscious。"
   },
   "consciousness": {
     "word": "consciousness",
@@ -17684,8 +17342,7 @@
         "zh": "感官知觉"
       }
     ],
-    "notes": "【搭配考点】lose/regain consciousness 失去/恢复知觉（医学急救核心考点）；stream of consciousness 意识流（文学手法）；class consciousness 阶级意识；【形近辨析】conscientiousness (敬业爱岗一丝不苟品质)，unconsciousness (反义词：昏迷不醒状态)，cautiousness (小心翼翼)；【近义辨析】awareness 强调对某一社会问题或周围危险的警觉知晓程度（如 raise environmental awareness），mindfulness 强调禅修正念当下体验，perception 侧重五官感知外界景物的洞察力，在生理学上描述人能否感知自我存在并感知外界的脑电神经状态唯一契合 consciousness。",
-    "phonetic": "/'kɔnʃəsnis/"
+    "notes": "【搭配考点】lose/regain consciousness 失去/恢复知觉（医学急救核心考点）；stream of consciousness 意识流（文学手法）；class consciousness 阶级意识；【形近辨析】conscientiousness (敬业爱岗一丝不苟品质)，unconsciousness (反义词：昏迷不醒状态)，cautiousness (小心翼翼)；【近义辨析】awareness 强调对某一社会问题或周围危险的警觉知晓程度（如 raise environmental awareness），mindfulness 强调禅修正念当下体验，perception 侧重五官感知外界景物的洞察力，在生理学上描述人能否感知自我存在并感知外界的脑电神经状态唯一契合 consciousness。"
   },
   "consequence": {
     "word": "consequence",
@@ -17732,8 +17389,7 @@
         "zh": "余波；后患"
       }
     ],
-    "notes": "【搭配考点】as a consequence of 作为...的必然结果；face the consequences 承担后果；in consequence 因此；a person of consequence 有显赫地位的大人物；【形近辨析】sequence (先后顺序/基因序列)，eloquence (口才好文采好)，frequency (发生频率)；【近义辨析】result 属于中性词指任何算式、行动得出的直接结果，outcome 侧重选举、官司或谈判最终产生的结局输赢，aftermath 专指战争、地震、风暴扫荡后留下的满目疮痍余波，在指由先行动作必然引发的严峻后续影响或负面恶果时唯一契合 consequence。",
-    "phonetic": "/'kɔnsi,kwəns/"
+    "notes": "【搭配考点】as a consequence of 作为...的必然结果；face the consequences 承担后果；in consequence 因此；a person of consequence 有显赫地位的大人物；【形近辨析】sequence (先后顺序/基因序列)，eloquence (口才好文采好)，frequency (发生频率)；【近义辨析】result 属于中性词指任何算式、行动得出的直接结果，outcome 侧重选举、官司或谈判最终产生的结局输赢，aftermath 专指战争、地震、风暴扫荡后留下的满目疮痍余波，在指由先行动作必然引发的严峻后续影响或负面恶果时唯一契合 consequence。"
   },
   "conservative": {
     "word": "conservative",
@@ -17780,8 +17436,7 @@
         "zh": "温和派的；适度的"
       }
     ],
-    "notes": "【搭配考点】conservative estimate/approach 保守估计/稳妥保守的方式；Conservative Party 保守党；【形近辨析】conservation (动植物与生态保护)，preservative (食品化学防腐剂)，observant (观察细致的/遵从教规的)；【近义辨析】cautious 侧重行事时防范意外风险的战战兢兢，traditional 侧重遵循代代相传的风俗习惯模式，moderate 强调政治观点不偏激处在左右中间，在金融估值与政治哲学上强调避免激进冒险、力图维持现状稳妥唯一契合 conservative。",
-    "phonetic": "/kən'sə:vətiv/"
+    "notes": "【搭配考点】conservative estimate/approach 保守估计/稳妥保守的方式；Conservative Party 保守党；【形近辨析】conservation (动植物与生态保护)，preservative (食品化学防腐剂)，observant (观察细致的/遵从教规的)；【近义辨析】cautious 侧重行事时防范意外风险的战战兢兢，traditional 侧重遵循代代相传的风俗习惯模式，moderate 强调政治观点不偏激处在左右中间，在金融估值与政治哲学上强调避免激进冒险、力图维持现状稳妥唯一契合 conservative。"
   },
   "consider": {
     "word": "consider",
@@ -17828,8 +17483,7 @@
         "zh": "权衡利弊"
       }
     ],
-    "notes": "【搭配考点】consider doing sth 考虑做某事（必考动名词作宾语）；consider someone as/to be 认为某人是...；all things considered 综合考虑全盘；【形近辨析】considerate (体贴入微关心人的)，considerable (数量规模可观的，极高频形近混淆对)，consist (在于/由...组成)；【近义辨析】contemplate 侧重在脑海中勾勒未来计划或深沉凝望，deliberate 侧重陪审团在密室中多轮反复辩论推敲，weigh 侧重在天平两端对比得失利弊，在作综合审查评估决定的及物动词上唯一契合 consider。",
-    "phonetic": "/kən'sidə/"
+    "notes": "【搭配考点】consider doing sth 考虑做某事（必考动名词作宾语）；consider someone as/to be 认为某人是...；all things considered 综合考虑全盘；【形近辨析】considerate (体贴入微关心人的)，considerable (数量规模可观的，极高频形近混淆对)，consist (在于/由...组成)；【近义辨析】contemplate 侧重在脑海中勾勒未来计划或深沉凝望，deliberate 侧重陪审团在密室中多轮反复辩论推敲，weigh 侧重在天平两端对比得失利弊，在作综合审查评估决定的及物动词上唯一契合 consider。"
   },
   "considerable": {
     "word": "considerable",
@@ -17876,8 +17530,7 @@
         "zh": "相当庞大的"
       }
     ],
-    "notes": "【搭配考点】a considerable amount/number of 相当大量的（高频修饰不可数与可数名词）；of considerable importance 相当重要的；【形近辨析】considerate (为人处事体谅周到的，核心辨析点)，considered (经过深思熟虑后慎重做出的，如 considered opinion)，miserable (痛苦凄凉的)；【近义辨析】substantial 侧重具有实实在在沉甸甸分量的财富或进展，significant 侧重具有统计学显著性或历史转折意义，sizable 侧重物理体积或金额面积很大，在形容数量、资金规模大到足以引起高度重视时唯一契合 considerable。",
-    "phonetic": "/kən'sidərəbl/"
+    "notes": "【搭配考点】a considerable amount/number of 相当大量的（高频修饰不可数与可数名词）；of considerable importance 相当重要的；【形近辨析】considerate (为人处事体谅周到的，核心辨析点)，considered (经过深思熟虑后慎重做出的，如 considered opinion)，miserable (痛苦凄凉的)；【近义辨析】substantial 侧重具有实实在在沉甸甸分量的财富或进展，significant 侧重具有统计学显著性或历史转折意义，sizable 侧重物理体积或金额面积很大，在形容数量、资金规模大到足以引起高度重视时唯一契合 considerable。"
   },
   "consideration": {
     "word": "consideration",
@@ -17924,8 +17577,7 @@
         "zh": "思想想法"
       }
     ],
-    "notes": "【搭配考点】after careful consideration 经过审慎考虑；take into consideration 计入考量/考虑在内（写作必背短语）；show consideration for 体谅关照某人；for a valuable consideration 为获得对价报酬（法律术语）；【形近辨析】consolidation (企业合并重组/地位巩固)，concentration (高度专心致志)，continuation (长篇故事的续集)；【近义辨析】deliberation 侧重委员会针对争议法案进行的漫长讨论审查，reflection 侧重向内审视自己过往得失教训的反思，thought 泛指零散脑海意识，在指对某项重大商业决策展开全面权衡利弊的正式思维过程中唯一契合 consideration。",
-    "phonetic": "/kən,sidə'reiʃən/"
+    "notes": "【搭配考点】after careful consideration 经过审慎考虑；take into consideration 计入考量/考虑在内（写作必背短语）；show consideration for 体谅关照某人；for a valuable consideration 为获得对价报酬（法律术语）；【形近辨析】consolidation (企业合并重组/地位巩固)，concentration (高度专心致志)，continuation (长篇故事的续集)；【近义辨析】deliberation 侧重委员会针对争议法案进行的漫长讨论审查，reflection 侧重向内审视自己过往得失教训的反思，thought 泛指零散脑海意识，在指对某项重大商业决策展开全面权衡利弊的正式思维过程中唯一契合 consideration。"
   },
   "consist": {
     "word": "consist",
@@ -17972,8 +17624,7 @@
         "zh": "老是想着；居住"
       }
     ],
-    "notes": "【搭配考点】consist in 存在于/在于（本质特征定义高频搭配）；consist of 由...所组成（不可用被动语态，不及物）；consist with 与...一致；【形近辨析】persist (坚持不懈持之以恒 persist in)，resist (抵制诱惑/武力抗击)，insist (强硬坚持主张 insist on)，assist (协助支援)；【近义辨析】lie in 偏日常口语亦可表示原因在于，reside in 属于哲学术语强调权力或合法性寄托安放在某机构体内，dwell on 侧重老是放不下某段伤心往事苦苦思索，在阐明某一概念的哲学真谛或本质要素“在于...”时唯一契合 consist。",
-    "phonetic": "/kən'sist/"
+    "notes": "【搭配考点】consist in 存在于/在于（本质特征定义高频搭配）；consist of 由...所组成（不可用被动语态，不及物）；consist with 与...一致；【形近辨析】persist (坚持不懈持之以恒 persist in)，resist (抵制诱惑/武力抗击)，insist (强硬坚持主张 insist on)，assist (协助支援)；【近义辨析】lie in 偏日常口语亦可表示原因在于，reside in 属于哲学术语强调权力或合法性寄托安放在某机构体内，dwell on 侧重老是放不下某段伤心往事苦苦思索，在阐明某一概念的哲学真谛或本质要素“在于...”时唯一契合 consist。"
   },
   "consistent": {
     "word": "consistent",
@@ -18020,8 +17671,7 @@
         "zh": "相容兼容的"
       }
     ],
-    "notes": "【搭配考点】be consistent with 与...相符/与...前后一致（高频高分连词搭配）；consistent effort 坚持不懈持之以恒的努力；【形近辨析】persistent (不依不饶顽固坚持的，如 persistent rain/cough)，resistant (耐腐蚀抗药的，如 water-resistant)，assistant (助理秘书)；【近义辨析】coherent 侧重文章章节或演讲论点条理清晰、合乎逻辑绝无自相矛盾，uniform 侧重外观形态步调整齐划一像穿制服一样，compatible 强调两者共处不打架能融洽共生，在表达多次行为、数据或水平始终如一且与标准高度吻合上唯一契合 consistent。",
-    "phonetic": "/kən'sistənt/"
+    "notes": "【搭配考点】be consistent with 与...相符/与...前后一致（高频高分连词搭配）；consistent effort 坚持不懈持之以恒的努力；【形近辨析】persistent (不依不饶顽固坚持的，如 persistent rain/cough)，resistant (耐腐蚀抗药的，如 water-resistant)，assistant (助理秘书)；【近义辨析】coherent 侧重文章章节或演讲论点条理清晰、合乎逻辑绝无自相矛盾，uniform 侧重外观形态步调整齐划一像穿制服一样，compatible 强调两者共处不打架能融洽共生，在表达多次行为、数据或水平始终如一且与标准高度吻合上唯一契合 consistent。"
   },
   "constant": {
     "word": "constant",
@@ -18067,8 +17717,7 @@
         "zh": "执着坚持的；难以消除的"
       }
     ],
-    "notes": "【搭配考点】remain/keep constant 保持恒定不变；constant stream 连绵不断；【形近辨析】consistent (始终如一的), instant (即刻的), distant (疏远的/遥远的)；【近义辨析】constant 指状态或数值固定不变；continuous 强调在时间和空间上没有丝毫断开；continual 强调反复发生但中间有间歇；persistent 强调不屈不挠或顽固持续。",
-    "phonetic": "/'kɔnstənt/"
+    "notes": "【搭配考点】remain/keep constant 保持恒定不变；constant stream 连绵不断；【形近辨析】consistent (始终如一的), instant (即刻的), distant (疏远的/遥远的)；【近义辨析】constant 指状态或数值固定不变；continuous 强调在时间和空间上没有丝毫断开；continual 强调反复发生但中间有间歇；persistent 强调不屈不挠或顽固持续。"
   },
   "constantly": {
     "word": "constantly",
@@ -18114,8 +17763,7 @@
         "zh": "永久地；长期固定地"
       }
     ],
-    "notes": "【搭配考点】constantly changing/evolving 不断变化/演化；constantly remind 屡次提醒；【形近辨析】consistently (一贯地/坚持不懈地), instantly (即刻地), distantly (遥远地)；【近义辨析】constantly 强调发生频率极高且持续不断；continuously 强调中途不休止；continually 侧重多次重复发生；permanently 强调永久状态。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】constantly changing/evolving 不断变化/演化；constantly remind 屡次提醒；【形近辨析】consistently (一贯地/坚持不懈地), instantly (即刻地), distantly (遥远地)；【近义辨析】constantly 强调发生频率极高且持续不断；continuously 强调中途不休止；continually 侧重多次重复发生；permanently 强调永久状态。"
   },
   "constitute": {
     "word": "constitute",
@@ -18161,8 +17809,7 @@
         "zh": "代表；相当于"
       }
     ],
-    "notes": "【搭配考点】constitute a threat/crime 构成威胁/犯罪；constitute the majority 占大多数；【形近辨析】substitute (替代), institute (建立/学会), prostitute (滥用)；【近义辨析】constitute 主语通常为组成部分，相当于 form 或 make up；compose 常用被动语态 be composed of；comprise 主语可为整体也可为部分；represent 侧重代表或体现。",
-    "phonetic": "/'kɔnstitju:t/"
+    "notes": "【搭配考点】constitute a threat/crime 构成威胁/犯罪；constitute the majority 占大多数；【形近辨析】substitute (替代), institute (建立/学会), prostitute (滥用)；【近义辨析】constitute 主语通常为组成部分，相当于 form 或 make up；compose 常用被动语态 be composed of；comprise 主语可为整体也可为部分；represent 侧重代表或体现。"
   },
   "constitution": {
     "word": "constitution",
@@ -18208,8 +17855,7 @@
         "zh": "规则；规章"
       }
     ],
-    "notes": "【搭配考点】written constitution 成文宪法；have a strong constitution 体质强健；amend the constitution 修改宪法；【形近辨析】substitution (替代), institution (公共机构/社会体制), prostitution (滥用/堕落)；【近义辨析】constitution 特指国家的最高根本大法或有机体的体制；charter 侧重团体/联合国等组织宪章；legislation 泛指制定颁布的法律法规；regulation 侧重行政规章制度。",
-    "phonetic": "/,kɔnsti'tju:ʃən/"
+    "notes": "【搭配考点】written constitution 成文宪法；have a strong constitution 体质强健；amend the constitution 修改宪法；【形近辨析】substitution (替代), institution (公共机构/社会体制), prostitution (滥用/堕落)；【近义辨析】constitution 特指国家的最高根本大法或有机体的体制；charter 侧重团体/联合国等组织宪章；legislation 泛指制定颁布的法律法规；regulation 侧重行政规章制度。"
   },
   "construct": {
     "word": "construct",
@@ -18255,8 +17901,7 @@
         "zh": "制造；组装；虚构"
       }
     ],
-    "notes": "【搭配考点】construct a bridge/building 建造桥梁/建筑；construct a theory/argument 构建理论/论据；【形近辨析】instruct (指示/教授), obstruct (阻塞/阻挠), destruct (毁灭)；【近义辨析】construct 侧重按照严密设计图纸装配复杂结构或严密论述；build 为日常通用词；erect 强调垂直竖立或树立高大建筑物；fabricate 强调工厂预制装配或凭空捏造谎言。",
-    "phonetic": "/kən'strʌkt/"
+    "notes": "【搭配考点】construct a bridge/building 建造桥梁/建筑；construct a theory/argument 构建理论/论据；【形近辨析】instruct (指示/教授), obstruct (阻塞/阻挠), destruct (毁灭)；【近义辨析】construct 侧重按照严密设计图纸装配复杂结构或严密论述；build 为日常通用词；erect 强调垂直竖立或树立高大建筑物；fabricate 强调工厂预制装配或凭空捏造谎言。"
   },
   "construction": {
     "word": "construction",
@@ -18302,8 +17947,7 @@
         "zh": "宏伟建筑；体系"
       }
     ],
-    "notes": "【搭配考点】under construction 正在施工/建设中；construction site 施工现场；put a construction on 对...做出解释；【形近辨析】instruction (说明书/教学), obstruction (障碍物), destruction (毁灭)；【近义辨析】construction 侧重建造过程或施工工程；structure 侧重各部分的组织框架与形态；architecture 强调建筑的设计艺术与风格；edifice 强调外观壮观宏伟的建筑或庞大体系。",
-    "phonetic": "/kən'strʌkʃən/"
+    "notes": "【搭配考点】under construction 正在施工/建设中；construction site 施工现场；put a construction on 对...做出解释；【形近辨析】instruction (说明书/教学), obstruction (障碍物), destruction (毁灭)；【近义辨析】construction 侧重建造过程或施工工程；structure 侧重各部分的组织框架与形态；architecture 强调建筑的设计艺术与风格；edifice 强调外观壮观宏伟的建筑或庞大体系。"
   },
   "consult": {
     "word": "consult",
@@ -18349,8 +17993,7 @@
         "zh": "建议；劝告"
       }
     ],
-    "notes": "【搭配考点】consult a specialist/doctor 咨询专家/医生；consult a dictionary/manual 查阅词典/手册；consult with 与...商量；【形近辨析】insult (侮辱), result (结果), exult (狂喜)；【近义辨析】consult 强调向专业人士寻求权威建议或查阅参考资料；counsel 侧重针对个人问题给予深入辅导与心理劝导；confer 强调平级之间开会协商；advise 侧重提出具体行动建议。",
-    "phonetic": "/kɔn'sʌlt; 'kɔnsʌlt/"
+    "notes": "【搭配考点】consult a specialist/doctor 咨询专家/医生；consult a dictionary/manual 查阅词典/手册；consult with 与...商量；【形近辨析】insult (侮辱), result (结果), exult (狂喜)；【近义辨析】consult 强调向专业人士寻求权威建议或查阅参考资料；counsel 侧重针对个人问题给予深入辅导与心理劝导；confer 强调平级之间开会协商；advise 侧重提出具体行动建议。"
   },
   "consume": {
     "word": "consume",
@@ -18396,8 +18039,7 @@
         "zh": "花费；消耗 (金钱或精力)"
       }
     ],
-    "notes": "【搭配考点】consume energy/fuel 消耗能源/燃料；be consumed with guilt/rage 被内疚/愤怒吞噬；【形近辨析】resume (恢复/重新开始), assume (假设/担任), presume (推定)；【近义辨析】consume 强调通过使用或吃喝使其耗费或转化；exhaust 强调彻底用光且丝毫不剩；deplete 强调资源储量急剧减少；spend 强调金钱或时间的支出。",
-    "phonetic": "/kən'sju:m/"
+    "notes": "【搭配考点】consume energy/fuel 消耗能源/燃料；be consumed with guilt/rage 被内疚/愤怒吞噬；【形近辨析】resume (恢复/重新开始), assume (假设/担任), presume (推定)；【近义辨析】consume 强调通过使用或吃喝使其耗费或转化；exhaust 强调彻底用光且丝毫不剩；deplete 强调资源储量急剧减少；spend 强调金钱或时间的支出。"
   },
   "consumer": {
     "word": "consumer",
@@ -18443,8 +18085,7 @@
         "zh": "买方；采购员"
       }
     ],
-    "notes": "【搭配考点】consumer protection/rights 消费者保护/权益；consumer demand 消费需求；consumer goods 消费品；【形近辨析】customer (买家/顾客), commissioner (委员), container (集装箱)；【近义辨析】consumer 是经济学术语，指商品或服务的终端使用者；customer 强调具体买卖关系的买家；client 侧重接受律师、会计等长期专业咨询服务的客户；buyer 强调具体交易环节的购买方。",
-    "phonetic": "/kən'sju:mə/"
+    "notes": "【搭配考点】consumer protection/rights 消费者保护/权益；consumer demand 消费需求；consumer goods 消费品；【形近辨析】customer (买家/顾客), commissioner (委员), container (集装箱)；【近义辨析】consumer 是经济学术语，指商品或服务的终端使用者；customer 强调具体买卖关系的买家；client 侧重接受律师、会计等长期专业咨询服务的客户；buyer 强调具体交易环节的购买方。"
   },
   "consumption": {
     "word": "consumption",
@@ -18490,8 +18131,7 @@
         "zh": "耗尽；损耗"
       }
     ],
-    "notes": "【搭配考点】fuel/energy consumption 燃料/能源消耗；for personal consumption 供个人消费/食用；domestic consumption 国内消费；【形近辨析】assumption (假设), resumption (恢复), presumption (推定)；【近义辨析】consumption 既可指宏观物质资源的消耗，也可指食品药物的摄入；expenditure 专指金钱、精力的开销；intake 特指饮食营养或空气等的摄入量；depletion 侧重资源被抽空的过程。",
-    "phonetic": "/kən'sʌmpʃən/"
+    "notes": "【搭配考点】fuel/energy consumption 燃料/能源消耗；for personal consumption 供个人消费/食用；domestic consumption 国内消费；【形近辨析】assumption (假设), resumption (恢复), presumption (推定)；【近义辨析】consumption 既可指宏观物质资源的消耗，也可指食品药物的摄入；expenditure 专指金钱、精力的开销；intake 特指饮食营养或空气等的摄入量；depletion 侧重资源被抽空的过程。"
   },
   "contact": {
     "word": "contact",
@@ -18537,8 +18177,7 @@
         "zh": "相互交流；相互作用"
       }
     ],
-    "notes": "【搭配考点】make contact with 与...取得联系；keep/lose contact 保持/失去联络；direct contact 直接接触；【形近辨析】contract (合同/收缩), compact (紧凑的/合约), connect (连接)；【近义辨析】contact 强调通过某种媒介找到对方并搭上线；communicate 侧重思想信息的充分交流；reach 侧重克服距离或障碍成功联系上；interact 侧重多方之间的动态互动。",
-    "phonetic": "/'kɔntækt; kən'tækt/"
+    "notes": "【搭配考点】make contact with 与...取得联系；keep/lose contact 保持/失去联络；direct contact 直接接触；【形近辨析】contract (合同/收缩), compact (紧凑的/合约), connect (连接)；【近义辨析】contact 强调通过某种媒介找到对方并搭上线；communicate 侧重思想信息的充分交流；reach 侧重克服距离或障碍成功联系上；interact 侧重多方之间的动态互动。"
   },
   "contain": {
     "word": "contain",
@@ -18584,8 +18223,7 @@
         "zh": "包括；包含 (作为要素之一)"
       }
     ],
-    "notes": "【搭配考点】contain the spread/fire 控制蔓延/火势；hardly contain one's excitement 难以抑制激动；contain information 包含信息；【形近辨析】maintain (维护/保养), retain (保留/留存), detain (羁押/扣留)；【近义辨析】contain 作“控制”时强调阻止有害事物向外扩散，作“包含”时侧重实体内装有某物；restrain 侧重对具体行为或冲动施加外部约束；suppress 侧重用强力完全扑灭压制；include 仅表示整体列出部分要素。",
-    "phonetic": "/kən'tein/"
+    "notes": "【搭配考点】contain the spread/fire 控制蔓延/火势；hardly contain one's excitement 难以抑制激动；contain information 包含信息；【形近辨析】maintain (维护/保养), retain (保留/留存), detain (羁押/扣留)；【近义辨析】contain 作“控制”时强调阻止有害事物向外扩散，作“包含”时侧重实体内装有某物；restrain 侧重对具体行为或冲动施加外部约束；suppress 侧重用强力完全扑灭压制；include 仅表示整体列出部分要素。"
   },
   "container": {
     "word": "container",
@@ -18631,8 +18269,7 @@
         "zh": "储藏室；仓库"
       }
     ],
-    "notes": "【搭配考点】airtight/sealed container 密封容器；shipping container 海运集装箱；container port 集装箱码头；【形近辨析】containment (遏制/控制), retainer (定金/保持器), maintainer (维护人)；【近义辨析】container 泛指装任何物品的箱、盒、罐等；vessel 偏正式，指盛液体的容器或血管、大船；receptacle 偏正式书面语，指专门接纳废弃物或物品的插座、容器；repository 指系统存储大量物品或信息的库房。",
-    "phonetic": "/kən'teinə/"
+    "notes": "【搭配考点】airtight/sealed container 密封容器；shipping container 海运集装箱；container port 集装箱码头；【形近辨析】containment (遏制/控制), retainer (定金/保持器), maintainer (维护人)；【近义辨析】container 泛指装任何物品的箱、盒、罐等；vessel 偏正式，指盛液体的容器或血管、大船；receptacle 偏正式书面语，指专门接纳废弃物或物品的插座、容器；repository 指系统存储大量物品或信息的库房。"
   },
   "content": {
     "word": "content",
@@ -18678,8 +18315,7 @@
         "zh": "自满的；沾沾自喜的"
       }
     ],
-    "notes": "【搭配考点】be content with 满足于/知足于；table of contents 目录；fat/protein content 脂肪/蛋白质含量；【形近辨析】consent (赞同/准许), context (语境/背景), contempt (轻蔑/鄙视)；【近义辨析】content 作形容词侧重安于现状、不抱过高奢求的心境；satisfied 侧重具体期望或欲望被满足；pleased 强调因某事感到高兴；complacent 带有贬义，指沾沾自喜、不求进取。",
-    "phonetic": "/'kɔntent/"
+    "notes": "【搭配考点】be content with 满足于/知足于；table of contents 目录；fat/protein content 脂肪/蛋白质含量；【形近辨析】consent (赞同/准许), context (语境/背景), contempt (轻蔑/鄙视)；【近义辨析】content 作形容词侧重安于现状、不抱过高奢求的心境；satisfied 侧重具体期望或欲望被满足；pleased 强调因某事感到高兴；complacent 带有贬义，指沾沾自喜、不求进取。"
   },
   "contest": {
     "word": "contest",
@@ -18725,8 +18361,7 @@
         "zh": "比赛；对抗赛"
       }
     ],
-    "notes": "【搭配考点】contest for power/leadership 权力/领导权争夺；enter/win a contest 参加/赢得竞赛；contest a decision 质疑/抗辩某决定；【形近辨析】context (上下文), protest (抗议), detest (痛恨)；【近义辨析】contest 既可作名词指选拔赛、竞选，也可作动词强调对结果或权利提出抗辩争辩；competition 泛指一切商业或体育领域的竞争；tournament 专指多轮淘汰制的锦标赛；match 侧重两方之间的具体某场球赛对抗。",
-    "phonetic": "/'kɔntest; kən'test/"
+    "notes": "【搭配考点】contest for power/leadership 权力/领导权争夺；enter/win a contest 参加/赢得竞赛；contest a decision 质疑/抗辩某决定；【形近辨析】context (上下文), protest (抗议), detest (痛恨)；【近义辨析】contest 既可作名词指选拔赛、竞选，也可作动词强调对结果或权利提出抗辩争辩；competition 泛指一切商业或体育领域的竞争；tournament 专指多轮淘汰制的锦标赛；match 侧重两方之间的具体某场球赛对抗。"
   },
   "context": {
     "word": "context",
@@ -18772,8 +18407,7 @@
         "zh": "客观境况；伴随条件"
       }
     ],
-    "notes": "【搭配考点】in the context of 在...背景/语境下；historical/social context 历史/社会背景；out of context 断章取义；【形近辨析】content (内容), contest (竞赛), pretext (借口/托词)；【近义辨析】context 强调决定事物意义的上下文脉络与关联情境；background 强调事物的起源、底色或幕后背景；environment 侧重围绕主体的生态或物质空间；circumstance 强调伴随事件发生的外部具体客观条件。",
-    "phonetic": "/'kɔntekst/"
+    "notes": "【搭配考点】in the context of 在...背景/语境下；historical/social context 历史/社会背景；out of context 断章取义；【形近辨析】content (内容), contest (竞赛), pretext (借口/托词)；【近义辨析】context 强调决定事物意义的上下文脉络与关联情境；background 强调事物的起源、底色或幕后背景；environment 侧重围绕主体的生态或物质空间；circumstance 强调伴随事件发生的外部具体客观条件。"
   },
   "continent": {
     "word": "continent",
@@ -18819,8 +18453,7 @@
         "zh": "领土；版图"
       }
     ],
-    "notes": "【搭配考点】the African/European continent 非洲/欧洲大陆；the sub-continent 次大陆；on the continent 在欧洲大陆；【形近辨析】contingent (依条件而定的/代表团), competent (胜任的), content (满足的/内容)；【近义辨析】continent 是地理学上指世界七大洲之一的大板块陆地；mainland 指相对离岸岛屿而言的国家主体陆地或大陆本土；landmass 指地质学上的整块连续陆地；territory 侧重政治主权管辖的领土疆域。",
-    "phonetic": "/'kɔntinənt/"
+    "notes": "【搭配考点】the African/European continent 非洲/欧洲大陆；the sub-continent 次大陆；on the continent 在欧洲大陆；【形近辨析】contingent (依条件而定的/代表团), competent (胜任的), content (满足的/内容)；【近义辨析】continent 是地理学上指世界七大洲之一的大板块陆地；mainland 指相对离岸岛屿而言的国家主体陆地或大陆本土；landmass 指地质学上的整块连续陆地；territory 侧重政治主权管辖的领土疆域。"
   },
   "continual": {
     "word": "continual",
@@ -18866,8 +18499,7 @@
         "zh": "持续不变的；恒定的"
       }
     ],
-    "notes": "【搭配考点】continual complaints/interruptions 屡屡不断的抱怨/打扰；continual flow 持续反复的流动；【形近辨析】continuous (连续无间隙的), continue (继续动词), continuity (连贯性名词)；【近义辨析】continual 强调动作反复发生、不断重复出现，但每次之间存在短暂间隙；continuous 强调在整个时段内始终不停、无任何中断；recurrent 侧重按规律周期性地反复出现；constant 强调状态或速率平稳恒定。",
-    "phonetic": "/kən'tinjuəl/"
+    "notes": "【搭配考点】continual complaints/interruptions 屡屡不断的抱怨/打扰；continual flow 持续反复的流动；【形近辨析】continuous (连续无间隙的), continue (继续动词), continuity (连贯性名词)；【近义辨析】continual 强调动作反复发生、不断重复出现，但每次之间存在短暂间隙；continuous 强调在整个时段内始终不停、无任何中断；recurrent 侧重按规律周期性地反复出现；constant 强调状态或速率平稳恒定。"
   },
   "continue": {
     "word": "continue",
@@ -18913,8 +18545,7 @@
         "zh": "执意坚持；持续存在"
       }
     ],
-    "notes": "【搭配考点】continue to do/doing sth 继续做某事；continue with 接着做...；continue uninterrupted 持续不间断；【形近辨析】contain (包含), construe (领会/解释), combine (结合)；【近义辨析】continue 泛指原本进行的动作保持下去；proceed 强调按照既定程序或方向往前推进；resume 专指在暂停、打断之后重新接着做；persist 侧重面临阻碍或困难仍顽固坚持。",
-    "phonetic": "/kən'tinju:/"
+    "notes": "【搭配考点】continue to do/doing sth 继续做某事；continue with 接着做...；continue uninterrupted 持续不间断；【形近辨析】contain (包含), construe (领会/解释), combine (结合)；【近义辨析】continue 泛指原本进行的动作保持下去；proceed 强调按照既定程序或方向往前推进；resume 专指在暂停、打断之后重新接着做；persist 侧重面临阻碍或困难仍顽固坚持。"
   },
   "continuous": {
     "word": "continuous",
@@ -18960,8 +18591,7 @@
         "zh": "持续的；恒定不变的"
       }
     ],
-    "notes": "【搭配考点】continuous assessment 连续性考核/过程性评价；continuous improvement 持续改进；continuous line 连续实线；【形近辨析】continual (时断时续反复发生的), contiguous (接触的/毗邻的), contentious (引起争论的)；【近义辨析】continuous 严格指时间和空间维度上没有任何间断或裂隙；uninterrupted 强调过程没有受到外界干预或打断；non-stop 强调行程或运转中途不停车或不休息；constant 侧重速率和状态保持恒一。",
-    "phonetic": "/kən'tinjuəs/"
+    "notes": "【搭配考点】continuous assessment 连续性考核/过程性评价；continuous improvement 持续改进；continuous line 连续实线；【形近辨析】continual (时断时续反复发生的), contiguous (接触的/毗邻的), contentious (引起争论的)；【近义辨析】continuous 严格指时间和空间维度上没有任何间断或裂隙；uninterrupted 强调过程没有受到外界干预或打断；non-stop 强调行程或运转中途不停车或不休息；constant 侧重速率和状态保持恒一。"
   },
   "contract": {
     "word": "contract",
@@ -19007,8 +18637,7 @@
         "zh": "盟约；严正契约"
       }
     ],
-    "notes": "【搭配考点】breach/break a contract 违反合同；sign a binding contract 签署具有约束力的合同；metals contract when cooled 金属受冷收缩；【形近辨析】contact (接触/联络), contrast (对比), distract (转移注意力)；【近义辨析】contract 专指具备法律效力、违约受惩罚的正式商业合同；agreement 泛指任何双方达成的协议或默契；pact 常用于国家间或党派间的政治互不侵犯条约；covenant 带有浓厚历史、宗教或土地法定盟约色彩。",
-    "phonetic": "/'kɔntrækt; kən'trækt/"
+    "notes": "【搭配考点】breach/break a contract 违反合同；sign a binding contract 签署具有约束力的合同；metals contract when cooled 金属受冷收缩；【形近辨析】contact (接触/联络), contrast (对比), distract (转移注意力)；【近义辨析】contract 专指具备法律效力、违约受惩罚的正式商业合同；agreement 泛指任何双方达成的协议或默契；pact 常用于国家间或党派间的政治互不侵犯条约；covenant 带有浓厚历史、宗教或土地法定盟约色彩。"
   },
   "contradiction": {
     "word": "contradiction",
@@ -19054,8 +18683,7 @@
         "zh": "冲突；抵触"
       }
     ],
-    "notes": "【搭配考点】in contradiction to/with 与...相抵触；a contradiction in terms 用词自相矛盾；glaring contradiction 显而易见的矛盾；【形近辨析】contribution (贡献), constitution (宪法), contraction (收缩)；【近义辨析】contradiction 强调两件事完全互相对立、无法同时成立的本质逻辑对立；paradox 指表面矛盾但细想含有哲理的悖论；inconsistency 侧重缺乏前后一贯性或细节不吻合；conflict 强调双方利益或观点的正面激烈交锋碰撞。",
-    "phonetic": "/,kɔntrə'dikʃən/"
+    "notes": "【搭配考点】in contradiction to/with 与...相抵触；a contradiction in terms 用词自相矛盾；glaring contradiction 显而易见的矛盾；【形近辨析】contribution (贡献), constitution (宪法), contraction (收缩)；【近义辨析】contradiction 强调两件事完全互相对立、无法同时成立的本质逻辑对立；paradox 指表面矛盾但细想含有哲理的悖论；inconsistency 侧重缺乏前后一贯性或细节不吻合；conflict 强调双方利益或观点的正面激烈交锋碰撞。"
   },
   "contribute": {
     "word": "contribute",
@@ -19101,8 +18729,7 @@
         "zh": "提供；给予"
       }
     ],
-    "notes": "【搭配考点】contribute to 促成/导致/有益于；contribute money/time to 为...捐赠金钱/时间；contribute an article 投稿；【形近辨析】attribute (归因于 attribute...to), distribute (分发/散播), constitute (组成/构成)；【近义辨析】contribute 强调作为多种促成因素之一产生共同效果，或出于崇高目的提供资助；donate 专指慈善性质的无偿捐赠；supply 强调定期满足短缺物资的供给；provide 泛指为他人提供所需条件或物品。",
-    "phonetic": "/kən'tribju:t/"
+    "notes": "【搭配考点】contribute to 促成/导致/有益于；contribute money/time to 为...捐赠金钱/时间；contribute an article 投稿；【形近辨析】attribute (归因于 attribute...to), distribute (分发/散播), constitute (组成/构成)；【近义辨析】contribute 强调作为多种促成因素之一产生共同效果，或出于崇高目的提供资助；donate 专指慈善性质的无偿捐赠；supply 强调定期满足短缺物资的供给；provide 泛指为他人提供所需条件或物品。"
   },
   "contribution": {
     "word": "contribution",
@@ -19148,8 +18775,7 @@
         "zh": "投入；输入"
       }
     ],
-    "notes": "【搭配考点】make a significant contribution to 对...做出重大贡献；charitable contributions 慈善捐款；pension contributions 养老保险缴费；【形近辨析】distribution (分配/发行), attribution (归属/属性), constitution (宪法/构造)；【近义辨析】contribution 侧重付出智慧、精力或资财产生的长远积极价值；donation 强调纯粹出于善心的款项捐助；offering 带有宗教虔敬或礼品奉送色彩；input 侧重工程或讨论中投入的数据、人力或资源。",
-    "phonetic": "/,kəntri'bju:ʃən/"
+    "notes": "【搭配考点】make a significant contribution to 对...做出重大贡献；charitable contributions 慈善捐款；pension contributions 养老保险缴费；【形近辨析】distribution (分配/发行), attribution (归属/属性), constitution (宪法/构造)；【近义辨析】contribution 侧重付出智慧、精力或资财产生的长远积极价值；donation 强调纯粹出于善心的款项捐助；offering 带有宗教虔敬或礼品奉送色彩；input 侧重工程或讨论中投入的数据、人力或资源。"
   },
   "control": {
     "word": "control",
@@ -19195,8 +18821,7 @@
         "zh": "指挥；统领 (下达命令)"
       }
     ],
-    "notes": "【搭配考点】under control 处于控制之中；lose control of 失去对...的控制；control inflation 控制通胀；beyond one's control 无法控制；【形近辨析】patrol (巡逻), enrol (注册入伍), scroll (电脑滚屏)；【近义辨析】control 强调对事物的走向、力量施加约束并使其完全受制于掌控者；regulate 强调按照规则标准调节使之有序；govern 侧重宏观体制上的治理统治或规律性约束；command 强调上下级军事化权力的指挥号令。",
-    "phonetic": "/kən'trəul/"
+    "notes": "【搭配考点】under control 处于控制之中；lose control of 失去对...的控制；control inflation 控制通胀；beyond one's control 无法控制；【形近辨析】patrol (巡逻), enrol (注册入伍), scroll (电脑滚屏)；【近义辨析】control 强调对事物的走向、力量施加约束并使其完全受制于掌控者；regulate 强调按照规则标准调节使之有序；govern 侧重宏观体制上的治理统治或规律性约束；command 强调上下级军事化权力的指挥号令。"
   },
   "controversial": {
     "word": "controversial",
@@ -19242,8 +18867,7 @@
         "zh": "容易引起争吵的；好争论的"
       }
     ],
-    "notes": "【搭配考点】highly/deeply controversial 极具争议的；controversial issue/policy 争议议题/政策；【形近辨析】conversation (谈话), convention (大会/习俗), contradictory (自相矛盾的)；【近义辨析】controversial 指引发公众截然对立的争论与观点分歧；disputed 强调因所有权或真实性遭到质疑反驳；debatable 强调事情尚无定论、有待商讨；contentious 指极易挑起口角与争执。",
-    "phonetic": "/,kɔntrə'və:ʃəl/"
+    "notes": "【搭配考点】highly/deeply controversial 极具争议的；controversial issue/policy 争议议题/政策；【形近辨析】conversation (谈话), convention (大会/习俗), contradictory (自相矛盾的)；【近义辨析】controversial 指引发公众截然对立的争论与观点分歧；disputed 强调因所有权或真实性遭到质疑反驳；debatable 强调事情尚无定论、有待商讨；contentious 指极易挑起口角与争执。"
   },
   "convenience": {
     "word": "convenience",
@@ -19289,8 +18913,7 @@
         "zh": "便利设施；舒适设施"
       }
     ],
-    "notes": "【搭配考点】at your earliest convenience 请在您方便时尽早；for convenience 为了方便起见；convenience store 便利店；modern conveniences 现代便利设施；【形近辨析】conveyance (运输工具/转让证书), conscience (良心), confidence (自信)；【近义辨析】convenience 强调省时省力、安排顺手；expediency 带有功利色彩，指不顾道德原则但行之有效的权宜手段；accessibility 强调易于到达或易于获取使用；amenity 指提供舒适与生活享受的公共设施。",
-    "phonetic": "/kən'vi:njəns/"
+    "notes": "【搭配考点】at your earliest convenience 请在您方便时尽早；for convenience 为了方便起见；convenience store 便利店；modern conveniences 现代便利设施；【形近辨析】conveyance (运输工具/转让证书), conscience (良心), confidence (自信)；【近义辨析】convenience 强调省时省力、安排顺手；expediency 带有功利色彩，指不顾道德原则但行之有效的权宜手段；accessibility 强调易于到达或易于获取使用；amenity 指提供舒适与生活享受的公共设施。"
   },
   "convenient": {
     "word": "convenient",
@@ -19336,8 +18959,7 @@
         "zh": "有利的；有优势的"
       }
     ],
-    "notes": "【搭配考点】be convenient for sb 对某人来说方便；a convenient time/place 方便的时间/地点；it is convenient to do 便于做某事；【形近辨析】conventional (传统的/守旧的), confident (有信心的), consistent (前后一致的)；【近义辨析】convenient 强调安排得当、不费周折；handy 侧重手边随手可用或使用轻便小巧；accessible 侧重通道通畅、没有门槛限制；advantageous 侧重带来明显利益或竞争优势。",
-    "phonetic": "/kən'vi:njənt/"
+    "notes": "【搭配考点】be convenient for sb 对某人来说方便；a convenient time/place 方便的时间/地点；it is convenient to do 便于做某事；【形近辨析】conventional (传统的/守旧的), confident (有信心的), consistent (前后一致的)；【近义辨析】convenient 强调安排得当、不费周折；handy 侧重手边随手可用或使用轻便小巧；accessible 侧重通道通畅、没有门槛限制；advantageous 侧重带来明显利益或竞争优势。"
   },
   "convention": {
     "word": "convention",
@@ -19383,8 +19005,7 @@
         "zh": "会议；研讨会 (专门研讨商议)"
       }
     ],
-    "notes": "【搭配考点】by convention 按照惯例；defy/break with convention 打破传统惯例；Geneva Convention 日内瓦公约；annual convention 年度大会；【形近辨析】conversation (谈话), conversion (转化/皈依), conviction (定罪/确信)；【近义辨析】convention 侧重社会公认的约定俗成或外交公约、行业大展会；custom 强调某一特定社群的生活风俗；tradition 强调世代沉淀的历史传统；conference 侧重正式学术或商业工作研讨会议。",
-    "phonetic": "/kən'venʃən/"
+    "notes": "【搭配考点】by convention 按照惯例；defy/break with convention 打破传统惯例；Geneva Convention 日内瓦公约；annual convention 年度大会；【形近辨析】conversation (谈话), conversion (转化/皈依), conviction (定罪/确信)；【近义辨析】convention 侧重社会公认的约定俗成或外交公约、行业大展会；custom 强调某一特定社群的生活风俗；tradition 强调世代沉淀的历史传统；conference 侧重正式学术或商业工作研讨会议。"
   },
   "conventional": {
     "word": "conventional",
@@ -19430,8 +19051,7 @@
         "zh": "标准的；规范的"
       }
     ],
-    "notes": "【搭配考点】conventional wisdom 传统观念/普遍看法；conventional weapons 常规武器；conventional medicine 常规医学；【形近辨析】conversational (对话式的), intentional (有意的), conditional (附条件的)；【近义辨析】conventional 强调符合社会多数人接受的现行规矩做法，有时带刻板缺乏创新意味；traditional 强调承接自历史祖辈的文化底蕴；orthodox 侧重宗教、学说理论上的纯正与正统；standard 强调符合严格的技术或质检标准。",
-    "phonetic": "/kən'venʃənəl/"
+    "notes": "【搭配考点】conventional wisdom 传统观念/普遍看法；conventional weapons 常规武器；conventional medicine 常规医学；【形近辨析】conversational (对话式的), intentional (有意的), conditional (附条件的)；【近义辨析】conventional 强调符合社会多数人接受的现行规矩做法，有时带刻板缺乏创新意味；traditional 强调承接自历史祖辈的文化底蕴；orthodox 侧重宗教、学说理论上的纯正与正统；standard 强调符合严格的技术或质检标准。"
   },
   "conversation": {
     "word": "conversation",
@@ -19477,8 +19097,7 @@
         "zh": "闲聊；叙旧 (轻松随意的聊天)"
       }
     ],
-    "notes": "【搭配考点】have a conversation with 与...交谈；strike up a conversation 搭话/攀谈；in conversation with 正在与...谈话；【形近辨析】conservation (自然环境保护), convention (公约/惯例), conversion (转化/兑换)；【近义辨析】conversation 是最普遍的日常双向语言交流；dialogue 偏向文学作品中的对白或国与国之间的政治谈判对话；discussion 侧重围绕特定论题深入剖析辩论；chat 侧重闲散、轻松的日常碎聊。",
-    "phonetic": "/,kɔnvə'seiʃən/"
+    "notes": "【搭配考点】have a conversation with 与...交谈；strike up a conversation 搭话/攀谈；in conversation with 正在与...谈话；【形近辨析】conservation (自然环境保护), convention (公约/惯例), conversion (转化/兑换)；【近义辨析】conversation 是最普遍的日常双向语言交流；dialogue 偏向文学作品中的对白或国与国之间的政治谈判对话；discussion 侧重围绕特定论题深入剖析辩论；chat 侧重闲散、轻松的日常碎聊。"
   },
   "conversion": {
     "word": "conversion",
@@ -19524,8 +19143,7 @@
         "zh": "局部修改；微调"
       }
     ],
-    "notes": "【搭配考点】conversion rate 转化率/兑换率；currency conversion 货币兑换；conversion to solar energy 转用太阳能；【形近辨析】conversation (谈话), conservation (自然保护), aversion (极度厌恶)；【近义辨析】conversion 强调将某种形态、性质或用途完全变为另一种（如光能转电能、币种兑换或宗教皈依）；transformation 强调外貌、性质或体制发生翻天覆地的彻底重构；transition 侧重从一个阶段平稳移交过渡到下一阶段；alteration 侧重在原有基础上进行局部修正剪裁。",
-    "phonetic": "/kən'və:ʃən/"
+    "notes": "【搭配考点】conversion rate 转化率/兑换率；currency conversion 货币兑换；conversion to solar energy 转用太阳能；【形近辨析】conversation (谈话), conservation (自然保护), aversion (极度厌恶)；【近义辨析】conversion 强调将某种形态、性质或用途完全变为另一种（如光能转电能、币种兑换或宗教皈依）；transformation 强调外貌、性质或体制发生翻天覆地的彻底重构；transition 侧重从一个阶段平稳移交过渡到下一阶段；alteration 侧重在原有基础上进行局部修正剪裁。"
   },
   "convey": {
     "word": "convey",
@@ -19571,8 +19189,7 @@
         "zh": "发射；播送；传递 (信号/疾病)"
       }
     ],
-    "notes": "【搭配考点】convey a message/meaning 传达信息/意思；convey one's feelings/gratitude 表达感受/谢意；convey goods 运送货物；【形近辨析】survey (调查/审视), purvey (供应伙食/贩售), convert (转变/皈依)；【近义辨析】convey 侧重把抽象的思想、语气或深层感情间接或含蓄地传达给他人，亦可指物理搬运；express 强调主动把内心情绪或意见清晰陈述出来；communicate 侧重双方的信息通畅互达；transmit 侧重通过无线电、介质机械传递数据、信号或遗传疾病。",
-    "phonetic": "/kən'vei/"
+    "notes": "【搭配考点】convey a message/meaning 传达信息/意思；convey one's feelings/gratitude 表达感受/谢意；convey goods 运送货物；【形近辨析】survey (调查/审视), purvey (供应伙食/贩售), convert (转变/皈依)；【近义辨析】convey 侧重把抽象的思想、语气或深层感情间接或含蓄地传达给他人，亦可指物理搬运；express 强调主动把内心情绪或意见清晰陈述出来；communicate 侧重双方的信息通畅互达；transmit 侧重通过无线电、介质机械传递数据、信号或遗传疾病。"
   },
   "convince": {
     "word": "convince",
@@ -19618,8 +19235,7 @@
         "zh": "动摇；使改变立场"
       }
     ],
-    "notes": "【搭配考点】convince sb of sth 使某人确信某事；convince sb that 使某人相信...；convince sb to do 劝说某人做某事；【形近辨析】conceive (构思/设想), consent (赞同), commence (开始)；【近义辨析】convince 重在凭借事实或逻辑彻底消除怀疑，使对方在理性思维上“心悦诚服”；persuade 侧重于晓之以理、动之以情，最终目的是推动对方付诸某项“具体行动”；assure 侧重用言语使人消除疑虑安心；sway 侧重通过外界影响动摇对方态度。",
-    "phonetic": "/kən'vins/"
+    "notes": "【搭配考点】convince sb of sth 使某人确信某事；convince sb that 使某人相信...；convince sb to do 劝说某人做某事；【形近辨析】conceive (构思/设想), consent (赞同), commence (开始)；【近义辨析】convince 重在凭借事实或逻辑彻底消除怀疑，使对方在理性思维上“心悦诚服”；persuade 侧重于晓之以理、动之以情，最终目的是推动对方付诸某项“具体行动”；assure 侧重用言语使人消除疑虑安心；sway 侧重通过外界影响动摇对方态度。"
   },
   "cook": {
     "word": "cook",
@@ -19665,8 +19281,7 @@
         "zh": "准备；调制 (食物菜肴)"
       }
     ],
-    "notes": "【搭配考点】cook a meal 做饭；cook over low heat 低温慢煮；too many cooks spoil the broth 厨多坏汤/人多手杂；【形近辨析】book (书/预定), look (看), hook (挂钩)；【近义辨析】cook 是烹饪加热食物的统称；bake 专指在密闭烤箱中依靠干热烘烤面点；roast 专指在明火或烤箱中高温炙烤肉类、蔬菜；prepare 侧重烹调前的原料加工或冷餐配置。",
-    "phonetic": "/kuk/"
+    "notes": "【搭配考点】cook a meal 做饭；cook over low heat 低温慢煮；too many cooks spoil the broth 厨多坏汤/人多手杂；【形近辨析】book (书/预定), look (看), hook (挂钩)；【近义辨析】cook 是烹饪加热食物的统称；bake 专指在密闭烤箱中依靠干热烘烤面点；roast 专指在明火或烤箱中高温炙烤肉类、蔬菜；prepare 侧重烹调前的原料加工或冷餐配置。"
   },
   "cool": {
     "word": "cool",
@@ -19712,8 +19327,7 @@
         "zh": "镇定的；泰然自若的"
       }
     ],
-    "notes": "【搭配考点】keep/stay cool 保持冷静；cool down 冷静下来/冷却；a cool reception 冷遇；cool breeze 清凉微风；【形近辨析】pool (水池), tool (工具), fool (愚人)；【近义辨析】cool 指温度适度偏低令人舒适，在心理上强调头脑清醒克制、临危不乱；calm 强调心境平和没有波澜起伏；chill 指冷到令人不适或打哆嗦；composed 强调通过意志力展现出成熟体面的自持。",
-    "phonetic": "/ku:l/"
+    "notes": "【搭配考点】keep/stay cool 保持冷静；cool down 冷静下来/冷却；a cool reception 冷遇；cool breeze 清凉微风；【形近辨析】pool (水池), tool (工具), fool (愚人)；【近义辨析】cool 指温度适度偏低令人舒适，在心理上强调头脑清醒克制、临危不乱；calm 强调心境平和没有波澜起伏；chill 指冷到令人不适或打哆嗦；composed 强调通过意志力展现出成熟体面的自持。"
   },
   "cooperate": {
     "word": "cooperate",
@@ -19759,8 +19373,7 @@
         "zh": "协助；辅助"
       }
     ],
-    "notes": "【搭配考点】cooperate with sb 与某人合作；cooperate in doing 协作做某事；refuse to cooperate 拒绝配合；【形近辨析】corporate (公司的), operate (操作/手术), incorporate (合并/纳入)；【近义辨析】cooperate 泛指各方为达成互利目标而积极配合行动；collaborate 侧重跨团队或专家在智力、学术或文艺领域的深入联合攻坚；coordinate 侧重调度统筹多方节奏；assist 强调作为副手提供辅助支援。",
-    "phonetic": "/kəu'ɔpəreit/"
+    "notes": "【搭配考点】cooperate with sb 与某人合作；cooperate in doing 协作做某事；refuse to cooperate 拒绝配合；【形近辨析】corporate (公司的), operate (操作/手术), incorporate (合并/纳入)；【近义辨析】cooperate 泛指各方为达成互利目标而积极配合行动；collaborate 侧重跨团队或专家在智力、学术或文艺领域的深入联合攻坚；coordinate 侧重调度统筹多方节奏；assist 强调作为副手提供辅助支援。"
   },
   "cooperation": {
     "word": "cooperation",
@@ -19806,8 +19419,7 @@
         "zh": "同盟；联盟"
       }
     ],
-    "notes": "【搭配考点】in cooperation with 与...合作；international cooperation 国际合作；close cooperation 紧密协作；【形近辨析】corporation (跨国大公司), operation (运转/手术), consideration (审慎考虑)；【近义辨析】cooperation 强调各方愿意共享资源、互助配合；collaboration 强调高技术含量团队的合著合研；coordination 强调消除内耗、协调步调与分配工序；alliance 强调基于共同防务或战略利益订立的正式同盟关系。",
-    "phonetic": "/kəu,ɔpə'reiʃən/"
+    "notes": "【搭配考点】in cooperation with 与...合作；international cooperation 国际合作；close cooperation 紧密协作；【形近辨析】corporation (跨国大公司), operation (运转/手术), consideration (审慎考虑)；【近义辨析】cooperation 强调各方愿意共享资源、互助配合；collaboration 强调高技术含量团队的合著合研；coordination 强调消除内耗、协调步调与分配工序；alliance 强调基于共同防务或战略利益订立的正式同盟关系。"
   },
   "cope": {
     "word": "cope",
@@ -19853,8 +19465,7 @@
         "zh": "经受；顶住 (承受外部巨大冲击)"
       }
     ],
-    "notes": "【搭配考点】cope with 应对/应付 (困难、压力、负荷)；cope effectively 有效应对；unable to cope 无法承受应对；【形近辨析】hope (希望), rope (绳索), core (果核/核心)；【近义辨析】cope 必须与 with 连用，强调在面临巨大压力、困难或逆境时竭力抵挡或保持运转；handle 强调日常事物有条不紊的处理或掌管；tackle 强调毫不畏惧地着手直面重大棘手问题；withstand 侧重顶住强烈的外部冲击或恶劣条件而不被压垮。",
-    "phonetic": "/kəup/"
+    "notes": "【搭配考点】cope with 应对/应付 (困难、压力、负荷)；cope effectively 有效应对；unable to cope 无法承受应对；【形近辨析】hope (希望), rope (绳索), core (果核/核心)；【近义辨析】cope 必须与 with 连用，强调在面临巨大压力、困难或逆境时竭力抵挡或保持运转；handle 强调日常事物有条不紊的处理或掌管；tackle 强调毫不畏惧地着手直面重大棘手问题；withstand 侧重顶住强烈的外部冲击或恶劣条件而不被压垮。"
   },
   "copy": {
     "word": "copy",
@@ -19900,8 +19511,7 @@
         "zh": "仿制品；仿冒品"
       }
     ],
-    "notes": "【搭配考点】make a copy of 制作...的复印件；hard copy 纸质打印版；certified copy 公证认证的副本；【形近辨析】coop (鸡棚), cope (应付), cozy (温馨舒适的)；【近义辨析】copy 为泛称，指文本、图纸或数据的任何复制品；duplicate 指一模一样、具有完全同等法律效力的双份正本之一；replica 特指对古董、名画、船模等进行严格按比例的原物复刻；imitation 侧重仿照名牌或贵重材料制作的廉价仿品。",
-    "phonetic": "/'kɔpi/"
+    "notes": "【搭配考点】make a copy of 制作...的复印件；hard copy 纸质打印版；certified copy 公证认证的副本；【形近辨析】coop (鸡棚), cope (应付), cozy (温馨舒适的)；【近义辨析】copy 为泛称，指文本、图纸或数据的任何复制品；duplicate 指一模一样、具有完全同等法律效力的双份正本之一；replica 特指对古董、名画、船模等进行严格按比例的原物复刻；imitation 侧重仿照名牌或贵重材料制作的廉价仿品。"
   },
   "core": {
     "word": "core",
@@ -19947,8 +19557,7 @@
         "zh": "本质；实质"
       }
     ],
-    "notes": "【搭配考点】core values 核心价值观；at the core of 在...的核心；core competence 核心竞争力；core subject 必修核心科目；【形近辨析】cord (电线/绳索), cork (软木塞), corn (谷物)；【近义辨析】core 强调结构或体系中最内部、最关键且起支撑作用的部分；heart 形象地指最具活力和灵魂的所在；nucleus 强调作为细胞核、引发周围凝聚扩展的中心微粒；essence 强调抽象事物最根本、最纯粹的本质属性。",
-    "phonetic": "/'kɔ:ri:; 'kəuri:/"
+    "notes": "【搭配考点】core values 核心价值观；at the core of 在...的核心；core competence 核心竞争力；core subject 必修核心科目；【形近辨析】cord (电线/绳索), cork (软木塞), corn (谷物)；【近义辨析】core 强调结构或体系中最内部、最关键且起支撑作用的部分；heart 形象地指最具活力和灵魂的所在；nucleus 强调作为细胞核、引发周围凝聚扩展的中心微粒；essence 强调抽象事物最根本、最纯粹的本质属性。"
   },
   "corner": {
     "word": "corner",
@@ -19994,8 +19603,7 @@
         "zh": "十字路口；交叉口"
       }
     ],
-    "notes": "【搭配考点】round/around the corner 就在拐角处/即将到来；in the corner 在室内角落；on the corner 在街道拐角处；corner the market 垄断市场；【形近辨析】coronet (王冠/小冕), cornet (短号铜管乐器), coroner (验尸法医)；【近义辨析】corner 强调两面墙壁或街道交汇处形成的尖角或区域；angle 指数学几何的角度或思考审视问题的切入视角；nook 强调小巧温暖、安全幽静的偏僻角落；intersection 专指多条道路平交相汇的整个路口。",
-    "phonetic": "/'kɔ:nə/"
+    "notes": "【搭配考点】round/around the corner 就在拐角处/即将到来；in the corner 在室内角落；on the corner 在街道拐角处；corner the market 垄断市场；【形近辨析】coronet (王冠/小冕), cornet (短号铜管乐器), coroner (验尸法医)；【近义辨析】corner 强调两面墙壁或街道交汇处形成的尖角或区域；angle 指数学几何的角度或思考审视问题的切入视角；nook 强调小巧温暖、安全幽静的偏僻角落；intersection 专指多条道路平交相汇的整个路口。"
   },
   "corporate": {
     "word": "corporate",
@@ -20041,8 +19649,7 @@
         "zh": "事业；创业公司 (进取型工商企业)"
       }
     ],
-    "notes": "【搭配考点】corporate culture 企业文化；corporate governance 公司治理；corporate social responsibility (CSR) 企业社会责任；corporate tax 企业所得税；【形近辨析】cooperate (协作配合), incorporate (吸收合并), liberate (解放)；【近义辨析】corporate 侧重现代大型股份制公司、法人实体所具有的属性或整体行为；commercial 侧重商品交易、广告市场推广和追求利润；business 侧重日常经营买卖事务；enterprise 侧重具有开拓创新精神的企业或大型事业。",
-    "phonetic": "/'kɔ:pərit/"
+    "notes": "【搭配考点】corporate culture 企业文化；corporate governance 公司治理；corporate social responsibility (CSR) 企业社会责任；corporate tax 企业所得税；【形近辨析】cooperate (协作配合), incorporate (吸收合并), liberate (解放)；【近义辨析】corporate 侧重现代大型股份制公司、法人实体所具有的属性或整体行为；commercial 侧重商品交易、广告市场推广和追求利润；business 侧重日常经营买卖事务；enterprise 侧重具有开拓创新精神的企业或大型事业。"
   },
   "corporation": {
     "word": "corporation",
@@ -20088,8 +19695,7 @@
         "zh": "企业；企事业单位"
       }
     ],
-    "notes": "【搭配考点】multinational corporation 跨国公司；public corporation 上市公营公司；corporation tax 公司所得税；【形近辨析】cooperation (合作), operation (手术/运转), incorporation (公司注册成立)；【近义辨析】corporation 通常指规模庞大、组织严密且经法律特许注册的股份制集团大公司；company 是最普遍适用的商业公司通用词；firm 多指合伙人制经营的中小型专业服务公司（如法律或咨询事务所）；enterprise 强调具有风险探索性的企业单位。",
-    "phonetic": "/,kɔ:pə'reiʃən/"
+    "notes": "【搭配考点】multinational corporation 跨国公司；public corporation 上市公营公司；corporation tax 公司所得税；【形近辨析】cooperation (合作), operation (手术/运转), incorporation (公司注册成立)；【近义辨析】corporation 通常指规模庞大、组织严密且经法律特许注册的股份制集团大公司；company 是最普遍适用的商业公司通用词；firm 多指合伙人制经营的中小型专业服务公司（如法律或咨询事务所）；enterprise 强调具有风险探索性的企业单位。"
   },
   "correct": {
     "word": "correct",
@@ -20135,8 +19741,7 @@
         "zh": "对的；合适的 (通用日常词，兼含道义正当)"
       }
     ],
-    "notes": "【搭配考点】correct answer/procedure 正确答案/正规程序；correct mistakes 纠正错误；politically correct 政治正确的；【形近辨析】collect (收集), connect (连接), convict (定罪/罪犯)；【近义辨析】correct 强调完全符合客观事实、规范或逻辑，没有谬误；accurate 侧重数据、测量、信息极具精准度、公差极小；exact 强调每个细节毫厘不差、完全吻合；right 日常最通俗，不仅指无误，更常包含道德上的公正合理。",
-    "phonetic": "/kə'rekt/"
+    "notes": "【搭配考点】correct answer/procedure 正确答案/正规程序；correct mistakes 纠正错误；politically correct 政治正确的；【形近辨析】collect (收集), connect (连接), convict (定罪/罪犯)；【近义辨析】correct 强调完全符合客观事实、规范或逻辑，没有谬误；accurate 侧重数据、测量、信息极具精准度、公差极小；exact 强调每个细节毫厘不差、完全吻合；right 日常最通俗，不仅指无误，更常包含道德上的公正合理。"
   },
   "correction": {
     "word": "correction",
@@ -20182,8 +19787,7 @@
         "zh": "调节；微调"
       }
     ],
-    "notes": "【搭配考点】make a correction 做出修正；market correction 市场回调；correction fluid 涂改液；undergo correction 接受纠正；【形近辨析】collection (收藏/募集), connection (网络连接), conviction (深信/判罪)；【近义辨析】correction 侧重改掉错误使之回到正确状态，或金融市场的技术性回调；amendment 专指法案、章程条文的正式修改补充；revision 侧重全面复查并重写更新文稿；adjustment 强调微幅调整参数以达到平衡适应。",
-    "phonetic": "/kə'rekʃən/"
+    "notes": "【搭配考点】make a correction 做出修正；market correction 市场回调；correction fluid 涂改液；undergo correction 接受纠正；【形近辨析】collection (收藏/募集), connection (网络连接), conviction (深信/判罪)；【近义辨析】correction 侧重改掉错误使之回到正确状态，或金融市场的技术性回调；amendment 专指法案、章程条文的正式修改补充；revision 侧重全面复查并重写更新文稿；adjustment 强调微幅调整参数以达到平衡适应。"
   },
   "correspond": {
     "word": "correspond",
@@ -20229,8 +19833,7 @@
         "zh": "巧合相遇；完全一致"
       }
     ],
-    "notes": "【搭配考点】correspond with sb 与某人通信；correspond to/with 与...相符合/对应；correspond in size/shape 尺寸/形状相仿；【形近辨析】respond (回答/反应), despond (沮丧心灰), correlate (相互关联)；【近义辨析】correspond 强调两件事物在性质、结构或功能上彼此对齐吻合，或指长期的双向书信往来；match 侧重两样东西在色彩、样式或能力上匹配般配；tally 特指两份数字、账目或清单核对后分毫不差；coincide 强调时间上的巧合重叠或意见完全一致。",
-    "phonetic": "/,kɔ:ri'spɔnd/"
+    "notes": "【搭配考点】correspond with sb 与某人通信；correspond to/with 与...相符合/对应；correspond in size/shape 尺寸/形状相仿；【形近辨析】respond (回答/反应), despond (沮丧心灰), correlate (相互关联)；【近义辨析】correspond 强调两件事物在性质、结构或功能上彼此对齐吻合，或指长期的双向书信往来；match 侧重两样东西在色彩、样式或能力上匹配般配；tally 特指两份数字、账目或清单核对后分毫不差；coincide 强调时间上的巧合重叠或意见完全一致。"
   },
   "correspondent": {
     "word": "correspondent",
@@ -20276,8 +19879,7 @@
         "zh": "专栏作家"
       }
     ],
-    "notes": "【搭配考点】foreign/war correspondent 驻外/战地记者；special correspondent 特约通讯员；correspondent bank 代理行；【形近辨析】correspondence (书信往来), respondent (调查问卷回答者/诉讼被告), descendant (后裔)；【近义辨析】correspondent 专指长驻某地或专门负责某一垂直领域（如财经、战地、外交）的特派高级记者；reporter 泛指奔波在新闻一线采访跑腿的记者；journalist 范围最广，指从事新闻采编、评论的知识分子新闻人；columnist 专指定期撰写个人评论专栏的特约作者。",
-    "phonetic": "/,kɔ:ri'spɔndənt/"
+    "notes": "【搭配考点】foreign/war correspondent 驻外/战地记者；special correspondent 特约通讯员；correspondent bank 代理行；【形近辨析】correspondence (书信往来), respondent (调查问卷回答者/诉讼被告), descendant (后裔)；【近义辨析】correspondent 专指长驻某地或专门负责某一垂直领域（如财经、战地、外交）的特派高级记者；reporter 泛指奔波在新闻一线采访跑腿的记者；journalist 范围最广，指从事新闻采编、评论的知识分子新闻人；columnist 专指定期撰写个人评论专栏的特约作者。"
   },
   "corridor": {
     "word": "corridor",
@@ -20323,8 +19925,7 @@
         "zh": "通道；走廊；通路"
       }
     ],
-    "notes": "【搭配考点】humanitarian corridor 人道主义走廊；economic corridor 经济走廊；along the corridor 沿着走廊；walk down the corridor 穿过走廊；【形近辨析】spectator (现场观众), radiator (暖气散热片), escalator (自动滚梯)；【近义辨析】corridor 专指建筑内部两侧连接各个房间的狭长通道，亦引申为地缘政治中的交通狭长地带；hallway 美语常用，兼指入户门厅或连接居室的走廊；aisle 专指飞机、火车、教堂排椅或超市货架之间的过道；passage 泛指任何穿行通道、地道或书面文章段落。",
-    "phonetic": "/'kɔridɔ:/"
+    "notes": "【搭配考点】humanitarian corridor 人道主义走廊；economic corridor 经济走廊；along the corridor 沿着走廊；walk down the corridor 穿过走廊；【形近辨析】spectator (现场观众), radiator (暖气散热片), escalator (自动滚梯)；【近义辨析】corridor 专指建筑内部两侧连接各个房间的狭长通道，亦引申为地缘政治中的交通狭长地带；hallway 美语常用，兼指入户门厅或连接居室的走廊；aisle 专指飞机、火车、教堂排椅或超市货架之间的过道；passage 泛指任何穿行通道、地道或书面文章段落。"
   },
   "corrupt": {
     "word": "corrupt",
@@ -20370,8 +19971,7 @@
         "zh": "唯利是图的；贪赃枉法的"
       }
     ],
-    "notes": "【搭配考点】corrupt officials 腐败官员；corrupt practices 腐败行为/舞弊；corrupt the youth 腐蚀年轻人；corrupted data 损坏的数据；【形近辨析】correct (正确的), abrupt (突然粗鲁的), bankrupt (破产的)；【近义辨析】corrupt 强调职权滥用、受贿或纯洁性彻底丧失堕落，电脑中指文件数据毁损；dishonest 泛指言行不诚实、爱说谎；fraudulent 侧重在商业和法律上实施诈骗手段；venal 专指利欲熏心、给钱就卖官鬻爵的贪腐恶行。",
-    "phonetic": "/kə'rʌpt/"
+    "notes": "【搭配考点】corrupt officials 腐败官员；corrupt practices 腐败行为/舞弊；corrupt the youth 腐蚀年轻人；corrupted data 损坏的数据；【形近辨析】correct (正确的), abrupt (突然粗鲁的), bankrupt (破产的)；【近义辨析】corrupt 强调职权滥用、受贿或纯洁性彻底丧失堕落，电脑中指文件数据毁损；dishonest 泛指言行不诚实、爱说谎；fraudulent 侧重在商业和法律上实施诈骗手段；venal 专指利欲熏心、给钱就卖官鬻爵的贪腐恶行。"
   },
   "corruption": {
     "word": "corruption",
@@ -20417,8 +20017,7 @@
         "zh": "不当行为；渎职"
       }
     ],
-    "notes": "【搭配考点】fight/stamp out corruption 打击/铲除腐败；widespread corruption 普遍腐败；anti-corruption campaign 反腐败运动；【形近辨析】eruption (火山喷发/爆发), disruption (混乱/中断), interruption (打扰/暂停)；【近义辨析】corruption 侧重体制、道德或官员整体的腐化堕落和违法乱纪；bribery 特指以金钱行贿受贿的具体犯罪；graft 专指利用政治权力和公款非法捞取私利；misconduct 指违背职业道德或法规的滥用职权行为。",
-    "phonetic": "/kə'rʌpʃən/"
+    "notes": "【搭配考点】fight/stamp out corruption 打击/铲除腐败；widespread corruption 普遍腐败；anti-corruption campaign 反腐败运动；【形近辨析】eruption (火山喷发/爆发), disruption (混乱/中断), interruption (打扰/暂停)；【近义辨析】corruption 侧重体制、道德或官员整体的腐化堕落和违法乱纪；bribery 特指以金钱行贿受贿的具体犯罪；graft 专指利用政治权力和公款非法捞取私利；misconduct 指违背职业道德或法规的滥用职权行为。"
   },
   "cost": {
     "word": "cost",
@@ -20464,8 +20063,7 @@
         "zh": "支出；总花费"
       }
     ],
-    "notes": "【搭配考点】at all costs 不惜任何代价；living costs 生活成本；production costs 生产成本；cost a fortune 价值不菲/耗费巨资；【形近辨析】host (东道主), post (职位/张贴), most (最多)；【近义辨析】cost 强调制造产品或完成事业所耗费的资源、金钱或沉痛代价；price 专指买家需要支付的商品购买价格；expense 侧重日常经营报销或生活产生的实际花销；expenditure 偏正式，指政府或大机构的财政预算总支出。",
-    "phonetic": "/kɔst/"
+    "notes": "【搭配考点】at all costs 不惜任何代价；living costs 生活成本；production costs 生产成本；cost a fortune 价值不菲/耗费巨资；【形近辨析】host (东道主), post (职位/张贴), most (最多)；【近义辨析】cost 强调制造产品或完成事业所耗费的资源、金钱或沉痛代价；price 专指买家需要支付的商品购买价格；expense 侧重日常经营报销或生活产生的实际花销；expenditure 偏正式，指政府或大机构的财政预算总支出。"
   },
   "cotton": {
     "word": "cotton",
@@ -20511,8 +20109,7 @@
         "zh": "丝绸；蚕丝"
       }
     ],
-    "notes": "【搭配考点】pure cotton 纯棉；cotton spinning/mill 纺棉/棉纺厂；cotton on to 渐渐明白/发觉；【形近辨析】button (纽扣), mutton (羊肉), bottom (底部)；【近义辨析】cotton 专指锦葵科棉属植物纤维或棉布；wool 指绵羊等动物的毛织物；linen 专指由亚麻植物韧皮纤维纺制而成的吸汗凉爽面料；silk 特指蚕丝纺织而成的高光泽轻柔面料。",
-    "phonetic": "/'kɔtən/"
+    "notes": "【搭配考点】pure cotton 纯棉；cotton spinning/mill 纺棉/棉纺厂；cotton on to 渐渐明白/发觉；【形近辨析】button (纽扣), mutton (羊肉), bottom (底部)；【近义辨析】cotton 专指锦葵科棉属植物纤维或棉布；wool 指绵羊等动物的毛织物；linen 专指由亚麻植物韧皮纤维纺制而成的吸汗凉爽面料；silk 特指蚕丝纺织而成的高光泽轻柔面料。"
   },
   "couch": {
     "word": "couch",
@@ -20558,8 +20155,7 @@
         "zh": "矮长沙发 (无扶手靠背矮榻)"
       }
     ],
-    "notes": "【搭配考点】couch potato 终日泡在电视前的懒汉；couch in diplomatic terms 用外交辞令措辞表达；lie on the couch 躺在沙发上；【形近辨析】coach (长途客车/教练), pouch (皮袋/育儿袋), crouch (蹲伏蜷缩)；【近义辨析】couch 强调供坐卧休息的舒适长沙发，医学上特指心理诊所的诊疗卧榻；sofa 是最常用的软包沙发泛称；settee 指尺寸适中的双人或三人木质框架沙发；divan 指贴墙摆放、无靠背扶手的矮床垫沙发。",
-    "phonetic": "/kautʃ/"
+    "notes": "【搭配考点】couch potato 终日泡在电视前的懒汉；couch in diplomatic terms 用外交辞令措辞表达；lie on the couch 躺在沙发上；【形近辨析】coach (长途客车/教练), pouch (皮袋/育儿袋), crouch (蹲伏蜷缩)；【近义辨析】couch 强调供坐卧休息的舒适长沙发，医学上特指心理诊所的诊疗卧榻；sofa 是最常用的软包沙发泛称；settee 指尺寸适中的双人或三人木质框架沙发；divan 指贴墙摆放、无靠背扶手的矮床垫沙发。"
   },
   "cough": {
     "word": "cough",
@@ -20605,8 +20201,7 @@
         "zh": "窒息；哽噎 (气道受阻)"
       }
     ],
-    "notes": "【搭配考点】cough up 咳出/被迫掏出钱财；persistent/hacking cough 顽固的/剧烈的咳嗽；cough mixture/syrup 止咳糖浆；【形近辨析】rough (粗糙的), tough (坚韧棘手的), dough (生面团)；【近义辨析】cough 指由于咽喉肺部受刺激引起的反射性气流冲出；sneeze 是因鼻粘膜受刺激引起的鼻腔喷气；wheeze 强调因哮喘等引起的气道狭窄哮鸣音；choke 强调异物堵塞或液体呛入导致呼吸完全受阻。",
-    "phonetic": "/kɔ:f/"
+    "notes": "【搭配考点】cough up 咳出/被迫掏出钱财；persistent/hacking cough 顽固的/剧烈的咳嗽；cough mixture/syrup 止咳糖浆；【形近辨析】rough (粗糙的), tough (坚韧棘手的), dough (生面团)；【近义辨析】cough 指由于咽喉肺部受刺激引起的反射性气流冲出；sneeze 是因鼻粘膜受刺激引起的鼻腔喷气；wheeze 强调因哮喘等引起的气道狭窄哮鸣音；choke 强调异物堵塞或液体呛入导致呼吸完全受阻。"
   },
   "could": {
     "word": "could",
@@ -20652,8 +20247,7 @@
         "zh": "愿意；大概会 (虚拟结果/意愿)"
       }
     ],
-    "notes": "【搭配考点】could have done 本可以做却未做 (虚拟语气)；could not agree more 完全赞同；as fast as one could 竭尽全力；【形近辨析】would (意愿/过去将来), should (理应/义务), cold (寒冷的)；【近义辨析】could 表过去具备的能力，或在虚拟语气中表示本具备可能性；might 表达把握更小的温和推测；may 表达现实客观可能或正式请求许可；would 侧重主体主观意向或在虚拟主句中陈述假设后果。",
-    "phonetic": "/强 kud; 弱 kəd/"
+    "notes": "【搭配考点】could have done 本可以做却未做 (虚拟语气)；could not agree more 完全赞同；as fast as one could 竭尽全力；【形近辨析】would (意愿/过去将来), should (理应/义务), cold (寒冷的)；【近义辨析】could 表过去具备的能力，或在虚拟语气中表示本具备可能性；might 表达把握更小的温和推测；may 表达现实客观可能或正式请求许可；would 侧重主体主观意向或在虚拟主句中陈述假设后果。"
   },
   "council": {
     "word": "council",
@@ -20699,8 +20293,7 @@
         "zh": "独立委员会；特派团"
       }
     ],
-    "notes": "【搭配考点】city/town council 市/镇政委员会；Security Council 安全理事会；councillor 市议员；student council 学生会；【形近辨析】counsel (法律顾问/劝告), consul (领事), cancel (作废/取消)；【近义辨析】council 指经过选举或由法定代表组成的地方立法行政或咨询最高代表团体；committee 侧重大机构下属负责某一专题审核的小型专门小组；board 特指法人治理中的董事会或管理委员会；commission 侧重国家授权处理特定任务的专门独立调查或监管机构。",
-    "phonetic": "/'kaunsəl/"
+    "notes": "【搭配考点】city/town council 市/镇政委员会；Security Council 安全理事会；councillor 市议员；student council 学生会；【形近辨析】counsel (法律顾问/劝告), consul (领事), cancel (作废/取消)；【近义辨析】council 指经过选举或由法定代表组成的地方立法行政或咨询最高代表团体；committee 侧重大机构下属负责某一专题审核的小型专门小组；board 特指法人治理中的董事会或管理委员会；commission 侧重国家授权处理特定任务的专门独立调查或监管机构。"
   },
   "counsel": {
     "word": "counsel",
@@ -20746,8 +20339,7 @@
         "zh": "咨询；商讨"
       }
     ],
-    "notes": "【搭配考点】seek/take counsel 寻求/采纳忠告；keep one's own counsel 保持沉默/不露声色；defense counsel 辩护律师；counseling session 心理辅导课程；【形近辨析】council (市议会/政务会), causal (因果的), conceal (遮盖掩饰)；【近义辨析】counsel 语气比 advice 更庄重，多指长者、智者或专业律师/心理学家针对重大问题给出的深刻引导；advice 是日常通用词；guidance 侧重长期的路线指引和启发；consultation 强调双方坐下来深入诊断商榷的流程。",
-    "phonetic": "/'kaunsəl/"
+    "notes": "【搭配考点】seek/take counsel 寻求/采纳忠告；keep one's own counsel 保持沉默/不露声色；defense counsel 辩护律师；counseling session 心理辅导课程；【形近辨析】council (市议会/政务会), causal (因果的), conceal (遮盖掩饰)；【近义辨析】counsel 语气比 advice 更庄重，多指长者、智者或专业律师/心理学家针对重大问题给出的深刻引导；advice 是日常通用词；guidance 侧重长期的路线指引和启发；consultation 强调双方坐下来深入诊断商榷的流程。"
   },
   "count": {
     "word": "count",
@@ -20793,8 +20385,7 @@
         "zh": "计算；核算"
       }
     ],
-    "notes": "【搭配考点】every second counts 分秒必争；count on sb 指望/依靠某人；count towards 算入/计入；keep count of 记录...的数目；【形近辨析】mount (爬上/安装底座), court (法院/球场), account (账目/叙述)；【近义辨析】count 作不及物动词表“有价值/重要”时侧重被纳入考量、具备分量；matter 泛指某事是否紧要、是否引起关注；signify 侧重具有某种深远含义或象征意义；calculate 专指数字或风险的推导运算。",
-    "phonetic": "/kaunt/"
+    "notes": "【搭配考点】every second counts 分秒必争；count on sb 指望/依靠某人；count towards 算入/计入；keep count of 记录...的数目；【形近辨析】mount (爬上/安装底座), court (法院/球场), account (账目/叙述)；【近义辨析】count 作不及物动词表“有价值/重要”时侧重被纳入考量、具备分量；matter 泛指某事是否紧要、是否引起关注；signify 侧重具有某种深远含义或象征意义；calculate 专指数字或风险的推导运算。"
   },
   "counter": {
     "word": "counter",
@@ -20840,8 +20431,7 @@
         "zh": "使无效；抵消 (中和冲击)"
       }
     ],
-    "notes": "【搭配考点】counter an argument/threat 驳斥论点/抵御威胁；under the counter 台面下/秘密交易；over the counter (OTC) 柜台交易/非处方药；checkout counter 结账收银台；【形近辨析】country (国家), county (郡县), encounter (邂逅/遭遇)；【近义辨析】counter 作动词强调针锋相对地做出反应以反制或抵消对方力量；oppose 强调站在对立面发声或投票反对；resist 强调坚守阵地拒绝服从屈服；neutralize 强调使有害影响归零或无效化。",
-    "phonetic": "/'kauntə/"
+    "notes": "【搭配考点】counter an argument/threat 驳斥论点/抵御威胁；under the counter 台面下/秘密交易；over the counter (OTC) 柜台交易/非处方药；checkout counter 结账收银台；【形近辨析】country (国家), county (郡县), encounter (邂逅/遭遇)；【近义辨析】counter 作动词强调针锋相对地做出反应以反制或抵消对方力量；oppose 强调站在对立面发声或投票反对；resist 强调坚守阵地拒绝服从屈服；neutralize 强调使有害影响归零或无效化。"
   },
   "country": {
     "word": "country",
@@ -20887,8 +20477,7 @@
         "zh": "农村；田野 (侧重自然风光)"
       }
     ],
-    "notes": "【搭配考点】in the country 在乡下；across the country 全国各地；developing country 发展中国家；country music 乡村音乐；【形近辨析】counter (柜台), county (郡县), entry (入口条目)；【近义辨析】country 侧重地理版图疆域或远离城市的乡村田园；nation 强调由共同文化、历史联系在一起的国民或民族；state 侧重拥有主权机关与法律统治的政权实体；countryside 专指大自然田野绿地与乡村风景。",
-    "phonetic": "/'kʌntri/"
+    "notes": "【搭配考点】in the country 在乡下；across the country 全国各地；developing country 发展中国家；country music 乡村音乐；【形近辨析】counter (柜台), county (郡县), entry (入口条目)；【近义辨析】country 侧重地理版图疆域或远离城市的乡村田园；nation 强调由共同文化、历史联系在一起的国民或民族；state 侧重拥有主权机关与法律统治的政权实体；countryside 专指大自然田野绿地与乡村风景。"
   },
   "countryside": {
     "word": "countryside",
@@ -20934,8 +20523,7 @@
         "zh": "田园特征；乡村风味"
       }
     ],
-    "notes": "【搭配考点】the surrounding countryside 周边乡村；protect the countryside 保护农村生态；open countryside 开阔田野；【形近辨析】hillside (山腰), seaside (海边), alongside (与...并排)；【近义辨析】countryside 强调城市之外由农田、绿树、山峦组成的广袤自然风光；landscape 侧重放眼望去整个地貌的全景视觉感官；village 专指建有农舍建筑的具体村落居住地；rurality 侧重田园生活的质朴特征。",
-    "phonetic": "/'kʌntri,said/"
+    "notes": "【搭配考点】the surrounding countryside 周边乡村；protect the countryside 保护农村生态；open countryside 开阔田野；【形近辨析】hillside (山腰), seaside (海边), alongside (与...并排)；【近义辨析】countryside 强调城市之外由农田、绿树、山峦组成的广袤自然风光；landscape 侧重放眼望去整个地貌的全景视觉感官；village 专指建有农舍建筑的具体村落居住地；rurality 侧重田园生活的质朴特征。"
   },
   "county": {
     "word": "county",
@@ -20981,8 +20569,7 @@
         "zh": "直辖市；自治市 (城市行政区)"
       }
     ],
-    "notes": "【搭配考点】county court 郡法院；county council 县议会；county seat 县治/郡首府；【形近辨析】country (国家), bounty (赏金/宽厚), court (法庭)；【近义辨析】county 是英美等国位于州或国家之下的基本地方行政管辖单位（相当于国内的县/地级区划）；district 泛指按照行政、司法或选区划定的功能分区；province 特指幅员辽阔的国家一级行政省区；municipality 专指由单一城市市政当局管辖的市区自治体。",
-    "phonetic": "/'kaunti/"
+    "notes": "【搭配考点】county court 郡法院；county council 县议会；county seat 县治/郡首府；【形近辨析】country (国家), bounty (赏金/宽厚), court (法庭)；【近义辨析】county 是英美等国位于州或国家之下的基本地方行政管辖单位（相当于国内的县/地级区划）；district 泛指按照行政、司法或选区划定的功能分区；province 特指幅员辽阔的国家一级行政省区；municipality 专指由单一城市市政当局管辖的市区自治体。"
   },
   "couple": {
     "word": "couple",
@@ -21028,8 +20615,7 @@
         "zh": "伴侣；合伙人"
       }
     ],
-    "notes": "【搭配考点】a couple of 两个/几个；married couple 已婚夫妇；couple with 与...相结合；power couple 强强联合的精英夫妻；【形近辨析】ripple (微波涟漪), sample (样品), supple (柔顺灵巧的)；【近义辨析】couple 专指恋爱婚姻关系中的二人，或泛指数量少数的两三个；pair 强调必须配合成对使用的成套器物（如 a pair of shoes/glasses）；duo 侧重艺术表演中或公开活动上的二人黄金搭档；partner 强调平等合作的商业伙伴或生活伴侣。",
-    "phonetic": "/'kʌpl/"
+    "notes": "【搭配考点】a couple of 两个/几个；married couple 已婚夫妇；couple with 与...相结合；power couple 强强联合的精英夫妻；【形近辨析】ripple (微波涟漪), sample (样品), supple (柔顺灵巧的)；【近义辨析】couple 专指恋爱婚姻关系中的二人，或泛指数量少数的两三个；pair 强调必须配合成对使用的成套器物（如 a pair of shoes/glasses）；duo 侧重艺术表演中或公开活动上的二人黄金搭档；partner 强调平等合作的商业伙伴或生活伴侣。"
   },
   "courage": {
     "word": "courage",
@@ -21075,8 +20661,7 @@
         "zh": "大胆；魄力 (敢想敢干)"
       }
     ],
-    "notes": "【搭配考点】have the courage to do 有勇气做某事；summon up courage 鼓起勇气；take courage 振作起来；moral courage 道德勇气；【形近辨析】encourage (鼓励), discourage (打消念头), outrage (义愤/暴行)；【近义辨析】courage 强调内心深处克服恐惧、坚持原则的高尚意志品质；bravery 侧重不畏强暴危险、临场表现出的勇敢行动；valor 具有崇高文学色彩，特指在战争或生死关头的英勇献身；boldness 侧重敢冒风险甚至带点鲁莽的大胆。",
-    "phonetic": "/'kʌridʒ/"
+    "notes": "【搭配考点】have the courage to do 有勇气做某事；summon up courage 鼓起勇气；take courage 振作起来；moral courage 道德勇气；【形近辨析】encourage (鼓励), discourage (打消念头), outrage (义愤/暴行)；【近义辨析】courage 强调内心深处克服恐惧、坚持原则的高尚意志品质；bravery 侧重不畏强暴危险、临场表现出的勇敢行动；valor 具有崇高文学色彩，特指在战争或生死关头的英勇献身；boldness 侧重敢冒风险甚至带点鲁莽的大胆。"
   },
   "course": {
     "word": "course",
@@ -21122,8 +20707,7 @@
         "zh": "轨道；跑道；足迹"
       }
     ],
-    "notes": "【搭配考点】in the course of 在...过程中；of course 当然；take/enroll in a course 选修课程；change course 改变路线/方针；golf course 高尔夫球场；【形近辨析】coarse (粗糙粗鲁的), corpse (死尸), source (来源/源泉)；【近义辨析】course 强调随时间向前推移的自然进程，或预先规划的系列课程、航行轨迹；path 侧重人踩出的小径或通向目标的抽象道路；route 专指公路、航海或飞机往返的既定固定路线；track 侧重火车铁轨、田径跑道或足迹痕迹。",
-    "phonetic": "/kɔ:s/"
+    "notes": "【搭配考点】in the course of 在...过程中；of course 当然；take/enroll in a course 选修课程；change course 改变路线/方针；golf course 高尔夫球场；【形近辨析】coarse (粗糙粗鲁的), corpse (死尸), source (来源/源泉)；【近义辨析】course 强调随时间向前推移的自然进程，或预先规划的系列课程、航行轨迹；path 侧重人踩出的小径或通向目标的抽象道路；route 专指公路、航海或飞机往返的既定固定路线；track 侧重火车铁轨、田径跑道或足迹痕迹。"
   },
   "court": {
     "word": "court",
@@ -21169,8 +20753,7 @@
         "zh": "竞技场；竞技舞台"
       }
     ],
-    "notes": "【搭配考点】take sb to court 把某人告上法庭；in court 在法庭上；tennis/basketball court 网球/篮球场；supreme court 最高法院；court disaster 自招灾祸；【形近辨析】count (点数/重要), cart (板车), chart (图表)；【近义辨析】court 专指国家常设的各级审判司法机关，亦指网球羽毛球等划线场地；tribunal 侧重针对军事、劳动、仲裁等专项设立的仲裁法庭；bench 借指法官席位或司法界的法官群体；arena 指大型室内体育竞技场或政治角逐的大舞台。",
-    "phonetic": "/kɔ:t/"
+    "notes": "【搭配考点】take sb to court 把某人告上法庭；in court 在法庭上；tennis/basketball court 网球/篮球场；supreme court 最高法院；court disaster 自招灾祸；【形近辨析】count (点数/重要), cart (板车), chart (图表)；【近义辨析】court 专指国家常设的各级审判司法机关，亦指网球羽毛球等划线场地；tribunal 侧重针对军事、劳动、仲裁等专项设立的仲裁法庭；bench 借指法官席位或司法界的法官群体；arena 指大型室内体育竞技场或政治角逐的大舞台。"
   },
   "cousin": {
     "word": "cousin",
@@ -21216,8 +20799,7 @@
         "zh": "亲同胞兄弟姐妹"
       }
     ],
-    "notes": "【搭配考点】first cousin 亲堂表兄弟姐妹；second cousin 远房堂表兄弟姐妹；country cousin 乡巴佬/老土亲戚；【形近辨析】cushion (靠垫/缓冲), basin (脸盆/盆地), raisin (葡萄干)；【近义辨析】cousin 是平辈亲属，指叔伯舅姑姨的子女；nephew 和 niece 是晚辈亲属，分别专指侄子/外甥与侄女/外甥女；sibling 专指由同一对父母所生的亲生同胞兄弟姐妹。",
-    "phonetic": "/'kʌzən/"
+    "notes": "【搭配考点】first cousin 亲堂表兄弟姐妹；second cousin 远房堂表兄弟姐妹；country cousin 乡巴佬/老土亲戚；【形近辨析】cushion (靠垫/缓冲), basin (脸盆/盆地), raisin (葡萄干)；【近义辨析】cousin 是平辈亲属，指叔伯舅姑姨的子女；nephew 和 niece 是晚辈亲属，分别专指侄子/外甥与侄女/外甥女；sibling 专指由同一对父母所生的亲生同胞兄弟姐妹。"
   },
   "cover": {
     "word": "cover",
@@ -21263,8 +20845,7 @@
         "zh": "全面笼罩；全覆盖"
       }
     ],
-    "notes": "【搭配考点】cover the cost 支付/负担费用；cover news 采访报道新闻；under cover of 在...的掩护下；cover a wide range 涵盖广泛范围；【形近辨析】hover (悬停/盘旋), lover (爱人), rover (漫游探测器)；【近义辨析】cover 含义极丰，在保险业务中指提供保障理赔，在新闻中指深入采访报道，在物理上指盖住；include 侧重简单列出属于整体的分支要素；encompass 侧重广度，指宏大体系将多种学科领域包揽其中；blanket 强调厚实密闭的全面覆盖。",
-    "phonetic": "/'kʌvə/"
+    "notes": "【搭配考点】cover the cost 支付/负担费用；cover news 采访报道新闻；under cover of 在...的掩护下；cover a wide range 涵盖广泛范围；【形近辨析】hover (悬停/盘旋), lover (爱人), rover (漫游探测器)；【近义辨析】cover 含义极丰，在保险业务中指提供保障理赔，在新闻中指深入采访报道，在物理上指盖住；include 侧重简单列出属于整体的分支要素；encompass 侧重广度，指宏大体系将多种学科领域包揽其中；blanket 强调厚实密闭的全面覆盖。"
   },
   "coverage": {
     "word": "coverage",
@@ -21310,8 +20891,7 @@
         "zh": "范围；学术业务涵盖面"
       }
     ],
-    "notes": "【搭配考点】media/press coverage 媒体/新闻报道；insurance coverage 保险保障范围；network/signal coverage 网络/信号覆盖率；live coverage 现场直播报道；【形近辨析】leverage (杠杆手段/借力), courage (勇气), average (平均数)；【近义辨析】coverage 指新闻媒体对特定事件给予的时间版面与深度，亦指信号或保险条款所能惠及的半径范围；reportage 特指带有浓厚纪实色彩的特写新闻采写；broadcasting 侧重广电信号发射与节目播出；scope 侧重学术课题或事业的广度与探索空间。",
-    "phonetic": "/'kʌvəridʒ/"
+    "notes": "【搭配考点】media/press coverage 媒体/新闻报道；insurance coverage 保险保障范围；network/signal coverage 网络/信号覆盖率；live coverage 现场直播报道；【形近辨析】leverage (杠杆手段/借力), courage (勇气), average (平均数)；【近义辨析】coverage 指新闻媒体对特定事件给予的时间版面与深度，亦指信号或保险条款所能惠及的半径范围；reportage 特指带有浓厚纪实色彩的特写新闻采写；broadcasting 侧重广电信号发射与节目播出；scope 侧重学术课题或事业的广度与探索空间。"
   },
   "crack": {
     "word": "crack",
@@ -21357,8 +20937,7 @@
         "zh": "分裂；劈开 (彻底裂成两半)"
       }
     ],
-    "notes": "【搭配考点】at the crack of dawn 破晓时分；crack down on 严厉打击/镇压；crack a code 破译密码；crack a joke 开玩笑；【形近辨析】track (轨迹/跑道), smack (用力拍打), stack (整齐堆放)；【近义辨析】crack 指坚硬物体由于受力或温差表面出现的微细裂痕，亦指尖锐的爆裂声或破译难题；fracture 专指医学上的骨折或工业材料的脆断；fissure 侧重地质断层形成的极深裂缝，或党派内部不可弥合的深层分歧；split 强调物体顺势彻底分裂为两半。",
-    "phonetic": "/kræk/"
+    "notes": "【搭配考点】at the crack of dawn 破晓时分；crack down on 严厉打击/镇压；crack a code 破译密码；crack a joke 开玩笑；【形近辨析】track (轨迹/跑道), smack (用力拍打), stack (整齐堆放)；【近义辨析】crack 指坚硬物体由于受力或温差表面出现的微细裂痕，亦指尖锐的爆裂声或破译难题；fracture 专指医学上的骨折或工业材料的脆断；fissure 侧重地质断层形成的极深裂缝，或党派内部不可弥合的深层分歧；split 强调物体顺势彻底分裂为两半。"
   },
   "craft": {
     "word": "craft",
@@ -21404,8 +20983,7 @@
         "zh": "工艺；制作手艺水平"
       }
     ],
-    "notes": "【搭配考点】arts and crafts 工艺美术；traditional craft 传统手工艺；spacecraft/aircraft 航天器/航空器；learn a craft 学习一门手艺；【形近辨析】draft (草案/汇票), graft (植物嫁接/受贿), shaft (轴杆/矿井)；【近义辨析】craft 强调依靠双手与创造力精雕细琢的手工技艺，亦可指航行器；trade 侧重木匠、电工等从事买卖生计的技术行当；skill 是广义的后天习得的任何熟练技能；workmanship 特指一件手工艺品所体现的做工水准与精湛程度。",
-    "phonetic": "/krɑ:ft; kræft/"
+    "notes": "【搭配考点】arts and crafts 工艺美术；traditional craft 传统手工艺；spacecraft/aircraft 航天器/航空器；learn a craft 学习一门手艺；【形近辨析】draft (草案/汇票), graft (植物嫁接/受贿), shaft (轴杆/矿井)；【近义辨析】craft 强调依靠双手与创造力精雕细琢的手工技艺，亦可指航行器；trade 侧重木匠、电工等从事买卖生计的技术行当；skill 是广义的后天习得的任何熟练技能；workmanship 特指一件手工艺品所体现的做工水准与精湛程度。"
   },
   "crash": {
     "word": "crash",
@@ -21451,8 +21029,7 @@
         "zh": "骤降；暴跌"
       }
     ],
-    "notes": "【搭配考点】car/plane crash 车祸/空难；stock market crash 股市暴跌崩盘；crash course 速成班；crash diet 快速节食法；computer crash 电脑死机；【形近辨析】crush (压扁/暗恋), clash (打斗/色彩冲突), trash (废物垃圾)；【近义辨析】crash 侧重伴随着震耳欲聋撞击声的猛烈砸毁，或金融市场/计算机系统的猝然崩盘；collision 专指运动物体之间发生的物理对撞；collapse 强调因缺乏支撑导致的整栋建筑倒塌或身体虚脱；plunge 强调垂直直线下跌的急迫动态。",
-    "phonetic": "/kræʃ/"
+    "notes": "【搭配考点】car/plane crash 车祸/空难；stock market crash 股市暴跌崩盘；crash course 速成班；crash diet 快速节食法；computer crash 电脑死机；【形近辨析】crush (压扁/暗恋), clash (打斗/色彩冲突), trash (废物垃圾)；【近义辨析】crash 侧重伴随着震耳欲聋撞击声的猛烈砸毁，或金融市场/计算机系统的猝然崩盘；collision 专指运动物体之间发生的物理对撞；collapse 强调因缺乏支撑导致的整栋建筑倒塌或身体虚脱；plunge 强调垂直直线下跌的急迫动态。"
   },
   "crazy": {
     "word": "crazy",
@@ -21498,8 +21075,7 @@
         "zh": "荒谬的；荒诞不经的"
       }
     ],
-    "notes": "【搭配考点】be crazy about 狂热喜爱...；drive sb crazy 把某人逼疯；like crazy 拼命地/发狂似地；crazy idea 疯狂的想法；【形近辨析】lazy (懒散的), cozy (温馨舒服的), hazy (薄雾弥漫的)；【近义辨析】crazy 最通俗活跃，指行为古怪不可思议，亦指对某事物狂热痴迷；mad 在英式英语中极常表示气愤抓狂，亦可指发狂；insane 是医学和司法用语，特指因严重精神疾患丧失行为能力；absurd 侧重荒唐可笑、完全不符合逻辑事实。",
-    "phonetic": "/'kreizi/"
+    "notes": "【搭配考点】be crazy about 狂热喜爱...；drive sb crazy 把某人逼疯；like crazy 拼命地/发狂似地；crazy idea 疯狂的想法；【形近辨析】lazy (懒散的), cozy (温馨舒服的), hazy (薄雾弥漫的)；【近义辨析】crazy 最通俗活跃，指行为古怪不可思议，亦指对某事物狂热痴迷；mad 在英式英语中极常表示气愤抓狂，亦可指发狂；insane 是医学和司法用语，特指因严重精神疾患丧失行为能力；absurd 侧重荒唐可笑、完全不符合逻辑事实。"
   },
   "cream": {
     "word": "cream",
@@ -21545,8 +21121,7 @@
         "zh": "乳液；护肤液"
       }
     ],
-    "notes": "【搭配考点】the cream of the crop 百里挑一的精英/精华；face/shaving cream 面霜/剃须膏；ice cream 冰淇淋；whipped cream 鲜奶油；【形近辨析】dream (梦想), stream (小溪/串流), scream (尖声尖叫)；【近义辨析】cream 借比牛奶上浮起的浓郁精华，形象喻指某一领域最顶尖优秀的人群或事物；elite 强调在财富、地位、知识上掌握主导权的社会精英群体；best 是普通最高级；lotion 专指质地较稀薄的护肤乳液。",
-    "phonetic": "/kri:m/"
+    "notes": "【搭配考点】the cream of the crop 百里挑一的精英/精华；face/shaving cream 面霜/剃须膏；ice cream 冰淇淋；whipped cream 鲜奶油；【形近辨析】dream (梦想), stream (小溪/串流), scream (尖声尖叫)；【近义辨析】cream 借比牛奶上浮起的浓郁精华，形象喻指某一领域最顶尖优秀的人群或事物；elite 强调在财富、地位、知识上掌握主导权的社会精英群体；best 是普通最高级；lotion 专指质地较稀薄的护肤乳液。"
   },
   "create": {
     "word": "create",
@@ -21592,8 +21167,7 @@
         "zh": "发明；独创 (发明全新装置)"
       }
     ],
-    "notes": "【搭配考点】create jobs/opportunities 创造就业/机会；create wealth 创造财富；create problems 带来麻烦；【形近辨析】equate (使相等), rebate (退税/回扣), debate (争论)；【近义辨析】create 强调从无到有、运用想象力或规划使新事物诞生；generate 侧重通过物理机制或业务运营持续生发产出；establish 侧重正式确立机构、法规或长远业务联系；invent 专指首创前所未有的机械、装置或理论。",
-    "phonetic": "/kri'eit/"
+    "notes": "【搭配考点】create jobs/opportunities 创造就业/机会；create wealth 创造财富；create problems 带来麻烦；【形近辨析】equate (使相等), rebate (退税/回扣), debate (争论)；【近义辨析】create 强调从无到有、运用想象力或规划使新事物诞生；generate 侧重通过物理机制或业务运营持续生发产出；establish 侧重正式确立机构、法规或长远业务联系；invent 专指首创前所未有的机械、装置或理论。"
   },
   "creation": {
     "word": "creation",
@@ -21639,8 +21213,7 @@
         "zh": "形成；编制 (聚集形成结构)"
       }
     ],
-    "notes": "【搭配考点】job creation 创造就业；the creation of the universe 宇宙的诞生；artistic creation 艺术创作；【形近辨析】duration (持续时间), vibration (振动), relation (关系)；【近义辨析】creation 强调从无到有的创生过程或凝结心血的艺术结晶；invention 侧重实用新型科技装置的发明；innovation 侧重在旧有基础上推陈出新、引入新方法；formation 强调自然演化形成或军队团队的排布阵型。",
-    "phonetic": "/kri:'eiʃən/"
+    "notes": "【搭配考点】job creation 创造就业；the creation of the universe 宇宙的诞生；artistic creation 艺术创作；【形近辨析】duration (持续时间), vibration (振动), relation (关系)；【近义辨析】creation 强调从无到有的创生过程或凝结心血的艺术结晶；invention 侧重实用新型科技装置的发明；innovation 侧重在旧有基础上推陈出新、引入新方法；formation 强调自然演化形成或军队团队的排布阵型。"
   },
   "creative": {
     "word": "creative",
@@ -21686,8 +21259,7 @@
         "zh": "富有想象力的；虚构的 (脑海构想丰富)"
       }
     ],
-    "notes": "【搭配考点】creative thinking/writing 创造性思维/写作；creative industry 创意产业；creative accounting 掩盖真相的做假账；【形近辨析】secretive (遮遮掩掩的), curative (治愈的), primitive (原始的)；【近义辨析】creative 侧重能够打破常规、产出具有艺术或实践价值的原创新想法；innovative 侧重在商业和工程技术上实现突破性革新；inventive 强调头脑机敏、擅长发明小装置解决实际麻烦；imaginative 侧重内心幻想生动丰富。",
-    "phonetic": "/kri'eitiv/"
+    "notes": "【搭配考点】creative thinking/writing 创造性思维/写作；creative industry 创意产业；creative accounting 掩盖真相的做假账；【形近辨析】secretive (遮遮掩掩的), curative (治愈的), primitive (原始的)；【近义辨析】creative 侧重能够打破常规、产出具有艺术或实践价值的原创新想法；innovative 侧重在商业和工程技术上实现突破性革新；inventive 强调头脑机敏、擅长发明小装置解决实际麻烦；imaginative 侧重内心幻想生动丰富。"
   },
   "creature": {
     "word": "creature",
@@ -21733,8 +21305,7 @@
         "zh": "野兽；牲畜 (凶猛无理性动物)"
       }
     ],
-    "notes": "【搭配考点】living creature 活的生物；creature of habit 墨守成规的人；mythical creature 神话生物；creature comforts 物质享受；【形近辨析】feature (特征/特色), fracture (骨折/断裂), moisture (潮湿/水分)；【近义辨析】creature 带有情感色彩，泛指上帝造化的一切生灵、动物，亦引申指受人控制的小角色；organism 是现代生物学科学统称，指具有生命机能的有机体；animal 专指生物界中的动物类群；beast 指凶残的大型野兽或牲口。",
-    "phonetic": "/'kri:tʃə/"
+    "notes": "【搭配考点】living creature 活的生物；creature of habit 墨守成规的人；mythical creature 神话生物；creature comforts 物质享受；【形近辨析】feature (特征/特色), fracture (骨折/断裂), moisture (潮湿/水分)；【近义辨析】creature 带有情感色彩，泛指上帝造化的一切生灵、动物，亦引申指受人控制的小角色；organism 是现代生物学科学统称，指具有生命机能的有机体；animal 专指生物界中的动物类群；beast 指凶残的大型野兽或牲口。"
   },
   "credit": {
     "word": "credit",
@@ -21780,8 +21351,7 @@
         "zh": "认可；赏识 (正式荣誉嘉奖)"
       }
     ],
-    "notes": "【搭配考点】give credit to 归功于/赞赏；on credit 赊购/赊账；letter of credit 信用证；academic credit 大学学分；do credit to 为...增光；【形近辨析】debit (借记/借方), audit (审计), admit (承认)；【近义辨析】credit 强调对于某项成就的功劳归属或金融信用；praise 是普遍口头或书面上的表扬称赞；acclaim 侧重公众、评论界的轰动性喝彩；recognition 侧重官方或机构给予的正式承认与荣誉地位。",
-    "phonetic": "/'kredit/"
+    "notes": "【搭配考点】give credit to 归功于/赞赏；on credit 赊购/赊账；letter of credit 信用证；academic credit 大学学分；do credit to 为...增光；【形近辨析】debit (借记/借方), audit (审计), admit (承认)；【近义辨析】credit 强调对于某项成就的功劳归属或金融信用；praise 是普遍口头或书面上的表扬称赞；acclaim 侧重公众、评论界的轰动性喝彩；recognition 侧重官方或机构给予的正式承认与荣誉地位。"
   },
   "crew": {
     "word": "crew",
@@ -21827,8 +21397,7 @@
         "zh": "全体员工；职员 (被雇佣全体人员)"
       }
     ],
-    "notes": "【搭配考点】flight/cabin crew 飞行/客舱乘务组；film crew 摄制组；ground crew 地勤人员；rowing crew 赛艇队；【形近辨析】brew (酿酒/酝酿), drew (画), crow (乌鸦)；【近义辨析】crew 专指飞机、轮船、列车上的操作保障人员，或电影、抢修等特种作业小组；team 强调通力合作的体育比赛队伍或项目组；squad 强调具备军事化执行力的小分队；staff 强调企事业单位被雇佣的全体办公员工。",
-    "phonetic": "/kru:/"
+    "notes": "【搭配考点】flight/cabin crew 飞行/客舱乘务组；film crew 摄制组；ground crew 地勤人员；rowing crew 赛艇队；【形近辨析】brew (酿酒/酝酿), drew (画), crow (乌鸦)；【近义辨析】crew 专指飞机、轮船、列车上的操作保障人员，或电影、抢修等特种作业小组；team 强调通力合作的体育比赛队伍或项目组；squad 强调具备军事化执行力的小分队；staff 强调企事业单位被雇佣的全体办公员工。"
   },
   "crime": {
     "word": "crime",
@@ -21874,8 +21443,7 @@
         "zh": "侵犯；违背 (违背法规协议)"
       }
     ],
-    "notes": "【搭配考点】commit a crime 犯罪；fight/combat crime 打击犯罪；organized crime 有组织犯罪；crime scene 犯罪现场；【形近辨析】prime (主要的/盛年), grime (深层油垢), chime (钟鸣)；【近义辨析】crime 是触犯刑法法律的刑事罪行总称；offense 涵盖范围广，常指违反行政法规的轻微违法；felony 是严格法律术语，专指谋杀、纵火等严重刑事重罪；violation 侧重对条约、规则、隐私或交通信号的违反。",
-    "phonetic": "/kraim/"
+    "notes": "【搭配考点】commit a crime 犯罪；fight/combat crime 打击犯罪；organized crime 有组织犯罪；crime scene 犯罪现场；【形近辨析】prime (主要的/盛年), grime (深层油垢), chime (钟鸣)；【近义辨析】crime 是触犯刑法法律的刑事罪行总称；offense 涵盖范围广，常指违反行政法规的轻微违法；felony 是严格法律术语，专指谋杀、纵火等严重刑事重罪；violation 侧重对条约、规则、隐私或交通信号的违反。"
   },
   "criminal": {
     "word": "criminal",
@@ -21921,8 +21489,7 @@
         "zh": "服刑犯人 (已定罪服刑囚徒)"
       }
     ],
-    "notes": "【搭配考点】criminal law/justice 刑法/刑事司法；criminal record 犯罪记录；criminal offense 刑事犯罪；war criminal 战犯；【形近辨析】terminal (终点/末期的), marginal (边缘微末的), original (起初的)；【近义辨析】criminal 指实施严重危害社会行为并构成犯罪的人；offender 指一切违法者或初犯轻犯；culprit 侧重指造成某种恶劣后果的“祸首元凶”；convict 专指已被宣判有罪并正在监狱服刑的囚徒。",
-    "phonetic": "/'kriminəl/"
+    "notes": "【搭配考点】criminal law/justice 刑法/刑事司法；criminal record 犯罪记录；criminal offense 刑事犯罪；war criminal 战犯；【形近辨析】terminal (终点/末期的), marginal (边缘微末的), original (起初的)；【近义辨析】criminal 指实施严重危害社会行为并构成犯罪的人；offender 指一切违法者或初犯轻犯；culprit 侧重指造成某种恶劣后果的“祸首元凶”；convict 专指已被宣判有罪并正在监狱服刑的囚徒。"
   },
   "crisis": {
     "word": "crisis",
@@ -21968,8 +21535,7 @@
         "zh": "困境；进退维谷的窘境"
       }
     ],
-    "notes": "【搭配考点】economic/financial crisis 经济/金融危机；energy crisis 能源危机；identity crisis 认同危机；resolve/manage a crisis 解决/化解危机；【形近辨析】critic (评论家), basis (基础依据), oasis (沙漠绿洲)；【近义辨析】crisis 指局势达到极度紧张、面临破局或转机的关键危险阶段；catastrophe 侧重带来灾难性破坏与生灵涂炭的巨灾；emergency 强调突发性和需要立刻实施医疗或抢险行动；predicament 侧重使人左右为难、不知所措的尴尬困境。",
-    "phonetic": "/'kraisis/"
+    "notes": "【搭配考点】economic/financial crisis 经济/金融危机；energy crisis 能源危机；identity crisis 认同危机；resolve/manage a crisis 解决/化解危机；【形近辨析】critic (评论家), basis (基础依据), oasis (沙漠绿洲)；【近义辨析】crisis 指局势达到极度紧张、面临破局或转机的关键危险阶段；catastrophe 侧重带来灾难性破坏与生灵涂炭的巨灾；emergency 强调突发性和需要立刻实施医疗或抢险行动；predicament 侧重使人左右为难、不知所措的尴尬困境。"
   },
   "critic": {
     "word": "critic",
@@ -22015,8 +21581,7 @@
         "zh": "评估员；考评者"
       }
     ],
-    "notes": "【搭配考点】literary/film critic 文学/电影评论家；fierce critic 激烈的批评者；harsh critic 苛刻的挑剔者；【形近辨析】critical (关键的/批判的), static (静电/静态的), rustic (淳朴乡村的)；【近义辨析】critic 强调具有深厚艺术或学术鉴赏理论素养的专业批判家，亦指经常挑刺的人；reviewer 侧重面向大众提供新书、电影、电子产品评测的测评记者；commentator 专指在电视、电台直播中随事实播报分析的解说评论嘉宾；evaluator 侧重按指标进行体系化绩效打分审核。",
-    "phonetic": "/'kritik/"
+    "notes": "【搭配考点】literary/film critic 文学/电影评论家；fierce critic 激烈的批评者；harsh critic 苛刻的挑剔者；【形近辨析】critical (关键的/批判的), static (静电/静态的), rustic (淳朴乡村的)；【近义辨析】critic 强调具有深厚艺术或学术鉴赏理论素养的专业批判家，亦指经常挑刺的人；reviewer 侧重面向大众提供新书、电影、电子产品评测的测评记者；commentator 专指在电视、电台直播中随事实播报分析的解说评论嘉宾；evaluator 侧重按指标进行体系化绩效打分审核。"
   },
   "critical": {
     "word": "critical",
@@ -22062,8 +21627,7 @@
         "zh": "决定性的；果断的 (一举定乾坤)"
       }
     ],
-    "notes": "【搭配考点】critical thinking 批判性思维；play a critical role 起决定性作用；in critical condition 病情危殆；critical moment 关键时刻；【形近辨析】clinical (临床的/冷酷的), clerical (办公室文员的), cynical (怀疑一切的/愤世嫉俗的)；【近义辨析】critical 兼指学术上的客观挑剔审视，以及危机临界点上的生死攸关；crucial 形象源自拉丁语十字架，指决定最后成败的命脉环节；essential 强调事物自身内在固有、缺之则不成立的要素；decisive 侧重行动或战役能一举定乾坤、锁定胜局。",
-    "phonetic": "/'kritikəl/"
+    "notes": "【搭配考点】critical thinking 批判性思维；play a critical role 起决定性作用；in critical condition 病情危殆；critical moment 关键时刻；【形近辨析】clinical (临床的/冷酷的), clerical (办公室文员的), cynical (怀疑一切的/愤世嫉俗的)；【近义辨析】critical 兼指学术上的客观挑剔审视，以及危机临界点上的生死攸关；crucial 形象源自拉丁语十字架，指决定最后成败的命脉环节；essential 强调事物自身内在固有、缺之则不成立的要素；decisive 侧重行动或战役能一举定乾坤、锁定胜局。"
   },
   "criticism": {
     "word": "criticism",
@@ -22109,8 +21673,7 @@
         "zh": "责备；指责 (因失望而责怪)"
       }
     ],
-    "notes": "【搭配考点】face/draw criticism 面临/引来批评；constructive criticism 建设性批评；literary criticism 文学评论；harsh criticism 严厉指责；【形近辨析】skepticism (怀疑论), optimism (乐观), pessimism (悲观)；【近义辨析】criticism 既可指指出缺点漏洞的日常指责，也可指理性的学术文艺鉴赏评论；censure 指议会或行业协会对违纪者做出的正式公开谴责；condemnation 强调站在道德正义制高点对罪恶行径的彻底声讨；reproach 侧重因信任破裂而表现出的失望与抱怨责备。",
-    "phonetic": "/'kriti,sizəm/"
+    "notes": "【搭配考点】face/draw criticism 面临/引来批评；constructive criticism 建设性批评；literary criticism 文学评论；harsh criticism 严厉指责；【形近辨析】skepticism (怀疑论), optimism (乐观), pessimism (悲观)；【近义辨析】criticism 既可指指出缺点漏洞的日常指责，也可指理性的学术文艺鉴赏评论；censure 指议会或行业协会对违纪者做出的正式公开谴责；condemnation 强调站在道德正义制高点对罪恶行径的彻底声讨；reproach 侧重因信任破裂而表现出的失望与抱怨责备。"
   },
   "criticize": {
     "word": "criticize",
@@ -22156,8 +21719,7 @@
         "zh": "谴责；声讨 (道义严厉定罪)"
       }
     ],
-    "notes": "【搭配考点】criticize sb for doing 因做某事而批评某人；sharply/harshly criticize 严厉抨击；be widely criticized 受到广泛抨击；【形近辨析】prioritize (确定优先次序), privatize (私有化改制), dramatize (改编为戏剧/夸大渲染)；【近义辨析】criticize 侧重对人或作品的优缺点做出客观剖析或表达不认可；blame 强调把过错、损失的责任推给某人承担；reproach 包含情感上的委屈与失望斥责；condemn 语气最强烈，表示在道义法律上宣布其不可饶恕。",
-    "phonetic": "/'kriti,saiz/"
+    "notes": "【搭配考点】criticize sb for doing 因做某事而批评某人；sharply/harshly criticize 严厉抨击；be widely criticized 受到广泛抨击；【形近辨析】prioritize (确定优先次序), privatize (私有化改制), dramatize (改编为戏剧/夸大渲染)；【近义辨析】criticize 侧重对人或作品的优缺点做出客观剖析或表达不认可；blame 强调把过错、损失的责任推给某人承担；reproach 包含情感上的委屈与失望斥责；condemn 语气最强烈，表示在道义法律上宣布其不可饶恕。"
   },
   "crop": {
     "word": "crop",
@@ -22203,8 +21765,7 @@
         "zh": "谷物；粮食作物"
       }
     ],
-    "notes": "【搭配考点】bumper crop 大丰收；cash crop 经济作物；crop up 意外出现；crop photos 裁剪照片；【形近辨析】drop (跌落/水滴), prop (道具/支撑), chop (劈砍/切碎)；【近义辨析】crop 专指田地中整批种植的大田作物庄稼；harvest 侧重农作物成熟收割的农事活动或总收获量；yield 指单位农田或投资所产出的数量比率；grain 专指谷物颗粒粮食作物（如稻、麦、玉米）。",
-    "phonetic": "/krɔp/"
+    "notes": "【搭配考点】bumper crop 大丰收；cash crop 经济作物；crop up 意外出现；crop photos 裁剪照片；【形近辨析】drop (跌落/水滴), prop (道具/支撑), chop (劈砍/切碎)；【近义辨析】crop 专指田地中整批种植的大田作物庄稼；harvest 侧重农作物成熟收割的农事活动或总收获量；yield 指单位农田或投资所产出的数量比率；grain 专指谷物颗粒粮食作物（如稻、麦、玉米）。"
   },
   "cross": {
     "word": "cross",
@@ -22250,8 +21811,7 @@
         "zh": "相交；交叉 (路线几何相切)"
       }
     ],
-    "notes": "【搭配考点】cross the street 穿过马路；cross one's fingers 祈求好运；cross one's mind 掠过心头；Red Cross 红十字会；get cross with sb 对某人生气；【形近辨析】across (横过介词), gloss (光泽), gross (总共的/恶心的)；【近义辨析】cross 是最通俗动词，指穿过河流街道或划十字；traverse 偏正式书面语，特指旅人穿越整个大洲、山脉或荒漠；span 强调两头固定并从上方横跨整个空间跨度或历史时期；intersect 强调多条路线纵横相交点。",
-    "phonetic": "/krɔ:s/"
+    "notes": "【搭配考点】cross the street 穿过马路；cross one's fingers 祈求好运；cross one's mind 掠过心头；Red Cross 红十字会；get cross with sb 对某人生气；【形近辨析】across (横过介词), gloss (光泽), gross (总共的/恶心的)；【近义辨析】cross 是最通俗动词，指穿过河流街道或划十字；traverse 偏正式书面语，特指旅人穿越整个大洲、山脉或荒漠；span 强调两头固定并从上方横跨整个空间跨度或历史时期；intersect 强调多条路线纵横相交点。"
   },
   "crowd": {
     "word": "crowd",
@@ -22297,8 +21857,7 @@
         "zh": "拥挤的人群；人山人海"
       }
     ],
-    "notes": "【搭配考点】stand out from the crowd 脱颖而出；crowd into 涌入；crowd around 围拢过来；two's company, three's a crowd 两人成伴，三人不欢；【形近辨析】crown (王冠), drown (淹没溺死), frown (皱眉头)；【近义辨析】crowd 泛指聚集在公共场合的大量互不相识的人；gathering 强调有目的、较小规模的亲友或行业集会；mob 带有强烈贬义，专指失去理性、诉诸暴力哄闹的暴徒乱民；throng 强调肩摩毂击、如潮水般涌动的庞大密集人流。",
-    "phonetic": "/kraud/"
+    "notes": "【搭配考点】stand out from the crowd 脱颖而出；crowd into 涌入；crowd around 围拢过来；two's company, three's a crowd 两人成伴，三人不欢；【形近辨析】crown (王冠), drown (淹没溺死), frown (皱眉头)；【近义辨析】crowd 泛指聚集在公共场合的大量互不相识的人；gathering 强调有目的、较小规模的亲友或行业集会；mob 带有强烈贬义，专指失去理性、诉诸暴力哄闹的暴徒乱民；throng 强调肩摩毂击、如潮水般涌动的庞大密集人流。"
   },
   "crucial": {
     "word": "crucial",
@@ -22344,8 +21903,7 @@
         "zh": "极其重要的；生死攸关的"
       }
     ],
-    "notes": "【搭配考点】play a crucial role 起到决定性作用；a crucial factor 关键因素；crucial to/for 对...至关重要；crucial decision 关键抉择；【形近辨析】critical (紧要的/挑剔的), trivial (微不足道的), spatial (空间的)；【近义辨析】crucial 强调关乎整个事件走向的最核心环节；pivotal 形象比喻如同门轴一般带动整个大局转折；monumental 侧重规模历史意义的深远宏大；vital 侧重如同生命机能不可或缺，无其则无法存活。",
-    "phonetic": "/'kru:ʃəl/"
+    "notes": "【搭配考点】play a crucial role 起到决定性作用；a crucial factor 关键因素；crucial to/for 对...至关重要；crucial decision 关键抉择；【形近辨析】critical (紧要的/挑剔的), trivial (微不足道的), spatial (空间的)；【近义辨析】crucial 强调关乎整个事件走向的最核心环节；pivotal 形象比喻如同门轴一般带动整个大局转折；monumental 侧重规模历史意义的深远宏大；vital 侧重如同生命机能不可或缺，无其则无法存活。"
   },
   "cruel": {
     "word": "cruel",
@@ -22391,8 +21949,7 @@
         "zh": "麻木不仁的；心如铁石的"
       }
     ],
-    "notes": "【搭配考点】cruel to 对...残忍；cruel irony 残酷的讽刺；cruel punishment 残酷的刑罚；cruel reality 残酷的现实；【形近辨析】fuel (燃料), jewel (珠宝), gruel (稀糊/折磨)；【近义辨析】cruel 强调故意给弱者带来痛苦并毫无恻隐之心；ruthless 侧重为了达成自私野心而冷酷抹杀一切障碍；brutal 侧重野蛮凶暴、动用血腥肉体暴力的原始残酷；callous 侧重心肠坚硬如老茧，对悲惨视若无睹。",
-    "phonetic": "/'kru:əl/"
+    "notes": "【搭配考点】cruel to 对...残忍；cruel irony 残酷的讽刺；cruel punishment 残酷的刑罚；cruel reality 残酷的现实；【形近辨析】fuel (燃料), jewel (珠宝), gruel (稀糊/折磨)；【近义辨析】cruel 强调故意给弱者带来痛苦并毫无恻隐之心；ruthless 侧重为了达成自私野心而冷酷抹杀一切障碍；brutal 侧重野蛮凶暴、动用血腥肉体暴力的原始残酷；callous 侧重心肠坚硬如老茧，对悲惨视若无睹。"
   },
   "crush": {
     "word": "crush",
@@ -22438,8 +21995,7 @@
         "zh": "使粉碎；破灭 (碎成碎片)"
       }
     ],
-    "notes": "【搭配考点】crush a rebellion/protest 镇压叛乱/抗议；have a crush on 暗恋...；crush grapes 压榨葡萄；crushing defeat 惨败；【形近辨析】crash (坠毁/撞击), brush (刷子/拂拭), rush (奔流/急促)；【近义辨析】crush 强调通过施加持续的重压使其变形化为粉末，政治上指铁腕摧毁反抗势力；smash 强调外力猛击导致物件瞬间破碎；squash 侧重把柔软物体压成扁平，或扼杀某苗头；shatter 专指玻璃、瓷器或信念被震碎为无数残片。",
-    "phonetic": "/krʌʃ/"
+    "notes": "【搭配考点】crush a rebellion/protest 镇压叛乱/抗议；have a crush on 暗恋...；crush grapes 压榨葡萄；crushing defeat 惨败；【形近辨析】crash (坠毁/撞击), brush (刷子/拂拭), rush (奔流/急促)；【近义辨析】crush 强调通过施加持续的重压使其变形化为粉末，政治上指铁腕摧毁反抗势力；smash 强调外力猛击导致物件瞬间破碎；squash 侧重把柔软物体压成扁平，或扼杀某苗头；shatter 专指玻璃、瓷器或信念被震碎为无数残片。"
   },
   "cry": {
     "word": "cry",
@@ -22485,8 +22041,7 @@
         "zh": "呼喊；大叫 (纯声音高呼)"
       }
     ],
-    "notes": "【搭配考点】cry for help 呼救；cry one's eyes out 痛哭流涕；a far cry from 与...相去甚远；for crying out loud 哎呀/天哪(表烦躁)；【形近辨析】dry (干燥的), fry (油煎), spy (间谍)；【近义辨析】cry 最常用，既可伴随泪水抽泣，亦可指因惊恐疼痛大声叫唤；weep 带有浓厚文学色彩，专指无声或深沉的潸然泪下；sob 侧重伤心过度引起的呼吸急促、胸膛起伏抽噎；shout 仅指高分贝大声喊叫，不涉及哭泣情感。",
-    "phonetic": "/krai/"
+    "notes": "【搭配考点】cry for help 呼救；cry one's eyes out 痛哭流涕；a far cry from 与...相去甚远；for crying out loud 哎呀/天哪(表烦躁)；【形近辨析】dry (干燥的), fry (油煎), spy (间谍)；【近义辨析】cry 最常用，既可伴随泪水抽泣，亦可指因惊恐疼痛大声叫唤；weep 带有浓厚文学色彩，专指无声或深沉的潸然泪下；sob 侧重伤心过度引起的呼吸急促、胸膛起伏抽噎；shout 仅指高分贝大声喊叫，不涉及哭泣情感。"
   },
   "crystal": {
     "word": "crystal",
@@ -22532,8 +22087,7 @@
         "zh": "矿物；矿石"
       }
     ],
-    "notes": "【搭配考点】crystal clear 清澈透明的/显而易见的；crystal ball 水晶球 (预测未来)；liquid crystal display (LCD) 液晶显示屏；ice crystals 冰晶；【形近辨析】crucial (决定性的), crust (地壳/脆皮), crypt (地下墓穴)；【近义辨析】crystal 指由原子规则排列形成的自然结晶矿石，亦借喻水体或逻辑极其清澈透明；quartz 专指矿物学中的石英结晶；glass 专指非晶体、透明易碎的硅酸盐玻璃；mineral 泛指地下蕴藏的一切天然无机矿物质。",
-    "phonetic": "/'kristəl/"
+    "notes": "【搭配考点】crystal clear 清澈透明的/显而易见的；crystal ball 水晶球 (预测未来)；liquid crystal display (LCD) 液晶显示屏；ice crystals 冰晶；【形近辨析】crucial (决定性的), crust (地壳/脆皮), crypt (地下墓穴)；【近义辨析】crystal 指由原子规则排列形成的自然结晶矿石，亦借喻水体或逻辑极其清澈透明；quartz 专指矿物学中的石英结晶；glass 专指非晶体、透明易碎的硅酸盐玻璃；mineral 泛指地下蕴藏的一切天然无机矿物质。"
   },
   "culture": {
     "word": "culture",
@@ -22579,8 +22133,7 @@
         "zh": "习俗；风俗惯例"
       }
     ],
-    "notes": "【搭配考点】corporate/pop culture 企业/流行文化；culture shock 文化冲击；bacterial culture 细菌培养物；physical culture 体育运动；【形近辨析】vulture (秃鹫), capture (俘虏), torture (折磨酷刑)；【近义辨析】culture 强调特定民族或群体的生活方式、艺术形态和精神认同，生物学指微生物培养；civilization 强调社会进入城市化、法制化和文字发达的宏观文明阶段；heritage 侧重由祖辈传承保留下来的历史物质或非遗文化；custom 指代代相传的具体行为习惯。",
-    "phonetic": "/'kʌltʃə/"
+    "notes": "【搭配考点】corporate/pop culture 企业/流行文化；culture shock 文化冲击；bacterial culture 细菌培养物；physical culture 体育运动；【形近辨析】vulture (秃鹫), capture (俘虏), torture (折磨酷刑)；【近义辨析】culture 强调特定民族或群体的生活方式、艺术形态和精神认同，生物学指微生物培养；civilization 强调社会进入城市化、法制化和文字发达的宏观文明阶段；heritage 侧重由祖辈传承保留下来的历史物质或非遗文化；custom 指代代相传的具体行为习惯。"
   },
   "cup": {
     "word": "cup",
@@ -22626,8 +22179,7 @@
         "zh": "玻璃杯；高脚杯"
       }
     ],
-    "notes": "【搭配考点】a cup of tea 一杯茶/合心意的事物 (not my cup of tea)；World Cup 世界杯；in one's cups 喝醉酒；cup one's hands 双手围成杯状；【形近辨析】cap (帽子/限额), cut (剪切), cop (警察)；【近义辨析】cup 专指带把手喝茶咖啡的小杯，或体育竞技中杯状的流动锦标奖杯；mug 指容量更大、杯壁更厚的直筒马克杯；trophy 是各类体育艺术锦标奖杯、奖盘、盾牌的正式总称；glass 专指透明玻璃材质的饮水酒杯。",
-    "phonetic": "/亦作 C.U.P./"
+    "notes": "【搭配考点】a cup of tea 一杯茶/合心意的事物 (not my cup of tea)；World Cup 世界杯；in one's cups 喝醉酒；cup one's hands 双手围成杯状；【形近辨析】cap (帽子/限额), cut (剪切), cop (警察)；【近义辨析】cup 专指带把手喝茶咖啡的小杯，或体育竞技中杯状的流动锦标奖杯；mug 指容量更大、杯壁更厚的直筒马克杯；trophy 是各类体育艺术锦标奖杯、奖盘、盾牌的正式总称；glass 专指透明玻璃材质的饮水酒杯。"
   },
   "curiosity": {
     "word": "curiosity",
@@ -22673,8 +22225,7 @@
         "zh": "兴趣；关注"
       }
     ],
-    "notes": "【搭配考点】curiosity killed the cat 好奇害死猫；out of curiosity 出于好奇；satisfy/arouse curiosity 满足/唤起好奇心；an antique curiosity 古玩珍品；【形近辨析】furious (愤怒的), security (安全防卫), priority (优先事项)；【近义辨析】curiosity 指想弄明白新奇事物的求知本能，有时指罕见古董小玩物；inquisitiveness 侧重喜欢追问细节甚至爱管闲事打探他人私事；wonder 强调面对未知壮景时由衷生出的赞叹与惊异；interest 泛指注意力被吸引的普遍兴趣。",
-    "phonetic": "/,kjuri'ɔsiti/"
+    "notes": "【搭配考点】curiosity killed the cat 好奇害死猫；out of curiosity 出于好奇；satisfy/arouse curiosity 满足/唤起好奇心；an antique curiosity 古玩珍品；【形近辨析】furious (愤怒的), security (安全防卫), priority (优先事项)；【近义辨析】curiosity 指想弄明白新奇事物的求知本能，有时指罕见古董小玩物；inquisitiveness 侧重喜欢追问细节甚至爱管闲事打探他人私事；wonder 强调面对未知壮景时由衷生出的赞叹与惊异；interest 泛指注意力被吸引的普遍兴趣。"
   },
   "currently": {
     "word": "currently",
@@ -22720,8 +22271,7 @@
         "zh": "目前；现在 (此刻具体时间点)"
       }
     ],
-    "notes": "【搭配考点】currently available 当前可用的；currently under review 目前正在审查中；currently held 当前持有的；【形近辨析】currency (法定货币), correctly (正确地), curiously (好奇地/奇怪的是)；【近义辨析】currently 最标准，强调某动作或状态在此时此刻正在进行或维持；presently 亦可表示目前，但亦常指“不久/很快”；nowadays 侧重时代变迁，与过去几十年前的传统做法作对照；at present 与 currently 语义接近，侧重此刻当下的暂时状态。",
-    "phonetic": "/'kʌrəntli/"
+    "notes": "【搭配考点】currently available 当前可用的；currently under review 目前正在审查中；currently held 当前持有的；【形近辨析】currency (法定货币), correctly (正确地), curiously (好奇地/奇怪的是)；【近义辨析】currently 最标准，强调某动作或状态在此时此刻正在进行或维持；presently 亦可表示目前，但亦常指“不久/很快”；nowadays 侧重时代变迁，与过去几十年前的传统做法作对照；at present 与 currently 语义接近，侧重此刻当下的暂时状态。"
   },
   "curriculum": {
     "word": "curriculum",
@@ -22767,8 +22317,7 @@
         "zh": "培养方案；培养规划"
       }
     ],
-    "notes": "【搭配考点】school/national curriculum 学校/国家课程；core curriculum 核心必修课程；curriculum vitae (CV) 个人履历表；extra-curricular activities 课外活动；【形近辨析】circular (圆形的/通知), circulation (循环/发行量), circumstance (境遇/环境)；【近义辨析】curriculum 指学校或教育系统全部课程设置的宏观总称；syllabus 专指某位任课教师分发给学生的某门课具体进度与评分大纲；course 指单门具体的独立课程；program 侧重学位授予的整体培养方案。",
-    "phonetic": "/kə'rikjuləm/"
+    "notes": "【搭配考点】school/national curriculum 学校/国家课程；core curriculum 核心必修课程；curriculum vitae (CV) 个人履历表；extra-curricular activities 课外活动；【形近辨析】circular (圆形的/通知), circulation (循环/发行量), circumstance (境遇/环境)；【近义辨析】curriculum 指学校或教育系统全部课程设置的宏观总称；syllabus 专指某位任课教师分发给学生的某门课具体进度与评分大纲；course 指单门具体的独立课程；program 侧重学位授予的整体培养方案。"
   },
   "curve": {
     "word": "curve",
@@ -22814,8 +22363,7 @@
         "zh": "环形；环路 (闭合圈)"
       }
     ],
-    "notes": "【搭配考点】learning curve 学习曲线；ahead of the curve 领跑潮流/占得先机；growth curve 增长曲线；sharp curve 急转弯；【形近辨析】carve (雕琢), cure (治疗), curb (抑制/路边镶边石)；【近义辨析】curve 侧重平滑流畅的圆润弧线或数学图表曲线；bend 侧重公路、河流明显的转向拐角；arc 专指几何学中的圆弧线或空中飞行的抛物轨迹；loop 强调弯成闭环或绳套圈。",
-    "phonetic": "/kə:v/"
+    "notes": "【搭配考点】learning curve 学习曲线；ahead of the curve 领跑潮流/占得先机；growth curve 增长曲线；sharp curve 急转弯；【形近辨析】carve (雕琢), cure (治疗), curb (抑制/路边镶边石)；【近义辨析】curve 侧重平滑流畅的圆润弧线或数学图表曲线；bend 侧重公路、河流明显的转向拐角；arc 专指几何学中的圆弧线或空中飞行的抛物轨迹；loop 强调弯成闭环或绳套圈。"
   },
   "custom": {
     "word": "custom",
@@ -22861,8 +22409,7 @@
         "zh": "常规做法；惯例"
       }
     ],
-    "notes": "【搭配考点】local/ancient custom 地方/古老风俗；customs clearance 海关清关；custom-made 定制的；break with custom 打破习俗；【形近辨析】costume (戏服/化装服), customer (客户), custody (监护/羁押)；【近义辨析】custom 侧重特定社会群体公认的风俗礼仪习惯，复数 customs 为海关；tradition 强调经年累月代代相承的思想或文化遗风；habit 专指个人养成的生活行为习惯；practice 强调专业领域行之有效的实务操练与惯例。",
-    "phonetic": "/'kʌstəm/"
+    "notes": "【搭配考点】local/ancient custom 地方/古老风俗；customs clearance 海关清关；custom-made 定制的；break with custom 打破习俗；【形近辨析】costume (戏服/化装服), customer (客户), custody (监护/羁押)；【近义辨析】custom 侧重特定社会群体公认的风俗礼仪习惯，复数 customs 为海关；tradition 强调经年累月代代相承的思想或文化遗风；habit 专指个人养成的生活行为习惯；practice 强调专业领域行之有效的实务操练与惯例。"
   },
   "customer": {
     "word": "customer",
@@ -22908,8 +22455,7 @@
         "zh": "购物者；逛街者"
       }
     ],
-    "notes": "【搭配考点】customer satisfaction/service 客户满意度/服务；loyal customer 忠诚老顾客；customer base 客户群体；potential customer 潜在买家；【形近辨析】custom (习俗/海关), costume (剧场服装), consumer (经济学终端消费者)；【近义辨析】customer 指商场、超市、网店具体掏钱购买物品的购买者；client 侧重指长期聘请专业律师、会计师、咨询机构的托办业务客户；patron 偏正式高雅，指剧院、画廊、餐厅的资助人或座上宾常客；shopper 专指在商场货架前流连挑选的实际购物者。",
-    "phonetic": "/'kʌstəmə/"
+    "notes": "【搭配考点】customer satisfaction/service 客户满意度/服务；loyal customer 忠诚老顾客；customer base 客户群体；potential customer 潜在买家；【形近辨析】custom (习俗/海关), costume (剧场服装), consumer (经济学终端消费者)；【近义辨析】customer 指商场、超市、网店具体掏钱购买物品的购买者；client 侧重指长期聘请专业律师、会计师、咨询机构的托办业务客户；patron 偏正式高雅，指剧院、画廊、餐厅的资助人或座上宾常客；shopper 专指在商场货架前流连挑选的实际购物者。"
   },
   "cut": {
     "word": "cut",
@@ -22955,8 +22501,7 @@
         "zh": "猛砍；大幅削减 (大刀阔斧削减)"
       }
     ],
-    "notes": "【搭配考点】cut costs/taxes 削减成本/减税；cut down on 减少摄入/消耗；cut corners 走捷径/偷工减料；a deep cut 严重伤口；short cut 捷径；【形近辨析】cub (熊虎幼崽), cup (茶杯), cute (可爱的)；【近义辨析】cut 日常通用，作削减时强调动作果断砍掉部分指标；reduce 侧重渐进或由大到小使指标下降；trim 强调像修剪树枝一般剪掉边角赘肉使机构精简；slash 形象鲜明，指以极大幅度剧烈猛砍价格或预算。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】cut costs/taxes 削减成本/减税；cut down on 减少摄入/消耗；cut corners 走捷径/偷工减料；a deep cut 严重伤口；short cut 捷径；【形近辨析】cub (熊虎幼崽), cup (茶杯), cute (可爱的)；【近义辨析】cut 日常通用，作削减时强调动作果断砍掉部分指标；reduce 侧重渐进或由大到小使指标下降；trim 强调像修剪树枝一般剪掉边角赘肉使机构精简；slash 形象鲜明，指以极大幅度剧烈猛砍价格或预算。"
   },
   "cycle": {
     "word": "cycle",
@@ -23002,8 +22547,7 @@
         "zh": "时代；时期；学时"
       }
     ],
-    "notes": "【搭配考点】business/economic cycle 商业/经济周期；life cycle 生命史/生命周期；vicious cycle 恶性循环；water cycle 水循环；【形近辨析】circle (圆形/社交圈), recycle (循环再生), cyclone (气旋风暴)；【近义辨析】cycle 强调从起点出发经过系列阶段最终又回到起点的循环往复过程；round 指一系列动作、谈判或比赛中的单一一轮；phase 指事物整体发展流程中的某一个形态或过渡阶段；period 强调有明确起止时间的一段较长时期。",
-    "phonetic": "/'saikl/"
+    "notes": "【搭配考点】business/economic cycle 商业/经济周期；life cycle 生命史/生命周期；vicious cycle 恶性循环；water cycle 水循环；【形近辨析】circle (圆形/社交圈), recycle (循环再生), cyclone (气旋风暴)；【近义辨析】cycle 强调从起点出发经过系列阶段最终又回到起点的循环往复过程；round 指一系列动作、谈判或比赛中的单一一轮；phase 指事物整体发展流程中的某一个形态或过渡阶段；period 强调有明确起止时间的一段较长时期。"
   },
   "insufferable": {
     "word": "insufferable",
@@ -23049,8 +22593,7 @@
         "zh": "极可憎的；令人反感的"
       }
     ],
-    "notes": "【搭配考点】insufferable arrogance/pride 令人难以忍受的傲慢/自大；find sb insufferable 觉得某人受不了；insufferable heat 难以忍耐的高热；【形近辨析】insuperable (无法逾越克服的困难), inseparable (形影不离的), intolerable (不可容忍的)；【近义辨析】insufferable 常带强烈的鄙视与厌烦情绪，多形容某人的性格、举止傲慢令人无法与其共处；unbearable 侧重于感官或肉体上的剧烈疼痛、沉重负担；intolerable 强调政治苛政、道德侮辱突破底线；obnoxious 侧重让人感到恶心、讨厌的反感举动。",
-    "phonetic": "/in'sʌfərəbl/"
+    "notes": "【搭配考点】insufferable arrogance/pride 令人难以忍受的傲慢/自大；find sb insufferable 觉得某人受不了；insufferable heat 难以忍耐的高热；【形近辨析】insuperable (无法逾越克服的困难), inseparable (形影不离的), intolerable (不可容忍的)；【近义辨析】insufferable 常带强烈的鄙视与厌烦情绪，多形容某人的性格、举止傲慢令人无法与其共处；unbearable 侧重于感官或肉体上的剧烈疼痛、沉重负担；intolerable 强调政治苛政、道德侮辱突破底线；obnoxious 侧重让人感到恶心、讨厌的反感举动。"
   },
   "hesitate": {
     "word": "hesitate",
@@ -23096,8 +22639,7 @@
         "zh": "暂停；中止 (暂时中顿)"
       }
     ],
-    "notes": "【搭配考点】hesitate to do sth 迟疑做某事；without hesitation 毫不犹豫地；hesitate about/over 对...拿不定主意；【形近辨析】meditate (冥想冥思), irritate (激怒/引起发炎), gravitate (向心力吸引/倾向)；【近义辨析】hesitate 强调因怀疑、担忧或害怕而在片刻间停滞不前、不敢下手；falter 强调意志动摇、言语结巴或力量衰退步伐蹒跚；vacillate 指心意游移不定、在两种选项间来回拉锯；pause 侧重为了思考、换气或休整而暂时客观中顿。",
-    "phonetic": "/'heziteit/"
+    "notes": "【搭配考点】hesitate to do sth 迟疑做某事；without hesitation 毫不犹豫地；hesitate about/over 对...拿不定主意；【形近辨析】meditate (冥想冥思), irritate (激怒/引起发炎), gravitate (向心力吸引/倾向)；【近义辨析】hesitate 强调因怀疑、担忧或害怕而在片刻间停滞不前、不敢下手；falter 强调意志动摇、言语结巴或力量衰退步伐蹒跚；vacillate 指心意游移不定、在两种选项间来回拉锯；pause 侧重为了思考、换气或休整而暂时客观中顿。"
   },
   "overreact": {
     "word": "overreact",
@@ -23143,8 +22685,7 @@
         "zh": "恐慌；惊慌失措 (恐惧慌乱)"
       }
     ],
-    "notes": "【搭配考点】overreact to 对...反应过度；tend to overreact 往往容易小题大做；do not overreact 别大惊小怪；【形近辨析】interact (互动交流), counteract (中和抵消), retroactive (有追溯力的)；【近义辨析】overreact 强调在心理情绪或实际行动上过度小题大做、反应过于激烈；exaggerate 侧重言辞讲述、宣传上添枝加叶夸张渲染；overstate 强调书面或正式报表中把事实陈述过高；panic 强调由于突如其来的恐惧陷入慌乱无序的状态。",
-    "phonetic": "/,əuvəri'ækt/"
+    "notes": "【搭配考点】overreact to 对...反应过度；tend to overreact 往往容易小题大做；do not overreact 别大惊小怪；【形近辨析】interact (互动交流), counteract (中和抵消), retroactive (有追溯力的)；【近义辨析】overreact 强调在心理情绪或实际行动上过度小题大做、反应过于激烈；exaggerate 侧重言辞讲述、宣传上添枝加叶夸张渲染；overstate 强调书面或正式报表中把事实陈述过高；panic 强调由于突如其来的恐惧陷入慌乱无序的状态。"
   },
   "interpersonal": {
     "word": "interpersonal",
@@ -23190,8 +22731,7 @@
         "zh": "关系的；相关的"
       }
     ],
-    "notes": "【搭配考点】interpersonal skills 人际交往能力；interpersonal relationships 人际关系；interpersonal communication 人际沟通；interpersonal conflict 人际冲突；【形近辨析】impersonal (冷若冰霜的/非个人的), personal (私密的/个人的), personality (性格特征)；【近义辨析】interpersonal 专指个人在社交、职场中与他人相处共事的双向人际交往能力；social 侧重整个社会的宏观社群结构或社交派对；communicative 强调通过口头语言准确传情达意的沟通才干；relational 偏向逻辑、哲学或数据库上的关系建构。",
-    "phonetic": "/,intə'pə:sənəl/"
+    "notes": "【搭配考点】interpersonal skills 人际交往能力；interpersonal relationships 人际关系；interpersonal communication 人际沟通；interpersonal conflict 人际冲突；【形近辨析】impersonal (冷若冰霜的/非个人的), personal (私密的/个人的), personality (性格特征)；【近义辨析】interpersonal 专指个人在社交、职场中与他人相处共事的双向人际交往能力；social 侧重整个社会的宏观社群结构或社交派对；communicative 强调通过口头语言准确传情达意的沟通才干；relational 偏向逻辑、哲学或数据库上的关系建构。"
   },
   "retaliate": {
     "word": "retaliate",
@@ -23237,8 +22777,7 @@
         "zh": "予以反击；还手"
       }
     ],
-    "notes": "【搭配考点】retaliate against 对...进行报复；retaliate by doing 以做某事作为反击；threaten to retaliate 威胁实施报复；retaliatory tariffs 报复性关税；【形近辨析】replicate (复制复印), rehabilitate (戒瘾康复/恢复名誉), calculate (计算)；【近义辨析】retaliate 偏向政治军事与商业领域的以牙还牙、对等反击措施；revenge 带有浓厚的个人复仇心与泄愤私怨；avenge 带有崇高的正义色彩，指为受到冤屈侵害的弱者洗雪耻辱；strike back 是行动上的快速还击。",
-    "phonetic": "/ri'tælieit/"
+    "notes": "【搭配考点】retaliate against 对...进行报复；retaliate by doing 以做某事作为反击；threaten to retaliate 威胁实施报复；retaliatory tariffs 报复性关税；【形近辨析】replicate (复制复印), rehabilitate (戒瘾康复/恢复名誉), calculate (计算)；【近义辨析】retaliate 偏向政治军事与商业领域的以牙还牙、对等反击措施；revenge 带有浓厚的个人复仇心与泄愤私怨；avenge 带有崇高的正义色彩，指为受到冤屈侵害的弱者洗雪耻辱；strike back 是行动上的快速还击。"
   },
   "confidential": {
     "word": "confidential",
@@ -23284,8 +22823,7 @@
         "zh": "私人的；隐秘的"
       }
     ],
-    "notes": "【搭配考点】strictly confidential 绝密/严格保密；confidential information/document 机密信息/文件；confidential clerk 亲信秘书；in strict confidence 极度保密地；【形近辨析】confident (充满信心的), presidential (总统首脑的), residential (居民小区的)；【近义辨析】confidential 强调具有信托责任或受保密协议 NDA 保护的商业或个人档案；secret 泛指隐藏不让人见闻的秘密；classified 专指国防与情报部门盖有“机密/绝密”红色印章的国家安全档案；private 强调纯属私生活隐私、与公共无关。",
-    "phonetic": "/,kɔnfi'denʃəl/"
+    "notes": "【搭配考点】strictly confidential 绝密/严格保密；confidential information/document 机密信息/文件；confidential clerk 亲信秘书；in strict confidence 极度保密地；【形近辨析】confident (充满信心的), presidential (总统首脑的), residential (居民小区的)；【近义辨析】confidential 强调具有信托责任或受保密协议 NDA 保护的商业或个人档案；secret 泛指隐藏不让人见闻的秘密；classified 专指国防与情报部门盖有“机密/绝密”红色印章的国家安全档案；private 强调纯属私生活隐私、与公共无关。"
   },
   "extortion": {
     "word": "extortion",
@@ -23331,8 +22869,7 @@
         "zh": "抢劫；暴力强夺"
       }
     ],
-    "notes": "【搭配考点】extortion scheme/racket 敲诈勒索阴谋/犯罪网络；guilty of extortion 犯有勒索罪；extort money from 从...敲诈金钱；【形近辨析】distortion (声音失真/观点扭曲), execution (贯彻执行/死刑), excretion (生理排泄)；【近义辨析】extortion 指依靠权势、暴力恐吓或黑帮保护费强迫对方交钱的重罪；blackmail 侧重拿捏对方不可告人的隐私黑料进行要挟索财；ransom 特指绑架撕票案中所索要的释放人质赎金；robbery 强调当面动用刀枪器械硬抢现钱财物。",
-    "phonetic": "/ik'stɔ:ʃən/"
+    "notes": "【搭配考点】extortion scheme/racket 敲诈勒索阴谋/犯罪网络；guilty of extortion 犯有勒索罪；extort money from 从...敲诈金钱；【形近辨析】distortion (声音失真/观点扭曲), execution (贯彻执行/死刑), excretion (生理排泄)；【近义辨析】extortion 指依靠权势、暴力恐吓或黑帮保护费强迫对方交钱的重罪；blackmail 侧重拿捏对方不可告人的隐私黑料进行要挟索财；ransom 特指绑架撕票案中所索要的释放人质赎金；robbery 强调当面动用刀枪器械硬抢现钱财物。"
   },
   "sabotage": {
     "word": "sabotage",
@@ -23378,8 +22915,7 @@
         "zh": "拆除；推毁 (工程大拆大卸)"
       }
     ],
-    "notes": "【搭配考点】sabotage peace talks 破坏和谈；act of sabotage 蓄意破坏行径；economic sabotage 经济破坏；sabotage equipment 破坏设备；【形近辨析】salvage (沉船打捞/挽回损失), bondage (束缚奴役), advantage (优势好处)；【近义辨析】sabotage 特指工人在工厂故意毁坏机器以示抗议，或特工在敌后实施的战术爆破阻挠；undermine 侧重潜移默化地动摇威信或健康根基；vandalize 专指地痞流氓在街头公物上涂鸦砸烂玻璃；demolish 强调工程上的大拆大卸或辩论中将论点驳得体无完肤。",
-    "phonetic": "/'sæbətɑ:ʒ; ,sæbə'tɑ:ʒ/"
+    "notes": "【搭配考点】sabotage peace talks 破坏和谈；act of sabotage 蓄意破坏行径；economic sabotage 经济破坏；sabotage equipment 破坏设备；【形近辨析】salvage (沉船打捞/挽回损失), bondage (束缚奴役), advantage (优势好处)；【近义辨析】sabotage 特指工人在工厂故意毁坏机器以示抗议，或特工在敌后实施的战术爆破阻挠；undermine 侧重潜移默化地动摇威信或健康根基；vandalize 专指地痞流氓在街头公物上涂鸦砸烂玻璃；demolish 强调工程上的大拆大卸或辩论中将论点驳得体无完肤。"
   },
   "empathy": {
     "word": "empathy",
@@ -23425,8 +22961,7 @@
         "zh": "理解；包容明白"
       }
     ],
-    "notes": "【搭配考点】feel/show empathy for 对...展现共情；develop empathy 培养同理心；lack empathy 缺乏共情能力；empathy gap 同理心鸿沟；【形近辨析】sympathy (同情怜惜), apathy (麻木漠然), antipathy (根深蒂固的反感)；【近义辨析】empathy 强调能够完全感同身受地体察他人喜怒哀乐并感其所感；sympathy 侧重因他人遭受不幸而发出的慰问哀悯；compassion 强调兼具慈悲悲悯心并切实渴望采取救助行动；understanding 侧重在逻辑和认知层面体谅他人的难处。",
-    "phonetic": "/'empəθi/"
+    "notes": "【搭配考点】feel/show empathy for 对...展现共情；develop empathy 培养同理心；lack empathy 缺乏共情能力；empathy gap 同理心鸿沟；【形近辨析】sympathy (同情怜惜), apathy (麻木漠然), antipathy (根深蒂固的反感)；【近义辨析】empathy 强调能够完全感同身受地体察他人喜怒哀乐并感其所感；sympathy 侧重因他人遭受不幸而发出的慰问哀悯；compassion 强调兼具慈悲悲悯心并切实渴望采取救助行动；understanding 侧重在逻辑和认知层面体谅他人的难处。"
   },
   "conspire": {
     "word": "conspire",
@@ -23472,8 +23007,7 @@
         "zh": "搞阴谋；耍手腕算计"
       }
     ],
-    "notes": "【搭配考点】conspire against sb 图谋陷害某人；conspire to do 密谋做某事；events conspired to defeat us 天意弄人/诸事共同致败；conspiracy theory 阴谋论；【形近辨析】inspire (鼓舞灵感), expire (护照到期/呼出气), perspire (流汗)；【近义辨析】conspire 既可指人搞秘密政治暗杀阴谋，亦极常用指多种不良客观因素巧合叠加致祸；plot 强调对阴谋方案的细致谋划构思；collude 专指两家企业串通操纵价格或商业舞弊；scheme 侧重为牟取不正当好处动用心机算计。",
-    "phonetic": "/kən'spaiɔ/"
+    "notes": "【搭配考点】conspire against sb 图谋陷害某人；conspire to do 密谋做某事；events conspired to defeat us 天意弄人/诸事共同致败；conspiracy theory 阴谋论；【形近辨析】inspire (鼓舞灵感), expire (护照到期/呼出气), perspire (流汗)；【近义辨析】conspire 既可指人搞秘密政治暗杀阴谋，亦极常用指多种不良客观因素巧合叠加致祸；plot 强调对阴谋方案的细致谋划构思；collude 专指两家企业串通操纵价格或商业舞弊；scheme 侧重为牟取不正当好处动用心机算计。"
   },
   "compounded": {
     "word": "compounded",
@@ -23519,8 +23053,7 @@
         "zh": "走向更糟的"
       }
     ],
-    "notes": "【搭配考点】compounded by 受...加剧/雪上加霜；compounded interest 复利；compounded medication 配制复合药剂；【形近辨析】confounded (困惑惊愕的), bounded (有边界的), sounded (发出声音的)；【近义辨析】compounded 强调在原有困境上像加法叠加一样加入新要素使痛苦翻倍，金融上指利滚利计算；aggravated 侧重外界刺激使法律罪责或疾病症状激化；exacerbated 侧重问题、危机变得更加尖锐难解；worsened 强调状态单纯走向更糟。",
-    "phonetic": "/compounded/"
+    "notes": "【搭配考点】compounded by 受...加剧/雪上加霜；compounded interest 复利；compounded medication 配制复合药剂；【形近辨析】confounded (困惑惊愕的), bounded (有边界的), sounded (发出声音的)；【近义辨析】compounded 强调在原有困境上像加法叠加一样加入新要素使痛苦翻倍，金融上指利滚利计算；aggravated 侧重外界刺激使法律罪责或疾病症状激化；exacerbated 侧重问题、危机变得更加尖锐难解；worsened 强调状态单纯走向更糟。"
   },
   "incognito": {
     "word": "incognito",
@@ -23566,8 +23099,7 @@
         "zh": "便衣卧底的 (秘密潜伏破案)"
       }
     ],
-    "notes": "【搭配考点】travel/live incognito 隐姓埋名出行/隐居；preserve one's incognito 保持身份保密；go incognito 微服私访；【形近辨析】cognitive (认知思维的), recognition (承认识别), agnostic (不可知论者)；【近义辨析】incognito 源自意大利语，特指名人、皇室为图清静掩饰名号轻装出游；disguised 侧重物理上化装戴面具改头换面；anonymous 侧重未署名、匿名捐款或发帖；undercover 专指警察或侦探伪装身份深入虎穴执行卧底破案。",
-    "phonetic": "/in'kɔɡni:təu/"
+    "notes": "【搭配考点】travel/live incognito 隐姓埋名出行/隐居；preserve one's incognito 保持身份保密；go incognito 微服私访；【形近辨析】cognitive (认知思维的), recognition (承认识别), agnostic (不可知论者)；【近义辨析】incognito 源自意大利语，特指名人、皇室为图清静掩饰名号轻装出游；disguised 侧重物理上化装戴面具改头换面；anonymous 侧重未署名、匿名捐款或发帖；undercover 专指警察或侦探伪装身份深入虎穴执行卧底破案。"
   },
   "consolidation": {
     "word": "consolidation",
@@ -23613,8 +23145,7 @@
         "zh": "兼并；企业合并"
       }
     ],
-    "notes": "【搭配考点】debt consolidation 债务合并重组；consolidation of power 巩固政权；market consolidation 市场整合/行情盘整；fiscal consolidation 财政整顿；【形近辨析】consideration (考虑), constellation (星座星盘), consultation (专家会诊/磋商)；【近义辨析】consolidation 强调把松散的多家分支兼并集中为更强大精简的实体，或把原有成果夯实加固；integration 侧重各系统之间互联互通、融为一体；unification 侧重政治或法典的统合一体；merger 特指两家平级公司合法合规地合二为一。",
-    "phonetic": "/kən,sɔli'deiʃən/"
+    "notes": "【搭配考点】debt consolidation 债务合并重组；consolidation of power 巩固政权；market consolidation 市场整合/行情盘整；fiscal consolidation 财政整顿；【形近辨析】consideration (考虑), constellation (星座星盘), consultation (专家会诊/磋商)；【近义辨析】consolidation 强调把松散的多家分支兼并集中为更强大精简的实体，或把原有成果夯实加固；integration 侧重各系统之间互联互通、融为一体；unification 侧重政治或法典的统合一体；merger 特指两家平级公司合法合规地合二为一。"
   },
   "unprecedented": {
     "word": "unprecedented",
@@ -23660,8 +23191,7 @@
         "zh": "新奇前所未有的 (构思形式新颖)"
       }
     ],
-    "notes": "【搭配考点】at an unprecedented rate 以空前的速度；unprecedented challenge 前所未有的挑战；unprecedented scale 史无前例的规模；set an unprecedented precedent 开创前所未有的先例；【形近辨析】unpretentious (低调不自夸的), unprotected (没有保护屏障的), unpreventable (不可防范的)；【近义辨析】unprecedented 严格指以往没有任何过往判例、历史记录可供参考比对；unparalleled 强调高度、技艺或成就达到登峰造极、无同伴可并驾齐驱；matchless 侧重独一无二无双匹配；novel 侧重构思方式的新奇独到。",
-    "phonetic": "/,ʌn'presidəntid/"
+    "notes": "【搭配考点】at an unprecedented rate 以空前的速度；unprecedented challenge 前所未有的挑战；unprecedented scale 史无前例的规模；set an unprecedented precedent 开创前所未有的先例；【形近辨析】unpretentious (低调不自夸的), unprotected (没有保护屏障的), unpreventable (不可防范的)；【近义辨析】unprecedented 严格指以往没有任何过往判例、历史记录可供参考比对；unparalleled 强调高度、技艺或成就达到登峰造极、无同伴可并驾齐驱；matchless 侧重独一无二无双匹配；novel 侧重构思方式的新奇独到。"
   },
   "acceptable": {
     "word": "acceptable",
@@ -23707,8 +23237,7 @@
         "zh": "足够的；胜任的 (满足硬性需求)"
       }
     ],
-    "notes": "【搭配考点】socially acceptable 社会可接受的/符合公德的；acceptable standard 合格标准；acceptable risk 可承受的风险；barely acceptable 勉强合格；【形近辨析】accessible (易进入的/平易近人的), susceptible (易感染的/过敏的), receptive (虚心纳谏的)；【近义辨析】acceptable 侧重符合起码的规范、不会引起强烈反对因而各方愿意签字接受；satisfactory 强调完全符合预期质量标准；tolerable 偏向忍耐，指虽不理想但还在忍受限度之内；adequate 侧重资源或能力在数量上足够应急。",
-    "phonetic": "/ək'septəbl/"
+    "notes": "【搭配考点】socially acceptable 社会可接受的/符合公德的；acceptable standard 合格标准；acceptable risk 可承受的风险；barely acceptable 勉强合格；【形近辨析】accessible (易进入的/平易近人的), susceptible (易感染的/过敏的), receptive (虚心纳谏的)；【近义辨析】acceptable 侧重符合起码的规范、不会引起强烈反对因而各方愿意签字接受；satisfactory 强调完全符合预期质量标准；tolerable 偏向忍耐，指虽不理想但还在忍受限度之内；adequate 侧重资源或能力在数量上足够应急。"
   },
   "persistent": {
     "word": "persistent",
@@ -23754,8 +23283,7 @@
         "zh": "持续不歇的；不依不饶的"
       }
     ],
-    "notes": "【搭配考点】persistent cough 顽固的咳嗽；persistent rumors 持续流言；persistent effort 坚持不懈的努力；persistent organic pollutants (POPs) 持久性有机污染物；【形近辨析】consistent (前后一致的), assistant (助手), resistant (耐...的/抗拒的)；【近义辨析】persistent 既可褒义指人在被拒后依然坚韧执着，亦可中性贬义指疾病恶疾流言久久挥之不去；persevering 纯属道德褒义，指在艰难坎坷中坚持初心；tenacious 形象突出如鹰爪抓附，强调咬紧牙关绝不松懈；relentless 侧重冷酷无情、丝毫不留喘息余地的持续推进。",
-    "phonetic": "/pə'sistənt; -'zis-/"
+    "notes": "【搭配考点】persistent cough 顽固的咳嗽；persistent rumors 持续流言；persistent effort 坚持不懈的努力；persistent organic pollutants (POPs) 持久性有机污染物；【形近辨析】consistent (前后一致的), assistant (助手), resistant (耐...的/抗拒的)；【近义辨析】persistent 既可褒义指人在被拒后依然坚韧执着，亦可中性贬义指疾病恶疾流言久久挥之不去；persevering 纯属道德褒义，指在艰难坎坷中坚持初心；tenacious 形象突出如鹰爪抓附，强调咬紧牙关绝不松懈；relentless 侧重冷酷无情、丝毫不留喘息余地的持续推进。"
   },
   "demoralizing": {
     "word": "demoralizing",
@@ -23801,8 +23329,7 @@
         "zh": "使虚弱衰竭的 (抽干精气神)"
       }
     ],
-    "notes": "【搭配考点】demoralizing experience 令人丧失信心的经历；deeply demoralizing 极度挫败斗志；demoralizing effect 瓦解士气的效应；【形近辨析】moralizing (好为人师说教的), modernizing (推行现代化的), polarizing (促使两极对立的)；【近义辨析】demoralizing 专指摧毁个人或集体的战斗意志、自信心与军心士气；discouraging 侧重在具体项目推进中被重重关卡劝退；disheartening 强调在情感上感到心酸冰凉与绝望；debilitating 侧重使身体、机构机能被严重拖垮衰竭。",
-    "phonetic": "/span>mor<span style='vertical-align:25%;font-size:35%;'>•</"
+    "notes": "【搭配考点】demoralizing experience 令人丧失信心的经历；deeply demoralizing 极度挫败斗志；demoralizing effect 瓦解士气的效应；【形近辨析】moralizing (好为人师说教的), modernizing (推行现代化的), polarizing (促使两极对立的)；【近义辨析】demoralizing 专指摧毁个人或集体的战斗意志、自信心与军心士气；discouraging 侧重在具体项目推进中被重重关卡劝退；disheartening 强调在情感上感到心酸冰凉与绝望；debilitating 侧重使身体、机构机能被严重拖垮衰竭。"
   },
   "colleagues": {
     "word": "colleagues",
@@ -23848,8 +23375,7 @@
         "zh": "同侪；同行地位相当者"
       }
     ],
-    "notes": "【搭配考点】former/senior colleagues 前任/资深同事；esteemed colleagues 尊敬的各位同仁；colleagues in the department 部门同事；【形近辨析】colleges (学院/专科学校), dialogues (戏剧对话), catalogues (商品目录册)；【近义辨析】colleagues 偏正式体面，常用于大学教授、医生、律师、官员等专业群体或跨机构同行之间的称谓；coworkers 最通俗，指在同一个公司办公室一起干活的工友；associates 侧重在商业运作中密切相关的合伙人或律所初级律师；peers 强调在年龄、地位、学识水平上不相上下的平级同侪。",
-    "phonetic": "/colleagues/"
+    "notes": "【搭配考点】former/senior colleagues 前任/资深同事；esteemed colleagues 尊敬的各位同仁；colleagues in the department 部门同事；【形近辨析】colleges (学院/专科学校), dialogues (戏剧对话), catalogues (商品目录册)；【近义辨析】colleagues 偏正式体面，常用于大学教授、医生、律师、官员等专业群体或跨机构同行之间的称谓；coworkers 最通俗，指在同一个公司办公室一起干活的工友；associates 侧重在商业运作中密切相关的合伙人或律所初级律师；peers 强调在年龄、地位、学识水平上不相上下的平级同侪。"
   },
   "cubicle": {
     "word": "cubicle",
@@ -23895,8 +23421,7 @@
         "zh": "工位；个人工作台 (配备电脑设备)"
       }
     ],
-    "notes": "【搭配考点】office cubicle 办公室隔间工位；shower cubicle 淋浴间；cubicle dweller 隔间打工人；cramped cubicle 狭窄的小隔间；【形近辨析】cubic (立方形的), cuticle (指甲根部表皮), vehicle (机动交通工具)；【近义辨析】cubicle 专指写字楼里由矮屏风隔出的开放式标准打工工位，亦指公共浴室淋浴小间；booth 指展销会展位、餐厅卡座或街头封闭电话亭；compartment 指火车软卧包厢或收纳箱内部被隔开的独立暗格；workstation 强调带有电脑显示器、接口等完整技术装备的工作台。",
-    "phonetic": "/'kju:bikl/"
+    "notes": "【搭配考点】office cubicle 办公室隔间工位；shower cubicle 淋浴间；cubicle dweller 隔间打工人；cramped cubicle 狭窄的小隔间；【形近辨析】cubic (立方形的), cuticle (指甲根部表皮), vehicle (机动交通工具)；【近义辨析】cubicle 专指写字楼里由矮屏风隔出的开放式标准打工工位，亦指公共浴室淋浴小间；booth 指展销会展位、餐厅卡座或街头封闭电话亭；compartment 指火车软卧包厢或收纳箱内部被隔开的独立暗格；workstation 强调带有电脑显示器、接口等完整技术装备的工作台。"
   },
   "boardroom": {
     "word": "boardroom",
@@ -23942,8 +23467,7 @@
         "zh": "议事大厅 (市政议会审议堂)"
       }
     ],
-    "notes": "【搭配考点】boardroom battle 董事会斗争；boardroom politics 董事会政治；enter the boardroom 进入董事会；boardroom table 董事会议长桌；【形近辨析】bedroom (卧房), showroom (陈列展厅), courtroom (法庭审判室)；【近义辨析】boardroom 专指供公司董事会董事及高管举行高规格战略决策会议的专用会议室，常借喻商界最高决策层；conference room 指可容纳较多人员举办研讨会的正式大会议室；meeting room 是普通办公室内供日常小组开会的普通房间；council chamber 特指政府市政议会的审议大堂。",
-    "phonetic": "/span>room</"
+    "notes": "【搭配考点】boardroom battle 董事会斗争；boardroom politics 董事会政治；enter the boardroom 进入董事会；boardroom table 董事会议长桌；【形近辨析】bedroom (卧房), showroom (陈列展厅), courtroom (法庭审判室)；【近义辨析】boardroom 专指供公司董事会董事及高管举行高规格战略决策会议的专用会议室，常借喻商界最高决策层；conference room 指可容纳较多人员举办研讨会的正式大会议室；meeting room 是普通办公室内供日常小组开会的普通房间；council chamber 特指政府市政议会的审议大堂。"
   },
   "inventory": {
     "word": "inventory",
@@ -23989,8 +23513,7 @@
         "zh": "商品目录册 (供订购查阅图册)"
       }
     ],
-    "notes": "【搭配考点】take inventory 盘点库存；inventory control/management 库存控制/管理；excess/surplus inventory 过剩库存；inventory turnover 库存周转率；【形近辨析】invention (科技发明), investor (投资人), mandatory (强制的)；【近义辨析】inventory 侧重商品或资产的详尽清单目录与账面记录，或仓库现有存货总值；stock 强调在架或在库可供随时销售交付的现成货物；stockpile 侧重国家或企业为防范战乱断供而特别囤积的战略物资；catalogue 侧重印刷或网页展示供订购查阅的品类图册。",
-    "phonetic": "/'invəntəri; -tɔ:ri/"
+    "notes": "【搭配考点】take inventory 盘点库存；inventory control/management 库存控制/管理；excess/surplus inventory 过剩库存；inventory turnover 库存周转率；【形近辨析】invention (科技发明), investor (投资人), mandatory (强制的)；【近义辨析】inventory 侧重商品或资产的详尽清单目录与账面记录，或仓库现有存货总值；stock 强调在架或在库可供随时销售交付的现成货物；stockpile 侧重国家或企业为防范战乱断供而特别囤积的战略物资；catalogue 侧重印刷或网页展示供订购查阅的品类图册。"
   },
   "engagement": {
     "word": "engagement",
@@ -24036,8 +23559,7 @@
         "zh": "投入；奉献承诺 (长期忠诚投身)"
       }
     ],
-    "notes": "【搭配考点】student/employee engagement 学习/员工敬业参与度；rules of engagement 交战交火规则；announcement of engagement 订婚公告；prior engagement 预先约定；【形近辨析】arrangement (日程安排/编排), encouragement (激励), estrangement (夫妻/朋友反目疏远)；【近义辨析】engagement 强调精神层面的深度共鸣、主动投入与积极互动，亦指正式婚约或商务约会；participation 侧重客观形式上的出席与参与；involvement 强调与某事产生关联或身陷其中；commitment 强调出于责任感做出长期奉献承诺。",
-    "phonetic": "/in'ɡeidʒmənt/"
+    "notes": "【搭配考点】student/employee engagement 学习/员工敬业参与度；rules of engagement 交战交火规则；announcement of engagement 订婚公告；prior engagement 预先约定；【形近辨析】arrangement (日程安排/编排), encouragement (激励), estrangement (夫妻/朋友反目疏远)；【近义辨析】engagement 强调精神层面的深度共鸣、主动投入与积极互动，亦指正式婚约或商务约会；participation 侧重客观形式上的出席与参与；involvement 强调与某事产生关联或身陷其中；commitment 强调出于责任感做出长期奉献承诺。"
   },
   "mandatory": {
     "word": "mandatory",
@@ -24083,8 +23605,7 @@
         "zh": "要求的；必备的 (符合标准必需)"
       }
     ],
-    "notes": "【搭配考点】mandatory sentence 强制法定判决；mandatory testing/quarantine 强制检测/隔离；mandatory retirement age 法定退休年龄；mandatory requirement 强制性要求；【形近辨析】predatory (掠夺性的/食肉的), sensory (感官知觉的), salutary (虽苦但有益的)；【近义辨析】mandatory 法律色彩最浓，指依据上级法令或管理条例强行规定，不服从即受处罚；compulsory 常见于教育、兵役等社会制度性规定（如 compulsory education 义务教育）；obligatory 侧重社交礼节或道德义务所约束；required 泛指满足某条件所必需的资格或材料。",
-    "phonetic": "/'mændətəri:; -,tɔ:ri/"
+    "notes": "【搭配考点】mandatory sentence 强制法定判决；mandatory testing/quarantine 强制检测/隔离；mandatory retirement age 法定退休年龄；mandatory requirement 强制性要求；【形近辨析】predatory (掠夺性的/食肉的), sensory (感官知觉的), salutary (虽苦但有益的)；【近义辨析】mandatory 法律色彩最浓，指依据上级法令或管理条例强行规定，不服从即受处罚；compulsory 常见于教育、兵役等社会制度性规定（如 compulsory education 义务教育）；obligatory 侧重社交礼节或道德义务所约束；required 泛指满足某条件所必需的资格或材料。"
   },
   "unfortunate": {
     "word": "unfortunate",
@@ -24130,8 +23651,7 @@
         "zh": "灾难性的；极其惨重的"
       }
     ],
-    "notes": "【搭配考点】unfortunate incident/event 令人遗憾的事件；unfortunate coincidence 不巧的巧合；it is unfortunate that 令人遗憾的是...；unfortunate choice of words 用词不当；【形近辨析】fortunate (幸运的), subordinate (下属从属的), coordinate (协调的)；【近义辨析】unfortunate 语气得体，既可指时运不济，更常用于外交公文委婉表达对某种不快事态的“深感遗憾”；unlucky 强调纯粹随机运气差掷骰子点数不好；regrettable 强调由于失误、判断不当导致使人产生悔意；disastrous 强调造成了毁灭性惨烈损失。",
-    "phonetic": "/,ʌn'fɔ:tʃənət/"
+    "notes": "【搭配考点】unfortunate incident/event 令人遗憾的事件；unfortunate coincidence 不巧的巧合；it is unfortunate that 令人遗憾的是...；unfortunate choice of words 用词不当；【形近辨析】fortunate (幸运的), subordinate (下属从属的), coordinate (协调的)；【近义辨析】unfortunate 语气得体，既可指时运不济，更常用于外交公文委婉表达对某种不快事态的“深感遗憾”；unlucky 强调纯粹随机运气差掷骰子点数不好；regrettable 强调由于失误、判断不当导致使人产生悔意；disastrous 强调造成了毁灭性惨烈损失。"
   },
   "realization": {
     "word": "realization",
@@ -24177,8 +23697,7 @@
         "zh": "实现；履行；满足感 (愿望誓言兑现)"
       }
     ],
-    "notes": "【搭配考点】come to the realization that 逐渐意识到...；the realization of one's dreams 梦想的成真；full realization 彻底领会；asset realization 资产变现；【形近辨析】idealization (过度理想化), legalization (法律合法化), civilization (社会文明)；【近义辨析】realization 侧重脑海中犹如闪电击中般突然看清真相，亦可指宏伟蓝图最终具象落地变成现实；awareness 侧重对客观危险或情况时刻保持知情警醒；actualization 心理学指潜能被充分释放的自我实现；fulfillment 强调诺言达成后内心获得的充实成就感。",
-    "phonetic": "/,riəlai'zeiʃən; ,ri:-; -li'z-/"
+    "notes": "【搭配考点】come to the realization that 逐渐意识到...；the realization of one's dreams 梦想的成真；full realization 彻底领会；asset realization 资产变现；【形近辨析】idealization (过度理想化), legalization (法律合法化), civilization (社会文明)；【近义辨析】realization 侧重脑海中犹如闪电击中般突然看清真相，亦可指宏伟蓝图最终具象落地变成现实；awareness 侧重对客观危险或情况时刻保持知情警醒；actualization 心理学指潜能被充分释放的自我实现；fulfillment 强调诺言达成后内心获得的充实成就感。"
   },
   "professional": {
     "word": "professional",
@@ -24224,8 +23743,7 @@
         "zh": "有资质的；合格的 (考取执照合格)"
       }
     ],
-    "notes": "【搭配考点】professional ethics 职业道德；professional development 职业进修/素养提升；professional athlete 职业运动员；seek professional advice 寻求专业建议；【形近辨析】provisional (暂时的/临时过渡的), processional (游行行列的), promotional (广告促销的)；【近义辨析】professional 强调受过严格高等学术和实务技能训练、以其为终身正职并遵循行业规范；expert 侧重在具体技术或知识细节上无可挑剔、无所不知；specialized 侧重分工细化或专用定制；qualified 强调拿到上岗资格执照、符合法定门槛。",
-    "phonetic": "/prəu'feʃənəl/"
+    "notes": "【搭配考点】professional ethics 职业道德；professional development 职业进修/素养提升；professional athlete 职业运动员；seek professional advice 寻求专业建议；【形近辨析】provisional (暂时的/临时过渡的), processional (游行行列的), promotional (广告促销的)；【近义辨析】professional 强调受过严格高等学术和实务技能训练、以其为终身正职并遵循行业规范；expert 侧重在具体技术或知识细节上无可挑剔、无所不知；specialized 侧重分工细化或专用定制；qualified 强调拿到上岗资格执照、符合法定门槛。"
   },
   "casual": {
     "word": "casual",
@@ -24271,8 +23789,7 @@
         "zh": "偶然发生的；意外的"
       }
     ],
-    "notes": "【搭配考点】casual clothes/wear 便装/休闲服；casual remark 随口一说的话；casual worker 临时散工；casual observer 漫不经心的旁观者；【形近辨析】causal (因果关系的 - 注意拼写字母顺序), visual (肉眼可见的), sensual (感官肉体的)；【近义辨析】casual 侧重态度随意不严肃、衣着生活方式舒适轻松，亦指漫不经心的举动；informal 侧重制度或外交场合没有严格礼仪套路；relaxed 强调肌肉紧绷感消除、心情放松惬意；accidental 强调完全出于客观偶然机缘而非预谋。",
-    "phonetic": "/'kæʒjuəl/"
+    "notes": "【搭配考点】casual clothes/wear 便装/休闲服；casual remark 随口一说的话；casual worker 临时散工；casual observer 漫不经心的旁观者；【形近辨析】causal (因果关系的 - 注意拼写字母顺序), visual (肉眼可见的), sensual (感官肉体的)；【近义辨析】casual 侧重态度随意不严肃、衣着生活方式舒适轻松，亦指漫不经心的举动；informal 侧重制度或外交场合没有严格礼仪套路；relaxed 强调肌肉紧绷感消除、心情放松惬意；accidental 强调完全出于客观偶然机缘而非预谋。"
   },
   "executive": {
     "word": "executive",
@@ -24318,8 +23835,7 @@
         "zh": "行政主管；管理员"
       }
     ],
-    "notes": "【搭配考点】Chief Executive Officer (CEO) 首席执行官；executive board 执委会；executive order 总统行政令；executive suite 高管套房/高管层；【形近辨析】exclusive (独占专有的), elusive (难以捕获理解的), excessive (过度的)；【近义辨析】executive 强调具有企业或政府最高管理、签署决策执行权的高层长官；director 侧重法定董事会董事或某一职能局的局长；manager 侧重中层负责把控团队日常进度的经理；administrator 侧重按章程行使行政管理权与资源分配的官员。",
-    "phonetic": "/iɡ'zekjutiv/"
+    "notes": "【搭配考点】Chief Executive Officer (CEO) 首席执行官；executive board 执委会；executive order 总统行政令；executive suite 高管套房/高管层；【形近辨析】exclusive (独占专有的), elusive (难以捕获理解的), excessive (过度的)；【近义辨析】executive 强调具有企业或政府最高管理、签署决策执行权的高层长官；director 侧重法定董事会董事或某一职能局的局长；manager 侧重中层负责把控团队日常进度的经理；administrator 侧重按章程行使行政管理权与资源分配的官员。"
   },
   "awkward": {
     "word": "awkward",
@@ -24365,8 +23881,7 @@
         "zh": "笨重庞大难以操纵的"
       }
     ],
-    "notes": "【搭配考点】awkward silence 尴尬的沉默；feel awkward 感到局促不安；awkward question 棘手刁钻的问题；in an awkward position 处于进退两难的尴尬境地；【形近辨析】backward (倒退落后的), upward (蒸蒸日上的), inward (向内的)；【近义辨析】awkward 侧重社交场合让人感到拘谨、不自然、不知如何应对的气氛，亦指工具不合手；embarrassing 侧重因丢丑、失态让人脸红心跳的羞愧；clumsy 专指人手脚协调性差、动作笨拙滑稽；unwieldy 专指机械物体由于过大过重而难以搬动驾驭。",
-    "phonetic": "/'ɔ:kwəd/"
+    "notes": "【搭配考点】awkward silence 尴尬的沉默；feel awkward 感到局促不安；awkward question 棘手刁钻的问题；in an awkward position 处于进退两难的尴尬境地；【形近辨析】backward (倒退落后的), upward (蒸蒸日上的), inward (向内的)；【近义辨析】awkward 侧重社交场合让人感到拘谨、不自然、不知如何应对的气氛，亦指工具不合手；embarrassing 侧重因丢丑、失态让人脸红心跳的羞愧；clumsy 专指人手脚协调性差、动作笨拙滑稽；unwieldy 专指机械物体由于过大过重而难以搬动驾驭。"
   },
   "uncomfortable": {
     "word": "uncomfortable",
@@ -24412,8 +23927,7 @@
         "zh": "尴尬别扭的"
       }
     ],
-    "notes": "【搭配考点】make sb uncomfortable 让某人感到不舒服/难堪；an uncomfortable truth 令人难以接受的残酷真相；feel uncomfortable with 对...感到心里不踏实；uncomfortable silence 令人难受的沉默；【形近辨析】unforgettable (铭心刻骨难忘的), unmanageable (难以治理掌控的), discomforted (感到尴尬不安的)；【近义辨析】uncomfortable 兼指硬板凳等物理上的肉体难受，以及社交环境中的局促别扭；uneasy 强调内心直觉的不踏实、担心潜在风险；anxious 强调神经紧绷、甚至心跳加速的焦虑恐慌；awkward 强调举止进退失据的尴尬。",
-    "phonetic": "/,ʌn'kɔmfətəbl/"
+    "notes": "【搭配考点】make sb uncomfortable 让某人感到不舒服/难堪；an uncomfortable truth 令人难以接受的残酷真相；feel uncomfortable with 对...感到心里不踏实；uncomfortable silence 令人难受的沉默；【形近辨析】unforgettable (铭心刻骨难忘的), unmanageable (难以治理掌控的), discomforted (感到尴尬不安的)；【近义辨析】uncomfortable 兼指硬板凳等物理上的肉体难受，以及社交环境中的局促别扭；uneasy 强调内心直觉的不踏实、担心潜在风险；anxious 强调神经紧绷、甚至心跳加速的焦虑恐慌；awkward 强调举止进退失据的尴尬。"
   },
   "specific": {
     "word": "specific",
@@ -24459,8 +23973,7 @@
         "zh": "精确精准的 (度量严丝合缝)"
       }
     ],
-    "notes": "【搭配考点】specific reasons/examples 具体原因/事例；for a specific purpose 出于特定目的；be specific to 专属于.../特有的；be more specific 说得更具体点；【形近辨析】pacific (和平安宁的/太平洋的), scientific (符合科学的), terrific (极棒的/巨大的)；【近义辨析】specific 强调锁定某一个明确无误的目标或具体细节，反对泛泛而谈；concrete 侧重事实实打实、具有现实可摸性而非空谈空想；explicit 强调把话在明面上挑明说透、不留玄机暗语；precise 强调数据、时间上的精密准度。",
-    "phonetic": "/spi'sifik/"
+    "notes": "【搭配考点】specific reasons/examples 具体原因/事例；for a specific purpose 出于特定目的；be specific to 专属于.../特有的；be more specific 说得更具体点；【形近辨析】pacific (和平安宁的/太平洋的), scientific (符合科学的), terrific (极棒的/巨大的)；【近义辨析】specific 强调锁定某一个明确无误的目标或具体细节，反对泛泛而谈；concrete 侧重事实实打实、具有现实可摸性而非空谈空想；explicit 强调把话在明面上挑明说透、不留玄机暗语；precise 强调数据、时间上的精密准度。"
   },
   "morale": {
     "word": "morale",
@@ -24506,8 +24019,7 @@
         "zh": "热忱；积极性"
       }
     ],
-    "notes": "【搭配考点】boost/raise morale 鼓舞/提振士气；low/poor morale 士气低落；troop/staff morale 军队/员工士气；morale boost 强心针/士气提振；【形近辨析】moral (道德的/寓意 - 重音在前), mortal (凡人凡胎/致命的), mural (墙体壁画)；【近义辨析】morale 专指群体或军队在艰难困苦面前表现出来的斗志、纪律与乐观拼搏心态；spirit 泛指个人的心境情绪或宏观团队活力；confidence 侧重对自身实力掌控局面的坚信；enthusiasm 侧重做某事时的狂热与自发积极性。",
-    "phonetic": "/mɔ'rɑ:l; -'ræl/"
+    "notes": "【搭配考点】boost/raise morale 鼓舞/提振士气；low/poor morale 士气低落；troop/staff morale 军队/员工士气；morale boost 强心针/士气提振；【形近辨析】moral (道德的/寓意 - 重音在前), mortal (凡人凡胎/致命的), mural (墙体壁画)；【近义辨析】morale 专指群体或军队在艰难困苦面前表现出来的斗志、纪律与乐观拼搏心态；spirit 泛指个人的心境情绪或宏观团队活力；confidence 侧重对自身实力掌控局面的坚信；enthusiasm 侧重做某事时的狂热与自发积极性。"
   },
   "promotion": {
     "word": "promotion",
@@ -24553,8 +24065,7 @@
         "zh": "市场营销；推广策划"
       }
     ],
-    "notes": "【搭配考点】win/get a promotion 获得升职；sales promotion 促销活动；health promotion 健康促进；deserve a promotion 应得升迁；【形近辨析】motion (物理运动/法庭动议), emotion (内心情感), commotion (暴动骚乱)；【近义辨析】promotion 强调在企业官场中职权薪资的逐级上升，或商品降价广告打折大促销；advancement 侧重人生事业阶梯或人类科技文明的深度前行；elevation 带有登上崇高尊贵宝座的仪式感，或测绘学海拔高度；marketing 泛指围绕商品品牌展开的整个市场调研推广体系。",
-    "phonetic": "/prəu'məuʃən/"
+    "notes": "【搭配考点】win/get a promotion 获得升职；sales promotion 促销活动；health promotion 健康促进；deserve a promotion 应得升迁；【形近辨析】motion (物理运动/法庭动议), emotion (内心情感), commotion (暴动骚乱)；【近义辨析】promotion 强调在企业官场中职权薪资的逐级上升，或商品降价广告打折大促销；advancement 侧重人生事业阶梯或人类科技文明的深度前行；elevation 带有登上崇高尊贵宝座的仪式感，或测绘学海拔高度；marketing 泛指围绕商品品牌展开的整个市场调研推广体系。"
   },
   "layoffs": {
     "word": "layoffs",
@@ -24600,8 +24111,7 @@
         "zh": "冗员裁减 (岗位撤销过剩人员)"
       }
     ],
-    "notes": "【搭配考点】massive/sweeping layoffs 大规模裁员；face layoffs 面临下岗裁员；announce layoffs 宣布裁员；temporary layoffs 临时停工待岗；【形近辨析】payoffs (结算利益/贿金), takeoffs (飞机起飞/小品模仿), playoffs (淘汰赛/季后赛)；【近义辨析】layoffs 强调非因员工个人过失、纯粹由于企业资金短缺业务下滑实施的遣散；downsizing 侧重企业进行战略瘦身和架构精简；dismissals 强调因员工违纪渎职被老板炒鱿鱼开除；redundancies 英式英语专指由于岗位合并或自动化撤岗导致的多余人员裁减。",
-    "phonetic": "/layoffs/"
+    "notes": "【搭配考点】massive/sweeping layoffs 大规模裁员；face layoffs 面临下岗裁员；announce layoffs 宣布裁员；temporary layoffs 临时停工待岗；【形近辨析】payoffs (结算利益/贿金), takeoffs (飞机起飞/小品模仿), playoffs (淘汰赛/季后赛)；【近义辨析】layoffs 强调非因员工个人过失、纯粹由于企业资金短缺业务下滑实施的遣散；downsizing 侧重企业进行战略瘦身和架构精简；dismissals 强调因员工违纪渎职被老板炒鱿鱼开除；redundancies 英式英语专指由于岗位合并或自动化撤岗导致的多余人员裁减。"
   },
   "threshold": {
     "word": "threshold",
@@ -24647,8 +24157,7 @@
         "zh": "边缘；临界边沿 (滑向剧变悬崖边)"
       }
     ],
-    "notes": "【搭配考点】on the threshold of 即将进入...的门槛/在...的开端；pain threshold 痛阈/疼痛耐受门槛；income threshold 收入门槛；cross the threshold 跨进门槛；【形近辨析】withhold (扣留不给), freehold (自由保有的永久不动产), hold (握持)；【近义辨析】threshold 强调物理入户门槛，引申为使某种物理反应发生或进入下一门槛所必需的最低起点；limit 强调最高上限警戒红线，超过则违章或有危险；boundary 侧重划分内外主权与归属的地理或心理界线；verge 专指处于滑向某种剧变悬崖的边缘 (on the verge of)。",
-    "phonetic": "/'θreʃhəuld/"
+    "notes": "【搭配考点】on the threshold of 即将进入...的门槛/在...的开端；pain threshold 痛阈/疼痛耐受门槛；income threshold 收入门槛；cross the threshold 跨进门槛；【形近辨析】withhold (扣留不给), freehold (自由保有的永久不动产), hold (握持)；【近义辨析】threshold 强调物理入户门槛，引申为使某种物理反应发生或进入下一门槛所必需的最低起点；limit 强调最高上限警戒红线，超过则违章或有危险；boundary 侧重划分内外主权与归属的地理或心理界线；verge 专指处于滑向某种剧变悬崖的边缘 (on the verge of)。"
   },
   "scrutiny": {
     "word": "scrutiny",
@@ -24694,8 +24203,7 @@
         "zh": "调查；侦查 (查明真相破案调查)"
       }
     ],
-    "notes": "【搭配考点】under close/intense scrutiny 受到严密审视/审查；withstand scrutiny 经受住推敲审查；public scrutiny 公众监督；come under scrutiny 成为审视焦点；【形近辨析】mutiny (水兵兵变叛乱), destiny (既定命运), routine (日常例行公事)；【近义辨析】scrutiny 强调像拿放大镜一样对每一笔账目、每个字眼进行无死角的严苛推敲；inspection 侧重官员下车间、工地按照质检清单逐项打勾验收；examination 侧重医学体检或考试考查；investigation 专指警方、调查记者对犯罪事实或违规丑闻顺藤摸瓜的调查。",
-    "phonetic": "/'skru:tini/"
+    "notes": "【搭配考点】under close/intense scrutiny 受到严密审视/审查；withstand scrutiny 经受住推敲审查；public scrutiny 公众监督；come under scrutiny 成为审视焦点；【形近辨析】mutiny (水兵兵变叛乱), destiny (既定命运), routine (日常例行公事)；【近义辨析】scrutiny 强调像拿放大镜一样对每一笔账目、每个字眼进行无死角的严苛推敲；inspection 侧重官员下车间、工地按照质检清单逐项打勾验收；examination 侧重医学体检或考试考查；investigation 专指警方、调查记者对犯罪事实或违规丑闻顺藤摸瓜的调查。"
   },
   "initiative": {
     "word": "initiative",
@@ -24741,8 +24249,7 @@
         "zh": "方案；宏大系统安排"
       }
     ],
-    "notes": "【搭配考点】take the initiative 采取主动/掌握主动权；peace initiative 和平倡议；use one's initiative 发挥主观能动性；government initiative 政府新举措；【形近辨析】initial (起初的), initiate (发起动词), intuitive (靠直觉感受的)；【近义辨析】initiative 作名词时可指重大的创新改革项目工程，亦指不靠别人催促就自觉干活的主动进取精神；plan 侧重为完成目标拟定的日常具体步骤时间表；proposal 侧重书面提交给别人考虑认可的建议案；scheme 强调大规模的政府系统性工程安排。",
-    "phonetic": "/i'niʃiətiv; -ʃətiv/"
+    "notes": "【搭配考点】take the initiative 采取主动/掌握主动权；peace initiative 和平倡议；use one's initiative 发挥主观能动性；government initiative 政府新举措；【形近辨析】initial (起初的), initiate (发起动词), intuitive (靠直觉感受的)；【近义辨析】initiative 作名词时可指重大的创新改革项目工程，亦指不靠别人催促就自觉干活的主动进取精神；plan 侧重为完成目标拟定的日常具体步骤时间表；proposal 侧重书面提交给别人考虑认可的建议案；scheme 强调大规模的政府系统性工程安排。"
   },
   "composure": {
     "word": "composure",
@@ -24788,8 +24295,7 @@
         "zh": "宁静；安详 (恬淡超脱的心境)"
       }
     ],
-    "notes": "【搭配考点】maintain/keep one's composure 保持镇定；lose one's composure 失去冷静/慌了手脚；regain composure 恢复平静；with great composure 极其镇定自若地；【形近辨析】exposure (暴露/曝光度), enclosure (围场/附件), closure (企业倒闭/心灵释怀结案)；【近义辨析】composure 强调通过强大的情绪意志力，在混乱、挑衅或危难中不失自制与尊严；poise 侧重在公开社交场合优雅得体的身姿与稳重自持；calmness 泛指没有风浪或急躁的平静心态；serenity 带有宗教或大自然般超脱圣洁的恬淡详和。",
-    "phonetic": "/kəm'pəuʒə/"
+    "notes": "【搭配考点】maintain/keep one's composure 保持镇定；lose one's composure 失去冷静/慌了手脚；regain composure 恢复平静；with great composure 极其镇定自若地；【形近辨析】exposure (暴露/曝光度), enclosure (围场/附件), closure (企业倒闭/心灵释怀结案)；【近义辨析】composure 强调通过强大的情绪意志力，在混乱、挑衅或危难中不失自制与尊严；poise 侧重在公开社交场合优雅得体的身姿与稳重自持；calmness 泛指没有风浪或急躁的平静心态；serenity 带有宗教或大自然般超脱圣洁的恬淡详和。"
   },
   "maneuver": {
     "word": "maneuver",
@@ -24835,8 +24341,7 @@
         "zh": "驾驶；掌控方向 (把握方向盘)"
       }
     ],
-    "notes": "【搭配考点】military maneuvers 军事演习；tactical maneuver 战术调动；room for maneuver 斡旋回旋余地；political maneuvering 政治手腕权谋；【形近辨析】manual (指南/人工的), manure (粪肥), manner (举止风度)；【近义辨析】maneuver 兼指对车辆飞机进行精准高难度的避险机动操作，以及在政治商业中运筹帷幄的策略演练；manipulate 带有操纵市场、玩弄控制他人的贬义手段；navigate 强调在险象环生中找准航向顺利穿越；steer 侧重握住物理舵轮控制前进轨迹。",
-    "phonetic": "/mə'nu:və/"
+    "notes": "【搭配考点】military maneuvers 军事演习；tactical maneuver 战术调动；room for maneuver 斡旋回旋余地；political maneuvering 政治手腕权谋；【形近辨析】manual (指南/人工的), manure (粪肥), manner (举止风度)；【近义辨析】maneuver 兼指对车辆飞机进行精准高难度的避险机动操作，以及在政治商业中运筹帷幄的策略演练；manipulate 带有操纵市场、玩弄控制他人的贬义手段；navigate 强调在险象环生中找准航向顺利穿越；steer 侧重握住物理舵轮控制前进轨迹。"
   },
   "defiance": {
     "word": "defiance",
@@ -24882,8 +24387,7 @@
         "zh": "不服从；违抗命令 (拒绝执行条令)"
       }
     ],
-    "notes": "【搭配考点】in defiance of 公然蔑视/无视...；an act of defiance 挑衅违抗之举；glare in defiance 怒目对抗；defiance of authority 蔑视权威；【形近辨析】reliance (依赖靠山), appliance (家用器具), compliance (顺从/法规合规)；【近义辨析】defiance 强调不惧惩罚威胁、昂首挺胸公然挑衅并拒绝屈服的气概态度；rebellion 侧重发起成规模的推翻政权或体制的反叛行动；resistance 侧重受压迫时的暗中或公开抵制；disobedience 侧重民事或军队条令上的消极或主动不遵从 (如 civil disobedience)。",
-    "phonetic": "/di'faiəns/"
+    "notes": "【搭配考点】in defiance of 公然蔑视/无视...；an act of defiance 挑衅违抗之举；glare in defiance 怒目对抗；defiance of authority 蔑视权威；【形近辨析】reliance (依赖靠山), appliance (家用器具), compliance (顺从/法规合规)；【近义辨析】defiance 强调不惧惩罚威胁、昂首挺胸公然挑衅并拒绝屈服的气概态度；rebellion 侧重发起成规模的推翻政权或体制的反叛行动；resistance 侧重受压迫时的暗中或公开抵制；disobedience 侧重民事或军队条令上的消极或主动不遵从 (如 civil disobedience)。"
   },
   "apprehensive": {
     "word": "apprehensive",
@@ -24929,8 +24433,7 @@
         "zh": "担心的；发愁的"
       }
     ],
-    "notes": "【搭配考点】apprehensive about/of 对...忧心忡忡；feel apprehensive 感到忐忑；apprehensive look 忧虑的眼神；【形近辨析】comprehensive (综合全面的), appreciative (感激的/有鉴赏力的), reprehensive (应予斥责的)；【近义辨析】apprehensive 强调思维敏锐地意识到潜在危险或糟糕结果、因而心头笼罩阴云；fearful 侧重被恐惧感直接笼罩；uneasy 侧重心神不宁、缺乏安宁；worried 是日常通用词，侧重反复思虑发愁。",
-    "phonetic": "/,æpri'hensiv/"
+    "notes": "【搭配考点】apprehensive about/of 对...忧心忡忡；feel apprehensive 感到忐忑；apprehensive look 忧虑的眼神；【形近辨析】comprehensive (综合全面的), appreciative (感激的/有鉴赏力的), reprehensive (应予斥责的)；【近义辨析】apprehensive 强调思维敏锐地意识到潜在危险或糟糕结果、因而心头笼罩阴云；fearful 侧重被恐惧感直接笼罩；uneasy 侧重心神不宁、缺乏安宁；worried 是日常通用词，侧重反复思虑发愁。"
   },
   "reluctant": {
     "word": "reluctant",
@@ -24976,8 +24479,7 @@
         "zh": "极不情愿的 (深恶痛绝不肯做)"
       }
     ],
-    "notes": "【搭配考点】be reluctant to do sth 不情愿做某事；reluctant agreement/smile 勉强的同意/苦笑；reluctant hero 勉为其难的英雄；【形近辨析】redundant (多余赘余的), repellent (令人憎恶的/驱虫剂), reliant (依附信赖的)；【近义辨析】reluctant 侧重内心非常别扭抗拒、但在催促或现实压力下最终还是勉强做了；unwilling 是直白坚定的意志拒绝；hesitant 侧重犹豫不决、尚未下定决心；loath 语气更强，表示在情感上极其厌恶因而宁死不从。",
-    "phonetic": "/ri'lʌktənt/"
+    "notes": "【搭配考点】be reluctant to do sth 不情愿做某事；reluctant agreement/smile 勉强的同意/苦笑；reluctant hero 勉为其难的英雄；【形近辨析】redundant (多余赘余的), repellent (令人憎恶的/驱虫剂), reliant (依附信赖的)；【近义辨析】reluctant 侧重内心非常别扭抗拒、但在催促或现实压力下最终还是勉强做了；unwilling 是直白坚定的意志拒绝；hesitant 侧重犹豫不决、尚未下定决心；loath 语气更强，表示在情感上极其厌恶因而宁死不从。"
   },
   "contingency": {
     "word": "contingency",
@@ -25023,8 +24525,7 @@
         "zh": "可能发生的结局事态"
       }
     ],
-    "notes": "【搭配考点】contingency plan 应急预案；contingency fund 应急基金/备用金；prepare for every contingency 为一切突发意外做好准备；contingency fee 风险代理费；【形近辨析】continuous (连续的), consistency (一贯性/浓度), complacency (自满盲目)；【近义辨析】contingency 专指管理学上可能发生、需要预先留足安全冗余的偶发变故，其派生形容词常作“应急备用”之意；emergency 强调事故已然爆发、必须火速抢险的生死关头；casualty 专指战争或灾难造成的伤亡；eventuality 指长远将来各种不可预测的结局可能。",
-    "phonetic": "/kən'tindʒənsi/"
+    "notes": "【搭配考点】contingency plan 应急预案；contingency fund 应急基金/备用金；prepare for every contingency 为一切突发意外做好准备；contingency fee 风险代理费；【形近辨析】continuous (连续的), consistency (一贯性/浓度), complacency (自满盲目)；【近义辨析】contingency 专指管理学上可能发生、需要预先留足安全冗余的偶发变故，其派生形容词常作“应急备用”之意；emergency 强调事故已然爆发、必须火速抢险的生死关头；casualty 专指战争或灾难造成的伤亡；eventuality 指长远将来各种不可预测的结局可能。"
   },
   "surveillance": {
     "word": "surveillance",
@@ -25070,8 +24571,7 @@
         "zh": "科学观察；注视 (客观记录数据)"
       }
     ],
-    "notes": "【搭配考点】under constant surveillance 受到持续监视；surveillance camera 监控摄像头；electronic surveillance 电子监听监控；disease surveillance 疫情监测；【形近辨析】conveyance (运输工具/转让契约), surveyor (测量员), renaissance (文艺复兴)；【近义辨析】surveillance 强调情报、警务或安保针对潜在罪犯或高危目标的严密盯梢看守；monitoring 侧重仪器传感器对心跳、水质、金融指数的周期性指标跟踪；supervision 强调上级对下级工作进度、学生考场行为的行政督导；observation 侧重科学实验室客观记录数据。",
-    "phonetic": "/sə:'veiləns; sə-/"
+    "notes": "【搭配考点】under constant surveillance 受到持续监视；surveillance camera 监控摄像头；electronic surveillance 电子监听监控；disease surveillance 疫情监测；【形近辨析】conveyance (运输工具/转让契约), surveyor (测量员), renaissance (文艺复兴)；【近义辨析】surveillance 强调情报、警务或安保针对潜在罪犯或高危目标的严密盯梢看守；monitoring 侧重仪器传感器对心跳、水质、金融指数的周期性指标跟踪；supervision 强调上级对下级工作进度、学生考场行为的行政督导；observation 侧重科学实验室客观记录数据。"
   },
   "allegation": {
     "word": "allegation",
@@ -25117,8 +24617,7 @@
         "zh": "声称；主张 (单方面主张或索赔)"
       }
     ],
-    "notes": "【搭配考点】deny/investigate an allegation 否认/调查指控；serious/unfounded allegations 严重/毫无根据的指控；allegations of corruption 贪腐指控；【形近辨析】delegation (代表团/委派授权), obligation (法定道德义务), navigation (航行导航)；【近义辨析】allegation 专指在法庭尚未定罪或未获铁证之前，原告或媒体提出的“指称指控”；accusation 强调当面厉声斥责指控某人干了坏事；charge 特指检方或警方提起的具有法律约束力的正式刑事诉讼；claim 侧重主观上自称拥有某种权利或陈述事实。",
-    "phonetic": "/,æli'ɡeiʃən/"
+    "notes": "【搭配考点】deny/investigate an allegation 否认/调查指控；serious/unfounded allegations 严重/毫无根据的指控；allegations of corruption 贪腐指控；【形近辨析】delegation (代表团/委派授权), obligation (法定道德义务), navigation (航行导航)；【近义辨析】allegation 专指在法庭尚未定罪或未获铁证之前，原告或媒体提出的“指称指控”；accusation 强调当面厉声斥责指控某人干了坏事；charge 特指检方或警方提起的具有法律约束力的正式刑事诉讼；claim 侧重主观上自称拥有某种权利或陈述事实。"
   },
   "discretion": {
     "word": "discretion",
@@ -25164,8 +24663,7 @@
         "zh": "判断力；裁决 (基于证据的决断)"
       }
     ],
-    "notes": "【搭配考点】at one's discretion 由某人斟酌决定/自行裁夺；exercise discretion 行使自由裁量权；with discretion 谨慎地/审慎从事；absolute discretion 绝对自由决定权；【形近辨析】digestion (胃肠消化), dissection (尸体解剖/深入剖析), dispersion (光色散/人群驱散)；【近义辨析】discretion 强调守口如瓶的极高职场操守，或法律赋予长官在权限内的自主自由裁量决断权；prudence 侧重在财务投资上步步为营、精明规避亏损；caution 侧重如履薄冰、提防现实陷阱危险；judgment 侧重基于经验推理判断是非曲直的能力。",
-    "phonetic": "/dis'kreʃən/"
+    "notes": "【搭配考点】at one's discretion 由某人斟酌决定/自行裁夺；exercise discretion 行使自由裁量权；with discretion 谨慎地/审慎从事；absolute discretion 绝对自由决定权；【形近辨析】digestion (胃肠消化), dissection (尸体解剖/深入剖析), dispersion (光色散/人群驱散)；【近义辨析】discretion 强调守口如瓶的极高职场操守，或法律赋予长官在权限内的自主自由裁量决断权；prudence 侧重在财务投资上步步为营、精明规避亏损；caution 侧重如履薄冰、提防现实陷阱危险；judgment 侧重基于经验推理判断是非曲直的能力。"
   },
   "leverage": {
     "word": "leverage",
@@ -25211,8 +24709,7 @@
         "zh": "充分利用；借机获利 (转化为自身优势)"
       }
     ],
-    "notes": "【搭配考点】financial leverage 财务杠杆；gain/use leverage 获得/利用筹码影响力；leverage assets/strengths 撬动资产/发挥优势；high leverage 高杠杆率；【形近辨析】coverage (媒体报道/信号覆盖), beverage (饮料酒水), average (平均水准)；【近义辨析】leverage 源自阿基米德杠杆原理，商业中特指以少量自有资本或关键筹码撬动撬起巨大成果；utilize 偏学术正式，强调物尽其用不浪费；exploit 侧重开发矿藏资源或深入挖掘潜力；capitalize on 强调敏锐捕捉市场破绽趁势得利。",
-    "phonetic": "/'li:vəridʒ; 'le-/"
+    "notes": "【搭配考点】financial leverage 财务杠杆；gain/use leverage 获得/利用筹码影响力；leverage assets/strengths 撬动资产/发挥优势；high leverage 高杠杆率；【形近辨析】coverage (媒体报道/信号覆盖), beverage (饮料酒水), average (平均水准)；【近义辨析】leverage 源自阿基米德杠杆原理，商业中特指以少量自有资本或关键筹码撬动撬起巨大成果；utilize 偏学术正式，强调物尽其用不浪费；exploit 侧重开发矿藏资源或深入挖掘潜力；capitalize on 强调敏锐捕捉市场破绽趁势得利。"
   },
   "culprit": {
     "word": "culprit",
@@ -25258,8 +24755,7 @@
         "zh": "反派人物；罪恶根源"
       }
     ],
-    "notes": "【搭配考点】the main/chief culprit 主要罪魁祸首；identify the culprit 找出罪魁祸首；catch the culprit 缉拿凶手；the biggest culprit 最主要的祸根；【形近辨析】pulpit (教堂讲坛/布道台), spirit (精神灵魂), circuit (电路/巡回赛)；【近义辨析】culprit 形象丰富，既可指法律案件中的罪犯，更常引申指导致机械故障、环境污染或疾病暴发的幕后祸根；offender 指违法规章的肇事者；perpetrator 是警方和法医学术语，专指具体实施暴行的行凶者；villain 带有文艺戏剧色彩，指阴险狠毒的头号大反派。",
-    "phonetic": "/'kʌlprit/"
+    "notes": "【搭配考点】the main/chief culprit 主要罪魁祸首；identify the culprit 找出罪魁祸首；catch the culprit 缉拿凶手；the biggest culprit 最主要的祸根；【形近辨析】pulpit (教堂讲坛/布道台), spirit (精神灵魂), circuit (电路/巡回赛)；【近义辨析】culprit 形象丰富，既可指法律案件中的罪犯，更常引申指导致机械故障、环境污染或疾病暴发的幕后祸根；offender 指违法规章的肇事者；perpetrator 是警方和法医学术语，专指具体实施暴行的行凶者；villain 带有文艺戏剧色彩，指阴险狠毒的头号大反派。"
   },
   "establish business relations": {
     "word": "establish business relations",
@@ -25305,8 +24801,7 @@
         "zh": "设立商业联络 (打通商务沟通渠道)"
       }
     ],
-    "notes": "【搭配考点】establish business relations with 与...建立业务往来；with a view to establishing business relations 旨在建立商业联系；enter into business relations 步入业务合作；【形近辨析】maintain business relations (维护维系业务关系), suspend business relations (暂缓/中止商业往来), sever business relations (决裂/彻底切断业务交往)；【近义辨析】establish business relations 是国际贸易商务信函（Business English Correspondence）的标准开篇套语，特指双方尚未有业务往来时首次提议开启供求合作；build trade ties 强调宏观经贸纽带；forge partnerships 强调深度战略同盟协作；set up commercial links 偏向设立初期通讯渠道。",
-    "phonetic": "/establish business relations/"
+    "notes": "【搭配考点】establish business relations with 与...建立业务往来；with a view to establishing business relations 旨在建立商业联系；enter into business relations 步入业务合作；【形近辨析】maintain business relations (维护维系业务关系), suspend business relations (暂缓/中止商业往来), sever business relations (决裂/彻底切断业务交往)；【近义辨析】establish business relations 是国际贸易商务信函（Business English Correspondence）的标准开篇套语，特指双方尚未有业务往来时首次提议开启供求合作；build trade ties 强调宏观经贸纽带；forge partnerships 强调深度战略同盟协作；set up commercial links 偏向设立初期通讯渠道。"
   },
   "quotation": {
     "word": "quotation",
@@ -25352,8 +24847,7 @@
         "zh": "产品价目表 (全套标准价目单)"
       }
     ],
-    "notes": "【搭配考点】request a quotation 索取报价单；competitive quotation 有竞争力的报价；stock quotation 股票行情；quotation marks 引号；【形近辨析】foundation (基石/基金会), reputation (名誉名望), station (车站/电台)；【近义辨析】quotation 是正式外贸商业文件，指卖方根据买方具体规格订货要求所核算的详尽书面报价方案单，亦指名人语录名言；quote 为口语形式或动词；estimate 侧重在装修、维修等复杂工程前给出的非约束性初步预算估值；price list 则是固定公开的标准价目册。",
-    "phonetic": "/kwəu'teiʃən; kəu-/"
+    "notes": "【搭配考点】request a quotation 索取报价单；competitive quotation 有竞争力的报价；stock quotation 股票行情；quotation marks 引号；【形近辨析】foundation (基石/基金会), reputation (名誉名望), station (车站/电台)；【近义辨析】quotation 是正式外贸商业文件，指卖方根据买方具体规格订货要求所核算的详尽书面报价方案单，亦指名人语录名言；quote 为口语形式或动词；estimate 侧重在装修、维修等复杂工程前给出的非约束性初步预算估值；price list 则是固定公开的标准价目册。"
   },
   "quote": {
     "word": "quote",
@@ -25399,8 +24893,7 @@
         "zh": "投标报价 (呈递正式竞标标书)"
       }
     ],
-    "notes": "【搭配考点】quote sb a price 给某人报价；quote firm CIF 报CIF实盘价；quote Shakespeare 引用莎士比亚；out of quote 停止报价；【形近辨析】quite (相当/颇为), quiet (宁静无声的), quilt (厚棉被)；【近义辨析】quote 作商业动词时专指卖方在谈判中针对买方询价报出具体的供货单价；price 作动词强调计算成本并核定售卖标价；cite 专指学术论文中规范标注文献引用与判例；tender 侧重在重大工程招标投标中呈交具有法律效力的正式密封标书。",
-    "phonetic": "/kwəut; kəut/"
+    "notes": "【搭配考点】quote sb a price 给某人报价；quote firm CIF 报CIF实盘价；quote Shakespeare 引用莎士比亚；out of quote 停止报价；【形近辨析】quite (相当/颇为), quiet (宁静无声的), quilt (厚棉被)；【近义辨析】quote 作商业动词时专指卖方在谈判中针对买方询价报出具体的供货单价；price 作动词强调计算成本并核定售卖标价；cite 专指学术论文中规范标注文献引用与判例；tender 侧重在重大工程招标投标中呈交具有法律效力的正式密封标书。"
   },
   "latest": {
     "word": "latest",
@@ -25446,8 +24939,7 @@
         "zh": "最新的；跟上时代的 (更新到最新版)"
       }
     ],
-    "notes": "【搭配考点】the latest fashion/news 最新的时尚/新闻；latest developments 最新进展；at the latest 最迟/至迟；the latest model 最新型号；【形近辨析】latter (两者中后者的), late (迟到的/已故的), latent (潜伏未发的)；【近义辨析】latest 强调紧跟时代脉搏、代表截至目前最新出炉的消息、科技成果或潮流；newest 侧重刚刚下线、全新未经岁月磨损；current 侧重此时此刻处于现行生效状态；up-to-date 侧重已完成最新版本更新对齐、跟得上当下现实要求。",
-    "phonetic": "/symbols/"
+    "notes": "【搭配考点】the latest fashion/news 最新的时尚/新闻；latest developments 最新进展；at the latest 最迟/至迟；the latest model 最新型号；【形近辨析】latter (两者中后者的), late (迟到的/已故的), latent (潜伏未发的)；【近义辨析】latest 强调紧跟时代脉搏、代表截至目前最新出炉的消息、科技成果或潮流；newest 侧重刚刚下线、全新未经岁月磨损；current 侧重此时此刻处于现行生效状态；up-to-date 侧重已完成最新版本更新对齐、跟得上当下现实要求。"
   },
   "catalogue": {
     "word": "catalogue",
@@ -25493,8 +24985,7 @@
         "zh": "库存账目清册"
       }
     ],
-    "notes": "【搭配考点】mail-order catalogue 邮购商品目录；exhibition catalogue 展览图录；online catalogue 在线目录；catalogue of errors 一连串错误；【形近辨析】dialogue (戏剧对话), prologue (戏剧序幕/序言), monologue (戏剧独白)；【近义辨析】catalogue 专指厂家按系统分类编印的全部商品订货图册，含有详尽型号与参数；brochure 强调印刷精美的彩色折页宣传册，侧重旅游、楼盘宣传；directory 侧重按行业或地区整理的工商企业通讯电话名录；inventory 专指内部账务审计使用的库存货物清册。",
-    "phonetic": "/'kætəlɔɡ/"
+    "notes": "【搭配考点】mail-order catalogue 邮购商品目录；exhibition catalogue 展览图录；online catalogue 在线目录；catalogue of errors 一连串错误；【形近辨析】dialogue (戏剧对话), prologue (戏剧序幕/序言), monologue (戏剧独白)；【近义辨析】catalogue 专指厂家按系统分类编印的全部商品订货图册，含有详尽型号与参数；brochure 强调印刷精美的彩色折页宣传册，侧重旅游、楼盘宣传；directory 侧重按行业或地区整理的工商企业通讯电话名录；inventory 专指内部账务审计使用的库存货物清册。"
   },
   "export": {
     "word": "export",
@@ -25540,8 +25031,7 @@
         "zh": "外运的外向货物"
       }
     ],
-    "notes": "【搭配考点】export market 出口市场；export licence 出口许可证；export earnings 出口创汇；net exports 净出口；【形近辨析】import (进口输入), expert (行家里手/专家), report (调研报告)；【近义辨析】export 严格限定在跨国贸易范畴，指将本国物资销售出海并换取外汇；output 泛指车间、农田加工制造出来的物质产品总和；shipment 强调具体装船装车发货的一单实际物流货量；outward 侧重物流方向从中心向外围扩展延伸。",
-    "phonetic": "/ik'spɔ:t; 'eks-; 'ekspɔ:t/"
+    "notes": "【搭配考点】export market 出口市场；export licence 出口许可证；export earnings 出口创汇；net exports 净出口；【形近辨析】import (进口输入), expert (行家里手/专家), report (调研报告)；【近义辨析】export 严格限定在跨国贸易范畴，指将本国物资销售出海并换取外汇；output 泛指车间、农田加工制造出来的物质产品总和；shipment 强调具体装船装车发货的一单实际物流货量；outward 侧重物流方向从中心向外围扩展延伸。"
   },
   "import": {
     "word": "import",
@@ -25587,8 +25077,7 @@
         "zh": "引进；推行 (首次引入新技术)"
       }
     ],
-    "notes": "【搭配考点】import quota 进口配额；import duties/tariffs 进口关税；matters of great import 具有重大意义的事件；food imports 进口食品；【形近辨析】export (出口外销), impart (传授知识技能), impact (撞击冲撞/深远影响)；【近义辨析】import 是国际经济术语，专指从外国采购货物报关进入国内市场，偏正式时亦作“重大深远意义”；influx 侧重如潮水般涌入境内的资本或难民浪潮；intake 侧重内部系统对营养或新学员的日常吸纳吞吐；introduction 侧重首次把外来品种或前沿软件引进本土。",
-    "phonetic": "/im'pɔ:t; 'impɔ:t/"
+    "notes": "【搭配考点】import quota 进口配额；import duties/tariffs 进口关税；matters of great import 具有重大意义的事件；food imports 进口食品；【形近辨析】export (出口外销), impart (传授知识技能), impact (撞击冲撞/深远影响)；【近义辨析】import 是国际经济术语，专指从外国采购货物报关进入国内市场，偏正式时亦作“重大深远意义”；influx 侧重如潮水般涌入境内的资本或难民浪潮；intake 侧重内部系统对营养或新学员的日常吸纳吞吐；introduction 侧重首次把外来品种或前沿软件引进本土。"
   },
   "appreciate": {
     "word": "appreciate",
@@ -25634,8 +25123,7 @@
         "zh": "欣然欢迎；乐见"
       }
     ],
-    "notes": "【搭配考点】greatly appreciate 不胜感激；appreciate in value 资产升值增值；appreciate the importance of 充分认识到...的重要性；appreciate fine art 鉴赏高雅艺术；【形近辨析】depreciate (固定资产折旧/汇率贬值), appropriate (恰当的/挪用侵吞公款), approximate (大致近似的)；【近义辨析】appreciate 是商务公文最客气高雅的谢辞（常用于 We would appreciate it if...），金融中指汇率或不动产升值；acknowledge 侧重正式出具收据回函确认收到邮件货物；value 侧重从内心深处将其奉为珍宝看待；welcome 强调以开放热情的态度接纳建议或访客。",
-    "phonetic": "/ə'pri:ʃieit/"
+    "notes": "【搭配考点】greatly appreciate 不胜感激；appreciate in value 资产升值增值；appreciate the importance of 充分认识到...的重要性；appreciate fine art 鉴赏高雅艺术；【形近辨析】depreciate (固定资产折旧/汇率贬值), appropriate (恰当的/挪用侵吞公款), approximate (大致近似的)；【近义辨析】appreciate 是商务公文最客气高雅的谢辞（常用于 We would appreciate it if...），金融中指汇率或不动产升值；acknowledge 侧重正式出具收据回函确认收到邮件货物；value 侧重从内心深处将其奉为珍宝看待；welcome 强调以开放热情的态度接纳建议或访客。"
   },
   "as requested": {
     "word": "as requested",
@@ -25681,8 +25169,7 @@
         "zh": "依照指示 (遵照上级长官命令)"
       }
     ],
-    "notes": "【搭配考点】send samples as requested 按要求寄送样品；complete the form as requested 按要求填妥表格；as requested by the buyer 依照买方要求；【形近辨析】as required (依照法规规章所硬性要求的), as expected (正如所有人所预料的那样), as suggested (按照专家给出的中肯建议行事)；【近义辨析】as requested 是涉外商业函电中履行对方指示、寄送随附凭证时的最标准得体短语；in accordance with 偏向法律合同条文的严肃对照执行；per your request 意思相同但在语风上更为简练干练；as instructed 带有浓厚的上下级军令或主从雇佣色彩。",
-    "phonetic": "/as requested/"
+    "notes": "【搭配考点】send samples as requested 按要求寄送样品；complete the form as requested 按要求填妥表格；as requested by the buyer 依照买方要求；【形近辨析】as required (依照法规规章所硬性要求的), as expected (正如所有人所预料的那样), as suggested (按照专家给出的中肯建议行事)；【近义辨析】as requested 是涉外商业函电中履行对方指示、寄送随附凭证时的最标准得体短语；in accordance with 偏向法律合同条文的严肃对照执行；per your request 意思相同但在语风上更为简练干练；as instructed 带有浓厚的上下级军令或主从雇佣色彩。"
   },
   "under separate cover": {
     "word": "under separate cover",
@@ -25728,8 +25215,7 @@
         "zh": "分别派发出货"
       }
     ],
-    "notes": "【搭配考点】send samples under separate cover 另函寄送样品；sent under separate cover 已经另封寄出；forwarded under separate cover 另函转递；【形近辨析】under special cover (在特殊保护遮盖之下), under cover of (借助夜色或烟雾的掩护之下 - 战术军事语境)；【近义辨析】under separate cover 是商业英语信函中最为经典的传统程式套语，专指由于样品体积厚重或图册页码过大，不便夹在商务薄信封内，而选择另立包裹分开发出；by separate mail 属于现代平实口吻表达；in a separate parcel 侧重实体物流纸箱包装的物理区分。",
-    "phonetic": "/under separate cover/"
+    "notes": "【搭配考点】send samples under separate cover 另函寄送样品；sent under separate cover 已经另封寄出；forwarded under separate cover 另函转递；【形近辨析】under special cover (在特殊保护遮盖之下), under cover of (借助夜色或烟雾的掩护之下 - 战术军事语境)；【近义辨析】under separate cover 是商业英语信函中最为经典的传统程式套语，专指由于样品体积厚重或图册页码过大，不便夹在商务薄信封内，而选择另立包裹分开发出；by separate mail 属于现代平实口吻表达；in a separate parcel 侧重实体物流纸箱包装的物理区分。"
   },
   "interest": {
     "word": "interest",
@@ -25775,8 +25261,7 @@
         "zh": "实惠好处；福利救济金"
       }
     ],
-    "notes": "【搭配考点】interest rate 利率；in the public interest 符合公众利益；conflict of interest 利益冲突；controlling interest 控股权；show a keen interest in 对...展现浓厚兴趣；【形近辨析】contrast (明暗对照/对比), contest (选拔竞赛/抗辩争夺), integrate (融为一体)；【近义辨析】interest 词义极丰，在金融中专指借贷资金所支付的孳息费用，亦指在某公司持有的表决权股份；stake 侧重在某场赌局或重大收购中所下注的真金白银投资本钱；yield 专指债券投资每年给付的实际净收益百分比率；benefit 强调生活或健康层面的实惠好处。",
-    "phonetic": "/'intrist; 'intər-/"
+    "notes": "【搭配考点】interest rate 利率；in the public interest 符合公众利益；conflict of interest 利益冲突；controlling interest 控股权；show a keen interest in 对...展现浓厚兴趣；【形近辨析】contrast (明暗对照/对比), contest (选拔竞赛/抗辩争夺), integrate (融为一体)；【近义辨析】interest 词义极丰，在金融中专指借贷资金所支付的孳息费用，亦指在某公司持有的表决权股份；stake 侧重在某场赌局或重大收购中所下注的真金白银投资本钱；yield 专指债券投资每年给付的实际净收益百分比率；benefit 强调生活或健康层面的实惠好处。"
   },
   "item": {
     "word": "item",
@@ -25822,8 +25307,7 @@
         "zh": "物体；客体；宗旨"
       }
     ],
-    "notes": "【搭配考点】agenda item 议程项目；collector's item 珍藏品；news item 新闻条目；itemized bill 费用明细清单；【形近辨析】atom (物理原子), stem (植物花茎/起源于), idiom (习惯用语/方言)；【近义辨析】item 专指清单、菜单、议程表中独立列举出的某一项，或商场货架上一件单独的商品货物；article 偏向法律宪法合同中的条文（如 Article 5），或散文期刊文章；clause 专指商业合同中具有法律约束力的具体款项；object 强调肉眼可见的物理三维实物。",
-    "phonetic": "/'aitəm/"
+    "notes": "【搭配考点】agenda item 议程项目；collector's item 珍藏品；news item 新闻条目；itemized bill 费用明细清单；【形近辨析】atom (物理原子), stem (植物花茎/起源于), idiom (习惯用语/方言)；【近义辨析】item 专指清单、菜单、议程表中独立列举出的某一项，或商场货架上一件单独的商品货物；article 偏向法律宪法合同中的条文（如 Article 5），或散文期刊文章；clause 专指商业合同中具有法律约束力的具体款项；object 强调肉眼可见的物理三维实物。"
   },
   "various kinds of": {
     "word": "various kinds of",
@@ -25869,8 +25353,7 @@
         "zh": "令人眼花缭乱的一整排陈列"
       }
     ],
-    "notes": "【搭配考点】various kinds of goods 各类货物；supply various kinds of 供应各种各样的...；deal in various kinds of 经营各类...；【形近辨析】several kinds of (强调只有少数三四种不同类型), all kinds of (强调涵盖全部包罗万象的大杂烩), different types of (强调在工业规格型号上的不同)；【近义辨析】various kinds of 属于商务进出口介绍中极其地道纯正的品类修饰短语，强调商品品类丰富、满足多元挑选；a wide range of 侧重产品谱系的宽度；a diverse assortment of 强调色彩各异、错落有致的集合；an array of 侧重整齐阵列展示的视觉感。",
-    "phonetic": "/various kinds of/"
+    "notes": "【搭配考点】various kinds of goods 各类货物；supply various kinds of 供应各种各样的...；deal in various kinds of 经营各类...；【形近辨析】several kinds of (强调只有少数三四种不同类型), all kinds of (强调涵盖全部包罗万象的大杂烩), different types of (强调在工业规格型号上的不同)；【近义辨析】various kinds of 属于商务进出口介绍中极其地道纯正的品类修饰短语，强调商品品类丰富、满足多元挑选；a wide range of 侧重产品谱系的宽度；a diverse assortment of 强调色彩各异、错落有致的集合；an array of 侧重整齐阵列展示的视觉感。"
   },
   "look forward to": {
     "word": "look forward to",
@@ -25916,8 +25399,7 @@
         "zh": "预期；料想 (理所当然认为会发生)"
       }
     ],
-    "notes": "【搭配考点】look forward to hearing from you 期待收到您的回信 (注意 to 为介词后接 V-ing)；look forward to your cooperation 期待与您合作；eagerly look forward to 翘首以盼；【形近辨析】look out for (警惕留神危险), look down upon (瞧不起/俯视轻蔑), look back on (追溯回味往事)；【近义辨析】look forward to 带有浓厚亲切期待的感情色彩，是商务函电末尾必不可少的友好落款祝词；anticipate 侧重理性预测并提前针对事件做好防范预案；await 是及物动词，语气严肃庄重地静观其变；expect 侧重根据客观规律推断某事应该且必定会发生。",
-    "phonetic": "/look forward to/"
+    "notes": "【搭配考点】look forward to hearing from you 期待收到您的回信 (注意 to 为介词后接 V-ing)；look forward to your cooperation 期待与您合作；eagerly look forward to 翘首以盼；【形近辨析】look out for (警惕留神危险), look down upon (瞧不起/俯视轻蔑), look back on (追溯回味往事)；【近义辨析】look forward to 带有浓厚亲切期待的感情色彩，是商务函电末尾必不可少的友好落款祝词；anticipate 侧重理性预测并提前针对事件做好防范预案；await 是及物动词，语气严肃庄重地静观其变；expect 侧重根据客观规律推断某事应该且必定会发生。"
   },
   "owe": {
     "word": "owe",
@@ -25963,8 +25445,7 @@
         "zh": "感激不尽的；蒙恩欠债的"
       }
     ],
-    "notes": "【搭配考点】owe A to B 把A归功于B/欠B人情债；owe sb an apology 欠某人一个道歉；owe money to the bank 欠银行钱；owing to 由于/因为；【形近辨析】own (拥有), awe (惊叹敬畏), owl (夜行猫头鹰)；【近义辨析】owe...to 侧重饱含感恩知遇之情，承认若无对方帮扶自己绝不可能有今日成就，经济上指欠钱款债务；attribute 偏向客观冷静的科学或因果分析推导；ascribe 偏正式书面，指将无名古画判定归于某位大师手笔；indebted 强调内心承蒙厚爱深表歉疚感佩。",
-    "phonetic": "/əu/"
+    "notes": "【搭配考点】owe A to B 把A归功于B/欠B人情债；owe sb an apology 欠某人一个道歉；owe money to the bank 欠银行钱；owing to 由于/因为；【形近辨析】own (拥有), awe (惊叹敬畏), owl (夜行猫头鹰)；【近义辨析】owe...to 侧重饱含感恩知遇之情，承认若无对方帮扶自己绝不可能有今日成就，经济上指欠钱款债务；attribute 偏向客观冷静的科学或因果分析推导；ascribe 偏正式书面，指将无名古画判定归于某位大师手笔；indebted 强调内心承蒙厚爱深表歉疚感佩。"
   },
   "profit": {
     "word": "profit",
@@ -26010,8 +25491,7 @@
         "zh": "收益；资本利得 (交易中斩获利得)"
       }
     ],
-    "notes": "【搭配考点】make/turn a profit 盈利/赚钱；net/gross profit 净/毛利润；profit margin 利润率；profit-sharing 利润分红计划；profit from 从...中获利；【形近辨析】prophet (宗教先知/预言者 - 读音完全同音异形词), forfeit (因违规被剥夺罚款), prompt (迅速的/提示词)；【近义辨析】profit 是财务报表核心，指总收入扣减掉税金、进货、人力租金等全部成本后的净结余所得；revenue 专指流水总进账（销售总额）；margin 侧重每一件商品售价中蕴含的毛利空间；gain 强调通过转手交易或买卖股票斩获的资本利得。",
-    "phonetic": "/'prɔfit/"
+    "notes": "【搭配考点】make/turn a profit 盈利/赚钱；net/gross profit 净/毛利润；profit margin 利润率；profit-sharing 利润分红计划；profit from 从...中获利；【形近辨析】prophet (宗教先知/预言者 - 读音完全同音异形词), forfeit (因违规被剥夺罚款), prompt (迅速的/提示词)；【近义辨析】profit 是财务报表核心，指总收入扣减掉税金、进货、人力租金等全部成本后的净结余所得；revenue 专指流水总进账（销售总额）；margin 侧重每一件商品售价中蕴含的毛利空间；gain 强调通过转手交易或买卖股票斩获的资本利得。"
   },
   "in the market for": {
     "word": "in the market for",
@@ -26057,8 +25537,7 @@
         "zh": "谋求采购 (正规大型物资采购)"
       }
     ],
-    "notes": "【搭配考点】be in the market for sth 想要采购某物/有意求购；be actively in the market for 正在积极求购；in the market for new equipment 正打算添置新设备；【形近辨析】on the market (在市场上公开发售/上市), off the market (已被抢购一空/退出市场), up to the mark (达到质量合格标杆)；【近义辨析】in the market for 是外贸买家向潜在供应商发出的经典行业询盘用语，表明买家手里握有预算、当下正处于实际寻盘购买状态；shopping around for 强调买家在不同摊位比价格比货期；interested in buying 偏直白表述；seeking to procure 偏政企大型招投标严肃用语。",
-    "phonetic": "/in the market for/"
+    "notes": "【搭配考点】be in the market for sth 想要采购某物/有意求购；be actively in the market for 正在积极求购；in the market for new equipment 正打算添置新设备；【形近辨析】on the market (在市场上公开发售/上市), off the market (已被抢购一空/退出市场), up to the mark (达到质量合格标杆)；【近义辨析】in the market for 是外贸买家向潜在供应商发出的经典行业询盘用语，表明买家手里握有预算、当下正处于实际寻盘购买状态；shopping around for 强调买家在不同摊位比价格比货期；interested in buying 偏直白表述；seeking to procure 偏政企大型招投标严肃用语。"
   },
   "enquiry": {
     "word": "enquiry",
@@ -26104,8 +25583,7 @@
         "zh": "深入探查；彻查"
       }
     ],
-    "notes": "【搭配考点】trade/business enquiry 贸易询盘；enquiry about prices 询价；make an enquiry 咨询/提出询盘；enquiry office 问讯处；hold an enquiry 举行调查听证；【形近辨析】inquiry (美式等同拼法，但在英式中 enquiry 偏日常询问商业询盘，inquiry 偏官方正式法律调查), ensure (确保安全), require (规定要求)；【近义辨析】enquiry 在国际贸易函电中是整个外贸流程的绝对第一步（询盘 → 发盘 → 还盘 → 接受），指买方索取规格单价；query 侧重因为怀疑账目有错或电脑数据库调取信息发起的查询；question 泛指一切疑问；probe 专指官方针对腐败或技术灾难发起的严厉彻查。",
-    "phonetic": "/in'kwaiəri/"
+    "notes": "【搭配考点】trade/business enquiry 贸易询盘；enquiry about prices 询价；make an enquiry 咨询/提出询盘；enquiry office 问讯处；hold an enquiry 举行调查听证；【形近辨析】inquiry (美式等同拼法，但在英式中 enquiry 偏日常询问商业询盘，inquiry 偏官方正式法律调查), ensure (确保安全), require (规定要求)；【近义辨析】enquiry 在国际贸易函电中是整个外贸流程的绝对第一步（询盘 → 发盘 → 还盘 → 接受），指买方索取规格单价；query 侧重因为怀疑账目有错或电脑数据库调取信息发起的查询；question 泛指一切疑问；probe 专指官方针对腐败或技术灾难发起的严厉彻查。"
   },
   "opportunity": {
     "word": "opportunity",
@@ -26151,8 +25629,7 @@
         "zh": "场合；特定重大时节"
       }
     ],
-    "notes": "【搭配考点】business/job opportunity 商业良机/就业机会；seize/grasp an opportunity 抓住机会；miss/lose an opportunity 错失良机；equal opportunities 平等机会；window of opportunity 绝佳时机窗口；【形近辨析】importunity (强行纠缠讨要), immunity (免除罪责/生物免疫力), community (社会社群)；【近义辨析】opportunity 强调由外部天时地利构成的绝佳客观利好条件，只要付出努力便能获得丰厚回报；chance 侧重随机概率与运气的成分；opening 专指企业招聘中出现的空缺岗位或市场蓝海空白；occasion 强调历史性的庄重纪念时刻或节日场合。",
-    "phonetic": "/,ɔpə'tju:niti/"
+    "notes": "【搭配考点】business/job opportunity 商业良机/就业机会；seize/grasp an opportunity 抓住机会；miss/lose an opportunity 错失良机；equal opportunities 平等机会；window of opportunity 绝佳时机窗口；【形近辨析】importunity (强行纠缠讨要), immunity (免除罪责/生物免疫力), community (社会社群)；【近义辨析】opportunity 强调由外部天时地利构成的绝佳客观利好条件，只要付出努力便能获得丰厚回报；chance 侧重随机概率与运气的成分；opening 专指企业招聘中出现的空缺岗位或市场蓝海空白；occasion 强调历史性的庄重纪念时刻或节日场合。"
   },
   "desire": {
     "word": "desire",
@@ -26198,8 +25675,7 @@
         "zh": "刻骨相思；长久渴望"
       }
     ],
-    "notes": "【搭配考点】express a desire to do 表达做某事的愿望；have no desire to do 毫无意愿做某事；burning desire 强烈的欲望/炽热的愿望；satisfy one's desire 满足某人的愿望；【形近辨析】admire (钦佩慕名), expire (证件失效到期), require (强制规章要求)；【近义辨析】desire 语气庄重且意愿坚定，商务外贸公文中常指双方极具诚意的合作意向与诉求；wish 往往带有一丝空想幻想色彩（如生日许愿）；aspiration 强调青年立志成才、兼济天下的崇高抱负；longing 带有背井离乡对故土亲人刻骨铭心的长久思念。",
-    "phonetic": "/di'zaiə/"
+    "notes": "【搭配考点】express a desire to do 表达做某事的愿望；have no desire to do 毫无意愿做某事；burning desire 强烈的欲望/炽热的愿望；satisfy one's desire 满足某人的愿望；【形近辨析】admire (钦佩慕名), expire (证件失效到期), require (强制规章要求)；【近义辨析】desire 语气庄重且意愿坚定，商务外贸公文中常指双方极具诚意的合作意向与诉求；wish 往往带有一丝空想幻想色彩（如生日许愿）；aspiration 强调青年立志成才、兼济天下的崇高抱负；longing 带有背井离乡对故土亲人刻骨铭心的长久思念。"
   },
   "handle": {
     "word": "handle",
@@ -26245,8 +25721,7 @@
         "zh": "直面攻克；解决棘手问题"
       }
     ],
-    "notes": "【搭配考点】handle with care 小心轻放 (箱体物流标识)；handle complaints 处理客户投诉；handle cargo/goods 装卸经运货物；handle a crisis 应对危机；fly off the handle 勃然大怒；【形近辨析】bundle (大捆包裹/捆绑销售), candle (蜡烛), spindle (纺锤主轴)；【近义辨析】handle 强调亲力亲为地动手操作、装卸运输或熟练平息棘手纠纷；process 专指在流水线上对肉眼可见的原材料进行物理深加工，或在办公室内按部就班审核签证发票等文书；deal with 是最广泛的日常打交道用语；tackle 强调毫不退缩地撸起袖子直面核心硬骨头问题。",
-    "phonetic": "/'hændl/"
+    "notes": "【搭配考点】handle with care 小心轻放 (箱体物流标识)；handle complaints 处理客户投诉；handle cargo/goods 装卸经运货物；handle a crisis 应对危机；fly off the handle 勃然大怒；【形近辨析】bundle (大捆包裹/捆绑销售), candle (蜡烛), spindle (纺锤主轴)；【近义辨析】handle 强调亲力亲为地动手操作、装卸运输或熟练平息棘手纠纷；process 专指在流水线上对肉眼可见的原材料进行物理深加工，或在办公室内按部就班审核签证发票等文书；deal with 是最广泛的日常打交道用语；tackle 强调毫不退缩地撸起袖子直面核心硬骨头问题。"
   },
   "attach": {
     "word": "attach",
@@ -37502,9 +36977,9 @@
     "phonetic": "/ju:; 弱ju; jə/",
     "translation": "所有格",
     "cloze": {
-      "sentence": "It is essential for the team to ______ all standard safety regulations before commencing work.",
-      "translation": "在开始工作之前，团队必须严格遵守所有标准安全法规。 (考点核心释义：所有格)",
-      "original": "It is essential for the team to you all standard safety regulations before commencing work."
+      "sentence": "______ said you knew the way.",
+      "translation": "该语境考查核心词义【所有格】在权威语篇中的实际运用。",
+      "original": "You said you knew the way."
     },
     "form_confusables": [
       {
@@ -45255,7 +44730,7 @@
   "despatch": {
     "word": "despatch",
     "phonetic": "/di'spætʃ/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
       "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：despatch)",
@@ -52540,7 +52015,7 @@
   "challenging": {
     "word": "challenging",
     "phonetic": "/span>len<span style='vertical-align:25%;font-size:35%;'>•</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "He found the course academically ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -57900,9 +57375,9 @@
     "phonetic": "/ɑ:nt; ænt/",
     "translation": "伯母；婶母；叔母",
     "cloze": {
-      "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
-      "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：伯母；婶母；叔母)",
-      "original": "The professor emphasized that this strategy will aunt significant long-term academic results."
+      "sentence": "Great ______ Emily 1 the sister of your father or mother; the wife of your uncle Aunt Alice My aunt lives in Canada.",
+      "translation": "该语境考查核心词义【伯母；婶母；叔母】在权威语篇中的实际运用。",
+      "original": "Great Aunt Emily 1 the sister of your father or mother; the wife of your uncle Aunt Alice My aunt lives in Canada."
     },
     "form_confusables": [
       {
@@ -63726,7 +63201,7 @@
   "interrupt": {
     "word": "interrupt",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "I thought it better not to ______ her with any comment.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -68851,9 +68326,9 @@
     "phonetic": "/'bʌmpə/",
     "translation": "（汽车头尾的）保险杠 Unit 3",
     "cloze": {
-      "sentence": "The director asked the staff to carefully ______ the operational procedures of the system.",
-      "translation": "主管要求全体员工认真把控该系统的各项运行流程。 (考点核心释义：（汽车头尾的）保险杠 Unit 3)",
-      "original": "The director asked the staff to carefully bumper the operational procedures of the system."
+      "sentence": "The cars crawled along ______ to bumper.",
+      "translation": "该语境考查核心词义【（汽车头尾的）保险杠 Unit 3】在真实例句中的精准搭配。",
+      "original": "The cars crawled along bumper to bumper."
     },
     "form_confusables": [
       {
@@ -68990,7 +68465,7 @@
   "shot": {
     "word": "shot",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "As her parting ______ she warned Pete never to come near her again.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -70966,9 +70441,9 @@
     "phonetic": "/iks'penditʃə/",
     "translation": "金钱、时间等的",
     "cloze": {
-      "sentence": "It is essential for the team to ______ all standard safety regulations before commencing work.",
-      "translation": "在开始工作之前，团队必须严格遵守所有标准安全法规。 (考点核心释义：金钱、时间等的)",
-      "original": "It is essential for the team to expenditure all standard safety regulations before commencing work."
+      "sentence": "Capital ______ can be financed by borrowing; operating expenditure should not.",
+      "translation": "该语境考查核心词义【金钱、时间等的】在真实例句中的精准搭配。",
+      "original": "Capital expenditure can be financed by borrowing; operating expenditure should not."
     },
     "form_confusables": [
       {
@@ -71577,9 +71052,9 @@
     "phonetic": "/'ri:dʒən/",
     "translation": "地区，地域，区域；地带",
     "cloze": {
-      "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
-      "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：地区，地域，区域；地带)",
-      "original": "The professor emphasized that this strategy will region significant long-term academic results."
+      "sentence": "Italy's richest ______ Nomads have inhabited this region for thousands of years.",
+      "translation": "该语境考查核心词义【地区，地域，区域；地带】在真实例句中的精准搭配。",
+      "original": "Italy's richest region Nomads have inhabited this region for thousands of years."
     },
     "form_confusables": [
       {
@@ -79894,7 +79369,7 @@
   "moist": {
     "word": "moist",
     "phonetic": "/'məuist/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Her skin felt ______ and feverish.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -80552,7 +80027,7 @@
   "divide": {
     "word": "divide",
     "phonetic": "/di'vaid/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Railway enthusiasts ______ neatly into two groups.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -81400,9 +80875,9 @@
     "phonetic": "/in'herit/",
     "translation": "传统、遗产、权利等",
     "cloze": {
-      "sentence": "The director asked the staff to carefully ______ the operational procedures of the system.",
-      "translation": "主管要求全体员工认真把控该系统的各项运行流程。 (考点核心释义：传统、遗产、权利等)",
-      "original": "The director asked the staff to carefully inherit the operational procedures of the system."
+      "sentence": "He stood to ______= was likely to inherit property worth over five million.",
+      "translation": "该语境考查核心词义【传统、遗产、权利等】在真实例句中的精准搭配。",
+      "original": "He stood to inherit= was likely to inherit property worth over five million."
     },
     "form_confusables": [
       {
@@ -93947,7 +93422,7 @@
   "elite": {
     "word": "elite",
     "phonetic": "/span><span style='display:block;'><span style='font-style:normal;font-weight:normal;'><span style='font-style:italic;color:rgb(098,008,031);'>BrE</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "He was an influential member of the ruling ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -95639,7 +95114,7 @@
   "democratic": {
     "word": "democratic",
     "phonetic": "/span>crat<span style='vertical-align:25%;font-size:35%;'>•</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "In 1776 these were considered dangerously ______ principles.",
       "translation": "该语境考查核心词义【】在权威语篇中的实际运用。",
@@ -97331,7 +96806,7 @@
   "compelling": {
     "word": "compelling",
     "phonetic": "/span>pel<span style='vertical-align:25%;font-size:35%;'>•</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "His eyes were strangely ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -97472,7 +96947,7 @@
   "workforce": {
     "word": "workforce",
     "phonetic": "/span>force</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "A quarter of the local ______ is unemployed.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -103206,7 +102681,7 @@
   "scene": {
     "word": "scene",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "A police officer attended the ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -103866,9 +103341,9 @@
     "phonetic": "/'kɔŋkərə/",
     "translation": "征服者；占领者，胜",
     "cloze": {
-      "sentence": "Recent research studies clearly demonstrate the need to ______ effective solutions to this issue.",
-      "translation": "近期的研究调查清晰表明，需要针对该问题采取行之有效的解决方案。 (考点核心释义：征服者；占领者，胜)",
-      "original": "Recent research studies clearly demonstrate the need to conqueror effective solutions to this issue."
+      "sentence": "William the ______ (= King William I of England) After numerous defeats in the boxing ring the conquered finally became the conqueror.",
+      "translation": "该语境考查核心词义【征服者；占领者，胜】在真实例句中的精准搭配。",
+      "original": "William the Conqueror (= King William I of England) After numerous defeats in the boxing ring the conquered finally became the conqueror."
     },
     "form_confusables": [
       {
@@ -108378,9 +107853,9 @@
     "phonetic": "/'mɑ:stə; 'mæstə/",
     "translation": "尤指男性",
     "cloze": {
-      "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
-      "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：尤指男性)",
-      "original": "The professor emphasized that this strategy will master significant long-term academic results."
+      "sentence": "Chaplin, the grand ______ of physical comedy Fate can be a cruel master.",
+      "translation": "该语境考查核心词义【尤指男性】在真实例句中的精准搭配。",
+      "original": "Chaplin, the grand master of physical comedy Fate can be a cruel master."
     },
     "form_confusables": [
       {
@@ -114486,7 +113961,7 @@
   "press": {
     "word": "press",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Did the senator deliberately mislead the ______?",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -121068,9 +120543,9 @@
     "phonetic": "/,ɔntrəprə'nə:/",
     "translation": "企业家",
     "cloze": {
-      "sentence": "The director asked the staff to carefully ______ the operational procedures of the system.",
-      "translation": "主管要求全体员工认真把控该系统的各项运行流程。 (考点核心释义：企业家)",
-      "original": "The director asked the staff to carefully entrepreneur the operational procedures of the system."
+      "sentence": "MBA graduate and budding ______ a serial entrepreneur who had founded four companies A creative entrepreneur, he was continually dreaming up new projects.",
+      "translation": "该语境考查核心词义【企业家】在真实例句中的精准搭配。",
+      "original": "MBA graduate and budding entrepreneur a serial entrepreneur who had founded four companies A creative entrepreneur, he was continually dreaming up new projects."
     },
     "form_confusables": [
       {
@@ -130092,9 +129567,9 @@
     "phonetic": "/i'speʃəli/",
     "translation": "尤其；专门；非常",
     "cloze": {
-      "sentence": "The director asked the staff to carefully ______ the operational procedures of the system.",
-      "translation": "主管要求全体员工认真把控该系统的各项运行流程。 (考点核心释义：尤其；专门；非常)",
-      "original": "The director asked the staff to carefully especially the operational procedures of the system."
+      "sentence": "______ usually means ‘particularly’: She loves all sports, especially swimming.",
+      "translation": "该语境考查核心词义【尤其；专门；非常】在权威语篇中的实际运用。",
+      "original": "Especially usually means ‘particularly’: She loves all sports, especially swimming."
     },
     "form_confusables": [
       {
@@ -134604,9 +134079,9 @@
     "phonetic": "/'vizəbl/",
     "translation": "看得见的，可见的",
     "cloze": {
-      "sentence": "Recent research studies clearly demonstrate the need to ______ effective solutions to this issue.",
-      "translation": "近期的研究调查清晰表明，需要针对该问题采取行之有效的解决方案。 (考点核心释义：看得见的，可见的)",
-      "original": "Recent research studies clearly demonstrate the need to visible effective solutions to this issue."
+      "sentence": "Ellie's quite ______ embarrassment His relief was all too visible.",
+      "translation": "该语境考查核心词义【看得见的，可见的】在真实例句中的精准搭配。",
+      "original": "Ellie's quite visible embarrassment His relief was all too visible."
     },
     "form_confusables": [
       {
@@ -136719,9 +136194,9 @@
     "phonetic": "/ik'sept/",
     "translation": "略去，删去；不计；把",
     "cloze": {
-      "sentence": "It is essential for the team to ______ all standard safety regulations before commencing work.",
-      "translation": "在开始工作之前，团队必须严格遵守所有标准安全法规。 (考点核心释义：略去，删去；不计；把)",
-      "original": "It is essential for the team to except all standard safety regulations before commencing work."
+      "sentence": "Making an ______ She wrote all of the songs on the album except for the final track.",
+      "translation": "该语境考查核心词义【略去，删去；不计；把】在权威语篇中的实际运用。",
+      "original": "Making an exception She wrote all of the songs on the album except for the final track."
     },
     "form_confusables": [
       {
@@ -139633,9 +139108,9 @@
     "phonetic": "/'krækə/",
     "translation": "彩包爆竹；饼干；黑客",
     "cloze": {
-      "sentence": "The director asked the staff to carefully ______ the operational procedures of the system.",
-      "translation": "主管要求全体员工认真把控该系统的各项运行流程。 (考点核心释义：彩包爆竹；饼干；黑客)",
-      "original": "The director asked the staff to carefully cracker the operational procedures of the system."
+      "sentence": "______ usually contain a paper hat, a small present and a joke, and are used in Britain at Christmas parties and meals Who wants to pull this cracker with me?",
+      "translation": "该语境考查核心词义【彩包爆竹；饼干；黑客】在权威语篇中的实际运用。",
+      "original": "Crackers usually contain a paper hat, a small present and a joke, and are used in Britain at Christmas parties and meals Who wants to pull this cracker with me?"
     },
     "form_confusables": [
       {
@@ -151759,9 +151234,9 @@
     "phonetic": "/'rʌfli/",
     "translation": "大约，大致",
     "cloze": {
-      "sentence": "Recent research studies clearly demonstrate the need to ______ effective solutions to this issue.",
-      "translation": "近期的研究调查清晰表明，需要针对该问题采取行之有效的解决方案。 (考点核心释义：大约，大致)",
-      "original": "Recent research studies clearly demonstrate the need to roughly effective solutions to this issue."
+      "sentence": "Sales are up by ______ 10% 1 approximately but not exactly Sales are up by roughly 10%.",
+      "translation": "该语境考查核心词义【大约，大致】在权威语篇中的实际运用。",
+      "original": "Sales are up by roughly 10% 1 approximately but not exactly Sales are up by roughly 10%."
     },
     "form_confusables": [
       {
@@ -156363,7 +155838,7 @@
   "striking": {
     "word": "striking",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "She was tall and very ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -163084,7 +162559,7 @@
   "considerate": {
     "word": "considerate",
     "phonetic": "/span>sid<span style='vertical-align:25%;font-size:35%;'>•</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Louis was a kind, caring and ______ young man.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -166327,7 +165802,7 @@
   "sophisticated": {
     "word": "sophisticated",
     "phonetic": "/span>phis<span style='vertical-align:25%;font-size:35%;'>•</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "The software grows more ______ over time.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -169758,7 +169233,7 @@
   "handwriting": {
     "word": "handwriting",
     "phonetic": "/span>writ<span style='vertical-align:25%;font-size:35%;'>•</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Her ______ was neat and legible.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -171781,9 +171256,9 @@
     "phonetic": "/ik'spænsiv/",
     "translation": "广阔的；辽阔的；浩瀚的",
     "cloze": {
-      "sentence": "The director asked the staff to carefully ______ the operational procedures of the system.",
-      "translation": "主管要求全体员工认真把控该系统的各项运行流程。 (考点核心释义：广阔的；辽阔的；浩瀚的)",
-      "original": "The director asked the staff to carefully expansive the operational procedures of the system."
+      "sentence": "He waved an ______ arm (= in an expansive movement).",
+      "translation": "该语境考查核心词义【广阔的；辽阔的；浩瀚的】在权威语篇中的实际运用。",
+      "original": "He waved an expansive arm (= in an expansive movement)."
     },
     "form_confusables": [
       {
@@ -173283,7 +172758,7 @@
   "series": {
     "word": "series",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Australia won the Test ______ against England.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -179019,9 +178494,9 @@
     "phonetic": "/'plæstik,'plɑ:s-/",
     "translation": "造型的；塑造的",
     "cloze": {
-      "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
-      "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：造型的；塑造的)",
-      "original": "The professor emphasized that this strategy will plastic significant long-term academic results."
+      "sentence": "There are many different types of ______ , used to make different objects and fabrics The pipes should be made of plastic .",
+      "translation": "该语境考查核心词义【造型的；塑造的】在真实例句中的精准搭配。",
+      "original": "There are many different types of plastic , used to make different objects and fabrics The pipes should be made of plastic ."
     },
     "form_confusables": [
       {
@@ -183719,9 +183194,9 @@
     "phonetic": "/mi'stiəriəs/",
     "translation": "神秘的；奇怪的；不",
     "cloze": {
-      "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
-      "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：神秘的；奇怪的；不)",
-      "original": "The professor emphasized that this strategy will mysterious significant long-term academic results."
+      "sentence": "Her last years remain somewhat ______ She found the people mysterious and fascinating.",
+      "translation": "该语境考查核心词义【神秘的；奇怪的；不】在真实例句中的精准搭配。",
+      "original": "Her last years remain somewhat mysterious She found the people mysterious and fascinating."
     },
     "form_confusables": [
       {
@@ -184422,7 +183897,7 @@
   "dramatic": {
     "word": "dramatic",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "I don't want to sound overly ______, but it changed my life.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -185315,7 +184790,7 @@
   "best-seller": {
     "word": "best-seller",
     "phonetic": "/span><span style='display:block;'><span style='font-style:normal;font-weight:normal;'> (</",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "Her autobiography is an international ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -185785,7 +185260,7 @@
   "tag": {
     "word": "tag",
     "phonetic": "/span><span style='font-style:normal;font-weight:normal;'> </",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "The president made several jokes in an attempt to shake off his ‘humourless’ ______.",
       "translation": "该语境考查核心词义【】在真实例句中的精准搭配。",
@@ -190111,9 +189586,9 @@
     "phonetic": "/'mə:si/",
     "translation": "仁慈；幸运，恩惠",
     "cloze": {
-      "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
-      "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：仁慈；幸运，恩惠)",
-      "original": "The professor emphasized that this strategy will mercy significant long-term academic results."
+      "sentence": "God's infinite ______ He asked for mercy for the crimes he had committed.",
+      "translation": "该语境考查核心词义【仁慈；幸运，恩惠】在真实例句中的精准搭配。",
+      "original": "God's infinite mercy He asked for mercy for the crimes he had committed."
     },
     "form_confusables": [
       {
@@ -192036,7 +191511,7 @@
   "centimeter": {
     "word": "centimeter",
     "phonetic": "/centimeter/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
       "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：centimeter)",
@@ -192083,7 +191558,7 @@
   "kilometre": {
     "word": "kilometre",
     "phonetic": "/symbols/",
-    "translation": "核心考点重点词汇",
+    "translation": "",
     "cloze": {
       "sentence": "The professor emphasized that this strategy will ______ significant long-term academic results.",
       "translation": "教授强调该策略将有助于实现显著的长期学术成果。 (考点核心释义：kilometre)",

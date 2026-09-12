@@ -1191,8 +1191,8 @@
         );
         wordDisplayHtml = `
           <div style="background:var(--paper-surface); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:16px 18px; margin-bottom:16px; text-align:center;">
-            <div style="display:inline-block; background:${isClozeSemantic ? 'rgba(168,85,247,0.12)' : 'rgba(245,158,11,0.12)'}; border:1px solid ${isClozeSemantic ? 'rgba(168,85,247,0.4)' : 'rgba(245,158,11,0.4)'}; border-radius:12px; padding:3px 12px; font-size:11.5px; font-weight:800; color:${isClozeSemantic ? '#a855f7' : '#f59e0b'}; margin-bottom:10px;">
-              ${isClozeSemantic ? '✦ 句意挖空 · 近义词搭配辨析 (4个意思相似单词)' : '⚡ 句意挖空 · 形近词甄别 (4个拼写相近单词)'}
+            <div style="display:inline-block; background:${isClozeSemantic ? 'rgba(168,85,247,0.12)' : 'rgba(245,158,11,0.12)'}; border:1px solid ${isClozeSemantic ? 'rgba(168,85,247,0.4)' : 'rgba(245,158,11,0.4)'}; border-radius:12px; padding:2px 12px; font-size:11px; font-weight:800; color:${isClozeSemantic ? '#a855f7' : '#f59e0b'}; margin-bottom:10px;">
+              ${isClozeSemantic ? '🌫️ 句意挖空 · 近义词搭配辨析 (4个意思相似单词)' : '⚡ 句意挖空 · 形近词甄别 (4个拼写相近单词)'}
             </div>
             <div class="encounter-cloze-sentence" style="font-family:var(--font-serif); font-size:17.5px; font-weight:700; color:var(--text-primary); line-height:1.6; letter-spacing:0.3px; margin-bottom:8px;">
               ${sentenceWithBlank}
@@ -1200,43 +1200,17 @@
           </div>
         `;
       } else {
-        // 判断选项是否均为英文单词 (若为英文选项，绝不可直接将英文单词展示在题干中，否则形成自猜)
-        const hasEnglishOptions = encounter.options && encounter.options.some(o => /^[a-zA-Z\s\-]+$/.test(String(o).trim()));
-        if (hasEnglishOptions && encounter.word) {
-          wordDisplayHtml = `
-            <div style="text-align:center; margin-bottom:16px; padding:12px 16px; background:var(--paper-surface); border:1.5px solid var(--brand-accent); border-radius:var(--radius-md);">
-              <div style="font-size:12px; font-weight:800; color:var(--brand-accent); margin-bottom:4px;">✦ 考点深度辨析</div>
-              <div style="font-size:16px; font-weight:900; color:var(--text-primary); line-height:1.5;">
-                根据释义【${escapeHtml(encounter.translation || '核心考点')}】，选出唯一契合的英文单词：
-              </div>
-            </div>
-          `;
-        } else {
-          wordDisplayHtml = `
-            <div style="text-align:center; margin-bottom:16px;">
-              <span class="encounter-target-word" style="font-family:var(--font-serif); font-size:24px; font-weight:900; color:var(--brand-primary); letter-spacing:0.5px;">
-                ${escapeHtml(encounter.word)}
-              </span>
-              <span style="font-size:13px; color:var(--text-secondary); margin-left:8px; font-family:var(--font-mono);">
-                ${escapeHtml(encounter.phonetic || '')}
-              </span>
-            </div>
-          `;
-        }
-      }
-
-      // 仅在真实小说原著剧情节点展示剧情，挖空题与常规词汇题严禁展示冗余套话与可能泄密的译文
-      const showStoryBox = !isCloze && encounter.story && 
-                           !encounter.story.includes('briefing room') && 
-                           !encounter.story.includes('operational log') &&
-                           !encounter.story.startsWith('[TACTICAL');
-      const storyBoxHtml = showStoryBox ? `
-        <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:var(--radius-md); padding:10px 14px; margin-bottom:14px; max-height:90px; overflow-y:auto;">
-          <div style="font-size:13px; font-weight:600; color:var(--text-primary); line-height:1.5;">
-            "${escapeHtml(encounter.story)}"
+        wordDisplayHtml = `
+          <div style="text-align:center; margin-bottom:16px;">
+            <span class="encounter-target-word" style="font-family:var(--font-serif); font-size:24px; font-weight:900; color:var(--brand-primary); letter-spacing:0.5px;">
+              ${escapeHtml(encounter.word)}
+            </span>
+            <span style="font-size:13px; color:var(--text-secondary); margin-left:8px; font-family:var(--font-mono);">
+              ${escapeHtml(encounter.phonetic || '')}
+            </span>
           </div>
-        </div>
-      ` : '';
+        `;
+      }
 
       modal.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1.5px solid var(--paper-border); padding-bottom:12px; margin-bottom:14px;">
@@ -1253,7 +1227,13 @@
         ${listeningHtml}
         ${bannerHtml}
         ${timerHtml}
-        ${storyBoxHtml}
+
+        <!-- 剧情与原著语境 (答前绝不展示中文译文，杜绝 universe 等中文送分泄密) -->
+        <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:var(--radius-md); padding:12px 14px; margin-bottom:14px; max-height:120px; overflow-y:auto;">
+          <div style="font-size:13px; font-weight:700; color:var(--text-primary); line-height:1.6;">
+            "${escapeHtml(encounter.story || '')}"
+          </div>
+        </div>
 
         <!-- 考点单词主展示 -->
         ${wordDisplayHtml}
