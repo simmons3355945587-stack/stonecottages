@@ -366,7 +366,7 @@
         <span class="search-icon">🔍</span>
         <input type="text" class="origami-input" id="searchInput" placeholder="搜索生词 / 词义 / 序号..." autocomplete="off">
       </div>
-      <button class="paper-btn-primary" id="btnQuickLangToggle" onclick="toggleQuickDictLang()" title="一键切换中英释义显示" style="font-size: 12px; padding: 0 10px; min-width: 68px;">🇨🇳 中文</button>
+      <button class="paper-btn-primary" id="btnQuickLangToggle" onclick="toggleQuickDictLang()" title="一键切换词典抽屉中/英释义默认" style="font-size: 12px; padding: 0 10px; min-width: 72px;">🇨🇳 词典:中</button>
       <button class="paper-btn-primary" onclick="addNewWordModal()">+ 录词</button>
     </div>
 
@@ -1083,12 +1083,12 @@
   </div>
 
   <div class="form-group" style="margin-bottom: 16px;">
-    <label class="form-label">🌐 语言与释义模式 (Language & Definition Mode)</label>
+    <label class="form-label">🌐 词典默认释义语言 (Default Dictionary Language)</label>
     <select class="form-select" id="cfgDictLangMode">
-      <option value="en" selected>🇬🇧 纯英沉浸模式（默认 · 词库只显英文，词典优先英文，生存站纯英推演）</option>
-      <option value="zh">🇨🇳 中文双语增强（词库常驻简明中文，词典优先中文，生存站结算显中文译文）</option>
+      <option value="zh" selected>🇨🇳 中文详细释义（默认 · 查词抽屉优先展示中文多义项，词库纯英背词）</option>
+      <option value="en">🇬🇧 纯英权威词典（查词抽屉优先展示权威全英释义与例句）</option>
     </select>
-    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">开启后，词库列表、释义抽屉及生存站战役结算卷轴均自动呈现贴心中文辅助。</div>
+    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">控制点击单词展开抽屉时的默认释义 Tab。词库列表保持纯英，不显示中文剧透。</div>
   </div>
 
   <div class="form-group" style="margin-bottom: 16px;">
