@@ -64,16 +64,19 @@ def main():
     print("🚀 小石屋生产服务器 (ourstonecottages.org) 极速发布", flush=True)
     print("=" * 60, flush=True)
 
-    # 1. 部署后端 main.py
-    print("\n[1/5] 更新后端服务 /var/www/vocab/backend/main.py...", flush=True)
+    # 1. 部署后端 main.py 与对决 PK 服务 tri_context_pk_server.py
+    print("\n[1/5] 更新后端服务 /var/www/vocab/backend/...", flush=True)
     with open(os.path.join(REPO_DIR, "backend", "main.py"), "rb") as f:
         upload_bytes(f.read(), "/var/www/vocab/backend/main.py")
-    exec_cmd("systemctl restart vocab-backend")
-    status = exec_cmd("systemctl status vocab-backend --no-pager").get("message", "")
-    if "active (running)" in status:
-        print("  ✔ 后端服务已平滑重启成功！", flush=True)
+    with open(os.path.join(REPO_DIR, "backend", "tri_context_pk_server.py"), "rb") as f:
+        upload_bytes(f.read(), "/var/www/vocab/backend/tri_context_pk_server.py")
+    exec_cmd("systemctl restart vocab-backend vocab-battle")
+    status_be = exec_cmd("systemctl status vocab-backend --no-pager").get("message", "")
+    status_pk = exec_cmd("systemctl status vocab-battle --no-pager").get("message", "")
+    if "active (running)" in status_be and "active (running)" in status_pk:
+        print("  ✔ 主后端与 PK 对决服务均已平滑重启成功！", flush=True)
     else:
-        print("  ✖ 后端服务异常:\n", status, flush=True)
+        print("  ✖ 服务重启状态:\nBackend:", status_be, "\nBattle:", status_pk, flush=True)
 
     # 2. 检查现有 VPS assets，筛选必须上传的哈希资产
     print("\n[2/5] 检查增量静态资源清单...", flush=True)

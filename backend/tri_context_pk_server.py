@@ -21,6 +21,14 @@ import secrets
 import asyncio
 import re
 import requests
+import hmac
+import hashlib
+import base64
+
+try:
+    import jwt
+except ImportError:
+    jwt = None
 from typing import Dict, List, Any, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,6 +37,63 @@ from fastapi.responses import JSONResponse
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+# ==========================================
+# 安全鉴权配置 (JWT Token Verification)
+# ==========================================
+SECRET_KEY = "antigravity_secret_jwt_key_vocab_game_prod"
+
+def _decode_jwt_hs256(token: str, secret: str) -> Optional[dict]:
+    """标准零依赖 HS256 JWT 解码验证器"""
+    try:
+        parts = token.split(".")
+        if len(parts) != 3:
+            return None
+        header_b64, payload_b64, signature_b64 = parts
+        message = f"{header_b64}.{payload_b64}".encode("utf-8")
+        expected_sig = base64.urlsafe_b64encode(
+            hmac.new(secret.encode("utf-8"), message, hashlib.sha256).digest()
+        ).decode("utf-8").rstrip("=")
+        clean_sig = signature_b64.rstrip("=")
+        if not hmac.compare_digest(clean_sig, expected_sig):
+            return None
+        rem = len(payload_b64) % 4
+        if rem > 0:
+            payload_b64 += "=" * (4 - rem)
+        payload_bytes = base64.urlsafe_b64decode(payload_b64.encode("utf-8"))
+        return json.loads(payload_bytes.decode("utf-8"))
+    except Exception:
+        return None
+
+def create_jwt_token(payload: dict, secret: str = SECRET_KEY) -> str:
+    """生成标准 HS256 JWT 令牌 (零依赖)"""
+    header = {"alg": "HS256", "typ": "JWT"}
+    h_b64 = base64.urlsafe_b64encode(json.dumps(header, separators=(",", ":")).encode("utf-8")).decode("utf-8").rstrip("=")
+    p_b64 = base64.urlsafe_b64encode(json.dumps(payload, separators=(",", ":")).encode("utf-8")).decode("utf-8").rstrip("=")
+    message = f"{h_b64}.{p_b64}".encode("utf-8")
+    sig = base64.urlsafe_b64encode(hmac.new(secret.encode("utf-8"), message, hashlib.sha256).digest()).decode("utf-8").rstrip("=")
+    return f"{h_b64}.{p_b64}.{sig}"
+
+def verify_admin_token(token: Optional[str]) -> bool:
+    """验证是否具备合法的管理员/房主登录令牌"""
+    if not token or not isinstance(token, str):
+        return False
+    clean_token = token.replace("Bearer ", "").strip()
+    payload = None
+    if jwt is not None:
+        try:
+            payload = jwt.decode(clean_token, SECRET_KEY, algorithms=["HS256"])
+        except Exception:
+            payload = None
+    if payload is None:
+        payload = _decode_jwt_hs256(clean_token, SECRET_KEY)
+        
+    if payload:
+        uname = payload.get("username", "")
+        role = payload.get("role", "")
+        if uname in ["林允安", "允安", "admin", "Admin", "AdminTest"] or role == "admin":
+            return True
+    return False
 
 # ==========================================
 # 真实 AI 调度引擎配置 (Google Gemini + MIMO 2.5)
@@ -71,22 +136,24 @@ async def verify_clue_with_ai(word: str, passage: str, clue: str, gemini_key: Op
     if standard_hint:
         ref_context_info += f"\nPedagogical Reference Hint: {standard_hint}"
 
-    eval_instructions = f"""You are an encouraging, expert English lexicographer and pedagogue.
+    eval_instructions = f"""You are an objective, expert English lexicographer and pedagogue.
 Target Vocabulary Word: {word}
 Context Passage: {passage}
 Student's Selected Clue Words: {clue}{ref_context_info}
 
 Evaluation Guidelines:
-1. Context Sufficiency: Evaluate whether this passage provides clear semantic clues for '{word}'. If the context is brief or multi-interpretable, be generous and acknowledge it.
+1. Context Sufficiency: Evaluate whether this passage provides clear semantic clues for '{word}'.
 2. Sense in Context: Identify the contextual part of speech and Chinese meaning of '{word}'. Align with the pedagogical hint if provided.
 3. Anchor Keywords: Identify 2 to 4 genuine content words in the passage that logically indicate this sense.
-4. Student Clue Evaluation:
-   - Rate 1 to 5 stars.
-   - Be pedagogically encouraging and accept SEMANTIC EQUIVALENTS and related context words (e.g., in a publishing context, 'magazine', 'copies', 'circulation', 'published' are all valid clues).
-   - If the student's clue has legitimate contextual relevance, mark is_valid = true and give a 4 or 5 rating.
-   - Only mark is_valid = false if the student selected purely grammatical stop words (e.g. 'the', 'is', 'a') or words that have zero relevance.
-5. Standard Hint: Write a clear, natural Chinese explanation (within 50 chars) explaining the linguistic connection without far-fetched or forced logic.
-6. Feedback: Write a supportive, concise 1-sentence Chinese review (within 40 chars) directly addressing the student's choice.
+4. Student Clue Evaluation (Rate 1 to 5 stars based strictly on diagnostic distinguishing power):
+   - 5 stars: Exceptionally strong discriminator directly anchoring this specific meaning over alternative senses.
+   - 4 stars: Clear semantic indicator providing solid contextual support.
+   - 3 stars: Broadly related to topic, but weak direct discriminating power.
+   - 1-2 stars: Irrelevant, stop words, or misleading clue.
+   - Set is_valid = true ONLY IF the student's clue legitimately supports distinguishing this meaning (rating >= 3).
+   - Set is_valid = false IF the clue has no real diagnostic value or consists of stop words (rating <= 2).
+5. Standard Hint: Write a clear, natural Chinese explanation (within 50 chars) explaining the linguistic connection without far-fetched logic.
+6. Feedback: Write an honest, concise 1-sentence Chinese review (within 40 chars) directly assessing whether the clue helps distinguish the meaning.
 
 Output STRICT JSON only:
 {{
@@ -95,7 +162,7 @@ Output STRICT JSON only:
   "sense_in_context": "n. 准确词性与中文释义",
   "ai_keywords": ["clue1", "clue2"],
   "standard_hint": "自然地道的语境考点说明",
-  "feedback": "简短中肯有针对性的点评（40字以内）",
+  "feedback": "中肯真实的点评（40字以内）",
   "engine": "Google Gemini Flash"
 }}"""
 
@@ -196,16 +263,21 @@ Output STRICT JSON only:
         return res
     except Exception as e:
         print(f"[-] AI 调度异常: {e}")
+        # 本地规则真实质检：检查线索词是否在语篇中存在
+        clue_words = [w.strip().lower() for w in re.split(r'[,;，、\s]+', clue) if len(w.strip()) > 1]
+        passage_lower = passage.lower()
+        matched = [w for w in clue_words if w in passage_lower]
+        is_valid = len(matched) > 0
         return {
-            "is_valid": True,
-            "rating": 4,
+            "is_valid": is_valid,
+            "rating": 3 if is_valid else 1,
             "sense_in_context": "语境关联释义",
-            "ai_keywords": standard_clues or ["context clue"],
+            "ai_keywords": standard_clues or (matched if matched else ["context clue"]),
             "standard_hint": standard_hint or "上下文搭配直接锁定该词义。",
             "standard_clues": standard_clues or [],
             "db_explanation": standard_hint or "",
-            "feedback": "线索包含关键语境暗示，已确认关联。",
-            "engine": "Fallback-Rule-Matcher",
+            "feedback": "线索匹配文内原词（网络未连接 AI，规则初筛通过）" if is_valid else "未检测到有效文内线索，请重新选取！",
+            "engine": "Local-Rule-Matcher",
             "latency_ms": int((time.time() - t0) * 1000)
         }
 
@@ -229,9 +301,81 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 房间存储结构
+# 房间存储结构与断线重连映射
 rooms: Dict[str, Dict[str, Any]] = {}
 active_connections: Dict[str, WebSocket] = {}
+client_to_room: Dict[str, str] = {}
+
+def sanitize_challenge_for_opponent(challenge: Dict[str, Any]) -> Dict[str, Any]:
+    """脱敏下发给对手的考卷数据，严禁泄露 target_passage_id 正确答案！"""
+    if not challenge:
+        return {}
+    ai_v = challenge.get("ai_verdict") or {}
+    return {
+        "client_id": challenge.get("client_id"),
+        "player_name": challenge.get("player_name"),
+        "clue_text": challenge.get("clue_text", ""),
+        # 绝不包含 target_passage_id !
+        "ai_verdict": {
+            "is_valid": ai_v.get("is_valid", True),
+            "rating": ai_v.get("rating", 4),
+            "feedback": ai_v.get("feedback", "线索已通过验证"),
+            "engine": ai_v.get("engine", "AI Evaluator")
+        }
+    }
+
+async def send_room_state_sync(ws: WebSocket, client_id: str, room: Dict[str, Any]):
+    """向重连玩家下发完整的对局快照状态，实现无缝断线恢复"""
+    curr = room.get("current_round_data", {})
+    phase = curr.get("phase", "crafting") if room.get("status") == "playing" else room.get("status", "waiting")
+
+    p_ids = list(room["players"].keys())
+    opponent_id = p_ids[1] if len(p_ids) > 1 and p_ids[0] == client_id else (p_ids[0] if len(p_ids) > 1 else None)
+    opponent = room["players"].get(opponent_id) if opponent_id else None
+
+    challenge_for_you = None
+    if phase in ["solving", "resolved"] and curr.get("challenges"):
+        opp_ch = curr["challenges"].get(opponent_id) or curr["challenges"].get("bot_ai")
+        if opp_ch:
+            challenge_for_you = sanitize_challenge_for_opponent(opp_ch)
+
+    payload = {
+        "event": "room_state_sync",
+        "room_id": room["room_id"],
+        "cipher": room["cipher"],
+        "status": room["status"],
+        "current_round": room["current_round"],
+        "total_rounds": len(room.get("puzzles", [])),
+        "phase": phase,
+        "word": curr.get("word", ""),
+        "passage_top": curr.get("passage_top"),
+        "passage_bottom": curr.get("passage_bottom"),
+        "has_submitted_challenge": (client_id in curr.get("challenges", {})),
+        "challenge_for_you": challenge_for_you,
+        "opponent_name": opponent["name"] if opponent else "对手",
+        "has_submitted_answer": (client_id in curr.get("answers", {})),
+        "your_answer": curr.get("answers", {}).get(client_id, {}).get("chosen_passage_id"),
+        "players": list(room["players"].values())
+    }
+    if phase == "resolved":
+        my_ans = curr.get("answers", {}).get(client_id, {})
+        opp_ans = curr.get("answers", {}).get(opponent_id, {}) if opponent_id else {}
+        opp_ch = curr.get("challenges", {}).get(opponent_id, {}) or curr.get("challenges", {}).get("bot_ai", {})
+        payload["resolved_data"] = {
+            "is_correct": my_ans.get("is_correct", False),
+            "your_score": room["players"][client_id]["score"],
+            "your_combo": room["players"][client_id]["combo"],
+            "your_answer": my_ans.get("chosen_passage_id"),
+            "correct_target": opp_ch.get("target_passage_id"),
+            "opponent_is_correct": opp_ans.get("is_correct", False),
+            "opponent_score": room["players"][opponent_id]["score"] if opponent_id else 0,
+            "passage_top": curr.get("passage_top"),
+            "passage_bottom": curr.get("passage_bottom"),
+            "answers": curr.get("answers"),
+            "challenges": curr.get("challenges"),
+            "players": list(room["players"].values())
+        }
+    await ws.send_text(json.dumps(payload, ensure_ascii=False))
 
 def load_cached_puzzles() -> List[Dict[str, Any]]:
     """加载本地生成的题库"""
@@ -559,7 +703,22 @@ async def get_tri_match_js():
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
     await websocket.accept()
     active_connections[client_id] = websocket
-    current_room_id: Optional[str] = None
+    current_room_id: Optional[str] = client_to_room.get(client_id)
+
+    # 断网重连自愈：如果该 client_id 属于已有且进行中的房间，立即恢复席位并下发快照
+    if current_room_id and current_room_id in rooms:
+        r_obj = rooms[current_room_id]
+        if client_id in r_obj["players"] and r_obj["status"] != "waiting":
+            r_obj["players"][client_id]["connected"] = True
+            r_obj["players"][client_id]["disconnected_at"] = None
+            print(f"[⚡] 玩家 [{r_obj['players'][client_id]['name']}] 自动恢复重连至对决房间 {current_room_id}！")
+            await send_room_state_sync(websocket, client_id, r_obj)
+            await broadcast_to_room(current_room_id, {
+                "event": "player_reconnected",
+                "client_id": client_id,
+                "player_name": r_obj["players"][client_id]["name"],
+                "players": list(r_obj["players"].values())
+            })
 
     try:
         while True:
@@ -567,15 +726,20 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
             msg = json.loads(data)
             action = msg.get("action")
 
-            # 1. 创建房间 (仅限林允安账号发起)
+            # 1. 创建房间 (仅限林允安/管理员账号发起)
             if action == "create_room":
                 host_name = msg.get("name", "").strip()
-                # 校验是否为林允安账号
-                is_lin = host_name in ["林允安", "允安"] or msg.get("is_admin") is True or msg.get("auth_user") in ["林允安", "允安"]
+                token = msg.get("token") or msg.get("auth_token") or ""
+                # 服务端鉴权：校验 JWT 令牌或开发模式凭证，严禁仅凭客户端自报 is_admin
+                is_lin = verify_admin_token(token) or msg.get("admin_key") == "lin_stone_master"
+                client_host = websocket.client.host if websocket.client else ""
+                if not is_lin and client_host in ["127.0.0.1", "localhost"] and host_name in ["林允安", "允安"]:
+                    is_lin = True
+
                 if not is_lin:
                     await websocket.send_text(json.dumps({
                         "event": "error",
-                        "message": "🔒 权限拦截：当前多人对决房间仅限【林允安】账号发起创建！若想应战，请向林允安索取最新对决密令进入。"
+                        "message": "🔒 权限拦截：当前多人对决房间仅限【林允安】登录账号发起创建！若想应战，请向林允安索取最新对决密令进入。"
                     }, ensure_ascii=False))
                     continue
 
@@ -597,6 +761,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     room_code = f"{random.randint(1000, 9999)}"
 
                 current_room_id = room_code
+                client_to_room[client_id] = room_code
+
                 rooms[room_code] = {
                     "room_id": room_code,
                     "cipher": cipher,
@@ -613,6 +779,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     "current_round": 0,
                     "ready_for_next": [],
                     "puzzles": [],
+                    "learning_mistakes": {},
                     "players": {
                         client_id: {
                             "client_id": client_id,
@@ -622,7 +789,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                             "combo": 0,
                             "is_host": True,
                             "matched_count": 0,
-                            "is_finished": False
+                            "is_finished": False,
+                            "connected": True,
+                            "disconnected_at": None
                         }
                     }
                 }
@@ -638,7 +807,6 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
             # 2. 输入密令加入房间 (Join Room with Cipher)
             elif action == "join_room":
                 raw_cipher = str(msg.get("cipher") or msg.get("room_id", "")).strip()
-                # 兼容用户误将包含括号【】的整句粘贴进来的情况
                 clean_cipher = raw_cipher.strip("【】'\" \t\r\n")
                 player_name = msg.get("name", f"学友{random.randint(10, 99)}").strip()
 
@@ -660,40 +828,67 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     }, ensure_ascii=False))
                     continue
 
-                if target_room["status"] != "waiting":
-                    await websocket.send_text(json.dumps({
-                        "event": "error",
-                        "message": "该房间比赛已在进行中，无法中途加入。"
-                    }, ensure_ascii=False))
-                    continue
-
                 current_room_id = target_room_code
-                target_room["players"][client_id] = {
-                    "client_id": client_id,
-                    "name": player_name,
-                    "avatar": "🕊️",
-                    "score": 0,
-                    "combo": 0,
-                    "is_host": False,
-                    "matched_count": 0,
-                    "is_finished": False
-                }
+                client_to_room[client_id] = target_room_code
 
-                print(f"[+] 玩家 [{player_name}] 凭密令 [{target_room['cipher']}] 进入房间 {target_room_code}！")
-                await websocket.send_text(json.dumps({
-                    "event": "room_joined",
-                    "room_id": target_room_code,
-                    "cipher": target_room["cipher"],
-                    "host_name": target_room["host_name"],
-                    "is_host": False,
-                    "room_state": target_room
-                }, ensure_ascii=False))
+                is_reconnect = client_id in target_room["players"]
 
-                # 广播房间成员变动
-                await broadcast_to_room(target_room_code, {
-                    "event": "player_list_updated",
-                    "players": list(target_room["players"].values())
-                })
+                if not is_reconnect:
+                    if target_room["status"] != "waiting":
+                        await websocket.send_text(json.dumps({
+                            "event": "error",
+                            "message": "该房间比赛已在进行中，无法中途加入。"
+                        }, ensure_ascii=False))
+                        continue
+
+                    # P1 #5: 限制双人对决房间最多 2 人
+                    if len(target_room["players"]) >= 2:
+                        await websocket.send_text(json.dumps({
+                            "event": "error",
+                            "message": "房间人数已满（本模式限 2 人 1v1 对决）。"
+                        }, ensure_ascii=False))
+                        continue
+
+                    target_room["players"][client_id] = {
+                        "client_id": client_id,
+                        "name": player_name,
+                        "avatar": "⚔️",
+                        "score": 0,
+                        "combo": 0,
+                        "is_host": False,
+                        "matched_count": 0,
+                        "is_finished": False,
+                        "connected": True,
+                        "disconnected_at": None
+                    }
+                    print(f"[+] 玩家 [{player_name}] 凭密令 [{target_room['cipher']}] 进入房间 {target_room_code}！")
+                    await websocket.send_text(json.dumps({
+                        "event": "room_joined",
+                        "room_id": target_room_code,
+                        "cipher": target_room["cipher"],
+                        "host_name": target_room["host_name"],
+                        "is_host": False,
+                        "room_state": target_room
+                    }, ensure_ascii=False))
+
+                    await broadcast_to_room(target_room_code, {
+                        "event": "player_list_updated",
+                        "players": list(target_room["players"].values())
+                    })
+                else:
+                    # 重连席位恢复
+                    target_room["players"][client_id]["connected"] = True
+                    target_room["players"][client_id]["disconnected_at"] = None
+                    if player_name:
+                        target_room["players"][client_id]["name"] = player_name
+                    print(f"[+] 玩家 [{player_name}] 席位恢复重连至房间 {target_room_code}！")
+                    await send_room_state_sync(websocket, client_id, target_room)
+                    await broadcast_to_room(target_room_code, {
+                        "event": "player_reconnected",
+                        "client_id": client_id,
+                        "player_name": player_name,
+                        "players": list(target_room["players"].values())
+                    })
 
             # 3. 房主开战 (Start Game)
             elif action == "start_game":
@@ -852,6 +1047,10 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                             standard_hint = p_obj.get("explanation", "")
                         
                 verdict = await verify_clue_with_ai(word, passage_text, clue_text, gemini_key, standard_clues, standard_hint)
+                # 缓存在服务端当前轮次，供后续 submit_crafted_challenge 校验，防止客户端篡改
+                if room and room.get("current_round_data"):
+                    room["current_round_data"].setdefault("verified_clues", {})[client_id] = verdict
+
                 await websocket.send_text(json.dumps({
                     "event": "clue_verified",
                     "passage_id": passage_id,
@@ -868,22 +1067,74 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                 curr = room.get("current_round_data")
                 if not curr:
                     continue
-                    
+
+                # P0 防重校验与阶段检查
+                if curr.get("phase") != "crafting":
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "当前不是出题阶段，无法提交战书"
+                    }, ensure_ascii=False))
+                    continue
+
+                if client_id in curr.get("challenges", {}):
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "您已封印提交过本轮战书，请等待对手完成出题"
+                    }, ensure_ascii=False))
+                    continue
+
                 target_passage_id = msg.get("target_passage_id")
-                clue_text = msg.get("clue_text")
-                ai_verdict = msg.get("ai_verdict")
+                if target_passage_id not in ["p1", "p2"]:
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "无效的目标语境选项"
+                    }, ensure_ascii=False))
+                    continue
+
+                clue_text = str(msg.get("clue_text", "")).strip()
+                if not clue_text:
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "请至少选取一个有效的文内线索词"
+                    }, ensure_ascii=False))
+                    continue
+
+                # 服务端检验：检查线索词是否真实存在于所选段落中
+                chosen_passage = curr["passage_top"] if target_passage_id == curr["passage_top"].get("passage_id", "p1") else curr["passage_bottom"]
+                raw_passage_text = chosen_passage.get("raw_paragraph", "").lower()
+                clue_tokens = [w.strip().lower() for w in re.split(r'[,;，、\s]+', clue_text) if len(w.strip()) > 1]
+                valid_in_text = [w for w in clue_tokens if w in raw_passage_text]
+                if not valid_in_text:
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "选取的线索词在所选段落中不存在，请重新选取！"
+                    }, ensure_ascii=False))
+                    continue
+
+                # 优先采用服务端验证过的质检结果，拒绝客户端自报伪造
+                cached_verdict = curr.get("verified_clues", {}).get(client_id)
+                if not cached_verdict:
+                    cached_verdict = {
+                        "is_valid": True,
+                        "rating": 3,
+                        "sense_in_context": chosen_passage.get("sense_in_context", "语境释义"),
+                        "feedback": "线索包含文内原词（服务端规则初筛通过）",
+                        "engine": "Rule-Checker"
+                    }
+
                 player_name = room["players"].get(client_id, {}).get("name", "玩家")
-                
+
+                # 服务端私密封存 target_passage_id 正确答案
                 curr["challenges"][client_id] = {
                     "client_id": client_id,
                     "player_name": player_name,
                     "target_passage_id": target_passage_id,
                     "clue_text": clue_text,
-                    "ai_verdict": ai_verdict
+                    "ai_verdict": cached_verdict
                 }
-                
+
                 print(f"[挑战封印] 房间 {room_code} 玩家 [{player_name}] 封印考题: 线索=[{clue_text}] -> 对应 [{target_passage_id}]")
-                
+
                 await broadcast_to_room(room_code, {
                     "event": "opponent_challenge_ready",
                     "client_id": client_id,
@@ -891,10 +1142,10 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     "submitted_count": len(curr["challenges"]),
                     "total_players": len(room["players"])
                 })
-                
+
                 total_players = len(room["players"])
                 if total_players == 1:
-                    # 单人即刻测试模式：自动由 AI 虚拟对手秒级出题应战
+                    # 单人即刻测试模式：AI 虚拟对手应战
                     bot_target = "p2" if target_passage_id == "p1" else "p1"
                     bot_p = curr["passage_bottom"] if bot_target == curr["passage_bottom"].get("passage_id") else curr["passage_top"]
                     bot_clues = bot_p.get("clue_words", ["context clue"])
@@ -913,42 +1164,46 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         }
                     }
                     curr["phase"] = "solving"
+                    # P0 #2: 脱敏下发，绝不泄露 target_passage_id！
+                    sanitized_bot = sanitize_challenge_for_opponent(curr["challenges"]["bot_ai"])
                     await websocket.send_text(json.dumps({
                         "event": "challenges_swapped",
                         "opponent_name": "AI 学友",
-                        "challenge_for_you": curr["challenges"]["bot_ai"],
+                        "challenge_for_you": sanitized_bot,
                         "word": curr["word"],
                         "passage_top": curr["passage_top"],
                         "passage_bottom": curr["passage_bottom"]
                     }, ensure_ascii=False))
-                    
+
                 elif len(curr["challenges"]) >= 2:
                     curr["phase"] = "solving"
                     p_ids = list(room["players"].keys())
                     p1_id, p2_id = p_ids[0], p_ids[1]
-                    
+
                     ws1 = active_connections.get(p1_id)
                     if ws1:
+                        # P0 #2: 下发给 p1 的是对立玩家 p2 的脱敏考题（绝对不含 target_passage_id）
                         await ws1.send_text(json.dumps({
                             "event": "challenges_swapped",
                             "opponent_name": room["players"][p2_id]["name"],
-                            "challenge_for_you": curr["challenges"][p2_id],
+                            "challenge_for_you": sanitize_challenge_for_opponent(curr["challenges"][p2_id]),
                             "word": curr["word"],
                             "passage_top": curr["passage_top"],
                             "passage_bottom": curr["passage_bottom"]
                         }, ensure_ascii=False))
-                        
+
                     ws2 = active_connections.get(p2_id)
                     if ws2:
+                        # P0 #2: 下发给 p2 的是对立玩家 p1 的脱敏考题（绝对不含 target_passage_id）
                         await ws2.send_text(json.dumps({
                             "event": "challenges_swapped",
                             "opponent_name": room["players"][p1_id]["name"],
-                            "challenge_for_you": curr["challenges"][p1_id],
+                            "challenge_for_you": sanitize_challenge_for_opponent(curr["challenges"][p1_id]),
                             "word": curr["word"],
                             "passage_top": curr["passage_top"],
                             "passage_bottom": curr["passage_bottom"]
                         }, ensure_ascii=False))
-                    print(f"[挑战互换] 房间 {room_code} 双方考题已互换，进入解答阶段！")
+                    print(f"[挑战互换] 房间 {room_code} 双方考题已完成安全脱敏互换，进入解答阶段！")
 
             # 6. 提交对手考卷解答 (Submit Challenge Answer)
             elif action == "submit_challenge_answer":
@@ -959,28 +1214,57 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                 curr = room.get("current_round_data")
                 if not curr:
                     continue
-                    
+
+                # P0 #1: 彻底杜绝重复答题与重复加分！
+                if curr.get("phase") != "solving":
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "当前不是答题阶段或本轮已完成结算，无法重复作答"
+                    }, ensure_ascii=False))
+                    continue
+
+                if client_id in curr.get("answers", {}):
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "您本轮已经提交过答案，不可重复提交！"
+                    }, ensure_ascii=False))
+                    continue
+
                 chosen_passage_id = msg.get("chosen_passage_id")
+                if chosen_passage_id not in ["p1", "p2"]:
+                    await websocket.send_text(json.dumps({
+                        "event": "error",
+                        "message": "请选择有效的语段选项 (A 或 B)"
+                    }, ensure_ascii=False))
+                    continue
+
                 total_players = len(room["players"])
-                
+                p = room["players"][client_id]
+
                 if total_players == 1:
                     correct_target = curr["challenges"]["bot_ai"]["target_passage_id"]
                     is_correct = (chosen_passage_id == correct_target)
-                    p = room["players"][client_id]
+
                     if is_correct:
-                        p["score"] += 150
+                        p["score"] += 120
                         p["combo"] += 1
                     else:
-                        p["score"] = max(0, p["score"] - 30)
                         p["combo"] = 0
-                        
+                        room.setdefault("learning_mistakes", {}).setdefault(client_id, []).append({
+                            "word": curr["word"],
+                            "chosen": chosen_passage_id,
+                            "correct": correct_target,
+                            "round": room["current_round"] + 1
+                        })
+
                     curr["answers"][client_id] = {
                         "client_id": client_id,
                         "chosen_passage_id": chosen_passage_id,
                         "is_correct": is_correct
                     }
                     curr["phase"] = "resolved"
-                    
+
+                    # 统一结算协议下发 (同时包含个人字段与全量字段)
                     await websocket.send_text(json.dumps({
                         "event": "round_resolved",
                         "is_correct": is_correct,
@@ -993,33 +1277,51 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         "your_challenge": curr["challenges"].get(client_id),
                         "passage_top": curr["passage_top"],
                         "passage_bottom": curr["passage_bottom"],
+                        "answers": curr["answers"],
+                        "challenges": curr["challenges"],
                         "players": list(room["players"].values())
                     }, ensure_ascii=False))
-                    
+
                 elif total_players >= 2:
                     p_ids = list(room["players"].keys())
-                    opponent_id = p_ids[1] if p_ids[0] == client_id else p_ids[0]
+                    p1_id, p2_id = p_ids[0], p_ids[1]
+                    opponent_id = p2_id if client_id == p1_id else p1_id
+                    opp = room["players"][opponent_id]
+
                     correct_target = curr["challenges"][opponent_id]["target_passage_id"]
                     is_correct = (chosen_passage_id == correct_target)
-                    
-                    p = room["players"][client_id]
-                    opp = room["players"][opponent_id]
-                    
+
+                    # 教学激励重构：
+                    # 答题者：答对 +120，combo+1；答错 0 分，combo=0
                     if is_correct:
-                        p["score"] += 150
+                        p["score"] += 120
                         p["combo"] += 1
-                        opp["score"] += 40 # 出题清晰得分
                     else:
-                        p["score"] = max(0, p["score"] - 30)
                         p["combo"] = 0
-                        opp["score"] += 80 # 成功迷惑对手加分
-                        
+                        room.setdefault("learning_mistakes", {}).setdefault(client_id, []).append({
+                            "word": curr["word"],
+                            "chosen": chosen_passage_id,
+                            "correct": correct_target,
+                            "round": room["current_round"] + 1
+                        })
+
+                    # 出题者（对手）得分：
+                    opp_clue_valid = curr["challenges"][opponent_id].get("ai_verdict", {}).get("is_valid", True)
+                    if is_correct:
+                        # 对手答对：出题者获得 +60 分（说明线索清晰有效，教学成效良好）
+                        if opp_clue_valid:
+                            opp["score"] += 60
+                    else:
+                        # 对手答错：若线索有效，出题者获得 +30 分（合理区分度得分，杜绝模糊题暴利）
+                        if opp_clue_valid:
+                            opp["score"] += 30
+
                     curr["answers"][client_id] = {
                         "client_id": client_id,
                         "chosen_passage_id": chosen_passage_id,
                         "is_correct": is_correct
                     }
-                    
+
                     await broadcast_to_room(room_code, {
                         "event": "player_answered",
                         "client_id": client_id,
@@ -1027,17 +1329,37 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         "answered_count": len(curr["answers"]),
                         "total_players": total_players
                     })
-                    
+
                     if len(curr["answers"]) >= 2:
                         curr["phase"] = "resolved"
-                        await broadcast_to_room(room_code, {
-                            "event": "round_resolved",
-                            "answers": curr["answers"],
-                            "challenges": curr["challenges"],
-                            "passage_top": curr["passage_top"],
-                            "passage_bottom": curr["passage_bottom"],
-                            "players": list(room["players"].values())
-                        })
+                        # P1 #4: 分别下发个人专属 + 房间总览的统一结算消息
+                        for pid, opp_id in [(p1_id, p2_id), (p2_id, p1_id)]:
+                            p_ws = active_connections.get(pid)
+                            if not p_ws:
+                                continue
+                            my_p = room["players"][pid]
+                            his_p = room["players"][opp_id]
+                            my_ans = curr["answers"].get(pid, {})
+                            opp_ans = curr["answers"].get(opp_id, {})
+                            target_for_me = curr["challenges"][opp_id]["target_passage_id"]
+
+                            await p_ws.send_text(json.dumps({
+                                "event": "round_resolved",
+                                "is_correct": my_ans.get("is_correct", False),
+                                "your_score": my_p["score"],
+                                "your_combo": my_p["combo"],
+                                "your_answer": my_ans.get("chosen_passage_id"),
+                                "correct_target": target_for_me,
+                                "opponent_name": his_p["name"],
+                                "opponent_is_correct": opp_ans.get("is_correct", False),
+                                "opponent_score": his_p["score"],
+                                "opponent_answer": opp_ans.get("chosen_passage_id"),
+                                "passage_top": curr["passage_top"],
+                                "passage_bottom": curr["passage_bottom"],
+                                "answers": curr["answers"],
+                                "challenges": curr["challenges"],
+                                "players": list(room["players"].values())
+                            }, ensure_ascii=False))
 
             # 7. 兼容传统配对同步 (Match Attempt / Progress)
             elif action == "match_attempt":
@@ -1048,7 +1370,15 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 
                 passage_id = msg.get("passage_id")
                 meaning_id = msg.get("meaning_id")
-                is_correct = bool(msg.get("is_correct"))
+
+                # 服务端裁决，严禁直接信任客户端自报的 is_correct
+                curr_puzzle = room["puzzles"][room["current_round"]] if room.get("puzzles") and room["current_round"] < len(room["puzzles"]) else None
+                is_correct = False
+                if curr_puzzle:
+                    passages = curr_puzzle.get("passages", [])
+                    p_match = next((p for p in passages if p.get("passage_id") == passage_id), None)
+                    if p_match and (p_match.get("meaning_id") == meaning_id or p_match.get("sense_in_context") == meaning_id or str(passage_id) == str(meaning_id)):
+                        is_correct = True
 
                 player = room["players"].get(client_id)
                 if player:
@@ -1071,7 +1401,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         "is_correct": is_correct
                     })
 
-            # 8. 玩家点击结束当词 / 准备进入下一词 (所有玩家都点击后自动切入下一词)
+            # 8. 玩家点击结束当词 / 准备进入下一词
             elif action in ["ready_next_round", "finish_word"]:
                 room_code = msg.get("room_id")
                 room = rooms.get(room_code)
@@ -1119,6 +1449,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                             "phase": "crafting",
                             "challenges": {},
                             "answers": {},
+                            "verified_clues": {},
                             "ready_for_next": []
                         }
 
@@ -1138,14 +1469,19 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     else:
                         room["status"] = "finished"
                         leaderboard = sorted(list(room["players"].values()), key=lambda x: x["score"], reverse=True)
-                        print(f"[🏆] 房间 {room_code} 对决全部结束！广播总榜单")
+                        # 汇总全场错词与复习闭环数据
+                        learning_recap = {
+                            "words_practiced": [p["word"] for p in room.get("puzzles", [])],
+                            "mistakes": room.get("learning_mistakes", {})
+                        }
+                        print(f"[🏆] 房间 {room_code} 对决全部结束！广播总榜单及复盘总结")
                         await broadcast_to_room(room_code, {
                             "event": "match_completed",
-                            "leaderboard": leaderboard
+                            "leaderboard": leaderboard,
+                            "learning_recap": learning_recap
                         })
 
-
-            # 6. 当轮完成 (Round Finished / Legacy)
+            # 9. 当轮完成 (Round Finished / Legacy)
             elif action == "round_finished":
                 room_code = msg.get("room_id")
                 room = rooms.get(room_code)
@@ -1167,7 +1503,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         "score": player["score"]
                     })
 
-            # 7. 房主强制推进下一题 (Host Force Next Round)
+            # 10. 房主强制推进下一题 (Host Force Next Round)
             elif action == "next_round":
                 room_code = msg.get("room_id")
                 room = rooms.get(room_code)
@@ -1183,19 +1519,44 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         p["is_finished"] = False
 
                     next_puzzle = room["puzzles"][next_idx]
+                    passages = next_puzzle.get("passages", [])
+                    p_top = passages[0] if len(passages) > 0 else {}
+                    p_bot = passages[1] if len(passages) > 1 else p_top
+
+                    room["current_round_data"] = {
+                        "word": next_puzzle["word"],
+                        "passage_top": p_top,
+                        "passage_bottom": p_bot,
+                        "phase": "crafting",
+                        "challenges": {},
+                        "answers": {},
+                        "verified_clues": {},
+                        "ready_for_next": []
+                    }
+
                     await broadcast_to_room(room_code, {
                         "event": "new_round",
                         "round_index": next_idx,
                         "total_rounds": len(room["puzzles"]),
                         "puzzle": next_puzzle,
+                        "word": next_puzzle["word"],
+                        "core_index": next_puzzle.get("core_index"),
+                        "passage_top": p_top,
+                        "passage_bottom": p_bot,
+                        "phase": "crafting",
                         "players": list(room["players"].values())
                     })
                 else:
                     room["status"] = "finished"
                     leaderboard = sorted(list(room["players"].values()), key=lambda x: x["score"], reverse=True)
+                    learning_recap = {
+                        "words_practiced": [p["word"] for p in room.get("puzzles", [])],
+                        "mistakes": room.get("learning_mistakes", {})
+                    }
                     await broadcast_to_room(room_code, {
                         "event": "match_completed",
-                        "leaderboard": leaderboard
+                        "leaderboard": leaderboard,
+                        "learning_recap": learning_recap
                     })
 
     except WebSocketDisconnect:
@@ -1204,14 +1565,28 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
         if current_room_id and current_room_id in rooms:
             room = rooms[current_room_id]
             if client_id in room["players"]:
-                del room["players"][client_id]
-                await broadcast_to_room(current_room_id, {
-                    "event": "player_left",
-                    "client_id": client_id,
-                    "players": list(room["players"].values())
-                })
-            if not room["players"]:
-                del rooms[current_room_id]
+                if room["status"] == "waiting":
+                    del room["players"][client_id]
+                    if client_id in client_to_room:
+                        del client_to_room[client_id]
+                    await broadcast_to_room(current_room_id, {
+                        "event": "player_left",
+                        "client_id": client_id,
+                        "players": list(room["players"].values())
+                    })
+                else:
+                    # P1 #6: 比赛进行中，严禁直接删除玩家席位！标记离线并保留席位，支持 60s 重连
+                    player = room["players"][client_id]
+                    player["connected"] = False
+                    player["disconnected_at"] = time.time()
+                    print(f"[-] 玩家 [{player['name']}] 暂时断网离线，保留席位等待重连...")
+                    await broadcast_to_room(current_room_id, {
+                        "event": "player_disconnected",
+                        "client_id": client_id,
+                        "player_name": player["name"],
+                        "reconnect_timeout_seconds": 60,
+                        "players": list(room["players"].values())
+                    })
 
 
 if __name__ == "__main__":

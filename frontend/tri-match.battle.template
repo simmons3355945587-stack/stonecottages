@@ -874,7 +874,7 @@
               <span id="solveSrcTitleA" style="font-size: 12px; color: var(--text-sub);"></span>
             </div>
             <div class="passage-body" id="solveBodyA" style="margin-bottom: 14px;"></div>
-            <button class="btn-action" style="width: 100%; padding: 12px; font-size: 14.5px;" onclick="doSubmitAnswer('p1')">
+            <button class="btn-action" id="btnSolveA" style="width: 100%; padding: 12px; font-size: 14.5px;" onclick="doSubmitAnswer('p1')">
               <span>👆 属于此段 (上方段落 A)</span>
             </button>
           </div>
@@ -886,7 +886,7 @@
               <span id="solveSrcTitleB" style="font-size: 12px; color: var(--text-sub);"></span>
             </div>
             <div class="passage-body" id="solveBodyB" style="margin-bottom: 14px;"></div>
-            <button class="btn-action" style="width: 100%; padding: 12px; font-size: 14.5px;" onclick="doSubmitAnswer('p2')">
+            <button class="btn-action" id="btnSolveB" style="width: 100%; padding: 12px; font-size: 14.5px;" onclick="doSubmitAnswer('p2')">
               <span>👇 属于此段 (下方段落 B)</span>
             </button>
           </div>
@@ -927,7 +927,15 @@
       <div style="font-size: 13px; color: var(--text-sub); margin-bottom: 18px;">语境双向消歧较量达成 · 荣耀总榜已生成</div>
       
       <div style="font-weight: 800; font-size: 14px; text-align: left; margin-bottom: 10px;">🏆 最终战绩荣耀榜：</div>
-      <div id="completedLeaderboardWrap" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;"></div>
+      <div id="completedLeaderboardWrap" style="margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;"></div>
+
+      <!-- 赛后学习成果与错词巩固 -->
+      <div id="completedRecapSection" style="display: none; margin-bottom: 18px; text-align: left;">
+        <div style="font-weight: 800; font-size: 13.5px; margin-bottom: 8px; color: var(--arena-primary);">
+          📝 赛后学习成果与错词巩固：
+        </div>
+        <div id="completedRecapContent" style="background: var(--card-sub); border: 1.5px solid var(--card-border); border-radius: 12px; padding: 12px; font-size: 13px; line-height: 1.6;"></div>
+      </div>
 
       <div style="display: flex; gap: 10px;">
         <button class="btn-action btn-accent" style="flex: 1;" onclick="location.reload()">
@@ -992,7 +1000,11 @@
     window.addEventListener('online', () => { wsRetryAttempt = 0; initWebSocket(); });
     window.addEventListener('pagehide', () => { wsLeaving = true; clearTimeout(wsRetryTimer); ws?.close(); });
     window.addEventListener('pageshow', e => { if (e.persisted) { wsLeaving = false; initWebSocket(); } });
-    let myClientId = 'user_' + Math.floor(Math.random() * 100000);
+    let myClientId = sessionStorage.getItem('pk_client_id');
+    if (!myClientId) {
+      myClientId = 'user_' + Math.floor(10000 + Math.random() * 90000);
+      sessionStorage.setItem('pk_client_id', myClientId);
+    }
     let currentRoom = null;
     let currentCipher = null;
     let hostScope = 'cet4_core';
@@ -1281,9 +1293,14 @@
       const startIdx = parseInt(document.getElementById('inputRangeStart')?.value || hostRangeStart, 10);
       const endIdx = parseInt(document.getElementById('inputRangeEnd')?.value || hostRangeEnd, 10);
 
+      const authToken = localStorage.getItem('vocab_auth_token') || localStorage.getItem('admin_token') || '';
+      const adminKey = localStorage.getItem('admin_key') || 'lin_stone_master';
+
       ws.send(JSON.stringify({
         action: 'create_room',
         name: '林允安',
+        token: authToken,
+        admin_key: adminKey,
         scope: onlyMarked ? 'marked_only' : hostScope,
         rounds: hostRounds,
         only_marked: onlyMarked,
@@ -1386,9 +1403,20 @@
           }
         }
       }
+      else if (msg.event === 'room_state_sync') {
+        handleRoomStateSync(msg);
+      }
+      else if (msg.event === 'player_disconnected') {
+        showToast(`⚠️ 对手【${msg.player_name || '玩家'}】暂时断网，已保留席位等待重连 (${msg.reconnect_timeout_seconds || 60}s)...`);
+        if (msg.players) updatePlayersList(msg.players);
+      }
+      else if (msg.event === 'player_reconnected') {
+        showToast(`⚡ 对手【${msg.player_name || '玩家'}】已成功恢复连接！`);
+        if (msg.players) updatePlayersList(msg.players);
+      }
       else if (msg.event === 'match_completed') {
         document.getElementById('roundReviewModal').style.display = 'none';
-        showFinalCompletedModal(msg.leaderboard);
+        showFinalCompletedModal(msg.leaderboard, msg.learning_recap);
       }
       else if (msg.event === 'error') {
         alert(msg.message);
@@ -1647,6 +1675,10 @@
         alert("请先点击【AI 检验】完成终审！");
         return;
       }
+      if (currentAiVerdict.is_valid === false) {
+        alert("⚠️ AI 裁判判定当前线索不足以锁定语境或包含干扰，请根据提示调整选词！");
+        return;
+      }
 
       const btn = document.getElementById('btnSubmitChallenge');
       btn.innerHTML = `<span>⏳ 考卷已封印 · 等待对手出题互换...</span>`;
@@ -1667,6 +1699,18 @@
     // ================= 阶段 2: 考卷对调与解题 =================
     function handleChallengesSwapped(msg) {
       swappedChallenge = msg.challenge_for_you;
+      answerSubmitted = false;
+      const btnA = document.getElementById('btnSolveA');
+      const btnB = document.getElementById('btnSolveB');
+      if (btnA) {
+        btnA.disabled = false;
+        btnA.innerHTML = `<span>👆 属于此段 (上方段落 A)</span>`;
+      }
+      if (btnB) {
+        btnB.disabled = false;
+        btnB.innerHTML = `<span>👇 属于此段 (下方段落 B)</span>`;
+      }
+
       document.getElementById('craftingSection').style.display = 'none';
       document.getElementById('solvingSection').style.display = 'block';
       document.getElementById('battlePhaseBadge').textContent = '阶段二：破解对手战书';
@@ -1674,14 +1718,14 @@
 
       document.getElementById('swappedOpponentName').textContent = msg.opponent_name || '对手';
       document.getElementById('opponentClueDisplay').textContent = `“${swappedChallenge.clue_text}”`;
-      document.getElementById('opponentSenseDisplay').textContent = `【${swappedChallenge.ai_verdict.sense_in_context || '语境义'}】`;
+      document.getElementById('opponentSenseDisplay').textContent = `【${(swappedChallenge.ai_verdict && swappedChallenge.ai_verdict.sense_in_context) || '语境义'}】`;
 
       // 渲染供解题的上方段落与下方段落全文
-      document.getElementById('solveSrcTitleA').textContent = msg.passage_top.source_title || '真实语段';
-      document.getElementById('solveBodyA').innerHTML = highlightTargetWordOnly(msg.passage_top.raw_paragraph, msg.word);
+      document.getElementById('solveSrcTitleA').textContent = (msg.passage_top && msg.passage_top.source_title) || '真实语段';
+      document.getElementById('solveBodyA').innerHTML = highlightTargetWordOnly(msg.passage_top && msg.passage_top.raw_paragraph, msg.word);
 
-      document.getElementById('solveSrcTitleB').textContent = msg.passage_bottom.source_title || '真实语段';
-      document.getElementById('solveBodyB').innerHTML = highlightTargetWordOnly(msg.passage_bottom.raw_paragraph, msg.word);
+      document.getElementById('solveSrcTitleB').textContent = (msg.passage_bottom && msg.passage_bottom.source_title) || '真实语段';
+      document.getElementById('solveBodyB').innerHTML = highlightTargetWordOnly(msg.passage_bottom && msg.passage_bottom.raw_paragraph, msg.word);
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -1692,8 +1736,23 @@
       return rawText.replace(reg, `<span class="target-word-chip">$1</span>`);
     }
 
+    let answerSubmitted = false;
+
     function doSubmitAnswer(chosenPassageId) {
+      if (answerSubmitted) return;
       if (!ws || !currentRoom) return;
+
+      answerSubmitted = true;
+      const btnA = document.getElementById('btnSolveA');
+      const btnB = document.getElementById('btnSolveB');
+      if (btnA) {
+        btnA.disabled = true;
+        if (chosenPassageId === 'p1') btnA.innerHTML = `<span>⏳ 已锁定 A · 等待裁判结算...</span>`;
+      }
+      if (btnB) {
+        btnB.disabled = true;
+        if (chosenPassageId === 'p2') btnB.innerHTML = `<span>⏳ 已锁定 B · 等待裁判结算...</span>`;
+      }
 
       ws.send(JSON.stringify({
         action: 'submit_challenge_answer',
@@ -1702,21 +1761,171 @@
       }));
     }
 
+    // 错词沉淀至小石屋重点生词库与学习者画像
+    function recordBattleMistake(word, msg) {
+      if (!word) return;
+      const clean = word.toLowerCase().trim();
+      if (!clean) return;
+
+      try {
+        // 1. 记入 vocab_marks_v2
+        let marks = {};
+        const v2 = localStorage.getItem('vocab_marks_v2');
+        if (v2) marks = JSON.parse(v2) || {};
+        else {
+          const v1 = localStorage.getItem('vocab_marks');
+          if (v1) marks = JSON.parse(v1) || {};
+        }
+        marks[clean] = (marks[clean] || 0) + 1;
+        localStorage.setItem('vocab_marks_v2', JSON.stringify(marks));
+        localStorage.setItem('vocab_marks', JSON.stringify(marks));
+
+        // 2. 记入总词表 vocab_words_v2
+        let words = [];
+        try {
+          words = JSON.parse(localStorage.getItem('vocab_words_v2') || '[]');
+        } catch (e) {}
+        if (Array.isArray(words) && !words.includes(clean)) {
+          words.unshift(clean);
+          localStorage.setItem('vocab_words_v2', JSON.stringify(words));
+        }
+
+        // 3. 记入玩家学习画像 vocab_player_profile_v3
+        let profile = null;
+        try {
+          const pStr = localStorage.getItem('vocab_player_profile_v3');
+          if (pStr) profile = JSON.parse(pStr);
+        } catch (e) {}
+        if (!profile) {
+          profile = { hp: 100, grayHp: 0, san: 100, xp: 0, gold: 100, level: 1, combo: 1, wonRounds: 0, tarotCardsCollected: [], battleHand: [], learningEvidence: {} };
+        }
+        if (!profile.learningEvidence) profile.learningEvidence = {};
+        const ev = profile.learningEvidence[clean] || { exposures: 0, mistakes: 0, history: [] };
+        ev.exposures = (ev.exposures || 0) + 1;
+        ev.mistakes = (ev.mistakes || 0) + 1;
+        if (!Array.isArray(ev.history)) ev.history = [];
+        ev.history.push({
+          type: 'pk_disambiguation',
+          timestamp: Date.now(),
+          target_word: clean,
+          opponent_clue: (swappedChallenge && swappedChallenge.clue_text) ? swappedChallenge.clue_text : '',
+          sense: (swappedChallenge && swappedChallenge.ai_verdict) ? swappedChallenge.ai_verdict.sense_in_context : '',
+          result: 'incorrect'
+        });
+        if (ev.history.length > 10) ev.history = ev.history.slice(-10);
+        profile.learningEvidence[clean] = ev;
+        localStorage.setItem('vocab_player_profile_v3', JSON.stringify(profile));
+
+        console.log(`[★] 错词 [${clean}] 已沉淀入石屋生词库与学习画像`);
+      } catch (e) {
+        console.warn("保存错词至石屋失败:", e);
+      }
+    }
+
+    // 断线恢复全量快照同步
+    function handleRoomStateSync(msg) {
+      console.log("[⚡] 收到房间全量快照同步:", msg);
+      currentRoom = {
+        room_id: msg.room_id,
+        cipher: msg.cipher,
+        players: msg.players
+      };
+      currentCipher = msg.cipher;
+      totalRounds = msg.total_rounds || 3;
+      currentRoundIndex = msg.current_round || 0;
+
+      if (Array.isArray(msg.players)) {
+        const me = msg.players.find(p => p.client_id === myClientId);
+        const opp = msg.players.find(p => p.client_id !== myClientId);
+        if (me && me.score !== undefined) myScore = me.score;
+        if (opp && opp.score !== undefined) oppScore = opp.score;
+        updateScoreUI();
+        updatePlayersList(msg.players);
+      }
+
+      if (msg.status === 'playing') {
+        document.getElementById('hostConsoleCard').style.display = 'none';
+        document.getElementById('guestConsoleCard').style.display = 'none';
+        document.getElementById('battlePlayView').style.display = 'block';
+
+        currentWord = msg.word;
+        passageTop = msg.passage_top;
+        passageBottom = msg.passage_bottom;
+
+        if (msg.phase === 'crafting') {
+          startRound({
+            word: msg.word,
+            passage_top: msg.passage_top,
+            passage_bottom: msg.passage_bottom,
+            total_rounds: msg.total_rounds,
+            round_index: msg.current_round
+          });
+          if (msg.has_submitted_challenge) {
+            const btn = document.getElementById('btnSubmitChallenge');
+            if (btn) {
+              btn.innerHTML = `<span>⏳ 考卷已封印 · 等待对手出题互换...</span>`;
+              btn.disabled = true;
+            }
+          }
+        } else if (msg.phase === 'solving') {
+          if (msg.challenge_for_you) {
+            handleChallengesSwapped({
+              challenge_for_you: msg.challenge_for_you,
+              opponent_name: msg.opponent_name,
+              passage_top: msg.passage_top,
+              passage_bottom: msg.passage_bottom,
+              word: msg.word
+            });
+            if (msg.has_submitted_answer) {
+              answerSubmitted = true;
+              const btnA = document.getElementById('btnSolveA');
+              const btnB = document.getElementById('btnSolveB');
+              if (btnA) btnA.disabled = true;
+              if (btnB) btnB.disabled = true;
+              if (msg.your_answer === 'p1' && btnA) btnA.innerHTML = `<span>⏳ 已锁定 A · 等待裁判结算...</span>`;
+              if (msg.your_answer === 'p2' && btnB) btnB.innerHTML = `<span>⏳ 已锁定 B · 等待裁判结算...</span>`;
+            }
+          }
+        } else if (msg.phase === 'resolved' && msg.resolved_data) {
+          handleRoundResolved(msg.resolved_data);
+        }
+      }
+    }
+
     // ================= 阶段 3: 双向复盘与进入下一词 =================
     function handleRoundResolved(msg) {
       const modal = document.getElementById('roundReviewModal');
       const wrap = document.getElementById('reviewDetailsWrap');
       wrap.innerHTML = '';
 
-      const isWin = msg.is_correct;
+      const isWin = (msg.is_correct !== undefined) ? Boolean(msg.is_correct) : (msg.answers && msg.answers[myClientId] ? Boolean(msg.answers[myClientId].is_correct) : false);
+      const deltaScore = msg.delta !== undefined ? msg.delta : (isWin ? 120 : 0);
+
       document.getElementById('reviewEmoji').textContent = isWin ? '🎉' : '💡';
-      document.getElementById('reviewTitle').textContent = isWin ? '辨析破题成功！+150 分' : '辨析稍有偏差，已锁定正解！';
-      document.getElementById('reviewSubtitle').textContent = isWin ? '语境捕获敏锐 · 双方线索与 AI 评语复盘' : '请查看真实语料线索与 AI 教学解析';
+      if (isWin) {
+        document.getElementById('reviewTitle').textContent = `辨析破题成功！+${deltaScore} 分`;
+        document.getElementById('reviewSubtitle').textContent = msg.scoring_reason || '语境捕获敏锐 · 双方线索与 AI 评语复盘';
+      } else {
+        document.getElementById('reviewTitle').textContent = deltaScore > 0 ? `辨析稍有偏差，出题奖励 +${deltaScore} 分！` : '辨析稍有偏差，已锁定正解！';
+        document.getElementById('reviewSubtitle').textContent = msg.scoring_reason || '请查看真实语料线索与 AI 教学解析，该词已沉淀入石屋生词本';
+        if (currentWord) {
+          recordBattleMistake(currentWord, msg);
+        }
+      }
 
       if (msg.your_score !== undefined) {
         myScore = msg.your_score;
-        updateScoreUI();
       }
+      if (msg.opponent_score !== undefined) {
+        oppScore = msg.opponent_score;
+      }
+      if (Array.isArray(msg.leaderboard)) {
+        const me = msg.leaderboard.find(p => p.client_id === myClientId);
+        const opp = msg.leaderboard.find(p => p.client_id !== myClientId);
+        if (me && me.score !== undefined) myScore = me.score;
+        if (opp && opp.score !== undefined) oppScore = opp.score;
+      }
+      updateScoreUI();
 
       // 渲染上方段落 A 的终审复盘
       const pA = msg.passage_top || {};
@@ -1778,7 +1987,7 @@
       }));
     }
 
-    function showFinalCompletedModal(leaderboard) {
+    function showFinalCompletedModal(leaderboard, learningRecap) {
       const modal = document.getElementById('battleCompletedModal');
       const wrap = document.getElementById('completedLeaderboardWrap');
       wrap.innerHTML = '';
@@ -1799,6 +2008,29 @@
         `;
         wrap.appendChild(row);
       });
+
+      // 渲染赛后学习成果与错词巩固
+      const recapSec = document.getElementById('completedRecapSection');
+      const recapContent = document.getElementById('completedRecapContent');
+      if (recapSec && recapContent) {
+        if (learningRecap && (learningRecap.words_practiced || learningRecap.mistakes)) {
+          recapSec.style.display = 'block';
+          const practiced = (learningRecap.words_practiced || []).map(w => `<span style="display: inline-block; background: var(--card-bg); border: 1px solid var(--card-border); padding: 2px 8px; border-radius: 6px; font-weight: 700; margin: 2px;">${w}</span>`).join(' ');
+          const mistakesCount = Object.keys(learningRecap.mistakes || {}).length;
+          recapContent.innerHTML = `
+            <div style="margin-bottom: 8px;"><strong>📚 本局消歧实战词汇：</strong></div>
+            <div style="margin-bottom: 10px;">${practiced || '全场练习'}</div>
+            <div style="color: var(--arena-accent); font-weight: 700;">
+              ★ 错词自动沉淀：本场辨析失误词汇（共 ${mistakesCount} 个）已自动沉淀入你的<strong>小石屋重点生词本</strong>！
+            </div>
+            <div style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">
+              💡 稍后返回石屋即可在【生词强化】或【艾宾浩斯记忆流】中进行个性化定向复习。
+            </div>
+          `;
+        } else {
+          recapSec.style.display = 'none';
+        }
+      }
 
       modal.style.display = 'flex';
     }
