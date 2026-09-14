@@ -15,7 +15,7 @@ async function build() {
     let data = fs.readFileSync(f);
     if (f.endsWith('lexical-graph.js')) {
       const { STONE_LEXICAL_GRAPH } = require(f);
-      data = Buffer.from('window.STONE_LEXICAL_GRAPH=' + JSON.stringify(STONE_LEXICAL_GRAPH) + ';');
+      data = Buffer.from('/* v1.0.1 */window.STONE_LEXICAL_GRAPH=' + JSON.stringify(STONE_LEXICAL_GRAPH) + ';');
     } else if (f.endsWith('.json')) data = Buffer.from(JSON.stringify(JSON.parse(data)));
     else if (f.endsWith('.js') && terser) {
       const result = await terser.minify(data.toString(), {compress:false,mangle:false,format:{comments:false}});
