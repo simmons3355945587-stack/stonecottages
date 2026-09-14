@@ -65,37 +65,49 @@ async def verify_clue_with_ai(word: str, passage: str, clue: str, gemini_key: Op
     t0 = time.time()
     effective_gemini_key = (gemini_key or "").strip() or get_server_gemini_key()
 
+    ref_context_info = ""
+    if standard_clues:
+        ref_context_info += f"\nAuthoritative Standard Clues in Database: {', '.join(standard_clues)}"
+    if standard_hint:
+        ref_context_info += f"\nPedagogical Reference Hint: {standard_hint}"
+
+    eval_instructions = f"""You are an encouraging, expert English lexicographer and pedagogue.
+Target Vocabulary Word: {word}
+Context Passage: {passage}
+Student's Selected Clue Words: {clue}{ref_context_info}
+
+Evaluation Guidelines:
+1. Context Sufficiency: Evaluate whether this passage provides clear semantic clues for '{word}'. If the context is brief or multi-interpretable, be generous and acknowledge it.
+2. Sense in Context: Identify the contextual part of speech and Chinese meaning of '{word}'. Align with the pedagogical hint if provided.
+3. Anchor Keywords: Identify 2 to 4 genuine content words in the passage that logically indicate this sense.
+4. Student Clue Evaluation:
+   - Rate 1 to 5 stars.
+   - Be pedagogically encouraging and accept SEMANTIC EQUIVALENTS and related context words (e.g., in a publishing context, 'magazine', 'copies', 'circulation', 'published' are all valid clues).
+   - If the student's clue has legitimate contextual relevance, mark is_valid = true and give a 4 or 5 rating.
+   - Only mark is_valid = false if the student selected purely grammatical stop words (e.g. 'the', 'is', 'a') or words that have zero relevance.
+5. Standard Hint: Write a clear, natural Chinese explanation (within 50 chars) explaining the linguistic connection without far-fetched or forced logic.
+6. Feedback: Write a supportive, concise 1-sentence Chinese review (within 40 chars) directly addressing the student's choice.
+
+Output STRICT JSON only:
+{{
+  "is_valid": true,
+  "rating": 5,
+  "sense_in_context": "n. 准确词性与中文释义",
+  "ai_keywords": ["clue1", "clue2"],
+  "standard_hint": "自然地道的语境考点说明",
+  "feedback": "简短中肯有针对性的点评（40字以内）",
+  "engine": "Google Gemini Flash"
+}}"""
+
     # 引擎 1: Google Gemini 官方引擎 (优先极速稳定的 gemini-flash-lite-latest，备选 gemini-flash-latest)
     if effective_gemini_key:
         for model_name in ["gemini-flash-lite-latest", "gemini-flash-latest"]:
             print(f"[AI DISPATCH] 正在调度 Google Gemini ({model_name}) 验证词汇 [{word}] 线索: [{clue}]...")
             try:
                 url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={effective_gemini_key}"
-                prompt = f"""You are an elite English lexicographer and pedagogical assessment AI.
-Target Vocabulary Word: {word}
-Authentic Paragraph: {passage}
-Student's Selected Clue Words: {clue}
-
-Your tasks:
-1. Identify 2 to 4 most critical anchor clue words/phrases inside the paragraph that definitively indicate this specific contextual sense of '{word}'. (ai_keywords)
-2. Determine the exact contextual part of speech and Chinese meaning of '{word}' in this text. (sense_in_context)
-3. Provide a standard pedagogical hint/explanation in Chinese explaining how the context determines this meaning. (standard_hint)
-4. Evaluate the student's selected clues: rating from 1 to 5 stars, whether it is valid, and a concise 1-sentence Chinese feedback comparing the student's choices with the core anchor clues (within 40 Chinese characters). (feedback)
-
-Output STRICT JSON only matching this schema:
-{{
-  "is_valid": true,
-  "rating": 5,
-  "sense_in_context": "n. 词性与精准中文释义",
-  "ai_keywords": ["keyword1", "keyword2", "keyword3"],
-  "standard_hint": "标准考点提示：解释为何上下文中这些核心线索锁定了该义项",
-  "feedback": "一句话精炼中文点评，说明学生线索选得好在哪或有何偏差（35字以内）",
-  "engine": "Google Gemini Flash"
-}}
-"""
                 loop = asyncio.get_event_loop()
                 def call_gemini():
-                    return requests.post(url, json={"contents": [{"parts": [{"text": prompt}]}]}, timeout=12)
+                    return requests.post(url, json={"contents": [{"parts": [{"text": eval_instructions}]}]}, timeout=12)
                 resp = await loop.run_in_executor(None, call_gemini)
                 if resp.status_code == 200:
                     data = resp.json()
@@ -124,20 +136,20 @@ Output STRICT JSON only matching this schema:
     # 引擎 2: MIMO 2.5 深度模型 (Ready 即刻可用)
     print(f"[AI DISPATCH] 正在调度 MIMO-v2.5 (Ready) 验证词汇 [{word}] 线索: [{clue}]...")
     system_prompt = (
-        "You are an elite English lexicographer and pedagogical assessment AI.\\n"
-        "Analyze the target word in the authentic paragraph with the student's selected clues.\\n"
-        "Output STRICT JSON only matching this schema:\\n"
-        "{\\n"
-        '  "is_valid": true,\\n'
-        '  "rating": 5,\\n'
-        '  "sense_in_context": "n. 词性与精准中文释义",\\n'
-        '  "ai_keywords": ["keyword1", "keyword2", "keyword3"],\\n'
-        '  "standard_hint": "标准考点提示：解释为何上下文中这些核心线索锁定了该义项",\\n'
-        '  "feedback": "一句话精炼中文点评，指出线索为什么有效或偏差在哪（35字以内）",\\n'
-        '  "engine": "MIMO-v2.5 (Ready)"\\n'
+        "You are an encouraging, expert English lexicographer and pedagogue.\n"
+        "Analyze the target word in the authentic paragraph with the student's selected clues.\n"
+        "Output STRICT JSON only matching this schema:\n"
+        "{\n"
+        '  "is_valid": true,\n'
+        '  "rating": 5,\n'
+        '  "sense_in_context": "n. 准确词性与中文释义",\n'
+        '  "ai_keywords": ["clue1", "clue2"],\n'
+        '  "standard_hint": "自然地道的语境考点说明",\n'
+        '  "feedback": "简短中肯有针对性的点评（40字以内）",\n'
+        '  "engine": "MIMO-v2.5 (Ready)"\n'
         "}"
     )
-    user_prompt = f"Target Word: {word}\\nAuthentic Paragraph: {passage}\\nStudent's Highlighted Clue: {clue}"
+    user_prompt = eval_instructions
     headers = {
         "Authorization": f"Bearer {MIMO_API_KEY}",
         "Content-Type": "application/json"
@@ -148,8 +160,6 @@ Output STRICT JSON only matching this schema:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ],
-        "temperature": 0.2,
-        "max_tokens": 2500
     }
 
     loop = asyncio.get_event_loop()
