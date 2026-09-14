@@ -1773,3 +1773,213 @@ body[data-active-view="cottage"] .container {
     transform: translateX(calc(-100% + 30px));
   }
 }
+
+/* =========================================================
+   📖 沉浸原版小说泛读阅读器 (Extensive Novel Reader) 样式
+   ========================================================= */
+:root {
+  --novel-font-size: 16.5px;
+}
+
+.novel-reader-box {
+  background: var(--paper-surface);
+  border: 1.5px solid var(--paper-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--paper-shadow-lg);
+  transition: all 0.2s ease;
+}
+
+.novel-ch-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  background: rgba(99, 102, 241, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.novel-ch-title {
+  font-family: var(--font-display, inherit);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 6px;
+  line-height: 1.3;
+}
+
+.novel-stat-pill {
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--paper-surface-sub);
+  border: 1px solid var(--paper-border);
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.novel-paragraphs-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.novel-para-item {
+  background: var(--paper-surface);
+  border: 1px solid var(--paper-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.novel-para-item:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.para-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.06);
+  padding-bottom: 6px;
+}
+
+[data-theme="dark"] .para-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.para-num {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted, #9ca3af);
+  font-family: var(--font-mono);
+}
+
+.para-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.para-tool-btn {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--paper-border);
+  background: var(--paper-surface-sub);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.para-tool-btn:hover {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+}
+
+.para-en-text {
+  font-size: var(--novel-font-size);
+  line-height: 1.85;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+  cursor: default;
+}
+
+/* 单词高亮交互 */
+.story-word.novel-vocab-highlight {
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--brand-primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--brand-primary);
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+[data-theme="dark"] .story-word.novel-vocab-highlight {
+  background: rgba(129, 140, 248, 0.2);
+  color: #a5b4fc;
+  border-bottom-color: #818cf8;
+}
+
+.story-word.marked-word-highlight {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  font-weight: 800;
+  border-bottom: 2.5px solid #f59e0b;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+[data-theme="dark"] .story-word.marked-word-highlight {
+  background: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  border-bottom-color: #f59e0b;
+}
+
+.para-cn-text {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: var(--paper-surface-sub);
+  border-left: 3.5px solid var(--brand-accent);
+  border-radius: var(--radius-sm);
+  font-size: calc(var(--novel-font-size) - 1.5px);
+  line-height: 1.8;
+  color: var(--text-secondary);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.novel-recap-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: var(--paper-surface-sub);
+  border: 1px solid var(--paper-border);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.novel-recap-chip:hover {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+.novel-recap-chip .chip-cnt {
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 5px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .novel-recap-chip .chip-cnt {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 640px) {
+  .novel-reader-box {
+    padding: 14px;
+  }
+  .novel-para-item {
+    padding: 12px 14px;
+  }
+}
+

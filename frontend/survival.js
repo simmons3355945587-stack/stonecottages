@@ -278,17 +278,128 @@ function safeJsonParse(str) {
   return JSON.parse(cleaned);
 }
 
+// =========================================================
+// 📖 沉浸原版小说泛读与词汇雷达引擎 (Novel Extensive Reader Engine)
+// =========================================================
+let novelVocabScope = loadFromStorage('vocab_novel_scope', '50-100'); // '50-100' | '1-50' | '100-200' | 'all' | 'marked' | 'custom' | 'none'
+let novelCustomRange = loadFromStorage('vocab_novel_custom_range', { start: 50, end: 100 });
+let novelTransMode = loadFromStorage('vocab_novel_trans_mode', 'click'); // 'click' | 'always' | 'never'
+let novelFontSize = loadFromStorage('vocab_novel_font_size', 16.5);
+let novelParaTransOpen = {}; // beatId -> boolean
+
+function buildNovelRadarTargetMap(scope, customRange) {
+  const targetMap = new Map(); // token.toLowerCase() -> { baseWord, index, isMarked }
+  if (scope === 'none') return targetMap;
+
+  const marksMap = (typeof marks !== 'undefined' && marks) ? marks : {};
+
+  if (scope === 'marked') {
+    Object.keys(marksMap).forEach(w => {
+      if ((marksMap[w] || 0) > 0) {
+        addWordAndForms(targetMap, w.toLowerCase(), { baseWord: w, isMarked: true });
+      }
+    });
+    return targetMap;
+  }
+
+  const coreList = (typeof CORE_STUDY_WORDS !== 'undefined' && Array.isArray(CORE_STUDY_WORDS))
+    ? CORE_STUDY_WORDS
+    : ((typeof ORIGINAL_STUDY_WORDS !== 'undefined') ? ORIGINAL_STUDY_WORDS : []);
+
+  let sliceWords = [];
+  if (scope === '50-100') {
+    sliceWords = coreList.slice(49, 100).map((w, i) => ({ word: w, idx: 50 + i }));
+  } else if (scope === '1-50') {
+    sliceWords = coreList.slice(0, 50).map((w, i) => ({ word: w, idx: 1 + i }));
+  } else if (scope === '100-200') {
+    sliceWords = coreList.slice(99, 200).map((w, i) => ({ word: w, idx: 100 + i }));
+  } else if (scope === 'all') {
+    sliceWords = coreList.map((w, i) => ({ word: w, idx: 1 + i }));
+  } else if (scope === 'custom') {
+    const s = Math.max(1, Math.min(coreList.length, parseInt(customRange?.start, 10) || 1));
+    const e = Math.max(s, Math.min(coreList.length, parseInt(customRange?.end, 10) || s + 50));
+    sliceWords = coreList.slice(s - 1, e).map((w, i) => ({ word: w, idx: s + i }));
+  }
+
+  sliceWords.forEach(({ word, idx }) => {
+    const w = word.toLowerCase();
+    const isMarked = (marksMap[w] || 0) > 0;
+    addWordAndForms(targetMap, w, { baseWord: word, index: idx, isMarked });
+  });
+
+  return targetMap;
+}
+
+function addWordAndForms(targetMap, w, meta) {
+  targetMap.set(w, meta);
+  if (w.length < 3) return;
+
+  targetMap.set(w + 's', meta);
+  if (w.endsWith('s') || w.endsWith('sh') || w.endsWith('ch') || w.endsWith('x') || w.endsWith('z')) {
+    targetMap.set(w + 'es', meta);
+  }
+
+  if (w.endsWith('e')) {
+    targetMap.set(w + 'd', meta);
+    targetMap.set(w.slice(0, -1) + 'ing', meta);
+  } else {
+    targetMap.set(w + 'ed', meta);
+    targetMap.set(w + 'ing', meta);
+  }
+
+  if (w.endsWith('y') && !/[aeiou]y$/.test(w)) {
+    const stem = w.slice(0, -1);
+    targetMap.set(stem + 'ies', meta);
+    targetMap.set(stem + 'ied', meta);
+    targetMap.set(stem + 'ily', meta);
+  }
+
+  if (/^[a-z]*[bcdfghjklmnpqrstvwxyz][aeiou][bcdfghjklmnprstvz]$/.test(w) && w.length <= 6) {
+    const lastChar = w[w.length - 1];
+    targetMap.set(w + lastChar + 'ed', meta);
+    targetMap.set(w + lastChar + 'ing', meta);
+  }
+}
+
 function initNovelModeUI() {
   const sel = document.getElementById('novelChapterSelect');
-  if (!sel || typeof NOVEL_CHAPTERS === 'undefined') return;
-  sel.innerHTML = '';
-  NOVEL_CHAPTERS.forEach(ch => {
-    const opt = document.createElement('option');
-    opt.value = ch.id;
-    opt.textContent = `第${ch.id}章: ${ch.title}`;
-    if (ch.id === currentNovelChapter) opt.selected = true;
-    sel.appendChild(opt);
-  });
+  if (sel) {
+    if (sel.options.length < 51) {
+      sel.innerHTML = '';
+      const totalCh = (typeof NOVEL_CHAPTERS !== 'undefined' && NOVEL_CHAPTERS.length >= 51)
+        ? NOVEL_CHAPTERS.length
+        : 51;
+      for (let i = 1; i <= totalCh; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        const chInfo = (typeof NOVEL_CHAPTERS !== 'undefined') ? NOVEL_CHAPTERS.find(c => c.id === i) : null;
+        const titleStr = chInfo ? `第 ${i} 章: ${chInfo.title}` : `第 ${i} 章`;
+        opt.textContent = titleStr;
+        if (i === currentNovelChapter) opt.selected = true;
+        sel.appendChild(opt);
+      }
+    } else {
+      sel.value = currentNovelChapter;
+    }
+  }
+
+  const scopeSel = document.getElementById('novelVocabScopeSelect');
+  if (scopeSel && novelVocabScope) scopeSel.value = novelVocabScope;
+
+  const transSel = document.getElementById('novelTransModeSelect');
+  if (transSel && novelTransMode) transSel.value = novelTransMode;
+
+  const customWrap = document.getElementById('novelCustomRangeWrap');
+  if (customWrap) {
+    customWrap.style.display = (novelVocabScope === 'custom') ? 'inline-flex' : 'none';
+  }
+
+  const sInput = document.getElementById('novelRangeStart');
+  const eInput = document.getElementById('novelRangeEnd');
+  if (sInput && novelCustomRange?.start) sInput.value = novelCustomRange.start;
+  if (eInput && novelCustomRange?.end) eInput.value = novelCustomRange.end;
+
+  document.documentElement.style.setProperty('--novel-font-size', novelFontSize + 'px');
   updateSurvivalModeUI();
 }
 
@@ -297,17 +408,23 @@ function updateSurvivalModeUI() {
   const tabClassic = document.getElementById('modeTabClassic');
   const banNovel = document.getElementById('novelBanner');
   const banClassic = document.getElementById('classicBanner');
+  const readerBox = document.getElementById('novelReaderBox');
+  const gameBox = document.getElementById('survivalGameBox');
 
   if (currentSurvivalGameMode === 'novel') {
     if (tabNovel) tabNovel.classList.add('active');
     if (tabClassic) tabClassic.classList.remove('active');
     if (banNovel) banNovel.style.display = 'flex';
     if (banClassic) banClassic.style.display = 'none';
+    if (readerBox) readerBox.style.display = 'block';
+    if (gameBox) gameBox.style.display = 'none';
   } else {
     if (tabClassic) tabClassic.classList.add('active');
     if (tabNovel) tabNovel.classList.remove('active');
     if (banClassic) banClassic.style.display = 'flex';
     if (banNovel) banNovel.style.display = 'none';
+    if (readerBox) readerBox.style.display = 'none';
+    if (gameBox) gameBox.style.display = 'block';
   }
 }
 
@@ -317,58 +434,313 @@ function switchSurvivalMode(mode) {
   saveToStorage('vocab_survival_mode', mode);
   updateSurvivalModeUI();
   launchSurvivalGame();
-  showToast(mode === 'novel' ? '📖 已开启【职场小说大冒险】' : '⚡ 已开启【经典绝境生存战】');
+  showToast(mode === 'novel' ? '📖 已开启【原著沉浸泛读】' : '⚡ 已开启【经典绝境生存战】');
+}
+
+function prevNovelChapter() {
+  soundClick();
+  if (currentNovelChapter > 1) {
+    currentNovelChapter--;
+    renderNovelReader(currentNovelChapter);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast(`📖 已切换至第 ${currentNovelChapter} 章`);
+  }
+}
+
+function nextNovelChapter() {
+  soundClick();
+  if (currentNovelChapter < 51) {
+    currentNovelChapter++;
+    renderNovelReader(currentNovelChapter);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast(`📖 已进入第 ${currentNovelChapter} 章`);
+  } else {
+    showToast(`🎉 恭喜！您已读完原著全本 51 章节！`);
+  }
 }
 
 function onSelectNovelChapter(chId) {
   soundClick();
-  currentNovelChapter = parseInt(chId, 10) || 1;
-  currentNovelBeat = 1;
+  const id = parseInt(chId, 10) || 1;
+  renderNovelReader(id);
+  showToast(`📖 已选择第 ${id} 章`);
+}
+
+function onNovelVocabScopeChange(val) {
+  soundClick();
+  novelVocabScope = val;
+  saveToStorage('vocab_novel_scope', val);
+  const customWrap = document.getElementById('novelCustomRangeWrap');
+  if (customWrap) {
+    customWrap.style.display = (val === 'custom') ? 'inline-flex' : 'none';
+  }
+  if (val !== 'custom') {
+    renderNovelReader(currentNovelChapter);
+    showToast(`🎯 词汇雷达已设为：${val}`);
+  }
+}
+
+function applyNovelCustomRange() {
+  soundClick();
+  const sInput = document.getElementById('novelRangeStart');
+  const eInput = document.getElementById('novelRangeEnd');
+  let s = parseInt(sInput?.value, 10) || 1;
+  let e = parseInt(eInput?.value, 10) || 100;
+  if (s > e) { const tmp = s; s = e; e = tmp; }
+  s = Math.max(1, Math.min(3837, s));
+  e = Math.max(1, Math.min(3837, e));
+  if (sInput) sInput.value = s;
+  if (eInput) eInput.value = e;
+  novelCustomRange = { start: s, end: e };
+  saveToStorage('vocab_novel_custom_range', novelCustomRange);
+  renderNovelReader(currentNovelChapter);
+  showToast(`🎯 自定义雷达区间已应用：第 ${s} - ${e} 词`);
+}
+
+function onNovelTransModeChange(val) {
+  soundClick();
+  novelTransMode = val;
+  saveToStorage('vocab_novel_trans_mode', val);
+  document.querySelectorAll('.para-cn-text').forEach(el => {
+    if (val === 'always') el.style.display = 'block';
+    else if (val === 'never') el.style.display = 'none';
+    else {
+      const bId = el.id.replace('paraCn_', '');
+      el.style.display = novelParaTransOpen[bId] ? 'block' : 'none';
+    }
+  });
+  document.querySelectorAll('.para-actions .para-tool-btn[id^="btnTrans_"]').forEach(btn => {
+    const bId = btn.id.replace('btnTrans_', '');
+    const isVisible = (val === 'always') || (val === 'click' && novelParaTransOpen[bId]);
+    btn.textContent = isVisible ? '🇬🇧 隐藏' : '🇨🇳 译文';
+  });
+  showToast(val === 'always' ? '🇨🇳 双语对照模式' : (val === 'never' ? '🇬🇧 纯英沉浸模式' : '👆 点击段落展开译文'));
+}
+
+function changeNovelFontSize(delta) {
+  soundClick();
+  novelFontSize = Math.max(13, Math.min(26, novelFontSize + delta * 1.5));
+  saveToStorage('vocab_novel_font_size', novelFontSize);
+  document.documentElement.style.setProperty('--novel-font-size', novelFontSize + 'px');
+}
+
+function toggleParaTrans(beatId, e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  soundClick();
+  novelParaTransOpen[beatId] = !novelParaTransOpen[beatId];
+  const cnEl = document.getElementById(`paraCn_${beatId}`);
+  const btn = document.getElementById(`btnTrans_${beatId}`);
+  if (cnEl) {
+    const show = (novelTransMode === 'always') ? true : (novelTransMode === 'never' ? false : novelParaTransOpen[beatId]);
+    cnEl.style.display = show ? 'block' : 'none';
+    if (btn) btn.textContent = show ? '🇬🇧 隐藏' : '🇨🇳 译文';
+  }
+}
+
+function onParaEnClick(beatId, e) {
+  if (e.target.closest('.story-word') || e.target.closest('button')) return;
+  if (novelTransMode === 'click') {
+    toggleParaTrans(beatId, e);
+  }
+}
+
+async function renderNovelReader(chId) {
+  const container = document.getElementById('novelParagraphList');
+  if (!container) return;
+
+  const targetChId = parseInt(chId, 10) || currentNovelChapter || 1;
+  currentNovelChapter = targetChId;
   saveToStorage('vocab_novel_ch', currentNovelChapter);
+
+  container.innerHTML = `
+    <div style="text-align:center; padding: 40px 20px; color: var(--text-secondary);">
+      <div style="font-size:28px; margin-bottom:8px;">📖</div>
+      <div style="font-weight:700;">正在载入第 ${targetChId} 章《I Hope This Finds You Well》...</div>
+    </div>
+  `;
+
+  let ch;
+  try {
+    ch = await Stone.chapter(targetChId);
+  } catch (err) {
+    console.error('Failed to load novel chapter:', err);
+    container.innerHTML = `
+      <div style="text-align:center; padding: 40px 20px; color: var(--brand-danger);">
+        <div style="font-size:28px; margin-bottom:8px;">⚠️</div>
+        <div style="font-weight:700; margin-bottom:12px;">章节数据加载失败，请检查网络连接</div>
+        <button class="btn btn-primary" onclick="renderNovelReader(${targetChId})">🔄 重新载入</button>
+      </div>
+    `;
+    return;
+  }
+
+  initNovelModeUI();
+
+  const badgeEl = document.getElementById('readerChBadge');
+  if (badgeEl) badgeEl.textContent = `CHAPTER ${ch.id}`;
+  const titleEl = document.getElementById('readerChTitle');
+  if (titleEl) titleEl.textContent = ch.title || `Chapter ${ch.id}`;
+
+  const synopsisEl = document.getElementById('novelChapterSynopsis');
+  if (synopsisEl && ch.title) {
+    synopsisEl.textContent = `第 ${ch.id} 章：${ch.title} · 全文共 ${ch.beats?.length || 0} 段落`;
+  }
+
+  const radarMap = buildNovelRadarTargetMap(novelVocabScope, novelCustomRange);
+  const marksMap = (typeof marks !== 'undefined' && marks) ? marks : {};
+
+  let totalRadarHits = 0;
+  let totalMarkHits = 0;
+  let totalWordsCount = 0;
+  const encounteredRadarWords = new Map();
+
+  const beats = ch.beats || [];
+  const paragraphsHtml = beats.map((beat) => {
+    const bId = beat.beatId;
+    const storyText = beat.story || '';
+    const storyCn = beat.story_cn || '';
+
+    const rawTokens = storyText.match(/[A-Za-z0-9'-]+/g) || [];
+    totalWordsCount += rawTokens.length;
+
+    const clickableEn = storyText.split(/([A-Za-z'-]+)/g).map(token => {
+      if (/^[A-Za-z'-]+$/.test(token)) {
+        const clean = token.toLowerCase();
+        const isMarked = (marksMap[clean] || 0) > 0;
+        const radarHit = radarMap.get(clean);
+
+        let highlightClass = '';
+        let titleAttr = `点击查词 [${clean}] / 发音 / ★Mark`;
+
+        if (isMarked) {
+          highlightClass = 'marked-word-highlight';
+          totalMarkHits++;
+          titleAttr = `★ 已标记生词 [${clean}] · 点击发音/查词`;
+        } else if (radarHit) {
+          highlightClass = 'novel-vocab-highlight';
+          totalRadarHits++;
+          const base = radarHit.baseWord || clean;
+          const idxInfo = radarHit.index ? `#${radarHit.index} ` : '';
+          titleAttr = `🎯 考纲${idxInfo}[${base}] · 点击发音/查词/★Mark`;
+
+          if (!encounteredRadarWords.has(base)) {
+            const zh = (typeof chineseDict !== 'undefined' && chineseDict[base.toLowerCase()])
+              ? chineseDict[base.toLowerCase()]
+              : (beat.targetWord === base ? (beat.options?.find(o => o.word === base)?.action_cn || '') : '');
+            encounteredRadarWords.set(base, {
+              baseWord: base,
+              count: 1,
+              isMarked: (marksMap[base.toLowerCase()] || 0) > 0,
+              zh: zh
+            });
+          } else {
+            encounteredRadarWords.get(base).count++;
+          }
+        }
+
+        return `<span class="story-word ${highlightClass}" data-word="${clean}" onclick="inspectStoryWord('${clean}', event)" title="${escapeHtml(titleAttr)}">${escapeHtml(token)}</span>`;
+      } else {
+        return escapeHtml(token);
+      }
+    }).join('');
+
+    const isCnVisible = (novelTransMode === 'always') || (novelTransMode === 'click' && novelParaTransOpen[bId]);
+    const cnDisplay = isCnVisible ? 'block' : 'none';
+
+    return `
+      <div class="novel-para-item" id="novelPara_${bId}">
+        <div class="para-header">
+          <span class="para-num">#${String(bId).padStart(2, '0')}</span>
+          <div class="para-actions">
+            <button class="para-tool-btn" onclick="speakSentence('${escapeHtml(storyText.replace(/'/g, "\\'"))}')" title="朗读全段发音">
+              🔊 朗读
+            </button>
+            <button class="para-tool-btn" id="btnTrans_${bId}" onclick="toggleParaTrans(${bId}, event)" title="切换中文译文">
+              ${isCnVisible ? '🇬🇧 隐藏' : '🇨🇳 译文'}
+            </button>
+          </div>
+        </div>
+        <div class="para-en-text" onclick="onParaEnClick(${bId}, event)" title="${novelTransMode === 'click' ? '点击段落空白区域展开/收起中文译文' : ''}">
+          ${clickableEn}
+        </div>
+        <div class="para-cn-text" id="paraCn_${bId}" style="display: ${cnDisplay};">
+          ${escapeHtml(storyCn)}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.innerHTML = paragraphsHtml;
+
+  const wCountEl = document.getElementById('readerChWordCount');
+  if (wCountEl) wCountEl.textContent = (ch.wordCount || totalWordsCount).toLocaleString();
+
+  const rCountEl = document.getElementById('readerChRadarCount');
+  if (rCountEl) rCountEl.textContent = totalRadarHits;
+
+  const mCountEl = document.getElementById('readerChMarkCount');
+  if (mCountEl) mCountEl.textContent = totalMarkHits;
+
+  const summaryEl = document.getElementById('footerReadingSummary');
+  if (summaryEl) {
+    summaryEl.textContent = `第 ${ch.id} 章已读完 · 本章总词数 ${ch.wordCount || totalWordsCount} 词 · 捕获 ${totalRadarHits} 处考纲词汇`;
+  }
+
+  const btnPrev = document.getElementById('btnPrevChapter');
+  const btnNext = document.getElementById('btnNextChapter');
+  const footerBtnPrev = document.getElementById('footerBtnPrev');
+  const footerBtnNext = document.getElementById('footerBtnNext');
+  if (btnPrev) btnPrev.disabled = (currentNovelChapter <= 1);
+  if (footerBtnPrev) footerBtnPrev.disabled = (currentNovelChapter <= 1);
+  if (btnNext) btnNext.disabled = (currentNovelChapter >= 51);
+  if (footerBtnNext) footerBtnNext.disabled = (currentNovelChapter >= 51);
+
+  renderNovelRecapGrid(Array.from(encounteredRadarWords.values()));
   autoSaveNovelProgress();
-  showToast(`📖 已选择第 ${currentNovelChapter} 章`);
-  launchSurvivalGame();
+
+  if (targetChId < 51 && typeof Stone !== 'undefined' && Stone.idle) {
+    Stone.idle(() => Stone.chapter(targetChId + 1));
+  }
+}
+
+function renderNovelRecapGrid(wordList) {
+  const recapCountEl = document.getElementById('recapWordCount');
+  const recapGrid = document.getElementById('novelRecapGrid');
+  if (!recapGrid) return;
+
+  if (recapCountEl) recapCountEl.textContent = wordList.length;
+
+  if (wordList.length === 0) {
+    recapGrid.innerHTML = `<div style="font-size:12px; color:var(--text-secondary); padding:8px 0;">当前雷达范围内在本章无匹配词汇，可在上方【🎯 词汇雷达】切换范围或选择【全部核心考纲】。</div>`;
+    return;
+  }
+
+  recapGrid.innerHTML = wordList.map(item => {
+    const baseClean = item.baseWord.toLowerCase();
+    const zh = item.zh ? ` · ${escapeHtml(item.zh)}` : '';
+    const star = item.isMarked ? ' ★' : '';
+    return `
+      <div class="novel-recap-chip" onclick="inspectStoryWord('${escapeHtml(baseClean)}', event)" title="点击查词 [${escapeHtml(item.baseWord)}] / 发音 / 释义">
+        <span><strong>${escapeHtml(item.baseWord)}</strong>${zh}${star}</span>
+        <span class="chip-cnt">x${item.count}</span>
+      </div>
+    `;
+  }).join('');
 }
 
 function nextNovelBeat() {
-  soundClick();
-  const ch = (typeof NOVEL_CHAPTERS !== 'undefined') ? NOVEL_CHAPTERS.find(c => c.id === currentNovelChapter) : null;
-  if (!ch) {
-    launchSurvivalGame();
-    return;
-  }
-  if (currentNovelBeat < ch.beats.length) {
-    currentNovelBeat++;
-    autoSaveNovelProgress();
-    launchSurvivalGame();
-  } else {
-    // Chapter completed! Move to next chapter
-    currentNovelChapter = (currentNovelChapter >= NOVEL_CHAPTERS.length) ? 1 : (currentNovelChapter + 1);
-    currentNovelBeat = 1;
-    saveToStorage('vocab_novel_ch', currentNovelChapter);
-    saveToStorage('vocab_novel_beat', currentNovelBeat);
-    const sel = document.getElementById('novelChapterSelect');
-    if (sel) sel.value = currentNovelChapter;
-    soundSuccess();
-    showToast(`🎉 恭喜通关本章！开启第 ${currentNovelChapter} 章！`);
-    launchSurvivalGame();
-  }
+  nextNovelChapter();
 }
 
 async function launchSurvivalGame() {
-  const seq = ++novelLoadSequence;
+  updateSurvivalModeUI();
+
   if (currentSurvivalGameMode === "novel") {
-    try {
-      const ch = await Stone.chapter(currentNovelChapter);
-      if (seq !== novelLoadSequence) return;
-      currentNovelChapter = ch.id;
-      initNovelModeUI();
-      if (currentNovelBeat >= ch.beats.length - 2) Stone.idle(() => Stone.chapter(ch.id + 1));
-    } catch (e) {
-      showToast("章节加载失败，请再次点击章节重试");
-      return;
-    }
+    renderNovelReader(currentNovelChapter);
+    return;
   }
+
+  // ⚡ 经典绝境生存战 (Classic Roguelike Survival Mode)
   document.getElementById('survivalGameBox').style.display = 'block';
   const grayTxt = (playerProfile.grayHp && playerProfile.grayHp > 0) ? ` (+${playerProfile.grayHp})` : '';
   document.getElementById('gameHp').textContent = `${playerProfile.hp}${grayTxt}`;
@@ -376,43 +748,17 @@ async function launchSurvivalGame() {
   document.getElementById('gameOutcomeArea').innerHTML = '';
   renderBattleHand();
 
-  // 确保远征战局状态存在
   if (!playerProfile.expedition || !playerProfile.expedition.inExpedition) {
     if (typeof GrayHealthEngine !== 'undefined') {
       playerProfile.expedition = GrayHealthEngine.createInitialExpeditionState(playerProfile, { totalBeats: 5, theme: '📖 职场机密与危机周旋' });
     }
   }
 
-  // SAN 污染视觉氛围分级应用
   const gameBox = document.getElementById('survivalGameBox');
   if (gameBox && typeof GrayHealthEngine !== 'undefined') {
     const tier = GrayHealthEngine.getSanPollutionTier(playerProfile.san);
     gameBox.classList.remove('san-tier-clear', 'san-tier-mild', 'san-tier-heavy', 'san-tier-delirious');
     gameBox.classList.add(`san-tier-${tier.tier === 'mild_polluted' ? 'mild' : (tier.tier === 'clear' ? 'clear' : 'heavy')}`);
-  }
-
-  // 📖 模式 1：职场机密与危机周旋远征模式 (Novel Expedition Mode)
-  if (currentSurvivalGameMode === 'novel' && typeof NOVEL_CHAPTERS !== 'undefined' && NOVEL_CHAPTERS.length > 0) {
-    const ch = NOVEL_CHAPTERS.find(c => c.id === currentNovelChapter) || NOVEL_CHAPTERS[0];
-    const beat = ch.beats[currentNovelBeat - 1] || ch.beats[0];
-    
-    const routeId = (playerProfile.expedition && playerProfile.expedition.route) || 'safe';
-    const routeName = routeId === 'forbidden' ? '🏛️ 禁忌遗迹' : (routeId === 'mist' ? '🌫️ 迷雾支路' : '🌲 安全小径');
-    document.getElementById('gameTheme').textContent = `📖 职场危机周旋 · ${routeName}`;
-    document.getElementById('gameRound').textContent = `远征节点 ${currentNovelBeat} / 5`;
-    
-    survivalData = {
-      story: beat.story,
-      story_cn: beat.story_cn || "",
-      options: beat.options,
-      isNovelMode: true,
-      chapterId: ch.id,
-      beatId: currentNovelBeat,
-      totalBeats: 5
-    };
-    window.survivalData = survivalData;
-    renderSurvivalGame(survivalData);
-    return;
   }
 
   // ⚡ 模式 2：经典绝境生存战 (Classic Roguelike Survival Mode)
@@ -1506,6 +1852,30 @@ if (typeof window !== 'undefined') {
   window.renderExpeditionSettlementScroll = renderExpeditionSettlementScroll;
   window.returnToCottageDebrief = returnToCottageDebrief;
   window.startNewExpeditionFromDebrief = startNewExpeditionFromDebrief;
+  window.renderNovelReader = renderNovelReader;
+  window.prevNovelChapter = prevNovelChapter;
+  window.nextNovelChapter = nextNovelChapter;
+  window.onSelectNovelChapter = onSelectNovelChapter;
+  window.onNovelVocabScopeChange = onNovelVocabScopeChange;
+  window.applyNovelCustomRange = applyNovelCustomRange;
+  window.onNovelTransModeChange = onNovelTransModeChange;
+  window.changeNovelFontSize = changeNovelFontSize;
+  window.toggleParaTrans = toggleParaTrans;
+  window.onParaEnClick = onParaEnClick;
+  window.initNovelModeUI = initNovelModeUI;
+  window.updateSurvivalModeUI = updateSurvivalModeUI;
+  window.switchSurvivalMode = switchSurvivalMode;
+  window.launchSurvivalGame = launchSurvivalGame;
+  window.autoSaveNovelProgress = autoSaveNovelProgress;
+  window.manualSaveCurrentProgress = manualSaveCurrentProgress;
+  window.resumeFromSavedProgress = resumeFromSavedProgress;
+  window.openSaveLoadModal = openSaveLoadModal;
+  window.closeSaveLoadModal = closeSaveLoadModal;
+  window.renderSaveLoadModal = renderSaveLoadModal;
+  window.manualSaveToSlot = manualSaveToSlot;
+  window.loadFromSlot = loadFromSlot;
+  window.deleteSaveSlot = deleteSaveSlot;
+  window.jumpToChapter = jumpToChapter;
 }
 
 if (typeof module !== 'undefined' && module.exports) {

@@ -541,7 +541,7 @@ async function switchNavView(viewName) {
   const navigationSequence=++stoneNavigationSequence;
   const loadingNotice=setTimeout(()=>{if(navigationSequence===stoneNavigationSequence)showToast("正在准备学习内容，请稍候…");},400);
   if(viewName!=="match" && matchTimerInterval) abortMatchGame();
-  try { if(viewName==="survival") {await Stone.module("survival");await Stone.chapter(currentNovelChapter);} else if(viewName==="match") await Stone.module("match"); else if(viewName==="profile") await Stone.module("tarot"); else if(viewName==="expedition_map") await Stone.script("lexical-graph.js"); } catch(e) {if(navigationSequence===stoneNavigationSequence)showToast(e.message);return;} finally {clearTimeout(loadingNotice);}
+  try { if(viewName==="survival" || viewName==="novel") {await Stone.module("survival");await Stone.chapter(currentNovelChapter);} else if(viewName==="match") await Stone.module("match"); else if(viewName==="profile") await Stone.module("tarot"); else if(viewName==="expedition_map") await Stone.script("lexical-graph.js"); } catch(e) {if(navigationSequence===stoneNavigationSequence)showToast(e.message);return;} finally {clearTimeout(loadingNotice);}
   if(navigationSequence!==stoneNavigationSequence)return;
   if(viewName!=='words' && document.getElementById('defDrawer')?.classList.contains('open'))closeDefDrawer();
   document.getElementById('drawerOverlay')?.classList.remove('open');
@@ -558,19 +558,15 @@ async function switchNavView(viewName) {
     document.getElementById('navWords')?.classList.add('active');
     renderWords(document.getElementById('searchInput').value);
     if (typeof updateCottageExpeditionUI === 'function') updateCottageExpeditionUI();
-  } else if (viewName === 'survival') {
-    const session = (typeof ExpeditionEngine !== 'undefined' && ExpeditionEngine.getSession()) ? ExpeditionEngine.getSession() : null;
-    if (session && session.status === 'in_progress') {
-      switchNavView('expedition_map');
-      return;
-    } else {
-      switchNavView('cottage').then(() => {
-        if (typeof openExpeditionPrepModal === 'function') {
-          openExpeditionPrepModal();
-        }
-      });
-      return;
+  } else if (viewName === 'novel' || viewName === 'survival') {
+    document.getElementById('viewSurvival')?.classList.add('active');
+    document.getElementById('navSurvival')?.classList.add('active');
+    if (viewName === 'novel') {
+      currentSurvivalGameMode = 'novel';
+      saveToStorage('vocab_survival_mode', 'novel');
     }
+    updateSurvivalModeUI();
+    launchSurvivalGame();
   } else if (viewName === 'match') {
     document.getElementById('viewMatch').classList.add('active');
     document.getElementById('navMatch').classList.add('active');
@@ -803,6 +799,15 @@ function updateSurvivalModeUI(...args){return Stone.module('survival').then(()=>
 function switchSurvivalMode(...args){return Stone.module('survival').then(()=>window.switchSurvivalMode(...args)).catch(e=>{showToast(e.message);});}
 
 function onSelectNovelChapter(...args){return Stone.module('survival').then(()=>window.onSelectNovelChapter(...args)).catch(e=>{showToast(e.message);});}
+function prevNovelChapter(...args){return Stone.module('survival').then(()=>window.prevNovelChapter(...args)).catch(e=>{showToast(e.message);});}
+function nextNovelChapter(...args){return Stone.module('survival').then(()=>window.nextNovelChapter(...args)).catch(e=>{showToast(e.message);});}
+function renderNovelReader(...args){return Stone.module('survival').then(()=>window.renderNovelReader(...args)).catch(e=>{showToast(e.message);});}
+function onNovelVocabScopeChange(...args){return Stone.module('survival').then(()=>window.onNovelVocabScopeChange(...args)).catch(e=>{showToast(e.message);});}
+function applyNovelCustomRange(...args){return Stone.module('survival').then(()=>window.applyNovelCustomRange(...args)).catch(e=>{showToast(e.message);});}
+function onNovelTransModeChange(...args){return Stone.module('survival').then(()=>window.onNovelTransModeChange(...args)).catch(e=>{showToast(e.message);});}
+function changeNovelFontSize(...args){return Stone.module('survival').then(()=>window.changeNovelFontSize(...args)).catch(e=>{showToast(e.message);});}
+function toggleParaTrans(...args){return Stone.module('survival').then(()=>window.toggleParaTrans(...args)).catch(e=>{showToast(e.message);});}
+function onParaEnClick(...args){return Stone.module('survival').then(()=>window.onParaEnClick(...args)).catch(e=>{showToast(e.message);});}
 
 function nextNovelBeat(...args){return Stone.module('survival').then(()=>window.nextNovelBeat(...args)).catch(e=>{showToast(e.message);});}
 
@@ -1351,6 +1356,15 @@ if (typeof window !== 'undefined') {
   window.getActiveWordList = getActiveWordList;
   window.switchSurvivalMode = switchSurvivalMode;
   window.onSelectNovelChapter = onSelectNovelChapter;
+  window.prevNovelChapter = prevNovelChapter;
+  window.nextNovelChapter = nextNovelChapter;
+  window.renderNovelReader = renderNovelReader;
+  window.onNovelVocabScopeChange = onNovelVocabScopeChange;
+  window.applyNovelCustomRange = applyNovelCustomRange;
+  window.onNovelTransModeChange = onNovelTransModeChange;
+  window.changeNovelFontSize = changeNovelFontSize;
+  window.toggleParaTrans = toggleParaTrans;
+  window.onParaEnClick = onParaEnClick;
   window.nextNovelBeat = nextNovelBeat;
   window.launchSurvivalGame = launchSurvivalGame;
   window.handleSurvivalChoice = handleSurvivalChoice;

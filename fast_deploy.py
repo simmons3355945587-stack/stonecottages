@@ -40,13 +40,14 @@ def upload_bytes(data: bytes, remote_dest: str, mode: str = "644", is_already_gz
     b64_str = base64.b64encode(gz_data).decode("ascii")
     
     tmp_path = f"/tmp/up_{int(time.time()*1000)}"
-    chunk_size = 25000
+    chunk_size = 6000
     total = (len(b64_str) + chunk_size - 1) // chunk_size
     
+    exec_cmd(f"rm -f {tmp_path}.b64")
     for i in range(total):
         chunk = b64_str[i*chunk_size : (i+1)*chunk_size]
         exec_cmd(f"printf '%s' '{chunk}' >> {tmp_path}.b64")
-        if total > 5 and i % 5 == 0:
+        if total > 5 and (i+1) % 5 == 0:
             print(f"    分块进度: {i+1}/{total}", flush=True)
             
     if is_already_gzipped:
@@ -154,11 +155,17 @@ def main():
     print(f"  主站首页: HTTP {r_home.status_code}")
     assert r_home.status_code == 200, "主站响应异常"
     assert "window.STONE_ASSETS" in r_home.text, "主站缺少 STONE_ASSETS"
-    assert "lexical-graph.js" not in r_home.text, "首屏仍包含 lexical-graph.js"
+    assert "novelReaderBox" in r_home.text, "主站缺少 novelReaderBox 原著泛读系统"
+    assert f'src="{manifest["lexical-graph.js"]}"' not in r_home.text, "首屏仍同步加载了 lexical-graph.js 脚本"
 
     r_cet4 = requests.get("https://ourstonecottages.org/cet4/", timeout=15)
     print(f"  CET4听力: HTTP {r_cet4.status_code}")
     assert r_cet4.status_code == 200, "CET4 听力子系统异常"
+
+    ch1_url = "https://ourstonecottages.org" + manifest["chapters/1.json"]
+    r_ch1 = requests.get(ch1_url, timeout=15)
+    print(f"  小说第1章数据: HTTP {r_ch1.status_code}")
+    assert r_ch1.status_code == 200, "小说第1章数据拉取异常"
 
     test_asset_url = "https://ourstonecottages.org" + manifest["lexical-graph.js"]
     r_asset = requests.get(test_asset_url, headers={"Accept-Encoding": "gzip"}, timeout=15)
