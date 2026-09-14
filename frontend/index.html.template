@@ -91,48 +91,48 @@
             <span class="cottage-status-dot"></span>
             <span id="cottageLocationLabel">炉火旁 · 室内</span>
           </div>
-          <button class="cottage-float-pill" onclick="switchNavView('words')" title="打开书架 · 词库">
+          <button class="cottage-float-pill" onclick="switchNavView('words')" title="打开书架 · 词库" aria-label="打开书架 · 词库">
             <span class="pill-icon">📖</span>
             <span class="pill-text">词库</span>
           </button>
-          <a href="/cet4/" class="cottage-float-pill cottage-listening-pill" id="btnCottageListening" title="四级听力真题精听复读机 · 听力特训">
+          <a href="/cet4/" class="cottage-float-pill cottage-listening-pill" id="btnCottageListening" title="四级听力真题精听复读机 · 听力特训" aria-label="四级听力真题精听复读机 · 听力特训">
             <span class="pill-icon">🎧</span>
             <span class="pill-text">听力</span>
           </a>
-          <button class="cottage-float-pill" onclick="openExpeditionPrepModal()" title="出征祭坛 · 探险整备">
+          <button class="cottage-float-pill" onclick="openExpeditionPrepModal()" title="出征祭坛 · 探险整备" aria-label="出征祭坛 · 探险整备">
             <span class="pill-icon">⚔️</span>
             <span class="pill-text">出征</span>
           </button>
         </div>
         <div class="cottage-floating-actions">
           <!-- 核心三大常驻按钮：眼睛、设置、问号 -->
-          <button class="cottage-float-pill" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索互动标记 (眼睛)">
+          <button class="cottage-float-pill" id="btnCottageHints" onclick="toggleCottageHints()" title="显示/隐藏探索互动标记 (眼睛)" aria-label="显示/隐藏探索互动标记 (眼睛)">
             <span class="pill-icon" id="cottageHintsIcon">👁️</span>
             <span class="pill-text" id="cottageHintsText">提示</span>
           </button>
-          <button class="cottage-float-pill" id="btnCottageSettings" onclick="if(window.openStonePreferences)openStonePreferences();else if(window.openSettingsModal)openSettingsModal();" title="偏好与系统设置 (设置)">
+          <button class="cottage-float-pill" id="btnCottageSettings" onclick="if(window.openStonePreferences)openStonePreferences();else if(window.openSettingsModal)openSettingsModal();" title="偏好与系统设置 (设置)" aria-label="偏好与系统设置 (设置)">
             <span class="pill-icon">⚙️</span>
             <span class="pill-text">设置</span>
           </button>
-          <button class="cottage-float-pill" id="btnCottageTutorial" onclick="if(window.openOnboardingTutorial)openOnboardingTutorial(true);" title="新手入门指南教程 (问号)">
+          <button class="cottage-float-pill" id="btnCottageTutorial" onclick="if(window.openOnboardingTutorial)openOnboardingTutorial(true);" title="新手入门指南教程 (问号)" aria-label="新手入门指南教程 (问号)">
             <span class="pill-icon">❓</span>
             <span class="pill-text">教程</span>
           </button>
 
           <!-- 辅助微控按钮（手机端隐藏以保持极简） -->
-          <button class="cottage-float-pill" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点">
+          <button class="cottage-float-pill" id="btnCottagePerspective" onclick="toggleCottagePerspective()" title="切换室内/室外视点" aria-label="切换室内/室外视点">
             <span class="pill-icon" id="cottagePerspectiveIcon">🌲</span>
             <span class="pill-text" id="cottagePerspectiveText">去屋外</span>
           </button>
-          <button class="cottage-float-pill" id="btnCottageWarmth" onclick="toggleCottageWarmth()" title="壁炉暖光开关">
+          <button class="cottage-float-pill" id="btnCottageWarmth" onclick="toggleCottageWarmth()" title="壁炉暖光开关" aria-label="壁炉暖光开关">
             <span class="pill-icon">🔥</span>
             <span class="pill-text" id="cottageWarmthText">暖光</span>
           </button>
-          <button class="cottage-float-pill" id="btnCottageOrientation" onclick="toggleCottageOrientation()" title="切换横屏/竖屏模式">
+          <button class="cottage-float-pill" id="btnCottageOrientation" onclick="toggleCottageOrientation()" title="切换横屏/竖屏模式" aria-label="切换横屏/竖屏模式">
             <span class="pill-icon" id="cottageOrientationIcon">🔄</span>
             <span class="pill-text" id="cottageOrientationText">横屏</span>
           </button>
-          <button class="cottage-float-pill" id="btnCottageAbout" onclick="openCottageAboutModal()" title="关于小石屋避难所">
+          <button class="cottage-float-pill" id="btnCottageAbout" onclick="openCottageAboutModal()" title="关于小石屋避难所" aria-label="关于小石屋避难所">
             <span class="pill-icon">🕊️</span>
           </button>
         </div>
@@ -1168,21 +1168,21 @@
   <span id="toastMsg">Notification</span>
 </div>
 
-<script src="performance-runtime.js"></script>
-<script src="gray-health-engine.js"></script>
-<script src="expedition-engine.js"></script>
-<script src="lexical-graph.js"></script>
-<script src="question-validator.js"></script>
-<script src="expedition-map.js"></script>
-<script src="words-data.js"></script>
-<script src="extra-definitions.js"></script>
+<script defer src="performance-runtime.js"></script>
+<script defer src="gray-health-engine.js"></script>
+<script defer src="expedition-engine.js"></script>
+
+<script defer src="question-validator.js"></script>
+<script defer src="expedition-map.js"></script>
+<script defer src="words-data.js"></script>
+<script defer src="extra-definitions.js"></script>
 
 
-<script src="vocabulary.js"></script>
-<script src="auth.js"></script>
-<script src="sync.js"></script>
-<script src="cottage.js"></script>
-<script src="app.js"></script>
+<script defer src="vocabulary.js"></script>
+<script defer src="auth.js"></script>
+<script defer src="sync.js"></script>
+<script defer src="cottage.js"></script>
+<script defer src="app.js"></script>
 
 
   <!-- 🌐 在线查词并收录模态框 (Online Word Add Modal) -->
@@ -1222,6 +1222,6 @@
     </div>
   </div>
 <button id="stoneRadioLauncher" class="paper-btn-primary" style="position:fixed;bottom:90px;right:20px;z-index:80" onclick="this.disabled=true;Stone.script('radio-data.js').then(()=>Stone.script('radio-player.js')).then(()=>this.remove()).catch(()=>{this.disabled=false;showToast('电台加载失败，请重试');})">📻 打开电台</button>
-<script src="/ui-enhancements.js"></script>
+<script defer src="/ui-enhancements.js"></script>
 </body>
 </html>

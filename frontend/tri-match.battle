@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<script>window.STONE_ASSETS={"admin.js":"/assets/admin.ff97e0f696a0.js","app.js":"/assets/app.39a023bbb5a0.js","assets/bull-banner.png":"/assets/assets-bull-banner.a3ede6b62052.png","assets/bull-banner.webp":"/assets/assets-bull-banner.76c7b60e9cc1.webp","assets/bull-book.png":"/assets/assets-bull-book.21d1f835c5f4.png","assets/bull-book.webp":"/assets/assets-bull-book.0788ba4f66a0.webp","assets/cottage-exterior.png":"/assets/assets-cottage-exterior.7fbea06c562f.png","assets/cottage-exterior.webp":"/assets/assets-cottage-exterior.023ca18a7d42.webp","assets/cottage-interior.png":"/assets/assets-cottage-interior.397b5c3ffc83.png","assets/cottage-interior.webp":"/assets/assets-cottage-interior.429e4ecf406f.webp","auth.js":"/assets/auth.345ca0d62602.js","cet4/app.js":"/assets/cet4-app.7d1924df8c8f.js","cet4/data/exam_01.json":"/assets/cet4-data-exam_01.efd4e3c329b7.json","cet4/data/exam_02.json":"/assets/cet4-data-exam_02.a64fa2060114.json","cet4/data/exam_03.json":"/assets/cet4-data-exam_03.7c70352c9886.json","cet4/data/exam_04.json":"/assets/cet4-data-exam_04.d229ff113e33.json","cet4/data/exam_05.json":"/assets/cet4-data-exam_05.9717856796de.json","cet4/data/exam_06.json":"/assets/cet4-data-exam_06.9ac9ccce877a.json","cet4/data/exam_07.json":"/assets/cet4-data-exam_07.03f2d77ceaae.json","cet4/data/exam_08.json":"/assets/cet4-data-exam_08.bc532e389923.json","cet4/data/exam_09.json":"/assets/cet4-data-exam_09.60017c49b822.json","cet4/data/exam_10.json":"/assets/cet4-data-exam_10.e3ab62656561.json","cet4/data/exam_11.json":"/assets/cet4-data-exam_11.b3d46b1c46d9.json","cet4/data/exam_12.json":"/assets/cet4-data-exam_12.baa7bd83d69c.json","cet4/data/exam_13.json":"/assets/cet4-data-exam_13.a6fa36e54914.json","cet4/data/exam_14.json":"/assets/cet4-data-exam_14.46df9140b0f7.json","cet4/data/manifest.json":"/assets/cet4-data-manifest.64d7c4236f51.json","cet4/style.css":"/assets/cet4-style.05e922a1482a.css","chapters/1.json":"/assets/chapters-1.9ca2021024eb.json","chapters/10.json":"/assets/chapters-10.810cd0c76012.json","chapters/11.json":"/assets/chapters-11.1dd870a00699.json","chapters/12.json":"/assets/chapters-12.8b1ce35aa681.json","chapters/13.json":"/assets/chapters-13.21e7742ddb33.json","chapters/14.json":"/assets/chapters-14.ee35c739452d.json","chapters/15.json":"/assets/chapters-15.444f5b97fca2.json","chapters/16.json":"/assets/chapters-16.0f3ab7d4fad0.json","chapters/17.json":"/assets/chapters-17.66e9cfe5f37f.json","chapters/18.json":"/assets/chapters-18.62f3e8e1e6de.json","chapters/19.json":"/assets/chapters-19.076a921b0690.json","chapters/2.json":"/assets/chapters-2.55b459d61376.json","chapters/20.json":"/assets/chapters-20.d2d4d246b52c.json","chapters/21.json":"/assets/chapters-21.7936fa233f9b.json","chapters/22.json":"/assets/chapters-22.7e9168c8a88f.json","chapters/23.json":"/assets/chapters-23.c5eaa8c69c51.json","chapters/24.json":"/assets/chapters-24.87dc7b7b49aa.json","chapters/25.json":"/assets/chapters-25.6085a5293778.json","chapters/26.json":"/assets/chapters-26.f2710162db31.json","chapters/27.json":"/assets/chapters-27.20ee0a08a237.json","chapters/28.json":"/assets/chapters-28.6132fd9f20a1.json","chapters/29.json":"/assets/chapters-29.c86cf854cf65.json","chapters/3.json":"/assets/chapters-3.e064a7f49844.json","chapters/30.json":"/assets/chapters-30.249cf31f4bc0.json","chapters/31.json":"/assets/chapters-31.ea0e2527654b.json","chapters/32.json":"/assets/chapters-32.1d69945dfe26.json","chapters/33.json":"/assets/chapters-33.9a2a4aebb7a1.json","chapters/34.json":"/assets/chapters-34.32ee98823ee8.json","chapters/35.json":"/assets/chapters-35.989325f106c5.json","chapters/36.json":"/assets/chapters-36.5416285549c6.json","chapters/37.json":"/assets/chapters-37.46c1ad87860f.json","chapters/38.json":"/assets/chapters-38.7652e8cf0d98.json","chapters/39.json":"/assets/chapters-39.6923842d3df4.json","chapters/4.json":"/assets/chapters-4.414eee93c751.json","chapters/40.json":"/assets/chapters-40.f446154441d3.json","chapters/41.json":"/assets/chapters-41.eaca79ff9fe1.json","chapters/42.json":"/assets/chapters-42.3f700b6615dc.json","chapters/43.json":"/assets/chapters-43.0d35bf45c25f.json","chapters/44.json":"/assets/chapters-44.95fca01c7164.json","chapters/45.json":"/assets/chapters-45.5a3ed455618b.json","chapters/46.json":"/assets/chapters-46.0f37b52962eb.json","chapters/47.json":"/assets/chapters-47.a4b60261a17e.json","chapters/48.json":"/assets/chapters-48.240db1452016.json","chapters/49.json":"/assets/chapters-49.a81d0b372ec5.json","chapters/5.json":"/assets/chapters-5.c54aef6bcaf4.json","chapters/50.json":"/assets/chapters-50.4b7cc15f38f2.json","chapters/51.json":"/assets/chapters-51.f8317f82787c.json","chapters/6.json":"/assets/chapters-6.a9590ab251b0.json","chapters/7.json":"/assets/chapters-7.4791be678c47.json","chapters/8.json":"/assets/chapters-8.08bf4c2268be.json","chapters/9.json":"/assets/chapters-9.ed183a885450.json","cottage.js":"/assets/cottage.2ea5bcbe8708.js","dictionary.js":"/assets/dictionary.d5ccf7121e02.js","expedition-engine.js":"/assets/expedition-engine.67b930ee8236.js","expedition-map.js":"/assets/expedition-map.25e8016d7f5e.js","extra-definitions.js":"/assets/extra-definitions.db01fb8f8590.js","gray-health-engine.js":"/assets/gray-health-engine.f73bd101bfb7.js","lexical-graph.js":"/assets/lexical-graph.68e749a45593.js","match.js":"/assets/match.9415ee2cfbda.js","novel-index.json":"/assets/novel-index.d065c7a427d0.json","performance-runtime.js":"/assets/performance-runtime.bd103dc568bd.js","question-validator.js":"/assets/question-validator.55f11229c27d.js","radio-data.js":"/assets/radio-data.28b484a4d3f4.js","radio-player.js":"/assets/radio-player.482313e718b6.js","risk-reward-engine.js":"/assets/risk-reward-engine.6600873d1814.js","style.css":"/assets/style.4689fc3bbe0e.css","survival.js":"/assets/survival.5f67bbba2747.js","sync.js":"/assets/sync.666103cb85fa.js","tarot.js":"/assets/tarot.ea761ccab392.js","ui-enhancements.css":"/assets/ui-enhancements.31156bbe1843.css","ui-enhancements.js":"/assets/ui-enhancements.f42848a2923e.js","vocabulary.js":"/assets/vocabulary.38ebd7412fe4.js","words-data.js":"/assets/words-data.89af1f66e4da.js"};</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>私人对决 · 语境消歧双向竞技场 (.battle) | Our Stone Cottages</title>
+  <link rel="stylesheet" href="/assets/style.4689fc3bbe0e.css">
+  <link rel="stylesheet" href="/assets/ui-enhancements.31156bbe1843.css">
+  <style>
+    /* =========================================================
+       对决竞技场折纸视觉系统 (Aligned with Our Stone Cottages)
+       ========================================================= */
+    :root {
+      --arena-primary: var(--brand-primary, #4338ca);
+      --arena-primary-light: var(--brand-primary-light, #4f46e5);
+      --arena-primary-glow: var(--brand-accent-glow, rgba(217, 119, 6, 0.2));
+      --arena-accent: var(--brand-accent, #d97706);
+      --arena-success: var(--brand-success, #059669);
+      --arena-danger: var(--brand-danger, #dc2626);
+      --card-bg: var(--paper-surface, #fdfbf7);
+      --card-sub: var(--paper-surface-sub, #f0e8dc);
+      --card-border: var(--paper-border, #d6c8b4);
+      --text-main: var(--text-primary, #2d261e);
+      --text-sub: var(--text-secondary, #6e6254);
+      --kw-highlight: var(--brand-accent, #d97706);
+      --kw-bg: rgba(217, 119, 6, 0.15);
+    }
+
+    [data-theme="dark"] {
+      --arena-primary: var(--brand-primary, #6366f1);
+      --arena-primary-light: var(--brand-primary-light, #818cf8);
+      --arena-primary-glow: var(--brand-accent-glow, rgba(245, 158, 11, 0.25));
+      --arena-accent: var(--brand-accent, #f59e0b);
+      --arena-success: var(--brand-success, #10b981);
+      --arena-danger: var(--brand-danger, #ef4444);
+      --card-bg: var(--paper-surface, #161c28);
+      --card-sub: var(--paper-surface-sub, #1e2636);
+      --card-border: var(--paper-border, #2a364d);
+      --text-main: var(--text-primary, #f1f5f9);
+      --text-sub: var(--text-secondary, #94a3b8);
+      --kw-highlight: #fbbf24;
+      --kw-bg: rgba(245, 158, 11, 0.22);
+    }
+
+    body {
+      font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+      background: var(--bg-main, #f5efe6);
+      background-image: var(--bg-pattern);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* 顶栏 */
+    .arena-header {
+      background: var(--card-bg);
+      background-image: var(--paper-crease);
+      border-bottom: 2px solid var(--card-border);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+
+    .brand-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cipher-badge {
+      background: var(--arena-primary);
+      border: 1px solid var(--arena-primary-light);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .arena-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px 14px 90px 14px;
+      width: 100%;
+      box-sizing: border-box;
+      flex: 1;
+    }
+
+    /* 折纸卡片容器 */
+    .glass-card {
+      background: var(--card-bg);
+      background-image: var(--paper-crease);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-lg, 20px);
+      padding: 22px;
+      box-shadow: var(--paper-shadow);
+      margin-bottom: 18px;
+    }
+
+    .auth-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-sub);
+      background-image: var(--paper-crease);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--radius-md, 14px);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      box-shadow: 2px 2px 0px var(--card-border);
+    }
+
+    .cipher-box {
+      background: var(--card-sub);
+      background-image: var(--paper-crease);
+      border: 2px dashed var(--arena-accent);
+      border-radius: var(--radius-lg, 20px);
+      padding: 18px;
+      text-align: center;
+      margin: 16px 0;
+      box-shadow: var(--paper-shadow);
+    }
+
+    .cipher-code {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--arena-accent);
+      letter-spacing: 2px;
+      margin: 8px 0;
+      font-family: var(--font-mono, monospace);
+    }
+
+    /* 纸艺触感按钮系统 */
+    .btn-action {
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--arena-primary) 0%, #312e81 100%);
+      color: #ffffff;
+      border: 2px solid var(--arena-primary);
+      border-radius: var(--radius-md, 14px);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--paper-shadow);
+      transition: var(--transition-fast, 0.2s cubic-bezier(0.4, 0, 0.2, 1));
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    [data-theme="dark"] .btn-action {
+      background: linear-gradient(135deg, var(--arena-primary) 0%, #4338ca 100%);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .btn-action:active {
+      transform: translateY(1px);
+      box-shadow: var(--paper-shadow-active);
+    }
+
+    .btn-action:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+      filter: grayscale(0.4);
+    }
+
+    .btn-action.btn-accent, .btn-accent {
+      background: linear-gradient(135deg, var(--arena-accent) 0%, #b45309 100%) !important;
+      border-color: var(--arena-accent) !important;
+      color: #ffffff !important;
+      box-shadow: var(--paper-shadow) !important;
+    }
+    .btn-action.btn-accent:hover, .btn-accent:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+    }
+
+    .btn-action.btn-success, .btn-success {
+      background: linear-gradient(135deg, var(--arena-success) 0%, #065f46 100%) !important;
+      border-color: var(--arena-success) !important;
+      color: #ffffff !important;
+      box-shadow: var(--paper-shadow) !important;
+    }
+
+    .btn-action.btn-subtle {
+      background: var(--card-sub) !important;
+      border-color: var(--card-border) !important;
+      color: var(--text-main) !important;
+      box-shadow: 2px 2px 0px var(--card-border) !important;
+    }
+
+    /* 范围网格与生词卡 */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .scope-item {
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-md, 14px);
+      padding: 12px 14px;
+      cursor: pointer;
+      background: var(--card-bg);
+      box-shadow: 2px 2px 0px var(--card-border);
+      transition: var(--transition-fast, 0.2s);
+    }
+
+    .scope-item:hover {
+      border-color: var(--arena-primary);
+      transform: translateY(-2px);
+    }
+
+    .scope-item.active {
+      border-color: var(--arena-primary);
+      background: var(--card-sub);
+      box-shadow: 0 0 0 2px var(--arena-primary-glow), var(--paper-shadow);
+    }
+
+    .marked-scope-card {
+      background: var(--card-sub);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-md, 14px);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px var(--card-border);
+      transition: all 0.2s;
+    }
+
+    .marked-scope-card:hover {
+      border-color: var(--arena-accent);
+      transform: translateY(-1px);
+    }
+
+    .marked-scope-card.checked {
+      border-color: var(--arena-accent);
+      background: rgba(217, 119, 6, 0.08);
+      box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.25), var(--paper-shadow);
+    }
+
+    .filter-pill {
+      padding: 6px 14px;
+      border: 1.5px solid var(--card-border);
+      border-radius: 999px;
+      background: var(--card-bg);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-sub);
+      cursor: pointer;
+      box-shadow: 1px 1px 0px var(--card-border);
+      transition: var(--transition-fast, 0.2s);
+    }
+
+    .filter-pill.active {
+      background: var(--arena-primary);
+      color: #fff;
+      border-color: var(--arena-primary);
+    }
+
+    /* 战况 HUD */
+    .battle-hud {
+      background: var(--card-bg);
+      background-image: var(--paper-crease);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-lg, 20px);
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--paper-shadow);
+    }
+
+    .target-word-display {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--arena-primary);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hud-status-bar {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1.5px dashed var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* =========================================================
+       移动端上下竖排段落卡片与词语点选系统
+       ========================================================= */
+    .passage-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .passage-card {
+      background: var(--card-bg);
+      background-image: var(--paper-crease);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-lg, 18px);
+      padding: 18px 20px;
+      box-shadow: var(--paper-shadow);
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .passage-card.selected-source {
+      border-color: var(--arena-accent);
+      box-shadow: 0 0 0 2.5px rgba(217, 119, 6, 0.35), var(--paper-shadow);
+    }
+
+    .passage-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed var(--card-border);
+    }
+
+    .passage-badge {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--card-sub);
+      color: var(--arena-primary);
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .passage-body {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: var(--text-main);
+      word-break: break-word;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 单词点选高亮 Token */
+    .word-token {
+      cursor: pointer;
+      display: inline-block;
+      padding: 1px 3px;
+      margin: 0 1px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+    }
+
+    .word-token:hover {
+      background: var(--card-sub);
+      text-decoration: underline;
+    }
+
+    .word-token.clue-selected {
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      font-weight: 800 !important;
+      border: 1.5px solid #d97706 !important;
+      border-radius: 5px !important;
+      box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25) !important;
+    }
+
+    [data-theme="dark"] .word-token.clue-selected {
+      background: rgba(245, 158, 11, 0.25) !important;
+      color: #fbbf24 !important;
+      border: 1.5px solid #f59e0b !important;
+    }
+
+    .target-word-chip {
+      background: var(--arena-primary) !important;
+      color: #ffffff !important;
+      font-weight: 900 !important;
+      padding: 2px 7px !important;
+      border-radius: 6px !important;
+      box-shadow: 1px 1px 0px rgba(0,0,0,0.2) !important;
+      display: inline-block !important;
+      margin: 0 2px !important;
+    }
+
+    /* 浮动出题线索栏 (Sticky Bottom Tray) */
+    .floating-clue-tray {
+      background: var(--card-bg);
+      background-image: var(--paper-crease);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-lg, 18px);
+      padding: 14px 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      position: sticky;
+      bottom: 16px;
+      z-index: 95;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .clue-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0;
+      min-height: 28px;
+      align-items: center;
+    }
+
+    .active-clue-chip {
+      background: rgba(217, 119, 6, 0.15);
+      color: var(--arena-accent);
+      border: 1.5px solid var(--arena-accent);
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* AI 终审检验卡片 */
+    .ai-verdict-box {
+      background: var(--card-sub);
+      background-image: var(--paper-crease);
+      border: 2px solid var(--arena-accent);
+      border-radius: var(--radius-md, 14px);
+      padding: 16px;
+      margin-top: 14px;
+      box-shadow: var(--paper-shadow);
+      display: none;
+    }
+
+    .gold-keyword-chip {
+      background: rgba(217, 119, 6, 0.12);
+      color: var(--arena-accent);
+      border: 1.5px solid var(--arena-accent);
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 1px 1px 0px rgba(217, 119, 6, 0.2);
+      transition: all 0.2s ease;
+    }
+
+    .badge-sense {
+      background: rgba(67, 56, 202, 0.1);
+      color: var(--arena-primary);
+      border: 1.5px solid var(--arena-primary-light);
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    [data-theme="dark"] .badge-sense {
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      border-color: #6366f1;
+    }
+
+    /* 弹窗通用体系 */
+    .insights-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 999;
+    }
+
+    .insights-card {
+      background: var(--card-bg);
+      background-image: var(--paper-crease);
+      border: 2px solid var(--card-border);
+      border-radius: var(--radius-lg, 20px);
+      max-width: 620px;
+      width: 100%;
+      padding: 24px;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: var(--paper-shadow);
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶栏 -->
+  <div class="arena-header">
+    <div class="brand-title">
+      <span>⚔️ 语境消歧 · 私人双向对决</span>
+      <span class="cipher-badge">/pk 专线</span>
+      <span id="serverStatusBadge" style="font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 700; background: rgba(16, 185, 129, 0.15); color: #10b981; margin-left: 6px;">🟢 联机中</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button class="paper-icon-btn" onclick="openAiSettingsModal()" title="查看/配置真实 AI 调度引擎 (Gemini/MIMO)" style="font-size: 13px; padding: 4px 10px; width: auto; height: 36px; font-weight: 800;">⚡ AI引擎</button>
+      <button class="paper-icon-btn" onclick="toggleHostMode()" id="hostModeToggleBtn" style="display: none; font-size: 11px; font-weight: 800; padding: 4px 8px; width: auto; height: 36px;">切换视角</button>
+      <a href="index.html" class="paper-icon-btn" style="text-decoration: none; font-size: 13px; font-weight: 700; padding: 6px 12px; width: auto; height: 36px;">返回石屋</a>
+      <button class="paper-icon-btn" onclick="toggleTheme()" id="themeToggleBtn" title="切换昼夜折纸主题" style="width: 36px; height: 36px;">🌙</button>
+    </div>
+  </div>
+
+  <div class="arena-container">
+
+    <!-- ================= 视图 A: 房主控制台 (仅限林允安) ================= -->
+    <div id="hostConsoleCard" class="glass-card" style="display: none;">
+      <div class="auth-banner">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 26px;">👑</span>
+          <div>
+            <div style="font-weight: 900; font-size: 15px; color: var(--arena-primary);">房主身份已认证：林允安</div>
+            <div style="font-size: 12px; color: var(--text-sub);">独家发起权已解锁 · 每次创建均生成全新加密战令</div>
+          </div>
+        </div>
+        <span class="origami-chip" style="background: var(--arena-success); color: white; font-size: 11px; padding: 3px 10px; border-radius: 8px; font-weight: 700;">房主专线在线</span>
+      </div>
+
+      <!-- Mark 重点生词勾选卡 -->
+      <div id="markedCheckboxCard" class="marked-scope-card" onclick="toggleMarkedOnlyCheckbox()">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <input type="checkbox" id="chkOnlyMarked" style="width: 20px; height: 20px; accent-color: var(--arena-accent); cursor: pointer;" onclick="event.stopPropagation(); onMarkedOnlyChanged();">
+          <div>
+            <div style="font-weight: 800; font-size: 14.5px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+              <span>★ 仅从我的 Mark 重点生词本出题</span>
+              <span id="markedBadge" class="cipher-badge" style="background: var(--arena-accent); border-color: var(--arena-accent); font-size: 11px;">0 词</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-sub); margin-top: 3px;">
+              勾选后对决题目将全量从你主站 Mark 的重点生词中筛选出题（双段同词，真题语境消歧）
+            </div>
+          </div>
+        </div>
+        <div id="markedStatusNote" style="font-size: 12.5px; font-weight: 800; color: var(--arena-accent); white-space: nowrap;">
+          检测生词中...
+        </div>
+      </div>
+
+      <div style="font-weight: 800; font-size: 14px; margin-bottom: 8px;">📚 划定备选词库：</div>
+      <div class="scope-grid">
+        <div class="scope-item active" onclick="setHostScope('cet4_core', this)">
+          <div style="font-weight: 800; font-size: 13px;">📖 CET-4 核心词库</div>
+          <div style="font-size: 11px; color: var(--text-sub);">高频精选真题语段</div>
+        </div>
+        <div class="scope-item" onclick="setHostScope('polysemy_top50', this)">
+          <div style="font-weight: 800; font-size: 13px;">🌟 一词多义巅峰榜</div>
+          <div style="font-size: 11px; color: var(--text-sub);">易混淆对比语境</div>
+        </div>
+        <div class="scope-item" onclick="setHostScope('news_tech', this)">
+          <div style="font-weight: 800; font-size: 13px;">📰 前沿科技与时评</div>
+          <div style="font-size: 11px; color: var(--text-sub);">当代权威真实语段</div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;">
+        <span style="font-weight: 800; font-size: 14px;">⏱️ 对决题数：</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="filter-pill active" onclick="setHostRounds(3, this)">3 题短跑</button>
+          <button class="filter-pill" onclick="setHostRounds(5, this)">5 题标准</button>
+          <button class="filter-pill" onclick="setHostRounds(10, this)">10 题巅峰</button>
+        </div>
+      </div>
+
+      <!-- 生成新密令行动按钮 -->
+      <div id="createRoomActionBox">
+        <button class="btn-action" style="width: 100%; font-size: 16px; padding: 15px;" onclick="doCreateRoomAsLin()">
+          <span>🔥 开启对决 · 生成专属加密战令</span>
+          <span>⚡</span>
+        </button>
+      </div>
+
+      <!-- 密令已生成战报面板 -->
+      <div id="roomCipherCreatedBox" style="display: none;">
+        <div class="cipher-box">
+          <div style="font-size: 13px; font-weight: 800; color: var(--text-sub);">今日对决战令已封印生效 (8位高熵)：</div>
+          <div class="cipher-code" id="displaySecretCipher">7&*9#@3*</div>
+          <div style="font-size: 12px; color: var(--arena-primary); margin: 8px 0 12px 0; font-weight: 700; word-break: break-all; background: var(--card-bg); padding: 10px; border-radius: 10px; border: 1.5px solid var(--card-border);" id="displayDirectLinkBox">
+            🔗 直达链接：<span id="displayDirectLinkUrl" style="text-decoration: underline;">https://ourstonecottages.org/pk?k=...</span>
+          </div>
+          <button class="btn-action btn-accent" style="padding: 11px 22px; font-size: 14px;" onclick="copyBattleInvite()">
+            <span>📋 复制战帖 (好友点开即进)</span>
+          </button>
+        </div>
+
+        <div style="font-weight: 800; font-size: 14px; margin: 16px 0 8px 0;">👥 房间已就绪成员 (<span id="memberCountLabel">1</span>人)：</div>
+        <div id="playersListWrap" style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;"></div>
+
+        <button class="btn-action btn-success" id="btnLaunchMatch" style="width: 100%; font-size: 16px; padding: 15px;" onclick="doLaunchMatch()">
+          <span>🚀 全员就绪 · 房主发车开战！</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= 视图 B: 应战大厅 (非林允安 / 朋友应战界面) ================= -->
+    <div id="guestConsoleCard" class="glass-card" style="display: none;">
+      <div style="text-align: center; margin-bottom: 18px;">
+        <div style="font-size: 38px; margin-bottom: 4px;">⚔️</div>
+        <div style="font-size: 19px; font-weight: 900;">应战大厅 · 语境双向消歧</div>
+        <div style="font-size: 12.5px; color: var(--text-sub); margin-top: 4px;">本私人对决由房主【林允安】发起</div>
+      </div>
+
+      <div id="guestAutoJoinNotice" style="display: none; text-align: center; margin-bottom: 14px; padding: 12px 14px; background: rgba(99, 102, 241, 0.08); border: 1.5px solid var(--arena-primary); border-radius: 12px; color: var(--arena-primary); font-weight: 800; font-size: 13.5px;">
+        ⚡ 识别到对决直达密令，正在自动连线进入房间...
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; max-width: 420px; margin: 0 auto;">
+        <div>
+          <label style="font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 5px;">你的参战昵称：</label>
+          <input type="text" id="inputGuestName" placeholder="例如：学友阿木" class="origami-input-styled" style="width: 100%; box-sizing: border-box;">
+        </div>
+
+        <div>
+          <label style="font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 5px;">🔑 8位高熵对决密令：</label>
+          <input type="text" id="inputCipherCode" placeholder="若通过直达链接点开则已自动秒填" class="origami-input-styled" style="width: 100%; text-align: center; color: var(--arena-accent); border-color: var(--arena-accent); box-sizing: border-box; letter-spacing: 2px; font-family: var(--font-mono, monospace); font-size: 19px; font-weight: 900;">
+        </div>
+
+        <button class="btn-action" id="btnJoinManually" style="width: 100%; padding: 13px; font-size: 15px;" onclick="doJoinWithCipher()">
+          <span>⚡ 立即进入战场</span>
+        </button>
+
+        <div id="guestWaitNotice" style="display: none; text-align: center; margin-top: 12px; padding: 12px; background: rgba(16, 185, 129, 0.08); border: 1.5px solid var(--arena-success); border-radius: 12px; color: var(--arena-success); font-weight: 800; font-size: 13.5px;">
+          ✅ 已成功进入房间！等待房主【林允安】发车开战...
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 视图 C: 战场对决主界面 (同频竞技) ================= -->
+    <div id="battlePlayView" style="display: none;">
+      <div class="battle-hud">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+          <div class="target-word-display">
+            <span id="battleWordText">space</span>
+            <button class="paper-icon-btn" onclick="speakBattleWord()" title="播放发音" style="width: 34px; height: 34px; font-size: 14px;">🔊</button>
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="text-align: center;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--text-sub);">我的积分</div>
+              <div style="font-size: 22px; font-weight: 900; color: var(--arena-primary); font-family: var(--font-mono, monospace);" id="battleMyScore">0</div>
+            </div>
+            <div style="font-weight: 900; font-size: 13px; color: var(--arena-accent);">VS</div>
+            <div style="text-align: center;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--text-sub);" id="battleOppName">对手</div>
+              <div style="font-size: 22px; font-weight: 900; color: var(--arena-accent); font-family: var(--font-mono, monospace);" id="battleOppScore">0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hud-status-bar">
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 800; color: var(--text-sub);">
+            <span>🎯 进度：</span>
+            <span id="battleRoundProgressLabel" style="color: var(--arena-primary); font-family: var(--font-mono, monospace);">第 1 / 3 词</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 800;">
+            <span id="battlePhaseBadge" class="cipher-badge" style="background: var(--arena-accent); font-size: 11px;">阶段一：挑选线索并交由 AI 终审</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段 1: 玩家独立阅读并挑选线索交由 AI 终审 (Crafting Mode) -->
+      <div id="craftingSection">
+        <div style="background: var(--card-sub); border: 1.5px solid var(--card-border); border-radius: 12px; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+          <span>💡</span>
+          <span><strong>玩法指引</strong>：上下两段为该词的不同真实语境。<strong>用手指直接点选任一段落里的单词</strong>作为线索，点击【⚡ AI 检验】通过后，封印挑战推给对手！</span>
+        </div>
+
+        <!-- 移动端流式竖排两段真实段落 -->
+        <div class="passage-stack">
+          <!-- 上方段落 A -->
+          <div class="passage-card" id="passageCardA">
+            <div class="passage-header">
+              <div class="passage-badge">
+                <span>📖 上方段落 A</span>
+                <span id="srcTitleA" style="font-weight: 600; color: var(--text-sub);">真题典藏</span>
+              </div>
+              <span id="targetSelectedHintA" style="font-size: 11px; font-weight: 800; color: var(--arena-accent); display: none;">★ 正在此段选词</span>
+            </div>
+            <div class="passage-body" id="passageBodyA">
+              <!-- 动态分词渲染 -->
+            </div>
+          </div>
+
+          <!-- 下方段落 B -->
+          <div class="passage-card" id="passageCardB">
+            <div class="passage-header">
+              <div class="passage-badge">
+                <span>📖 下方段落 B</span>
+                <span id="srcTitleB" style="font-weight: 600; color: var(--text-sub);">权威时评</span>
+              </div>
+              <span id="targetSelectedHintB" style="font-size: 11px; font-weight: 800; color: var(--arena-accent); display: none;">★ 正在此段选词</span>
+            </div>
+            <div class="passage-body" id="passageBodyB">
+              <!-- 动态分词渲染 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 浮动出题线索栏 -->
+        <div class="floating-clue-tray" id="clueActionTray">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 13px; font-weight: 800; color: var(--text-main);">
+              📌 已选线索词 (<span id="clueWordCount">0</span>个)：
+            </span>
+            <button class="paper-icon-btn" onclick="clearSelectedClues()" style="font-size: 11px; padding: 2px 8px; width: auto; height: 26px;">清空重选</button>
+          </div>
+
+          <div class="clue-chips-wrap" id="clueChipsWrap">
+            <span style="font-size: 12px; color: var(--text-sub);">👆 请轻触上方段落中的关键单词（如提示主旨的搭配）</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button class="btn-action" id="btnVerifyClueWithAi" style="flex: 1; padding: 11px;" onclick="doVerifyClueWithAi()">
+              <span>⚡ 请 AI 检验我的语境判断</span>
+            </button>
+          </div>
+
+          <!-- AI 终审返回卡片 -->
+          <div class="ai-verdict-box" id="aiVerdictBox">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-weight: 900; font-size: 14.5px; color: var(--arena-primary); display: flex; align-items: center; gap: 6px;" id="aiVerdictStatus">
+                <span>✅ AI 语境终审完成</span>
+              </span>
+              <span id="aiRatingStars" style="color: var(--arena-accent); font-size: 14px;">⭐⭐⭐⭐⭐</span>
+            </div>
+
+            <!-- 语境精准义项 -->
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px;">
+              <span>🎯 语境义项：</span>
+              <span class="badge-sense" id="aiSenseBadge">adj. 相反的；逆向的</span>
+            </div>
+
+            <!-- AI 锚定关键线索词 -->
+            <div id="aiKeywordsSection" style="background: rgba(217, 119, 6, 0.08); border: 1.5px dashed var(--arena-accent); border-radius: 10px; padding: 9px 12px; margin-bottom: 8px;">
+              <div style="font-size: 12px; font-weight: 800; color: var(--arena-accent); margin-bottom: 5px; display: flex; align-items: center; gap: 4px;">
+                <span>🔍 AI 锚定关键线索 (推荐关键词)：</span>
+              </div>
+              <div id="aiKeywordsChipsWrap" style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <!-- 动态填充 -->
+              </div>
+            </div>
+
+            <!-- 题库全量标准提示 / 语境考点解析 -->
+            <div id="aiStandardHintBox" style="background: var(--card-sub); border: 1.5px solid var(--card-border); border-left: 4px solid var(--arena-primary); border-radius: 8px; padding: 8px 12px; margin-bottom: 8px;">
+              <div style="font-size: 12px; font-weight: 800; color: var(--arena-primary); margin-bottom: 3px; display: flex; align-items: center; gap: 4px;">
+                <span>💡 题库全量标准提示：</span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--text-main); line-height: 1.5;" id="aiStandardHintText">
+                <!-- 动态填充标准提示 -->
+              </div>
+            </div>
+
+            <!-- AI 教学点评 -->
+            <div style="font-size: 12.5px; color: var(--text-sub); line-height: 1.5; margin-bottom: 10px;" id="aiFeedbackText">
+              💡 AI 教学点评：线索包含关键搭配暗示。
+            </div>
+
+            <!-- 推理引擎与耗时 -->
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); margin-bottom: 12px; border-top: 1px dashed var(--card-border); padding-top: 6px;">
+              <span id="aiEngineLabel">🤖 推理引擎：Google Gemini Flash</span>
+              <span id="aiLatencyLabel">耗时 820ms</span>
+            </div>
+
+            <button class="btn-action btn-accent" id="btnSubmitChallenge" style="width: 100%; padding: 13px;" onclick="doSubmitCraftedChallenge()">
+              <span>🚀 封印挑战 · 发送给对手</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阶段 2: 双方互换考题，破解对手战书 (Solving Swapped Mode) -->
+      <div id="solvingSection" style="display: none;">
+        <div style="background: var(--card-sub); border: 2px solid var(--arena-accent); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: var(--paper-shadow);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-weight: 900; font-size: 15px; color: var(--arena-accent);">
+              ⚔️ 收到对手【<span id="swappedOpponentName">对手</span>】的语境挑战！
+            </div>
+            <span class="cipher-badge" style="background: var(--arena-accent);">考题已互换</span>
+          </div>
+
+          <div style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 4px;">对手为你提炼的关键语境线索：</div>
+          <div id="opponentClueDisplay" style="background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 10px 14px; border-radius: 10px; font-size: 15px; font-weight: 800; color: var(--arena-primary); margin-bottom: 10px;">
+            “astronauts from NASA, back to Earth”
+          </div>
+
+          <div style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 4px;">🎯 AI 验证给出的语境义项暗示：</div>
+          <div id="opponentSenseDisplay" style="font-weight: 800; font-size: 14px; color: var(--arena-success); margin-bottom: 12px;">
+            【n. 太空 / 宇宙空间】
+          </div>
+
+          <div style="font-size: 13.5px; font-weight: 800; color: var(--text-main);">
+            ❓ 请问：对手挑出的这组线索，出自【上方段落 A】还是【下方段落 B】？
+          </div>
+        </div>
+
+        <!-- 供作答的两段垂直段落 -->
+        <div class="passage-stack">
+          <!-- 上方段落 A 作答卡 -->
+          <div class="passage-card" id="solveCardA">
+            <div class="passage-header">
+              <div class="passage-badge"><span>📖 上方段落 A</span></div>
+              <span id="solveSrcTitleA" style="font-size: 12px; color: var(--text-sub);"></span>
+            </div>
+            <div class="passage-body" id="solveBodyA" style="margin-bottom: 14px;"></div>
+            <button class="btn-action" style="width: 100%; padding: 12px; font-size: 14.5px;" onclick="doSubmitAnswer('p1')">
+              <span>👆 属于此段 (上方段落 A)</span>
+            </button>
+          </div>
+
+          <!-- 下方段落 B 作答卡 -->
+          <div class="passage-card" id="solveCardB">
+            <div class="passage-header">
+              <div class="passage-badge"><span>📖 下方段落 B</span></div>
+              <span id="solveSrcTitleB" style="font-size: 12px; color: var(--text-sub);"></span>
+            </div>
+            <div class="passage-body" id="solveBodyB" style="margin-bottom: 14px;"></div>
+            <button class="btn-action" style="width: 100%; padding: 12px; font-size: 14.5px;" onclick="doSubmitAnswer('p2')">
+              <span>👇 属于此段 (下方段落 B)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 赛中双向复盘弹窗 (Round Review Modal) -->
+  <div class="insights-modal" id="roundReviewModal">
+    <div class="insights-card">
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="font-size: 42px; margin-bottom: 4px;" id="reviewEmoji">🏆</div>
+        <div style="font-size: 21px; font-weight: 900; color: var(--arena-primary);" id="reviewTitle">本题消歧较量达成！</div>
+        <div style="font-size: 13px; color: var(--text-sub); margin-top: 4px;" id="reviewSubtitle">双方线索与 AI 判读全面解封</div>
+      </div>
+
+      <div id="reviewDetailsWrap" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px;">
+        <!-- 动态灌入双方出题与解题深度分析 -->
+      </div>
+
+      <button class="btn-action btn-success" id="btnReadyNextRound" style="width: 100%; font-size: 15px; padding: 14px;" onclick="doReadyNextRound()">
+        <span>✅ 我已阅览 · 准备进入下一词</span>
+      </button>
+      <div id="reviewReadyStatusLabel" style="text-align: center; font-size: 12px; font-weight: 700; color: var(--text-sub); margin-top: 8px;">
+        👥 全员就绪状态：<span style="color: var(--arena-accent);" id="reviewReadyCountText">0 / 2</span> 人已点击
+      </div>
+    </div>
+  </div>
+
+  <!-- 全场对决终局结算榜单 -->
+  <div class="insights-modal" id="battleCompletedModal">
+    <div class="insights-card" style="text-align: center;">
+      <div style="font-size: 50px; margin-bottom: 8px;">👑</div>
+      <div style="font-size: 22px; font-weight: 900; color: var(--arena-primary); margin-bottom: 4px;">全场对决圆满结束！</div>
+      <div style="font-size: 13px; color: var(--text-sub); margin-bottom: 18px;">语境双向消歧较量达成 · 荣耀总榜已生成</div>
+      
+      <div style="font-weight: 800; font-size: 14px; text-align: left; margin-bottom: 10px;">🏆 最终战绩荣耀榜：</div>
+      <div id="completedLeaderboardWrap" style="margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px;"></div>
+
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-action btn-accent" style="flex: 1;" onclick="location.reload()">
+          <span>⚔️ 再开一局</span>
+        </button>
+        <a href="index.html" class="btn-action btn-subtle" style="flex: 1; text-decoration: none;">
+          <span>返回石屋</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 调度引擎切换与配置弹窗 (Gemini / MIMO) -->
+  <div class="insights-modal" id="aiSettingsModal">
+    <div class="insights-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="font-size: 16px; font-weight: 900; color: var(--arena-primary); display: flex; align-items: center; gap: 6px;">
+          <span>⚡</span>
+          <span>真实 AI 调度引擎状态</span>
+        </div>
+        <button class="paper-icon-btn" onclick="closeAiSettingsModal()" style="width: 30px; height: 30px; font-size: 14px;">✕</button>
+      </div>
+
+      <div style="background: var(--card-sub); border: 1.5px solid var(--card-border); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+        <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 4px;">当前在线主调度引擎：</div>
+        <div style="font-size: 15px; font-weight: 900; color: var(--arena-accent);" id="cfgCurrentEngineText">检测中...</div>
+        <div style="font-size: 11px; color: var(--text-sub); margin-top: 4px;" id="cfgEngineDescText"></div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="font-size: 12.5px; font-weight: 700; display: block; margin-bottom: 6px;">Google Gemini API Key (可随时激活/替换)：</label>
+        <input type="password" id="inputGeminiKey" placeholder="AIzaSy... (若提供则直接走 Gemini 2.0 Flash)" class="origami-input-styled" style="width: 100%; box-sizing: border-box; font-family: var(--font-mono, monospace);">
+        <div style="font-size: 11px; color: var(--text-sub); margin-top: 4px;">
+          不填则默认调度服务器就绪的 MIMO 2.5 深度模型；填入后立刻切换至 Google 官方 Gemini 引擎！
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-action btn-success" style="flex: 1; padding: 10px;" onclick="saveGeminiKey()">
+          <span>💾 保存并激活 Gemini 引擎</span>
+        </button>
+        <button class="btn-action btn-subtle" style="padding: 10px;" onclick="closeAiSettingsModal()">
+          <span>关闭</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ================= 全局状态 =================
+    let currentUser = null;
+    let isLin = false;
+    let ws = null;
+    let wsRetryTimer = null, wsRetryAttempt = 0, wsLeaving = false;
+    function scheduleWsRetry() {
+      clearTimeout(wsRetryTimer);
+      if (wsLeaving || navigator.onLine === false) return;
+      const delay = Math.min(30000, 1500 * 2 ** Math.min(wsRetryAttempt++, 5));
+      wsRetryTimer = setTimeout(initWebSocket, delay + Math.random() * 500);
+    }
+    window.addEventListener('offline', () => clearTimeout(wsRetryTimer));
+    window.addEventListener('online', () => { wsRetryAttempt = 0; initWebSocket(); });
+    window.addEventListener('pagehide', () => { wsLeaving = true; clearTimeout(wsRetryTimer); ws?.close(); });
+    window.addEventListener('pageshow', e => { if (e.persisted) { wsLeaving = false; initWebSocket(); } });
+    let myClientId = 'user_' + Math.floor(Math.random() * 100000);
+    let currentRoom = null;
+    let currentCipher = null;
+    let hostScope = 'cet4_core';
+    let hostRounds = 3;
+    let totalRounds = 3;
+    let currentRoundIndex = 0;
+
+    let myScore = 0;
+    let oppScore = 0;
+    let myCombo = 1;
+
+    // 当轮两段真实语料
+    let currentWord = "";
+    let passageTop = null;
+    let passageBottom = null;
+
+    // 出题状态
+    let selectedPassageId = null; // 'p1' 或 'p2'
+    let selectedClueWords = [];   // 玩家点选的单词列表
+    let currentAiVerdict = null;  // AI 终审结果
+
+    // 解题状态
+    let swappedChallenge = null;
+
+    let autoJoinCipher = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      checkIdentity();
+      updateMarkedWordsUI();
+      initWebSocket();
+      fetchAiStatus();
+    });
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('vocab_theme_mode') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      const btn = document.getElementById('themeToggleBtn');
+      if (btn) btn.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+    }
+
+    function toggleTheme() {
+      const cur = document.documentElement.getAttribute('data-theme') || 'light';
+      const nxt = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', nxt);
+      try { localStorage.setItem('vocab_theme_mode', nxt); } catch(e){}
+      const btn = document.getElementById('themeToggleBtn');
+      if (btn) btn.textContent = nxt === 'dark' ? '🌙' : '☀️';
+    }
+
+    function getLocalMarkedWords() {
+      try {
+        let m = null;
+        const v2 = localStorage.getItem('vocab_marks_v2');
+        if (v2) m = JSON.parse(v2);
+        if (!m) {
+          const v1 = localStorage.getItem('vocab_marks');
+          if (v1) m = JSON.parse(v1);
+        }
+        if (m && typeof m === 'object') {
+          return Object.keys(m).filter(w => m[w] > 0);
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function updateMarkedWordsUI() {
+      const markedList = getLocalMarkedWords();
+      const badge = document.getElementById('markedBadge');
+      const note = document.getElementById('markedStatusNote');
+      const chk = document.getElementById('chkOnlyMarked');
+      const card = document.getElementById('markedCheckboxCard');
+
+      if (badge) badge.textContent = `${markedList.length} 词`;
+      if (note) {
+        if (markedList.length > 0) {
+          note.textContent = `已收录 ${markedList.length} 词`;
+          note.style.color = "var(--arena-accent)";
+        } else {
+          note.textContent = "未检测到生词";
+          note.style.color = "var(--text-sub)";
+        }
+      }
+      if (chk && card) card.classList.toggle('checked', chk.checked);
+    }
+
+    function toggleMarkedOnlyCheckbox() {
+      const chk = document.getElementById('chkOnlyMarked');
+      if (!chk) return;
+      chk.checked = !chk.checked;
+      onMarkedOnlyChanged();
+    }
+
+    function onMarkedOnlyChanged() {
+      const chk = document.getElementById('chkOnlyMarked');
+      const card = document.getElementById('markedCheckboxCard');
+      const markedList = getLocalMarkedWords();
+
+      if (chk && chk.checked && markedList.length === 0) {
+        alert("⚠️ 你的本地生词本当前为空！请先在主站查词并点击 ★ 标记重点生词后再勾选。");
+        chk.checked = false;
+      }
+      if (card && chk) card.classList.toggle('checked', chk.checked);
+
+      const scopeGrid = document.querySelector('.scope-grid');
+      if (scopeGrid && chk) {
+        scopeGrid.style.opacity = chk.checked ? '0.5' : '1';
+        scopeGrid.style.pointerEvents = chk.checked ? 'none' : 'auto';
+      }
+    }
+
+    function checkIdentity() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlUser = urlParams.get('user') || urlParams.get('auth');
+      const logout = urlParams.get('logout');
+      autoJoinCipher = urlParams.get('k') || urlParams.get('c') || urlParams.get('cipher');
+
+      if (logout) localStorage.removeItem('battle_is_lin');
+
+      if (urlUser && (urlUser === 'lin' || urlUser === '林允安' || urlUser === '允安')) {
+        localStorage.setItem('battle_is_lin', 'true');
+        currentUser = { username: '林允安', is_admin: true };
+      } else if (!autoJoinCipher && localStorage.getItem('battle_is_lin') === 'true') {
+        currentUser = { username: '林允安', is_admin: true };
+      } else {
+        try {
+          const stored = localStorage.getItem('stone_auth');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed && (['林允安', '允安'].includes(parsed.username) || parsed.is_admin)) {
+              localStorage.setItem('battle_is_lin', 'true');
+              currentUser = parsed;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (currentUser && (['林允安', '允安'].includes(currentUser.username) || currentUser.is_admin)) {
+        isLin = true;
+        document.getElementById('hostConsoleCard').style.display = 'block';
+        document.getElementById('guestConsoleCard').style.display = 'none';
+        const toggleBtn = document.getElementById('hostModeToggleBtn');
+        if (toggleBtn) {
+          toggleBtn.style.display = 'inline-flex';
+          toggleBtn.textContent = '切换为应战视角';
+        }
+      } else {
+        isLin = false;
+        document.getElementById('hostConsoleCard').style.display = 'none';
+        document.getElementById('guestConsoleCard').style.display = 'block';
+
+        if (autoJoinCipher) {
+          const cleanK = autoJoinCipher.trim();
+          const inputEl = document.getElementById('inputCipherCode');
+          if (inputEl) inputEl.value = cleanK;
+          const notice = document.getElementById('guestAutoJoinNotice');
+          if (notice) {
+            notice.style.display = 'block';
+            notice.innerHTML = `⚡ 识别到对决直达密令 <strong style="color: var(--arena-accent); font-family: var(--font-mono, monospace);">${cleanK}</strong>，正在免密秒进房间...`;
+          }
+        }
+      }
+    }
+
+    function toggleHostMode() {
+      isLin = !isLin;
+      const toggleBtn = document.getElementById('hostModeToggleBtn');
+      if (isLin) {
+        document.getElementById('hostConsoleCard').style.display = 'block';
+        document.getElementById('guestConsoleCard').style.display = 'none';
+        if (toggleBtn) toggleBtn.textContent = '切换为应战视角';
+      } else {
+        document.getElementById('hostConsoleCard').style.display = 'none';
+        document.getElementById('guestConsoleCard').style.display = 'block';
+        if (toggleBtn) toggleBtn.textContent = '切回房主视角';
+      }
+    }
+
+    function setHostScope(scope, el) {
+      hostScope = scope;
+      document.querySelectorAll('.scope-item').forEach(i => i.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+
+    function setHostRounds(r, el) {
+      hostRounds = r;
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+
+    // ================= WebSocket 通信 =================
+    function initWebSocket() {
+      if (wsLeaving || navigator.onLine === false || (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING))) return;
+      clearTimeout(wsRetryTimer);
+      let wsUrl;
+      const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        wsUrl = `ws://${window.location.hostname}:8088/ws/${myClientId}`;
+      } else if (!window.location.hostname) {
+        wsUrl = `ws://localhost:8088/ws/${myClientId}`;
+      } else {
+        wsUrl = `${proto}//${window.location.host}/ws/${myClientId}`;
+      }
+
+      console.log("Connecting WebSocket to:", wsUrl);
+      try {
+        ws = new WebSocket(wsUrl);
+        ws.onopen = () => {
+          wsRetryAttempt = 0;
+          console.log("WebSocket connected.");
+          const b = document.getElementById('serverStatusBadge');
+          if (b) {
+            b.textContent = "🟢 战场联机正常";
+            b.style.background = "rgba(16, 185, 129, 0.15)";
+            b.style.color = "#10b981";
+          }
+          if (!isLin && autoJoinCipher) {
+            doJoinWithCipher(autoJoinCipher);
+          }
+        };
+        ws.onmessage = (e) => handleWsMessage(JSON.parse(e.data));
+        ws.onerror = (e) => {
+          console.log("WS error:", e);
+          const b = document.getElementById('serverStatusBadge');
+          if (b) {
+            b.textContent = "🔴 联机重试中";
+            b.style.background = "rgba(239, 68, 68, 0.15)";
+            b.style.color = "#ef4444";
+          }
+        };
+        ws.onclose = () => {
+          const b = document.getElementById('serverStatusBadge');
+          if (b) {
+            b.textContent = "⚪ 正在重新连接...";
+            b.style.background = "rgba(148, 163, 184, 0.15)";
+            b.style.color = "#64748b";
+          }
+          scheduleWsRetry();
+        };
+      } catch (e) {
+        console.log("WebSocket failed:", e);
+        scheduleWsRetry();
+      }
+    }
+
+    function doCreateRoomAsLin() {
+      if (!isLin) {
+        alert("🔒 权限拦截：多人对决仅限【林允安】账号发起！");
+        return;
+      }
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        initWebSocket();
+        setTimeout(doCreateRoomAsLin, 500);
+        return;
+      }
+
+      const onlyMarked = document.getElementById('chkOnlyMarked')?.checked || false;
+      const markedWords = getLocalMarkedWords();
+
+      ws.send(JSON.stringify({
+        action: 'create_room',
+        name: '林允安',
+        scope: onlyMarked ? 'marked_only' : hostScope,
+        rounds: hostRounds,
+        only_marked: onlyMarked,
+        marked_words: markedWords,
+        is_admin: true
+      }));
+    }
+
+    function doJoinWithCipher(overrideCipher) {
+      let cipher = (overrideCipher || document.getElementById('inputCipherCode').value).trim();
+      cipher = cipher.replace(/^[【\["']+|[】\]"']+$/g, '').trim();
+
+      let savedName = localStorage.getItem('battle_guest_name');
+      let inputName = document.getElementById('inputGuestName').value.trim();
+      let guestName = inputName || savedName || `学友${Math.floor(10 + Math.random() * 89)}`;
+
+      if (inputName) localStorage.setItem('battle_guest_name', inputName);
+      document.getElementById('inputGuestName').value = guestName;
+
+      if (!cipher) {
+        alert("⚠️ 请输入房主【林允安】下发的对决密令！");
+        return;
+      }
+      if (!ws || ws.readyState !== WebSocket.OPEN) {
+        initWebSocket();
+        setTimeout(() => doJoinWithCipher(cipher), 500);
+        return;
+      }
+      currentCipher = cipher;
+      ws.send(JSON.stringify({
+        action: 'join_room',
+        cipher: cipher,
+        name: guestName
+      }));
+    }
+
+    function doLaunchMatch() {
+      if (ws && currentRoom) {
+        ws.send(JSON.stringify({
+          action: 'start_game',
+          room_id: currentRoom.room_id
+        }));
+      }
+    }
+
+    // ================= 消息分发 =================
+    function handleWsMessage(msg) {
+      if (msg.event === 'room_created') {
+        currentRoom = msg.room_state;
+        currentCipher = msg.cipher;
+        document.getElementById('createRoomActionBox').style.display = 'none';
+        document.getElementById('roomCipherCreatedBox').style.display = 'block';
+        document.getElementById('displaySecretCipher').textContent = msg.cipher;
+
+        const directUrl = `${window.location.origin}/pk?k=${encodeURIComponent(msg.cipher)}`;
+        const linkEl = document.getElementById('displayDirectLinkUrl');
+        if (linkEl) linkEl.textContent = directUrl;
+
+        updatePlayersList(msg.room_state.players);
+      }
+      else if (msg.event === 'room_joined') {
+        currentRoom = msg.room_state;
+        document.getElementById('guestWaitNotice').style.display = 'block';
+      }
+      else if (msg.event === 'player_list_updated') {
+        updatePlayersList(msg.players);
+      }
+      else if (msg.event === 'game_started' || msg.event === 'new_round') {
+        totalRounds = msg.total_rounds || 3;
+        currentRoundIndex = msg.round_index || 0;
+        document.getElementById('roundReviewModal').style.display = 'none';
+        startRound(msg);
+      }
+      else if (msg.event === 'clue_verified') {
+        renderAiVerdict(msg.result);
+      }
+      else if (msg.event === 'opponent_challenge_ready') {
+        if (msg.client_id !== myClientId) {
+          showToast(`⚡ 对手【${msg.player_name}】已封印出题考卷！`);
+        }
+      }
+      else if (msg.event === 'challenges_swapped') {
+        handleChallengesSwapped(msg);
+      }
+      else if (msg.event === 'round_resolved') {
+        handleRoundResolved(msg);
+      }
+      else if (msg.event === 'ready_status_update') {
+        const txt = `${msg.ready_count} / ${msg.total_players}`;
+        const lbl = document.getElementById('reviewReadyCountText');
+        if (lbl) lbl.textContent = txt;
+        if (msg.ready_clients && msg.ready_clients.includes(myClientId)) {
+          const btn = document.getElementById('btnReadyNextRound');
+          if (btn) {
+            btn.innerHTML = `<span>⏳ 已就绪 · 等待其他玩家 (${txt})</span>`;
+            btn.disabled = true;
+          }
+        }
+      }
+      else if (msg.event === 'match_completed') {
+        document.getElementById('roundReviewModal').style.display = 'none';
+        showFinalCompletedModal(msg.leaderboard);
+      }
+      else if (msg.event === 'error') {
+        alert(msg.message);
+      }
+    }
+
+    function updatePlayersList(playersObj) {
+      const list = Array.isArray(playersObj) ? playersObj : Object.values(playersObj);
+      const wrap = document.getElementById('playersListWrap');
+      if (!wrap) return;
+      wrap.innerHTML = '';
+      document.getElementById('memberCountLabel').textContent = list.length;
+      list.forEach(p => {
+        const chip = document.createElement('div');
+        chip.style = "background: var(--card-bg); border: 1.5px solid var(--card-border); padding: 8px 14px; border-radius: 10px; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px; box-shadow: 1px 1px 0px var(--card-border);";
+        chip.innerHTML = `<span>${p.avatar || '🕊️'}</span><span>${p.name}</span> ${p.is_host ? '<span style="color: var(--arena-accent); font-size: 11px;">(房主)</span>' : ''}`;
+        wrap.appendChild(chip);
+      });
+    }
+
+    function copyBattleInvite() {
+      const directUrl = `${window.location.origin}/pk?k=${encodeURIComponent(currentCipher)}`;
+      const invite = `⚔️ 林允安向你发起「语境消歧双向对决」！\n👉 点击直接参战：${directUrl}\n（点开即进，已自动携带 8 位密令：${currentCipher}）`;
+      navigator.clipboard.writeText(invite).then(() => {
+        alert("✅ 极简直达战帖已复制！好友点开即可免密秒进对决！");
+      }).catch(() => {
+        prompt("请复制战帖：", invite);
+      });
+    }
+
+    // ================= 阶段 1: 渲染与分词点选 =================
+    function startRound(data) {
+      document.getElementById('hostConsoleCard').style.display = 'none';
+      document.getElementById('guestConsoleCard').style.display = 'none';
+      document.getElementById('battlePlayView').style.display = 'block';
+
+      document.getElementById('craftingSection').style.display = 'block';
+      document.getElementById('solvingSection').style.display = 'none';
+      document.getElementById('battlePhaseBadge').textContent = '阶段一：挑词由 AI 终审并封印考卷';
+      document.getElementById('battlePhaseBadge').style.background = 'var(--arena-accent)';
+
+      currentWord = data.word;
+      passageTop = data.passage_top;
+      passageBottom = data.passage_bottom;
+
+      selectedPassageId = null;
+      selectedClueWords = [];
+      currentAiVerdict = null;
+
+      document.getElementById('battleWordText').textContent = currentWord;
+      document.getElementById('battleRoundProgressLabel').textContent = `第 ${currentRoundIndex + 1} / ${totalRounds} 词 · ${currentWord}`;
+      document.getElementById('aiVerdictBox').style.display = 'none';
+      updateClueChipsUI();
+
+      // 渲染段落 A
+      document.getElementById('srcTitleA').textContent = passageTop.source_title || '真实语段';
+      document.getElementById('passageBodyA').innerHTML = formatTokens(passageTop.raw_paragraph, currentWord, passageTop.passage_id || 'p1');
+
+      // 渲染段落 B
+      document.getElementById('srcTitleB').textContent = passageBottom.source_title || '真实语段';
+      document.getElementById('passageBodyB').innerHTML = formatTokens(passageBottom.raw_paragraph, currentWord, passageBottom.passage_id || 'p2');
+    }
+
+    // 智能分词：将文本中的每个单词包裹为可点击 Token，目标词转为不可选 Chip
+    function formatTokens(rawText, targetWord, passageId) {
+      if (!rawText) return "";
+      const tokens = rawText.split(/(\s+|[.,!?;:"()]+)/);
+      return tokens.map(token => {
+        if (!token.trim() || /^[.,!?;:"()]+$/.test(token)) {
+          return token;
+        }
+        const cleanWord = token.replace(/[^a-zA-Z]/g, '').toLowerCase();
+        const isTarget = cleanWord === targetWord.toLowerCase();
+        if (isTarget) {
+          return `<span class="target-word-chip" title="核心目标词">${token}</span>`;
+        } else {
+          return `<span class="word-token" data-passage="${passageId}" data-word="${token}" onclick="handleTokenClick(this, '${passageId}', '${token}')">${token}</span>`;
+        }
+      }).join('');
+    }
+
+    function handleTokenClick(el, passageId, word) {
+      // 若玩家切换了选词的段落，清空旧段落的高亮
+      if (selectedPassageId && selectedPassageId !== passageId) {
+        document.querySelectorAll('.word-token.clue-selected').forEach(w => w.classList.remove('clue-selected'));
+        selectedClueWords = [];
+      }
+      selectedPassageId = passageId;
+
+      // 切换当前单词的选中状态
+      const isSelected = el.classList.toggle('clue-selected');
+      const clean = word.replace(/[^a-zA-Z0-9'-]/g, '');
+
+      if (isSelected) {
+        if (!selectedClueWords.includes(clean)) selectedClueWords.push(clean);
+      } else {
+        selectedClueWords = selectedClueWords.filter(w => w !== clean);
+        if (selectedClueWords.length === 0) selectedPassageId = null;
+      }
+
+      // 卡片指示提示
+      document.getElementById('targetSelectedHintA').style.display = (selectedPassageId === (passageTop.passage_id || 'p1')) ? 'inline' : 'none';
+      document.getElementById('targetSelectedHintB').style.display = (selectedPassageId === (passageBottom.passage_id || 'p2')) ? 'inline' : 'none';
+      document.getElementById('passageCardA').classList.toggle('selected-source', selectedPassageId === (passageTop.passage_id || 'p1'));
+      document.getElementById('passageCardB').classList.toggle('selected-source', selectedPassageId === (passageBottom.passage_id || 'p2'));
+
+      // 隐藏旧的 AI 结果卡片（若选词变更）
+      document.getElementById('aiVerdictBox').style.display = 'none';
+      updateClueChipsUI();
+    }
+
+    function clearSelectedClues() {
+      document.querySelectorAll('.word-token.clue-selected').forEach(w => w.classList.remove('clue-selected'));
+      selectedClueWords = [];
+      selectedPassageId = null;
+      document.getElementById('targetSelectedHintA').style.display = 'none';
+      document.getElementById('targetSelectedHintB').style.display = 'none';
+      document.getElementById('passageCardA').classList.remove('selected-source');
+      document.getElementById('passageCardB').classList.remove('selected-source');
+      document.getElementById('aiVerdictBox').style.display = 'none';
+      updateClueChipsUI();
+    }
+
+    function updateClueChipsUI() {
+      const wrap = document.getElementById('clueChipsWrap');
+      const countLabel = document.getElementById('clueWordCount');
+      countLabel.textContent = selectedClueWords.length;
+
+      if (selectedClueWords.length === 0) {
+        wrap.innerHTML = `<span style="font-size: 12px; color: var(--text-sub);">👆 请轻触上方段落中的关键单词（如提示主旨的核心搭配）</span>`;
+        return;
+      }
+
+      const pLabel = (selectedPassageId === (passageTop.passage_id || 'p1')) ? '上方段落 A' : '下方段落 B';
+      wrap.innerHTML = `
+        <span style="font-size: 11.5px; font-weight: 800; color: var(--arena-primary); margin-right: 4px;">[来自 ${pLabel}]:</span>
+        ${selectedClueWords.map(w => `<span class="active-clue-chip">🔑 ${w}</span>`).join('')}
+      `;
+    }
+
+    // 点击调用真实 AI 终审
+    function doVerifyClueWithAi() {
+      if (!selectedPassageId || selectedClueWords.length === 0) {
+        alert("⚠️ 请先在上方段落 A 或下方段落 B 中轻触点击至少 1 个线索单词！");
+        return;
+      }
+
+      const btn = document.getElementById('btnVerifyClueWithAi');
+      btn.innerHTML = `<span>⏳ AI 正在深度推导语境与线索强度...</span>`;
+      btn.disabled = true;
+
+      const clueText = selectedClueWords.join(', ');
+      const pObj = (selectedPassageId === (passageTop.passage_id || 'p1')) ? passageTop : passageBottom;
+
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          action: 'verify_clue',
+          room_id: currentRoom ? currentRoom.room_id : '',
+          passage_id: selectedPassageId,
+          clue_text: clueText,
+          word: currentWord,
+          passage_text: pObj.raw_paragraph,
+          standard_clues: pObj.clue_words || [],
+          standard_hint: pObj.explanation || ''
+        }));
+      } else {
+        // HTTP 备用直接请求
+        fetch('/api/verify_clue', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            word: currentWord,
+            passage: pObj.raw_paragraph,
+            clue: clueText,
+            standard_clues: pObj.clue_words || [],
+            standard_hint: pObj.explanation || ''
+          })
+        }).then(r => r.json()).then(renderAiVerdict).catch(e => {
+          alert("AI 终审接口异常: " + e.message);
+          btn.innerHTML = `<span>⚡ 请 AI 检验我的语境判断</span>`;
+          btn.disabled = false;
+        });
+      }
+    }
+
+    function renderAiVerdict(result) {
+      currentAiVerdict = result;
+      const btn = document.getElementById('btnVerifyClueWithAi');
+      btn.innerHTML = `<span>⚡ 重新请求 AI 检验</span>`;
+      btn.disabled = false;
+
+      const box = document.getElementById('aiVerdictBox');
+      box.style.display = 'block';
+
+      // 1. 星级评分
+      const stars = '⭐'.repeat(Math.max(1, Math.min(5, result.rating || 5)));
+      document.getElementById('aiRatingStars').textContent = stars;
+
+      // 2. 语境精准义项
+      const senseBadge = document.getElementById('aiSenseBadge');
+      if (senseBadge) {
+        senseBadge.textContent = result.sense_in_context || '语境精准义';
+      }
+
+      // 3. AI 检测认为的关键词 (ai_keywords) + 题库全量标准线索 (standard_clues)
+      const kwSection = document.getElementById('aiKeywordsSection');
+      const kwWrap = document.getElementById('aiKeywordsChipsWrap');
+      const rawKws = result.ai_keywords || [];
+      const stdClues = result.standard_clues || [];
+      const combinedKws = [];
+      const seenKws = new Set();
+      [...rawKws, ...stdClues].forEach(k => {
+        if (k && !seenKws.has(String(k).toLowerCase())) {
+          seenKws.add(String(k).toLowerCase());
+          combinedKws.push(String(k));
+        }
+      });
+
+      if (combinedKws.length > 0 && kwWrap) {
+        kwWrap.innerHTML = combinedKws.map(kw => {
+          const isHit = selectedClueWords.some(w => kw.toLowerCase().includes(w.toLowerCase()) || w.toLowerCase().includes(kw.toLowerCase()));
+          return `<span class="gold-keyword-chip" style="${isHit ? 'border-color: var(--arena-success); background: rgba(16, 185, 129, 0.12); color: var(--arena-success); font-weight: 900;' : ''}">
+            ${isHit ? '🎯' : '🔑'} ${kw}
+          </span>`;
+        }).join('');
+        kwSection.style.display = 'block';
+      } else if (kwSection) {
+        kwSection.style.display = 'none';
+      }
+
+      // 4. 题库全量标准提示 / 语境考点解析 (standard_hint)
+      const hintBox = document.getElementById('aiStandardHintBox');
+      const hintText = document.getElementById('aiStandardHintText');
+      const stdHint = result.standard_hint || result.db_explanation || '';
+      if (stdHint && hintBox && hintText) {
+        hintText.textContent = stdHint;
+        hintBox.style.display = 'block';
+      } else if (hintBox) {
+        hintBox.style.display = 'none';
+      }
+
+      // 5. AI 教学点评
+      document.getElementById('aiFeedbackText').innerHTML = `<strong>💡 AI 教师点评：</strong>${result.feedback || '线索捕捉敏锐，语境逻辑明确。'}`;
+
+      // 6. 引擎与耗时
+      document.getElementById('aiEngineLabel').textContent = `🤖 推理引擎：${result.engine || 'Google Gemini Flash'}`;
+      document.getElementById('aiLatencyLabel').textContent = `耗时 ${result.latency_ms || 0}ms`;
+
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // 封印挑战发送给对手
+    function doSubmitCraftedChallenge() {
+      if (!currentAiVerdict) {
+        alert("请先点击【AI 检验】完成终审！");
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmitChallenge');
+      btn.innerHTML = `<span>⏳ 考卷已封印 · 等待对手出题互换...</span>`;
+      btn.disabled = true;
+
+      const clueText = selectedClueWords.join(', ');
+      if (ws && currentRoom) {
+        ws.send(JSON.stringify({
+          action: 'submit_crafted_challenge',
+          room_id: currentRoom.room_id,
+          target_passage_id: selectedPassageId,
+          clue_text: clueText,
+          ai_verdict: currentAiVerdict
+        }));
+      }
+    }
+
+    // ================= 阶段 2: 考卷对调与解题 =================
+    function handleChallengesSwapped(msg) {
+      swappedChallenge = msg.challenge_for_you;
+      document.getElementById('craftingSection').style.display = 'none';
+      document.getElementById('solvingSection').style.display = 'block';
+      document.getElementById('battlePhaseBadge').textContent = '阶段二：破解对手战书';
+      document.getElementById('battlePhaseBadge').style.background = 'var(--arena-primary)';
+
+      document.getElementById('swappedOpponentName').textContent = msg.opponent_name || '对手';
+      document.getElementById('opponentClueDisplay').textContent = `“${swappedChallenge.clue_text}”`;
+      document.getElementById('opponentSenseDisplay').textContent = `【${swappedChallenge.ai_verdict.sense_in_context || '语境义'}】`;
+
+      // 渲染供解题的上方段落与下方段落全文
+      document.getElementById('solveSrcTitleA').textContent = msg.passage_top.source_title || '真实语段';
+      document.getElementById('solveBodyA').innerHTML = highlightTargetWordOnly(msg.passage_top.raw_paragraph, msg.word);
+
+      document.getElementById('solveSrcTitleB').textContent = msg.passage_bottom.source_title || '真实语段';
+      document.getElementById('solveBodyB').innerHTML = highlightTargetWordOnly(msg.passage_bottom.raw_paragraph, msg.word);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function highlightTargetWordOnly(rawText, targetWord) {
+      if (!rawText) return "";
+      const reg = new RegExp(`\\b(${targetWord})\\b`, 'gi');
+      return rawText.replace(reg, `<span class="target-word-chip">$1</span>`);
+    }
+
+    function doSubmitAnswer(chosenPassageId) {
+      if (!ws || !currentRoom) return;
+
+      ws.send(JSON.stringify({
+        action: 'submit_challenge_answer',
+        room_id: currentRoom.room_id,
+        chosen_passage_id: chosenPassageId
+      }));
+    }
+
+    // ================= 阶段 3: 双向复盘与进入下一词 =================
+    function handleRoundResolved(msg) {
+      const modal = document.getElementById('roundReviewModal');
+      const wrap = document.getElementById('reviewDetailsWrap');
+      wrap.innerHTML = '';
+
+      const isWin = msg.is_correct;
+      document.getElementById('reviewEmoji').textContent = isWin ? '🎉' : '💡';
+      document.getElementById('reviewTitle').textContent = isWin ? '辨析破题成功！+150 分' : '辨析稍有偏差，已锁定正解！';
+      document.getElementById('reviewSubtitle').textContent = isWin ? '语境捕获敏锐 · 双方线索与 AI 评语复盘' : '请查看真实语料线索与 AI 教学解析';
+
+      if (msg.your_score !== undefined) {
+        myScore = msg.your_score;
+        updateScoreUI();
+      }
+
+      // 渲染上方段落 A 的终审复盘
+      const pA = msg.passage_top || {};
+      const cardA = document.createElement('div');
+      cardA.style = "background: var(--card-sub); border: 1.5px solid var(--card-border); border-radius: 12px; padding: 12px;";
+      const kwsA = (pA.clue_words || []).map(w => `<span class="gold-keyword-chip" style="font-size: 11px; padding: 2px 7px;">🔑 ${w}</span>`).join(' ');
+      cardA.innerHTML = `
+        <div style="font-weight: 800; font-size: 13.5px; color: var(--arena-primary); margin-bottom: 4px;">
+          📖 上方段落 A：${pA.source_title || '语段'}
+        </div>
+        <div style="font-size: 13px; font-weight: 800; color: var(--arena-accent); margin-bottom: 6px;">
+          🎯 准确释义：${pA.sense_in_context || '太空/宇宙空间'}
+        </div>
+        ${kwsA ? `<div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px;">${kwsA}</div>` : ''}
+        <div style="font-size: 12px; color: var(--text-sub); line-height: 1.5;">
+          💡 标准提示：${pA.explanation || '上下文搭配直接指向此释义。'}
+        </div>
+      `;
+      wrap.appendChild(cardA);
+
+      // 渲染下方段落 B 的终审复盘
+      const pB = msg.passage_bottom || {};
+      const cardB = document.createElement('div');
+      cardB.style = "background: var(--card-sub); border: 1.5px solid var(--card-border); border-radius: 12px; padding: 12px; margin-top: 10px;";
+      const kwsB = (pB.clue_words || []).map(w => `<span class="gold-keyword-chip" style="font-size: 11px; padding: 2px 7px;">🔑 ${w}</span>`).join(' ');
+      cardB.innerHTML = `
+        <div style="font-weight: 800; font-size: 13.5px; color: var(--arena-primary); margin-bottom: 4px;">
+          📖 下方段落 B：${pB.source_title || '语段'}
+        </div>
+        <div style="font-size: 13px; font-weight: 800; color: var(--arena-accent); margin-bottom: 6px;">
+          🎯 准确释义：${pB.sense_in_context || '空格/间隔'}
+        </div>
+        ${kwsB ? `<div style="display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px;">${kwsB}</div>` : ''}
+        <div style="font-size: 12px; color: var(--text-sub); line-height: 1.5;">
+          💡 标准提示：${pB.explanation || '打字操作等特定动作锁定文字间隔。'}
+        </div>
+      `;
+      wrap.appendChild(cardB);
+
+      // 重置进入下一词按钮
+      const btn = document.getElementById('btnReadyNextRound');
+      btn.innerHTML = `<span>✅ 我已阅览 · 准备进入下一词</span>`;
+      btn.disabled = false;
+      document.getElementById('reviewReadyCountText').textContent = "0 / 2";
+
+      modal.style.display = 'flex';
+    }
+
+    function doReadyNextRound() {
+      if (!ws || !currentRoom) return;
+
+      const btn = document.getElementById('btnReadyNextRound');
+      btn.innerHTML = `<span>⏳ 已就绪 · 等待其他玩家点击...</span>`;
+      btn.disabled = true;
+
+      ws.send(JSON.stringify({
+        action: 'ready_next_round',
+        room_id: currentRoom.room_id
+      }));
+    }
+
+    function showFinalCompletedModal(leaderboard) {
+      const modal = document.getElementById('battleCompletedModal');
+      const wrap = document.getElementById('completedLeaderboardWrap');
+      wrap.innerHTML = '';
+
+      (leaderboard || []).forEach((p, idx) => {
+        const row = document.createElement('div');
+        const isWinner = idx === 0;
+        row.style = `background: ${isWinner ? 'rgba(217, 119, 6, 0.12)' : 'var(--card-sub)'}; border: 1.5px solid ${isWinner ? 'var(--arena-accent)' : 'var(--card-border)'}; border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;`;
+        row.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 20px;">${idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'}</span>
+            <span style="font-weight: 800; font-size: 15px;">${p.name}</span>
+            ${p.is_host ? '<span style="font-size: 11px; color: var(--arena-accent); font-weight: 700;">(房主)</span>' : ''}
+          </div>
+          <div style="font-weight: 900; font-size: 18px; color: var(--arena-primary); font-family: var(--font-mono, monospace);">
+            ${p.score} 分
+          </div>
+        `;
+        wrap.appendChild(row);
+      });
+
+      modal.style.display = 'flex';
+    }
+
+    function updateScoreUI() {
+      document.getElementById('battleMyScore').textContent = myScore;
+      document.getElementById('battleOppScore').textContent = oppScore;
+    }
+
+    function speakBattleWord() {
+      if (!currentWord) return;
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(currentWord);
+        u.lang = 'en-US';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    // ================= AI 引擎设置弹窗 =================
+    function openAiSettingsModal() {
+      document.getElementById('aiSettingsModal').style.display = 'flex';
+      fetchAiStatus();
+    }
+
+    function closeAiSettingsModal() {
+      document.getElementById('aiSettingsModal').style.display = 'none';
+    }
+
+    function fetchAiStatus() {
+      fetch('/api/ai_status').then(r => r.json()).then(data => {
+        const txt = document.getElementById('cfgCurrentEngineText');
+        const desc = document.getElementById('cfgEngineDescText');
+        if (txt) txt.textContent = data.primary_engine;
+        if (desc) desc.textContent = data.description;
+      }).catch(() => {});
+    }
+
+    function saveGeminiKey() {
+      const key = document.getElementById('inputGeminiKey').value.trim();
+      if (!key) {
+        alert("请输入有效的 Google Gemini API Key (如 AIzaSy...)");
+        return;
+      }
+      fetch('/api/set_gemini_key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ gemini_key: key })
+      }).then(r => r.json()).then(data => {
+        alert(data.message || "Google Gemini API Key 已激活！");
+        closeAiSettingsModal();
+        fetchAiStatus();
+      }).catch(e => alert("保存失败: " + e.message));
+    }
+
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.style = "position: fixed; top: 70px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2); pointer-events: none;";
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2800);
+    }
+  </script>
+</body>
+</html>

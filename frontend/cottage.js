@@ -27,9 +27,9 @@ function toggleCottagePerspective(forceInterior = false) {
   const scene = document.getElementById('cottageScene');
 
   if (isCottageExterior) {
-    if (baseSource) baseSource.srcset = '/assets/cottage-exterior.webp';
+    if (baseSource) baseSource.srcset = Stone.url('assets/cottage-exterior.webp');
     if (baseImg) {
-      baseImg.src = '/assets/cottage-exterior.png';
+      baseImg.src = Stone.url('assets/cottage-exterior.png');
       baseImg.alt = '小石屋灰石外观';
     }
     if (interiorLayers) interiorLayers.style.display = 'none';
@@ -43,9 +43,9 @@ function toggleCottagePerspective(forceInterior = false) {
       scene.classList.add('exterior');
     }
   } else {
-    if (baseSource) baseSource.srcset = '/assets/cottage-interior.webp';
+    if (baseSource) baseSource.srcset = Stone.url('assets/cottage-interior.webp');
     if (baseImg) {
-      baseImg.src = '/assets/cottage-interior.png';
+      baseImg.src = Stone.url('assets/cottage-interior.png');
       baseImg.alt = '小石屋等轴剖切内景';
     }
     if (interiorLayers) interiorLayers.style.display = 'block';
@@ -828,6 +828,8 @@ function renderExpeditionPrepContent(modalEl) {
 }
 
 async function startExpeditionFromAltar() {
+  try { await Stone.module('tarot'); }
+  catch (error) { if (typeof showToast === 'function') showToast(error.message); return; }
   if (typeof soundClick === 'function') soundClick();
   closeExpeditionPrepModal();
   const profile = (typeof playerProfile !== 'undefined' && playerProfile) ? playerProfile : { hp: 100, san: 100, gold: 100 };

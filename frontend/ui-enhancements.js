@@ -1,6 +1,9 @@
 /* Shared UI preferences. Learning state remains owned by existing modules. */
 (() => {
   const listening=location.pathname.startsWith('/cet4');
+  const syncVisibility = () => document.documentElement.classList.toggle('stone-page-hidden', document.hidden);
+  document.addEventListener('visibilitychange', syncVisibility);
+  syncVisibility();
   document.body.classList.add(listening?'stone-listening':'stone-home');
   let preferences={};try{preferences=JSON.parse(localStorage.getItem('stone-ui-v2')||'{}');}catch{}
   const save=()=>{try{localStorage.setItem('stone-ui-v2',JSON.stringify(preferences));}catch{}};

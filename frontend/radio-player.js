@@ -19,6 +19,14 @@
     audioCtx: null
   };
 
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && state.audioEl) {
+      state.currentTime = state.audioEl.currentTime;
+      updateProgressUI();
+      syncLyricsUI(true);
+    }
+  });
+
   // 2. 初始化播放器音频元素
   function initAudio() {
     state.audioEl = new Audio();
@@ -29,8 +37,10 @@
       if (!state.useSynthBgm) {
         state.currentTime = state.audioEl.currentTime;
         state.duration = state.audioEl.duration || (state.playlist[state.currentIndex]?.duration || 180);
-        updateProgressUI();
-        syncLyricsUI();
+        if (!document.hidden) {
+          updateProgressUI();
+          syncLyricsUI();
+        }
       }
     });
 

@@ -12,6 +12,7 @@
   // ════════════════════════════════════════════════════════════
   let manifest = [];
   let currentExam = null;
+  let examLoadSequence = 0;
   let currentSegments = [];
   let currentActiveSegIndex = 0;
   
@@ -453,9 +454,7 @@
   // ════════════════════════════════════════════════════════════
   async function loadManifest() {
     try {
-      const res = await fetch(Stone.url('cet4/data/manifest.json'));
-      if (!res.ok) throw new Error('Failed to load manifest');
-      manifest = await res.json();
+      manifest = await Stone.json('cet4/data/manifest.json');
 
       examSelect.innerHTML = '';
       manifest.forEach((exam) => {
@@ -475,6 +474,10 @@
   }
 
   async function loadExam(examId) {
+    const sequence = ++examLoadSequence;
+    audioPlayer.pause();
+    cancelPendingReplay();
+    stopAtTime = null;
     try {
       const examMeta = manifest.find(m => m.id === examId);
       if (!examMeta) return;
@@ -482,8 +485,9 @@
       currentExamName.textContent = examMeta.name;
       currentExamStats.textContent = `听前准备: ${examMeta.stats.pre}句 | 正文: ${examMeta.stats.body}句 | 问题: ${examMeta.stats.question}句`;
 
-      const res = await fetch(Stone.url('cet4/'+examMeta.json_file));
-      currentExam = await res.json();
+      const loaded = await Stone.json('cet4/' + examMeta.json_file);
+      if (sequence !== examLoadSequence) return;
+      currentExam = loaded;
       currentSegments = currentExam.segments;
 
       audioPlayer.src = currentExam.audio;
@@ -1821,7 +1825,13 @@
       });
     });
 
-    searchInput.addEventListener('input', renderTranscriptList);
+    let transcriptSearchTimer;
+    const searchTranscript = () => {
+      clearTimeout(transcriptSearchTimer);
+      transcriptSearchTimer = setTimeout(renderTranscriptList, 120);
+    };
+    searchInput.addEventListener('input', e => { if (!e.isComposing) searchTranscript(); });
+    searchInput.addEventListener('compositionend', searchTranscript);
 
     // Audio Player
     audioPlayer.addEventListener('timeupdate', () => {

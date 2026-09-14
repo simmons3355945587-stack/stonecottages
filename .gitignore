@@ -30,3 +30,6 @@ Thumbs.db
 
 # Local test scratch captures
 scratch/
+
+# Dependencies
+node_modules/

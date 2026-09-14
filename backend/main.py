@@ -1,6 +1,7 @@
 import os
 import json
 import sqlite3
+from contextlib import contextmanager
 import hashlib
 import secrets
 import time
@@ -13,7 +14,7 @@ from pydantic import BaseModel
 import jwt
 
 SECRET_KEY = "antigravity_secret_jwt_key_vocab_game_prod"
-DB_PATH = "/var/www/vocab/backend/vocab.db"
+DB_PATH = os.environ.get("VOCAB_DB_PATH", "/var/www/vocab/backend/vocab.db")
 
 app = FastAPI(title="Vocabulary Survival & Admin Portal Cloud Gateway", version="3.4")
 
@@ -25,13 +26,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@contextmanager
 def get_db():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(DB_PATH, timeout=10)
     conn.row_factory = sqlite3.Row
-    return conn
+    try:
+        with conn:
+            yield conn
+    finally:
+        conn.close()
 
 def init_db():
     with get_db() as conn:
+        conn.execute("PRAGMA journal_mode=WAL")
         cur = conn.cursor()
         # Users table
         cur.execute('''

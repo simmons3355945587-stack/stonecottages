@@ -799,6 +799,7 @@
         });
 
         if (isGrandTriumph) {
+          currentSession.status = 'completed';
           // 守门人领主击溃奖励：必掉 1 次免费塔罗神谕
           if (typeof grantBonusTarotDraw === 'function') {
             try {

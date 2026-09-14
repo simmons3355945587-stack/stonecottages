@@ -1763,3 +1763,13 @@ body[data-active-view="cottage"] .container {
 
 
 
+
+/* Suspend decorative animation when the page is not visible. */
+.stone-page-hidden *, .stone-page-hidden *::before, .stone-page-hidden *::after { animation-play-state: paused !important; }
+
+@media (max-width: 480px) {
+  .cottage-portrait-mode .radio-spot {
+    flex-direction: row-reverse;
+    transform: translateX(calc(-100% + 30px));
+  }
+}

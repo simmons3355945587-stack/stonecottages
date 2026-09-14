@@ -539,8 +539,9 @@ let currentSubTab = 'all';
 let stoneNavigationSequence=0;
 async function switchNavView(viewName) {
   const navigationSequence=++stoneNavigationSequence;
+  const loadingNotice=setTimeout(()=>{if(navigationSequence===stoneNavigationSequence)showToast("正在准备学习内容，请稍候…");},400);
   if(viewName!=="match" && matchTimerInterval) abortMatchGame();
-  try { if(viewName==="survival") {await Stone.module("survival");await Stone.chapter(currentNovelChapter);} else if(viewName==="match") await Stone.module("match"); else if(viewName==="profile") await Stone.module("tarot"); } catch(e) {showToast(e.message);return;}
+  try { if(viewName==="survival") {await Stone.module("survival");await Stone.chapter(currentNovelChapter);} else if(viewName==="match") await Stone.module("match"); else if(viewName==="profile") await Stone.module("tarot"); else if(viewName==="expedition_map") await Stone.script("lexical-graph.js"); } catch(e) {if(navigationSequence===stoneNavigationSequence)showToast(e.message);return;} finally {clearTimeout(loadingNotice);}
   if(navigationSequence!==stoneNavigationSequence)return;
   if(viewName!=='words' && document.getElementById('defDrawer')?.classList.contains('open'))closeDefDrawer();
   document.getElementById('drawerOverlay')?.classList.remove('open');
@@ -1013,7 +1014,8 @@ function initApp() {
   if (filterChevron) filterChevron.classList.remove('expanded');
   refreshFilterUI();
 
-  renderWords();
+  // The default cottage view does not need hidden vocabulary cards.
+  if (document.getElementById("viewWords")?.classList.contains("active")) renderWords();
   /* initialized when visible */
   updateBadges();
 
@@ -1047,9 +1049,6 @@ function initApp() {
 
   initCloudSession();
   setupDesktopKeyboardShortcuts();
-  if (typeof ExpeditionEngine !== 'undefined' && typeof ExpeditionEngine.init === 'function') {
-    ExpeditionEngine.init();
-  }
   if (typeof checkAndTriggerOnboarding === 'function') {
     checkAndTriggerOnboarding();
   }

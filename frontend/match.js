@@ -1,3 +1,4 @@
+let candyRunSequence = 0;
 function setCandyTierFilter(tier) {
   soundClick();
   currentCandyTier = tier;
@@ -11,6 +12,7 @@ function setCandyTierFilter(tier) {
 }
 
 function startCandyMatchGame() {
+  candyRunSequence++;
   soundClick();
   const gameBox = document.getElementById('candyMatchGameBox');
   if (gameBox) gameBox.style.display = 'block';
@@ -163,6 +165,8 @@ function generateCandyBoard() {
 }
 
 function handleCandyTileClick(el) {
+  if (!matchTimerInterval) return;
+  const runSequence = candyRunSequence;
   if (el.classList.contains('pop-match') || el === matchActiveTile) return;
   soundClick();
 
@@ -198,6 +202,7 @@ function handleCandyTileClick(el) {
 
     // 检查是否清盘
     setTimeout(() => {
+      if (runSequence !== candyRunSequence || !matchTimerInterval) return;
       const remaining = document.querySelectorAll('.candy-tile:not(.pop-match)');
       if (remaining.length === 0) {
         matchWave++;
@@ -238,7 +243,9 @@ function handleCandyTileClick(el) {
 }
 
 function endCandyMatchGame() {
+  candyRunSequence++;
   clearInterval(matchTimerInterval);
+  matchTimerInterval = null;
   soundSuccess();
   
   const grid = document.getElementById('candyGrid');
@@ -282,8 +289,10 @@ function endCandyMatchGame() {
 }
 
 function abortMatchGame() {
+  candyRunSequence++;
   soundClick();
   clearInterval(matchTimerInterval);
+  matchTimerInterval = null;
   const gameBox = document.getElementById('candyMatchGameBox');
   if (gameBox) gameBox.style.display = 'none';
   const settleArea = document.getElementById('matchSettlementArea');

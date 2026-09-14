@@ -93,7 +93,7 @@ async function initCloudSession() {
 
       updateBadges();
       updateAuthUI();
-      renderWords(document.getElementById('searchInput').value);
+      if (document.getElementById('viewWords')?.classList.contains('active')) renderWords(document.getElementById('searchInput').value);
       /* initialized when visible */
       /* initialized when visible */
       /* initialized when visible */

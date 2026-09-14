@@ -2,9 +2,11 @@
   "private": true,
   "scripts": {
     "build": "node build.cjs",
-    "test": "node tests/input.cjs"
+    "test": "node --test tests/performance.test.cjs",
+    "preview": "node preview.cjs",
+    "test:backend": "python tests/database_test.py"
   },
   "devDependencies": {
-    "terser": "5.51.2"
+    "terser": "^5.51.2"
   }
 }

@@ -1,6 +1,13 @@
 /* Shared resource loading and account-scoped persistence. */
 window.StoneStorage = (() => {
-  const raw = window.localStorage;
+  const fallback = new Map();
+  let persistent;
+  try { persistent = window.localStorage; } catch {}
+  const raw = {
+    getItem(k) { if (fallback.has(k)) return fallback.get(k); try { return persistent?.getItem(k) ?? null; } catch { return null; } },
+    setItem(k,v) { try { if (!persistent) throw new Error('Storage unavailable'); persistent.setItem(k,v); fallback.delete(k); } catch { fallback.set(k,String(v)); console.warn('[Stone] 浏览器存储不可用，本次变更仅保存在内存，请导出备份。'); } },
+    removeItem(k) { fallback.set(k,null); try { persistent?.removeItem(k); } catch {} }
+  };
   let user; try { user = JSON.parse(raw.getItem('vocab_auth_user') || 'null'); } catch {}
   const owner = user && (user.id ?? user.user_id ?? user.sub ?? user.username);
   const scope = owner == null ? 'guest' : String(owner);
@@ -10,7 +17,7 @@ window.StoneStorage = (() => {
   // One-time copy, never delete legacy records or assign them to a second account.
   const legacyOwner = raw.getItem('stone:legacy-owner');
   if (legacyOwner === null || legacyOwner === scope) {
-    for (const k of Object.keys(raw)) if (owned(k) && raw.getItem(key(k)) === null) raw.setItem(key(k),raw.getItem(k));
+    for (const k of (() => { try { return Object.keys(persistent || {}); } catch { return []; } })()) if (owned(k) && raw.getItem(key(k)) === null) raw.setItem(key(k),raw.getItem(k));
     raw.setItem('stone:legacy-owner',scope);
   }
   return {scope,getItem:k=>raw.getItem(key(k)),setItem:(k,v)=>raw.setItem(key(k),v),removeItem:k=>raw.removeItem(key(k))};
@@ -18,81 +25,64 @@ window.StoneStorage = (() => {
 window.Stone = (() => {
   const scripts = new Map(), jsons = new Map();
   const resolveUrl = name => {
-    if (window.STONE_ASSETS && window.STONE_ASSETS[name]) return window.STONE_ASSETS[name];
     const clean = name.replace(/^\//, '');
+    if (window.STONE_ASSETS && window.STONE_ASSETS[clean]) return window.STONE_ASSETS[clean];
     return '/' + clean;
   };
   const url = resolveUrl;
+  // Register parser/defer scripts before they finish, so module requests share them.
+  const ownScript = document.currentScript;
+  let beforeCurrent = true;
+  for (const el of document.querySelectorAll('script[src]')) {
+    if (el === ownScript) { beforeCurrent = false; continue; }
+    const loadedUrl = new URL(el.src, location.href).href;
+    const pending = beforeCurrent ? Promise.resolve() : new Promise((resolve, reject) => {
+      el.addEventListener('load', resolve, { once: true });
+      el.addEventListener('error', () => { scripts.delete(loadedUrl); reject(new Error('页面资源加载失败，请刷新')); }, { once: true });
+    });
+    pending.catch(() => {});
+    scripts.set(loadedUrl, pending);
+  }
   function script(name) {
-    if (!scripts.has(name)) scripts.set(name, new Promise((resolve, reject) => {
-      const primaryUrl = resolveUrl(name);
-      const el = document.createElement('script');
-      el.src = primaryUrl;
-      el.onload = resolve;
-      el.onerror = () => {
-        el.remove();
-        // Fallback retry with cache-buster
-        const fallbackUrl = '/' + name.replace(/^\//, '') + '?ts=' + Date.now();
-        if (primaryUrl !== fallbackUrl) {
-          const retryEl = document.createElement('script');
-          retryEl.src = fallbackUrl;
-          retryEl.onload = resolve;
-          retryEl.onerror = () => {
-            scripts.delete(name);
-            retryEl.remove();
-            console.error('[Stone] Script load failed:', name, primaryUrl, fallbackUrl);
-            reject(new Error('资源加载失败，请重试'));
-          };
-          document.head.append(retryEl);
-        } else {
-          scripts.delete(name);
-          reject(new Error('资源加载失败，请重试'));
-        }
-      };
-      document.head.append(el);
-    }));
-    return scripts.get(name);
+    const key = new URL(resolveUrl(name), location.href).href;
+    if (!scripts.has(key)) {
+      const pending = new Promise((resolve, reject) => {
+        const el = document.createElement('script');
+        el.src = key;
+        el.onload = resolve;
+        el.onerror = () => {
+          scripts.delete(key);
+          el.remove();
+          // Never mix a hashed release with a potentially newer unversioned script.
+          reject(new Error('资源加载失败，请重试；若网站刚更新，请刷新页面'));
+        };
+        document.head.append(el);
+      });
+      scripts.set(key, pending);
+    }
+    return scripts.get(key);
   }
   async function json(name) {
-    if (!jsons.has(name)) {
-      const getSignal = (ms) => {
-        if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
-          return AbortSignal.timeout(ms);
-        }
-        return undefined;
-      };
-      const load = async (u) => {
-        const sig = getSignal(15000);
-        const r = await fetch(u, sig ? { signal: sig } : {});
-        if (!r.ok) throw new Error('数据加载失败 (' + r.status + ')');
-        return r.json();
-      };
-      jsons.set(name, (async () => {
-        const primary = resolveUrl(name);
+    const key = resolveUrl(name);
+    if (!jsons.has(key)) {
+      const pending = (async () => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 15000);
         try {
-          return await load(primary);
-        } catch (e1) {
-          const fallback = '/' + name.replace(/^\//, '') + '?ts=' + Date.now();
-          if (primary !== fallback) {
-            try {
-              return await load(fallback);
-            } catch (e2) {
-              jsons.delete(name);
-              console.error('[Stone] JSON load failed:', name, primary, fallback, e2);
-              throw e2;
-            }
-          }
-          jsons.delete(name);
-          throw e1;
-        }
-      })());
+          const response = await fetch(key, { signal: controller.signal });
+          if (!response.ok) throw new Error('数据加载失败 (' + response.status + ')');
+          return await response.json();
+        } finally { clearTimeout(timer); }
+      })();
+      jsons.set(key, pending);
+      pending.catch(() => jsons.delete(key));
     }
-    return jsons.get(name);
+    return jsons.get(key);
   }
   async function module(name) {
+    if (name === 'tarot' || name === 'survival' || name === 'match') await script('lexical-graph.js');
     if (name === 'survival' || name === 'match') {
-      await script('extra-definitions.js');
-      await script('tarot.js');
+      await Promise.all([script('extra-definitions.js'), script('tarot.js')]);
     }
     if (name === 'survival') {
       try {
@@ -124,31 +114,41 @@ window.Stone = (() => {
     return info;
   }
   const inflight = new Map(), memory = new Map();
-  const db = new Promise(resolve => {
-    try {
-      const r = indexedDB.open('stone-dictionary-v1', 1);
-      r.onupgradeneeded = () => r.result.createObjectStore('entries');
-      r.onsuccess = () => resolve(r.result);
-      r.onerror = () => resolve(null);
-    } catch {
-      resolve(null);
-    }
-  });
+  let database;
+  function getDatabase() {
+    if (!database) database = new Promise(resolve => {
+      let settled = false;
+      const done = value => { if (!settled) { settled = true; clearTimeout(timer); resolve(value); } else value?.close(); };
+      const timer = setTimeout(() => done(null), 1500);
+      try {
+        const request = indexedDB.open('stone-dictionary-v1', 1);
+        request.onupgradeneeded = () => request.result.createObjectStore('entries');
+        request.onsuccess = () => {
+          request.result.onversionchange = () => request.result.close();
+          done(request.result);
+        };
+        request.onerror = request.onblocked = () => done(null);
+      } catch { done(null); }
+    });
+    return database;
+  }
   async function cacheRead(k) {
     if (memory.has(k)) return memory.get(k);
-    const d = await db;
+    const d = await getDatabase();
     if (!d) return;
     return new Promise(resolve => {
-      const r = d.transaction('entries').objectStore('entries').get(k);
-      r.onsuccess = () => resolve(r.result);
-      r.onerror = () => resolve();
+      try {
+        const r = d.transaction('entries').objectStore('entries').get(k);
+        r.onsuccess = () => resolve(r.result);
+        r.onerror = () => resolve();
+      } catch { resolve(); }
     });
   }
   async function cacheWrite(k, data) {
     const v = { data, expires: Date.now() + 7 * 86400000 };
     memory.set(k, v);
     if (memory.size > 300) memory.delete(memory.keys().next().value);
-    const d = await db;
+    const d = await getDatabase();
     if (!d) return;
     const t = d.transaction('entries', 'readwrite'), s = t.objectStore('entries');
     s.put(v, k);
@@ -177,7 +177,8 @@ window.Stone = (() => {
         const r = await fetch(resource, sig ? { signal: sig } : {});
         if (!r.ok) throw new Error('词典暂不可用');
         const data = await r.json();
-        await cacheWrite(k, data);
+        // A cache failure must never discard a successful dictionary response.
+        cacheWrite(k, data).catch(() => {});
         return data;
       } catch (e) {
         if (hit?.data) return hit.data;

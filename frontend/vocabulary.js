@@ -64,9 +64,9 @@ function refreshFilterUI() {
   words = getActiveWordList();
   updateBadges();
   const searchVal = document.getElementById('searchInput') ? document.getElementById('searchInput').value : '';
-  renderWords(searchVal);
-  if (currentSubTab === 'marked') {
-    renderMarked();
+  if (document.getElementById('viewWords')?.classList.contains('active')) {
+    if (currentSubTab === 'marked') renderMarked();
+    else renderWords(searchVal);
   }
 }
 
