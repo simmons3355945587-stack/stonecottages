@@ -581,7 +581,11 @@
 
       <div style="font-weight: 800; font-size: 14px; margin-bottom: 8px;">📚 划定备选词库：</div>
       <div class="scope-grid">
-        <div class="scope-item active" onclick="setHostScope('cet4_core', this)">
+        <div class="scope-item active" onclick="setHostScope('core_study', this)">
+          <div style="font-weight: 800; font-size: 13px;">🎯 四级核心考纲</div>
+          <div style="font-size: 11px; color: var(--text-sub);">3837 词 · 支持分段闯关</div>
+        </div>
+        <div class="scope-item" onclick="setHostScope('cet4_core', this)">
           <div style="font-weight: 800; font-size: 13px;">📖 CET-4 核心词库</div>
           <div style="font-size: 11px; color: var(--text-sub);">高频精选真题语段</div>
         </div>
@@ -592,6 +596,33 @@
         <div class="scope-item" onclick="setHostScope('news_tech', this)">
           <div style="font-weight: 800; font-size: 13px;">📰 前沿科技与时评</div>
           <div style="font-size: 11px; color: var(--text-sub);">当代权威真实语段</div>
+        </div>
+      </div>
+
+      <!-- 考纲出题范围与顺序设置 (场景 B) -->
+      <div id="coreRangeConfigCard" style="background: rgba(99, 102, 241, 0.08); border: 1.5px dashed var(--arena-primary); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="font-weight: 800; font-size: 13.5px; color: var(--arena-primary); display: flex; align-items: center; gap: 6px;">
+            <span>🎯 考纲出题顺序与范围：</span>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button id="btnOrderSeq" class="filter-pill active" onclick="setOrderMode('sequential', this)" style="font-size: 11.5px; padding: 4px 10px;">🔢 顺序出题</button>
+            <button id="btnOrderRand" class="filter-pill" onclick="setOrderMode('random', this)" style="font-size: 11.5px; padding: 4px 10px;">🎲 随机抽题</button>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap;">
+          <span style="font-size: 12.5px; font-weight: 700; color: var(--text-sub);">考纲序号区间：</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <input type="number" id="inputRangeStart" value="50" min="0" max="3836" style="width: 64px; padding: 5px 6px; border-radius: 8px; border: 1.5px solid var(--card-border); font-weight: 800; text-align: center; background: var(--card-bg); color: var(--text-main);">
+            <span style="font-weight: 800; color: var(--text-sub);">-</span>
+            <input type="number" id="inputRangeEnd" value="100" min="0" max="3836" style="width: 64px; padding: 5px 6px; border-radius: 8px; border: 1.5px solid var(--card-border); font-weight: 800; text-align: center; background: var(--card-bg); color: var(--text-main);">
+          </div>
+          <div style="display: flex; gap: 6px; margin-left: auto;">
+            <button class="filter-pill" onclick="setQuickRange(1, 50, this)" style="font-size: 11px; padding: 3px 8px;">1-50</button>
+            <button class="filter-pill active" id="btnQuick50100" onclick="setQuickRange(50, 100, this)" style="font-size: 11px; padding: 3px 8px;">50-100</button>
+            <button class="filter-pill" onclick="setQuickRange(100, 150, this)" style="font-size: 11px; padding: 3px 8px;">100-150</button>
+          </div>
         </div>
       </div>
 
@@ -1140,6 +1171,10 @@
       }
     }
 
+    let hostOrderMode = 'sequential';
+    let hostRangeStart = 50;
+    let hostRangeEnd = 100;
+
     function setHostScope(scope, el) {
       hostScope = scope;
       document.querySelectorAll('.scope-item').forEach(i => i.classList.remove('active'));
@@ -1148,7 +1183,30 @@
 
     function setHostRounds(r, el) {
       hostRounds = r;
-      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-pill').forEach(b => {
+        if (!b.id && !b.getAttribute('onclick')?.includes('QuickRange') && !b.getAttribute('onclick')?.includes('OrderMode')) {
+          b.classList.remove('active');
+        }
+      });
+      if (el) el.classList.add('active');
+    }
+
+    function setOrderMode(mode, el) {
+      hostOrderMode = mode;
+      document.getElementById('btnOrderSeq')?.classList.toggle('active', mode === 'sequential');
+      document.getElementById('btnOrderRand')?.classList.toggle('active', mode === 'random');
+    }
+
+    function setQuickRange(start, end, el) {
+      const sInput = document.getElementById('inputRangeStart');
+      const eInput = document.getElementById('inputRangeEnd');
+      if (sInput) sInput.value = start;
+      if (eInput) eInput.value = end;
+      hostRangeStart = start;
+      hostRangeEnd = end;
+      document.querySelectorAll('#coreRangeConfigCard .filter-pill').forEach(b => {
+        if (b.id !== 'btnOrderSeq' && b.id !== 'btnOrderRand') b.classList.remove('active');
+      });
       if (el) el.classList.add('active');
     }
 
@@ -1220,6 +1278,8 @@
 
       const onlyMarked = document.getElementById('chkOnlyMarked')?.checked || false;
       const markedWords = getLocalMarkedWords();
+      const startIdx = parseInt(document.getElementById('inputRangeStart')?.value || hostRangeStart, 10);
+      const endIdx = parseInt(document.getElementById('inputRangeEnd')?.value || hostRangeEnd, 10);
 
       ws.send(JSON.stringify({
         action: 'create_room',
@@ -1228,6 +1288,9 @@
         rounds: hostRounds,
         only_marked: onlyMarked,
         marked_words: markedWords,
+        order_mode: hostOrderMode,
+        range_start: isNaN(startIdx) ? 50 : startIdx,
+        range_end: isNaN(endIdx) ? 100 : endIdx,
         is_admin: true
       }));
     }
@@ -1375,8 +1438,9 @@
       selectedClueWords = [];
       currentAiVerdict = null;
 
+      const coreTag = (data.core_index !== undefined && data.core_index !== null) ? `[考纲 #${data.core_index}] ` : '';
       document.getElementById('battleWordText').textContent = currentWord;
-      document.getElementById('battleRoundProgressLabel').textContent = `第 ${currentRoundIndex + 1} / ${totalRounds} 词 · ${currentWord}`;
+      document.getElementById('battleRoundProgressLabel').textContent = `${coreTag}第 ${currentRoundIndex + 1} / ${totalRounds} 词 · ${currentWord}`;
       document.getElementById('aiVerdictBox').style.display = 'none';
       updateClueChipsUI();
 

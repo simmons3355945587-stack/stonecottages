@@ -583,6 +583,12 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                 rounds = int(msg.get("rounds", 5))
                 only_marked = bool(msg.get("only_marked", False)) or scope == "marked_only"
                 marked_words = [str(w).lower().strip() for w in msg.get("marked_words", []) if str(w).strip()]
+                order_mode = str(msg.get("order_mode", "sequential" if scope == "core_study" else "random")).strip().lower()
+                try:
+                    range_start = int(msg.get("range_start", 50))
+                    range_end = int(msg.get("range_end", 100))
+                except (TypeError, ValueError):
+                    range_start, range_end = 50, 100
 
                 # 动态生成全新密令
                 cipher = generate_secret_cipher()
@@ -598,6 +604,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     "host_name": host_name,
                     "scope": scope,
                     "rounds": rounds,
+                    "order_mode": order_mode,
+                    "range_start": range_start,
+                    "range_end": range_end,
                     "only_marked": only_marked,
                     "marked_words": marked_words,
                     "status": "waiting",
@@ -703,29 +712,77 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         seen_words.add(w)
                         dedup_puzzles.append(p)
 
+                # 提取出题范围与顺序设置
+                scope = room.get("scope", "cet4_core")
+                order_mode = room.get("order_mode", "random")
+                range_start = room.get("range_start", 50)
+                range_end = room.get("range_end", 100)
+                rounds_count = room.get("rounds", 5)
+
                 # 判断是否勾选了仅出 Mark 重点生词
-                only_marked = bool(room.get("only_marked")) or room.get("scope") == "marked_only"
+                only_marked = bool(room.get("only_marked")) or scope == "marked_only"
                 marked_words = room.get("marked_words", [])
 
                 if only_marked and marked_words:
                     marked_set = set(marked_words)
                     matched_puzzles = [p for p in dedup_puzzles if p["word"].lower() in marked_set]
-                    random.shuffle(matched_puzzles)
+                    if order_mode == "sequential":
+                        matched_puzzles.sort(key=lambda x: x.get("core_index", 999999))
+                    else:
+                        random.shuffle(matched_puzzles)
                     print(f"[★] 房主指定生词模式！题库中成功匹配到 {len(matched_puzzles)} 道 Mark 生词题")
-                    if len(matched_puzzles) >= room["rounds"]:
-                        selected_puzzles = matched_puzzles[:room["rounds"]]
+                    if len(matched_puzzles) >= rounds_count:
+                        selected_puzzles = matched_puzzles[:rounds_count]
                     elif len(matched_puzzles) > 0:
-                        # Mark 词量少于设定的局数时，优先全部使用 Mark 词，其余从通用词库随机补充
-                        remaining_needed = room["rounds"] - len(matched_puzzles)
+                        remaining_needed = rounds_count - len(matched_puzzles)
                         unmarked_puzzles = [p for p in dedup_puzzles if p["word"].lower() not in marked_set]
-                        random.shuffle(unmarked_puzzles)
+                        if order_mode == "sequential":
+                            unmarked_puzzles.sort(key=lambda x: x.get("core_index", 999999))
+                        else:
+                            random.shuffle(unmarked_puzzles)
                         selected_puzzles = matched_puzzles + unmarked_puzzles[:remaining_needed]
                     else:
-                        random.shuffle(dedup_puzzles)
-                        selected_puzzles = dedup_puzzles[:room["rounds"]]
+                        if order_mode == "sequential":
+                            dedup_puzzles.sort(key=lambda x: x.get("core_index", 999999))
+                        else:
+                            random.shuffle(dedup_puzzles)
+                        selected_puzzles = dedup_puzzles[:rounds_count]
+                elif scope == "core_study" or (range_start is not None and range_end is not None):
+                    # 场景 B: 核心考纲模式，筛选考纲序号在 [range_start, range_end] 范围内的题目
+                    core_candidates = []
+                    for p in dedup_puzzles:
+                        c_idx = p.get("core_index")
+                        if c_idx is not None and range_start <= c_idx <= range_end:
+                            core_candidates.append(p)
+
+                    # 按考纲 core_index 严格升序排序
+                    core_candidates.sort(key=lambda x: x.get("core_index", 0))
+                    print(f"[★] 房主选定考纲模式！区间 [{range_start} - {range_end}] 命中 {len(core_candidates)} 道有效题，出题模式: {order_mode}")
+
+                    if order_mode == "sequential":
+                        selected_puzzles = core_candidates[:rounds_count]
+                    else:
+                        cand_copy = list(core_candidates)
+                        random.shuffle(cand_copy)
+                        selected_puzzles = cand_copy[:rounds_count]
+
+                    # 若区间内题目数少于 rounds，自动从其余题库中补充
+                    if len(selected_puzzles) < rounds_count:
+                        needed = rounds_count - len(selected_puzzles)
+                        seen_words_puz = {p["word"].lower() for p in selected_puzzles}
+                        fallback_cands = [p for p in dedup_puzzles if p["word"].lower() not in seen_words_puz]
+                        if order_mode == "sequential":
+                            fallback_cands.sort(key=lambda x: x.get("core_index", 999999))
+                        else:
+                            random.shuffle(fallback_cands)
+                        selected_puzzles.extend(fallback_cands[:needed])
                 else:
-                    random.shuffle(dedup_puzzles)
-                    selected_puzzles = dedup_puzzles[:room["rounds"]]
+                    if order_mode == "sequential":
+                        dedup_puzzles.sort(key=lambda x: x.get("core_index", 999999))
+                        selected_puzzles = dedup_puzzles[:rounds_count]
+                    else:
+                        random.shuffle(dedup_puzzles)
+                        selected_puzzles = dedup_puzzles[:rounds_count]
 
                 room["puzzles"] = selected_puzzles
                 room["status"] = "playing"
@@ -760,6 +817,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     "total_rounds": len(selected_puzzles),
                     "puzzle": first_puzzle,
                     "word": first_puzzle["word"],
+                    "core_index": first_puzzle.get("core_index"),
                     "passage_top": p_top,
                     "passage_bottom": p_bot,
                     "phase": "crafting",
@@ -1071,6 +1129,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                             "total_rounds": len(room["puzzles"]),
                             "puzzle": next_puzzle,
                             "word": next_puzzle["word"],
+                            "core_index": next_puzzle.get("core_index"),
                             "passage_top": p_top,
                             "passage_bottom": p_bot,
                             "phase": "crafting",
