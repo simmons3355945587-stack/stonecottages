@@ -349,8 +349,12 @@ let appSettings = loadFromStorage(STORAGE_KEYS.SETTINGS, {
   customModel: 'gemini-3.7-flash',
   mimoKey: '',
   audioMuted: false,
-  enableRiskEngine: true
+  enableRiskEngine: true,
+  typesafeKey: 'apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5'
 });
+if (!appSettings.typesafeKey) {
+  appSettings.typesafeKey = 'apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5';
+}
 if (appSettings.expeditionAutoReduceMark === undefined) {
   appSettings.expeditionAutoReduceMark = true;
 }
@@ -890,6 +894,10 @@ function openSettingsModal() {
   if (expMarkEl) {
     expMarkEl.value = (appSettings.expeditionAutoReduceMark === false) ? 'false' : 'true';
   }
+  const tsKeyEl = document.getElementById('cfgTypesafeKey');
+  if (tsKeyEl) {
+    tsKeyEl.value = appSettings.typesafeKey || '';
+  }
   onDriverModeChange();
   m.style.display = 'block';
   setTimeout(() => m.style.opacity = '1', 10);
@@ -915,6 +923,10 @@ function saveSettings() {
   appSettings.geminiModel = document.getElementById('cfgGeminiModel').value;
   appSettings.customUrl = document.getElementById('cfgCustomUrl').value.trim();
   appSettings.customModel = document.getElementById('cfgCustomModel').value.trim();
+  const tsKeyEl = document.getElementById('cfgTypesafeKey');
+  if (tsKeyEl) {
+    appSettings.typesafeKey = tsKeyEl.value.trim();
+  }
   const langModeEl = document.getElementById('cfgDictLangMode');
   if (langModeEl) {
     appSettings.dictLanguageMode = langModeEl.value;
@@ -1084,8 +1096,9 @@ function setupDesktopKeyboardShortcuts() {
       const searchInput = document.getElementById('searchInput');
 
       let handled = false;
-      const visible = el => el && (el.style.display==='block'||el.style.display==='flex'||el.classList.contains('show'));
-      if(document.getElementById('radioKaraokeDrawer')?.classList.contains('open')){window.RadioPlayer?.toggleDrawer(false);handled=true;}
+      const visible = el => el && (el.style.display==='block'||el.style.display==='flex'||el.classList.contains('show')||el.classList.contains('open'));
+      if(visible(document.getElementById('flashcardModal'))){window.FlashcardEngine?.close();handled=true;}
+      else if(document.getElementById('radioKaraokeDrawer')?.classList.contains('open')){window.RadioPlayer?.toggleDrawer(false);handled=true;}
       else if(visible(document.getElementById('onlineAddModal'))){closeOnlineAddModal();handled=true;}
       else if(visible(adminModal)){closeAdminModal();handled=true;}
       else if(visible(document.getElementById('saveLoadModal'))){closeSaveLoadModal();handled=true;}

@@ -137,6 +137,7 @@ def main():
         ("frontend/ui-enhancements.js", "/var/www/vocab/ui-enhancements.js"),
         ("frontend/ui-enhancements.css", "/var/www/vocab/ui-enhancements.css"),
         ("frontend/tri-match.battle", "/var/www/vocab/tri-match.battle"),
+        ("frontend/flashcard.js", "/var/www/vocab/flashcard.js"),
         ("frontend/cet4/app.js", "/var/www/vocab/cet4/app.js"),
         ("frontend/cet4/index.html", "/var/www/vocab/cet4/index.html"),
         ("frontend/index.html", "/var/www/vocab/index.html"),
