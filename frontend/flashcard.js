@@ -128,13 +128,13 @@ window.FlashcardEngine = (() => {
   const STORAGE_KEY_SESSION = 'stone_flashcard_session_v1';
 
   const POS_OPTIONS = [
-    { id: 'n', label: 'n.' },
-    { id: 'v', label: 'v.' },
-    { id: 'adj', label: 'adj.' },
-    { id: 'adv', label: 'adv.' },
-    { id: 'prep', label: 'prep.' },
-    { id: 'conj', label: 'conj.' },
-    { id: 'other', label: '其他' }
+    { id: 'n', label: 'n.', key: '1' },
+    { id: 'v', label: 'v.', key: '2' },
+    { id: 'adj', label: 'adj.', key: '3' },
+    { id: 'adv', label: 'adv.', key: '4' },
+    { id: 'prep', label: 'prep.', key: '5' },
+    { id: 'conj', label: 'conj.', key: '6' },
+    { id: 'other', label: '其他', key: '7' }
   ];
 
   let state = {
@@ -566,6 +566,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
   function renderCard() {
     evaluationVersion++; state.isEvaluating = false;
+    state.renderedAt = Date.now();
     if (!state.isOpen) return;
     const restored = state.restoreAnswer; state.restoreAnswer = null;
     const word = state.queue[state.currentIndex];
@@ -589,10 +590,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     window.Stone?.prefetchEnglish?.(state.queue.slice(state.currentIndex + 1, state.currentIndex + 3));
     const progressPercent = Math.min(100, Math.round((state.todayStats.completed / state.todayStats.target) * 100));
 
-    // 渲染词性多选胶囊
+    // 渲染词性多选胶囊 (附带 1~7 键盘快捷键标识)
     const posButtonsHtml = POS_OPTIONS.map(opt => `
-      <button type="button" class="flashcard-pos-pill" id="fcPosBtn_${opt.id}" onclick="FlashcardEngine.togglePosOption('${opt.id}')">
-        ${opt.label}
+      <button type="button" class="flashcard-pos-pill" id="fcPosBtn_${opt.id}" onclick="FlashcardEngine.togglePosOption('${opt.id}')" title="勾选 ${opt.label} (快捷键: ${opt.key} 或 Alt+${opt.key})">
+        <span style="opacity:0.6;font-size:11px;margin-right:2px;">${opt.key}.</span>${opt.label}
       </button>
     `).join('');
 
@@ -660,8 +661,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               <div id="fcMarkStatus" role="status" aria-live="polite" style="font-size:12px;color:var(--text-secondary);margin-top:4px;">对照释义后再决定；不点击就不会新增 Mark。</div>
             </div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button type="button" class="btn btn-secondary" id="fcMarkAdd" onclick="FlashcardEngine.addCurrentMark()">＋加入 Mark</button>
-              <button type="button" class="btn btn-secondary" id="fcMarkUndo" onclick="FlashcardEngine.undoCurrentMark()" style="display:none" hidden>撤销本次 Mark</button>
+              <button type="button" class="btn btn-secondary" id="fcMarkAdd" onclick="FlashcardEngine.addCurrentMark()" title="加入重点生词本 (快捷键: +)">＋加入 Mark (+)</button>
+              <button type="button" class="btn btn-secondary" id="fcMarkUndo" onclick="FlashcardEngine.undoCurrentMark()" title="撤销本次 Mark (快捷键: -)" style="display:none" hidden>撤销本次 Mark (-)</button>
             </div>
           </aside>
 
@@ -679,7 +680,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
         <!-- 底部快捷键提示 -->
         <div class="flashcard-footer-tip">
-          <span>快捷键: <strong>Enter</strong> 提交 (空内容按回车直接看答案) · <strong>Space</strong> 发音 · <strong>Esc</strong> 退出 (断点自动保存)</span>
+          <span>快捷键: <strong>Enter</strong> 判卷/下一词 · <strong>+</strong> 标记Mark · <strong>Space</strong> 发音 · <strong>Esc</strong> 退出</span>
         </div>
       </div>
     `;
@@ -730,7 +731,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   function handleFlashcardKeydown(e) {
     if (!state.isOpen) return;
     if (e.isComposing || e.keyCode === 229) return;
-    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.ctrlKey || e.metaKey) return;
 
     if (e.key === 'Escape') {
       e.preventDefault();
@@ -741,7 +742,48 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const inputEl = document.getElementById('fcInput');
     const isInputFocused = (document.activeElement === inputEl && inputEl && inputEl.offsetParent !== null);
 
-    // 空格键发音（当用户不在输入框打字时）
+    // 1. 词性勾选快捷键：Alt+1~7 (任何聚焦状态) 或 1~7 (不在输入框打字时)
+    const isAltDigit = e.altKey && e.key >= '1' && e.key <= '7';
+    const isDirectDigit = !isInputFocused && !e.altKey && e.key >= '1' && e.key <= '7';
+    if (!state.isAnswered && !state.isEvaluating && (isAltDigit || isDirectDigit)) {
+      const idx = parseInt(e.key, 10) - 1;
+      if (idx >= 0 && idx < POS_OPTIONS.length) {
+        e.preventDefault();
+        e.stopPropagation();
+        togglePosOption(POS_OPTIONS[idx].id);
+        if (typeof soundClick === 'function') soundClick();
+        return;
+      }
+    }
+
+    if (e.altKey) return;
+
+    // 2. Mark 标记快捷键 (+ / = / 小键盘+ / m 加入；- / _ / 小键盘- 撤销)
+    // 关键体验：在判定后（输入框已隐藏）或未在打字时，直接敲击 + 即可将该词加入 Mark；敲击 - 可撤销
+    const isIncrease = (e.key === '+' || e.key === '=' || e.code === 'Equal' || e.code === 'NumpadAdd' || e.key === 'Add' || (!isInputFocused && (e.key === 'm' || e.key === 'M' || e.code === 'KeyM')));
+    const isDecrease = (e.key === '-' || e.key === '_' || e.code === 'Minus' || e.code === 'NumpadSubtract' || e.key === 'Subtract');
+
+    if (!isInputFocused && isIncrease) {
+      e.preventDefault();
+      e.stopPropagation();
+      addCurrentMark();
+      if (typeof soundClick === 'function') soundClick();
+      const nextBtn = document.getElementById('fcNextBtn');
+      if (nextBtn && typeof nextBtn.focus === 'function') { try { nextBtn.focus(); } catch {} }
+      return;
+    }
+
+    if (!isInputFocused && isDecrease) {
+      e.preventDefault();
+      e.stopPropagation();
+      undoCurrentMark();
+      if (typeof soundClick === 'function') soundClick();
+      const nextBtn = document.getElementById('fcNextBtn');
+      if (nextBtn && typeof nextBtn.focus === 'function') { try { nextBtn.focus(); } catch {} }
+      return;
+    }
+
+    // 3. 空格键发音（当用户不在输入框打字时）
     if (e.code === 'Space' || e.key === ' ') {
       if (!isInputFocused) {
         e.preventDefault();
@@ -750,7 +792,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       }
     }
 
-    // 回车键：若已作答/已提交，进入下一词；若未作答且未在输入框内聚焦，触发提交
+    // 4. 回车键：若已作答/已提交，进入下一词；若未作答且未在输入框内聚焦，触发提交
     if (e.key === 'Enter') {
       if (state.isAnswered) {
         if (Date.now() - (state.answeredAt || 0) < 100) return;
@@ -766,6 +808,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
       // 未作答状态：如果焦点不在输入框内（例如点击了词性胶囊或卡片背景），按 Enter 也提交答案
       if (!isInputFocused && inputEl && !state.isEvaluating) {
+        if (Date.now() - (state.renderedAt || 0) < 250) return;
         const active = document.activeElement;
         if (active && (active.id === 'fcUnknownBtn' || active.id === 'fcSubmitBtn' || active.id === 'fcMarkAdd' || active.id === 'fcMarkUndo')) {
           return;
@@ -1015,9 +1058,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const nextButton = document.getElementById('fcNextBtn');
     if (addButton) {
       addButton.disabled = added || typeof addMark !== 'function';
-      addButton.textContent = added ? '✓ 本次已加入 Mark' : '＋加入 Mark';
+      addButton.textContent = added ? '✓ 本次已加入 Mark' : '＋加入 Mark (+)';
+      addButton.title = added ? '已手动加入重点生词本' : '加入重点生词本 (快捷键: +)';
     }
-    if (undoButton) { undoButton.hidden = !added; undoButton.style.display = added ? '' : 'none'; }
+    if (undoButton) {
+      undoButton.hidden = !added;
+      undoButton.style.display = added ? '' : 'none';
+      undoButton.title = '撤销本次 Mark (快捷键: -)';
+    }
     if (status) status.textContent = added
       ? `已手动加入，当前 Mark：${count}。可以撤销本次添加。`
       : `本次未新增 Mark${count > 0 ? `，已有 ${count} 次标记保留` : ''}。是否加入，由你决定。`;

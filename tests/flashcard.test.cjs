@@ -257,3 +257,127 @@ test('pressing Enter after answer advances to the next card, Space pronounces, E
   assert.equal(escPrevented, true);
   assert.equal(h.state.isOpen, false);
 });
+
+test('keyboard shortcut + and = adds manual Mark after evaluation, - undos, and Enter advances', () => {
+  const h = setup(undefined, {
+    requestAnimationFrame: fn => fn(),
+    setTimeout: fn => { if (typeof fn === 'function') fn(); return 1; }
+  });
+  h.state.queue = ['reunite', 'space'];
+  h.state.currentIndex = 0;
+  h.state.currentWord = 'reunite';
+  h.state.isOpen = true;
+  h.state.isAnswered = true;
+  h.state.answeredAt = Date.now() - 200;
+
+  assert.equal(h.marks(), 0);
+
+  // 1. 按 + 键增加 Mark
+  let plusPrevented = false, plusStopped = false;
+  h.engine.handleFlashcardKeydown({
+    key: '+',
+    preventDefault() { plusPrevented = true; },
+    stopPropagation() { plusStopped = true; }
+  });
+  assert.equal(plusPrevented, true);
+  assert.equal(plusStopped, true);
+  assert.equal(h.marks(), 1);
+  assert.equal(h.state.manualMarkBaselines.has('reunite'), true);
+
+  // 2. 再次按 + 键幂等去重（不会重复增加）
+  h.engine.handleFlashcardKeydown({
+    key: '+',
+    preventDefault() {},
+    stopPropagation() {}
+  });
+  assert.equal(h.marks(), 1);
+
+  // 3. 按 - 键撤销本次 Mark
+  let minusPrevented = false, minusStopped = false;
+  h.engine.handleFlashcardKeydown({
+    key: '-',
+    preventDefault() { minusPrevented = true; },
+    stopPropagation() { minusStopped = true; }
+  });
+  assert.equal(minusPrevented, true);
+  assert.equal(minusStopped, true);
+  assert.equal(h.marks(), 0);
+  assert.equal(h.state.manualMarkBaselines.has('reunite'), false);
+
+  // 4. 按 = 键（大键盘不按 Shift）再次增加 Mark
+  h.engine.handleFlashcardKeydown({
+    key: '=',
+    code: 'Equal',
+    preventDefault() {},
+    stopPropagation() {}
+  });
+  assert.equal(h.marks(), 1);
+  assert.equal(h.state.manualMarkBaselines.has('reunite'), true);
+
+  // 5. 增加 Mark 后，点击 Enter 顺利切到下一张
+  let enterPrevented = false, enterStopped = false;
+  h.engine.handleFlashcardKeydown({
+    key: 'Enter',
+    preventDefault() { enterPrevented = true; },
+    stopPropagation() { enterStopped = true; }
+  });
+  assert.equal(enterPrevented, true);
+  assert.equal(enterStopped, true);
+  assert.equal(h.state.currentIndex, 1);
+  assert.equal(h.state.currentWord, 'space');
+  assert.equal(h.state.isAnswered, false);
+  // 上一张卡片增加的 Mark 依然保留在生词库中
+  assert.equal(h.marks(), 1);
+});
+
+test('POS shortcuts 1~7 toggle part of speech pills, and typing in input protects + key', () => {
+  const fakeInput = { offsetParent: {} };
+  const doc = { activeElement: null, readyState: 'loading', addEventListener() {}, getElementById(id) { return id === 'fcInput' ? fakeInput : null; } };
+  const h = setup(undefined, {
+    document: doc,
+    requestAnimationFrame: fn => fn(),
+    setTimeout: fn => { if (typeof fn === 'function') fn(); return 1; }
+  });
+  h.state.queue = ['reunite', 'space'];
+  h.state.currentIndex = 0;
+  h.state.currentWord = 'reunite';
+  h.state.isOpen = true;
+  h.state.isAnswered = false;
+
+  // 1. 非打字状态按 1 勾选 'n'，按 2 勾选 'v'
+  h.engine.handleFlashcardKeydown({
+    key: '1',
+    preventDefault() {},
+    stopPropagation() {}
+  });
+  assert.equal(h.state.selectedPos.join(','), 'n');
+
+  h.engine.handleFlashcardKeydown({
+    key: '2',
+    preventDefault() {},
+    stopPropagation() {}
+  });
+  assert.equal(h.state.selectedPos.join(','), 'n,v');
+
+  // 再次按 1 取消勾选 'n'
+  h.engine.handleFlashcardKeydown({
+    key: '1',
+    preventDefault() {},
+    stopPropagation() {}
+  });
+  assert.equal(h.state.selectedPos.join(','), 'v');
+
+  // 2. 当输入框处于聚焦输入中时，打字按 + 不会触发加 Mark
+  doc.activeElement = fakeInput;
+
+  let plusPrevented = false;
+  h.engine.handleFlashcardKeydown({
+    key: '+',
+    preventDefault() { plusPrevented = true; },
+    stopPropagation() {}
+  });
+  // 不应该拦截输入法打字
+  assert.equal(plusPrevented, false);
+  assert.equal(h.marks(), 0);
+});
+
