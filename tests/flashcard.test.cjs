@@ -213,3 +213,47 @@ test('fresh device restores an answered card without recounting it',async()=>{
   assert.equal(h.elements.get('fcInput').value,'香蕉');
   assert.equal(h.state.learnedWords.has('space'),true);
 });
+
+test('pressing Enter after answer advances to the next card, Space pronounces, Esc closes', () => {
+  let spoken = null;
+  const h = setup(undefined, {
+    speakWord: w => { spoken = w; },
+    requestAnimationFrame: fn => fn(),
+    setTimeout: fn => { if (typeof fn === 'function') fn(); return 1; }
+  });
+  h.state.queue = ['reunite', 'space'];
+  h.state.currentIndex = 0;
+  h.state.currentWord = 'reunite';
+  h.state.isOpen = true;
+  h.state.isAnswered = true;
+  h.state.answeredAt = Date.now() - 200;
+
+  let prevented = false, stopped = false;
+  h.engine.handleFlashcardKeydown({
+    key: 'Enter',
+    preventDefault() { prevented = true; },
+    stopPropagation() { stopped = true; }
+  });
+  assert.equal(prevented, true);
+  assert.equal(stopped, true);
+  assert.equal(h.state.currentIndex, 1);
+  assert.equal(h.state.currentWord, 'space');
+  assert.equal(h.state.isAnswered, false);
+
+  let spacePrevented = false;
+  h.engine.handleFlashcardKeydown({
+    code: 'Space',
+    key: ' ',
+    preventDefault() { spacePrevented = true; }
+  });
+  assert.equal(spacePrevented, true);
+  assert.equal(spoken, 'space');
+
+  let escPrevented = false;
+  h.engine.handleFlashcardKeydown({
+    key: 'Escape',
+    preventDefault() { escPrevented = true; }
+  });
+  assert.equal(escPrevented, true);
+  assert.equal(h.state.isOpen, false);
+});

@@ -17,8 +17,14 @@ import json
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-BWH_VEID = "2186700"
-BWH_API_KEY = "private_ulJzz7hWHjQ1ysG7vY2wQA5K"
+_local_config_path = os.path.join(os.path.dirname(__file__), ".deployment-secrets.local.json")
+_local_config = {}
+if os.path.isfile(_local_config_path):
+    with open(_local_config_path, encoding="utf-8") as _config_file:
+        _local_config = json.load(_config_file)
+
+BWH_VEID = os.environ.get("STONE_BWH_VEID") or _local_config.get("STONE_BWH_VEID", "")
+BWH_API_KEY = os.environ.get("STONE_BWH_API_KEY") or _local_config.get("STONE_BWH_API_KEY", "")
 API_URL = "https://api.64clouds.com/v1/basicShell/exec"
 REPO_DIR = r"F:\cluade-products\scripts\vocab-survival-repo"
 
@@ -29,10 +35,10 @@ def exec_cmd(cmd: str, timeout: int = 40) -> dict:
         "command": cmd
     }, timeout=timeout)
     if resp.status_code != 200:
-        raise Exception(f"HTTP Error {resp.status_code}: {resp.text}")
+        raise RuntimeError(f"Hosting HTTP status: {resp.status_code}")
     res = resp.json()
     if res.get("error") != 0:
-        raise Exception(f"Command failed ({cmd}): {res}")
+        raise RuntimeError("Hosting command failed; details withheld")
     return res
 
 def upload_single_file(local_path: str, remote_path: str, mode: str = "644"):

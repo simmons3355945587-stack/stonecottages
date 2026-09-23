@@ -56,10 +56,8 @@ function getAdjacentWord(currentWord, direction) {
 
 function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl) {
   const phoneticText = entry.phonetic || (entry.phonetics && entry.phonetics[0] ? entry.phonetics[0].text : '') || '';
-  if (phoneticText) {
-    const phEl = document.getElementById('dictPhonetic');
-    if (phEl) phEl.textContent = phoneticText;
-  }
+  const phEl = document.getElementById('dictPhonetic');
+  if (phEl) phEl.textContent = phoneticText;
 
   let meaningsHtml = '';
   if (entry.meanings && entry.meanings.length > 0) {
@@ -88,7 +86,7 @@ function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl,
       meaningsHtml += `</div></div>`;
     });
     const bEl = document.getElementById('dictMeaningsBody');
-    if (bEl) bEl.innerHTML = meaningsHtml;
+    if (bEl) { bEl.innerHTML = meaningsHtml; bEl.setAttribute('aria-busy', 'false'); }
   }
 }
 
@@ -96,14 +94,17 @@ async function openWordDetails(word) {
   // 不再调用 soundClick()，防止短促提示音干扰单词首音节
   const requestSequence=++stoneLookupSequence;
   const safeWord = word.toLowerCase().trim();
- if(!CORE_STUDY_WORDS.includes(safeWord)){try{await Stone.script('extra-definitions.js');}catch{}}
+  if(!CORE_STUDY_WORDS.includes(safeWord)) Stone.script('extra-definitions.js').catch(() => {});
   if(requestSequence!==stoneLookupSequence)return;
   const lookup = corrections[safeWord] || safeWord;
   currentLookupWord = safeWord;
+  Stone.warmEnglish();
   speakWord(lookup);
 
   // 根据设置初始化当前激活的词典 Tab：默认 'en'，设置了中文模式则默认 'zh'
-  currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
+  if (!document.getElementById('defDrawer')?.classList.contains('open')) {
+    currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
+  }
 
   const cambridgeUrl = `https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(lookup)}`;
   const collinsUrl = `https://www.collinsdictionary.com/dictionary/english/${encodeURIComponent(lookup)}`;
@@ -186,7 +187,7 @@ async function openWordDetails(word) {
         <a href="${collinsUrl}" target="_blank" class="dict-external-link" title="Open Collins Dictionary">📚 Collins</a>
         <a href="${merriamUrl}" target="_blank" class="dict-external-link" title="Open Merriam-Webster">🎓 Webster</a>
       </div>
-      <div id="dictMeaningsBody">
+      <div id="dictMeaningsBody" role="status" aria-live="polite" aria-busy="true">
         <div style="padding:25px; text-align:center; color:var(--text-secondary);"><em>Loading English definitions...</em></div>
       </div>
     </div>
@@ -211,45 +212,32 @@ async function openWordDetails(word) {
 }
 
 async function fetchStoneEnglish(safeWord){
+  const requestSequence = stoneLookupSequence;
   const lookup=corrections[safeWord]||safeWord;
   const cambridgeUrl=`https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(lookup)}`;
   const collinsUrl=`https://www.collinsdictionary.com/dictionary/english/${encodeURIComponent(lookup)}`;
   const merriamUrl=`https://www.merriam-webster.com/dictionary/${encodeURIComponent(lookup)}`;
   // 加载英文释义
-  if (typeof builtinEnglishDict !== 'undefined' && builtinEnglishDict && builtinEnglishDict[lookup]) {
-    renderDefinitionBody(builtinEnglishDict[lookup], safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
-    return;
+  let entry = Stone.peekEnglish(lookup);
+  if (!entry) {
+    const body = document.getElementById('dictMeaningsBody');
+    if (body) { body.textContent = '正在获取英文释义…'; body.setAttribute('aria-busy', 'true'); }
+    try { entry = await Stone.english(lookup); } catch {}
   }
-
-  let entry = null;
-  const apis = [
-    `${API_BASE}/api/dict/${encodeURIComponent(lookup)}`,
-    `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(lookup)}`
-  ];
-
-  for (const apiUrl of apis) {
-    try {
-      const resp = await Stone.dictResponse(apiUrl);
-      if(currentLookupWord!==safeWord)return;
-      if (resp.ok) {
-        const d = await resp.json();
-        entry = Array.isArray(d) ? d[0] : d;
-        if (entry && (entry.meanings || entry.definitions)) break;
-      }
-    } catch(e) {}
-  }
-
-  if(currentLookupWord!==safeWord)return;
+  if(currentLookupWord!==safeWord || requestSequence!==stoneLookupSequence)return;
   if (entry) {
     renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
+    Stone.prefetchEnglish([getAdjacentWord(safeWord, 1), getAdjacentWord(safeWord, -1)]);
   } else {
     const phEl = document.getElementById('dictPhonetic');
     if (phEl && phEl.textContent.includes('Loading')) phEl.textContent = '';
     const bodyEl = document.getElementById('dictMeaningsBody');
     if (bodyEl) {
+      bodyEl.setAttribute('aria-busy', 'false');
       bodyEl.innerHTML = `
         <div style="background: var(--paper-surface-sub); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 16px; text-align: center;">
-          <div style="font-size: 15px; color: var(--text-primary); margin-bottom: 10px;">Full English definition is accessible on web dictionaries:</div>
+          <div style="font-size: 15px; color: var(--text-primary); margin-bottom: 10px;">暂时未取得英文释义，可以重试或打开在线词典。</div>
+          <button type="button" class="btn btn-secondary" onclick="fetchStoneEnglish(currentLookupWord)">重新获取英文释义</button>
           <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
             <a href="${cambridgeUrl}" target="_blank" class="dict-external-link">Open Cambridge Dictionary</a>
             <a href="${collinsUrl}" target="_blank" class="dict-external-link">Open Collins Dictionary</a>
@@ -335,6 +323,7 @@ function renderZhDefinitionBody(data, fallbackCommon) {
 }
 
 function closeDefDrawer() {
+  stoneLookupSequence++;
   document.getElementById('defDrawer').classList.remove('open');
   document.getElementById('drawerOverlay').classList.remove('open');
   if (currentSubTab === 'all') renderWords(document.getElementById('searchInput').value);

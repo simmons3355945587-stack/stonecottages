@@ -137,11 +137,13 @@ window.Stone = (() => {
     const d = await getDatabase();
     if (!d) return;
     return new Promise(resolve => {
+      const timer = setTimeout(() => resolve(), 120);
+      const done = value => { clearTimeout(timer); resolve(value); };
       try {
         const r = d.transaction('entries').objectStore('entries').get(k);
-        r.onsuccess = () => resolve(r.result);
-        r.onerror = () => resolve();
-      } catch { resolve(); }
+        r.onsuccess = () => done(r.result);
+        r.onerror = () => done();
+      } catch { done(); }
     });
   }
   async function cacheWrite(k, data) {
@@ -170,13 +172,20 @@ window.Stone = (() => {
   function dict(resource) {
     const k = 'v1:' + resource;
     if (!inflight.has(k)) inflight.set(k, (async () => {
-      const hit = await cacheRead(k);
+      // A broken or locked IndexedDB must not hold up the network.
+      let timer;
+      const hit = await Promise.race([cacheRead(k), new Promise(resolve => { timer = setTimeout(resolve, 150); })]);
+      clearTimeout(timer);
       if (hit?.expires > Date.now()) return hit.data;
       try {
-        const sig = (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') ? AbortSignal.timeout(6500) : undefined;
-        const r = await fetch(resource, sig ? { signal: sig } : {});
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 6500);
+        let data;
+        try {
+        const r = await fetch(resource, { signal: controller.signal });
         if (!r.ok) throw new Error('词典暂不可用');
-        const data = await r.json();
+        data = await r.json();
+        } finally { clearTimeout(timeout); }
         // A cache failure must never discard a successful dictionary response.
         cacheWrite(k, data).catch(() => {});
         return data;
@@ -188,5 +197,89 @@ window.Stone = (() => {
     return inflight.get(k);
   }
   function dictResponse(resource) { return dict(resource).then(data => ({ ok: true, json: async () => data })); }
-  return { url, script, module, json, idle, chapter, dictResponse };
+  // Shared English dictionary for cards, the drawer and adjacent-word prefetch.
+  const englishMemory = new Map(), englishPending = new Map();
+  const cleanWord = word => String(word || '').trim().toLowerCase();
+  function normalizeEnglish(data, word = '') {
+    const entries = Array.isArray(data) ? data : [data];
+    const first = entries.find(e => e && typeof e === 'object');
+    if (!first) return null;
+    const meanings = entries.flatMap(e => Array.isArray(e?.meanings) ? e.meanings : []).map(m => ({
+      partOfSpeech: String(m.partOfSpeech || m.pos || ''),
+      definitions: (Array.isArray(m.definitions || m.defs) ? (m.definitions || m.defs) : []).map(d => ({
+        definition: typeof d === 'string' ? d : String(d?.definition || d?.def || ''),
+        example: typeof d === 'object' ? String(d?.example || d?.eg || '') : ''
+      })).filter(d => d.definition.trim())
+    })).filter(m => m.definitions.length);
+    if (!meanings.length) return null;
+    return {...first, word:first.word || word, meanings};
+  }
+  function rememberEnglish(word, data) {
+    const entry = normalizeEnglish(data, word);
+    if (!entry) return null;
+    englishMemory.set(cleanWord(word), entry);
+    if (englishMemory.size > 1200) englishMemory.delete(englishMemory.keys().next().value);
+    return entry;
+  }
+  function peekEnglish(word) {
+    const key = cleanWord(word);
+    if (englishMemory.has(key)) return englishMemory.get(key);
+    const builtin = typeof builtinEnglishDict !== 'undefined' ? builtinEnglishDict[key] : null;
+    if (builtin) return rememberEnglish(key, builtin);
+    const hit = memory.get('v1:/api/dict/' + encodeURIComponent(key));
+    if (hit?.data) return rememberEnglish(key, hit.data);
+    return null;
+  }
+  let englishPack;
+  function warmEnglish() {
+    if (!window.STONE_ASSETS?.['english-core.json']) return Promise.resolve();
+    if (!englishPack) englishPack = json('english-core.json').then(entries => {
+      Object.entries(entries).forEach(([word, entry]) => {
+        if (!englishMemory.has(word)) rememberEnglish(word, entry);
+      });
+    }).catch(() => { englishPack = null; });
+    return englishPack;
+  }
+  function english(word) {
+    const key = cleanWord(word);
+    const ready = peekEnglish(key);
+    if (ready) return Promise.resolve(ready);
+    if (!englishPending.has(key)) englishPending.set(key, (async () => {
+      let packTimer;
+      const fromPack = Promise.race([
+        warmEnglish().then(() => {
+          const entry = peekEnglish(key);
+          if (!entry) throw new Error('not bundled');
+          return entry;
+        }),
+        new Promise((_, reject) => { packTimer = setTimeout(() => reject(new Error('bundle slow')), 1500); })
+      ]).finally(() => clearTimeout(packTimer));
+      const fromNetwork = (async () => {
+      let timer;
+      await Promise.race([warmEnglish(), new Promise(resolve => { timer = setTimeout(resolve, 100); })]);
+      clearTimeout(timer);
+      const packed = peekEnglish(key);
+      if (packed) return packed;
+      const entry = rememberEnglish(key, await dict('/api/dict/' + encodeURIComponent(key)));
+      if (!entry) throw new Error('暂无可用英文释义');
+      return entry;
+      })();
+      // A slightly later bundle can still satisfy a slow or failed API request.
+      return Promise.any([fromPack, fromNetwork]);
+    })().finally(() => englishPending.delete(key)));
+    return englishPending.get(key);
+  }
+  let prefetchGeneration = 0;
+  function prefetchEnglish(words) {
+    const generation = ++prefetchGeneration;
+    if (navigator.connection?.saveData || /2g/.test(navigator.connection?.effectiveType || '')) return;
+    idle(async () => {
+      for (const word of [...new Set(words.filter(Boolean))].slice(0, 2)) {
+        if (generation !== prefetchGeneration) break;
+        try { await english(word); } catch {}
+      }
+    });
+  }
+  return { url, script, module, json, idle, chapter, dictResponse,
+    normalizeEnglish, peekEnglish, english, warmEnglish, prefetchEnglish };
 })();

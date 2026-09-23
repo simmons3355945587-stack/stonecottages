@@ -41,7 +41,15 @@ if hasattr(sys.stdout, "reconfigure"):
 # ==========================================
 # 安全鉴权配置 (JWT Token Verification)
 # ==========================================
-SECRET_KEY = "antigravity_secret_jwt_key_vocab_game_prod"
+from pathlib import Path
+_private_path = Path(os.environ.get("VOCAB_SECRETS_FILE", "/etc/vocab/secrets.json"))
+_private_secrets = json.loads(_private_path.read_text()) if _private_path.is_file() else {}
+def private_secret(name):
+    return os.environ.get(name) or _private_secrets.get(name, "")
+
+SECRET_KEY = private_secret("VOCAB_JWT_SECRET") or _private_secrets.get("jwt_secret", "")
+if len(SECRET_KEY) < 32:
+    raise RuntimeError("VOCAB_JWT_SECRET must be configured securely")
 
 def _decode_jwt_hs256(token: str, secret: str) -> Optional[dict]:
     """标准零依赖 HS256 JWT 解码验证器"""
@@ -98,12 +106,12 @@ def verify_admin_token(token: Optional[str]) -> bool:
 # ==========================================
 # 真实 AI 调度引擎配置 (Google Gemini + MIMO 2.5)
 # ==========================================
-MIMO_API_KEY = "tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns"
+MIMO_API_KEY = private_secret("MIMO_API_KEY")
 MIMO_API_URL = "https://token-plan-cn.xiaomimimo.com/v1/chat/completions"
 MIMO_MODEL = "mimo-v2.5"
 
 # 可通过环境变量或动态配置指定 Google Gemini 官方 Key
-SERVER_GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyC98h3JpQlgPKUBORb6hu8voks2zQhtHKM").strip()
+SERVER_GEMINI_KEY = os.environ.get("GEMINI_API_KEY", private_secret("GEMINI_API_KEY")).strip()
 
 def get_server_gemini_key() -> str:
     global SERVER_GEMINI_KEY
@@ -123,7 +131,7 @@ def get_server_gemini_key() -> str:
                 return SERVER_GEMINI_KEY
         except Exception:
             pass
-    return "AIzaSyC98h3JpQlgPKUBORb6hu8voks2zQhtHKM"
+    return private_secret("GEMINI_API_KEY")
 
 async def verify_clue_with_ai(word: str, passage: str, clue: str, gemini_key: Optional[str] = None, standard_clues: Optional[List[str]] = None, standard_hint: Optional[str] = None) -> Dict[str, Any]:
     """真实调用大模型对玩家勾选的语境线索进行质检，并提取 AI 检测的关键词与标准提示"""

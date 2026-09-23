@@ -3125,6 +3125,18 @@
   transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .flashcard-modal-overlay.open { opacity: 1; pointer-events: auto; }
+.flashcard-modal-overlay { overflow-y: auto; overscroll-behavior: contain; }
+.flashcard-container { max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; }
+.flashcard-input { min-width: 0; }
+.flashcard-action-bar { flex-wrap: wrap; }
+.flashcard-def-comparison { overflow-wrap: anywhere; }
+#fcStdDefEnText { line-height: 1.75; font-style: normal; }
+#fcCloudStatus { color: #f3eee5; }
+.flashcard-container > * { flex-shrink: 0; }
+.flashcard-dict-lang-switch { flex-wrap: wrap; flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .flashcard-modal-overlay, .flashcard-card-box, .flashcard-progress-fill { transition: none; animation: none; }
+}
 .flashcard-container { width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 12px; }
 .flashcard-hud { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .flashcard-hud-left, .flashcard-hud-right { display: flex; align-items: center; gap: 8px; }
@@ -3296,8 +3308,8 @@
     padding: 16px 14px;
     gap: 12px;
     border-radius: 12px;
-    max-height: 85dvh;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
   }
   .flashcard-word-row {
@@ -3328,18 +3340,26 @@
   }
   .flashcard-input-wrap {
     gap: 6px;
+    flex-wrap: wrap;
   }
   .flashcard-input {
     padding: 8px 10px;
-    font-size: 15px;
+    font-size: 16px;
+    flex: 1 0 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
   .flashcard-submit-btn {
     padding: 8px 14px;
     font-size: 13px;
+    flex: 1;
+    min-height: 44px;
   }
   .flashcard-unknown-btn {
     padding: 8px 10px;
     font-size: 12px;
+    flex: 1;
+    min-height: 44px;
   }
   .flashcard-def-comparison {
     padding: 10px 12px;

@@ -1,6 +1,6 @@
 // Account-scoped write-ahead cache; the authenticated server is authoritative.
 window.FlashcardCloud = (() => {
-  let owner = null, ready = false, busy = false, loading = null, blocked = false, timer = null;
+  let owner = null, ready = false, busy = false, loading = null, blocked = false, timer = null, expired = false;
   let record = {revision:0, dirty:false, mutation:null, data:null};
   let status = '未登录：进度仅暂存在本机';
   const getAuth = () => typeof authToken !== 'undefined' && authToken && typeof authUser !== 'undefined' && (authUser?.id || authUser?.sub)
@@ -11,7 +11,7 @@ window.FlashcardCloud = (() => {
   function identify() {
     const auth = getAuth(), id = auth?.id || 'guest';
     if (owner !== id) {
-      owner=id; ready=false; blocked=false; loading=null;
+      owner=id; ready=false; blocked=false; loading=null; expired=false;
       try { record=JSON.parse(read(cacheKey(id))) || {revision:0,dirty:false,data:null}; } catch { record={revision:0,dirty:false,data:null}; }
     }
     return auth;
@@ -20,7 +20,7 @@ window.FlashcardCloud = (() => {
     status=text;
     const el=document.getElementById('fcCloudStatus'); if(el) el.textContent=text;
     const button=document.getElementById('fcCloudAction');
-    if(button) button.textContent=blocked?'载入云端进度':getAuth()?'立即同步':'登录同步';
+    if(button) button.textContent=expired?'重新登录':blocked?'载入云端进度':getAuth()?'立即同步':'登录同步';
   }
   function persist() { write(cacheKey(owner),JSON.stringify(record)); }
   function storageKey(key) { identify(); return key+':'+owner; }
@@ -50,6 +50,7 @@ window.FlashcardCloud = (() => {
         if(record.dirty&&!blocked) void flush();
         return record.data;
       } catch(error) {
+        if(error.message==='login') { expired=true; window.StoneAuthExpired=true; }
         ready=false;label(error.message==='login'?'登录已过期，请重新登录同步':'离线暂存：联网后自动上传，尚未同步');
         if(record.dirty && error.message!=='login'){clearTimeout(timer);timer=setTimeout(()=>{timer=null;void flush();},5000);}
         return record.data;
@@ -62,12 +63,13 @@ window.FlashcardCloud = (() => {
     if(JSON.stringify(data)===JSON.stringify(record.data)) return;
     record.data=JSON.parse(JSON.stringify(data));record.dirty=true;record.mutation=crypto.randomUUID();persist();
     if(!auth) {label('未登录：进度仅暂存在本机，登录后可跨设备继续');return;}
+    if(expired) {label('登录已过期；本机进度已保留，请重新登录同步');return;}
     if(blocked) {label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');return;}
     label('正在同步进度…');void flush();
   }
   async function flush() {
     const auth=identify();
-    if(!auth||busy||blocked||!record.dirty)return;
+    if(!auth||busy||blocked||expired||!record.dirty)return;
     if(!ready) {await load();return;}
     const sending=JSON.parse(JSON.stringify(record)),id=auth.id;
     busy=true;
@@ -81,11 +83,13 @@ window.FlashcardCloud = (() => {
       if(record.mutation===sending.mutation)record.dirty=false;
       persist();label(record.dirty?'正在同步最新进度…':'已同步到云端 · 换设备可继续');
     }catch(error){
+      if(error.message==='login') { expired=true; ready=false; window.StoneAuthExpired=true; }
       label(error.message==='login'?'登录已过期，请重新登录同步':'离线暂存：联网后自动上传，尚未同步');
-      clearTimeout(timer);timer=setTimeout(()=>{timer=null;void flush();},5000);
+      clearTimeout(timer);timer=null;
+      if(!expired)timer=setTimeout(()=>{timer=null;void flush();},5000);
     }finally{
       busy=false;
-      if(getAuth()?.id===id&&record.dirty&&!blocked&&!timer)void flush();
+      if(getAuth()?.id===id&&record.dirty&&!blocked&&!expired&&!timer)void flush();
     }
   }
   function refreshLabel(){label(status);}
@@ -107,7 +111,7 @@ window.FlashcardCloud = (() => {
     window.addEventListener('online',()=>{clearTimeout(timer);timer=null;void flush();});
     window.addEventListener('pagehide',()=>void flush());
   }
-  return {getAuth,storageKey,current,load,save,flush,refreshLabel,migrateLegacy,isReady:()=>ready,isBlocked:()=>blocked};
+  return {getAuth,storageKey,current,load,save,flush,refreshLabel,migrateLegacy,isReady:()=>ready,isBlocked:()=>blocked,needsLogin:()=>expired};
 })();
 
 /**
@@ -239,7 +243,9 @@ window.FlashcardEngine = (() => {
     queueCloudProgress(true);
   }
 
-  const enDefCache = {};
+  const enDefCache = Object.create(null);
+  const enDefRequests = new Map();
+  const enDefFailures = new Map();
 
   function getStandardDefinition(word) {
     if (!word) return '';
@@ -298,6 +304,8 @@ window.FlashcardEngine = (() => {
     if (!word) return '';
     const clean = word.toLowerCase().trim();
     if (enDefCache[clean]) return enDefCache[clean];
+    const shared = window.Stone?.peekEnglish?.(clean);
+    if (shared) return enDefCache[clean] = englishSummary(shared);
 
     if (typeof builtinEnglishDict !== 'undefined' && builtinEnglishDict && builtinEnglishDict[clean]) {
       const entry = builtinEnglishDict[clean];
@@ -323,28 +331,60 @@ window.FlashcardEngine = (() => {
   async function fetchEnglishDefOnline(word) {
     if (!word) return '';
     const clean = word.toLowerCase().trim();
-    if (enDefCache[clean]) return enDefCache[clean];
-    try {
-      const resp = await fetch(`/api/dict/${encodeURIComponent(clean)}`);
-      if (resp.ok) {
-        const d = await resp.json();
-        const meanings = d.meanings || [];
-        if (meanings.length > 0) {
-          const defText = meanings.map(m => {
-            const pos = m.partOfSpeech || m.pos || '';
-            const firstDef = m.definitions?.[0]?.definition || m.defs?.[0]?.def || '';
-            return `${pos ? `(${pos}) ` : ''}${firstDef}`;
-          }).filter(Boolean).join('; ');
-          if (defText) {
-            enDefCache[clean] = defText;
-            const el = document.getElementById('fcStdDefEnText');
-            if (el && state.currentWord?.toLowerCase().trim() === clean) el.textContent = defText;
-            return defText;
-          }
+    const cached = getEnglishDefinition(clean);
+    if (cached) { updateEnglishDefinition(clean, cached); return cached; }
+    if ((enDefFailures.get(clean) || 0) > Date.now()) { updateEnglishDefinition(clean, ''); return ''; }
+    if (!enDefRequests.has(clean)) enDefRequests.set(clean, (async () => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 6500);
+      try {
+        let data;
+        if (window.Stone?.english) data = await window.Stone.english(clean);
+        else {
+          const response = await fetch(`/api/dict/${encodeURIComponent(clean)}`, {signal:controller.signal});
+          if (!response.ok) throw new Error('dictionary unavailable');
+          data = await response.json();
         }
-      }
-    } catch(e) {}
-    return '';
+        const summary = englishSummary(data);
+        if (!summary) throw new Error('empty definition');
+        enDefCache[clean] = summary;
+        enDefFailures.delete(clean);
+        return summary;
+      } catch {
+        enDefFailures.set(clean, Date.now() + 15000);
+        return '';
+      } finally { clearTimeout(timer); enDefRequests.delete(clean); }
+    })());
+    const summary = await enDefRequests.get(clean);
+    updateEnglishDefinition(clean, summary);
+    return summary;
+  }
+
+  function englishSummary(data) {
+    return (Array.isArray(data) ? data : [data]).flatMap(entry => entry?.meanings || []).map(m => {
+      const pos = m.partOfSpeech || m.pos || '';
+      const defs = m.definitions || m.defs || [];
+      const first = defs.find(d => typeof d === 'string' ? d.trim() : (d?.definition || d?.def || '').trim());
+      const text = typeof first === 'string' ? first : first?.definition || first?.def || '';
+      return text ? `${pos ? `(${pos}) ` : ''}${text}` : '';
+    }).filter(Boolean).join('; ');
+  }
+
+  function updateEnglishDefinition(word, summary) {
+    if (!state.isOpen || state.currentWord?.toLowerCase().trim() !== word) return;
+    const el = document.getElementById('fcStdDefEnText');
+    if (el) { el.textContent = summary || '暂时未取得英文释义，可重试或先看中文参考。'; el.setAttribute?.('aria-busy', 'false'); }
+    const retry = document.getElementById('fcEnglishRetry');
+    if (retry) { retry.hidden = !!summary; retry.style.display = summary ? 'none' : 'inline-flex'; }
+  }
+
+  function retryEnglishDefinition() {
+    const word = state.currentWord?.toLowerCase().trim();
+    if (!word) return;
+    enDefFailures.delete(word);
+    const el = document.getElementById('fcStdDefEnText');
+    if (el) { el.textContent = '正在获取英文释义…'; el.setAttribute?.('aria-busy', 'true'); }
+    return fetchEnglishDefOnline(word);
   }
 
   /**
@@ -391,9 +431,12 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   const timer = setTimeout(() => controller.abort(), 12000);
   try {
     const resp = await fetch("/api/jev/verify", {
-      method:"POST", headers:{"Content-Type":"application/json"}, signal:controller.signal,
+      method:"POST", headers:{"Content-Type":"application/json", ...(typeof authToken !== 'undefined' && authToken ? {Authorization:'Bearer '+authToken} : {})}, signal:controller.signal,
       body:JSON.stringify({word,user_input:input,standard_def:standardDef,user_selected_pos:referencePos.length ? selectedPos.join(", ") || "未指定" : "未指定", standard_pos:referencePos})
     });
+    if (resp.status === 401) return uncertain('请登录后使用智能判卷；仍可查看释义并自行选择 Mark。');
+    if (resp.status === 403) return uncertain('当前账号尚未开通 AI 额度；仍可查看释义并自行选择 Mark。');
+    if (resp.status === 429) return uncertain('判卷请求较多，请稍后重试；本次不计对错。');
     if (!resp.ok) throw new Error("判定服务暂不可用");
     const data = await resp.json();
     const elapsed = Math.round(performance.now() - startTime);
@@ -541,6 +584,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     const standardDef = getStandardDefinition(word);
     const markCount = typeof getMarkCount === 'function' ? getMarkCount(word) : 0;
+    // Start while the learner is thinking, before revealing the answer.
+    fetchEnglishDefOnline(word);
+    window.Stone?.prefetchEnglish?.(state.queue.slice(state.currentIndex + 1, state.currentIndex + 3));
     const progressPercent = Math.min(100, Math.round((state.todayStats.completed / state.todayStats.target) * 100));
 
     // 渲染词性多选胶囊
@@ -565,7 +611,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             </div>
           </div>
           <div class="flashcard-hud-right">
-            <span class="flashcard-stat-chip">今日打卡: <strong>${state.todayStats.completed}</strong> / ${state.todayStats.target} 词</span>
+            <span class="flashcard-stat-chip">今日打卡: <strong id="fcCompletedCount">${state.todayStats.completed}</strong> / ${state.todayStats.target} 词</span>
             <span class="flashcard-stat-chip" title="支持断点续背，退出后进度不丢失">当前组: <strong>${state.currentIndex + 1}</strong> / ${state.queue.length}</span>
           </div>
         </div>
@@ -591,7 +637,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           </div>
 
           <!-- 1. 词性勾选区 -->
-          <div class="flashcard-pos-section">
+          <div class="flashcard-pos-section" id="fcPosSection">
             <div class="flashcard-section-label">🎯 步骤 1：勾选词性 (多选，可选多个):</div>
             <div class="flashcard-pos-group">
               ${posButtonsHtml}
@@ -600,9 +646,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
           <!-- 2. 中英文释义输入区 -->
           <div class="flashcard-def-section" id="fcInputSection">
-            <div class="flashcard-section-label">✍️ 步骤 2：填写中文或英文释义 (回车提交):</div>
+            <label for="fcInput" class="flashcard-section-label">✍️ 写下你的理解 · 中文或英文均可</label>
             <div class="flashcard-input-wrap" id="fcInputWrap">
-              <input type="text" id="fcInput" class="flashcard-input" placeholder="输入中文或英文释义 (例如: 放弃 / to give up)..." autocomplete="off" />
+              <input type="text" id="fcInput" class="flashcard-input" maxlength="2000" placeholder="输入中文或英文释义 (例如: 放弃 / to give up)..." autocomplete="off" />
               <button class="btn btn-primary flashcard-submit-btn" id="fcSubmitBtn" onclick="FlashcardEngine.submitAnswer()">判卷 (Enter)</button>
               <button type="button" class="btn btn-secondary flashcard-unknown-btn" id="fcUnknownBtn" onclick="FlashcardEngine.giveUpUnknown()" title="想不起来/我不清楚 (快捷键: 空回车 或 ?)">🤔 我不清楚</button>
             </div>
@@ -622,7 +668,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           <!-- 极速判定中状态条 -->
           <div class="flashcard-evaluating-row" id="fcEvaluating" style="display: none;">
             <div class="flashcard-spinner"></div>
-            <span>⚡ 正在核对释义，请稍候…...</span>
+            <span>正在核对释义…</span>
           </div>
 
           <!-- 判定结果展示区 -->
@@ -655,7 +701,6 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         setupInputListener(input);
       }
       speakCurrent();
-      fetchEnglishDefOnline(word);
     }, 50);
   }
 
@@ -664,9 +709,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     input.addEventListener('compositionstart', () => { isComposing = true; });
     input.addEventListener('compositionend', () => { isComposing = false; });
     input.addEventListener('keydown', (e) => {
-      if (isComposing) return;
+      if (isComposing || e.isComposing || e.keyCode === 229) return;
       if (e.key === 'Enter') {
         e.preventDefault();
+        e.stopPropagation();
         if (state.isAnswered) {
           nextWord();
         } else {
@@ -679,6 +725,66 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         }
       }
     });
+  }
+
+  function handleFlashcardKeydown(e) {
+    if (!state.isOpen) return;
+    if (e.isComposing || e.keyCode === 229) return;
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      close();
+      return;
+    }
+
+    const inputEl = document.getElementById('fcInput');
+    const isInputFocused = (document.activeElement === inputEl && inputEl && inputEl.offsetParent !== null);
+
+    // 空格键发音（当用户不在输入框打字时）
+    if (e.code === 'Space' || e.key === ' ') {
+      if (!isInputFocused) {
+        e.preventDefault();
+        speakCurrent();
+        return;
+      }
+    }
+
+    // 回车键：若已作答/已提交，进入下一词；若未作答且未在输入框内聚焦，触发提交
+    if (e.key === 'Enter') {
+      if (state.isAnswered) {
+        if (Date.now() - (state.answeredAt || 0) < 100) return;
+        const active = document.activeElement;
+        if (active && active.id === 'fcRetryBtn') {
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        nextWord();
+        return;
+      }
+
+      // 未作答状态：如果焦点不在输入框内（例如点击了词性胶囊或卡片背景），按 Enter 也提交答案
+      if (!isInputFocused && inputEl && !state.isEvaluating) {
+        const active = document.activeElement;
+        if (active && (active.id === 'fcUnknownBtn' || active.id === 'fcSubmitBtn' || active.id === 'fcMarkAdd' || active.id === 'fcMarkUndo')) {
+          return;
+        }
+        e.preventDefault();
+        const val = inputEl.value.trim();
+        if (!val || val === '?' || val === '？') {
+          giveUpUnknown();
+        } else {
+          submitAnswer();
+        }
+      }
+    }
+  }
+
+  if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+    document.addEventListener('keydown', handleFlashcardKeydown);
+  } else if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+    window.addEventListener('keydown', handleFlashcardKeydown);
   }
 
   function speakCurrent() {
@@ -761,6 +867,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     result = judgmentGate(result, standardDef);
     const isUncertain = result.verdict === 'UNCERTAIN';
     state.isAnswered = true;
+    state.answeredAt = Date.now();
     state.lastResult = result;
     state.lastUserInput = userInput;
     const wordKey = state.currentWord.toLowerCase().trim();
@@ -792,7 +899,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     if (cardBox) {
       cardBox.classList.remove('is-correct', 'is-wrong');
-      if (!isUncertain) cardBox.classList.add(result.correct ? 'is-correct' : 'is-wrong');
+      if (!isUncertain && !result.isUnknown) cardBox.classList.add(result.correct ? 'is-correct' : 'is-wrong');
     }
 
     const posDisplay = selectedPos.length > 0 ? selectedPos.map(p => `[${p}.]`).join(' ') : '未指定';
@@ -804,9 +911,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const enDef = getEnglishDefinition(state.currentWord);
 
     // 触发异步补齐英文释义
-    if (!enDef) {
-      fetchEnglishDefOnline(state.currentWord);
-    }
+    // Fetch after the result DOM exists, including immediate cache/error paths.
 
     if (resultPanel) {
       resultPanel.style.display = 'block';
@@ -819,7 +924,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         </div>
 
         <div class="flashcard-def-comparison">
-          <div class="flashcard-compare-row">
+          ${(selectedPos.length || stdPosList.length) ? `<div class="flashcard-compare-row">
             <div class="flashcard-compare-item">
               <span class="compare-label">你勾选的词性:</span>
               <span class="compare-content user-input-text">${escapeHtml(posDisplay)}</span>
@@ -828,14 +933,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               <span class="compare-label">标准考纲词性:</span>
               <span class="compare-content std-def-text">${escapeHtml(stdPosDisplay)}</span>
             </div>
-          </div>
-          <div class="flashcard-compare-item" style="margin-top: 6px;">
+          </div>` : ''}
+          ${!result.isUnknown ? `<div class="flashcard-compare-item" style="margin-top: 6px;">
             <span class="compare-label">你的释义:</span>
             <span class="compare-content user-input-text">${escapeHtml(userInput)}</span>
-          </div>
+          </div>` : ''}
           <div class="flashcard-compare-item" style="margin-top: 6px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-              <span class="compare-label">权威释义 (英汉双解对照):</span>
+              <span class="compare-label">参考释义 · 英汉对照</span>
               <div class="flashcard-dict-lang-switch" onclick="FlashcardEngine.toggleLanguageMode()" title="点击切换中英文释义优先模式" style="cursor:pointer; display:flex; gap:4px; font-size:11px;">
                 <span style="padding:2px 6px; border-radius:4px; ${!isEnMode ? 'background:var(--brand-accent);color:#fff;font-weight:bold;' : 'opacity:0.6;'}">🇨🇳 中文优先</span>
                 <span style="padding:2px 6px; border-radius:4px; ${isEnMode ? 'background:#3b82f6;color:#fff;font-weight:bold;' : 'opacity:0.6;'}">🇬🇧 纯英优先</span>
@@ -846,7 +951,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             ${isEnMode ? `
               <div class="compare-content std-def-text" style="color:#3b82f6; font-size:14px; margin-bottom:4px;">
                 <strong style="color:var(--text-secondary); font-size:11px; margin-right:4px;">[英文释义]</strong>
-                <span id="fcStdDefEnText">${escapeHtml(enDef || '权威英文释义正在载入...')}</span>
+                <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
               <div class="compare-content std-def-text" style="color:var(--text-secondary); font-size:13px;">
                 <strong style="color:var(--text-secondary); font-size:11px; margin-right:4px;">[中文考纲]</strong>
@@ -859,9 +964,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               </div>
               <div class="compare-content std-def-text" style="color:#3b82f6; font-size:13px; font-style:italic;">
                 <strong style="color:var(--text-secondary); font-size:11px; font-style:normal; margin-right:4px;">[英文双解]</strong>
-                <span id="fcStdDefEnText">${escapeHtml(enDef || '权威英文释义正在载入...')}</span>
+                <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
             `}
+            <button type="button" id="fcEnglishRetry" class="btn btn-secondary" hidden style="display:none;margin-top:8px" onclick="FlashcardEngine.retryEnglishDefinition()">重新获取英文释义</button>
           </div>
         </div>
 
@@ -869,7 +975,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           <button id="fcNextBtn" class="btn btn-primary flashcard-next-btn" onclick="FlashcardEngine.nextWord()">
             ${manualMarkNextLabel()}
           </button>
-          ${!result.correct ? `<button class="btn btn-secondary" onclick="FlashcardEngine.retryCurrent()">再试一次</button>` : ''}
+          ${!result.correct ? `<button id="fcRetryBtn" class="btn btn-secondary" onclick="FlashcardEngine.retryCurrent()">再试一次</button>` : ''}
         </div>
       `;
     }
@@ -877,7 +983,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (inputSection) {
       inputSection.style.display = 'none';
     }
+    const posSection = document.getElementById('fcPosSection');
+    if (posSection) posSection.style.display = 'none';
+    const completed = document.getElementById('fcCompletedCount');
+    if (completed) completed.textContent = state.todayStats.completed;
     updateManualMarkControls();
+    const nextBtn = document.getElementById('fcNextBtn');
+    if (nextBtn && typeof nextBtn.focus === 'function') { try { nextBtn.focus(); } catch {} }
+    fetchEnglishDefOnline(state.currentWord);
     if (!renderOnly && isUncertain) saveSession();
   }
 
@@ -909,7 +1022,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       ? `已手动加入，当前 Mark：${count}。可以撤销本次添加。`
       : `本次未新增 Mark${count > 0 ? `，已有 ${count} 次标记保留` : ''}。是否加入，由你决定。`;
     if (tag) { tag.hidden = count === 0; tag.style.display = count > 0 ? '' : 'none'; tag.textContent = `★ Mark ×${count}`; }
-    if (nextButton) nextButton.textContent = manualMarkNextLabel();
+    if (nextButton) {
+      nextButton.textContent = manualMarkNextLabel();
+      if (state.isAnswered && typeof nextButton.focus === 'function') { try { nextButton.focus(); } catch {} }
+    }
   }
 
   function addCurrentMark() {
@@ -952,6 +1068,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (cardBox) cardBox.classList.remove('is-correct', 'is-wrong');
     if (resultPanel) resultPanel.style.display = 'none';
     if (inputSection) inputSection.style.display = 'block';
+    const posSection = document.getElementById('fcPosSection');
+    if (posSection) posSection.style.display = 'flex';
     if (inputEl) {
       inputEl.value = '';
       inputEl.focus();
@@ -1007,13 +1125,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           </div>
 
           <div style="display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="FlashcardEngine.open('${state.mode}', ${state.targetCount})">再来一组 (100词)</button>
+            <button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('${state.mode}', ${state.targetCount})">再来一组 (100词)</button>
             <button class="btn btn-secondary" onclick="FlashcardEngine.close()">返回词库</button>
           </div>
         </div>
       </div>
     `;
     if (typeof soundSuccess === 'function') soundSuccess();
+    setTimeout(() => { const btn = document.getElementById('fcFinishRestartBtn'); if (btn && typeof btn.focus === 'function') { try { btn.focus(); } catch {} } }, 50);
   }
 
   function toggleLanguageMode() {
@@ -1071,7 +1190,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     try {await cloudLoadPromise;}finally{cloudLoadPromise=null;}
   }
   async function syncCloudProgress() {
-    if(!window.FlashcardCloud.getAuth()) {if(typeof openAuthModal==='function')openAuthModal();return;}
+    if(!window.FlashcardCloud.getAuth() || window.FlashcardCloud.needsLogin() || window.StoneAuthExpired) {
+      close();
+      if(typeof openAuthModal==='function')openAuthModal(true);
+      return;
+    }
     if(window.FlashcardCloud.isBlocked()) {
       const data=await window.FlashcardCloud.load(true);
       if(window.FlashcardCloud.isBlocked())return;
@@ -1089,6 +1212,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
   return {
     resumeCloudSession,
+    handleFlashcardKeydown,
+    retryEnglishDefinition,
     syncCloudProgress,
     addCurrentMark,
     undoCurrentMark,

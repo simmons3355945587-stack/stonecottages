@@ -1,4 +1,4 @@
-function openAuthModal() {
+function openAuthModal(forceLogin = false) {
   soundClick();
   const modal = document.getElementById('authModal');
   const loggedSection = document.getElementById('authLoggedInSection');
@@ -7,7 +7,7 @@ function openAuthModal() {
   authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
   authUser = loadFromStorage(STORAGE_KEYS.AUTH, null);
 
-  if (authToken && authUser) {
+  if (authToken && authUser && !forceLogin && !window.StoneAuthExpired) {
     loggedSection.style.display = 'block';
     formSection.style.display = 'none';
     document.getElementById('authUserName').textContent = authUser.username;

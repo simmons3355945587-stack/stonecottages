@@ -23,6 +23,16 @@ function device(server,user='1',storage=new Map()){
  vm.createContext(c);vm.runInContext(source,c);return {api:c.window.FlashcardCloud,c,storage,labels};
 }
 const settle=()=>new Promise(r=>setImmediate(r));
+test('expired login preserves account-owned pending progress and stops automatic retries',async()=>{
+ const s=server(),a=device(s);await a.api.load();let calls=0;
+ a.c.fetch=async()=>{calls++;return {ok:false,status:401}};
+ a.api.save(sample);await settle();await a.api.flush();
+ assert.equal(a.api.needsLogin(),true);assert.equal(calls,1);
+ assert.equal(a.labels.fcCloudAction.textContent,'重新登录');
+ assert.equal(a.c.authUser.id,'1');
+ assert.equal(JSON.parse(a.storage.get('stone_flashcard_cloud_v2:1')).dirty,true);
+ assert.equal(a.storage.has('stone_flashcard_cloud_v2:guest'),false);
+});
 test('device B with empty cache loads device A progress from account server',async()=>{
  const s=server(),a=device(s);await a.api.load();a.api.save(sample);await settle();
  const b=device(s);const data=await b.api.load();assert.deepEqual(JSON.parse(JSON.stringify(data)),sample);

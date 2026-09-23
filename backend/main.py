@@ -10,17 +10,30 @@ import urllib.parse
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException, Header, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from starlette.concurrency import run_in_threadpool
+from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
+from pathlib import Path
+from collections import deque
+import threading
+import re
 import jwt
 
-SECRET_KEY = "antigravity_secret_jwt_key_vocab_game_prod"
+# Private server-side configuration; never served from the web root.
+_secret_file = Path(os.environ.get('VOCAB_SECRETS_FILE', '/etc/vocab/secrets.json'))
+_private_secrets = json.loads(_secret_file.read_text()) if _secret_file.is_file() else {}
+SECRET_KEY = os.environ.get('VOCAB_JWT_SECRET') or _private_secrets.get('jwt_secret', '')
+if len(SECRET_KEY) < 32:
+    raise RuntimeError('VOCAB_JWT_SECRET must be configured securely')
+def private_secret(name):
+    return os.environ.get(name) or _private_secrets.get(name, '')
 DB_PATH = os.environ.get("VOCAB_DB_PATH", "/var/www/vocab/backend/vocab.db")
 
 app = FastAPI(title="Vocabulary Survival & Admin Portal Cloud Gateway", version="3.4")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://ourstonecottages.org", "https://www.ourstonecottages.org", "https://admin.ourstonecottages.org"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -144,11 +157,11 @@ def init_db():
         
         # 预置默认配置
         cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('ai_access_mode', 'whitelist')")
-        cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('mimo_key', 'tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns')")
+        cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('mimo_key', ?)", (private_secret('MIMO_API_KEY'),))
         cur.execute("INSERT OR IGNORE INTO server_config (key, value) VALUES ('ai_driver_mode', 'auto')")
         
         # 强制修正主管理员账号角色与额度权限 (林允安 / 允安 / id=1 永不丢权)
-        cur.execute("UPDATE users SET role = 'admin', can_use_quota = 1 WHERE username IN ('林允安', '允安', 'admin', 'Admin', 'AdminTest') OR id = 1")
+        cur.execute("UPDATE users SET role = 'admin', can_use_quota = 1 WHERE id = 1")
         conn.commit()
 
 try:
@@ -192,7 +205,7 @@ def get_current_user(authorization: Optional[str] = Header(None)):
                 actual_role = row["role"]
                 uname = row["username"]
                 can_use_quota = bool(row["can_use_quota"])
-                if uname in ["允安", "林允安", "AdminTest", "admin", "Admin"] or user_id == 1:
+                if user_id == 1:
                     actual_role = "admin"
                     can_use_quota = True
                     if row["role"] != "admin" or row["can_use_quota"] != 1:
@@ -206,9 +219,9 @@ def get_current_user(authorization: Optional[str] = Header(None)):
                     "can_use_quota": can_use_quota,
                     "custom_api_key": row["custom_api_key"] or ""
                 }
-        return payload
+        raise HTTPException(status_code=401, detail="账号不存在，请重新登录")
     except Exception as e:
-        raise HTTPException(status_code=401, detail=f"登录令牌失效: {str(e)}")
+        raise HTTPException(status_code=401, detail="登录已过期，请重新登录")
 
 def require_admin(user: dict = Depends(get_current_user)):
     with get_db() as conn:
@@ -218,7 +231,7 @@ def require_admin(user: dict = Depends(get_current_user)):
         row = cur.fetchone()
         if not row:
             raise HTTPException(status_code=403, detail="用户不存在")
-        if row["role"] != "admin" and row["username"] not in ["允安", "林允安", "admin", "Admin", "AdminTest"] and user_id != 1:
+        if row["role"] != "admin" and user_id != 1:
             raise HTTPException(status_code=403, detail="需要站长 Admin 管理员权限")
     return user
 
@@ -248,6 +261,7 @@ class ProfileSyncReq(BaseModel):
 class ServerConfigReq(BaseModel):
     gemini_key: Optional[str] = None
     mimo_key: Optional[str] = None
+    typesafe_key: Optional[str] = Field(default=None, max_length=512)
     ai_access_mode: Optional[str] = None
     ai_driver_mode: Optional[str] = None
 
@@ -317,47 +331,118 @@ def fetch_fallback_ee(w: str):
         "source": "youdao_ee"
     }
 
-@app.get("/api/dict/{word}")
+_dict_executor = ThreadPoolExecutor(max_workers=8, thread_name_prefix='dictionary')
+_dict_slots = threading.BoundedSemaphore(8)
+_dict_locks = [threading.Lock() for _ in range(64)]
+_dict_misses = {}
+
+def normalize_dictionary(data, word):
+    entries = data if isinstance(data, list) else [data]
+    meanings = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        for meaning in entry.get('meanings', []):
+            if not isinstance(meaning, dict):
+                continue
+            definitions = []
+            for d in meaning.get('definitions', meaning.get('defs', [])):
+                if isinstance(d, str):
+                    d = {'definition': d}
+                if not isinstance(d, dict):
+                    continue
+                text = d.get('definition') or d.get('def')
+                if isinstance(text, str) and text.strip():
+                    definitions.append({'definition': text, 'example': d.get('example') or d.get('eg') or ''})
+            if definitions:
+                meanings.append({'partOfSpeech': meaning.get('partOfSpeech') or meaning.get('pos') or '', 'definitions': definitions})
+    if not meanings:
+        return None
+    first = next(e for e in entries if isinstance(e, dict))
+    return {'word': word, 'phonetic': first.get('phonetic') or next((p.get('text') for p in first.get('phonetics', []) if p.get('text')), ''),
+            'meanings': meanings, 'source': first.get('source', 'free_dictionary'),
+            'sourceUrls': first.get('sourceUrls', []), 'license': first.get('license', {})}
+
+def fetch_primary_english(word):
+    url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + urllib.parse.quote(word, safe='')
+    req = urllib.request.Request(url, headers={'User-Agent': 'OurStoneCottages/1.0'})
+    with urllib.request.urlopen(req, timeout=4) as resp:
+        return json.loads(resp.read(2_000_000).decode('utf-8'))
+
+def race_english_sources(word):
+    # Bound both running and queued upstream jobs across all incoming requests.
+    pending = set()
+    def submit(fn):
+        if not _dict_slots.acquire(blocking=False):
+            return
+        try:
+            future = _dict_executor.submit(fn, word)
+            future.add_done_callback(lambda _: _dict_slots.release())
+            pending.add(future)
+        except Exception:
+            _dict_slots.release()
+    submit(fetch_primary_english)
+    if not pending:
+        raise HTTPException(status_code=503, detail='词典繁忙，请稍后重试')
+    # Give the primary a short head start; do not wait four seconds for a failure.
+    done, _ = wait(pending, timeout=0.35, return_when=FIRST_COMPLETED)
+    for future in done:
+        pending.discard(future)
+        try:
+            entry = normalize_dictionary(future.result(), word)
+            if entry:
+                return entry
+        except Exception:
+            pass
+    submit(fetch_fallback_ee)
+    deadline = time.monotonic() + 5.2
+    try:
+        while pending and time.monotonic() < deadline:
+            done, _ = wait(pending, timeout=max(0, deadline-time.monotonic()), return_when=FIRST_COMPLETED)
+            if not done:
+                break
+            for future in done:
+                pending.discard(future)
+                try:
+                    entry = normalize_dictionary(future.result(), word)
+                    if entry:
+                        return entry
+                except Exception:
+                    pass
+    finally:
+        for future in pending:
+            future.cancel()
+    return None
+
+@app.get('/api/dict/{word}')
 def get_dict_entry(word: str):
     w = word.strip().lower()
-    with get_db() as conn:
-        cur = conn.cursor()
-        cur.execute("SELECT data_json FROM dict_cache WHERE word = ?", (w,))
-        row = cur.fetchone()
-        if row and row["data_json"]:
+    if not w or len(w) > 100 or not re.fullmatch(r"[a-zA-Z][a-zA-Z '\-\.]*", w):
+        raise HTTPException(status_code=422, detail='请输入有效的英文单词或短语')
+    # Same-word requests share a single upstream lookup. Different words proceed.
+    with _dict_locks[hash(w) % len(_dict_locks)]:
+        with get_db() as conn:
+            row = conn.execute('SELECT data_json FROM dict_cache WHERE word = ?', (w,)).fetchone()
+        if row:
             try:
-                cached = json.loads(row["data_json"])
-                if cached:
-                    return cached
-            except Exception:
+                entry = normalize_dictionary(json.loads(row['data_json']), w)
+                if entry:
+                    return entry
+            except (TypeError, ValueError):
                 pass
-
-    # 1. Primary: Free Dictionary API (api.dictionaryapi.dev)
-    try:
-        url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{urllib.parse.quote(w)}"
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=4) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            if data and (isinstance(data, list) or isinstance(data, dict)):
-                with get_db() as conn:
-                    conn.execute("INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)", (w, json.dumps(data, ensure_ascii=False)))
-                    conn.commit()
-                return data
-    except Exception:
-        pass
-
-    # 2. Fallback: Youdao EE High-Availability English-English definitions
-    try:
-        fb = fetch_fallback_ee(w)
-        if fb:
+        if _dict_misses.get(w, 0) > time.monotonic():
+            raise HTTPException(status_code=404, detail='暂时没有这个词的英文释义')
+        entry = race_english_sources(w)
+        if entry:
             with get_db() as conn:
-                conn.execute("INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)", (w, json.dumps(fb, ensure_ascii=False)))
-                conn.commit()
-            return fb
-    except Exception:
-        pass
+                conn.execute('INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)', (w, json.dumps(entry, ensure_ascii=False)))
+            _dict_misses.pop(w, None)
+            return entry
+        if len(_dict_misses) > 1000:
+            _dict_misses.clear()
+        _dict_misses[w] = time.monotonic() + 20
+        raise HTTPException(status_code=404, detail='暂时没有这个词的英文释义')
 
-    raise HTTPException(status_code=404, detail=f"Word '{w}' not found in dictionary")
 
 @app.get("/api/dict-zh/{word}")
 def get_dict_zh_entry(word: str):
@@ -430,7 +515,9 @@ def register(req: RegisterReq, request: Request):
     with get_db() as conn:
         cur = conn.cursor()
         
-        is_admin_uname = uname in ["允安", "林允安", "admin", "Admin", "AdminTest"]
+        is_admin_uname = uname.casefold() in ["允安", "林允安", "admin", "admintest"]
+        if is_admin_uname:
+            raise HTTPException(status_code=400, detail="此用户名为站长保留，请使用其他用户名")
         if not is_admin_uname:
             cur.execute("SELECT username FROM active_ip_sessions WHERE ip = ?", (client_ip,))
             ip_row = cur.fetchone()
@@ -442,7 +529,7 @@ def register(req: RegisterReq, request: Request):
 
         cur.execute("SELECT COUNT(*) FROM users")
         user_count = cur.fetchone()[0]
-        role = "admin" if (user_count == 0 or is_admin_uname) else "user"
+        role = "user"
         can_use_quota = 1 if role == "admin" else 0
         
         salt = secrets.token_hex(16)
@@ -468,7 +555,7 @@ def register(req: RegisterReq, request: Request):
             "role": role,
             "is_admin": (role == "admin"),
             "can_use_quota": bool(can_use_quota),
-            "custom_api_key": req.custom_api_key or ""
+            "has_custom_key": bool(req.custom_api_key)
         }
     }
 
@@ -492,7 +579,7 @@ def login(req: LoginReq, request: Request):
         user_id = row["id"]
         actual_role = row["role"]
         can_use_quota = bool(row["can_use_quota"])
-        if uname in ["允安", "林允安", "admin", "Admin", "AdminTest"] or user_id == 1:
+        if user_id == 1:
             actual_role = "admin"
             can_use_quota = True
             if row["role"] != "admin" or row["can_use_quota"] != 1:
@@ -512,7 +599,7 @@ def login(req: LoginReq, request: Request):
             "role": actual_role,
             "is_admin": (actual_role == "admin"),
             "can_use_quota": can_use_quota,
-            "custom_api_key": row["custom_api_key"] or ""
+            "has_custom_key": bool(row["custom_api_key"])
         }
     }
 
@@ -630,7 +717,8 @@ def admin_overview(admin: dict = Depends(require_admin)):
                 "total_cards_drawn": total_cards_drawn,
                 "total_marks": total_marks,
                 "server_gemini_key_set": bool(configs.get("gemini_key")),
-                "server_mimo_key_set": bool(configs.get("mimo_key", "tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns")),
+                "server_typesafe_key_set": bool(configs.get("typesafe_key") or private_secret("TYPESAFE_API_KEY")),
+                "server_mimo_key_set": bool(configs.get("mimo_key", private_secret("MIMO_API_KEY"))),
                 "ai_access_mode": configs.get("ai_access_mode", "whitelist"),
                 "ai_driver_mode": configs.get("ai_driver_mode", "auto")
             }
@@ -750,7 +838,7 @@ def admin_delete_user(user_id: int, admin: dict = Depends(require_admin)):
         if not row:
             raise HTTPException(status_code=404, detail="目标用户不存在")
         uname = row["username"]
-        if uname in ["允安", "林允安", "admin", "Admin", "AdminTest"] or user_id == 1:
+        if user_id == 1:
             raise HTTPException(status_code=400, detail="不能删除站长核心主账号")
             
         cur.execute("DELETE FROM profiles WHERE user_id = ?", (user_id,))
@@ -784,6 +872,8 @@ def admin_reset_password(user_id: int, req: Optional[UserResetPwdReq] = None, ad
 @app.post("/api/admin/save-config")
 def admin_save_config(req: ServerConfigReq, admin: dict = Depends(require_admin)):
     with get_db() as conn:
+        if req.typesafe_key is not None:
+            conn.execute("INSERT OR REPLACE INTO server_config (key, value) VALUES ('typesafe_key', ?)", (req.typesafe_key.strip(),))
         if req.gemini_key is not None:
             conn.execute("INSERT OR REPLACE INTO server_config (key, value) VALUES ('gemini_key', ?)", (req.gemini_key.strip(),))
         if req.mimo_key is not None:
@@ -800,7 +890,7 @@ def admin_save_config(req: ServerConfigReq, admin: dict = Depends(require_admin)
 # ==========================================
 def call_ai_scenario(system_prompt: str, user_prompt: str, configs: dict) -> str:
     gemini_key = (configs.get("gemini_key") or "").strip()
-    mimo_key = (configs.get("mimo_key") or "tp-caizyosz42fllfy4vymkxfo9yaqy392ed5nsatp59zz3hwns").strip()
+    mimo_key = (configs.get("mimo_key") or private_secret("MIMO_API_KEY")).strip()
     driver_mode = (configs.get("ai_driver_mode") or "auto").strip()
 
     if (driver_mode in ["gemini", "auto"]) and gemini_key:
@@ -862,7 +952,7 @@ def admin_test_ai(admin: dict = Depends(require_admin)):
         elapsed = round((time.time() - start_time) * 1000, 1)
         return {"status": "success", "latency_ms": elapsed, "reply": reply[:100]}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"AI 服务端双通道测试失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="AI 通道暂不可用，请检查服务端配置")
 
 @app.post("/api/ai/scenario")
 def ai_scenario_proxy(req: AIScenarioReq, user: dict = Depends(get_current_user)):
@@ -886,7 +976,7 @@ def ai_scenario_proxy(req: AIScenarioReq, user: dict = Depends(get_current_user)
         cleaned = raw_result.strip().replace("```json", "").replace("```JSON", "").replace("```", "").strip()
         return {"status": "success", "result": cleaned}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"AI 剧情生成失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="AI 服务暂不可用，请稍后重试")
 
 
 # ==========================================
@@ -995,26 +1085,15 @@ with get_db() as _db:
     _db.commit()
 
 @app.post("/api/admin/deploy-bundle")
-async def deploy_bundle(request: Request, token: str = Header(None)):
-    if token != "antigravity_admin_upload_token_2026":
-        raise HTTPException(status_code=403, detail="Forbidden")
-    data = await request.body()
-    tar_path = "/tmp/deploy_bundle.tar.gz"
-    with open(tar_path, "wb") as f:
-        f.write(data)
-    import tarfile
-    with tarfile.open(tar_path, "r:gz") as tar:
-        tar.extractall("/var/www/vocab/assets/")
-    if os.path.exists(tar_path):
-        os.remove(tar_path)
-    return {"status": "success", "bytes": len(data)}
+def deploy_bundle():
+    raise HTTPException(status_code=410, detail="此上传入口已停用")
 
 class JevVerifyReq(BaseModel):
-    word: str
-    user_input: str
-    standard_def: Optional[str] = ""
-    user_selected_pos: Optional[str] = "未指定"
-    standard_pos: List[str] = []
+    word: str = Field(min_length=1, max_length=100)
+    user_input: str = Field(min_length=1, max_length=2000)
+    standard_def: Optional[str] = Field(default="", max_length=8000)
+    user_selected_pos: Optional[str] = Field(default="未指定", max_length=100)
+    standard_pos: List[str] = Field(default_factory=list, max_length=12)
 
 
 def jev_judgment(probability, reason=""):
@@ -1036,11 +1115,40 @@ def jev_judgment(probability, reason=""):
         "reason": reason,
     }
 
+_jev_slots = threading.BoundedSemaphore(6)
+_jev_requests = {}
+_jev_rate_lock = threading.Lock()
+
+def enforce_jev_access(user):
+    with get_db() as conn:
+        row = conn.execute("SELECT value FROM server_config WHERE key='ai_access_mode'").fetchone()
+    mode = row['value'] if row else 'whitelist'
+    admin = user.get('role') == 'admin'
+    if (mode == 'admin_only' and not admin) or (mode in ('whitelist', 'authorized_only') and not (admin or user.get('can_use_quota'))):
+        raise HTTPException(status_code=403, detail="当前账号尚未开通 AI 额度")
+    now = time.monotonic()
+    with _jev_rate_lock:
+        if len(_jev_requests) > 10000:
+            for key in list(_jev_requests):
+                if not _jev_requests[key] or _jev_requests[key][-1] < now-60:
+                    del _jev_requests[key]
+        recent = _jev_requests.setdefault(str(user['sub']), deque())
+        while recent and recent[0] < now-60:
+            recent.popleft()
+        if len(recent) >= 90:
+            raise HTTPException(status_code=429, detail="请求较多，请稍后重试")
+        recent.append(now)
+
 @app.post("/api/jev/verify")
-async def verify_with_jev(req: JevVerifyReq):
-    api_key = os.environ.get("TYPESAFE_API_KEY", "apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5")
+async def verify_with_jev(req: JevVerifyReq, user: dict = Depends(get_current_user)):
+    enforce_jev_access(user)
+    with get_db() as conn:
+        saved_key = conn.execute("SELECT value FROM server_config WHERE key='typesafe_key'").fetchone()
+    api_key = saved_key['value'] if saved_key else private_secret("TYPESAFE_API_KEY")
     if not (req.standard_def or "").strip():
         return jev_judgment(None, "missing_reference")
+    if not api_key:
+        return jev_judgment(None, "service_unavailable")
     url = "https://api.typesafe.ai/v1/systemone"
     payload = {
         "state": {
@@ -1063,6 +1171,15 @@ async def verify_with_jev(req: JevVerifyReq):
             }
         }
     }
+    if not _jev_slots.acquire(blocking=False):
+        raise HTTPException(status_code=429, detail="判卷繁忙，请稍后重试")
+    try:
+        return await run_in_threadpool(call_jev_provider, url, payload, api_key)
+    finally:
+        _jev_slots.release()
+
+
+def call_jev_provider(url, payload, api_key):
     start_time = time.time()
     try:
         data_bytes = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -1071,7 +1188,8 @@ async def verify_with_jev(req: JevVerifyReq):
             data=data_bytes,
             headers={
                 "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "User-Agent": "OurStoneCottages/1.0 (+https://ourstonecottages.org)"
             },
             method="POST"
         )

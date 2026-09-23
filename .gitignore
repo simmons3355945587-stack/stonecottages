@@ -33,3 +33,7 @@ scratch/
 
 # Dependencies
 node_modules/
+
+# Cloud release and private local deployment settings
+release.tar.gz
+.deployment-secrets.local.json
