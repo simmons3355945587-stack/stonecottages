@@ -766,7 +766,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const groups = getStudyGroups(state.activeListLength, state.targetCount);
     const groupSelectHtml = state.mode === 'study' ? `
       <div class="flashcard-group-pill" title="自由切换当前背词分组 (如 1-100, 101-200)">
-        <span style="font-size:11px;font-weight:700;margin-right:2px;opacity:0.85;">📑 分组:</span>
+        <span class="flashcard-group-label">分组</span>
         <select id="fcGroupSelect" class="flashcard-group-dropdown" onchange="FlashcardEngine.setStudyGroup(parseInt(this.value, 10))">
           ${groups.map(g => `<option value="${g.startIndex}" ${g.startIndex === state.studyStartIndex ? 'selected' : ''}>${g.label}</option>`).join('')}
         </select>

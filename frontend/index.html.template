@@ -391,7 +391,7 @@
           🔄 重点复习 (仅 Mark)
         </button>
         <div class="fc-group-quick-wrap" style="display:inline-flex; align-items:center; gap:4px; font-size:12px; margin-left:4px;">
-          <span style="color:var(--text-secondary); font-size:11px; font-weight:700;">选组:</span>
+          <span style="color:var(--text-secondary); font-size:11px; font-weight:700; white-space:nowrap;">分组</span>
           <select id="fcMainGroupSelect" class="btn btn-secondary btn-xs" style="height:28px; font-size:12px; font-weight:700; padding:2px 8px; border-radius:6px; cursor:pointer;" onchange="FlashcardEngine.setStudyGroup(parseInt(this.value, 10)); FlashcardEngine.open('study', 100, parseInt(this.value, 10));">
             <option value="0">第 1 组 (1-100)</option>
           </select>
