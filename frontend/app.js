@@ -701,6 +701,9 @@ function updateBadges() {
   if (typeof updateCottageSanAtmosphere === 'function') {
     updateCottageSanAtmosphere();
   }
+  if (typeof window !== 'undefined' && window.FlashcardEngine?.updateMainGroupSelectUI) {
+    window.FlashcardEngine.updateMainGroupSelectUI();
+  }
 }
 
 

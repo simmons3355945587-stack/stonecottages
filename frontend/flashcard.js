@@ -118,14 +118,16 @@ window.FlashcardCloud = (() => {
  * 🎴 Flashcard Engine (小时屋单词卡片极速研习/复习系统 v2.0)
  * 核心升级：
  * 1. 词性多选交互 (Part-of-Speech Selection)
- * 2. 已掌握词库过滤 (答对的词永久入库，新词研习永不重复)
- * 3. 当日断点续学 (中途退出随时继续，不满100词进度不丢)
+ * 2. 新词按词库编号顺序分组 (1-100、101-200……，答题结果不改变顺序)
+ * 3. 断点续学 (中途退出随时继续，不满100词进度不丢)
  * 4. Powered by TypeSafe Jev System One Model
  */
 window.FlashcardEngine = (() => {
   const STORAGE_KEY_STATS = 'stone_flashcard_daily_stats_v1';
   const STORAGE_KEY_LEARNED = 'stone_flashcard_learned_words_v1';
   const STORAGE_KEY_SESSION = 'stone_flashcard_session_v1';
+  const STORAGE_KEY_SEQUENCE = 'stone_flashcard_sequence_v1';
+  const QUEUE_POLICY_VERSION = 2;
 
   const POS_OPTIONS = [
     { id: 'n', label: 'n.', key: '1' },
@@ -152,6 +154,10 @@ window.FlashcardEngine = (() => {
     restoreAnswer: null,
     manualMarkBaselines: new Map(),
     learnedWords: new Set(),
+    studySequences: {},
+    studyScopeKey: '',
+    studyStartIndex: 0,
+    activeListLength: 0,
     todayStats: {
       date: getTodayStr(),
       completed: 0,
@@ -181,6 +187,24 @@ window.FlashcardEngine = (() => {
       const str = JSON.stringify(arr);
       if (typeof StoneStorage !== 'undefined') StoneStorage.setItem(window.FlashcardCloud.storageKey(STORAGE_KEY_LEARNED), str);
       localStorage.setItem(window.FlashcardCloud.storageKey(STORAGE_KEY_LEARNED), str);
+    } catch (e) {}
+  }
+
+  function loadStudySequences() {
+    try {
+      const raw = (typeof StoneStorage !== 'undefined' ? StoneStorage.getItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SEQUENCE)) : localStorage.getItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SEQUENCE)));
+      const parsed = raw ? JSON.parse(raw) : {};
+      state.studySequences = parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+    } catch (e) {
+      state.studySequences = {};
+    }
+  }
+
+  function saveStudySequences() {
+    try {
+      const str = JSON.stringify(state.studySequences);
+      if (typeof StoneStorage !== 'undefined') StoneStorage.setItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SEQUENCE), str);
+      localStorage.setItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SEQUENCE), str);
     } catch (e) {}
   }
 
@@ -226,7 +250,10 @@ window.FlashcardEngine = (() => {
         isAnswered: state.isAnswered,
         lastResult: state.lastResult,
         userInput: state.lastUserInput,
-        selectedPos: state.selectedPos
+        selectedPos: state.selectedPos,
+        queuePolicyVersion: QUEUE_POLICY_VERSION,
+        studyScopeKey: state.studyScopeKey,
+        studyStartIndex: state.studyStartIndex
       };
       const str = JSON.stringify(sessionData);
       if (typeof StoneStorage !== 'undefined') StoneStorage.setItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SESSION), str);
@@ -454,13 +481,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
   function initQueue() {
     loadLearnedWords();
+    loadStudySequences();
 
     // 1. 优先尝试从本地持久化会话中恢复（支持断点续背）
     try {
       const rawSession = (typeof StoneStorage !== 'undefined' ? StoneStorage.getItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SESSION)) : localStorage.getItem(window.FlashcardCloud.storageKey(STORAGE_KEY_SESSION)));
       if (rawSession) {
         const sess = JSON.parse(rawSession);
-        if (sess.mode === state.mode && Array.isArray(sess.queue) && sess.queue.length > 0) {
+        if (sess.queuePolicyVersion === QUEUE_POLICY_VERSION && sess.mode === state.mode && Array.isArray(sess.queue) && sess.queue.length > 0) {
           if (sess.currentIndex < sess.queue.length) {
             state.manualMarkBaselines = new Map(
               (Array.isArray(sess.manualMarkBaselines) ? sess.manualMarkBaselines : [])
@@ -473,6 +501,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             state.lastResult = null;
             state.selectedPos = [];
             state.restoreAnswer = sess.isAnswered && sess.lastResult ? sess : null;
+            state.studyScopeKey = typeof sess.studyScopeKey === 'string' ? sess.studyScopeKey : '';
+            state.studyStartIndex = Number.isInteger(sess.studyStartIndex) && sess.studyStartIndex >= 0 ? sess.studyStartIndex : 0;
+            state.activeListLength = state.mode === 'study' && typeof getActiveWordList === 'function'
+              ? getActiveWordList().length
+              : state.queue.length;
             return;
           }
         }
@@ -481,32 +514,35 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     state.manualMarkBaselines = new Map();
 
-    // 2. 重新抽词
+    // 2. 重新组队：新词严格按编号切片；复习严格只取 Mark 词。
     let list = [];
     if (state.mode === 'review') {
-      // 复习模式：优先从用户的重点生词本 (Mark词) 抽取
+      // getMarkedWords() 返回 [word, count]；复习不再用普通词补足 100。
       if (typeof getMarkedWords === 'function') {
-        list = [...getMarkedWords()];
+        list = getMarkedWords().map(entry => Array.isArray(entry) ? entry[0] : entry).filter(word => typeof word === 'string' && word.trim());
       }
-      // 不足则补充
-      if (list.length < state.targetCount && typeof getActiveWordList === 'function') {
-        const full = getActiveWordList();
-        for (const w of full) {
-          if (!list.includes(w)) list.push(w);
-          if (list.length >= state.targetCount) break;
-        }
-      }
+      state.studyScopeKey = '';
+      state.studyStartIndex = 0;
+      state.activeListLength = list.length;
     } else {
-      // 新词研习模式：自动过滤所有已经掌握/学过的词（已掌握永不重复出现）
-      if (typeof getActiveWordList === 'function') {
-        const full = getActiveWordList();
-        list = full.filter(w => !state.learnedWords.has(w.toLowerCase().trim()));
+      const full = typeof getActiveWordList === 'function'
+        ? getActiveWordList()
+        : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
+      state.activeListLength = full.length;
+      state.studyScopeKey = getStudyScopeKey(full);
+      let cursor = Number(state.studySequences[state.studyScopeKey]);
+      if (!Number.isInteger(cursor) || cursor < 0) {
+        cursor = inferLegacyCursor(full, state.targetCount);
+        state.studySequences[state.studyScopeKey] = cursor;
+        saveStudySequences();
       }
-    }
-
-    if (list.length === 0 && typeof words !== 'undefined') {
-      list = words.filter(w => !state.learnedWords.has(w.toLowerCase().trim()));
-      if (list.length === 0) list = [...words]; // 若全学完了则从头循环
+      if (full.length > 0 && cursor >= full.length) {
+        cursor = Math.max(0, Math.floor((full.length - 1) / state.targetCount) * state.targetCount);
+      } else {
+        cursor = Math.floor(cursor / state.targetCount) * state.targetCount;
+      }
+      state.studyStartIndex = cursor;
+      list = full.slice(state.studyStartIndex, state.studyStartIndex + state.targetCount);
     }
 
     state.queue = list.slice(0, state.targetCount);
@@ -518,13 +554,148 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     saveSession();
   }
 
-  function open(mode = 'study', target = 100) {
-    if (!cloudLoaded && window.FlashcardCloud.getAuth()) return ensureCloudProgress().then(() => open(mode,target));
+  function getStudyScopeKey(full) {
+    const source = typeof currentWordSource !== 'undefined' ? currentWordSource : 'default';
+    const tier = typeof currentWordTier !== 'undefined' ? currentWordTier : 'all';
+    const first = full[0] || '';
+    const last = full[full.length - 1] || '';
+    return `${source}:${tier}:${full.length}:${first}:${last}`;
+  }
+
+  function inferLegacyCursor(full, targetCount) {
+    const touched = new Set(state.learnedWords);
+    let firstGroupHasMark = false;
+    if (typeof getMarkedWords === 'function') {
+      for (const entry of getMarkedWords()) {
+        const word = Array.isArray(entry) ? entry[0] : entry;
+        if (typeof word === 'string') {
+          const index = full.findIndex(candidate => String(candidate).toLowerCase().trim() === word.toLowerCase().trim());
+          if (index >= 0 && index < targetCount) firstGroupHasMark = true;
+        }
+      }
+    }
+    let highest = -1;
+    full.forEach((word, index) => {
+      if (touched.has(String(word).toLowerCase().trim())) highest = index;
+    });
+    if (highest < 0) return firstGroupHasMark ? Math.min(full.length, targetCount) : 0;
+    return Math.min(full.length, Math.ceil((highest + 1) / targetCount) * targetCount);
+  }
+
+  function getStudyGroups(totalCount, targetCount) {
+    const full = typeof getActiveWordList === 'function'
+      ? getActiveWordList()
+      : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
+    const count = totalCount !== undefined ? totalCount : (full.length || state.activeListLength || 0);
+    const size = targetCount || state.targetCount || 100;
+    const numGroups = Math.max(1, Math.ceil(count / size));
+    const groups = [];
+    for (let i = 0; i < numGroups; i++) {
+      const startIndex = i * size;
+      const startNum = startIndex + 1;
+      const endNum = Math.min((i + 1) * size, count);
+      groups.push({
+        groupIndex: i,
+        groupNumber: i + 1,
+        startIndex,
+        startNum,
+        endNum,
+        label: `第 ${i + 1} 组 (${startNum}-${endNum})`,
+        isCurrent: startIndex === state.studyStartIndex
+      });
+    }
+    return groups;
+  }
+
+  function getCurrentStudyGroup() {
+    const size = state.targetCount || 100;
+    const groupIndex = Math.floor((state.studyStartIndex || 0) / size);
+    return {
+      groupIndex,
+      groupNumber: groupIndex + 1,
+      startIndex: state.studyStartIndex || 0,
+      startNum: (state.studyStartIndex || 0) + 1,
+      endNum: Math.min((state.studyStartIndex || 0) + size, state.activeListLength || ((state.studyStartIndex || 0) + size))
+    };
+  }
+
+  function setStudyGroup(startIndex) {
+    const full = typeof getActiveWordList === 'function'
+      ? getActiveWordList()
+      : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
+    const listLen = full.length;
+    let idx = Number(startIndex);
+    if (!Number.isInteger(idx) || idx < 0) idx = 0;
+    const size = state.targetCount || 100;
+    if (listLen > 0 && idx >= listLen) {
+      idx = Math.max(0, Math.floor((listLen - 1) / size) * size);
+    } else {
+      idx = Math.floor(idx / size) * size;
+    }
+
+    state.studyStartIndex = idx;
+    if (!state.studyScopeKey && listLen > 0) {
+      state.studyScopeKey = getStudyScopeKey(full);
+    }
+    if (state.studyScopeKey) {
+      state.studySequences[state.studyScopeKey] = idx;
+      saveStudySequences();
+    }
+
+    state.activeListLength = listLen;
+    state.queue = full.slice(idx, idx + size);
+    state.currentIndex = 0;
+    state.currentWord = state.queue[0] || null;
+    state.isAnswered = false;
+    state.lastResult = null;
+    state.lastUserInput = "";
+    state.selectedPos = [];
+    state.restoreAnswer = null;
+    state.manualMarkBaselines = new Map();
+
+    saveSession();
+    queueCloudProgress();
+
+    if (state.isOpen) {
+      renderCard();
+    }
+    updateMainGroupSelectUI();
+
+    const groupNum = Math.floor(idx / size) + 1;
+    const startNum = idx + 1;
+    const endNum = Math.min(idx + size, listLen || (idx + size));
+    if (typeof showToast === 'function') {
+      showToast(`📖 已切换到第 ${groupNum} 组 (${startNum}-${endNum})`);
+    }
+  }
+
+  function updateMainGroupSelectUI() {
+    const el = document.getElementById('fcMainGroupSelect');
+    if (!el) return;
+    const groups = getStudyGroups();
+    el.innerHTML = groups.map(g => `<option value="${g.startIndex}" ${g.startIndex === state.studyStartIndex ? 'selected' : ''}>${g.label}</option>`).join('');
+  }
+
+  function open(mode = 'study', target = 100, startIndex = null) {
+    if (!cloudLoaded && window.FlashcardCloud.getAuth()) return ensureCloudProgress().then(() => open(mode, target, startIndex));
     evaluationVersion++; state.isEvaluating = false;
     state.isOpen = true;
     state.mode = mode;
     state.targetCount = target;
     loadDailyStats();
+
+    if (startIndex !== null && startIndex !== undefined && !isNaN(Number(startIndex))) {
+      clearSession();
+      const full = typeof getActiveWordList === 'function' ? getActiveWordList() : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
+      state.activeListLength = full.length;
+      state.studyScopeKey = getStudyScopeKey(full);
+      const validIdx = Math.max(0, Math.floor(Number(startIndex) / state.targetCount) * state.targetCount);
+      state.studyStartIndex = validIdx;
+      loadStudySequences();
+      state.studySequences[state.studyScopeKey] = validIdx;
+      saveStudySequences();
+    }
+
     initQueue();
 
     const modal = document.getElementById('flashcardModal');
@@ -533,6 +704,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       requestAnimationFrame(() => modal.classList.add('open'));
       renderCard();
     }
+    updateMainGroupSelectUI();
   }
 
   function close() {
@@ -591,6 +763,16 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const progressPercent = Math.min(100, Math.round((state.todayStats.completed / state.todayStats.target) * 100));
 
     // 渲染词性多选胶囊 (附带 1~7 键盘快捷键标识)
+    const groups = getStudyGroups(state.activeListLength, state.targetCount);
+    const groupSelectHtml = state.mode === 'study' ? `
+      <div class="flashcard-group-pill" title="自由切换当前背词分组 (如 1-100, 101-200)">
+        <span style="font-size:11px;font-weight:700;margin-right:2px;opacity:0.85;">📑 分组:</span>
+        <select id="fcGroupSelect" class="flashcard-group-dropdown" onchange="FlashcardEngine.setStudyGroup(parseInt(this.value, 10))">
+          ${groups.map(g => `<option value="${g.startIndex}" ${g.startIndex === state.studyStartIndex ? 'selected' : ''}>${g.label}</option>`).join('')}
+        </select>
+      </div>
+    ` : '';
+
     const posButtonsHtml = POS_OPTIONS.map(opt => `
       <button type="button" class="flashcard-pos-pill" id="fcPosBtn_${opt.id}" onclick="FlashcardEngine.togglePosOption('${opt.id}')" title="勾选 ${opt.label} (快捷键: ${opt.key} 或 Alt+${opt.key})">
         <span style="opacity:0.6;font-size:11px;margin-right:2px;">${opt.key}.</span>${opt.label}
@@ -607,13 +789,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               <span>${state.mode === 'study' ? '📖 新词研习' : '🔄 重点复习'}</span>
               <span style="font-size:10px;opacity:0.75;">(切模式)</span>
             </div>
+            ${groupSelectHtml}
             <div class="flashcard-mode-pill" onclick="FlashcardEngine.toggleLanguageMode()" title="切换释义语言显示偏好 (中/英优先)">
               <span>${(typeof appSettings !== 'undefined' && appSettings.dictLanguageMode === 'en') ? '🇬🇧 纯英优先' : '🇨🇳 中文优先'}</span>
             </div>
           </div>
           <div class="flashcard-hud-right">
             <span class="flashcard-stat-chip">今日打卡: <strong id="fcCompletedCount">${state.todayStats.completed}</strong> / ${state.todayStats.target} 词</span>
-            <span class="flashcard-stat-chip" title="支持断点续背，退出后进度不丢失">当前组: <strong>${state.currentIndex + 1}</strong> / ${state.queue.length}</span>
+            <span class="flashcard-stat-chip" title="支持断点续背，退出后进度不丢失">${state.mode === 'study' ? `词库编号: <strong>${state.studyStartIndex + state.currentIndex + 1}</strong> / ${state.activeListLength} (第${Math.floor(state.studyStartIndex / state.targetCount) + 1}组)` : `复习进度: <strong>${state.currentIndex + 1}</strong> / ${state.queue.length}`}</span>
           </div>
         </div>
 
@@ -655,14 +838,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             </div>
           </div>
 
-          <aside aria-label="手动加入 Mark" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:14px 0;padding:12px;border:1px solid var(--paper-border);border-radius:12px;">
-            <div style="flex:1;min-width:160px;">
-              <strong style="font-size:13px;">Mark · 由你决定</strong>
-              <div id="fcMarkStatus" role="status" aria-live="polite" style="font-size:12px;color:var(--text-secondary);margin-top:4px;">对照释义后再决定；不点击就不会新增 Mark。</div>
+          <aside aria-label="手动加入 Mark" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:6px 0;padding:5px 8px;border:1px solid var(--paper-border);border-radius:8px;background:var(--paper-surface-sub);">
+            <div style="flex:1;min-width:140px;">
+              <div id="fcMarkStatus" role="status" aria-live="polite" style="font-size:11px;color:var(--text-secondary);">判错自动加入；可按 + 手动 Mark。</div>
             </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <button type="button" class="btn btn-secondary" id="fcMarkAdd" onclick="FlashcardEngine.addCurrentMark()" title="加入重点生词本 (快捷键: +)">＋加入 Mark (+)</button>
-              <button type="button" class="btn btn-secondary" id="fcMarkUndo" onclick="FlashcardEngine.undoCurrentMark()" title="撤销本次 Mark (快捷键: -)" style="display:none" hidden>撤销本次 Mark (-)</button>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-xs" id="fcMarkAdd" onclick="FlashcardEngine.addCurrentMark()" title="加入重点生词本 (快捷键: +)" style="font-size:11px;padding:2px 7px;">＋Mark (+)</button>
+              <button type="button" class="btn btn-secondary btn-xs" id="fcMarkUndo" onclick="FlashcardEngine.undoCurrentMark()" title="撤销本次 Mark (快捷键: -)" style="display:none;font-size:11px;padding:2px 7px;" hidden>撤销 (-)</button>
             </div>
           </aside>
 
@@ -741,6 +923,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     const inputEl = document.getElementById('fcInput');
     const isInputFocused = (document.activeElement === inputEl && inputEl && inputEl.offsetParent !== null);
+    const isSelectFocused = Boolean(document.activeElement && (document.activeElement.tagName === 'SELECT' || (document.activeElement.classList && document.activeElement.classList.contains('flashcard-group-dropdown'))));
+    if (isSelectFocused) return;
 
     // 1. 词性勾选快捷键：Alt+1~7 (任何聚焦状态) 或 1~7 (不在输入框打字时)
     const isAltDigit = e.altKey && e.key >= '1' && e.key <= '7';
@@ -758,12 +942,12 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     if (e.altKey) return;
 
-    // 2. Mark 标记快捷键 (+ / = / 小键盘+ / m 加入；- / _ / 小键盘- 撤销)
-    // 关键体验：在判定后（输入框已隐藏）或未在打字时，直接敲击 + 即可将该词加入 Mark；敲击 - 可撤销
+    // 2. Mark 标记快捷键 (+ / = / 小键盘+ 始终加入；m 在非输入状态加入；- 撤销)
+    // “+”是卡片操作键，即使输入框仍保留焦点（例如模型暂不判定）也不能被吞掉。
     const isIncrease = (e.key === '+' || e.key === '=' || e.code === 'Equal' || e.code === 'NumpadAdd' || e.key === 'Add' || (!isInputFocused && (e.key === 'm' || e.key === 'M' || e.code === 'KeyM')));
     const isDecrease = (e.key === '-' || e.key === '_' || e.code === 'Minus' || e.code === 'NumpadSubtract' || e.key === 'Subtract');
 
-    if (!isInputFocused && isIncrease) {
+    if (isIncrease) {
       e.preventDefault();
       e.stopPropagation();
       addCurrentMark();
@@ -773,7 +957,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       return;
     }
 
-    if (!isInputFocused && isDecrease) {
+    if (isDecrease && (state.isAnswered || !isInputFocused)) {
       e.preventDefault();
       e.stopPropagation();
       undoCurrentMark();
@@ -928,7 +1112,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     } else {
       state.todayStats.wrong += 1;
       if (typeof soundFailure === 'function') soundFailure();
-      // 判题结果不自动加入 Mark；用户对照释义后自行选择。
+      // 只有明确 REJECT 才自动加 Mark；UNCERTAIN 仍交给用户用 + 决定。
+      if (result.verdict === 'REJECT' && !state.manualMarkBaselines.has(wordKey) && typeof addMark === 'function') addMark(wordKey);
     }
     saveDailyStats();
     saveSession();
@@ -1044,7 +1229,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
   function manualMarkNextLabel() {
     if (state.currentIndex + 1 >= state.queue.length) return '查看本次研习报告 (Enter) ➔';
-    return state.manualMarkBaselines.has(manualMarkKey()) ? '下一个 (Enter) ➔' : '不加 Mark，下一词 (Enter) ➔';
+    return state.manualMarkBaselines.has(manualMarkKey()) || state.lastResult?.verdict === 'REJECT' ? '下一个 (Enter) ➔' : '不加 Mark，下一词 (Enter) ➔';
   }
 
   function updateManualMarkControls() {
@@ -1068,7 +1253,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
     if (status) status.textContent = added
       ? `已手动加入，当前 Mark：${count}。可以撤销本次添加。`
-      : `本次未新增 Mark${count > 0 ? `，已有 ${count} 次标记保留` : ''}。是否加入，由你决定。`;
+      : state.lastResult?.verdict === 'REJECT'
+        ? `本次判错已自动加入 Mark，当前 Mark：${count}。`
+        : `本次未新增 Mark${count > 0 ? `，已有 ${count} 次标记保留` : ''}。暂不判定时可按 + 手动加入。`;
     if (tag) { tag.hidden = count === 0; tag.style.display = count > 0 ? '' : 'none'; tag.textContent = `★ Mark ×${count}`; }
     if (nextButton) {
       nextButton.textContent = manualMarkNextLabel();
@@ -1140,6 +1327,15 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   }
 
   function renderFinishedState() {
+    const completedQueue = state.queue.length > 0;
+    const nextStudyIndex = Math.min(state.activeListLength, state.studyStartIndex + state.queue.length);
+    const hasNextStudyGroup = state.mode === 'study' && nextStudyIndex < state.activeListLength;
+    if (state.mode === 'study' && completedQueue && state.studyScopeKey) {
+      const nextIndex = Math.min(state.activeListLength || Number.MAX_SAFE_INTEGER, state.studyStartIndex + state.queue.length);
+      const savedIndex = Number(state.studySequences[state.studyScopeKey]) || 0;
+      state.studySequences[state.studyScopeKey] = Math.max(savedIndex, nextIndex);
+      saveStudySequences();
+    }
     clearSession();
     const modal = document.getElementById('flashcardModal');
     if (!modal) return;
@@ -1148,13 +1344,20 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       ? Math.round((state.todayStats.correct / state.todayStats.completed) * 100) 
       : 0;
 
+    const groups = getStudyGroups(state.activeListLength, state.targetCount);
+    const groupSelectOptionsHtml = groups.map(g => `
+      <option value="${g.startIndex}" ${g.startIndex === state.studyStartIndex ? 'selected' : ''}>${g.label}</option>
+    `).join('');
+    const currentGroupNum = Math.floor(state.studyStartIndex / state.targetCount) + 1;
+    const currentGroupEnd = Math.min(state.activeListLength, state.studyStartIndex + state.targetCount);
+
     modal.innerHTML = `
       <div class="flashcard-container">
         <div class="flashcard-card-box finished-box">
           <div class="finished-trophy">🏆</div>
-          <h2 style="font-size:24px; font-weight:800; margin: 12px 0 6px;">本组研习圆满完成！</h2>
+          <h2 style="font-size:24px; font-weight:800; margin: 12px 0 6px;">${completedQueue ? '本组研习圆满完成！' : (state.mode === 'study' ? '顺序新词已经全部学完' : '目前没有 Mark 词')}</h2>
           <p style="color:var(--text-secondary); font-size:14px; margin-bottom: 20px;">
-            今日累计完成 <strong>${state.todayStats.completed}</strong> 词，已掌握单词已永久存档，后续不会重复出现。
+            ${completedQueue ? `今日累计完成 <strong>${state.todayStats.completed}</strong> 词。当前第 ${currentGroupNum} 组 (${state.studyStartIndex + 1}-${currentGroupEnd}) 已完成。` : (state.mode === 'study' ? '当前词库已没有尚未分组的新词。' : '先在卡片或词库中添加 Mark，再进入重点复习。')}
           </p>
 
           <div class="finished-stats-grid">
@@ -1172,8 +1375,18 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             </div>
           </div>
 
-          <div style="display:flex; gap:12px; justify-content:center; margin-top:24px; flex-wrap:wrap;">
-            <button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('${state.mode}', ${state.targetCount})">再来一组 (100词)</button>
+          ${state.mode === 'study' ? `
+            <div style="margin-top:20px; display:flex; align-items:center; justify-content:center; gap:8px;">
+              <span style="font-size:13px; color:var(--text-secondary); font-weight:700;">自由跳组:</span>
+              <select class="flashcard-group-dropdown" style="padding:6px 12px; font-size:13px; border-radius:8px; border:1px solid var(--paper-border); background:var(--paper-surface);" onchange="FlashcardEngine.setStudyGroup(parseInt(this.value, 10))">
+                ${groupSelectOptionsHtml}
+              </select>
+            </div>
+          ` : ''}
+
+          <div style="display:flex; gap:12px; justify-content:center; margin-top:20px; flex-wrap:wrap;">
+            ${completedQueue && hasNextStudyGroup ? `<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('study', ${state.targetCount}, ${nextStudyIndex})">下一组 (${nextStudyIndex + 1}-${Math.min(state.activeListLength, nextStudyIndex + state.targetCount)})</button>` : completedQueue && state.mode === 'review' ? `<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('review', ${state.targetCount})">再次复习 Mark 词</button>` : state.mode === 'study' ? '<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open(\'review\', 100)">去复习 Mark 词</button>' : ''}
+            ${state.mode === 'study' ? `<button class="btn btn-secondary" onclick="FlashcardEngine.open('study', ${state.targetCount}, ${state.studyStartIndex})">重学本组 (${state.studyStartIndex + 1}-${currentGroupEnd})</button>` : ''}
             <button class="btn btn-secondary" onclick="FlashcardEngine.close()">返回词库</button>
           </div>
         </div>
@@ -1206,19 +1419,20 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   let cloudLoaded = false, cloudLoadPromise = null;
   function cachedProgress() {
     const read = key => { try { return JSON.parse(localStorage.getItem(window.FlashcardCloud.storageKey(key))); } catch { return null; } };
-    return {learned:read(STORAGE_KEY_LEARNED)||[],stats:read(STORAGE_KEY_STATS),session:read(STORAGE_KEY_SESSION)};
+    return {learned:read(STORAGE_KEY_LEARNED)||[],sequence:read(STORAGE_KEY_SEQUENCE)||{},stats:read(STORAGE_KEY_STATS),session:read(STORAGE_KEY_SESSION)};
   }
   function queueCloudProgress(cleared = false) {
-    window.FlashcardCloud.save({learned:Array.from(state.learnedWords),stats:state.todayStats,session:cleared?null:{
+    window.FlashcardCloud.save({learned:Array.from(state.learnedWords),sequence:state.studySequences,stats:state.todayStats,session:cleared?null:{
       date:getTodayStr(),mode:state.mode,targetCount:state.targetCount,queue:state.queue,currentIndex:state.currentIndex,
       isOpen:state.isOpen,manualMarkBaselines:Array.from(state.manualMarkBaselines),isAnswered:state.isAnswered,
-      lastResult:state.lastResult,userInput:state.lastUserInput,selectedPos:state.selectedPos
+      lastResult:state.lastResult,userInput:state.lastUserInput,selectedPos:state.selectedPos,queuePolicyVersion:QUEUE_POLICY_VERSION,
+      studyScopeKey:state.studyScopeKey,studyStartIndex:state.studyStartIndex
     }});
     if(typeof flushStoneSync === 'function') void flushStoneSync();
   }
   function hydrateCloudProgress(data) {
     if(!data)return;
-    for(const [field,key] of Object.entries({learned:STORAGE_KEY_LEARNED,stats:STORAGE_KEY_STATS,session:STORAGE_KEY_SESSION})) {
+    for(const [field,key] of Object.entries({learned:STORAGE_KEY_LEARNED,sequence:STORAGE_KEY_SEQUENCE,stats:STORAGE_KEY_STATS,session:STORAGE_KEY_SESSION})) {
       const scoped=window.FlashcardCloud.storageKey(key);
       try {
         if(data[field]==null) {localStorage.removeItem(scoped);if(typeof StoneStorage!=='undefined')StoneStorage.removeItem(scoped);}
@@ -1226,12 +1440,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       }catch{}
     }
     state.learnedWords=new Set(data.learned||[]);
+    state.studySequences=data.sequence&&typeof data.sequence==='object'&&!Array.isArray(data.sequence)?data.sequence:{};
   }
   async function ensureCloudProgress() {
     if(cloudLoadPromise)return cloudLoadPromise;
     cloudLoadPromise=(async()=>{
       let data=await window.FlashcardCloud.load();
-      if(!data) data=window.FlashcardCloud.migrateLegacy({learned:STORAGE_KEY_LEARNED,stats:STORAGE_KEY_STATS,session:STORAGE_KEY_SESSION});
+      if(!data) data=window.FlashcardCloud.migrateLegacy({learned:STORAGE_KEY_LEARNED,sequence:STORAGE_KEY_SEQUENCE,stats:STORAGE_KEY_STATS,session:STORAGE_KEY_SESSION});
       hydrateCloudProgress(data);cloudLoaded=true;
       if(data)window.FlashcardCloud.save(data);
     })();
@@ -1274,7 +1489,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     toggleMode,
     togglePosOption,
     toggleLanguageMode,
-    speakCurrent
+    speakCurrent,
+    setStudyGroup,
+    getStudyGroups,
+    getCurrentStudyGroup,
+    updateMainGroupSelectUI
   };
 })();
 

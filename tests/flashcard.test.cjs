@@ -10,7 +10,7 @@ function setup(fetchImpl, options={}) {
   let marks = 0;
   const context = {
     window: {}, document: {readyState:'loading',addEventListener(){},getElementById(id){return elements.get(id)||null}},
-    localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},
+    localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},
     console, AbortController, AbortSignal, crypto:require('node:crypto'), performance, setTimeout, clearTimeout,
     chineseDict:{reunite:'重聚；重新统一'},
     fetch:fetchImpl, escapeHtml:String, addMark(){marks++}, reduceMark(){marks--}, getMarkCount(){return marks}, appSettings:{dictLanguageMode:"zh"},
@@ -18,12 +18,12 @@ function setup(fetchImpl, options={}) {
   Object.assign(context,options);
   vm.createContext(context);
   let code = readFileSync(process.env.FLASHCARD_SOURCE || path.join(__dirname,'..','frontend','flashcard.js'),'utf8').replace(/\r\n/g,'\n');
-  code = code.replace('  return {\n    resumeCloudSession,', '  window.__test={state,judgmentGate,verifyLocally,verifyWithJev,applyEvaluationResult};\n  return {\n    resumeCloudSession,');
+  code = code.replace('  return {\n    resumeCloudSession,', '  window.__test={state,judgmentGate,verifyLocally,verifyWithJev,applyEvaluationResult,initQueue,renderFinishedState,getStudyScopeKey};\n  return {\n    resumeCloudSession,');
   vm.runInContext(code, context);
   context.window.__test.state.currentWord='reunite';
   context.window.__test.state.isOpen=true;
   context.window.__test.state.queue=['reunite','space'];
-  return {...context.window.__test,engine:context.window.FlashcardEngine,elements,marks:()=>marks};
+  return {...context.window.__test,engine:context.window.FlashcardEngine,elements,storage,marks:()=>marks};
 }
 
 test('confidence gate rejects all low, missing, malformed values in either direction',()=>{
@@ -53,12 +53,19 @@ test('rendering the result again and duplicate submission cannot commit twice',(
   h.applyEvaluationResult(result,'错误',[],'重聚');
   assert.equal(h.state.todayStats.completed,1);
   assert.equal(h.state.todayStats.wrong,1);
-  assert.equal(h.marks(),0);
+  assert.equal(h.marks(),1);
 });
 test('explicit unknown shows reference without automatically adding Mark',()=>{
   const h=setup();
   h.applyEvaluationResult({correct:false,confidence:0,source:'unknown_giveup',isUnknown:true},'?',[],'重聚');
   assert.equal(h.marks(),0);
+});
+test('confident rejection automatically adds exactly one Mark',()=>{
+  const h=setup();
+  h.applyEvaluationResult({correct:false,confidence:1},'错误',[],'重聚');
+  h.applyEvaluationResult({correct:false,confidence:1},'错误',[],'重聚');
+  assert.equal(h.marks(),1);
+  assert.equal(h.state.todayStats.wrong,1);
 });
 test('local exact matching does not accept negations or substrings',()=>{
   const {verifyLocally}=setup();
@@ -157,14 +164,14 @@ test('uncertain answers may be explicitly marked without changing verdict or sta
   assert.equal(h.state.lastResult.verdict,'UNCERTAIN');
   assert.equal(h.state.todayStats.completed,0);
 });
-test('leaving unmarked does not add Mark and exposes a clear next action',()=>{
+test('a rejected answer is automatically marked and exposes the normal next action',()=>{
   const h=setup();
   const panel={style:{},innerHTML:''};
   h.elements.set('fcResultPanel',panel);
   h.applyEvaluationResult({correct:false,confidence:1},'香蕉',[],'重聚');
-  assert.match(panel.innerHTML,/不加 Mark，下一词/);
+  assert.match(panel.innerHTML,/下一个 \(Enter\)/);
   h.engine.nextWord();
-  assert.equal(h.marks(),0);
+  assert.equal(h.marks(),1);
 });
 test('existing marks are preserved when undoing the current manual addition',()=>{
   const h=setup();
@@ -197,7 +204,7 @@ test('controls update without submitting or clearing the typed answer',()=>{
 });
 test('fresh device restores an answered card without recounting it',async()=>{
   const d=new Date();const date=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  const data={learned:['space'],stats:{date,completed:3,correct:2,wrong:1,target:100},session:{date:'2020-01-01',mode:'study',targetCount:100,queue:['space','reunite'],currentIndex:1,isOpen:true,isAnswered:true,lastResult:{correct:false,confidence:1},userInput:'香蕉',selectedPos:['v'],manualMarkBaselines:[]}};
+  const data={learned:['space'],sequence:{},stats:{date,completed:3,correct:2,wrong:1,target:100},session:{date:'2020-01-01',mode:'study',targetCount:100,queue:['space','reunite'],currentIndex:1,isOpen:true,isAnswered:true,lastResult:{correct:false,confidence:1},userInput:'香蕉',selectedPos:['v'],manualMarkBaselines:[],queuePolicyVersion:2,studyScopeKey:'default:all:2:space:reunite',studyStartIndex:0}};
   const h=setup(async(url)=>({ok:true,json:async()=>url.includes('/api/dict')?{meanings:[]}:{revision:4,state:data,mutation_id:'a'}}),{
     authUser:{id:1},authToken:'test-token',requestAnimationFrame:fn=>fn(),setTimeout:()=>1,
   });
@@ -330,7 +337,7 @@ test('keyboard shortcut + and = adds manual Mark after evaluation, - undos, and 
   assert.equal(h.marks(), 1);
 });
 
-test('POS shortcuts 1~7 toggle part of speech pills, and typing in input protects + key', () => {
+test('POS shortcuts 1~7 toggle part of speech pills, and + marks while the answer input retains focus', () => {
   const fakeInput = { offsetParent: {} };
   const doc = { activeElement: null, readyState: 'loading', addEventListener() {}, getElementById(id) { return id === 'fcInput' ? fakeInput : null; } };
   const h = setup(undefined, {
@@ -367,7 +374,7 @@ test('POS shortcuts 1~7 toggle part of speech pills, and typing in input protect
   });
   assert.equal(h.state.selectedPos.join(','), 'v');
 
-  // 2. 当输入框处于聚焦输入中时，打字按 + 不会触发加 Mark
+  // 2. 模型暂不判定后，即使焦点仍在输入框，+ 也必须触发 Mark
   doc.activeElement = fakeInput;
 
   let plusPrevented = false;
@@ -376,8 +383,83 @@ test('POS shortcuts 1~7 toggle part of speech pills, and typing in input protect
     preventDefault() { plusPrevented = true; },
     stopPropagation() {}
   });
-  // 不应该拦截输入法打字
-  assert.equal(plusPrevented, false);
-  assert.equal(h.marks(), 0);
+  assert.equal(plusPrevented, true);
+  assert.equal(h.marks(), 1);
 });
 
+test('new-word groups follow vocabulary numbering instead of learned or Mark status',()=>{
+  const full=Array.from({length:250},(_,i)=>`word${i+1}`);
+  const h=setup(undefined,{getActiveWordList:()=>full,getMarkedWords:()=>[]});
+  h.initQueue();
+  assert.equal(h.state.studyStartIndex,0);
+  assert.equal(h.state.queue[0],'word1');
+  assert.equal(h.state.queue.at(-1),'word100');
+  h.state.currentIndex=h.state.queue.length;
+  h.renderFinishedState();
+  h.initQueue();
+  assert.equal(h.state.studyStartIndex,100);
+  assert.equal(h.state.queue[0],'word101');
+  assert.equal(h.state.queue.at(-1),'word200');
+  h.state.currentIndex=h.state.queue.length;
+  h.renderFinishedState();
+  h.initQueue();
+  assert.equal(h.state.studyStartIndex,200);
+  assert.equal(h.state.queue[0],'word201');
+  assert.equal(h.state.queue.at(-1),'word250');
+});
+
+test('legacy repeated first group migrates to 101 when the first hundred contains prior learning or Mark data',()=>{
+  const full=Array.from({length:250},(_,i)=>`word${i+1}`);
+  const h=setup(undefined,{getActiveWordList:()=>full,getMarkedWords:()=>[['word20',2]]});
+  h.state.learnedWords.add('word99');
+  h.initQueue();
+  assert.equal(h.state.studyStartIndex,100);
+  assert.equal(h.state.queue[0],'word101');
+});
+
+test('group selection: can choose any group (1-100, 101-200, 201-250) and switch groups freely',()=>{
+  const full=Array.from({length:250},(_,i)=>`word${i+1}`);
+  const h=setup(undefined,{getActiveWordList:()=>full,getMarkedWords:()=>[]});
+  h.initQueue();
+  assert.equal(h.state.studyStartIndex,0);
+
+  // 1. 获取所有分组列表
+  const groups=h.engine.getStudyGroups();
+  assert.equal(groups.length,3);
+  assert.equal(groups[0].label,'第 1 组 (1-100)');
+  assert.equal(groups[1].label,'第 2 组 (101-200)');
+  assert.equal(groups[2].label,'第 3 组 (201-250)');
+
+  // 2. 选择第 2 组 (101-200)
+  h.engine.setStudyGroup(100);
+  assert.equal(h.state.studyStartIndex,100);
+  assert.equal(h.state.queue[0],'word101');
+  assert.equal(h.state.queue.at(-1),'word200');
+
+  // 3. 选择第 3 组 (201-250)
+  h.engine.setStudyGroup(200);
+  assert.equal(h.state.studyStartIndex,200);
+  assert.equal(h.state.queue[0],'word201');
+  assert.equal(h.state.queue.at(-1),'word250');
+
+  // 4. 自由返回第 1 组 (1-100)
+  h.engine.setStudyGroup(0);
+  assert.equal(h.state.studyStartIndex,0);
+  assert.equal(h.state.queue[0],'word1');
+  assert.equal(h.state.queue.at(-1),'word100');
+
+  // 5. open() 直接支持指定分组 startIndex
+  h.engine.open('study', 100, 100);
+  assert.equal(h.state.studyStartIndex,100);
+  assert.equal(h.state.queue[0],'word101');
+});
+
+test('review queue contains only marked words and never pads with ordinary vocabulary',()=>{
+  const h=setup(undefined,{
+    getActiveWordList:()=>['ordinary1','ordinary2','ordinary3'],
+    getMarkedWords:()=>[['draft',2],['reverse',1]]
+  });
+  h.state.mode='review';
+  h.initQueue();
+  assert.deepEqual(Array.from(h.state.queue),['draft','reverse']);
+});
