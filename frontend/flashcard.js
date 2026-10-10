@@ -1177,21 +1177,21 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
             <!-- 根据模式优先排序展示 -->
             ${isEnMode ? `
-              <div class="compare-content std-def-text" style="color:#3b82f6; font-size:14px; margin-bottom:4px;">
-                <strong style="color:var(--text-secondary); font-size:11px; margin-right:4px;">[英文释义]</strong>
+              <div class="compare-content std-def-text compare-def-primary" style="color:#3b82f6; margin-bottom:6px;">
+                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[英文释义]</strong>
                 <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
-              <div class="compare-content std-def-text" style="color:var(--text-secondary); font-size:13px;">
-                <strong style="color:var(--text-secondary); font-size:11px; margin-right:4px;">[中文考纲]</strong>
+              <div class="compare-content std-def-text compare-def-secondary" style="color:var(--text-secondary);">
+                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[中文考纲]</strong>
                 <span>${escapeHtml(standardDef || '暂无详细中文释义')}</span>
               </div>
             ` : `
-              <div class="compare-content std-def-text" style="color:var(--brand-accent); font-size:15px; font-weight:700; margin-bottom:4px;">
-                <strong style="color:var(--text-secondary); font-size:11px; margin-right:4px;">[中文考纲]</strong>
+              <div class="compare-content std-def-text compare-def-primary" style="color:var(--brand-accent); font-weight:700; margin-bottom:6px;">
+                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[中文考纲]</strong>
                 <span>${escapeHtml(standardDef || '暂无详细中文释义')}</span>
               </div>
-              <div class="compare-content std-def-text" style="color:#3b82f6; font-size:13px; font-style:italic;">
-                <strong style="color:var(--text-secondary); font-size:11px; font-style:normal; margin-right:4px;">[英文双解]</strong>
+              <div class="compare-content std-def-text compare-def-secondary" style="color:#3b82f6; font-style:italic;">
+                <strong class="compare-def-tag" style="color:var(--text-secondary); font-style:normal; margin-right:6px;">[英文双解]</strong>
                 <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
             `}
