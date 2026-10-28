@@ -1278,7 +1278,18 @@
   <span id="toastMsg">Notification</span>
 </div>
 
-<script defer src="performance-runtime.js"></script>
+  <!-- Stone Cottages Modular Architecture -->
+  <script defer src="core/event-bus.js"></script>
+  <script defer src="core/storage-adapter.js"></script>
+  <script defer src="modules/cards/tarot-skills.js"></script>
+  <script defer src="modules/cards/cards-module.js"></script>
+  <script defer src="modules/match3/match3-module.js"></script>
+  <script defer src="modules/lexicon/lexicon-module.js"></script>
+  <script defer src="modules/expedition/expedition-module.js"></script>
+  <script defer src="modules/seasons/seasons-module.js"></script>
+  <script defer src="modules/beta-promo/beta-promo-module.js"></script>
+  <script defer src="modules/lobby/lobby-module.js"></script>
+  <script defer src="performance-runtime.js"></script>
 <script defer src="gray-health-engine.js"></script>
 <script defer src="expedition-engine.js"></script>
 
