@@ -1285,6 +1285,7 @@
   <script defer src="modules/cards/cards-module.js"></script>
   <script defer src="modules/match3/match3-module.js"></script>
   <script defer src="modules/lexicon/lexicon-module.js"></script>
+  <script defer src="modules/lexicon/etymology.js"></script>
   <script defer src="modules/expedition/expedition-module.js"></script>
   <script defer src="modules/seasons/seasons-module.js"></script>
   <script defer src="modules/beta-promo/beta-promo-module.js"></script>

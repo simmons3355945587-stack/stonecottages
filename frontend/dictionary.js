@@ -468,3 +468,37 @@ function confirmAddOnlineWord() {
   showToast(`✨ 生词「${word}」已成功录入词库并同步至账号 (★ Mark: ${marks[word] || 0})！`);
   openWordDetails(word);
 }
+
+
+// ============================================================================
+// 🏛️ 词源考据接入 (Lexicon Etymology Sub-engine)
+// ============================================================================
+async function fetchWordEtymology(word, forceOnline = false) {
+  const container = document.getElementById('dictEtymContentContainer');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div style="padding:25px; text-align:center; color:var(--text-secondary);">
+      <div class="flashcard-spinner" style="margin: 0 auto 10px;"></div>
+      <em>${forceOnline ? '正在全网连线检索最新权威词源...' : '正在检索本地 4.6 万离线词源库...'}</em>
+    </div>
+  `;
+
+  if (window.StoneEtymology && typeof window.StoneEtymology.fetchEtymology === 'function') {
+    const data = await window.StoneEtymology.fetchEtymology(word, forceOnline);
+    container.innerHTML = window.StoneEtymology.renderEtymologyHtml(data);
+  } else {
+    // 降级直调接口
+    try {
+      const resp = await fetch(`/api/etymology?word=${encodeURIComponent(word)}${forceOnline ? '&force_online=true' : ''}`);
+      const data = await resp.json();
+      if (data.found && data.etymology) {
+        container.innerHTML = `<div style="padding:14px; background:var(--paper-surface-sub); border-radius:8px; line-height:1.6;">${escapeHtml(data.etymology)}</div>`;
+      } else {
+        container.innerHTML = `<div style="padding:16px; text-align:center; color:var(--text-secondary);">暂无词源记录</div>`;
+      }
+    } catch (e) {
+      container.innerHTML = `<div style="padding:16px; text-align:center; color:var(--brand-danger);">词源加载失败: ${escapeHtml(e.message)}</div>`;
+    }
+  }
+}

@@ -707,7 +707,27 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     updateMainGroupSelectUI();
   }
 
-  function close() {
+  
+  /**
+   * 调取权威词源考据
+   */
+  function openWordEtymology(word) {
+    const target = word || state.currentWord;
+    if (!target) return;
+    if (typeof openWordDetails === 'function') {
+      openWordDetails(target);
+      setTimeout(() => {
+        if (typeof switchDrawerDictTab === 'function') {
+          switchDrawerDictTab('etym');
+        }
+      }, 100);
+    } else if (window.StoneEtymology) {
+      window.StoneEtymology.fetchEtymology(target).then(res => {
+        showToast(`【${target} 词源】\n${res.etymology.slice(0, 150)}...`);
+      });
+    }
+  }
+function close() {
     evaluationVersion++; state.isEvaluating = false;
     state.isOpen = false;
     saveSession();
@@ -1475,6 +1495,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
   return {
     resumeCloudSession,
+    openWordEtymology,
     handleFlashcardKeydown,
     retryEnglishDefinition,
     syncCloudProgress,

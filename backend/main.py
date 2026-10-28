@@ -1262,3 +1262,95 @@ def put_flashcard_progress(req: FlashcardProgressReq,user: dict = Depends(get_cu
             (user_id,revision+1,json.dumps(data,ensure_ascii=False),req.mutation_id))
         conn.commit()
         return {"revision":revision+1,"status":"synced"}
+
+# ============================================================================
+# 🏛️ 词源权威考据 API (Etymology Gateway - 4.6万离线库 + 在线降级)
+# ============================================================================
+ETYMOLOGY_DB_CANDIDATES = [
+    os.environ.get('ETYMOLOGY_DB_PATH', ''),
+    'F:/cluade-products/data/etymology.db',
+    '/var/www/vocab/data/etymology.db',
+    os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'etymology.db'),
+    os.path.join(os.path.dirname(__file__), 'etymology.db')
+]
+
+def find_etymology_db():
+    for p in ETYMOLOGY_DB_CANDIDATES:
+        if p and os.path.isfile(p):
+            return p
+    return None
+
+@app.get('/api/etymology')
+def query_word_etymology(word: str, force_online: bool = False):
+    clean_word = (word or '').strip().lower()
+    if not clean_word:
+        return {'found': False, 'etymology': 'Empty word provided', 'level': 0}
+
+    # 1. 优先查 Level 1 离线 SQLite 数据库
+    db_path = find_etymology_db()
+    if db_path and not force_online:
+        try:
+            with sqlite3.connect(db_path) as conn:
+                cur = conn.cursor()
+                cur.execute('SELECT word, etym_text, years FROM etymology WHERE word = ?', (clean_word,))
+                rows = cur.fetchall()
+                if rows:
+                    combined_text = '\n\n'.join(r[1] for r in rows if r[1])
+                    years = []
+                    for r in rows:
+                        if r[2]:
+                            try:
+                                years.extend(json.loads(r[2]))
+                            except Exception:
+                                pass
+                    return {
+                        'word': clean_word,
+                        'found': True,
+                        'level': 1,
+                        'source': 'Etymonline Archive (Official SQLite)',
+                        'etymology': combined_text,
+                        'years': sorted(list(set(years)))
+                    }
+        except Exception as e:
+            print(f'[Etymology] Local lookup error for {clean_word}: {e}')
+
+    # 2. Level 2 在线 Wiktionary 官方 API 降级
+    try:
+        import urllib.request, urllib.parse
+        params = {
+            'action': 'parse',
+            'page': clean_word,
+            'prop': 'wikitext',
+            'format': 'json',
+            'origin': '*'
+        }
+        url = f'https://en.wiktionary.org/w/api.php?{urllib.parse.urlencode(params)}'
+        req = urllib.request.Request(url, headers={'User-Agent': 'StoneCottages/1.0 (Educational Word Study)'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            wikitext = data.get('parse', {}).get('wikitext', {}).get('*', '')
+            import re
+            m = re.search(r'===Etymology(?:\s*\d+)?===([\s\S]*?)(?=\n===|\n==|$)', wikitext, re.IGNORECASE)
+            if m and m.group(1):
+                raw = m.group(1)
+                raw = re.sub(r'\{\{[^}]+\}\}', '', raw)
+                raw = re.sub(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]', r'\1', raw)
+                raw = raw.replace("'''", '').replace("''", '').strip()
+                if len(raw) > 10:
+                    return {
+                        'word': clean_word,
+                        'found': True,
+                        'level': 2,
+                        'source': 'Wiktionary (Online API)',
+                        'etymology': raw
+                    }
+    except Exception as e:
+        print(f'[Etymology] Online fallback error for {clean_word}: {e}')
+
+    return {
+        'word': clean_word,
+        'found': False,
+        'level': 0,
+        'source': 'None',
+        'etymology': f'本地离线库及全网词源暂未检索到「{clean_word}」的记录。'
+    }
