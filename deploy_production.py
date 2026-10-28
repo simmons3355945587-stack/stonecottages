@@ -144,9 +144,27 @@ def main():
         ("frontend/performance-runtime.js", "/var/www/vocab/performance-runtime.js"),
         ("frontend/ui-enhancements.js", "/var/www/vocab/ui-enhancements.js"),
         ("frontend/ui-enhancements.css", "/var/www/vocab/ui-enhancements.css"),
+        ("frontend/flashcard.js", "/var/www/vocab/flashcard.js"),
+        ("frontend/dictionary.js", "/var/www/vocab/dictionary.js"),
+        ("frontend/app.js", "/var/www/vocab/app.js"),
+        ("frontend/style.css", "/var/www/vocab/style.css"),
+        ("frontend/tri-match.js", "/var/www/vocab/tri-match.js"),
+        ("frontend/tri-match.html", "/var/www/vocab/tri-match.html"),
         ("frontend/tri-match.battle", "/var/www/vocab/tri-match.battle"),
         ("frontend/cet4/app.js", "/var/www/vocab/cet4/app.js"),
         ("frontend/cet4/index.html", "/var/www/vocab/cet4/index.html"),
+        # Core & Modules
+        ("frontend/core/event-bus.js", "/var/www/vocab/core/event-bus.js"),
+        ("frontend/core/storage-adapter.js", "/var/www/vocab/core/storage-adapter.js"),
+        ("frontend/modules/cards/tarot-skills.js", "/var/www/vocab/modules/cards/tarot-skills.js"),
+        ("frontend/modules/cards/cards-module.js", "/var/www/vocab/modules/cards/cards-module.js"),
+        ("frontend/modules/match3/match3-module.js", "/var/www/vocab/modules/match3/match3-module.js"),
+        ("frontend/modules/lexicon/lexicon-module.js", "/var/www/vocab/modules/lexicon/lexicon-module.js"),
+        ("frontend/modules/lexicon/etymology.js", "/var/www/vocab/modules/lexicon/etymology.js"),
+        ("frontend/modules/expedition/expedition-module.js", "/var/www/vocab/modules/expedition/expedition-module.js"),
+        ("frontend/modules/seasons/seasons-module.js", "/var/www/vocab/modules/seasons/seasons-module.js"),
+        ("frontend/modules/beta-promo/beta-promo-module.js", "/var/www/vocab/modules/beta-promo/beta-promo-module.js"),
+        ("frontend/modules/lobby/lobby-module.js", "/var/www/vocab/modules/lobby/lobby-module.js"),
     ]
     for rel_src, remote_dst in sync_list:
         lp = os.path.join(REPO_DIR, rel_src.replace('/', os.sep))
