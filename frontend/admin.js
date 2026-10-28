@@ -51,12 +51,8 @@ async function openAdminConsole() {
       </div>
 
       <div style="background:var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:16px; margin-bottom:20px;">
-        <div style="font-size:15px; font-weight:800; color:var(--text-primary); margin-bottom:4px;">服务端 AI 密钥与使用权限</div>
-        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">密钥仅保存在服务器；留空保留原配置，不会回显或写入浏览器缓存。</div>
-        <div class="form-group" style="margin-bottom:10px;">
-          <label for="adminCfgTypesafeKey" class="form-label" style="font-size:12px;">TypeSafe · 卡片智能判卷</label>
-          <input type="password" id="adminCfgTypesafeKey" class="form-input" autocomplete="new-password" placeholder="${stats.server_typesafe_key_set ? '已配置 · 填写新密钥可替换' : '粘贴新的 TypeSafe 密钥'}" />
-        </div>
+        <div style="font-size:15px; font-weight:800; color:var(--text-primary); margin-bottom:4px;">🛡️ Gemini API 额度防盗刷安全金库</div>
+        <div style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">Key 保存在 VPS 后端数据库中，前端无法窥探。访客走 0 成本离线矩阵，杜绝被盗刷！</div>
         <div class="form-group" style="margin-bottom:10px;">
           <label class="form-label" style="font-size:12px;">服务端 Gemini API Key</label>
           <input type="password" id="adminCfgGeminiKey" class="form-input" placeholder="${stats.server_gemini_key_set ? '●●●●●●●● (已配置并受保护)' : '请输入 Google AI Studio 密钥'}" />
@@ -163,7 +159,6 @@ async function openAdminConsole() {
 
 async function saveAdminAiConfig() {
   const key = document.getElementById('adminCfgGeminiKey').value.trim();
-  const typesafeKey = document.getElementById('adminCfgTypesafeKey').value.trim();
   const mode = document.getElementById('adminCfgAiMode').value;
   authToken = loadFromStorage(STORAGE_KEYS.TOKEN, null);
 
@@ -174,11 +169,9 @@ async function saveAdminAiConfig() {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + authToken
       },
-      body: JSON.stringify({ ...(key ? {gemini_key:key} : {}), ...(typesafeKey ? {typesafe_key:typesafeKey} : {}), ai_access_mode: mode })
+      body: JSON.stringify({ gemini_key: key, ai_access_mode: mode })
     });
     if (resp.ok) {
-      document.getElementById('adminCfgGeminiKey').value = '';
-      document.getElementById('adminCfgTypesafeKey').value = '';
       showToast("💾 服务端 AI 安全配置已保存！");
       openAdminConsole();
     } else {

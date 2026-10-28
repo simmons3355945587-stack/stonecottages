@@ -100,10 +100,10 @@ async function initCloudSession() {
       syncReady=true;
       if(hadPending) triggerCloudSync(); else {syncBaseline=JSON.stringify(syncPayload());StoneStorage.removeItem("vocab_pending_sync");}
     } else if (resp.status === 401) {
-      // Keep the account identity so pending work cannot migrate into guest data.
-      window.StoneAuthExpired = true;
-      syncReady = false;
-      showToast('登录已过期，请重新登录；本机待同步进度已保留。');
+      StoneStorage.removeItem(STORAGE_KEYS.TOKEN);
+      StoneStorage.removeItem(STORAGE_KEYS.AUTH);
+      authUser = null;
+      authToken = null;
     }
   } catch(e) {
     console.warn("Cloud connection error, using local storage cache:", e);

@@ -349,12 +349,11 @@ let appSettings = loadFromStorage(STORAGE_KEYS.SETTINGS, {
   customModel: 'gemini-3.7-flash',
   mimoKey: '',
   audioMuted: false,
-  enableRiskEngine: true
+  enableRiskEngine: true,
+  typesafeKey: 'apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5'
 });
-// Remove obsolete provider secrets from existing browser settings.
-if ('typesafeKey' in appSettings) {
-  delete appSettings.typesafeKey;
-  saveToStorage(STORAGE_KEYS.SETTINGS, appSettings);
+if (!appSettings.typesafeKey) {
+  appSettings.typesafeKey = 'apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5';
 }
 if (appSettings.expeditionAutoReduceMark === undefined) {
   appSettings.expeditionAutoReduceMark = true;
@@ -559,7 +558,6 @@ async function switchNavView(viewName) {
     document.getElementById('navCottage')?.classList.add('active');
     if (typeof updateCottageExpeditionUI === 'function') updateCottageExpeditionUI();
   } else if (viewName === 'words') {
-    Stone.warmEnglish();
     document.getElementById('viewWords').classList.add('active');
     document.getElementById('navWords')?.classList.add('active');
     renderWords(document.getElementById('searchInput').value);
@@ -700,9 +698,6 @@ function updateBadges() {
 
   if (typeof updateCottageSanAtmosphere === 'function') {
     updateCottageSanAtmosphere();
-  }
-  if (typeof window !== 'undefined' && window.FlashcardEngine?.updateMainGroupSelectUI) {
-    window.FlashcardEngine.updateMainGroupSelectUI();
   }
 }
 
@@ -899,6 +894,10 @@ function openSettingsModal() {
   if (expMarkEl) {
     expMarkEl.value = (appSettings.expeditionAutoReduceMark === false) ? 'false' : 'true';
   }
+  const tsKeyEl = document.getElementById('cfgTypesafeKey');
+  if (tsKeyEl) {
+    tsKeyEl.value = appSettings.typesafeKey || '';
+  }
   onDriverModeChange();
   m.style.display = 'block';
   setTimeout(() => m.style.opacity = '1', 10);
@@ -924,6 +923,10 @@ function saveSettings() {
   appSettings.geminiModel = document.getElementById('cfgGeminiModel').value;
   appSettings.customUrl = document.getElementById('cfgCustomUrl').value.trim();
   appSettings.customModel = document.getElementById('cfgCustomModel').value.trim();
+  const tsKeyEl = document.getElementById('cfgTypesafeKey');
+  if (tsKeyEl) {
+    appSettings.typesafeKey = tsKeyEl.value.trim();
+  }
   const langModeEl = document.getElementById('cfgDictLangMode');
   if (langModeEl) {
     appSettings.dictLanguageMode = langModeEl.value;
@@ -1117,11 +1120,6 @@ function setupDesktopKeyboardShortcuts() {
         e.preventDefault();
         e.stopPropagation();
       }
-      return;
-    }
-
-    const fcModal = document.getElementById('flashcardModal');
-    if (fcModal && (fcModal.style.display === 'block' || fcModal.style.display === 'flex' || fcModal.classList.contains('open'))) {
       return;
     }
 

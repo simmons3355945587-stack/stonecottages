@@ -4,23 +4,26 @@ function switchDrawerDictTab(tab) {
   currentDrawerDictTab = tab;
   const tabZh = document.getElementById('tabDictZh');
   const tabEn = document.getElementById('tabDictEn');
+  const tabEtym = document.getElementById('tabDictEtym');
   const bodyZh = document.getElementById('dictMeaningsBodyZh');
   const bodyEn = document.getElementById('dictMeaningsBodyEn');
+  const bodyEtym = document.getElementById('dictMeaningsBodyEtym');
   
-  if (tabZh && tabEn && bodyZh && bodyEn) {
-    if (tab === 'zh') {
-      tabZh.classList.add('active');
-      tabEn.classList.remove('active');
-      bodyZh.style.display = 'block';
-      bodyEn.style.display = 'none';
-      if(currentLookupWord)fetchZhDefinition(corrections[currentLookupWord]||currentLookupWord,chineseDict[currentLookupWord]||'');
-    } else {
-      tabEn.classList.add('active');
-      tabZh.classList.remove('active');
-      bodyEn.style.display = 'block';
-      bodyZh.style.display = 'none';
-      if(currentLookupWord)fetchStoneEnglish(currentLookupWord);
-    }
+  [tabZh, tabEn, tabEtym].forEach(t => t && t.classList.remove('active'));
+  [bodyZh, bodyEn, bodyEtym].forEach(b => b && (b.style.display = 'none'));
+
+  if (tab === 'zh') {
+    if (tabZh) tabZh.classList.add('active');
+    if (bodyZh) bodyZh.style.display = 'block';
+    if(currentLookupWord)fetchZhDefinition(corrections[currentLookupWord]||currentLookupWord,chineseDict[currentLookupWord]||'');
+  } else if (tab === 'en') {
+    if (tabEn) tabEn.classList.add('active');
+    if (bodyEn) bodyEn.style.display = 'block';
+    if(currentLookupWord)fetchStoneEnglish(currentLookupWord);
+  } else if (tab === 'etym') {
+    if (tabEtym) tabEtym.classList.add('active');
+    if (bodyEtym) bodyEtym.style.display = 'block';
+    if(currentLookupWord)fetchWordEtymology(currentLookupWord, false);
   }
 }
 
@@ -56,8 +59,10 @@ function getAdjacentWord(currentWord, direction) {
 
 function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl) {
   const phoneticText = entry.phonetic || (entry.phonetics && entry.phonetics[0] ? entry.phonetics[0].text : '') || '';
-  const phEl = document.getElementById('dictPhonetic');
-  if (phEl) phEl.textContent = phoneticText;
+  if (phoneticText) {
+    const phEl = document.getElementById('dictPhonetic');
+    if (phEl) phEl.textContent = phoneticText;
+  }
 
   let meaningsHtml = '';
   if (entry.meanings && entry.meanings.length > 0) {
@@ -86,7 +91,7 @@ function renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl,
       meaningsHtml += `</div></div>`;
     });
     const bEl = document.getElementById('dictMeaningsBody');
-    if (bEl) { bEl.innerHTML = meaningsHtml; bEl.setAttribute('aria-busy', 'false'); }
+    if (bEl) bEl.innerHTML = meaningsHtml;
   }
 }
 
@@ -94,17 +99,14 @@ async function openWordDetails(word) {
   // 不再调用 soundClick()，防止短促提示音干扰单词首音节
   const requestSequence=++stoneLookupSequence;
   const safeWord = word.toLowerCase().trim();
-  if(!CORE_STUDY_WORDS.includes(safeWord)) Stone.script('extra-definitions.js').catch(() => {});
+ if(!CORE_STUDY_WORDS.includes(safeWord)){try{await Stone.script('extra-definitions.js');}catch{}}
   if(requestSequence!==stoneLookupSequence)return;
   const lookup = corrections[safeWord] || safeWord;
   currentLookupWord = safeWord;
-  Stone.warmEnglish();
   speakWord(lookup);
 
   // 根据设置初始化当前激活的词典 Tab：默认 'en'，设置了中文模式则默认 'zh'
-  if (!document.getElementById('defDrawer')?.classList.contains('open')) {
-    currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
-  }
+  currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
 
   const cambridgeUrl = `https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(lookup)}`;
   const collinsUrl = `https://www.collinsdictionary.com/dictionary/english/${encodeURIComponent(lookup)}`;
@@ -160,6 +162,7 @@ async function openWordDetails(word) {
     <div class="origami-tabs" style="margin-bottom:14px; margin-top:8px;">
       <button class="origami-tab-btn ${currentDrawerDictTab === 'zh' ? 'active' : ''}" id="tabDictZh" onclick="switchDrawerDictTab('zh')">🇨🇳 中文详细释义</button>
       <button class="origami-tab-btn ${currentDrawerDictTab === 'en' ? 'active' : ''}" id="tabDictEn" onclick="switchDrawerDictTab('en')">🇬🇧 纯英权威词典</button>
+      <button class="origami-tab-btn ${currentDrawerDictTab === 'etym' ? 'active' : ''}" id="tabDictEtym" onclick="switchDrawerDictTab('etym')">🏛️ 词源与故事</button>
     </div>
 
     <!-- 🇨🇳 中文释义视图 -->
@@ -187,8 +190,16 @@ async function openWordDetails(word) {
         <a href="${collinsUrl}" target="_blank" class="dict-external-link" title="Open Collins Dictionary">📚 Collins</a>
         <a href="${merriamUrl}" target="_blank" class="dict-external-link" title="Open Merriam-Webster">🎓 Webster</a>
       </div>
-      <div id="dictMeaningsBody" role="status" aria-live="polite" aria-busy="true">
+      <div id="dictMeaningsBody">
         <div style="padding:25px; text-align:center; color:var(--text-secondary);"><em>Loading English definitions...</em></div>
+      </div>
+    </div>
+
+
+    <!-- 🏛️ 词源与故事视图 -->
+    <div id="dictMeaningsBodyEtym" style="${currentDrawerDictTab === 'etym' ? 'display:block;' : 'display:none;'} margin-bottom: 20px;">
+      <div id="dictEtymContentContainer">
+        <div style="padding:25px; text-align:center; color:var(--text-secondary);"><em>正在调取权威词源数据库...</em></div>
       </div>
     </div>
 
@@ -212,32 +223,45 @@ async function openWordDetails(word) {
 }
 
 async function fetchStoneEnglish(safeWord){
-  const requestSequence = stoneLookupSequence;
   const lookup=corrections[safeWord]||safeWord;
   const cambridgeUrl=`https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(lookup)}`;
   const collinsUrl=`https://www.collinsdictionary.com/dictionary/english/${encodeURIComponent(lookup)}`;
   const merriamUrl=`https://www.merriam-webster.com/dictionary/${encodeURIComponent(lookup)}`;
   // 加载英文释义
-  let entry = Stone.peekEnglish(lookup);
-  if (!entry) {
-    const body = document.getElementById('dictMeaningsBody');
-    if (body) { body.textContent = '正在获取英文释义…'; body.setAttribute('aria-busy', 'true'); }
-    try { entry = await Stone.english(lookup); } catch {}
+  if (typeof builtinEnglishDict !== 'undefined' && builtinEnglishDict && builtinEnglishDict[lookup]) {
+    renderDefinitionBody(builtinEnglishDict[lookup], safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
+    return;
   }
-  if(currentLookupWord!==safeWord || requestSequence!==stoneLookupSequence)return;
+
+  let entry = null;
+  const apis = [
+    `${API_BASE}/api/dict/${encodeURIComponent(lookup)}`,
+    `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(lookup)}`
+  ];
+
+  for (const apiUrl of apis) {
+    try {
+      const resp = await Stone.dictResponse(apiUrl);
+      if(currentLookupWord!==safeWord)return;
+      if (resp.ok) {
+        const d = await resp.json();
+        entry = Array.isArray(d) ? d[0] : d;
+        if (entry && (entry.meanings || entry.definitions)) break;
+      }
+    } catch(e) {}
+  }
+
+  if(currentLookupWord!==safeWord)return;
   if (entry) {
     renderDefinitionBody(entry, safeWord, lookup, cambridgeUrl, collinsUrl, merriamUrl);
-    Stone.prefetchEnglish([getAdjacentWord(safeWord, 1), getAdjacentWord(safeWord, -1)]);
   } else {
     const phEl = document.getElementById('dictPhonetic');
     if (phEl && phEl.textContent.includes('Loading')) phEl.textContent = '';
     const bodyEl = document.getElementById('dictMeaningsBody');
     if (bodyEl) {
-      bodyEl.setAttribute('aria-busy', 'false');
       bodyEl.innerHTML = `
         <div style="background: var(--paper-surface-sub); border: 1.5px solid var(--paper-border); border-radius: var(--radius-md); padding: 16px; text-align: center;">
-          <div style="font-size: 15px; color: var(--text-primary); margin-bottom: 10px;">暂时未取得英文释义，可以重试或打开在线词典。</div>
-          <button type="button" class="btn btn-secondary" onclick="fetchStoneEnglish(currentLookupWord)">重新获取英文释义</button>
+          <div style="font-size: 15px; color: var(--text-primary); margin-bottom: 10px;">Full English definition is accessible on web dictionaries:</div>
           <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
             <a href="${cambridgeUrl}" target="_blank" class="dict-external-link">Open Cambridge Dictionary</a>
             <a href="${collinsUrl}" target="_blank" class="dict-external-link">Open Collins Dictionary</a>
@@ -323,7 +347,6 @@ function renderZhDefinitionBody(data, fallbackCommon) {
 }
 
 function closeDefDrawer() {
-  stoneLookupSequence++;
   document.getElementById('defDrawer').classList.remove('open');
   document.getElementById('drawerOverlay').classList.remove('open');
   if (currentSubTab === 'all') renderWords(document.getElementById('searchInput').value);
@@ -467,4 +490,76 @@ function confirmAddOnlineWord() {
   renderWords(word);
   showToast(`✨ 生词「${word}」已成功录入词库并同步至账号 (★ Mark: ${marks[word] || 0})！`);
   openWordDetails(word);
+}
+
+// ============================================================================
+// 🏛️ 词源解码逻辑 (优先查 4.6万离线库，支持一键在线搜索)
+// ============================================================================
+async function fetchWordEtymology(word, forceOnline = false) {
+  const container = document.getElementById('dictEtymContentContainer');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div style="padding:25px; text-align:center; color:var(--text-secondary);">
+      <div class="flashcard-spinner" style="margin: 0 auto 10px;"></div>
+      <em>${forceOnline ? '正在全网连线检索最新权威词源...' : '正在检索本地 4.6 万离线词源库...'}</em>
+    </div>
+  `;
+
+  try {
+    const lookup = (typeof corrections !== 'undefined' && corrections[word]) ? corrections[word] : word;
+    const url = `/api/etymology?word=${encodeURIComponent(lookup)}${forceOnline ? '&force_online=true' : ''}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+
+    if (data.found && data.etymology) {
+      const sourceBadge = data.level === 1 
+        ? '<span style="background:rgba(34,197,94,0.12); color:#16a34a; border:1px solid rgba(34,197,94,0.3); font-size:11px; padding:2px 8px; border-radius:12px; font-weight:700;">🟢 纯离线秒级库 (Etymonline Archive)</span>'
+        : `<span style="background:rgba(59,130,246,0.12); color:#2563eb; border:1px solid rgba(59,130,246,0.3); font-size:11px; padding:2px 8px; border-radius:12px; font-weight:700;">🌐 在线权威扩展 (${escapeHtml(data.source || 'Wiktionary')})</span>`;
+
+      // 简单排版演变年代与故事文本
+      const etymParagraphs = data.etymology.split(/\n\n+/).map(p => `<p style="margin-bottom:10px; line-height:1.65; color:var(--text-primary); font-size:14px;">${escapeHtml(p)}</p>`).join('');
+
+      container.innerHTML = `
+        <div style="background:var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:16px; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:12px; font-weight:800; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.5px;">
+              📜 语源脉络与演化考据
+            </div>
+            ${sourceBadge}
+          </div>
+          <div style="font-family: var(--font-serif); font-size:14.5px;">
+            ${etymParagraphs}
+          </div>
+        </div>
+      `;
+    } else {
+      // 离线库未命中提示与在线搜索按钮
+      container.innerHTML = `
+        <div style="background:rgba(239, 68, 68, 0.04); border:1.5px dashed rgba(239, 68, 68, 0.3); border-radius:var(--radius-md); padding:20px; text-align:center;">
+          <div style="font-size:18px; margin-bottom:6px;">🔍</div>
+          <div style="font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:4px;">
+            本地离线词库暂未收录「${escapeHtml(word)}」
+          </div>
+          <div style="font-size:12px; color:var(--text-secondary); margin-bottom:14px;">
+            您可以直接发起全网在线搜索，连线全球语言学权威词典获取考据：
+          </div>
+          <button class="btn btn-primary" style="padding:6px 16px; font-size:13px; font-weight:700;" onclick="fetchWordEtymology('${escapeHtml(word)}', true)">
+            🌐 在线检索词源 (Wiktionary API)
+          </button>
+        </div>
+      `;
+    }
+  } catch (err) {
+    container.innerHTML = `
+      <div style="padding:15px; text-align:center; color:var(--brand-danger); font-size:13px;">
+        查询词源异常: ${escapeHtml(err.message)}
+        <div style="margin-top:8px;">
+          <button class="btn btn-secondary btn-xs" onclick="fetchWordEtymology('${escapeHtml(word)}', false)">重试离线查询</button>
+          <button class="btn btn-primary btn-xs" style="margin-left:6px;" onclick="fetchWordEtymology('${escapeHtml(word)}', true)">尝试在线搜索</button>
+        </div>
+      </div>
+    `;
+  }
 }

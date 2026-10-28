@@ -3125,18 +3125,6 @@
   transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .flashcard-modal-overlay.open { opacity: 1; pointer-events: auto; }
-.flashcard-modal-overlay { overflow-y: auto; overscroll-behavior: contain; }
-.flashcard-container { max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; }
-.flashcard-input { min-width: 0; }
-.flashcard-action-bar { flex-wrap: wrap; }
-.flashcard-def-comparison { overflow-wrap: anywhere; }
-#fcStdDefEnText { line-height: 1.75; font-style: normal; }
-#fcCloudStatus { color: #f3eee5; }
-.flashcard-container > * { flex-shrink: 0; }
-.flashcard-dict-lang-switch { flex-wrap: wrap; flex-shrink: 0; }
-@media (prefers-reduced-motion: reduce) {
-  .flashcard-modal-overlay, .flashcard-card-box, .flashcard-progress-fill { transition: none; animation: none; }
-}
 .flashcard-container { width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 12px; }
 .flashcard-hud { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .flashcard-hud-left, .flashcard-hud-right { display: flex; align-items: center; gap: 8px; }
@@ -3148,21 +3136,6 @@
 .flashcard-mode-pill:hover { transform: translateY(-1px); border-color: var(--brand-accent); }
 .flashcard-mode-pill.study-pill { color: var(--brand-accent); }
 .flashcard-mode-pill.review-pill { color: var(--brand-primary); }
-.flashcard-group-pill {
-  padding: 3px 8px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700;
-  display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0;
-  border: 1px solid var(--paper-border); background: var(--paper-surface); transition: all 0.2s ease;
-}
-.flashcard-group-pill:hover { border-color: var(--brand-accent); }
-.flashcard-group-label {
-  font-size: 11px; font-weight: 700; color: var(--text-secondary); white-space: nowrap; user-select: none;
-}
-.flashcard-group-dropdown {
-  border: none; background: transparent; font-size: 11px; font-weight: 700;
-  color: var(--text-primary); cursor: pointer; outline: none; padding: 0; white-space: nowrap;
-}
-.flashcard-group-dropdown:focus { outline: 1px solid var(--brand-accent); border-radius: 4px; }
-.flashcard-group-dropdown option { background: var(--paper-surface); color: var(--text-primary); }
 .flashcard-stat-chip {
   background: var(--paper-surface); border: 1px solid var(--paper-border);
   padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-secondary);
@@ -3198,22 +3171,6 @@
 }
 .flashcard-input:focus { border-color: var(--brand-accent); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15); }
 .flashcard-submit-btn { padding: 12px 20px; font-weight: 800; font-size: 14px; white-space: nowrap; }
-.flashcard-unknown-btn {
-  padding: 12px 18px;
-  font-weight: 700;
-  font-size: 14px;
-  white-space: nowrap;
-  background: var(--paper-surface-sub);
-  color: var(--text-secondary);
-  border: 1px solid var(--paper-border);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.flashcard-unknown-btn:hover {
-  background: rgba(245, 158, 11, 0.12);
-  color: #d97706;
-  border-color: rgba(245, 158, 11, 0.4);
-}
 .flashcard-evaluating-row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--brand-accent); font-weight: 700; padding: 6px 0; }
 .flashcard-spinner { width: 16px; height: 16px; border: 2px solid var(--brand-accent); border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -3222,18 +3179,15 @@
 .flashcard-verdict-badge { padding: 4px 12px; border-radius: var(--radius-sm); font-weight: 800; font-size: 13px; }
 .flashcard-verdict-badge.badge-correct { background: rgba(16, 185, 129, 0.15); color: var(--brand-success); border: 1px solid rgba(16, 185, 129, 0.4); }
 .flashcard-verdict-badge.badge-wrong { background: rgba(239, 68, 68, 0.15); color: var(--brand-danger); border: 1px solid rgba(239, 68, 68, 0.4); }
-.flashcard-verdict-badge.badge-unknown { background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.4); }
 .flashcard-confidence-info { font-size: 11px; color: var(--text-secondary); }
 .flashcard-def-comparison { display: flex; flex-direction: column; gap: 8px; background: var(--paper-surface-sub); padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid var(--paper-border); }
 .flashcard-compare-item { display: flex; flex-direction: column; gap: 3px; }
+.compare-label { font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
 .compare-content { font-size: 14px; line-height: 1.5; color: var(--text-primary); }
 .compare-content.user-input-text { font-weight: 700; }
 .compare-content.std-def-text { color: var(--brand-accent); }
-.compare-def-primary { font-size: 16px; line-height: 1.55; }
-.compare-def-secondary { font-size: 14px; line-height: 1.55; }
-.compare-def-tag { font-size: 11.5px; font-weight: 800; }
 .flashcard-action-bar { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
-.flashcard-next-btn { padding: 10px 24px; font-weight: 800; font-size: 14px; }
+.flashcard-next-btn { padding: 10px 24px; font-weight: 800; }
 .flashcard-footer-tip { text-align: center; font-size: 12px; color: var(--text-secondary); }
 .flashcard-footer-tip strong { color: var(--text-primary); }
 .finished-box { text-align: center; align-items: center; }
@@ -3243,29 +3197,21 @@
 .finished-stat-card .stat-num { font-size: 24px; font-weight: 900; }
 .finished-stat-card .stat-lbl { font-size: 11px; color: var(--text-secondary); }
 
-/* 词性多选胶囊与分步交互样式 (自然舒适排布) */
-.flashcard-pos-section { display: flex; flex-direction: column; gap: 6px; }
-.flashcard-def-section { display: flex; flex-direction: column; gap: 6px; }
+/* 词性多选胶囊与分步交互样式 */
+.flashcard-pos-section { display: flex; flex-direction: column; gap: 8px; }
+.flashcard-def-section { display: flex; flex-direction: column; gap: 8px; }
 .flashcard-section-label { font-size: 12px; font-weight: 800; color: var(--text-secondary); }
-.flashcard-pos-group {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  align-items: center;
-}
+.flashcard-pos-group { display: flex; gap: 8px; flex-wrap: wrap; }
 .flashcard-pos-pill {
   background: var(--paper-surface-sub);
   border: 1.5px solid var(--paper-border);
-  border-radius: 6px;
-  padding: 4px 10px;
-  min-width: 36px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 800;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text-secondary);
   cursor: pointer;
   user-select: none;
-  line-height: 1.3;
   transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .flashcard-pos-pill:hover {
@@ -3274,18 +3220,19 @@
   transform: translateY(-1px);
 }
 .flashcard-pos-pill.active {
-  background: rgba(245, 158, 11, 0.16);
+  background: rgba(245, 158, 11, 0.15);
   border-color: var(--brand-accent);
   color: var(--brand-accent);
-  font-weight: 900;
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.25);
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+  transform: scale(1.03);
 }
 .flashcard-learned-tag {
   font-size: 11px;
   font-weight: 800;
   color: var(--brand-success);
   background: rgba(16, 185, 129, 0.12);
-  padding: 2px 7px;
+  padding: 3px 8px;
   border-radius: var(--radius-sm);
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
@@ -3294,201 +3241,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-
-/* 📱 移动端与小屏专属紧凑适配 (防止软键盘遮挡，极大化可用可视面积) */
-@media (max-width: 640px) {
-  .flashcard-modal-overlay {
-    padding: 6px 8px;
-    align-items: flex-start;
-    padding-top: calc(8px + env(safe-area-inset-top, 0px));
-  }
-  .flashcard-container {
-    gap: 8px;
-    max-width: 100%;
-  }
-  .flashcard-hud {
-    gap: 4px;
-  }
-  .flashcard-hud-left, .flashcard-hud-right {
-    gap: 4px;
-    flex-wrap: wrap;
-  }
-  .flashcard-mode-pill {
-    padding: 2px 7px;
-    font-size: 11px;
-  }
-  .flashcard-stat-chip {
-    padding: 2px 6px;
-    font-size: 10.5px;
-  }
-  .flashcard-card-box {
-    padding: 16px 14px;
-    gap: 12px;
-    border-radius: 12px;
-    max-height: none;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-  }
-  .flashcard-word-row {
-    gap: 8px;
-  }
-  .flashcard-word {
-    font-size: 26px;
-  }
-  .flashcard-speaker-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-  }
-  .flashcard-pos-group {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .flashcard-pos-group::-webkit-scrollbar {
-    display: none;
-  }
-  .flashcard-pos-pill {
-    padding: 3px 9px;
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-  .flashcard-input-wrap {
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .flashcard-input {
-    padding: 8px 10px;
-    font-size: 16px;
-    flex: 1 0 100%;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .flashcard-submit-btn {
-    padding: 8px 14px;
-    font-size: 13px;
-    flex: 1;
-    min-height: 44px;
-  }
-  .flashcard-unknown-btn {
-    padding: 8px 10px;
-    font-size: 12px;
-    flex: 1;
-    min-height: 44px;
-  }
-  .flashcard-def-comparison {
-    padding: 10px 12px;
-    gap: 6px;
-  }
-  .flashcard-compare-row {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-  .flashcard-footer-tip {
-    font-size: 10.5px;
-    display: none; /* 移动端隐藏底部长按键提示，释放空间 */
-  }
+@media (max-width: 480px) {
+  .flashcard-compare-row { grid-template-columns: 1fr; }
 }
 
-/* 💻 电脑桌面端大屏专属增强：单词超大、释义清晰醒目、布局舒适大方 */
-@media (min-width: 768px) {
-  .flashcard-container {
-    max-width: 720px;
-    gap: 14px;
-  }
-  .flashcard-card-box {
-    padding: 38px 36px;
-    gap: 22px;
-    border-radius: var(--radius-lg);
-  }
-  .flashcard-word-row {
-    gap: 16px;
-  }
-  .flashcard-word {
-    font-size: 46px;
-    letter-spacing: -0.6px;
-  }
-  .flashcard-speaker-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
-  }
-  .flashcard-mark-tag {
-    font-size: 12px;
-    padding: 4px 10px;
-  }
-  .flashcard-learned-tag {
-    font-size: 12px;
-    padding: 4px 10px;
-  }
-  .flashcard-section-label {
-    font-size: 14px;
-    margin-bottom: 2px;
-  }
-  .flashcard-pos-group {
-    gap: 8px;
-  }
-  .flashcard-pos-pill {
-    padding: 6px 14px;
-    min-width: 42px;
-    font-size: 14px;
-    border-radius: 8px;
-  }
-  .flashcard-input-wrap {
-    gap: 12px;
-  }
-  .flashcard-input {
-    padding: 14px 18px;
-    font-size: 17px;
-  }
-  .flashcard-submit-btn {
-    padding: 14px 24px;
-    font-size: 15px;
-  }
-  .flashcard-unknown-btn {
-    padding: 14px 20px;
-    font-size: 14.5px;
-  }
-  .flashcard-def-comparison {
-    padding: 18px 22px;
-    gap: 12px;
-    border-radius: 10px;
-  }
-  .compare-label {
-    font-size: 13px;
-  }
-  .compare-content.user-input-text {
-    font-size: 17px;
-  }
-  .compare-def-primary {
-    font-size: 19px;
-    line-height: 1.65;
-  }
-  .compare-def-secondary {
-    font-size: 16.5px;
-    line-height: 1.65;
-  }
-  .compare-def-tag {
-    font-size: 13px;
-  }
-  #fcStdDefEnText {
-    line-height: 1.75;
-  }
-  .flashcard-action-bar {
-    gap: 12px;
-    margin-top: 6px;
-  }
-  .flashcard-next-btn {
-    padding: 12px 30px;
-    font-size: 15px;
-  }
-  #fcRetryBtn {
-    padding: 12px 22px;
-    font-size: 14.5px;
-  }
-  .flashcard-footer-tip {
-    font-size: 13px;
-  }
-}
+

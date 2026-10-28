@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>三段同词·语境消歧竞技场 | Our Stone Cottages</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ui-enhancements.css">
+  <style>
+    :root {
+      --arena-primary: #6366f1;
+      --arena-primary-glow: rgba(99, 102, 241, 0.25);
+      --arena-accent: #ec4899;
+      --arena-success: #10b981;
+      --arena-danger: #ef4444;
+      --arena-warning: #f59e0b;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --kw-highlight: #ff007a;
+      --kw-bg: rgba(255, 0, 122, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --arena-primary: #818cf8;
+      --arena-primary-glow: rgba(129, 140, 248, 0.25);
+      --arena-accent: #f472b6;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --kw-highlight: #ff60a8;
+      --kw-bg: rgba(255, 96, 168, 0.2);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg-primary, #f8fafc);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .arena-header {
+      background: var(--card-bg);
+      border-bottom: 1.5px solid var(--card-border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      font-size: 26px;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--arena-primary-glow);
+      color: var(--arena-primary);
+      font-weight: 700;
+    }
+
+    .arena-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 18px 16px 80px 16px;
+      width: 100%;
+      box-sizing: border-box;
+      flex: 1;
+    }
+
+    /* 大厅面板 */
+    .lobby-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-main);
+    }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .scope-item {
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: var(--card-bg);
+    }
+
+    .scope-item:hover {
+      border-color: var(--arena-primary);
+      transform: translateY(-2px);
+    }
+
+    .scope-item.active {
+      border-color: var(--arena-primary);
+      background: var(--arena-primary-glow);
+    }
+
+    .scope-item-title {
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .scope-item-desc {
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .mode-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .mode-tab-btn {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid var(--card-border);
+      border-radius: 14px;
+      background: var(--card-bg);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .mode-tab-btn.active {
+      border-color: var(--arena-accent);
+      background: rgba(236, 72, 153, 0.08);
+    }
+
+    .btn-action-primary {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--arena-primary), var(--arena-accent));
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-action-primary:active {
+      transform: scale(0.98);
+    }
+
+    /* 对决主舞台 HUD */
+    .battle-hud {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+
+    .battle-hud-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .target-word-display {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--arena-primary);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .hud-scores {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .score-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 80px;
+    }
+
+    .score-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+    .score-card-val {
+      font-size: 22px;
+      font-weight: 900;
+      font-family: monospace;
+    }
+
+    .vs-tag {
+      font-weight: 900;
+      font-size: 14px;
+      color: var(--arena-accent);
+      background: rgba(236, 72, 153, 0.12);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .timer-wrap {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .timer-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--arena-primary), var(--arena-accent));
+      width: 100%;
+      transition: width 1s linear;
+    }
+
+    /* 三段真实语料卡片 */
+    .tri-passages-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .passage-card {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .passage-card.selected {
+      border-color: var(--arena-primary);
+      box-shadow: 0 0 0 3px var(--arena-primary-glow);
+    }
+
+    .passage-card.matched {
+      border-color: var(--arena-success);
+      background: rgba(16, 185, 129, 0.04);
+    }
+
+    .passage-meta-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .passage-source {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: var(--text-sub);
+    }
+
+    .passage-difficulty {
+      font-family: monospace;
+      font-size: 11px;
+      background: var(--card-border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-sub);
+    }
+
+    .passage-body {
+      font-size: 15px;
+      line-height: 1.68;
+      color: var(--text-main);
+      margin-bottom: 14px;
+    }
+
+    /* 目标词高亮，绝不挖空 */
+    mark.target-word {
+      background: var(--kw-bg);
+      color: var(--kw-highlight);
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 0, 122, 0.3);
+      display: inline-block;
+      box-shadow: 0 0 8px rgba(255, 0, 122, 0.15);
+    }
+
+    .passage-slot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(99, 102, 241, 0.05);
+      border: 1.5px dashed var(--arena-primary);
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .passage-slot.filled {
+      border-style: solid;
+      border-color: var(--arena-success);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .slot-placeholder {
+      font-size: 13px;
+      color: var(--arena-primary);
+      font-weight: 700;
+    }
+
+    .slot-filled-text {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--arena-success);
+    }
+
+    /* 底部三义候选项 */
+    .options-tray {
+      background: var(--card-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      position: sticky;
+      bottom: 16px;
+      z-index: 90;
+    }
+
+    .options-tray-header {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .meaning-btn {
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meaning-btn:hover {
+      border-color: var(--arena-primary);
+      transform: translateY(-2px);
+    }
+
+    .meaning-btn.active {
+      border-color: var(--arena-primary);
+      background: var(--arena-primary);
+      color: white;
+    }
+
+    .meaning-btn.used {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-style: dashed;
+      pointer-events: none;
+    }
+
+    .meaning-tag {
+      font-family: monospace;
+      font-size: 12px;
+      background: rgba(0, 0, 0, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* 赛后复盘弹窗 */
+    .insights-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 999;
+    }
+
+    .insights-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .insights-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .insights-title {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .insights-item {
+      background: var(--bg-primary, #f1f5f9);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .clue-chip {
+      background: #fef08a;
+      color: #854d0e;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-right: 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶栏 -->
+  <div class="arena-header">
+    <div class="brand-group">
+      <a href="index.html" style="text-decoration: none; font-size: 24px;">🕊️</a>
+      <div>
+        <div class="brand-title">
+          <span>三段同词·语境消歧竞技场</span>
+          <span class="badge-tag">PK 联机版</span>
+        </div>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a href="index.html" class="paper-icon-btn" style="text-decoration: none; display: flex; align-items: center; font-size: 13px; font-weight: 700; padding: 6px 12px;">返回石屋</a>
+      <button class="paper-icon-btn" onclick="toggleTheme()" title="切换昼夜">🌙</button>
+    </div>
+  </div>
+
+  <div class="arena-container">
+
+    <!-- ================= 阶段 1: 划定范围与模式大厅 ================= -->
+    <div id="lobbyView" class="lobby-card">
+      <div class="section-title">
+        <span>📚 划定对战词库范围 (Scope Filter)</span>
+      </div>
+      <div class="scope-grid">
+        <div class="scope-item active" onclick="selectScope('cet4_core', this)">
+          <div class="scope-item-title">📖 CET-4 核心词库</div>
+          <div class="scope-item-desc">3,800 核心真题语境全覆盖</div>
+        </div>
+        <div class="scope-item" onclick="selectScope('polysemy_top50', this)">
+          <div class="scope-item-title">🌟 一词多义巅峰榜</div>
+          <div class="scope-item-desc">易混淆、多义项高频词汇</div>
+        </div>
+        <div class="scope-item" onclick="selectScope('news_tech', this)">
+          <div class="scope-item-title">📰 前沿科技与国际新闻</div>
+          <div class="scope-item-desc">卫报/路透/BBC 当代新闻语境</div>
+        </div>
+        <div class="scope-item" onclick="selectScope('daily_life', this)">
+          <div class="scope-item-title">💬 地道生活与影视对白</div>
+          <div class="scope-item-desc">Tatoeba 权威中英对白语料</div>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <span>⚔️ 选择对战模式</span>
+      </div>
+      <div class="mode-tabs">
+        <div class="mode-tab-btn active" id="tabSolo" onclick="switchMode('solo')">
+          <div style="font-size: 24px; margin-bottom: 4px;">🤖</div>
+          <div style="font-weight: 800; font-size: 15px;">单人挑战 · AI 学友陪练</div>
+          <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">模拟真人阅读手速与竞速，拒绝一人无聊</div>
+        </div>
+        <div class="mode-tab-btn" id="tabMulti" onclick="switchMode('multi')">
+          <div style="font-size: 24px; margin-bottom: 4px;">👥</div>
+          <div style="font-weight: 800; font-size: 15px;">多人在线联机 PK</div>
+          <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">4位房间码同屏竞技，好友实时联机</div>
+        </div>
+      </div>
+
+      <!-- 联机房间选项 (仅在多选模式下展示) -->
+      <div id="multiControls" style="display: none; background: rgba(99, 102, 241, 0.05); border: 1.5px solid var(--card-border); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="text" id="inputRoomCode" placeholder="输入 4 位房间码加入..." style="flex: 1; padding: 12px; border-radius: 10px; border: 1.5px solid var(--card-border); font-size: 15px; font-weight: 700;">
+          <button class="btn btn-primary" onclick="joinRoomAction()" style="padding: 12px 20px; font-weight: 800;">加入房间</button>
+          <button class="btn" onclick="createRoomAction()" style="padding: 12px 20px; font-weight: 800; background: var(--arena-accent); color: white;">一键自建房</button>
+        </div>
+        <div id="roomStatusText" style="font-size: 13px; color: var(--text-sub); margin-top: 8px;"></div>
+      </div>
+
+      <!-- 局数选择 -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; font-size: 14px;">
+        <span style="font-weight: 700;">⏱️ 每局题量:</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="filter-pill active" onclick="setRounds(3, this)">3 题快跑</button>
+          <button class="filter-pill" onclick="setRounds(5, this)">5 题标准</button>
+          <button class="filter-pill" onclick="setRounds(10, this)">10 题排位</button>
+        </div>
+      </div>
+
+      <button class="btn-action-primary" id="btnStartGame" onclick="startBattle()">
+        <span>推门出征 · 开始三段语境对决</span>
+        <span>⚡</span>
+      </button>
+    </div>
+
+    <!-- ================= 阶段 2: 三段三义对决主战场 ================= -->
+    <div id="battleArenaView" style="display: none;">
+
+      <!-- 顶部 HUD -->
+      <div class="battle-hud">
+        <div class="battle-hud-top">
+          <div class="target-word-display">
+            <span id="currentWordText">space</span>
+            <button class="paper-icon-btn" onclick="speakCurrentWord()" title="播放发音" style="font-size: 16px; padding: 4px 8px;">🔊</button>
+          </div>
+          <div class="hud-scores">
+            <div class="score-card">
+              <span class="score-card-label">我的积分</span>
+              <span class="score-card-val" id="myScoreVal" style="color: var(--arena-primary);">0</span>
+            </div>
+            <div class="vs-tag">VS</div>
+            <div class="score-card">
+              <span class="score-card-label" id="opponentNameLabel">AI学友·阿木</span>
+              <span class="score-card-val" id="oppScoreVal" style="color: var(--arena-accent);">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 倒计时进度条 -->
+        <div class="timer-wrap">
+          <div class="timer-bar" id="battleTimerBar"></div>
+        </div>
+      </div>
+
+      <!-- 三张真实原生语料卡片 (绝对不挖空) -->
+      <div class="tri-passages-list" id="triPassagesList">
+        <!-- 动态生成 3 段卡片 -->
+      </div>
+
+      <!-- 底部 3 义选项托盘 -->
+      <div class="options-tray">
+        <div class="options-tray-header">
+          <span>🎯 点击下方释义，匹配上方高亮段落 (三段三义)：</span>
+          <span id="comboBadge" style="color: var(--arena-accent); font-weight: 800;">COMBO x1</span>
+        </div>
+        <div class="options-grid" id="meaningOptionsGrid">
+          <!-- 动态生成 3 个释义选项按钮 -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= 赛后语境线索复盘模态窗 ================= -->
+  <div class="insights-modal" id="insightsModal">
+    <div class="insights-card">
+      <div class="insights-header">
+        <div id="roundResultEmoji" style="font-size: 48px; margin-bottom: 8px;">🎉</div>
+        <div class="insights-title" id="roundResultTitle">本轮消歧成功！</div>
+        <div style="font-size: 14px; color: var(--text-sub);" id="roundResultSubtitle">用时 11.2s · 击败对手</div>
+      </div>
+
+      <div class="section-title">
+        <span>🔍 真实语境线索深度复盘 (Context Clue Insights)</span>
+      </div>
+      <div id="insightsList">
+        <!-- 动态渲染 3 段的线索词与为什么是这个释义的解析 -->
+      </div>
+
+      <button class="btn-action-primary" onclick="nextRoundAction()" style="margin-top: 20px;">
+        <span>进入下一词对决</span>
+        <span>▶</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="tri-match.js"></script>
+</body>
+</html>
