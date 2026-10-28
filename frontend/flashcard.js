@@ -727,6 +727,42 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       });
     }
   }
+
+  /**
+   * 优雅展开/折叠当前单词的词源脉络
+   */
+  function toggleEtymologyDetails() {
+    const box = document.getElementById('fcEtymInlineContent');
+    const arrow = document.getElementById('fcEtymToggleArrow');
+    const body = document.getElementById('fcEtymBodyText');
+    if (!box) return;
+    const isHidden = box.style.display === 'none' || !box.style.display;
+    if (isHidden) {
+      box.style.display = 'block';
+      if (arrow) arrow.textContent = '▾ 收起';
+      if (body) {
+        body.innerHTML = '<em>正在检索 4.6 万词离线词源考据...</em>';
+        const target = state.currentWord;
+        if (window.StoneEtymology && typeof window.StoneEtymology.fetchEtymology === 'function') {
+          window.StoneEtymology.fetchEtymology(target).then(res => {
+            if (res.found && res.etymology) {
+              const paras = res.etymology.split(/\n\n+/).map(p => `<p style="margin-bottom:6px;">${escapeHtml(p)}</p>`).join('');
+              body.innerHTML = paras;
+            } else {
+              body.innerHTML = `<span style="color:var(--text-secondary);">离线词库未收录该词独立演变，可使用抽屉全网搜索。</span>`;
+            }
+          }).catch(e => {
+            body.innerHTML = `<span style="color:var(--brand-danger);">词源加载失败 (${escapeHtml(e.message)})</span>`;
+          });
+        } else {
+          body.innerHTML = '词源服务未就绪';
+        }
+      }
+    } else {
+      box.style.display = 'none';
+      if (arrow) arrow.textContent = '▸ 展开';
+    }
+  }
 function close() {
     evaluationVersion++; state.isEvaluating = false;
     state.isOpen = false;
@@ -836,7 +872,7 @@ function close() {
           <div class="flashcard-word-row">
             <h1 class="flashcard-word" id="fcWordTitle" onclick="FlashcardEngine.speakCurrent()">${escapeHtml(word)}</h1>
             <button class="flashcard-speaker-btn" onclick="FlashcardEngine.speakCurrent()" title="发音 (Space)">🔊</button>
-            <button type="button" class="btn btn-secondary btn-xs" style="margin-left:8px; border-radius:12px; font-size:12px; padding:2px 8px; vertical-align:middle; cursor:pointer;" onclick="FlashcardEngine.openWordEtymology()" title="查看权威词源演变与历史故事">💡 词源</button>
+
             <span id="fcMarkCountTag" class="flashcard-mark-tag" ${markCount > 0 ? '' : 'hidden'}>★ Mark ×${markCount}</span>
             ${state.learnedWords.has(word.toLowerCase().trim()) ? `<span class="flashcard-learned-tag">✔ 曾掌握</span>` : ''}
           </div>
@@ -1215,12 +1251,23 @@ function close() {
                 <strong class="compare-def-tag" style="color:var(--text-secondary); font-style:normal; margin-right:6px;">[英文双解]</strong>
                 <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
+
+              <!-- 🏛️ 词源脉络与故事：原生轻量内嵌，完全融入排版，不跳出打断 -->
+              <div class="flashcard-etym-inline-wrap" style="margin-top:8px; padding-top:6px; border-top:1px dashed var(--paper-border); font-size:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none;" onclick="FlashcardEngine.toggleEtymologyDetails()" title="点击展开/折叠词源历史脉络">
+                  <span style="font-weight:700; color:#8b5cf6; display:inline-flex; align-items:center; gap:4px;">
+                    🏛️ [词源脉络] <span id="fcEtymToggleArrow" style="font-size:10px; transition:transform 0.2s;">▸ 展开</span>
+                  </span>
+                  <span id="fcEtymBadge" style="font-size:10px; color:var(--text-secondary); background:rgba(139,92,246,0.08); padding:1px 6px; border-radius:4px;">Etymology Archive</span>
+                </div>
+                <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:8px 10px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; font-family:var(--font-serif); font-size:12.5px; line-height:1.55; color:var(--text-primary);">
+                  <div id="fcEtymBodyText" style="max-height:120px; overflow-y:auto;">
+                    <em>正在加载词源演化考据…</em>
+                  </div>
+                </div>
+              </div>
             `}
-            <div style="margin-top:10px; padding-top:8px; border-top:1px dashed var(--paper-border);">
-              <button type="button" class="btn btn-secondary btn-sm" onclick="FlashcardEngine.openWordEtymology()" style="display:inline-flex; align-items:center; gap:5px; border-radius:8px; font-size:12.5px; font-weight:700; padding:5px 12px; cursor:pointer;" title="查看词源故事与演变考据">
-                💡 查看「${escapeHtml(state.currentWord)}」词源故事与考据
-              </button>
-            </div>
+            
             <button type="button" id="fcEnglishRetry" class="btn btn-secondary" hidden style="display:none;margin-top:8px" onclick="FlashcardEngine.retryEnglishDefinition()">重新获取英文释义</button>
           </div>
         </div>
@@ -1501,6 +1548,7 @@ function close() {
 
   return {
     resumeCloudSession,
+    toggleEtymologyDetails,
     openWordEtymology,
     handleFlashcardKeydown,
     retryEnglishDefinition,
