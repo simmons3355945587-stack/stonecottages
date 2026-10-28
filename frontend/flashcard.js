@@ -836,6 +836,7 @@ function close() {
           <div class="flashcard-word-row">
             <h1 class="flashcard-word" id="fcWordTitle" onclick="FlashcardEngine.speakCurrent()">${escapeHtml(word)}</h1>
             <button class="flashcard-speaker-btn" onclick="FlashcardEngine.speakCurrent()" title="发音 (Space)">🔊</button>
+            <button type="button" class="btn btn-secondary btn-xs" style="margin-left:8px; border-radius:12px; font-size:12px; padding:2px 8px; vertical-align:middle; cursor:pointer;" onclick="FlashcardEngine.openWordEtymology()" title="查看权威词源演变与历史故事">💡 词源</button>
             <span id="fcMarkCountTag" class="flashcard-mark-tag" ${markCount > 0 ? '' : 'hidden'}>★ Mark ×${markCount}</span>
             ${state.learnedWords.has(word.toLowerCase().trim()) ? `<span class="flashcard-learned-tag">✔ 曾掌握</span>` : ''}
           </div>
@@ -1215,6 +1216,11 @@ function close() {
                 <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
             `}
+            <div style="margin-top:10px; padding-top:8px; border-top:1px dashed var(--paper-border);">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="FlashcardEngine.openWordEtymology()" style="display:inline-flex; align-items:center; gap:5px; border-radius:8px; font-size:12.5px; font-weight:700; padding:5px 12px; cursor:pointer;" title="查看词源故事与演变考据">
+                💡 查看「${escapeHtml(state.currentWord)}」词源故事与考据
+              </button>
+            </div>
             <button type="button" id="fcEnglishRetry" class="btn btn-secondary" hidden style="display:none;margin-top:8px" onclick="FlashcardEngine.retryEnglishDefinition()">重新获取英文释义</button>
           </div>
         </div>
