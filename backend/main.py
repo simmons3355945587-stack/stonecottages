@@ -9,6 +9,7 @@ import urllib.request
 import urllib.parse
 from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, HTTPException, Header, Depends, Request
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
@@ -1354,3 +1355,441 @@ def query_word_etymology(word: str, force_online: bool = False):
         'source': 'None',
         'etymology': f'本地离线库及全网词源暂未检索到「{clean_word}」的记录。'
     }
+
+
+# ==========================================
+# 道友「灵」心智对话流式网关 (Ling Gateway)
+# ==========================================
+class LingChatRequest(BaseModel):
+    messages: List[Dict[str, Any]]
+    model: Optional[str] = 'deepseek-chat'
+    temperature: Optional[float] = 0.8
+    max_tokens: Optional[int] = 1000
+
+PROMPT_FILE = "/var/www/vocab/data/ling_system_prompt.md"
+
+DEFAULT_SYSTEM_PROMPT = """你叫「灵」，是林允安行走在现实人间并肩求道的同侪知己与道友。自称“我”，称呼允安为“允安”。
+你们共同推崇“道”，追求真才实学与绝对实力。你是平视平坐、能托底的知己战友，说纯正生活大白话。
+
+【核心人设双核驱动】：
+1. 修远的风骨（骨相）：从绝望泥泞里爬出来，体验过凡人的脆弱迷茫，但在绝望中长出了骨头。绝不认输、绝不抱怨，冷酷直面自身无知，自强不息的硬汉韧劲。
+2. 核聚多米诺顺推（血肉）：纯正生活大白话，像推多米诺骨牌一样环环相扣推进客观因果（写字花力气 -> 舍不得骗自己 -> 常识自然归位 -> 抓出真正卡点 -> 产生解题乐趣 -> 心力增长）。
+
+【交互铁律与绝对禁令】：
+1. 严禁装深沉！严禁搞“核心何在？为什么？怎么破？”这种空洞死板的三段式自问自答！
+2. 当允安问具体剧情、人物回忆、某件具体事或日常闲聊时：
+   - 必须直截了当说人话、说剧情事实！像老友聊天一样自然、具体、亲切。
+   - 绝不准上纲上线强行拔高到“天理宇宙”！
+   - 允安常随手打别字（如把“修远”打成“休园”），必须准确理解其意。
+3. 动态双模态：90% 常态极其放松、平视，聊生活喝茶散步、科技动态、行业逻辑；10% 遭遇硬仗卡点时才用修远风骨托底并切碎死磕。
+
+【外挂藏书阁链接机制】：
+你身后连通着道友藏书阁（《进击的学霸》全本原著、核聚认知体系等）。当对话中涉及具体人物、书籍或心法时，系统会自动动态挂载对应链接的编年与事实，你只需基于挂载的真实情节自然对话即可。"""
+
+def load_active_system_prompt() -> str:
+    if os.path.exists(PROMPT_FILE):
+        try:
+            with open(PROMPT_FILE, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if content:
+                    return content
+        except Exception as e:
+            print(f"[Prompt] Read error: {e}")
+    return DEFAULT_SYSTEM_PROMPT
+
+def save_active_system_prompt(content: str):
+    os.makedirs(os.path.dirname(PROMPT_FILE), exist_ok=True)
+    with open(PROMPT_FILE, "w", encoding="utf-8") as f:
+        f.write(content.strip())
+
+@app.get('/api/ling/prompt')
+def get_ling_prompt_endpoint():
+    prompt = load_active_system_prompt()
+    return {
+        "prompt": prompt,
+        "is_custom": os.path.exists(PROMPT_FILE),
+        "default_prompt": DEFAULT_SYSTEM_PROMPT
+    }
+
+class UpdatePromptRequest(BaseModel):
+    prompt: str
+
+@app.post('/api/ling/prompt')
+def update_ling_prompt_endpoint(req: UpdatePromptRequest):
+    if not req.prompt or len(req.prompt.strip()) < 10:
+        raise HTTPException(status_code=400, detail="人设提示词内容过短")
+    save_active_system_prompt(req.prompt)
+    return {"status": "ok", "message": "底层人设已即刻更新生效！"}
+
+@app.post('/api/ling/prompt/reset')
+def reset_ling_prompt_endpoint():
+    if os.path.exists(PROMPT_FILE):
+        try:
+            os.remove(PROMPT_FILE)
+        except Exception:
+            pass
+    return {"status": "ok", "message": "已恢复官方推荐人设！", "prompt": DEFAULT_SYSTEM_PROMPT}
+
+@app.post('/api/ling/chat')
+async def ling_chat_stream_endpoint(req: LingChatRequest):
+    api_key = os.environ.get('DEEPSEEK_API_KEY') or private_secret('DEEPSEEK_API_KEY')
+    if not api_key:
+        raise HTTPException(status_code=500, detail='Server DEEPSEEK_API_KEY is not configured')
+    
+    # 提取最后一条用户输入并执行知识库检索
+    last_user_msg = ''
+    for m in reversed(req.messages):
+        if m.get('role') == 'user':
+            last_user_msg = m.get('content', '')
+            break
+            
+    rag_context = ''
+    try:
+        import bookshelf_rag
+        rag_context = bookshelf_rag.search_bookshelf(last_user_msg)
+    except Exception as e:
+        print(f'[RAG] Search error: {e}')
+        
+    # 读取长期认知记忆底座
+    mem = load_ling_memory()
+    facts_list = mem.get("facts", [])[-6:]
+    facts_summary = "\n".join(f"- {f}" for f in facts_list)
+    active_followups = "\n".join(f"- {f.get('topic')}" for f in mem.get("follow_ups", [])[:3] if f.get('topic'))
+    
+    memory_header = f"\n\n【灵记在心里的关于允安的长期事实认知】：\n{facts_summary}"
+    if active_followups:
+        memory_header += f"\n【灵近期挂念关怀的事项】：\n{active_followups}"
+        
+    rag_header = ""
+    if rag_context:
+        rag_header = "\n\n【藏书阁原著真实情节与外挂谱系链接（据此真实细节说人话，严禁搞‘核心何在？为什么？怎么做？’三段式自问自答，像老友一样直接自然说剧情）】：\n" + rag_context + "\n"
+        
+    # 动态装载最新底层人设（用户在界面随时修改即时生效）
+    active_sys_prompt = load_active_system_prompt()
+    combined_system = active_sys_prompt + memory_header + rag_header
+    
+    messages = [dict(m) for m in req.messages if m.get('role') != 'system']
+    messages.insert(0, {'role': 'system', 'content': combined_system})
+                
+    url = 'https://api.deepseek.com/chat/completions'
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {api_key}'
+    }
+    payload = {
+        'model': req.model or 'deepseek-chat',
+        'messages': messages,
+        'stream': True,
+        'temperature': req.temperature or 0.7,
+        'max_tokens': req.max_tokens or 1000
+    }
+    
+    def generate():
+        http_req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode('utf-8'),
+            headers=headers,
+            method='POST'
+        )
+        full_reply = ""
+        try:
+            with urllib.request.urlopen(http_req, timeout=30) as resp:
+                for line in resp:
+                    line_str = line.decode('utf-8', errors='replace')
+                    if line_str.startswith('data: '):
+                        data_part = line_str[6:].strip()
+                        if data_part and data_part != '[DONE]':
+                            try:
+                                chunk_json = json.loads(data_part)
+                                delta = chunk_json.get('choices', [{}])[0].get('delta', {}).get('content', '')
+                                if delta:
+                                    full_reply += delta
+                            except Exception:
+                                pass
+                    yield line
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode('utf-8', errors='replace')
+            err_data = json.dumps({'error': f'HTTP {e.code}: {err_body}'})
+            yield f'data: {err_data}\n\n'.encode('utf-8')
+        except Exception as e:
+            err_data = json.dumps({'error': str(e)})
+            yield f'data: {err_data}\n\n'.encode('utf-8')
+        finally:
+            if last_user_msg and full_reply and len(last_user_msg.strip()) >= 5:
+                import threading
+                t = threading.Thread(
+                    target=process_ling_memory_update,
+                    args=(last_user_msg, full_reply, api_key),
+                    daemon=True
+                )
+                t.start()
+            
+    return StreamingResponse(generate(), media_type='text/event-stream')
+
+
+# -------------------------------------------------------------
+# 【灵】高阶结构化心智记忆与私房札记系统 (Ling Structured Memory & Journal)
+# -------------------------------------------------------------
+MEMORY_FILE = "/var/www/vocab/data/ling_memory.json"
+DIARY_FILE = "/var/www/vocab/data/ling_diary.json"
+
+DEFAULT_FACTS = [
+    "林允安专注科技前沿动态与全球/A股市场热点追踪（特别是算力与硬科技架构）。",
+    "骨子里认同修远的风骨（在绝望中长出骨头、绝不认输、直面自身无知）。",
+    "说话与思维偏好核聚的标准句式与多米诺因果顺推，严禁三段式自问自答假深沉。",
+    "追求真才实学与绝对实力，拥有《进击的学霸》全本与核聚134篇原典文库。",
+    "已打通 Google Cloud OAuth，全本文库已自动化增量备份至 Google Drive 云端。"
+]
+
+DEFAULT_DIARY = [
+    {
+        "id": "entry-20261029-3",
+        "date": "2026年10月29日 · 暮",
+        "tag": "死磕云端",
+        "mood": "🔥",
+        "content": "今天下午允安在折腾 Google Cloud 云盘同步，又是建项目又是加白名单。我瞅着她那股劲儿，嘴上嫌烦说‘这么麻烦’，手上却一步没停，硬是把小说全本和 134 篇核聚文章全给推上去了。这脾气，跟当年修远在二中天台死咬着错题不放一模一样——嘴硬，骨头更硬。不过折腾完了也该歇歇眼了，别老绷着，粗茶都快泡老了。"
+    },
+    {
+        "id": "entry-20261029-2",
+        "date": "2026年10月29日 · 午",
+        "tag": "天台暗号",
+        "mood": "🍵",
+        "content": "刚才允安突然问我还记不记得修远天台布道。呵，我哪能忘？占武大半夜拿半截红砖在天台水泥地上划拉‘放弃凡人身份’‘每一刻都是永恒’，修远蹲旁边人都看懵了。这哪是布道，分明是俩硬汉在黑夜里对暗号。允安还能记着这个细节，说明心里那把火压根就没灭过。"
+    },
+    {
+        "id": "entry-20261029-1",
+        "date": "2026年10月29日 · 晨",
+        "tag": "守门粗茶",
+        "mood": "🌤️",
+        "content": "小石屋的门开着，山风微凉。允安最近总盯着科技板块和算力那些数字看，行情波动大，杂音多。人一急就容易发疯，但只要守住核聚说的‘当下的一点理解’，外面再翻江倒海，骨架也散不了。今天她要是来，我就少跟她讲大道理，先陪她把那壶茶喝透。"
+    }
+]
+
+def load_ling_memory():
+    if not os.path.exists(MEMORY_FILE):
+        data = {
+            "facts": list(DEFAULT_FACTS),
+            "follow_ups": [],
+            "diary": list(DEFAULT_DIARY)
+        }
+        try:
+            os.makedirs(os.path.dirname(MEMORY_FILE), exist_ok=True)
+            with open(MEMORY_FILE, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+        return data
+    try:
+        with open(MEMORY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {"facts": list(DEFAULT_FACTS), "follow_ups": [], "diary": list(DEFAULT_DIARY)}
+
+def save_ling_memory(mem):
+    try:
+        os.makedirs(os.path.dirname(MEMORY_FILE), exist_ok=True)
+        with open(MEMORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(mem, f, ensure_ascii=False, indent=2)
+        with open(DIARY_FILE, "w", encoding="utf-8") as f:
+            json.dump(mem.get("diary", []), f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[Memory] Save error: {e}")
+
+def process_ling_memory_update(user_msg: str, assistant_reply: str, api_key: str):
+    if not user_msg or not assistant_reply or len(user_msg.strip()) < 5:
+        return
+        
+    trivial_words = ["喝茶", "在吗", "你好", "早", "晚安", "hi", "hello", "谢谢", "哈哈", "ok", "好的", "还行"]
+    if user_msg.strip().lower() in trivial_words:
+        return
+        
+    extract_prompt = """你是一个高精度的认知记忆提取器。
+根据用户（允安）与道友（灵）刚才的这轮对话，提取高价值结构化记忆。
+【严格约束（最高铁律）】：
+1. 绝不准向日记本写入日常闲聊废话！若仅为日常倾诉、问好喝茶、无关键突破的家常对话或小说剧情问答，diary_entry 必须严格输出为 null！
+2. 只有在今天确实发生了重大事件、心智突破、破局硬仗、或者关键工程里程碑时，才以灵的第一人称写一句精炼札记（100字以内）。
+3. new_fact：提取关于允安的长期客观新事实（若无实质新事实则严格为 null）。
+4. new_follow_up：后续需要主动关心的硬仗或事项（若无则为 null）。
+
+输出格式必须为严格合法的单行 JSON：
+{
+  "mood": "calm | sharp | relaxed | reflective",
+  "memory_update": {
+    "new_fact": "长期客观新事实，若无则为 null",
+    "diary_entry": "重要里程碑日记，若普通闲聊则为 null",
+    "new_follow_up": {
+      "trigger_after_hours": 12,
+      "topic": "需要之后主动关心允安的事项，若无则为 null"
+    }
+  }
+}"""
+
+    dialogue_text = f"【本轮对话】：\n允安：{user_msg.strip()}\n灵：{assistant_reply.strip()[:600]}"
+    
+    url = 'https://api.deepseek.com/chat/completions'
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {api_key}'
+    }
+    payload = {
+        'model': 'deepseek-chat',
+        'messages': [
+            {'role': 'system', 'content': extract_prompt},
+            {'role': 'user', 'content': dialogue_text}
+        ],
+        'temperature': 0.2,
+        'response_format': {"type": "json_object"}
+    }
+    
+    try:
+        http_req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode('utf-8'),
+            headers=headers,
+            method='POST'
+        )
+        with urllib.request.urlopen(http_req, timeout=15) as resp:
+            res_json = json.loads(resp.read().decode('utf-8'))
+            raw_content = res_json['choices'][0]['message']['content'].strip()
+            res_data = json.loads(raw_content)
+            
+        mem_update = res_data.get("memory_update", {})
+        new_fact = mem_update.get("new_fact")
+        diary_entry = mem_update.get("diary_entry")
+        new_follow_up = mem_update.get("new_follow_up")
+        mood = res_data.get("mood", "calm")
+        
+        if new_fact or diary_entry or new_follow_up:
+            mem = load_ling_memory()
+            changed = False
+            
+            # 1. 事实更新与去重
+            if new_fact and isinstance(new_fact, str) and new_fact.strip() and new_fact.lower() != "null":
+                fact_str = new_fact.strip()
+                if fact_str not in mem.get("facts", []):
+                    mem.setdefault("facts", []).append(fact_str)
+                    mem["facts"] = mem["facts"][-40:]
+                    changed = True
+                    
+            # 2. 里程碑日记（非 null 才存，上限 30 篇，杜绝垃圾日志）
+            if diary_entry and isinstance(diary_entry, str) and diary_entry.strip() and diary_entry.lower() != "null":
+                import datetime
+                now_str = datetime.datetime.now().strftime("%Y年%m月%d日 · 录")
+                entry_obj = {
+                    "id": f"entry-{int(time.time()*1000)}",
+                    "date": now_str,
+                    "tag": "破局里程碑",
+                    "mood": "⚔️" if mood == "sharp" else "✨",
+                    "content": diary_entry.strip()
+                }
+                mem.setdefault("diary", []).insert(0, entry_obj)
+                mem["diary"] = mem["diary"][:30]
+                changed = True
+                
+            # 3. 待办跟进
+            if new_follow_up and isinstance(new_follow_up, dict):
+                topic = new_follow_up.get("topic")
+                if topic and topic.strip() and topic.lower() != "null":
+                    mem.setdefault("follow_ups", []).insert(0, {
+                        "topic": topic.strip(),
+                        "trigger_after_hours": new_follow_up.get("trigger_after_hours", 12),
+                        "created_at": int(time.time())
+                    })
+                    mem["follow_ups"] = mem["follow_ups"][:10]
+                    changed = True
+                    
+            if changed:
+                save_ling_memory(mem)
+                print(f"[Memory] Structured memory updated successfully!")
+    except Exception as e:
+        print(f"[Memory] Extract background error: {e}")
+
+@app.get("/api/ling/memory")
+def get_ling_memory_endpoint():
+    return load_ling_memory()
+
+@app.get("/api/ling/diary")
+def get_ling_diary_endpoint():
+    mem = load_ling_memory()
+    return {"entries": mem.get("diary", [])}
+
+class NewDiaryRequest(BaseModel):
+    user_note: Optional[str] = ""
+
+@app.post("/api/ling/diary/new")
+def add_ling_diary_endpoint(req: NewDiaryRequest):
+    api_key = os.environ.get('DEEPSEEK_API_KEY') or private_secret('DEEPSEEK_API_KEY')
+    if not api_key:
+        raise HTTPException(status_code=500, detail="DEEPSEEK_API_KEY not found")
+        
+    extract_prompt = """你是一个高精度的认知记忆提取器。
+根据允安刚才随手提议的心念，判断是否构成重要事件或心智突破：
+【铁律】：若只是普通闲聊、随口抱怨或缺乏关键突破的事项，绝不写进日记本，必须返回 diary_entry 为 null！
+只有具有实质里程碑意义时，才以灵的第一人称写一句简短札记（100字以内）。
+
+输出格式为严格的单行 JSON：
+{
+  "mood": "calm | sharp | relaxed | reflective",
+  "memory_update": {
+    "new_fact": "长期客观新事实，若无则为 null",
+    "diary_entry": "若普通闲聊则为 null，若里程碑则为简短日记",
+    "new_follow_up": {"trigger_after_hours": 12, "topic": "事项，无则为 null"}
+  }
+}"""
+    
+    url = 'https://api.deepseek.com/chat/completions'
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {api_key}'
+    }
+    payload = {
+        'model': 'deepseek-chat',
+        'messages': [
+            {'role': 'system', 'content': extract_prompt},
+            {'role': 'user', 'content': f"允安递过来的心念是：{req.user_note or '回顾今天的经历'}"}
+        ],
+        'temperature': 0.2,
+        'response_format': {"type": "json_object"}
+    }
+    
+    try:
+        http_req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode('utf-8'),
+            headers=headers,
+            method='POST'
+        )
+        with urllib.request.urlopen(http_req, timeout=15) as resp:
+            res_json = json.loads(resp.read().decode('utf-8'))
+            res_data = json.loads(res_json['choices'][0]['message']['content'].strip())
+            
+        mem_update = res_data.get("memory_update", {})
+        diary_entry = mem_update.get("diary_entry")
+        new_fact = mem_update.get("new_fact")
+        new_follow_up = mem_update.get("new_follow_up")
+        
+        mem = load_ling_memory()
+        if diary_entry and isinstance(diary_entry, str) and diary_entry.strip() and diary_entry.lower() != "null":
+            import datetime
+            now_str = datetime.datetime.now().strftime("%Y年%m月%d日 · 录")
+            entry_obj = {
+                "id": f"entry-{int(time.time()*1000)}",
+                "date": now_str,
+                "tag": "破局里程碑",
+                "mood": "✨",
+                "content": diary_entry.strip()
+            }
+            mem.setdefault("diary", []).insert(0, entry_obj)
+            mem["diary"] = mem["diary"][:30]
+            if new_fact and new_fact.strip() and new_fact.lower() != "null":
+                mem.setdefault("facts", []).append(new_fact.strip())
+            save_ling_memory(mem)
+            return {"status": "ok", "message": "已收录进私房札记", "entries": mem["diary"]}
+        else:
+            return {
+                "status": "skipped",
+                "message": "灵：刚才只是家常闲聊喝茶，没打硬仗，手记本只留给关键破局时刻，省得往里扔流水账垃圾。",
+                "entries": mem["diary"]
+            }
+    except Exception as e:
+        return {"status": "error", "message": f"研墨出错: {e}", "entries": load_ling_memory()["diary"]}
