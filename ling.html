@@ -473,14 +473,14 @@ main {
     <a href="/" class="back-home">🏰 小石屋</a>
     <div class="title-badge">
       <span class="title-text">道友 · 灵</span>
-      <span class="status-pill">随时在侧</span>
+      <span class="status-pill" style="background:var(--brand-accent); color:#ffffff;">站长 · 允安</span>
     </div>
   </div>
   <div style="display:flex; gap:8px; align-items:center;">
-    <button class="origami-btn" id="keyManagerBtn" onclick="openKeyManager()" style="display:none; background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);" title="生成与管理道友访客密钥">🔑 密钥分发</button>
+    <button class="origami-btn" id="keyManagerBtn" onclick="openKeyManager()" style="background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);" title="生成与管理道友访客密钥">🔑 密钥分发</button>
+    <button class="origami-btn" id="promptEditorBtn" onclick="openPromptEditor()" style="background:var(--paper-surface); font-weight:600; color:var(--text-main); border-color:var(--paper-crease);" title="查看并直接修改底层人设">⚙️ 人设底座</button>
+    <button class="origami-btn" id="diaryBtn" onclick="openDiary()" style="background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);" title="灵的私房手记与三大认知模块">📔 偷看日记</button>
     <button class="origami-btn" id="clearChatBtn" onclick="clearChatHistory()" style="background:var(--paper-surface); font-size:12px; color:var(--text-tertiary); border-color:var(--paper-border);" title="清屏当前对话（灵的记忆底座仍会保留）">🧹 清屏</button>
-    <button class="origami-btn" id="promptEditorBtn" onclick="openPromptEditor()" style="display:none; background:var(--paper-surface); font-weight:600; color:var(--text-main); border-color:var(--paper-crease);" title="查看并直接修改底层人设">⚙️ 人设底座</button>
-    <button class="origami-btn" id="diaryBtn" onclick="openDiary()" style="display:none; background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);">📔 偷看日记</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="切换折纸日夜主题">🌓</button>
   </div>
 </header>
@@ -1578,7 +1578,7 @@ window.onload = () => {
     const saved = localStorage.getItem('stone_theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
   } catch(e) {}
-  loadHistory();
+  initAuthAndGatekeeper();
 };
 </script>
 </body>
