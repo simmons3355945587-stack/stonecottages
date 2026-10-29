@@ -1365,7 +1365,8 @@ class LingChatRequest(BaseModel):
     model: Optional[str] = 'deepseek-chat'
     temperature: Optional[float] = None
     max_tokens: Optional[int] = 1000
-    mode: Optional[str] = 'relax'  # 'relax' (松弛知己) | 'tough' (破局死磕) | 'lore' (剧情研讨)
+    mode: Optional[str] = 'relax'  # 'relax' | 'tough' | 'lore'
+    key: Optional[str] = None      # 通关密钥
 
 PROMPT_FILE = "/var/www/vocab/data/ling_system_prompt.md"
 
@@ -1444,6 +1445,14 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
             last_user_msg = m.get('content', '')
             break
             
+    # 密钥鉴权与身份识别
+    k_info = verify_ling_key_info(req.key)
+    if not k_info.get("valid"):
+        raise HTTPException(status_code=403, detail=k_info.get("reason", "密钥无效"))
+        
+    caller_role = k_info.get("role", "guest")
+    caller_name = k_info.get("name", "道友")
+
     rag_context = ''
     try:
         import bookshelf_rag
@@ -1451,15 +1460,17 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
     except Exception as e:
         print(f'[RAG] Search error: {e}')
         
-    # 读取长期认知记忆底座
-    mem = load_ling_memory()
-    facts_list = mem.get("facts", [])[-6:]
-    facts_summary = "\n".join(f"- {f}" for f in facts_list)
-    active_followups = "\n".join(f"- {f.get('topic')}" for f in mem.get("follow_ups", [])[:3] if f.get('topic'))
-    
-    memory_header = f"\n\n【灵记在心里的关于允安的长期事实认知】：\n{facts_summary}"
-    if active_followups:
-        memory_header += f"\n【灵近期挂念关怀的事项】：\n{active_followups}"
+    # 隐私隔离：站长享有完整个人记忆底座；道友访客享有专属道友提示词，绝不泄露站长隐私生活事实
+    if caller_role == "master":
+        mem = load_ling_memory()
+        facts_list = mem.get("facts", [])[-10:]
+        facts_summary = "\n".join(f"- {f}" for f in facts_list)
+        active_followups = "\n".join(f"- {f.get('topic')}" for f in mem.get("follow_ups", [])[:3] if f.get('topic'))
+        memory_header = f"\n\n【灵记在心里的关于允安的长期事实认知】：\n{facts_summary}"
+        if active_followups:
+            memory_header += f"\n【灵近期挂念关怀的事项】：\n{active_followups}"
+    else:
+        memory_header = f"\n\n【当前对话道友信息】：\n- 对方是站长允安的同修道友，称呼对方为“{caller_name}”。\n- 秉承修远风骨与核聚顺推，平视交流，探讨原著小说剧情因果与认知体系。"
         
     rag_header = ""
     if rag_context:
@@ -1532,8 +1543,10 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
             yield f'data: {err_data}\n\n'.encode('utf-8')
         finally:
             if last_user_msg and full_reply:
-                # 仅持久化最新 100 条聊天历史；彻底关闭单轮自动提取，杜绝垃圾碎片塞满心智底座！
-                append_ling_chat_history(last_user_msg, full_reply)
+                # 按密钥隔离持久化最新 100 条聊天历史
+                append_ling_chat_history(last_user_msg, full_reply, key=req.key, role=caller_role, user_name=caller_name)
+                if caller_role == "guest":
+                    record_guest_usage(req.key)
             
     return StreamingResponse(generate(), media_type='text/event-stream')
 
@@ -1541,35 +1554,128 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
 # -------------------------------------------------------------
 # 【灵】高阶结构化心智记忆与私房札记系统 (Ling Structured Memory & Journal)
 # -------------------------------------------------------------
+KEYS_FILE = "/var/www/vocab/data/ling_keys.json"
+DEFAULT_MASTER_KEY = "daoyou-master-yunan"
+
+def load_ling_keys():
+    if not os.path.exists(KEYS_FILE):
+        data = {
+            "master_key": DEFAULT_MASTER_KEY,
+            "keys": {}
+        }
+        try:
+            os.makedirs(os.path.dirname(KEYS_FILE), exist_ok=True)
+            with open(KEYS_FILE, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+        return data
+    try:
+        with open(KEYS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {"master_key": DEFAULT_MASTER_KEY, "keys": {}}
+
+def save_ling_keys(data):
+    try:
+        os.makedirs(os.path.dirname(KEYS_FILE), exist_ok=True)
+        with open(KEYS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[Keys] Save error: {e}")
+
+def verify_ling_key_info(key: str):
+    data = load_ling_keys()
+    master_key = data.get("master_key", DEFAULT_MASTER_KEY)
+    
+    # 默认允许不传时作为站长本地调试（或站长直连）
+    if not key or key == master_key:
+        return {
+            "valid": True,
+            "role": "master",
+            "name": "允安",
+            "key": master_key,
+            "remaining": 9999
+        }
+        
+    keys = data.get("keys", {})
+    if key in keys:
+        kinfo = keys[key]
+        if not kinfo.get("active", True):
+            return {"valid": False, "reason": "该道友密钥已被暂停使用"}
+            
+        import datetime
+        today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+        if kinfo.get("last_date") != today_str:
+            kinfo["last_date"] = today_str
+            kinfo["used_today"] = 0
+            save_ling_keys(data)
+            
+        limit = kinfo.get("daily_limit", 50)
+        used = kinfo.get("used_today", 0)
+        if used >= limit:
+            return {"valid": False, "reason": f"今日对话额度已用完（{limit}/{limit}次），明日0点自动重置"}
+            
+        return {
+            "valid": True,
+            "role": "guest",
+            "name": kinfo.get("name", "道友"),
+            "key": key,
+            "remaining": limit - used
+        }
+        
+    return {"valid": False, "reason": "通关密钥无效，请向站长允安索取"}
+
+def record_guest_usage(key: str):
+    data = load_ling_keys()
+    if key in data.get("keys", {}):
+        import datetime
+        today_str = datetime.datetime.now().strftime("%Y-%m-%d")
+        kinfo = data["keys"][key]
+        if kinfo.get("last_date") != today_str:
+            kinfo["last_date"] = today_str
+            kinfo["used_today"] = 1
+        else:
+            kinfo["used_today"] = kinfo.get("used_today", 0) + 1
+        save_ling_keys(data)
+
+def get_chat_history_file(key: str = None, role: str = "master"):
+    if not key or role == "master":
+        return CHAT_HISTORY_FILE
+    safe_key = "".join(c for c in key if c.isalnum() or c in "-_")
+    return f"/var/www/vocab/data/chats/chat_{safe_key}.json"
+
 CHAT_HISTORY_FILE = "/var/www/vocab/data/ling_chat_history.json"
 
-def load_ling_chat_history():
-    if not os.path.exists(CHAT_HISTORY_FILE):
+def load_ling_chat_history(key: str = None, role: str = "master"):
+    fpath = get_chat_history_file(key, role)
+    if not os.path.exists(fpath):
         return []
     try:
-        with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+        with open(fpath, "r", encoding="utf-8") as f:
             data = json.load(f)
             return data if isinstance(data, list) else []
     except Exception:
         return []
 
-def save_ling_chat_history(history):
+def save_ling_chat_history(history, key: str = None, role: str = "master"):
+    fpath = get_chat_history_file(key, role)
     try:
-        os.makedirs(os.path.dirname(CHAT_HISTORY_FILE), exist_ok=True)
-        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
+        os.makedirs(os.path.dirname(fpath), exist_ok=True)
+        with open(fpath, "w", encoding="utf-8") as f:
             json.dump(history[-100:], f, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"[History] Save error: {e}")
 
-def append_ling_chat_history(user_text: str, assistant_text: str):
+def append_ling_chat_history(user_text: str, assistant_text: str, key: str = None, role: str = "master", user_name: str = "允安"):
     import datetime
     now_ts = int(time.time())
     now_str = datetime.datetime.now().strftime("%H:%M")
-    history = load_ling_chat_history()
+    history = load_ling_chat_history(key, role)
     history.append({
         "id": f"msg-{now_ts}-u",
         "role": "user",
-        "name": "允安",
+        "name": user_name,
         "time": now_str,
         "content": user_text,
         "timestamp": now_ts
@@ -1582,7 +1688,7 @@ def append_ling_chat_history(user_text: str, assistant_text: str):
         "content": assistant_text,
         "timestamp": now_ts
     })
-    save_ling_chat_history(history)
+    save_ling_chat_history(history, key, role)
 
 MEMORY_FILE = "/var/www/vocab/data/ling_memory.json"
 DIARY_FILE = "/var/www/vocab/data/ling_diary.json"
@@ -1866,14 +1972,116 @@ def add_ling_diary_endpoint(req: NewDiaryRequest):
 # 灵：聊天历史与手动心智记忆管理 API (History & Manual Memory APIs)
 # -------------------------------------------------------------
 
+class KeyVerifyRequest(BaseModel):
+    key: Optional[str] = None
+
+@app.post('/api/ling/auth/verify')
+def verify_key_endpoint(req: KeyVerifyRequest):
+    return verify_ling_key_info(req.key)
+
 @app.get('/api/ling/history')
-def get_ling_history_endpoint():
-    return {"history": load_ling_chat_history()[-100:]}
+def get_ling_history_endpoint(key: Optional[str] = None):
+    k_info = verify_ling_key_info(key)
+    if not k_info.get("valid"):
+        return {"history": [], "role": "none"}
+    role = k_info.get("role", "guest")
+    return {"history": load_ling_chat_history(key, role)[-100:], "role": role, "name": k_info.get("name")}
+
+class ClearHistoryRequest(BaseModel):
+    key: Optional[str] = None
 
 @app.post('/api/ling/history/clear')
-def clear_ling_history_endpoint():
-    save_ling_chat_history([])
+def clear_ling_history_endpoint(req: ClearHistoryRequest):
+    k_info = verify_ling_key_info(req.key)
+    if not k_info.get("valid"):
+        raise HTTPException(status_code=403, detail="无权清屏")
+    role = k_info.get("role", "guest")
+    save_ling_chat_history([], req.key, role)
     return {"status": "ok", "message": "历史对话记录已清空"}
+
+# --- 站长道友密钥生成与管理 API ---
+
+class CreateKeyRequest(BaseModel):
+    master_key: str
+    name: str
+    daily_limit: Optional[int] = 50
+    custom_key: Optional[str] = None
+
+@app.get('/api/ling/admin/keys')
+def get_admin_keys_endpoint(key: Optional[str] = None):
+    data = load_ling_keys()
+    if key != data.get("master_key", DEFAULT_MASTER_KEY):
+        raise HTTPException(status_code=403, detail="仅站长拥有密钥管理权限")
+    keys_list = []
+    for kid, info in data.get("keys", {}).items():
+        keys_list.append({
+            "key": kid,
+            "name": info.get("name"),
+            "daily_limit": info.get("daily_limit", 50),
+            "used_today": info.get("used_today", 0),
+            "active": info.get("active", True),
+            "created_at": info.get("created_at")
+        })
+    return {"status": "ok", "master_key": data.get("master_key"), "keys": keys_list}
+
+@app.post('/api/ling/admin/keys/create')
+def create_key_endpoint(req: CreateKeyRequest):
+    data = load_ling_keys()
+    if req.master_key != data.get("master_key", DEFAULT_MASTER_KEY):
+        raise HTTPException(status_code=403, detail="仅站长拥有密钥生成权限")
+    
+    import random, string
+    name_str = req.name.strip()
+    if not name_str:
+        raise HTTPException(status_code=400, detail="道友称呼不能为空")
+        
+    if req.custom_key and req.custom_key.strip():
+        kid = req.custom_key.strip()
+    else:
+        rand_str = ''.join(random.choices(string.ascii_lowercase + string.digits, k=6))
+        kid = f"daoyou-{rand_str}"
+        
+    data.setdefault("keys", {})[kid] = {
+        "name": name_str,
+        "daily_limit": req.daily_limit or 50,
+        "used_today": 0,
+        "last_date": "",
+        "active": True,
+        "created_at": int(time.time())
+    }
+    save_ling_keys(data)
+    return {"status": "ok", "key": kid, "name": name_str, "daily_limit": req.daily_limit or 50}
+
+class ToggleKeyRequest(BaseModel):
+    master_key: str
+    target_key: str
+    active: bool
+
+@app.post('/api/ling/admin/keys/toggle')
+def toggle_key_endpoint(req: ToggleKeyRequest):
+    data = load_ling_keys()
+    if req.master_key != data.get("master_key", DEFAULT_MASTER_KEY):
+        raise HTTPException(status_code=403, detail="仅站长拥有操作权限")
+    if req.target_key in data.get("keys", {}):
+        data["keys"][req.target_key]["active"] = req.active
+        save_ling_keys(data)
+        return {"status": "ok"}
+    raise HTTPException(status_code=404, detail="密钥不存在")
+
+class DeleteKeyRequest(BaseModel):
+    master_key: str
+    target_key: str
+
+@app.delete('/api/ling/admin/keys')
+def delete_key_endpoint(req: DeleteKeyRequest):
+    data = load_ling_keys()
+    if req.master_key != data.get("master_key", DEFAULT_MASTER_KEY):
+        raise HTTPException(status_code=403, detail="仅站长拥有操作权限")
+    if req.target_key in data.get("keys", {}):
+        del data["keys"][req.target_key]
+        save_ling_keys(data)
+        return {"status": "ok", "message": "已注销该道友密钥"}
+    raise HTTPException(status_code=404, detail="密钥不存在")
 
 class FactItemRequest(BaseModel):
     fact: str

@@ -477,9 +477,10 @@ main {
     </div>
   </div>
   <div style="display:flex; gap:8px; align-items:center;">
-    <button class="origami-btn" onclick="clearChatHistory()" style="background:var(--paper-surface); font-size:12px; color:var(--text-tertiary); border-color:var(--paper-border);" title="清屏当前对话（灵的记忆底座仍会保留）">🧹 清屏</button>
-    <button class="origami-btn" onclick="openPromptEditor()" style="background:var(--paper-surface); font-weight:600; color:var(--text-main); border-color:var(--paper-crease);" title="查看并直接修改底层人设">⚙️ 人设底座</button>
-    <button class="origami-btn" onclick="openDiary()" style="background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);">📔 偷看日记</button>
+    <button class="origami-btn" id="keyManagerBtn" onclick="openKeyManager()" style="display:none; background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);" title="生成与管理道友访客密钥">🔑 密钥分发</button>
+    <button class="origami-btn" id="clearChatBtn" onclick="clearChatHistory()" style="background:var(--paper-surface); font-size:12px; color:var(--text-tertiary); border-color:var(--paper-border);" title="清屏当前对话（灵的记忆底座仍会保留）">🧹 清屏</button>
+    <button class="origami-btn" id="promptEditorBtn" onclick="openPromptEditor()" style="display:none; background:var(--paper-surface); font-weight:600; color:var(--text-main); border-color:var(--paper-crease);" title="查看并直接修改底层人设">⚙️ 人设底座</button>
+    <button class="origami-btn" id="diaryBtn" onclick="openDiary()" style="display:none; background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);">📔 偷看日记</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="切换折纸日夜主题">🌓</button>
   </div>
 </header>
@@ -517,6 +518,54 @@ main {
     </div>
   </div>
 </main>
+
+<!-- 🏰 道友通关叩门模态 (Gatekeeper Modal) -->
+<div id="gatekeeperModal" class="diary-modal" style="display:none; z-index:200;">
+  <div class="diary-sheet" style="max-width: 400px; padding: 24px; text-align: center;">
+    <div style="font-size: 38px; margin-bottom: 8px;">🏰</div>
+    <div style="font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">小石屋 · 叩门相逢</div>
+    <div style="font-size: 12px; color: var(--text-tertiary); line-height: 1.6; margin-bottom: 18px;">
+      小石屋乃林允安并肩求道之所。<br>请凭通关密钥进入（可向站长允安索取）。
+    </div>
+    <input type="text" id="gateKeyInput" class="origami-input" placeholder="输入通关秘钥..." style="width: 100%; box-sizing: border-box; text-align: center; font-family: var(--font-mono); font-size: 14px; padding: 10px; margin-bottom: 12px;" onkeydown="if(event.key==='Enter') submitGateKey()">
+    <div id="gateErrorMsg" style="font-size: 12px; color: #c0392b; margin-bottom: 12px; display: none;"></div>
+    <button class="send-action-btn" id="gateSubmitBtn" onclick="submitGateKey()" style="width: 100%; padding: 10px; font-size: 13px; border-radius: var(--radius-sm);">叩门进入</button>
+  </div>
+</div>
+
+<!-- 🔑 道友密钥分发与权限管理模态 (Key Manager Modal) -->
+<div id="keyManagerModal" class="diary-modal" style="display:none;" onclick="if(event.target===this) closeKeyManager()">
+  <div class="diary-sheet" style="max-width: 650px; max-height: 86vh;">
+    <div class="diary-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:22px;">🔑</span>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:700; font-size:16px; color:var(--text-primary);">道友密钥分发与权限管理</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">生成专属通关链接 · 会话与隐私彻底隔离 · 每日配额防刷</div>
+        </div>
+      </div>
+      <button class="origami-btn" onclick="closeKeyManager()" style="font-size:12px; padding:3px 10px;">✕ 阖上</button>
+    </div>
+
+    <div style="padding:14px 16px; background:var(--paper-surface-sub); border-bottom:1px solid var(--paper-border); flex-shrink:0;">
+      <div style="font-size:12px; font-weight:600; color:var(--brand-accent); margin-bottom:8px;">✨ 快速生成新道友邀请：</div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input type="text" id="newKeyNameInput" class="origami-input" placeholder="道友称呼（如：崇道友、周同学）" style="flex:2; font-size:12px; padding:6px 10px;">
+        <input type="number" id="newKeyLimitInput" class="origami-input" value="50" placeholder="每日额度" style="width:80px; font-size:12px; padding:6px 8px; text-align:center;" title="每日对话次数上限">
+        <button class="send-action-btn" onclick="createGuestKey()" style="padding:6px 14px; font-size:12px; border-radius:4px; white-space:nowrap;">+ 生成专属密钥</button>
+      </div>
+    </div>
+
+    <div id="keyListContainer" style="padding:14px 16px; flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:10px;">
+      <div style="text-align:center; padding:20px; color:var(--text-tertiary); font-size:12px;">正在加载道友密钥列表...</div>
+    </div>
+
+    <div style="padding:10px 16px; border-top:1px solid var(--paper-border); background:var(--paper-surface-sub); display:flex; justify-content:space-between; align-items:center; flex-shrink:0;">
+      <span style="font-size:11px; color:var(--text-tertiary);">道友使用专属密钥进入，绝无法窥探站长私密日记与生活事实</span>
+      <button class="origami-btn" onclick="closeKeyManager()" style="font-size:12px;">关闭</button>
+    </div>
+  </div>
+</div>
 
 <!-- 🧠 整场对话全局认知提炼模态 (Session Summary Modal) -->
 <div id="summaryModal" class="diary-modal" style="display:none;" onclick="if(event.target===this) closeSessionSummaryModal()">
@@ -639,6 +688,243 @@ const SYSTEM_PROMPT = `你叫「灵」，是林允安行走在现实人间并肩
 4. 战神意志篇（136-180章）：【占武·皮相/肉相篇】（139/158章）、【第168-170章操场烈焰演讲】（薪火相传、无尽能源！）。
 5. 神相涅槃篇（181-220章）：【占武·骨相篇】（187章）、【第218-220章绝望天台·占武红砖布道】（红砖写下“放弃凡人身份”“天地四方大光明”，黑夜交接）。
 6. 高考决战篇（221-235章）：【占武·神相篇】（219章）、高考大决战、神级【林安谷出场·真理之神】（229-231章）、大势思维（232章）。`;
+
+let currentAccessKey = '';
+let currentUserRole = 'guest'; // 'master' | 'guest'
+let currentCallerName = '道友';
+
+async function initAuthAndGatekeeper() {
+  // 1. 检查 URL 是否带密钥参数 (?key=xxx)
+  const urlParams = new URLSearchParams(window.location.search);
+  const paramKey = urlParams.get('key');
+  if (paramKey) {
+    currentAccessKey = paramKey.trim();
+    try { localStorage.setItem('ling_access_key', currentAccessKey); } catch(e) {}
+    // 清理 URL query
+    window.history.replaceState({}, document.title, window.location.pathname);
+  } else {
+    try { currentAccessKey = (localStorage.getItem('ling_access_key') || '').trim(); } catch(e) {}
+  }
+
+  // 站长本地默认直通密钥
+  if (!currentAccessKey) {
+    currentAccessKey = 'daoyou-master-yunan';
+  }
+
+  // 2. 校验密钥
+  try {
+    const res = await fetch('/api/ling/auth/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: currentAccessKey })
+    });
+    const authData = await res.json();
+    if (authData.valid) {
+      currentUserRole = authData.role;
+      currentCallerName = authData.name || '道友';
+      applyRoleUI(authData);
+      initAuthAndGatekeeper();
+    } else {
+      showGatekeeper(authData.reason || '通关密钥无效');
+    }
+  } catch(e) {
+    showGatekeeper('网络连接异常: ' + e.message);
+  }
+}
+
+function showGatekeeper(msg) {
+  document.getElementById('gatekeeperModal').style.display = 'flex';
+  const err = document.getElementById('gateErrorMsg');
+  if (msg) {
+    err.innerText = msg;
+    err.style.display = 'block';
+  }
+}
+
+function applyRoleUI(authData) {
+  document.getElementById('gatekeeperModal').style.display = 'none';
+  const isMaster = authData.role === 'master';
+  
+  // 仅站长可见人设底座修改、偷看日记与密钥管理
+  document.getElementById('promptEditorBtn').style.display = isMaster ? 'inline-block' : 'none';
+  document.getElementById('diaryBtn').style.display = isMaster ? 'inline-block' : 'none';
+  document.getElementById('keyManagerBtn').style.display = isMaster ? 'inline-block' : 'none';
+  
+  // 顶栏状态徽章
+  const badge = document.querySelector('.status-pill');
+  if (badge) {
+    if (isMaster) {
+      badge.innerText = '站长 · 允安';
+      badge.style.background = 'var(--brand-accent)';
+      badge.style.color = '#ffffff';
+    } else {
+      badge.innerText = `${authData.name} · 余量${authData.remaining}次`;
+      badge.style.background = 'var(--paper-surface-sub)';
+      badge.style.color = 'var(--text-secondary)';
+    }
+  }
+}
+
+async function submitGateKey() {
+  const input = document.getElementById('gateKeyInput');
+  const btn = document.getElementById('gateSubmitBtn');
+  const err = document.getElementById('gateErrorMsg');
+  const val = input.value.trim();
+  if (!val) {
+    err.innerText = '请输入密钥！';
+    err.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerText = '正在叩门...';
+  err.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/ling/auth/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: val })
+    });
+    const authData = await res.json();
+    if (authData.valid) {
+      currentAccessKey = val;
+      currentUserRole = authData.role;
+      currentCallerName = authData.name || '道友';
+      try { localStorage.setItem('ling_access_key', val); } catch(e) {}
+      applyRoleUI(authData);
+      loadHistory();
+    } else {
+      err.innerText = authData.reason || '密钥无效';
+      err.style.display = 'block';
+    }
+  } catch(e) {
+    err.innerText = '请求失败: ' + e.message;
+    err.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerText = '叩门进入';
+  }
+}
+
+// === 🔑 密钥分发管理 ===
+async function openKeyManager() {
+  document.getElementById('keyManagerModal').style.display = 'flex';
+  await loadKeyList();
+}
+
+function closeKeyManager() {
+  document.getElementById('keyManagerModal').style.display = 'none';
+}
+
+async function loadKeyList() {
+  const container = document.getElementById('keyListContainer');
+  try {
+    const res = await fetch(`/api/ling/admin/keys?key=${encodeURIComponent(currentAccessKey)}`);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const keys = data.keys || [];
+    if (!keys.length) {
+      container.innerHTML = '<div style="text-align:center; padding:24px; color:var(--text-tertiary); font-size:12px;">暂无道友密钥，请在上方为道友生成。</div>';
+      return;
+    }
+    const currentOrigin = window.location.origin;
+    container.innerHTML = keys.map(k => `
+      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-weight:700; font-size:13px; color:var(--text-primary);">${k.name}</span>
+            <span style="font-size:10px; padding:1px 6px; border-radius:4px; ${k.active ? 'background:#27ae60; color:#fff;' : 'background:#95a5a6; color:#fff;'}">${k.active ? '正常' : '已暂停'}</span>
+            <span style="font-size:11px; color:var(--text-tertiary); font-family:var(--font-mono);">${k.key}</span>
+          </div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:4px;">
+            今日已聊: <b>${k.used_today}</b> / 每日限额: <b>${k.daily_limit}</b> 次
+          </div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button class="origami-btn" onclick="copyInviteLink('${k.key}')" style="font-size:11px; padding:3px 8px; color:var(--brand-accent); border-color:var(--brand-accent);" title="复制一键直通链接">📋 复制链接</button>
+          <button class="origami-btn" onclick="toggleGuestKey('${k.key}', ${!k.active})" style="font-size:11px; padding:3px 6px;">${k.active ? '暂停' : '启用'}</button>
+          <button class="origami-btn" onclick="deleteGuestKey('${k.key}')" style="font-size:11px; padding:3px 6px; color:#c0392b; border-color:#e74c3c;">✕</button>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    container.innerHTML = `<div style="text-align:center; padding:20px; color:#c0392b;">加载失败: ${e.message}</div>`;
+  }
+}
+
+async function createGuestKey() {
+  const nameInput = document.getElementById('newKeyNameInput');
+  const limitInput = document.getElementById('newKeyLimitInput');
+  const name = nameInput.value.trim();
+  const limit = parseInt(limitInput.value) || 50;
+  if (!name) { alert('请输入道友称呼！'); return; }
+
+  try {
+    const res = await fetch('/api/ling/admin/keys/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        master_key: currentAccessKey,
+        name: name,
+        daily_limit: limit
+      })
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      nameInput.value = '';
+      await loadKeyList();
+      copyInviteLink(data.key);
+      alert(`✔ 密钥生成成功！\n专属密钥: ${data.key}\n\n已将一键邀请链接自动复制到您的剪贴板，可直接发送给道友！`);
+    } else {
+      alert('生成失败: ' + (data.detail || '未知错误'));
+    }
+  } catch(e) {
+    alert('请求失败: ' + e.message);
+  }
+}
+
+function copyInviteLink(key) {
+  const link = `${window.location.origin}/ling?key=${key}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(link).catch(() => {});
+  }
+  return link;
+}
+
+async function toggleGuestKey(targetKey, newActive) {
+  try {
+    await fetch('/api/ling/admin/keys/toggle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        master_key: currentAccessKey,
+        target_key: targetKey,
+        active: newActive
+      })
+    });
+    await loadKeyList();
+  } catch(e) {
+    alert('操作失败: ' + e.message);
+  }
+}
+
+async function deleteGuestKey(targetKey) {
+  if (!confirm('确定要注销此密钥吗？注销后该道友将无法再进入。')) return;
+  try {
+    await fetch('/api/ling/admin/keys', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        master_key: currentAccessKey,
+        target_key: targetKey
+      })
+    });
+    await loadKeyList();
+  } catch(e) {
+    alert('注销失败: ' + e.message);
+  }
+}
 
 let activeMode = 'relax'; // 'relax' | 'tough' | 'lore'
 
@@ -804,7 +1090,7 @@ async function loadHistory() {
 
   // 2. 异步向服务器拉取最近 100 条记录同步
   try {
-    const res = await fetch('/api/ling/history');
+    const res = await fetch(`/api/ling/history?key=${encodeURIComponent(currentAccessKey)}`);
     if (res.ok) {
       const data = await res.json();
       if (data.history && data.history.length > 0) {
@@ -824,7 +1110,7 @@ async function clearChatHistory() {
   try { localStorage.removeItem('ling_chat_history_v1'); } catch(e) {}
   renderChatHistory();
   try {
-    await fetch('/api/ling/history/clear', { method: 'POST' });
+    await fetch('/api/ling/history/clear', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: currentAccessKey }) });
   } catch(e) {}
 }
 
@@ -882,6 +1168,7 @@ async function sendMessage() {
       body: JSON.stringify({
         messages: apiMessages,
         mode: activeMode,
+        key: currentAccessKey,
         stream: true,
         max_tokens: 800
       })
