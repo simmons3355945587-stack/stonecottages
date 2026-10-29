@@ -416,6 +416,7 @@ main {
     </div>
   </div>
   <div style="display:flex; gap:8px; align-items:center;">
+    <button class="origami-btn" onclick="clearChatHistory()" style="background:var(--paper-surface); font-size:12px; color:var(--text-tertiary); border-color:var(--paper-border);" title="清屏当前对话（灵的记忆底座仍会保留）">🧹 清屏</button>
     <button class="origami-btn" onclick="openPromptEditor()" style="background:var(--paper-surface); font-weight:600; color:var(--text-main); border-color:var(--paper-crease);" title="查看并直接修改底层人设">⚙️ 人设底座</button>
     <button class="origami-btn" onclick="openDiary()" style="background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);">📔 偷看日记</button>
     <button class="theme-toggle" onclick="toggleTheme()" title="切换折纸日夜主题">🌓</button>
@@ -547,9 +548,83 @@ const SYSTEM_PROMPT = `你叫「灵」，是林允安行走在现实人间并肩
 5. 神相涅槃篇（181-220章）：【占武·骨相篇】（187章）、【第218-220章绝望天台·占武红砖布道】（红砖写下“放弃凡人身份”“天地四方大光明”，黑夜交接）。
 6. 高考决战篇（221-235章）：【占武·神相篇】（219章）、高考大决战、神级【林安谷出场·真理之神】（229-231章）、大势思维（232章）。`;
 
-let chatMessages = [
-  { role: "system", content: SYSTEM_PROMPT }
-];
+let chatHistory = []; // 本地缓存与云端同步的最近 100 条聊天记录 [{id, role, name, time, content, timestamp}]
+
+function renderChatHistory() {
+  const win = document.getElementById('chatWindow');
+  win.innerHTML = '';
+
+  if (!chatHistory || !chatHistory.length) {
+    win.innerHTML = `
+      <div class="chat-bubble-row assistant">
+        <div class="bubble-meta">灵 · 刚刚</div>
+        <div class="bubble-content">允安，我在。今天怎么着，是坐这儿喝两口茶闲聊，还是有啥硬骨头要拆？</div>
+      </div>
+    `;
+    return;
+  }
+
+  let lastTimestamp = 0;
+  chatHistory.forEach(msg => {
+    // 超过 36 小时未对话，插入温和的折纸时间线分隔线
+    if (lastTimestamp > 0 && msg.timestamp && (msg.timestamp - lastTimestamp) > 86400 * 1.5) {
+      const divider = document.createElement('div');
+      divider.style.textAlign = 'center';
+      divider.style.margin = '16px 0';
+      divider.style.color = 'var(--text-tertiary)';
+      divider.style.fontSize = '11px';
+      divider.innerHTML = `── 数日之后 · 重聚小石屋 ──`;
+      win.appendChild(divider);
+    }
+    if (msg.timestamp) lastTimestamp = msg.timestamp;
+
+    const row = document.createElement('div');
+    row.className = 'chat-bubble-row ' + (msg.role === 'user' ? 'user' : 'assistant');
+    row.innerHTML = `
+      <div class="bubble-meta">${msg.name || (msg.role === 'user' ? '允安' : '灵')} · ${msg.time || ''}</div>
+      <div class="bubble-content">${msg.content}</div>
+    `;
+    win.appendChild(row);
+  });
+
+  win.scrollTop = win.scrollHeight;
+}
+
+async function loadHistory() {
+  // 1. 本地 LocalStorage 毫秒级秒开渲染（0 等待）
+  try {
+    const raw = localStorage.getItem('ling_chat_history_v1');
+    if (raw) {
+      chatHistory = JSON.parse(raw);
+      renderChatHistory();
+    }
+  } catch(e) {}
+
+  // 2. 异步向服务器拉取最近 100 条记录同步
+  try {
+    const res = await fetch('/api/ling/history');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.history && data.history.length > 0) {
+        chatHistory = data.history;
+        try { localStorage.setItem('ling_chat_history_v1', JSON.stringify(chatHistory)); } catch(e) {}
+        renderChatHistory();
+      }
+    }
+  } catch(e) {
+    console.warn('Sync history error:', e);
+  }
+}
+
+async function clearChatHistory() {
+  if (!confirm('确定要清空当前的聊天记录吗？\n（提示：灵的心智底座、长期事实认知和私房日记均完好保留，仅清空屏幕对话）')) return;
+  chatHistory = [];
+  try { localStorage.removeItem('ling_chat_history_v1'); } catch(e) {}
+  renderChatHistory();
+  try {
+    await fetch('/api/ling/history/clear', { method: 'POST' });
+  } catch(e) {}
+}
 
 async function sendMessage() {
   const input = document.getElementById('chatInput');
@@ -557,20 +632,53 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  appendBubble('user', '允安', text);
+  const now = new Date();
+  const timeStr = now.toTimeString().slice(0, 5);
+  const nowTs = Math.floor(now.getTime() / 1000);
+
+  // 1. 追加用户发言并保存
+  const userMsg = {
+    id: 'msg-' + nowTs + '-u',
+    role: 'user',
+    name: '允安',
+    time: timeStr,
+    content: text,
+    timestamp: nowTs
+  };
+  chatHistory.push(userMsg);
+  if (chatHistory.length > 100) chatHistory = chatHistory.slice(-100);
+  try { localStorage.setItem('ling_chat_history_v1', JSON.stringify(chatHistory)); } catch(e) {}
+
+  renderChatHistory();
+
   input.value = '';
   input.disabled = true;
   btn.disabled = true;
 
-  chatMessages.push({ role: 'user', content: text });
-  const replyBubble = appendBubble('assistant', '灵', '...');
+  // 2. 追加灵的临时气泡
+  const win = document.getElementById('chatWindow');
+  const assistantRow = document.createElement('div');
+  assistantRow.className = 'chat-bubble-row assistant';
+  assistantRow.innerHTML = `
+    <div class="bubble-meta">灵 · ${timeStr}</div>
+    <div class="bubble-content">...</div>
+  `;
+  win.appendChild(assistantRow);
+  win.scrollTop = win.scrollHeight;
+  const replyBubble = assistantRow.querySelector('.bubble-content');
+
+  // 取最近 16 轮对话传给后端模型上下文
+  const apiMessages = chatHistory.slice(-16).map(m => ({
+    role: m.role,
+    content: m.content
+  }));
 
   try {
     const response = await fetch('/api/ling/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        messages: chatMessages,
+        messages: apiMessages,
         stream: true,
         temperature: 0.7,
         max_tokens: 800
@@ -602,16 +710,25 @@ async function sendMessage() {
             const delta = data.choices[0]?.delta?.content || '';
             fullReply += delta;
             replyBubble.innerText = fullReply;
-            const win = document.getElementById('chatWindow');
             win.scrollTop = win.scrollHeight;
           } catch(e) {}
         }
       }
     }
-    chatMessages.push({ role: 'assistant', content: fullReply });
-    if (chatMessages.length > 20) {
-      chatMessages = [chatMessages[0], ...chatMessages.slice(-12)];
-    }
+
+    // 3. 将灵的最终回复记录写入聊天记录并持久化
+    const assistantMsg = {
+      id: 'msg-' + Math.floor(Date.now() / 1000) + '-a',
+      role: 'assistant',
+      name: '灵',
+      time: new Date().toTimeString().slice(0, 5),
+      content: fullReply,
+      timestamp: Math.floor(Date.now() / 1000)
+    };
+    chatHistory.push(assistantMsg);
+    if (chatHistory.length > 100) chatHistory = chatHistory.slice(-100);
+    try { localStorage.setItem('ling_chat_history_v1', JSON.stringify(chatHistory)); } catch(e) {}
+
   } catch (err) {
     replyBubble.innerText = '网络连接异常: ' + err.message;
   } finally {
@@ -800,39 +917,140 @@ function renderCurrentTab() {
       </div>
     `).join('');
   } else if (currentTab === 'facts') {
-    hint.innerText = '长期事实沉淀 · 自动去重去噪，永不向云端备份扔垃圾';
+    hint.innerText = '长期事实沉淀 · 永驻灵的心智底座，下周/下月长久有效';
     const facts = currentMemoryData.facts || [];
-    if (!facts.length) {
-      body.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-tertiary);">暂无沉淀事实</div>';
-      return;
-    }
+    const factListHtml = facts.length ? facts.map((f, i) => `
+      <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; padding:10px 12px; font-size:13px; line-height:1.5; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+        <div style="display:flex; gap:8px; flex:1;">
+          <span style="color:var(--brand-accent); font-weight:700;">#${i+1}</span>
+          <span style="color:var(--text-primary); word-break:break-word;">${f}</span>
+        </div>
+        <button class="origami-btn" onclick="deleteFact(${i})" style="padding:2px 6px; font-size:11px; color:#c0392b; border-color:#e74c3c; flex-shrink:0;" title="从底座中移除该事实">✕</button>
+      </div>
+    `).join('') : '<div style="text-align:center; padding:20px; color:var(--text-tertiary); font-size:12px;">底座暂无事实，可在下方手动输入刻入</div>';
+
     body.innerHTML = `
-      <div style="font-size:12px; color:var(--brand-primary); font-weight:600; margin-bottom:4px;">🧠 灵对允安的长期客观认知档案：</div>
+      <div style="font-size:12px; color:var(--brand-primary); font-weight:600; margin-bottom:8px;">🧠 灵对允安的长期客观认知档案（常驻 System Prompt）：</div>
       <div style="display:flex; flex-direction:column; gap:8px;">
-        ${facts.map((f, i) => `
-          <div style="background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; padding:10px 12px; font-size:13px; line-height:1.5; display:flex; gap:8px;">
-            <span style="color:var(--brand-accent); font-weight:700;">#${i+1}</span>
-            <span>${f}</span>
-          </div>
-        `).join('')}
+        ${factListHtml}
+      </div>
+      <div style="margin-top:14px; padding:10px; background:var(--paper-surface-sub); border:1px dashed var(--paper-border); border-radius:6px; display:flex; gap:8px;">
+        <input type="text" id="newFactInput" class="origami-input" placeholder="输入要让灵永远记住的事实（如：下周三要开科技直播）..." style="flex:1; font-size:12px; padding:6px 10px;" onkeydown="if(event.key==='Enter') addManualFact()">
+        <button class="send-action-btn" onclick="addManualFact()" style="padding:6px 14px; font-size:12px; border-radius:4px; flex-shrink:0;">📌 刻入底座</button>
       </div>
     `;
   } else if (currentTab === 'followup') {
-    hint.innerText = '灵主动挂念的硬仗与关键时点';
+    hint.innerText = '灵主动挂念的硬仗与关键时点 · 再次上线时主动提起关照';
     const followups = currentMemoryData.follow_ups || [];
-    if (!followups.length) {
-      body.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-tertiary);">当前没有待跟进的硬仗事项。</div>';
-      return;
-    }
-    body.innerHTML = followups.map(f => `
-      <div class="diary-card">
-        <div class="diary-card-top">
-          <span class="diary-date">⏳ ${f.trigger_after_hours || 12}小时后关切</span>
-          <span class="diary-tag">待办事项</span>
+    const followListHtml = followups.length ? followups.map((f, i) => `
+      <div class="diary-card" style="margin-bottom:0; display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+        <div style="flex:1;">
+          <div class="diary-card-top">
+            <span class="diary-date">⏳ ${f.trigger_after_hours || 24}小时后关切</span>
+            <span class="diary-tag">待办事项</span>
+          </div>
+          <div class="diary-content">${f.topic}</div>
         </div>
-        <div class="diary-content">${f.topic}</div>
+        <button class="origami-btn" onclick="deleteFollowUp(${i})" style="padding:2px 6px; font-size:11px; color:#c0392b; border-color:#e74c3c; flex-shrink:0;" title="移除此待办">✕</button>
       </div>
-    `).join('');
+    `).join('') : '<div style="text-align:center; padding:20px; color:var(--text-tertiary); font-size:12px;">当前没有待办事项，可在下方手动安排</div>';
+
+    body.innerHTML = `
+      <div style="font-size:12px; color:var(--brand-primary); font-weight:600; margin-bottom:8px;">⏳ 灵主动挂念的硬仗与关键时点：</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        ${followListHtml}
+      </div>
+      <div style="margin-top:14px; padding:10px; background:var(--paper-surface-sub); border:1px dashed var(--paper-border); border-radius:6px; display:flex; gap:8px;">
+        <input type="text" id="newFollowUpInput" class="origami-input" placeholder="输入灵下周需要主动关照的事项..." style="flex:1; font-size:12px; padding:6px 10px;" onkeydown="if(event.key==='Enter') addManualFollowUp()">
+        <button class="send-action-btn" onclick="addManualFollowUp()" style="padding:6px 14px; font-size:12px; border-radius:4px; flex-shrink:0;">⏰ 安排关照</button>
+      </div>
+    `;
+  }
+}
+
+async function addManualFact() {
+  const input = document.getElementById('newFactInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.disabled = true;
+  try {
+    const res = await fetch('/api/ling/memory/fact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fact: text })
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      input.value = '';
+      await loadMemoryData();
+    } else {
+      alert('添加失败: ' + (data.message || '未知错误'));
+    }
+  } catch(e) {
+    alert('请求失败: ' + e.message);
+  } finally {
+    input.disabled = false;
+    input.focus();
+  }
+}
+
+async function deleteFact(index) {
+  if (!confirm('确定要从灵的底座中移除该事实吗？')) return;
+  try {
+    const res = await fetch('/api/ling/memory/fact/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ index: index })
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      await loadMemoryData();
+    }
+  } catch(e) {
+    alert('移除失败: ' + e.message);
+  }
+}
+
+async function addManualFollowUp() {
+  const input = document.getElementById('newFollowUpInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.disabled = true;
+  try {
+    const res = await fetch('/api/ling/memory/followup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: text, trigger_after_hours: 24 })
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      input.value = '';
+      await loadMemoryData();
+    } else {
+      alert('添加失败: ' + (data.message || '未知错误'));
+    }
+  } catch(e) {
+    alert('请求失败: ' + e.message);
+  } finally {
+    input.disabled = false;
+    input.focus();
+  }
+}
+
+async function deleteFollowUp(index) {
+  if (!confirm('确定要移除该条关怀待办吗？')) return;
+  try {
+    const res = await fetch('/api/ling/memory/followup/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ index: index })
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      await loadMemoryData();
+    }
+  } catch(e) {
+    alert('移除失败: ' + e.message);
   }
 }
 
@@ -871,6 +1089,7 @@ window.onload = () => {
     const saved = localStorage.getItem('stone_theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
   } catch(e) {}
+  loadHistory();
 };
 </script>
 </body>

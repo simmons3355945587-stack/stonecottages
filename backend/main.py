@@ -1515,14 +1515,17 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
             err_data = json.dumps({'error': str(e)})
             yield f'data: {err_data}\n\n'.encode('utf-8')
         finally:
-            if last_user_msg and full_reply and len(last_user_msg.strip()) >= 5:
-                import threading
-                t = threading.Thread(
-                    target=process_ling_memory_update,
-                    args=(last_user_msg, full_reply, api_key),
-                    daemon=True
-                )
-                t.start()
+            if last_user_msg and full_reply:
+                # 自动持久化最新 100 条聊天历史
+                append_ling_chat_history(last_user_msg, full_reply)
+                if len(last_user_msg.strip()) >= 2:
+                    import threading
+                    t = threading.Thread(
+                        target=process_ling_memory_update,
+                        args=(last_user_msg, full_reply, api_key),
+                        daemon=True
+                    )
+                    t.start()
             
     return StreamingResponse(generate(), media_type='text/event-stream')
 
@@ -1530,6 +1533,49 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
 # -------------------------------------------------------------
 # 【灵】高阶结构化心智记忆与私房札记系统 (Ling Structured Memory & Journal)
 # -------------------------------------------------------------
+CHAT_HISTORY_FILE = "/var/www/vocab/data/ling_chat_history.json"
+
+def load_ling_chat_history():
+    if not os.path.exists(CHAT_HISTORY_FILE):
+        return []
+    try:
+        with open(CHAT_HISTORY_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, list) else []
+    except Exception:
+        return []
+
+def save_ling_chat_history(history):
+    try:
+        os.makedirs(os.path.dirname(CHAT_HISTORY_FILE), exist_ok=True)
+        with open(CHAT_HISTORY_FILE, "w", encoding="utf-8") as f:
+            json.dump(history[-100:], f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[History] Save error: {e}")
+
+def append_ling_chat_history(user_text: str, assistant_text: str):
+    import datetime
+    now_ts = int(time.time())
+    now_str = datetime.datetime.now().strftime("%H:%M")
+    history = load_ling_chat_history()
+    history.append({
+        "id": f"msg-{now_ts}-u",
+        "role": "user",
+        "name": "允安",
+        "time": now_str,
+        "content": user_text,
+        "timestamp": now_ts
+    })
+    history.append({
+        "id": f"msg-{now_ts}-a",
+        "role": "assistant",
+        "name": "灵",
+        "time": now_str,
+        "content": assistant_text,
+        "timestamp": now_ts
+    })
+    save_ling_chat_history(history)
+
 MEMORY_FILE = "/var/www/vocab/data/ling_memory.json"
 DIARY_FILE = "/var/www/vocab/data/ling_diary.json"
 
@@ -1596,8 +1642,21 @@ def save_ling_memory(mem):
         print(f"[Memory] Save error: {e}")
 
 def process_ling_memory_update(user_msg: str, assistant_reply: str, api_key: str):
-    if not user_msg or not assistant_reply or len(user_msg.strip()) < 5:
+    if not user_msg or not assistant_reply or len(user_msg.strip()) < 2:
         return
+
+    # 【显式记忆强行捕获（双重兜底保障）】
+    explicit_triggers = ["记住：", "记住:", "记住", "记下：", "记下:", "记下", "别忘：", "别忘了", "提醒我"]
+    for tr in explicit_triggers:
+        if tr in user_msg:
+            sub = user_msg.split(tr, 1)[1].strip()
+            if sub and len(sub) >= 2:
+                mem = load_ling_memory()
+                if sub not in mem.get("facts", []):
+                    mem.setdefault("facts", []).append(sub)
+                    save_ling_memory(mem)
+                    print(f"[Memory] Explicit trigger matched! Pinned fact: {sub}")
+            break
         
     trivial_words = ["喝茶", "在吗", "你好", "早", "晚安", "hi", "hello", "谢谢", "哈哈", "ok", "好的", "还行"]
     if user_msg.strip().lower() in trivial_words:
@@ -1793,3 +1852,81 @@ def add_ling_diary_endpoint(req: NewDiaryRequest):
             }
     except Exception as e:
         return {"status": "error", "message": f"研墨出错: {e}", "entries": load_ling_memory()["diary"]}
+
+
+# -------------------------------------------------------------
+# 灵：聊天历史与手动心智记忆管理 API (History & Manual Memory APIs)
+# -------------------------------------------------------------
+
+@app.get('/api/ling/history')
+def get_ling_history_endpoint():
+    return {"history": load_ling_chat_history()[-100:]}
+
+@app.post('/api/ling/history/clear')
+def clear_ling_history_endpoint():
+    save_ling_chat_history([])
+    return {"status": "ok", "message": "历史对话记录已清空"}
+
+class FactItemRequest(BaseModel):
+    fact: str
+
+class DeleteItemRequest(BaseModel):
+    index: Optional[int] = None
+    item: Optional[str] = None
+
+class FollowUpItemRequest(BaseModel):
+    topic: str
+    trigger_after_hours: Optional[int] = 24
+
+@app.post('/api/ling/memory/fact')
+def add_fact_endpoint(req: FactItemRequest):
+    fact_text = req.fact.strip()
+    if not fact_text:
+        raise HTTPException(status_code=400, detail="事实内容不能为空")
+    mem = load_ling_memory()
+    facts = mem.setdefault("facts", [])
+    if fact_text not in facts:
+        facts.append(fact_text)
+        mem["facts"] = facts[-50:]
+        save_ling_memory(mem)
+    return {"status": "ok", "message": "已刻入灵的心智底座", "facts": mem["facts"]}
+
+@app.post('/api/ling/memory/fact/delete')
+def delete_fact_endpoint(req: DeleteItemRequest):
+    mem = load_ling_memory()
+    facts = mem.get("facts", [])
+    if req.index is not None and 0 <= req.index < len(facts):
+        removed = facts.pop(req.index)
+        save_ling_memory(mem)
+        return {"status": "ok", "message": f"已移除: {removed}", "facts": facts}
+    elif req.item and req.item in facts:
+        facts.remove(req.item)
+        save_ling_memory(mem)
+        return {"status": "ok", "message": f"已移除: {req.item}", "facts": facts}
+    return {"status": "error", "message": "未找到指定事实", "facts": facts}
+
+@app.post('/api/ling/memory/followup')
+def add_followup_endpoint(req: FollowUpItemRequest):
+    topic_text = req.topic.strip()
+    if not topic_text:
+        raise HTTPException(status_code=400, detail="关怀待办内容不能为空")
+    mem = load_ling_memory()
+    follow_ups = mem.setdefault("follow_ups", [])
+    follow_ups.insert(0, {
+        "topic": topic_text,
+        "trigger_after_hours": req.trigger_after_hours or 24,
+        "created_at": int(time.time())
+    })
+    mem["follow_ups"] = follow_ups[:15]
+    save_ling_memory(mem)
+    return {"status": "ok", "message": "已安排主动关怀待办", "follow_ups": mem["follow_ups"]}
+
+@app.post('/api/ling/memory/followup/delete')
+def delete_followup_endpoint(req: DeleteItemRequest):
+    mem = load_ling_memory()
+    follow_ups = mem.get("follow_ups", [])
+    if req.index is not None and 0 <= req.index < len(follow_ups):
+        removed = follow_ups.pop(req.index)
+        save_ling_memory(mem)
+        return {"status": "ok", "message": "已移除关怀待办", "follow_ups": follow_ups}
+    return {"status": "error", "message": "未找到指定待办", "follow_ups": follow_ups}
