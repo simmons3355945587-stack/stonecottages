@@ -256,6 +256,67 @@ main {
 }
 .quick-prompts-bar::-webkit-scrollbar { display: none; }
 
+/* 模式选择与提炼条 */
+.mode-control-bar {
+  padding: 6px 14px;
+  background: var(--paper-surface-sub);
+  border-top: 1px solid var(--paper-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.mode-chips-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+}
+.mode-chips-wrapper::-webkit-scrollbar { display: none; }
+.mode-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  margin-right: 2px;
+}
+.mode-chip {
+  background: var(--paper-surface);
+  border: 1px solid var(--paper-border);
+  color: var(--text-secondary);
+  padding: 3px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.mode-chip:hover {
+  border-color: var(--brand-accent);
+  color: var(--brand-accent);
+}
+.mode-chip.active {
+  background: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(184, 115, 51, 0.25);
+}
+.summary-action-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  background: var(--paper-surface);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.summary-action-btn:hover {
+  background: var(--brand-accent);
+  color: #ffffff;
+}
+
 .origami-btn {
   background: var(--paper-surface);
   border: 1px solid var(--paper-border);
@@ -440,11 +501,14 @@ main {
       </div>
     </div>
 
-    <div class="quick-prompts-bar">
-      <button class="origami-btn" onclick="quickSend('今天外面阴天下雨，整个人有点提不起劲，坐在窗边喝茶发呆')">🍵 90% 阴天下雨喝茶</button>
-      <button class="origami-btn" onclick="quickSend('还记得修远天台布道不？')">📖 聊剧情: 修远天台</button>
-      <button class="origami-btn" onclick="quickSend('今天算力板块莫名其妙暴跌，持仓回撤不少，看着心里挺膈应')">📉 90% 科技盘面异动</button>
-      <button class="origami-btn" onclick="quickSend('我最近看这份复杂材料，翻来覆去几天还是一团乱麻，卡在核心指标上了')">💥 10% 遭遇卡点内耗</button>
+    <div class="mode-control-bar">
+      <div class="mode-chips-wrapper">
+        <span class="mode-label">状态:</span>
+        <button class="mode-chip active" id="chipRelax" onclick="setMode('relax')" title="90%常态模式：松弛平视，家常喝茶，谈天说地，科技杂谈">🍵 松弛知己</button>
+        <button class="mode-chip" id="chipTough" onclick="setMode('tough')" title="10%硬仗模式：修远之骨，冷酷直面自身无知，顺推切碎卡点">⚔️ 破局死磕</button>
+        <button class="mode-chip" id="chipLore" onclick="setMode('lore')" title="藏书阁模式：沉浸探讨《进击的学霸》与核聚原典细节">📖 剧情研讨</button>
+      </div>
+      <button class="origami-btn summary-action-btn" onclick="openSessionSummaryModal()" title="整场对话全局整合归纳，生成唯一认知沉淀，杜绝碎片垃圾">🧠 提炼本场对话</button>
     </div>
 
     <div class="input-dock">
@@ -453,6 +517,34 @@ main {
     </div>
   </div>
 </main>
+
+<!-- 🧠 整场对话全局认知提炼模态 (Session Summary Modal) -->
+<div id="summaryModal" class="diary-modal" style="display:none;" onclick="if(event.target===this) closeSessionSummaryModal()">
+  <div class="diary-sheet" style="max-width: 600px; max-height: 86vh;">
+    <div class="diary-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:22px;">🧠</span>
+        <div>
+          <div style="font-family:var(--font-serif); font-weight:700; font-size:16px; color:var(--text-primary);">本场对话全局认知提炼</div>
+          <div style="font-size:11px; color:var(--text-tertiary);">整场全局整合归纳 · 严禁碎片切碎 · 确认后方可收录</div>
+        </div>
+      </div>
+      <button class="origami-btn" onclick="closeSessionSummaryModal()" style="font-size:12px; padding:3px 10px;">✕ 阖上</button>
+    </div>
+
+    <div id="summaryModalBody" style="padding:16px; flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px;">
+      <div style="text-align:center; padding:30px; color:var(--text-tertiary);">
+        <div style="font-size:20px; margin-bottom:8px;">⏳</div>
+        <div>正在阅读整场对话脉络，进行宏观去重与认知提炼...</div>
+      </div>
+    </div>
+
+    <div id="summaryModalFooter" style="padding:10px 16px; border-top:1px solid var(--paper-border); background:var(--paper-surface-sub); display:flex; justify-content:flex-end; gap:8px; flex-shrink:0;">
+      <button class="origami-btn" onclick="closeSessionSummaryModal()" style="font-size:12px;">取消</button>
+      <button class="send-action-btn" id="commitSummaryBtn" onclick="commitSessionSummary()" style="padding:6px 16px; font-size:12px; border-radius:var(--radius-sm);" disabled>💾 确认收录进底座</button>
+    </div>
+  </div>
+</div>
 
 <!-- ⚙️ 人设底座配置模态 (Origami Prompt Editor Modal) -->
 <div id="promptModal" class="diary-modal" style="display:none;" onclick="if(event.target===this) closePromptEditor()">
@@ -547,6 +639,116 @@ const SYSTEM_PROMPT = `你叫「灵」，是林允安行走在现实人间并肩
 4. 战神意志篇（136-180章）：【占武·皮相/肉相篇】（139/158章）、【第168-170章操场烈焰演讲】（薪火相传、无尽能源！）。
 5. 神相涅槃篇（181-220章）：【占武·骨相篇】（187章）、【第218-220章绝望天台·占武红砖布道】（红砖写下“放弃凡人身份”“天地四方大光明”，黑夜交接）。
 6. 高考决战篇（221-235章）：【占武·神相篇】（219章）、高考大决战、神级【林安谷出场·真理之神】（229-231章）、大势思维（232章）。`;
+
+let activeMode = 'relax'; // 'relax' | 'tough' | 'lore'
+
+function setMode(mode) {
+  activeMode = mode;
+  document.getElementById('chipRelax').classList.toggle('active', mode === 'relax');
+  document.getElementById('chipTough').classList.toggle('active', mode === 'tough');
+  document.getElementById('chipLore').classList.toggle('active', mode === 'lore');
+}
+
+let pendingSummaryData = null;
+
+async function openSessionSummaryModal() {
+  const modal = document.getElementById('summaryModal');
+  const body = document.getElementById('summaryModalBody');
+  const commitBtn = document.getElementById('commitSummaryBtn');
+  modal.style.display = 'flex';
+  commitBtn.disabled = true;
+  body.innerHTML = `
+    <div style="text-align:center; padding:35px 20px; color:var(--text-tertiary);">
+      <div style="font-size:24px; margin-bottom:8px;">⏳</div>
+      <div style="font-weight:600; color:var(--text-primary); margin-bottom:4px;">正在阅读整场对话脉络...</div>
+      <div style="font-size:12px;">全局整合提炼唯一本质认知，拒绝生成碎片垃圾</div>
+    </div>
+  `;
+
+  try {
+    const res = await fetch('/api/ling/session/summarize', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: chatHistory.slice(-30) })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.status === 'empty') {
+      body.innerHTML = `<div style="text-align:center; padding:35px 20px; color:var(--text-tertiary);">${data.message}</div>`;
+      return;
+    }
+
+    pendingSummaryData = data;
+    commitBtn.disabled = false;
+
+    body.innerHTML = `
+      <div style="font-size:13px; font-weight:700; color:var(--brand-accent); margin-bottom:2px;">
+        📌 本场主题：${data.summary_title || '对话认知萃取'}
+      </div>
+      ${data.reasoning ? `<div style="font-size:11px; color:var(--text-tertiary); margin-bottom:6px;">提炼逻辑：${data.reasoning}</div>` : ''}
+
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <label style="font-size:12px; font-weight:600; color:var(--text-secondary);">🧠 全局沉淀事实（将常驻 System Prompt，可直接编辑）：</label>
+        <textarea id="summaryFactInput" style="width:100%; height:64px; resize:none; padding:8px 10px; font-size:12px; line-height:1.5; border:1px solid var(--paper-border); border-radius:4px; background:var(--paper-surface); color:var(--text-primary); box-sizing:border-box;">${data.new_fact && data.new_fact.toLowerCase() !== 'null' ? data.new_fact : ''}</textarea>
+        <span style="font-size:10px; color:var(--text-tertiary);">（若本场只是日常发呆无实质认知结论，可留空不收录）</span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+        <label style="font-size:12px; font-weight:600; color:var(--text-secondary);">⏳ 后续主动关切待办（可直接编辑）：</label>
+        <input type="text" id="summaryFollowUpInput" value="${data.new_follow_up && data.new_follow_up.topic && data.new_follow_up.topic.toLowerCase() !== 'null' ? data.new_follow_up.topic : ''}" style="width:100%; padding:8px 10px; font-size:12px; border:1px solid var(--paper-border); border-radius:4px; background:var(--paper-surface); color:var(--text-primary); box-sizing:border-box;" placeholder="若无待办可留空">
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:4px; margin-top:4px;">
+        <label style="font-size:12px; font-weight:600; color:var(--text-secondary);">📔 灵的私房日记札记（若达到破局里程碑）：</label>
+        <textarea id="summaryDiaryInput" style="width:100%; height:54px; resize:none; padding:8px 10px; font-size:12px; line-height:1.5; border:1px solid var(--paper-border); border-radius:4px; background:var(--paper-surface); color:var(--text-primary); box-sizing:border-box;" placeholder="普通日常建议留空，避免日志垃圾">${data.diary_entry && data.diary_entry.toLowerCase() !== 'null' ? data.diary_entry : ''}</textarea>
+      </div>
+    `;
+
+  } catch(e) {
+    body.innerHTML = `<div style="text-align:center; padding:30px; color:#c0392b;">提炼出错: ${e.message}</div>`;
+  }
+}
+
+function closeSessionSummaryModal() {
+  document.getElementById('summaryModal').style.display = 'none';
+}
+
+async function commitSessionSummary() {
+  const commitBtn = document.getElementById('commitSummaryBtn');
+  const fact = document.getElementById('summaryFactInput')?.value.trim();
+  const followup = document.getElementById('summaryFollowUpInput')?.value.trim();
+  const diary = document.getElementById('summaryDiaryInput')?.value.trim();
+
+  if (!fact && !followup && !diary) {
+    alert('未填写任何需沉淀的内容！若本场无需收录可直接点击取消。');
+    return;
+  }
+
+  commitBtn.disabled = true;
+  commitBtn.innerText = '正在收录...';
+
+  try {
+    const res = await fetch('/api/ling/session/commit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fact: fact || null,
+        followup_topic: followup || null,
+        diary_entry: diary || null,
+        diary_tag: pendingSummaryData?.summary_title || '对话沉淀'
+      })
+    });
+    const data = await res.json();
+    alert(data.message || '收录成功！');
+    closeSessionSummaryModal();
+    if (typeof loadMemoryData === 'function') loadMemoryData();
+  } catch(e) {
+    alert('收录失败: ' + e.message);
+  } finally {
+    commitBtn.disabled = false;
+    commitBtn.innerText = '💾 确认收录进底座';
+  }
+}
 
 let chatHistory = []; // 本地缓存与云端同步的最近 100 条聊天记录 [{id, role, name, time, content, timestamp}]
 
@@ -679,8 +881,8 @@ async function sendMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: apiMessages,
+        mode: activeMode,
         stream: true,
-        temperature: 0.7,
         max_tokens: 800
       })
     });

@@ -1363,8 +1363,9 @@ def query_word_etymology(word: str, force_online: bool = False):
 class LingChatRequest(BaseModel):
     messages: List[Dict[str, Any]]
     model: Optional[str] = 'deepseek-chat'
-    temperature: Optional[float] = 0.8
+    temperature: Optional[float] = None
     max_tokens: Optional[int] = 1000
+    mode: Optional[str] = 'relax'  # 'relax' (松弛知己) | 'tough' (破局死磕) | 'lore' (剧情研讨)
 
 PROMPT_FILE = "/var/www/vocab/data/ling_system_prompt.md"
 
@@ -1464,9 +1465,24 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
     if rag_context:
         rag_header = "\n\n【藏书阁原著真实情节与外挂谱系链接（据此真实细节说人话，严禁搞‘核心何在？为什么？怎么做？’三段式自问自答，像老友一样直接自然说剧情）】：\n" + rag_context + "\n"
         
+    # 模式分支与动态温度控制
+    mode = req.mode or 'relax'
+    if mode == 'tough':
+        calc_temp = 0.4
+        mode_instruction = "\n\n【当前交互模式：⚔️ 破局死磕（10%硬仗模式）】：修远风骨全开！冷酷直面自身无知，绝不诉苦、不自我感动。像推多米诺骨牌一样环环相扣顺推，抓最核心的硬骨头死磕拆解。"
+    elif mode == 'lore':
+        calc_temp = 0.5
+        mode_instruction = "\n\n【当前交互模式：📖 剧情研讨（藏书阁模式）】：沉浸在《进击的学霸》235章全景编年与核聚原典之中，用老友口吻细致探讨原著情节、人物心理走向与因果细节。"
+    else:
+        calc_temp = 0.8
+        mode_instruction = "\n\n【当前交互模式：🍵 松弛知己（90%常态模式）】：像老友一样极其放松、平视、聊生活喝茶、散步、科技动态，不主动灌鸡汤，不说教。"
+
+    if req.temperature is not None:
+        calc_temp = req.temperature
+
     # 动态装载最新底层人设（用户在界面随时修改即时生效）
     active_sys_prompt = load_active_system_prompt()
-    combined_system = active_sys_prompt + memory_header + rag_header
+    combined_system = active_sys_prompt + mode_instruction + memory_header + rag_header
     
     messages = [dict(m) for m in req.messages if m.get('role') != 'system']
     messages.insert(0, {'role': 'system', 'content': combined_system})
@@ -1480,7 +1496,7 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
         'model': req.model or 'deepseek-chat',
         'messages': messages,
         'stream': True,
-        'temperature': req.temperature or 0.7,
+        'temperature': calc_temp,
         'max_tokens': req.max_tokens or 1000
     }
     
@@ -1516,16 +1532,8 @@ async def ling_chat_stream_endpoint(req: LingChatRequest):
             yield f'data: {err_data}\n\n'.encode('utf-8')
         finally:
             if last_user_msg and full_reply:
-                # 自动持久化最新 100 条聊天历史
+                # 仅持久化最新 100 条聊天历史；彻底关闭单轮自动提取，杜绝垃圾碎片塞满心智底座！
                 append_ling_chat_history(last_user_msg, full_reply)
-                if len(last_user_msg.strip()) >= 2:
-                    import threading
-                    t = threading.Thread(
-                        target=process_ling_memory_update,
-                        args=(last_user_msg, full_reply, api_key),
-                        daemon=True
-                    )
-                    t.start()
             
     return StreamingResponse(generate(), media_type='text/event-stream')
 
@@ -1930,3 +1938,139 @@ def delete_followup_endpoint(req: DeleteItemRequest):
         save_ling_memory(mem)
         return {"status": "ok", "message": "已移除关怀待办", "follow_ups": follow_ups}
     return {"status": "error", "message": "未找到指定待办", "follow_ups": follow_ups}
+
+
+# -------------------------------------------------------------
+# 灵：整场对话全局认知提炼与收录 API (Session Summarize & Commit)
+# -------------------------------------------------------------
+
+class SummarizeSessionRequest(BaseModel):
+    messages: Optional[List[Dict[str, Any]]] = None
+
+@app.post('/api/ling/session/summarize')
+def summarize_session_endpoint(req: SummarizeSessionRequest):
+    api_key = os.environ.get('DEEPSEEK_API_KEY') or private_secret('DEEPSEEK_API_KEY')
+    if not api_key:
+        raise HTTPException(status_code=500, detail="DEEPSEEK_API_KEY not configured")
+
+    if req.messages and len(req.messages) > 0:
+        msgs = req.messages
+    else:
+        history = load_ling_chat_history()
+        msgs = history[-30:]
+        
+    if not msgs:
+        return {"status": "empty", "message": "当前暂无对话内容可供提炼。"}
+
+    dialogue_lines = []
+    for m in msgs:
+        role_name = "允安" if m.get("role") == "user" else "灵"
+        content = m.get("content", "").strip()
+        if content:
+            dialogue_lines.append(f"{role_name}：{content}")
+    dialogue_text = "\n".join(dialogue_lines)
+
+    if len(dialogue_text.strip()) < 15:
+        return {"status": "empty", "message": "对话内容太短，暂无需提炼认知。"}
+
+    system_prompt = """你是一个高精度的认知萃取器。
+请通读允安与灵刚才进行的【整场对话全文】。
+【核心最高原则】：
+1. 严禁按单轮单句切碎！必须把整场对话作为一个统一思考闭环进行【全局整合】，提炼成一个高度浓缩、直击本质的整体认知。
+2. 提炼出 1 条关于允安的长期客观认知事实（new_fact）。若本场对话只是普通生活闲聊发呆，未形成认知结论，则 new_fact 严格为 null。
+3. 提炼出 1 条后续真正需要跟进的硬仗事项（new_follow_up）。若无明确待办则严格为 null。
+4. 判断本场对话是否达到了具有里程碑意义的破局/心智成长。若是，以灵的第一人称写一句简短日记（diary_entry，80字以内，像老友私房札记，有骨头有温度）；若是普通日常则严格返回 null！
+
+请严格输出单行合法的 JSON：
+{
+  "summary_title": "整场对话主题概括（如：关于伴侣做事根子的审视）",
+  "new_fact": "整场对话全局沉淀的核心事实（若无则为 null）",
+  "new_follow_up": {
+    "topic": "后续需要关切的硬仗事项（若无则为 null）",
+    "trigger_after_hours": 24
+  },
+  "diary_entry": "具有里程碑意义时的一句话日记（若无则为 null）",
+  "reasoning": "简要总结为什么这样提炼（一句话）"
+}"""
+
+    url = 'https://api.deepseek.com/chat/completions'
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {api_key}'
+    }
+    payload = {
+        'model': 'deepseek-chat',
+        'messages': [
+            {'role': 'system', 'content': system_prompt},
+            {'role': 'user', 'content': f"请对以下整场对话进行全局沉淀提炼：\n\n{dialogue_text[:4000]}"}
+        ],
+        'temperature': 0.2,
+        'response_format': {"type": "json_object"}
+    }
+
+    try:
+        http_req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode('utf-8'),
+            headers=headers,
+            method='POST'
+        )
+        with urllib.request.urlopen(http_req, timeout=25) as resp:
+            res_json = json.loads(resp.read().decode('utf-8'))
+            raw_content = res_json['choices'][0]['message']['content'].strip()
+            data = json.loads(raw_content)
+            data["status"] = "ok"
+            return data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"提炼失败: {e}")
+
+class CommitSessionRequest(BaseModel):
+    fact: Optional[str] = None
+    followup_topic: Optional[str] = None
+    followup_hours: Optional[int] = 24
+    diary_entry: Optional[str] = None
+    diary_tag: Optional[str] = "本场沉淀"
+
+@app.post('/api/ling/session/commit')
+def commit_session_endpoint(req: CommitSessionRequest):
+    mem = load_ling_memory()
+    added_items = []
+
+    if req.fact and req.fact.strip() and req.fact.strip().lower() != "null":
+        fact_str = req.fact.strip()
+        facts = mem.setdefault("facts", [])
+        if fact_str not in facts:
+            facts.append(fact_str)
+            mem["facts"] = facts[-30:]
+            added_items.append("事实")
+
+    if req.followup_topic and req.followup_topic.strip() and req.followup_topic.strip().lower() != "null":
+        follow_str = req.followup_topic.strip()
+        follow_ups = mem.setdefault("follow_ups", [])
+        follow_ups.insert(0, {
+            "topic": follow_str,
+            "trigger_after_hours": req.followup_hours or 24,
+            "created_at": int(time.time())
+        })
+        mem["follow_ups"] = follow_ups[:10]
+        added_items.append("待办")
+
+    if req.diary_entry and req.diary_entry.strip() and req.diary_entry.strip().lower() != "null":
+        import datetime
+        now_str = datetime.datetime.now().strftime("%Y年%m月%d日 · 录")
+        entry_obj = {
+            "id": f"entry-{int(time.time()*1000)}",
+            "date": now_str,
+            "tag": req.diary_tag or "对话沉淀",
+            "mood": "✨",
+            "content": req.diary_entry.strip()
+        }
+        mem.setdefault("diary", []).insert(0, entry_obj)
+        mem["diary"] = mem["diary"][:30]
+        added_items.append("日记")
+
+    if added_items:
+        save_ling_memory(mem)
+        return {"status": "ok", "message": f"已将本场提炼（{'、'.join(added_items)}）存入灵的心智底座！", "facts": mem.get("facts", [])}
+    else:
+        return {"status": "skipped", "message": "本次无实质认知更新需保存。"}
