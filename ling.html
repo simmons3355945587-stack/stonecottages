@@ -147,6 +147,39 @@ header {
   box-shadow: var(--paper-shadow-sm);
 }
 
+@media (max-width: 680px) {
+  header {
+    padding: 6px 10px;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .brand-group {
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .back-home {
+    padding: 2px 6px;
+    font-size: 11px;
+  }
+  .title-text {
+    font-size: 13px;
+  }
+  .status-pill {
+    font-size: 10px;
+    padding: 1px 5px;
+  }
+  .header-actions {
+    gap: 4px !important;
+    flex-shrink: 0;
+  }
+  .header-actions .origami-btn {
+    padding: 3px 6px !important;
+    font-size: 11px !important;
+    white-space: nowrap;
+  }
+}
+
 /* 主内容容器：自适应撑满剩余高度 */
 main {
   flex: 1;
@@ -473,10 +506,10 @@ main {
     <a href="/" class="back-home">🏰 小石屋</a>
     <div class="title-badge">
       <span class="title-text">道友 · 灵</span>
-      <span class="status-pill" style="background:var(--brand-accent); color:#ffffff;">站长 · 允安</span>
+      <span class="status-pill" id="roleStatusPill" style="background:var(--brand-accent); color:#ffffff;">站长 · 允安</span>
     </div>
   </div>
-  <div style="display:flex; gap:8px; align-items:center;">
+  <div class="header-actions" style="display:flex; gap:8px; align-items:center;">
     <button class="origami-btn" id="keyManagerBtn" onclick="openKeyManager()" style="background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);" title="生成与管理道友访客密钥">🔑 密钥分发</button>
     <button class="origami-btn" id="promptEditorBtn" onclick="openPromptEditor()" style="background:var(--paper-surface); font-weight:600; color:var(--text-main); border-color:var(--paper-crease);" title="查看并直接修改底层人设">⚙️ 人设底座</button>
     <button class="origami-btn" id="diaryBtn" onclick="openDiary()" style="background:var(--paper-surface); font-weight:600; color:var(--brand-accent); border-color:var(--brand-accent);" title="灵的私房手记与三大认知模块">📔 偷看日记</button>
@@ -530,6 +563,7 @@ main {
     <input type="text" id="gateKeyInput" class="origami-input" placeholder="输入通关秘钥..." style="width: 100%; box-sizing: border-box; text-align: center; font-family: var(--font-mono); font-size: 14px; padding: 10px; margin-bottom: 12px;" onkeydown="if(event.key==='Enter') submitGateKey()">
     <div id="gateErrorMsg" style="font-size: 12px; color: #c0392b; margin-bottom: 12px; display: none;"></div>
     <button class="send-action-btn" id="gateSubmitBtn" onclick="submitGateKey()" style="width: 100%; padding: 10px; font-size: 13px; border-radius: var(--radius-sm);">叩门进入</button>
+    <button class="origami-btn" onclick="enterAsMaster()" style="width: 100%; margin-top: 10px; padding: 8px; font-size: 12px; background: transparent; border: 1px dashed var(--paper-crease); color: var(--text-secondary);" title="站长一键直通">我是站长允安，直接进入</button>
   </div>
 </div>
 
@@ -689,29 +723,59 @@ const SYSTEM_PROMPT = `你叫「灵」，是林允安行走在现实人间并肩
 5. 神相涅槃篇（181-220章）：【占武·骨相篇】（187章）、【第218-220章绝望天台·占武红砖布道】（红砖写下“放弃凡人身份”“天地四方大光明”，黑夜交接）。
 6. 高考决战篇（221-235章）：【占武·神相篇】（219章）、高考大决战、神级【林安谷出场·真理之神】（229-231章）、大势思维（232章）。`;
 
-let currentAccessKey = '';
-let currentUserRole = 'guest'; // 'master' | 'guest'
-let currentCallerName = '道友';
+let currentAccessKey = 'daoyou-master-yunan';
+let currentUserRole = 'master'; // 'master' | 'guest'
+let currentCallerName = '允安';
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getStorageKey() {
+  if (currentUserRole === 'master') {
+    return 'ling_chat_history_master';
+  }
+  return 'ling_chat_history_guest_' + (currentAccessKey || 'temp');
+}
 
 async function initAuthAndGatekeeper() {
-  // 1. 检查 URL 是否带密钥参数 (?key=xxx)
+  // 1. 检查 URL 是否明确携带密钥参数 (?key=xxx)
   const urlParams = new URLSearchParams(window.location.search);
   const paramKey = urlParams.get('key');
-  if (paramKey) {
-    currentAccessKey = paramKey.trim();
-    try { localStorage.setItem('ling_access_key', currentAccessKey); } catch(e) {}
-    // 清理 URL query
+  let explicitGuestKey = null;
+
+  if (paramKey && paramKey.trim()) {
+    explicitGuestKey = paramKey.trim();
+    try { sessionStorage.setItem('ling_session_key', explicitGuestKey); } catch(e) {}
+    // 清理 URL query，保持地址栏干净
     window.history.replaceState({}, document.title, window.location.pathname);
   } else {
-    try { currentAccessKey = (localStorage.getItem('ling_access_key') || '').trim(); } catch(e) {}
+    // 检查是否存在当前标签页的临时访客 key
+    try {
+      const sess = sessionStorage.getItem('ling_session_key');
+      if (sess && sess.trim()) explicitGuestKey = sess.trim();
+    } catch(e) {}
   }
 
-  // 站长本地默认直通密钥
-  if (!currentAccessKey) {
+  // 2. 如果没有明确的访客 key，或者访客 key 就是站长 master key：
+  // 坚决判定为【站长允安】，全面免密直通，绝不弹叩门窗口！
+  if (!explicitGuestKey || explicitGuestKey === 'daoyou-master-yunan') {
     currentAccessKey = 'daoyou-master-yunan';
+    currentUserRole = 'master';
+    currentCallerName = '允安';
+    applyRoleUI({ role: 'master', name: '允安', remaining: 9999 });
+    loadHistory();
+    return;
   }
 
-  // 2. 校验密钥
+  // 3. 只有当明确携带了非站长 key 时，才向后端校验该道友 key
+  currentAccessKey = explicitGuestKey;
   try {
     const res = await fetch('/api/ling/auth/verify', {
       method: 'POST',
@@ -723,12 +787,19 @@ async function initAuthAndGatekeeper() {
       currentUserRole = authData.role;
       currentCallerName = authData.name || '道友';
       applyRoleUI(authData);
-      initAuthAndGatekeeper();
+      loadHistory();
     } else {
-      showGatekeeper(authData.reason || '通关密钥无效');
+      // 访客密钥无效或已过期：显示叩门窗
+      showGatekeeper(authData.reason || '通关密钥无效或额度已用完');
     }
   } catch(e) {
-    showGatekeeper('网络连接异常: ' + e.message);
+    console.warn('Network error on auth check, gracefully default to master:', e);
+    // 网络异常时，不阻拦用户，默认以站长身份放行
+    currentAccessKey = 'daoyou-master-yunan';
+    currentUserRole = 'master';
+    currentCallerName = '允安';
+    applyRoleUI({ role: 'master', name: '允安', remaining: 9999 });
+    loadHistory();
   }
 }
 
@@ -745,13 +816,13 @@ function applyRoleUI(authData) {
   document.getElementById('gatekeeperModal').style.display = 'none';
   const isMaster = authData.role === 'master';
   
-  // 仅站长可见人设底座修改、偷看日记与密钥管理
+  // 站长可见人设底座修改、偷看日记与密钥管理
   document.getElementById('promptEditorBtn').style.display = isMaster ? 'inline-block' : 'none';
   document.getElementById('diaryBtn').style.display = isMaster ? 'inline-block' : 'none';
   document.getElementById('keyManagerBtn').style.display = isMaster ? 'inline-block' : 'none';
   
   // 顶栏状态徽章
-  const badge = document.querySelector('.status-pill');
+  const badge = document.getElementById('roleStatusPill') || document.querySelector('.status-pill');
   if (badge) {
     if (isMaster) {
       badge.innerText = '站长 · 允安';
@@ -763,6 +834,18 @@ function applyRoleUI(authData) {
       badge.style.color = 'var(--text-secondary)';
     }
   }
+}
+
+function enterAsMaster() {
+  try {
+    sessionStorage.removeItem('ling_session_key');
+    localStorage.removeItem('ling_access_key');
+  } catch(e) {}
+  currentAccessKey = 'daoyou-master-yunan';
+  currentUserRole = 'master';
+  currentCallerName = '允安';
+  applyRoleUI({ role: 'master', name: '允安', remaining: 9999 });
+  loadHistory();
 }
 
 async function submitGateKey() {
@@ -790,8 +873,15 @@ async function submitGateKey() {
     if (authData.valid) {
       currentAccessKey = val;
       currentUserRole = authData.role;
-      currentCallerName = authData.name || '道友';
-      try { localStorage.setItem('ling_access_key', val); } catch(e) {}
+      currentCallerName = authData.name || (authData.role === 'master' ? '允安' : '道友');
+      if (authData.role === 'master') {
+        try {
+          sessionStorage.removeItem('ling_session_key');
+          localStorage.removeItem('ling_access_key');
+        } catch(e) {}
+      } else {
+        try { sessionStorage.setItem('ling_session_key', val); } catch(e) {}
+      }
       applyRoleUI(authData);
       loadHistory();
     } else {
@@ -886,8 +976,14 @@ async function createGuestKey() {
 
 function copyInviteLink(key) {
   const link = `${window.location.origin}/ling?key=${key}`;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(link).catch(() => {});
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(link).then(() => {
+      alert(`已复制道友专属直通链接！\n直接发给道友即可一键进入：\n${link}`);
+    }).catch(() => {
+      prompt('请长按复制道友专属直通链接：', link);
+    });
+  } else {
+    prompt('请长按复制道友专属直通链接：', link);
   }
   return link;
 }
@@ -1068,9 +1164,12 @@ function renderChatHistory() {
 
     const row = document.createElement('div');
     row.className = 'chat-bubble-row ' + (msg.role === 'user' ? 'user' : 'assistant');
+    const safeContent = escapeHtml(msg.content);
+    const safeName = escapeHtml(msg.name || (msg.role === 'user' ? '允安' : '灵'));
+    const safeTime = escapeHtml(msg.time || '');
     row.innerHTML = `
-      <div class="bubble-meta">${msg.name || (msg.role === 'user' ? '允安' : '灵')} · ${msg.time || ''}</div>
-      <div class="bubble-content">${msg.content}</div>
+      <div class="bubble-meta">${safeName} · ${safeTime}</div>
+      <div class="bubble-content">${safeContent}</div>
     `;
     win.appendChild(row);
   });
@@ -1079,9 +1178,14 @@ function renderChatHistory() {
 }
 
 async function loadHistory() {
-  // 1. 本地 LocalStorage 毫秒级秒开渲染（0 等待）
+  const isMaster = (currentUserRole === 'master');
+  const cacheKey = getStorageKey();
+
+  // 1. 本地 Storage 毫秒级秒开渲染（0 等待）
   try {
-    const raw = localStorage.getItem('ling_chat_history_v1');
+    let raw = isMaster 
+      ? (localStorage.getItem(cacheKey) || localStorage.getItem('ling_chat_history_v1')) 
+      : sessionStorage.getItem(cacheKey);
     if (raw) {
       chatHistory = JSON.parse(raw);
       renderChatHistory();
@@ -1090,12 +1194,19 @@ async function loadHistory() {
 
   // 2. 异步向服务器拉取最近 100 条记录同步
   try {
-    const res = await fetch(`/api/ling/history?key=${encodeURIComponent(currentAccessKey)}`);
+    const keyParam = encodeURIComponent(currentAccessKey || 'daoyou-master-yunan');
+    const res = await fetch(`/api/ling/history?key=${keyParam}`);
     if (res.ok) {
       const data = await res.json();
       if (data.history && data.history.length > 0) {
         chatHistory = data.history;
-        try { localStorage.setItem('ling_chat_history_v1', JSON.stringify(chatHistory)); } catch(e) {}
+        try {
+          if (isMaster) {
+            localStorage.setItem(cacheKey, JSON.stringify(chatHistory));
+          } else {
+            sessionStorage.setItem(cacheKey, JSON.stringify(chatHistory));
+          }
+        } catch(e) {}
         renderChatHistory();
       }
     }
@@ -1107,10 +1218,23 @@ async function loadHistory() {
 async function clearChatHistory() {
   if (!confirm('确定要清空当前的聊天记录吗？\n（提示：灵的心智底座、长期事实认知和私房日记均完好保留，仅清空屏幕对话）')) return;
   chatHistory = [];
-  try { localStorage.removeItem('ling_chat_history_v1'); } catch(e) {}
+  try {
+    const isMaster = (currentUserRole === 'master');
+    const cacheKey = getStorageKey();
+    if (isMaster) {
+      localStorage.removeItem(cacheKey);
+      localStorage.removeItem('ling_chat_history_v1');
+    } else {
+      sessionStorage.removeItem(cacheKey);
+    }
+  } catch(e) {}
   renderChatHistory();
   try {
-    await fetch('/api/ling/history/clear', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: currentAccessKey }) });
+    await fetch('/api/ling/history/clear', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: currentAccessKey })
+    });
   } catch(e) {}
 }
 
@@ -1128,14 +1252,19 @@ async function sendMessage() {
   const userMsg = {
     id: 'msg-' + nowTs + '-u',
     role: 'user',
-    name: '允安',
+    name: currentCallerName || '允安',
     time: timeStr,
     content: text,
     timestamp: nowTs
   };
   chatHistory.push(userMsg);
   if (chatHistory.length > 100) chatHistory = chatHistory.slice(-100);
-  try { localStorage.setItem('ling_chat_history_v1', JSON.stringify(chatHistory)); } catch(e) {}
+  try {
+    const isMaster = (currentUserRole === 'master');
+    const cacheKey = getStorageKey();
+    if (isMaster) localStorage.setItem(cacheKey, JSON.stringify(chatHistory));
+    else sessionStorage.setItem(cacheKey, JSON.stringify(chatHistory));
+  } catch(e) {}
 
   renderChatHistory();
 
@@ -1216,7 +1345,12 @@ async function sendMessage() {
     };
     chatHistory.push(assistantMsg);
     if (chatHistory.length > 100) chatHistory = chatHistory.slice(-100);
-    try { localStorage.setItem('ling_chat_history_v1', JSON.stringify(chatHistory)); } catch(e) {}
+    try {
+      const isMaster = (currentUserRole === 'master');
+      const cacheKey = getStorageKey();
+      if (isMaster) localStorage.setItem(cacheKey, JSON.stringify(chatHistory));
+      else sessionStorage.setItem(cacheKey, JSON.stringify(chatHistory));
+    } catch(e) {}
 
   } catch (err) {
     replyBubble.innerText = '网络连接异常: ' + err.message;
@@ -1578,6 +1712,9 @@ window.onload = () => {
     const saved = localStorage.getItem('stone_theme');
     if (saved) document.documentElement.setAttribute('data-theme', saved);
   } catch(e) {}
+  // 1. 优先秒级恢复本地聊天记录（0 等待）
+  loadHistory();
+  // 2. 异步校验身份与权限状态
   initAuthAndGatekeeper();
 };
 </script>
