@@ -4,22 +4,27 @@ function switchDrawerDictTab(tab) {
   currentDrawerDictTab = tab;
   const tabZh = document.getElementById('tabDictZh');
   const tabEn = document.getElementById('tabDictEn');
+  const tabEtym = document.getElementById('tabDictEtym');
   const bodyZh = document.getElementById('dictMeaningsBodyZh');
   const bodyEn = document.getElementById('dictMeaningsBodyEn');
-  
-  if (tabZh && tabEn && bodyZh && bodyEn) {
+  const bodyEtym = document.getElementById('dictMeaningsBodyEtym');
+
+  if (tabZh) tabZh.classList.toggle('active', tab === 'zh');
+  if (tabEn) tabEn.classList.toggle('active', tab === 'en');
+  if (tabEtym) tabEtym.classList.toggle('active', tab === 'etym');
+
+  if (bodyZh) bodyZh.style.display = (tab === 'zh') ? 'block' : 'none';
+  if (bodyEn) bodyEn.style.display = (tab === 'en') ? 'block' : 'none';
+  if (bodyEtym) bodyEtym.style.display = (tab === 'etym') ? 'block' : 'none';
+
+  if (currentLookupWord) {
+    const lookupWord = corrections[currentLookupWord] || currentLookupWord;
     if (tab === 'zh') {
-      tabZh.classList.add('active');
-      tabEn.classList.remove('active');
-      bodyZh.style.display = 'block';
-      bodyEn.style.display = 'none';
-      if(currentLookupWord)fetchZhDefinition(corrections[currentLookupWord]||currentLookupWord,chineseDict[currentLookupWord]||'');
-    } else {
-      tabEn.classList.add('active');
-      tabZh.classList.remove('active');
-      bodyEn.style.display = 'block';
-      bodyZh.style.display = 'none';
-      if(currentLookupWord)fetchStoneEnglish(currentLookupWord);
+      fetchZhDefinition(lookupWord, chineseDict[currentLookupWord] || '');
+    } else if (tab === 'en') {
+      fetchStoneEnglish(currentLookupWord);
+    } else if (tab === 'etym') {
+      fetchWordEtymology(lookupWord);
     }
   }
 }
@@ -101,9 +106,11 @@ async function openWordDetails(word) {
   Stone.warmEnglish();
   speakWord(lookup);
 
-  // 根据设置初始化当前激活的词典 Tab：默认 'en'，设置了中文模式则默认 'zh'
+  // 根据设置初始化当前激活的词典 Tab：默认 'en'，设置了中文模式则默认 'zh' (保留显式指定的 etym 模式)
   if (!document.getElementById('defDrawer')?.classList.contains('open')) {
-    currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
+    if (currentDrawerDictTab !== 'etym') {
+      currentDrawerDictTab = (appSettings.dictLanguageMode === 'zh' || appSettings.showChinese) ? 'zh' : 'en';
+    }
   }
 
   const cambridgeUrl = `https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(lookup)}`;
@@ -160,6 +167,7 @@ async function openWordDetails(word) {
     <div class="origami-tabs" style="margin-bottom:14px; margin-top:8px;">
       <button class="origami-tab-btn ${currentDrawerDictTab === 'zh' ? 'active' : ''}" id="tabDictZh" onclick="switchDrawerDictTab('zh')">🇨🇳 中文详细释义</button>
       <button class="origami-tab-btn ${currentDrawerDictTab === 'en' ? 'active' : ''}" id="tabDictEn" onclick="switchDrawerDictTab('en')">🇬🇧 纯英权威词典</button>
+      <button class="origami-tab-btn ${currentDrawerDictTab === 'etym' ? 'active' : ''}" id="tabDictEtym" onclick="switchDrawerDictTab('etym')">🏛️ 权威词源</button>
     </div>
 
     <!-- 🇨🇳 中文释义视图 -->
@@ -192,6 +200,11 @@ async function openWordDetails(word) {
       </div>
     </div>
 
+    <!-- 🏛️ 词源考据视图 -->
+    <div id="dictMeaningsBodyEtym" style="${currentDrawerDictTab === 'etym' ? 'display:block;' : 'display:none;'} margin-bottom: 20px;">
+      <div id="dictEtymContentContainer" class="stone-etymology-container"></div>
+    </div>
+
     <!-- 生词标记底栏 -->
     <div class="stone-original-mark" style="background: var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:var(--radius-md); padding:14px 16px; display:flex; justify-content:space-between; align-items:center;">
       <div>
@@ -205,10 +218,10 @@ async function openWordDetails(word) {
     </div>
   `;
 
-  // 异步加载中文详细释义
+  // 异步加载对应 Tab 数据
   if(currentDrawerDictTab==='zh')fetchZhDefinition(lookup, commonZh);
-
   if(currentDrawerDictTab==='en')fetchStoneEnglish(safeWord);
+  if(currentDrawerDictTab==='etym')fetchWordEtymology(lookup);
 }
 
 async function fetchStoneEnglish(safeWord){

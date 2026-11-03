@@ -715,12 +715,15 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const target = word || state.currentWord;
     if (!target) return;
     if (typeof openWordDetails === 'function') {
+      if (typeof currentDrawerDictTab !== 'undefined') {
+        currentDrawerDictTab = 'etym';
+      }
       openWordDetails(target);
       setTimeout(() => {
         if (typeof switchDrawerDictTab === 'function') {
           switchDrawerDictTab('etym');
         }
-      }, 100);
+      }, 50);
     } else if (window.StoneEtymology) {
       window.StoneEtymology.fetchEtymology(target).then(res => {
         showToast(`【${target} 词源】\n${res.etymology.slice(0, 150)}...`);
@@ -872,7 +875,7 @@ function close() {
           <div class="flashcard-word-row">
             <h1 class="flashcard-word" id="fcWordTitle" onclick="FlashcardEngine.speakCurrent()">${escapeHtml(word)}</h1>
             <button class="flashcard-speaker-btn" onclick="FlashcardEngine.speakCurrent()" title="发音 (Space)">🔊</button>
-
+            <button type="button" class="btn btn-secondary btn-xs" style="margin-left:6px; border-radius:12px; font-size:11px; padding:2px 8px; vertical-align:middle; cursor:pointer;" onclick="FlashcardEngine.openWordEtymology()" title="查看权威词源演变与历史故事">🏛️ 词源</button>
             <span id="fcMarkCountTag" class="flashcard-mark-tag" ${markCount > 0 ? '' : 'hidden'}>★ Mark ×${markCount}</span>
             ${state.learnedWords.has(word.toLowerCase().trim()) ? `<span class="flashcard-learned-tag">✔ 曾掌握</span>` : ''}
           </div>
@@ -1251,22 +1254,22 @@ function close() {
                 <strong class="compare-def-tag" style="color:var(--text-secondary); font-style:normal; margin-right:6px;">[英文双解]</strong>
                 <span id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">${escapeHtml(enDef || '正在获取英文释义…')}</span>
               </div>
+            `}
 
-              <!-- 🏛️ 词源脉络与故事：原生轻量内嵌，完全融入排版，不跳出打断 -->
-              <div class="flashcard-etym-inline-wrap" style="margin-top:8px; padding-top:6px; border-top:1px dashed var(--paper-border); font-size:12px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none;" onclick="FlashcardEngine.toggleEtymologyDetails()" title="点击展开/折叠词源历史脉络">
-                  <span style="font-weight:700; color:#8b5cf6; display:inline-flex; align-items:center; gap:4px;">
-                    🏛️ [词源脉络] <span id="fcEtymToggleArrow" style="font-size:10px; transition:transform 0.2s;">▸ 展开</span>
-                  </span>
-                  <span id="fcEtymBadge" style="font-size:10px; color:var(--text-secondary); background:rgba(139,92,246,0.08); padding:1px 6px; border-radius:4px;">Etymology Archive</span>
-                </div>
-                <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:8px 10px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; font-family:var(--font-serif); font-size:12.5px; line-height:1.55; color:var(--text-primary);">
-                  <div id="fcEtymBodyText" style="max-height:120px; overflow-y:auto;">
-                    <em>正在加载词源演化考据…</em>
-                  </div>
+            <!-- 🏛️ 词源脉络与故事：原生轻量内嵌，完全融入排版，不跳出打断 (全语言模式统一可用) -->
+            <div class="flashcard-etym-inline-wrap" style="margin-top:8px; padding-top:6px; border-top:1px dashed var(--paper-border); font-size:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none;" onclick="FlashcardEngine.toggleEtymologyDetails()" title="点击展开/折叠词源历史脉络">
+                <span style="font-weight:700; color:#8b5cf6; display:inline-flex; align-items:center; gap:4px;">
+                  🏛️ [词源脉络] <span id="fcEtymToggleArrow" style="font-size:10px; transition:transform 0.2s;">▸ 展开</span>
+                </span>
+                <span id="fcEtymBadge" style="font-size:10px; color:var(--text-secondary); background:rgba(139,92,246,0.08); padding:1px 6px; border-radius:4px;">Etymology Archive</span>
+              </div>
+              <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:8px 10px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; font-family:var(--font-serif); font-size:12.5px; line-height:1.55; color:var(--text-primary);">
+                <div id="fcEtymBodyText" style="max-height:120px; overflow-y:auto;">
+                  <em>正在加载词源演化考据…</em>
                 </div>
               </div>
-            `}
+            </div>
             
             <button type="button" id="fcEnglishRetry" class="btn btn-secondary" hidden style="display:none;margin-top:8px" onclick="FlashcardEngine.retryEnglishDefinition()">重新获取英文释义</button>
           </div>
