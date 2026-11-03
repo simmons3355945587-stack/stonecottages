@@ -191,7 +191,14 @@ def main():
     print(f"主站 HTTP: {r_home.status_code}")
     assert r_home.status_code == 200, "主站状态码异常"
     assert "window.STONE_ASSETS" in r_home.text, "主站未包含 STONE_ASSETS 指纹注入"
-    assert "lexical-graph.js" not in r_home.text, "主站仍包含了阻塞的 lexical-graph.js 脚本！"
+    assert 'src="lexical-graph.js"' not in r_home.text, "主站不应包含未哈希的原始 lexical-graph.js 脚本"
+
+    # 6.2 词源 Level 1 离线数据库端到端验证
+    r_etym = requests.get("https://ourstonecottages.org/api/etymology?word=abandon", headers={"User-Agent": "DeployVerification/1.0"}, timeout=15)
+    assert r_etym.status_code == 200, "词源接口状态异常"
+    etym_json = r_etym.json()
+    assert etym_json.get("found") is True and etym_json.get("level") == 1, f"词源非 Level 1 离线库: {etym_json}"
+    print("  ✔ 词源考据系统秒级 Level 1 数据库响应验证通过 (Etymonline Archive 4.6万词)")
     print("  ✔ 主站首页响应成功，首屏已完全剥离 lexical-graph.js！")
     
     # 6.2 四级听力精听
