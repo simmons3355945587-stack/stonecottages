@@ -55,10 +55,17 @@ test('rendering the result again and duplicate submission cannot commit twice',(
   assert.equal(h.state.todayStats.wrong,1);
   assert.equal(h.marks(),1);
 });
-test('explicit unknown shows reference without automatically adding Mark',()=>{
+test('explicit unknown adds mark if none, and does not add if already marked',()=>{
   const h=setup();
-  h.applyEvaluationResult({correct:false,confidence:0,source:'unknown_giveup',isUnknown:true},'?',[],'重聚');
+  // 1. 无标记时，点击我不清楚：增加标记 (0 -> 1)
   assert.equal(h.marks(),0);
+  h.applyEvaluationResult({correct:false,confidence:0,source:'unknown_giveup',isUnknown:true},'?',[],'重聚');
+  assert.equal(h.marks(),1);
+
+  // 2. 已有一次标记时，再次点击我不清楚：不用再加 (保持 1)
+  h.state.isAnswered = false;
+  h.applyEvaluationResult({correct:false,confidence:0,source:'unknown_giveup',isUnknown:true},'?',[],'重聚');
+  assert.equal(h.marks(),1);
 });
 test('confident rejection automatically adds exactly one Mark',()=>{
   const h=setup();
@@ -155,6 +162,41 @@ test('correct review answers preserve a manual Mark',()=>{
   h.applyEvaluationResult({correct:true,confidence:1},'重聚',[],'重聚');
   assert.equal(h.marks(),1);
   assert.equal(h.state.todayStats.correct,1);
+});
+
+test('review mode: correct answer reduces mark by 1 if marks > 1, but preserves if only 1 mark',()=>{
+  let m = 3;
+  const h = setup(undefined, {
+    getMarkCount() { return m; },
+    addMark() { m++; },
+    reduceMark() { m--; }
+  });
+  h.state.mode = 'review';
+
+  // 1. 初始 3 个 mark，答对减为 2
+  h.applyEvaluationResult({correct:true,confidence:1},'重聚',[],'重聚');
+  assert.equal(m, 2);
+
+  // 2. 当前 2 个 mark，答对减为 1
+  h.state.isAnswered = false;
+  h.applyEvaluationResult({correct:true,confidence:1},'重聚',[],'重聚');
+  assert.equal(m, 1);
+
+  // 3. 当前只有 1 个 mark，答对不再减少，保持 1
+  h.state.isAnswered = false;
+  h.applyEvaluationResult({correct:true,confidence:1},'重聚',[],'重聚');
+  assert.equal(m, 1);
+
+  // 4. study 模式下，即便有两个 mark，答对也不减少
+  let mStudy = 2;
+  const hStudy = setup(undefined, {
+    getMarkCount() { return mStudy; },
+    addMark() { mStudy++; },
+    reduceMark() { mStudy--; }
+  });
+  hStudy.state.mode = 'study';
+  hStudy.applyEvaluationResult({correct:true,confidence:1},'重聚',[],'重聚');
+  assert.equal(mStudy, 2);
 });
 test('uncertain answers may be explicitly marked without changing verdict or statistics',()=>{
   const h=setup();

@@ -151,6 +151,7 @@ window.FlashcardEngine = (() => {
     isAnswered: false,
     lastResult: null,
     lastUserInput: "",
+    lastReviewMarkReduced: false,
     restoreAnswer: null,
     manualMarkBaselines: new Map(),
     learnedWords: new Set(),
@@ -550,6 +551,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     state.currentWord = state.queue[0] || null;
     state.isAnswered = false;
     state.lastResult = null;
+    state.lastReviewMarkReduced = false;
     state.selectedPos = [];
     saveSession();
   }
@@ -804,6 +806,7 @@ function close() {
     state.currentWord = word;
     state.isAnswered = false;
     state.lastResult = null;
+    state.lastReviewMarkReduced = false;
     state.selectedPos = [];
 
     const modal = document.getElementById('flashcardModal');
@@ -1090,12 +1093,17 @@ function close() {
     const word = state.currentWord;
     const standardDef = getStandardDefinition(word);
     const selectedPos = [...state.selectedPos];
+    const wordKey = word.toLowerCase().trim();
+    const currentMarks = typeof getMarkCount === 'function' ? getMarkCount(wordKey) : 0;
+    const reasonText = currentMarks === 0
+      ? '已展开参考释义，已自动加入 Mark'
+      : `已展开参考释义（已有 ${currentMarks} 次 Mark 保留）`;
 
     const result = {
       correct: false,
       confidence: 0,
       source: 'unknown_giveup',
-      reason: '已展开参考释义；需要复习时，请点击 ＋加入 Mark',
+      reason: reasonText,
       isUnknown: true
     };
 
@@ -1168,12 +1176,29 @@ function close() {
       saveLearnedWords();
 
       if (typeof soundSuccess === 'function') soundSuccess();
-      // Mark 由用户手动管理，答对不自动减少历史或本次标记。
+      // 重点词复习的时候，答对一次就减一个 mark，如果只有一个 mark则不再减少 mark
+      if (state.mode === 'review' && typeof getMarkCount === 'function' && typeof reduceMark === 'function') {
+        const currentMarks = getMarkCount(wordKey);
+        if (currentMarks > 1) {
+          reduceMark(wordKey);
+          state.lastReviewMarkReduced = true;
+        } else {
+          state.lastReviewMarkReduced = false;
+        }
+      }
     } else {
       state.todayStats.wrong += 1;
       if (typeof soundFailure === 'function') soundFailure();
-      // 只有明确 REJECT 才自动加 Mark；UNCERTAIN 仍交给用户用 + 决定。
-      if (result.verdict === 'REJECT' && !state.manualMarkBaselines.has(wordKey) && typeof addMark === 'function') addMark(wordKey);
+      // 只有明确 REJECT 才自动加 Mark；我不清楚按规则处理；UNCERTAIN 仍交给用户用 + 决定。
+      if (result.verdict === 'REJECT' && !state.manualMarkBaselines.has(wordKey) && typeof addMark === 'function') {
+        addMark(wordKey);
+      } else if (result.isUnknown && !state.manualMarkBaselines.has(wordKey) && typeof getMarkCount === 'function' && typeof addMark === 'function') {
+        // 点击我不清楚之后，如果没有标记则增加标记，如果有一次标记，就不用再加
+        const currentMarks = getMarkCount(wordKey);
+        if (currentMarks === 0) {
+          addMark(wordKey);
+        }
+      }
     }
     saveDailyStats();
     saveSession();
@@ -1305,7 +1330,7 @@ function close() {
 
   function manualMarkNextLabel() {
     if (state.currentIndex + 1 >= state.queue.length) return '查看本次研习报告 (Enter) ➔';
-    return state.manualMarkBaselines.has(manualMarkKey()) || state.lastResult?.verdict === 'REJECT' ? '下一个 (Enter) ➔' : '不加 Mark，下一词 (Enter) ➔';
+    return state.manualMarkBaselines.has(manualMarkKey()) || state.lastResult?.verdict === 'REJECT' || state.lastResult?.isUnknown || (state.mode === 'review' && state.lastResult?.correct) ? '下一个 (Enter) ➔' : '不加 Mark，下一词 (Enter) ➔';
   }
 
   function updateManualMarkControls() {
@@ -1327,11 +1352,21 @@ function close() {
       undoButton.style.display = added ? '' : 'none';
       undoButton.title = '撤销本次 Mark (快捷键: -)';
     }
-    if (status) status.textContent = added
-      ? `已手动加入，当前 Mark：${count}。可以撤销本次添加。`
-      : state.lastResult?.verdict === 'REJECT'
-        ? `本次判错已自动加入 Mark，当前 Mark：${count}。`
-        : `本次未新增 Mark${count > 0 ? `，已有 ${count} 次标记保留` : ''}。暂不判定时可按 + 手动加入。`;
+    if (status) {
+      if (added) {
+        status.textContent = `已手动加入，当前 Mark：${count}。可以撤销本次添加。`;
+      } else if (state.lastResult?.verdict === 'REJECT') {
+        status.textContent = `本次判错已自动加入 Mark，当前 Mark：${count}。`;
+      } else if (state.lastResult?.isUnknown) {
+        status.textContent = `我不清楚：${count > 1 ? `已有 ${count} 次标记保留（不重复累加）` : count === 1 ? `已自动加入重点生词本，当前 Mark：1` : `当前 Mark：0`}`;
+      } else if (state.mode === 'review' && state.lastResult?.correct) {
+        status.textContent = state.lastReviewMarkReduced
+          ? `重点词复习答对！Mark 减 1，当前 Mark：${count}。`
+          : `重点词复习答对！保留 1 个 Mark（只有一个 Mark 时不再减少）。`;
+      } else {
+        status.textContent = `本次未新增 Mark${count > 0 ? `，已有 ${count} 次标记保留` : ''}。暂不判定时可按 + 手动加入。`;
+      }
+    }
     if (tag) { tag.hidden = count === 0; tag.style.display = count > 0 ? '' : 'none'; tag.textContent = `★ Mark ×${count}`; }
     if (nextButton) {
       nextButton.textContent = manualMarkNextLabel();
