@@ -160,6 +160,7 @@ def main():
         ("frontend/modules/cards/cards-module.js", "/var/www/vocab/modules/cards/cards-module.js"),
         ("frontend/modules/match3/match3-module.js", "/var/www/vocab/modules/match3/match3-module.js"),
         ("frontend/modules/lexicon/lexicon-module.js", "/var/www/vocab/modules/lexicon/lexicon-module.js"),
+        ("frontend/modules/lexicon/word-convey.js", "/var/www/vocab/modules/lexicon/word-convey.js"),
         ("frontend/modules/lexicon/etymology.js", "/var/www/vocab/modules/lexicon/etymology.js"),
         ("frontend/modules/expedition/expedition-module.js", "/var/www/vocab/modules/expedition/expedition-module.js"),
         ("frontend/modules/seasons/seasons-module.js", "/var/www/vocab/modules/seasons/seasons-module.js"),
