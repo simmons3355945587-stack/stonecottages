@@ -74,6 +74,27 @@ test('confident rejection automatically adds exactly one Mark',()=>{
   assert.equal(h.marks(),1);
   assert.equal(h.state.todayStats.wrong,1);
 });
+test('local fast matching accepts synonyms from WORD_SYNONYMS registry in 0ms',()=>{
+  const syns = {
+    'ambition': ['野心', '雄心', '抱负', '志向'],
+    'universe': ['宇宙', '万物', '天地', '世界']
+  };
+  const {verifyLocally}=setup(null, { WORD_SYNONYMS: syns });
+  for(const syn of ['野心', '雄心', '抱负', '志向']) {
+    const res = verifyLocally('ambition', syn, ['n'], 'n. 雄心；野心');
+    assert.equal(res?.correct, true);
+    assert.equal(res?.source, 'local_fast');
+  }
+  for(const syn of ['万物', '天地', '世界']) {
+    const res = verifyLocally('universe', syn, ['n'], 'n. 宇宙');
+    assert.equal(res?.correct, true);
+    assert.equal(res?.source, 'local_fast');
+  }
+  for(const bad of ['不野心', '野', '香蕉']) {
+    assert.equal(verifyLocally('ambition', bad, ['n'], 'n. 雄心；野心'), null);
+  }
+});
+
 test('local exact matching does not accept negations or substrings',()=>{
   const {verifyLocally}=setup();
   assert.equal(verifyLocally('reunite','重聚',['v'],'重聚；重新统一').correct,true);

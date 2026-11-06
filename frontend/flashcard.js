@@ -447,8 +447,25 @@ function verifyLocally(word,input,selectedPos,standardDef) {
   const normalize = value => value.normalize("NFKC").trim().toLowerCase().replace(/\s+/g," ");
   const pos = getStandardPosList(word,standardDef).map(p => p === "vt" || p === "vi" ? "v" : p);
   if (pos.length && selectedPos.some(p => !pos.includes(p))) return null;
+  const normInput = normalize(input);
   const segments = standardDef.replace(/\b(n|v|adj|adv|prep|conj|pron|art|num|int|vt|vi)\./gi, "").split(/[；;、]/).map(normalize);
-  if (segments.includes(normalize(input))) return {correct:true,confidence:1,source:"local_fast",reason:"准确匹配参考释义"};
+  if (segments.includes(normInput)) return {correct:true,confidence:1,source:"local_fast",reason:"准确匹配参考释义"};
+
+  // 核心增强：ECDICT / 近义词库本地极速秒判 (0ms)
+  const cleanWord = (word || '').toLowerCase().trim();
+  let synonyms = [];
+  if (typeof WORD_SYNONYMS !== 'undefined' && Array.isArray(WORD_SYNONYMS[cleanWord])) {
+    synonyms = WORD_SYNONYMS[cleanWord];
+  } else if (typeof WORD_UNIT_META !== 'undefined' && Array.isArray(WORD_UNIT_META[cleanWord]?.synonyms)) {
+    synonyms = WORD_UNIT_META[cleanWord].synonyms;
+  }
+  if (synonyms.length > 0) {
+    const normSyns = synonyms.map(normalize);
+    if (normSyns.includes(normInput)) {
+      return {correct:true,confidence:1,source:"local_fast",reason:"准确匹配近义词库"};
+    }
+  }
+
   return null;
 }
 async function verifyWithJev(word,input,selectedPos,standardDef) {
@@ -734,7 +751,71 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   }
 
   /**
-   * 优雅展开/折叠当前单词的词源脉络
+   * 渲染复刻 convey 的三段式视觉卡片 (Gemini 3.8 Flash 规范)
+   */
+  function renderConveyBody(res) {
+    if (!res || !res.found) {
+      return `<span style="color:var(--text-secondary);">离线词库未收录该词独立演变，可使用抽屉全网搜索。</span>`;
+    }
+    const breakdownText = (res.breakdown && res.literal) ? `${res.breakdown} = ${res.literal}` : (res.roots || res.breakdown || '');
+    const storyText = res.story || '';
+    const chainText = res.chain || res.evolution || '';
+    const rawEtymText = res.raw_etymology || res.etymology_raw || res.raw_etym || '';
+    const hasConvey = Boolean(breakdownText || storyText || chainText);
+
+    if (hasConvey) {
+      const escape = escapeHtml;
+      return `
+        <div class="stone-convey-card" style="line-height:1.65; text-align:left;">
+          ${breakdownText ? `
+            <div style="margin-bottom:6px; display:flex; align-items:baseline; gap:6px;">
+              <span style="font-size:14px; flex-shrink:0;">🧩</span>
+              <div><strong style="color:var(--brand-primary, #4f46e5); font-size:12px;">拆解：</strong><span style="color:var(--text-primary); font-size:12.5px;">${escape(breakdownText)}</span></div>
+            </div>
+          ` : ''}
+          ${storyText ? `
+            <div style="margin-bottom:6px; display:flex; align-items:baseline; gap:6px;">
+              <span style="font-size:14px; flex-shrink:0;">🎬</span>
+              <div><strong style="color:#d97706; font-size:12px;">画面：</strong><span style="color:var(--text-primary); font-size:12.5px;">${escape(storyText)}</span></div>
+            </div>
+          ` : ''}
+          ${chainText ? `
+            <div style="margin-bottom:6px; display:flex; align-items:baseline; gap:6px;">
+              <span style="font-size:14px; flex-shrink:0;">🔗</span>
+              <div><strong style="color:#059669; font-size:12px;">演变：</strong><span style="color:var(--text-primary); font-size:12.5px;">${escape(chainText)}</span></div>
+            </div>
+          ` : ''}
+          ${rawEtymText ? `
+            <div style="margin-top:8px; padding-top:6px; border-top:1px dashed var(--paper-border); display:flex; justify-content:flex-end;">
+              <button type="button" class="btn btn-link btn-xs" style="font-size:11px; color:var(--text-secondary); text-decoration:underline; cursor:pointer; padding:0; background:none; border:none;" onclick="FlashcardEngine.toggleRawEtymology(event)">
+                <span id="fcEtymRawToggleText">查看英文原文 ▸</span>
+              </button>
+            </div>
+            <div id="fcEtymRawContent" style="display:none; margin-top:6px; padding:6px 8px; background:rgba(0,0,0,0.03); border-radius:4px; font-size:11.5px; line-height:1.55; color:var(--text-secondary); font-family:var(--font-serif);">
+              ${escape(rawEtymText)}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+    const paras = (res.etymology || '').split(/\n\n+/).map(p => `<p style="margin-bottom:6px;">${escapeHtml(p)}</p>`).join('');
+    return paras || `<span style="color:var(--text-secondary);">暂无词源详细记录。</span>`;
+  }
+
+  function toggleRawEtymology(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const rawBox = document.getElementById('fcEtymRawContent');
+    const toggleText = document.getElementById('fcEtymRawToggleText');
+    if (!rawBox) return;
+    const isHidden = rawBox.style.display === 'none' || !rawBox.style.display;
+    rawBox.style.display = isHidden ? 'block' : 'none';
+    if (toggleText) {
+      toggleText.textContent = isHidden ? '收起英文原文 ▾' : '查看英文原文 ▸';
+    }
+  }
+
+  /**
+   * 优雅展开/折叠当前单词的词源脉络（三段式视觉卡片）
    */
   function toggleEtymologyDetails() {
     const box = document.getElementById('fcEtymInlineContent');
@@ -746,16 +827,29 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       box.style.display = 'block';
       if (arrow) arrow.textContent = '▾ 收起';
       if (body) {
-        body.innerHTML = '<em>正在检索 4.6 万词离线词源考据...</em>';
         const target = state.currentWord;
+        const cleanTarget = (target || '').toLowerCase().trim();
+
+        // 1. 0ms 本地秒出：优先读取已跑批的离线词源三段式
+        if (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget]) {
+          const localConvey = window.WORD_CONVEY[cleanTarget];
+          body.innerHTML = renderConveyBody({
+            word: cleanTarget,
+            found: true,
+            roots: localConvey.roots,
+            story: localConvey.story,
+            evolution: localConvey.evolution,
+            raw_etymology: localConvey.raw_etym,
+            etymology: localConvey.raw_etym || `${localConvey.roots}\n${localConvey.story}\n${localConvey.evolution}`
+          });
+          return;
+        }
+
+        // 2. 异步 API 检索
+        body.innerHTML = '<em>正在检索 4.6 万词离线词源考据...</em>';
         if (window.StoneEtymology && typeof window.StoneEtymology.fetchEtymology === 'function') {
           window.StoneEtymology.fetchEtymology(target).then(res => {
-            if (res.found && res.etymology) {
-              const paras = res.etymology.split(/\n\n+/).map(p => `<p style="margin-bottom:6px;">${escapeHtml(p)}</p>`).join('');
-              body.innerHTML = paras;
-            } else {
-              body.innerHTML = `<span style="color:var(--text-secondary);">离线词库未收录该词独立演变，可使用抽屉全网搜索。</span>`;
-            }
+            body.innerHTML = renderConveyBody(res);
           }).catch(e => {
             body.innerHTML = `<span style="color:var(--brand-danger);">词源加载失败 (${escapeHtml(e.message)})</span>`;
           });
@@ -1289,8 +1383,8 @@ function close() {
                 </span>
                 <span id="fcEtymBadge" style="font-size:10px; color:var(--text-secondary); background:rgba(139,92,246,0.08); padding:1px 6px; border-radius:4px;">Etymology Archive</span>
               </div>
-              <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:8px 10px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:6px; font-family:var(--font-serif); font-size:12.5px; line-height:1.55; color:var(--text-primary);">
-                <div id="fcEtymBodyText" style="max-height:120px; overflow-y:auto;">
+              <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:10px 12px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:8px; font-family:var(--font-serif); font-size:12.5px; line-height:1.6; color:var(--text-primary);">
+                <div id="fcEtymBodyText">
                   <em>正在加载词源演化考据…</em>
                 </div>
               </div>
@@ -1587,6 +1681,7 @@ function close() {
   return {
     resumeCloudSession,
     toggleEtymologyDetails,
+    toggleRawEtymology,
     openWordEtymology,
     handleFlashcardKeydown,
     retryEnglishDefinition,

@@ -31,6 +31,27 @@
         return this.cache.get(cacheKey);
       }
 
+      // 0. 优先尝试本地离线 convey 缓存 (0ms)
+      if (!forceOnline && window.WORD_CONVEY && window.WORD_CONVEY[cleanWord]) {
+        const local = window.WORD_CONVEY[cleanWord];
+        const res = {
+          word: cleanWord,
+          found: true,
+          roots: local.roots || '',
+          story: local.story || '',
+          evolution: local.evolution || '',
+          raw_etymology: local.raw_etym || '',
+          etymology: local.raw_etym || `${local.roots}\n${local.story}\n${local.evolution}`,
+          synonyms: local.synonyms || [],
+          zh_def: local.zh_def || '',
+          level: 1,
+          source: 'Convey Visual Archive (Offline Fast)',
+          years: []
+        };
+        this.cache.set(cacheKey, res);
+        return res;
+      }
+
       try {
         const url = `/api/etymology?word=${encodeURIComponent(cleanWord)}${forceOnline ? '&force_online=true' : ''}`;
         const resp = await fetch(url);
@@ -40,8 +61,14 @@
         const data = await resp.json();
         const result = {
           word: cleanWord,
-          found: Boolean(data.found && data.etymology),
+          found: Boolean(data.found && (data.etymology || data.roots)),
           etymology: data.etymology || '',
+          roots: data.roots || '',
+          story: data.story || '',
+          evolution: data.evolution || '',
+          raw_etymology: data.raw_etymology || data.etymology || '',
+          synonyms: data.synonyms || [],
+          zh_def: data.zh_def || '',
           level: data.level || (data.found ? 1 : 0),
           source: data.source || (data.level === 1 ? 'Etymonline Archive' : 'Wiktionary'),
           years: data.years || []
@@ -129,21 +156,75 @@
         ? '<span style="background:rgba(34,197,94,0.12); color:#16a34a; border:1px solid rgba(34,197,94,0.3); font-size:11px; padding:2px 8px; border-radius:12px; font-weight:700;">🟢 纯离线秒级库 (Etymonline Archive 4.6万词)</span>'
         : `<span style="background:rgba(59,130,246,0.12); color:#2563eb; border:1px solid rgba(59,130,246,0.3); font-size:11px; padding:2px 8px; border-radius:12px; font-weight:700;">🌐 权威在线扩展 (${escape(data.source)})</span>`;
 
-      const paragraphs = data.etymology.split(/\n\n+/).map(p => `<p style="margin-bottom:8px; line-height:1.65; color:var(--text-primary); font-size:13.5px;">${escape(p)}</p>`).join('');
+      const breakdownText = (data.breakdown && data.literal) ? `${data.breakdown} = ${data.literal}` : (data.roots || data.breakdown || '');
+      const storyText = data.story || '';
+      const chainText = data.chain || data.evolution || '';
+      const rawEtymText = data.raw_etymology || data.etymology_raw || data.raw_etym || '';
+      const hasConvey = Boolean(breakdownText || storyText || chainText);
+      let contentHtml = '';
+      if (hasConvey) {
+        contentHtml = `
+          <div class="stone-convey-card" style="line-height:1.7; font-size:13.5px;">
+            ${breakdownText ? `
+              <div style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:16px; flex-shrink:0;">🧩</span>
+                <div><strong style="color:var(--brand-primary, #4f46e5); font-size:13px;">拆解：</strong><span style="color:var(--text-primary);">${escape(breakdownText)}</span></div>
+              </div>
+            ` : ''}
+            ${storyText ? `
+              <div style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:16px; flex-shrink:0;">🎬</span>
+                <div><strong style="color:#d97706; font-size:13px;">画面：</strong><span style="color:var(--text-primary);">${escape(storyText)}</span></div>
+              </div>
+            ` : ''}
+            ${chainText ? `
+              <div style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px;">
+                <span style="font-size:16px; flex-shrink:0;">🔗</span>
+                <div><strong style="color:#059669; font-size:13px;">演变：</strong><span style="color:var(--text-primary);">${escape(chainText)}</span></div>
+              </div>
+            ` : ''}
+            ${rawEtymText ? `
+              <div style="margin-top:10px; padding-top:8px; border-top:1px dashed var(--paper-border); display:flex; justify-content:flex-end;">
+                <button type="button" class="btn btn-link btn-xs" style="font-size:11.5px; color:var(--text-secondary); text-decoration:underline; cursor:pointer; padding:0; background:none; border:none;" onclick="StoneEtymology.toggleRawDetails(this)">
+                  <span>查看英文原文 ▸</span>
+                </button>
+              </div>
+              <div class="stone-etym-raw-drawer" style="display:none; margin-top:8px; padding:10px; background:rgba(0,0,0,0.03); border-radius:6px; font-size:12.5px; line-height:1.6; color:var(--text-secondary); font-family:var(--font-serif);">
+                ${escape(rawEtymText).split(/\n\n+/).map(p => `<p style="margin-bottom:6px;">${p}</p>`).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      } else {
+        const paragraphs = (data.etymology || '').split(/\n\n+/).map(p => `<p style="margin-bottom:8px; line-height:1.65; color:var(--text-primary); font-size:13.5px;">${escape(p)}</p>`).join('');
+        contentHtml = `<div style="font-family: var(--font-serif); font-size:13.5px;">${paragraphs}</div>`;
+      }
 
       return `
         <div class="stone-etymology-card" style="background:var(--paper-surface-sub); border:1.5px solid var(--paper-border); border-radius:10px; padding:14px; margin-top:10px; text-align:left;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
             <div style="font-size:12px; font-weight:800; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.5px;">
               🏛️ 词源考据与历史脉络
             </div>
             ${badge}
           </div>
-          <div style="font-family: var(--font-serif); font-size:13.5px;">
-            ${paragraphs}
-          </div>
+          ${contentHtml}
         </div>
       `;
+    }
+
+    toggleRawDetails(btn) {
+      if (!btn) return;
+      const card = btn.closest('.stone-convey-card');
+      if (!card) return;
+      const rawDiv = card.querySelector('.stone-etym-raw-drawer');
+      const span = btn.querySelector('span');
+      if (!rawDiv) return;
+      const isHidden = rawDiv.style.display === 'none' || !rawDiv.style.display;
+      rawDiv.style.display = isHidden ? 'block' : 'none';
+      if (span) {
+        span.textContent = isHidden ? '收起英文原文 ▾' : '查看英文原文 ▸';
+      }
     }
 
     async triggerOnlineSearch(word, btnElement) {

@@ -1293,7 +1293,31 @@ def query_word_etymology(word: str, force_online: bool = False):
         try:
             with sqlite3.connect(db_path) as conn:
                 cur = conn.cursor()
-                cur.execute('SELECT word, etym_text, years FROM etymology WHERE word = ?', (clean_word,))
+                # A. 优先查询高精度 convey 三段式视觉卡片
+                try:
+                    cur.execute('SELECT roots, story, evolution, raw_etym, synonyms, zh_def FROM etymology_convey WHERE word = ?', (clean_word,))
+                    convey_row = cur.fetchone()
+                    if convey_row:
+                        roots, story, evolution, raw_etym, syns_raw, zh_def = convey_row
+                        synonyms = json.loads(syns_raw) if syns_raw else []
+                        return {
+                            'word': clean_word,
+                            'found': True,
+                            'level': 1,
+                            'source': 'Etymonline Convey Visual Archive',
+                            'roots': roots,
+                            'story': story,
+                            'evolution': evolution,
+                            'synonyms': synonyms,
+                            'zh_def': zh_def,
+                            'raw_etymology': raw_etym,
+                            'etymology': raw_etym or f"{roots}\n{story}\n{evolution}"
+                        }
+                except Exception as ce:
+                    pass
+
+                # B. 原生离线词源表兜底
+                cur.execute('SELECT word, etym_text, years FROM etymology WHERE word = ? OR word LIKE ?', (clean_word, clean_word + ' (%'))
                 rows = cur.fetchall()
                 if rows:
                     combined_text = '\n\n'.join(r[1] for r in rows if r[1])
@@ -1309,6 +1333,7 @@ def query_word_etymology(word: str, force_online: bool = False):
                         'found': True,
                         'level': 1,
                         'source': 'Etymonline Archive (Official SQLite)',
+                        'raw_etymology': combined_text,
                         'etymology': combined_text,
                         'years': sorted(list(set(years)))
                     }
