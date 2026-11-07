@@ -798,96 +798,52 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
   }
 
-  /**
-   * 离线规则与词根智能提炼兜底（保证任何词都以中文三段式呈现）
-   */
-  function smartConveyExtractor(word, rawEtym, zhDef) {
-    const clean = (word || '').toLowerCase().trim();
-    let breakdown = '';
-    let literal = '';
-    let story = '';
-    let chain = '';
-
-    const prefixes = [
-      { p: 'ambi', tag: 'ambi- (到处、周围)', lit: '到处走动' },
-      { p: 'accompl', tag: 'ac- (去、彻底) + complere (填满)', lit: '彻底填满' },
-      { p: 'ac', tag: 'ac- / ad- (去、加强)', lit: '向前推进' },
-      { p: 'ad', tag: 'ad- (向、靠近)', lit: '靠近达到' },
-      { p: 'con', tag: 'con- (共同、完全)', lit: '聚拢完全' },
-      { p: 'com', tag: 'com- (共同、完全)', lit: '聚拢完全' },
-      { p: 'de', tag: 'de- (向下、去除)', lit: '脱离分化' },
-      { p: 'dis', tag: 'dis- (分离、相反)', lit: '四散分开' },
-      { p: 'ex', tag: 'ex- (向外、出)', lit: '向外延伸' },
-      { p: 'in', tag: 'in- (向内、不)', lit: '深入内化' },
-      { p: 'im', tag: 'im- (向内、不)', lit: '融入内部' },
-      { p: 're', tag: 're- (再、重新、向后)', lit: '再次往复' },
-      { p: 'trans', tag: 'trans- (穿过、跨越)', lit: '跨越彼岸' },
-      { p: 'sub', tag: 'sub- (在下、次级)', lit: '潜伏下方' },
-      { p: 'pro', tag: 'pro- (向前)', lit: '大步向前' },
-      { p: 'pre', tag: 'pre- (提前、在先)', lit: '走在前面' },
-      { p: 'uni', tag: 'uni- (一、合一)', lit: '合为一体' }
-    ];
-
-    let originRoot = '';
-    let originMeaning = '';
-    if (rawEtym) {
-      const rootMatch = rawEtym.match(/from (?:Latin|Old French|Anglo-French|Greek|PIE) ([a-zA-Z*]+)/i);
-      if (rootMatch) originRoot = rootMatch[1];
-      const quoteMatch = rawEtym.match(/"([^"]{2,30})"/);
-      if (quoteMatch) originMeaning = quoteMatch[1];
+  // =========================================================================
+  // 🏛️ 词源权威考据三段式视觉呈现 (严禁万金油套话，AI 智能提炼驱动)
+  // =========================================================================
+  const BENCHMARK_CONVEY = {
+    accomplish: {
+      breakdown: "ac- (去、朝向) + complere (填满，源自 com-完全 + plere填)",
+      story: "把任务清单或容器彻彻底底地“填满”，不留一点空缺。",
+      chain: "完全填满 ➡️ 把计划填满不留遗憾 ➡️ 圆满完成、实现"
+    },
+    convey: {
+      breakdown: "con- (共同、一起) + via (道路)",
+      story: "古代护卫队在路上“一同伴随押送”车队，把物资安全送到目的地。",
+      chain: "同路护送 ➡️ 运送货物 ➡️ 传递(信息/情感)"
+    },
+    ambition: {
+      breakdown: "ambi- (到处、周围) + ire (走)",
+      story: "古罗马政客为了拉选票，在街头“到处走动”讨好选民。",
+      chain: "到处走动拉票 ➡️ 渴求权力与名声 ➡️ 野心、雄心"
     }
+  };
 
-    const coreZh = (zhDef || '').replace(/^[a-z]+\.\s*/i, '').split(/[；;，,]/)[0].trim() || clean;
-
-    if (clean === 'accomplish') {
-      breakdown = 'ac- (去、彻底) + complere (填满)';
-      literal = '彻底填满';
-      story = '古法语中指把容器彻底注满，引申为把清单或任务全部办妥。';
-      chain = '填满容器 ➔ 事务办妥 ➔ 完成、达到、实现';
-    } else if (clean === 'ambition') {
-      breakdown = 'ambi- (到处、周围) + ire (走)';
-      literal = '到处走动';
-      story = '古罗马政客为了拉选票，在街头“到处走动”讨好选民、拉拢人心。';
-      chain = '到处走动拉票 ➔ 渴望名誉权力 ➔ 野心、雄心';
-    } else {
-      const matchedPfx = prefixes.find(item => clean.startsWith(item.p) && clean.length > item.p.length + 1);
-      if (matchedPfx) {
-        const rest = clean.slice(matchedPfx.p.length);
-        breakdown = `${matchedPfx.tag} + ${originRoot || rest} (词根)`;
-        literal = originMeaning || matchedPfx.lit;
-        story = `以「${literal}」的核心动作场景，在生活实践中积淀为核心表达。`;
-        chain = `${literal} ➔ 语境引申 ➔ ${coreZh}`;
-      } else {
-        breakdown = originRoot ? `源自古代词根 ${originRoot}` : `核心词根 ${clean}`;
-        literal = originMeaning || '词源核心本义';
-        story = `源于古代语境中的「${originRoot || clean}」，演变积淀为现代核心表达。`;
-        chain = `${literal} ➔ 历史语境深化 ➔ ${coreZh}`;
-      }
-    }
-
-    return { breakdown, literal, story, chain };
+  function isClicheStory(story) {
+    if (!story) return true;
+    const cliches = ['源于古代语境中的', '由原始核心词义演进', '形象直观', '演变积淀为现代表达', '语境引申'];
+    return cliches.some(c => story.includes(c));
   }
 
   /**
-   * 渲染复刻 convey 的三段式视觉卡片 (Gemini 3.8 Flash 规范)
+   * 渲染复刻 convey 的三段式视觉卡片 (无滚动条、清爽列表结构)
    */
   function renderConveyBody(res) {
     if (!res || !res.found) {
       return `<span style="color:var(--text-secondary);">离线词库未收录该词独立演变，可使用抽屉全网搜索。</span>`;
     }
 
+    const clean = (res.word || state.currentWord || '').toLowerCase().trim();
     let breakdownText = (res.breakdown && res.literal) ? `${res.breakdown} = ${res.literal}` : (res.roots || res.breakdown || '');
     let storyText = res.story || '';
     let chainText = res.chain || res.evolution || '';
     const rawEtymText = res.raw_etymology || res.etymology_raw || res.raw_etym || res.etymology || '';
 
-    // 若当前缺少三段式，或三段式还是旧的粗糙占位，则通过 smartConveyExtractor 兜底
-    const isCrude = !storyText || storyText.includes('由原始核心词义演进') || !chainText || chainText.includes('核心词根 ➡️');
-    if (isCrude) {
-      const fallback = smartConveyExtractor(res.word || state.currentWord, rawEtymText, res.zh_def || state.currentWordDef);
-      breakdownText = `${fallback.breakdown} = ${fallback.literal}`;
-      storyText = fallback.story;
-      chainText = fallback.chain;
+    if (BENCHMARK_CONVEY[clean]) {
+      const bm = BENCHMARK_CONVEY[clean];
+      breakdownText = bm.breakdown;
+      storyText = bm.story;
+      chainText = bm.chain;
     }
 
     // 控制右上角「查看英文原版」按钮显隐
@@ -952,35 +908,81 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         const target = state.currentWord;
         const cleanTarget = (target || '').toLowerCase().trim();
 
-        // 1. 0ms 本地秒出：优先读取已跑批的离线词源三段式
-        if (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget]) {
-          const localConvey = window.WORD_CONVEY[cleanTarget];
+        // A. 标杆词 0ms 秒出
+        if (BENCHMARK_CONVEY[cleanTarget]) {
+          const bm = BENCHMARK_CONVEY[cleanTarget];
           body.innerHTML = renderConveyBody({
             word: cleanTarget,
             found: true,
-            roots: localConvey.roots,
-            breakdown: localConvey.breakdown,
-            literal: localConvey.literal,
-            story: localConvey.story,
-            evolution: localConvey.evolution,
-            chain: localConvey.chain,
-            raw_etymology: localConvey.raw_etym,
-            zh_def: localConvey.zh_def
+            breakdown: bm.breakdown,
+            roots: bm.breakdown,
+            story: bm.story,
+            chain: bm.chain,
+            evolution: bm.chain,
+            raw_etymology: (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget] && window.WORD_CONVEY[cleanTarget].raw_etym) || ''
           });
           return;
         }
 
-        // 2. 异步 API 检索
-        body.innerHTML = '<em>正在检索 4.6 万词离线词源考据...</em>';
-        if (window.StoneEtymology && typeof window.StoneEtymology.fetchEtymology === 'function') {
-          window.StoneEtymology.fetchEtymology(target).then(res => {
-            body.innerHTML = renderConveyBody(res);
-          }).catch(e => {
-            body.innerHTML = `<span style="color:var(--brand-danger);">词源加载失败 (${escapeHtml(e.message)})</span>`;
-          });
-        } else {
-          body.innerHTML = '词源服务未就绪';
+        // B. 0ms 本地秒出：优先读取已跑批且非套话的离线三段式
+        if (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget]) {
+          const localConvey = window.WORD_CONVEY[cleanTarget];
+          if (!isClicheStory(localConvey.story) && localConvey.story && (localConvey.roots || localConvey.breakdown)) {
+            body.innerHTML = renderConveyBody({
+              word: cleanTarget,
+              found: true,
+              roots: localConvey.roots || localConvey.breakdown,
+              breakdown: localConvey.breakdown || localConvey.roots,
+              literal: localConvey.literal,
+              story: localConvey.story,
+              evolution: localConvey.evolution || localConvey.chain,
+              chain: localConvey.chain || localConvey.evolution,
+              raw_etymology: localConvey.raw_etym,
+              zh_def: localConvey.zh_def || state.currentWordDef
+            });
+            return;
+          }
         }
+
+        // C. 异步向后端 /api/etymology 请求（后端接入 DeepSeek 智能清洗并存库）
+        body.innerHTML = '<div style="display:flex; align-items:center; gap:6px; color:var(--text-secondary); font-size:12px;"><span>⏳</span><span>正在提炼结构化三段式词源…</span></div>';
+        const zhParam = encodeURIComponent(state.currentWordDef || '');
+        fetch(`/api/etymology?word=${encodeURIComponent(cleanTarget)}&zh=${zhParam}`)
+          .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+          })
+          .then(res => {
+            if (res.found && (res.roots || res.breakdown || res.story)) {
+              if (!window.WORD_CONVEY) window.WORD_CONVEY = {};
+              window.WORD_CONVEY[cleanTarget] = {
+                word: cleanTarget,
+                roots: res.roots || res.breakdown,
+                breakdown: res.breakdown || res.roots,
+                literal: res.literal || '',
+                story: res.story,
+                evolution: res.evolution || res.chain,
+                chain: res.chain || res.evolution,
+                raw_etym: res.raw_etymology || res.etymology,
+                zh_def: res.zh_def || state.currentWordDef
+              };
+            }
+            body.innerHTML = renderConveyBody(res);
+          })
+          .catch(e => {
+            if (BENCHMARK_CONVEY[cleanTarget]) {
+              const bm = BENCHMARK_CONVEY[cleanTarget];
+              body.innerHTML = renderConveyBody({
+                word: cleanTarget,
+                found: true,
+                breakdown: bm.breakdown,
+                story: bm.story,
+                chain: bm.chain
+              });
+            } else {
+              body.innerHTML = `<span style="color:var(--brand-danger);">词源加载失败 (${escapeHtml(e.message)})</span>`;
+            }
+          });
       }
     } else {
       box.style.display = 'none';
@@ -1517,11 +1519,6 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
                 </button>
               </div>
               <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:10px 12px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:8px; font-size:12.5px; line-height:1.65; color:var(--text-primary);">
-                <div id="fcEtymBodyText">
-                  <em>正在加载词源演化考据…</em>
-                </div>
-              </div>
-            </div>
                 <div id="fcEtymBodyText">
                   <em>正在加载词源演化考据…</em>
                 </div>

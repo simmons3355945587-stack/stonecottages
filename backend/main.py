@@ -1265,7 +1265,7 @@ def put_flashcard_progress(req: FlashcardProgressReq,user: dict = Depends(get_cu
         return {"revision":revision+1,"status":"synced"}
 
 # ============================================================================
-# 🏛️ 词源权威考据 API (Etymology Gateway - 4.6万离线库 + 在线降级)
+# 🏛️ 词源权威考据 API (Etymology Gateway - 4.6万离线库 + DeepSeek 智能提炼)
 # ============================================================================
 ETYMOLOGY_DB_CANDIDATES = [
     os.environ.get('ETYMOLOGY_DB_PATH', ''),
@@ -1275,6 +1275,79 @@ ETYMOLOGY_DB_CANDIDATES = [
     os.path.join(os.path.dirname(__file__), 'etymology.db')
 ]
 
+DEEPSEEK_ETYMOLOGY_SYSTEM_PROMPT = """你是一位精通英语词源学与记忆法的专家。请根据提供的【单词】、【中文释义】和【Etymonline原始英文】，提炼出帮助学生秒记单词的中文三段式词源（输出纯 JSON）。
+
+【核心约束（严禁违反）】：
+1. 完整性：拆解必须包含【前缀 + 核心词根】，严禁只提取第一个前缀（如 accomplish 必须提取 ad- + complere，不能只提 ad-）！并将原始英文中的引号释义全部翻译为简练中文，严禁残留孤立的英文单词（如 "to"）。
+2. 禁绝套话：严禁出现“源于古代语境中的…”、“形象直观”、“引申扩展”等任何万金油废话！
+3. 画面感：画面记忆必须把词根组合的字面动作变成一句具体的生活场景（15~30字）。
+4. 逻辑闭环：语义演变必须写出真实的动作过渡逻辑，不能用“引申扩展”跳过中间过程。
+
+【Few-Shot 标杆示例】：
+示例1 (accomplish):
+{
+  "breakdown": "ac- (去、朝向) + complere (填满，源自 com-完全 + plere填)",
+  "story": "把任务清单或容器彻彻底底地“填满”，不留一点空缺。",
+  "chain": "完全填满 ➡️ 把计划填满不留遗憾 ➡️ 圆满完成、实现"
+}
+
+示例2 (convey):
+{
+  "breakdown": "con- (共同、一起) + via (道路)",
+  "story": "古代护卫队在路上“一同伴随押送”车队，把物资安全送到目的地。",
+  "chain": "同路护送 ➡️ 运送货物 ➡️ 传递(信息/情感)"
+}
+
+示例3 (ambition):
+{
+  "breakdown": "ambi- (到处、周围) + ire (走)",
+  "story": "古罗马政客为了拉选票，在街头“到处走动”讨好选民。",
+  "chain": "到处走动拉票 ➡️ 渴求权力与名声 ➡️ 野心、雄心"
+}"""
+
+def call_deepseek_etymology_cleaner(word: str, zh_def: str, raw_etym: str) -> Optional[Dict[str, str]]:
+    api_key = os.environ.get('DEEPSEEK_API_KEY') or private_secret('DEEPSEEK_API_KEY')
+    if not api_key or not raw_etym:
+        return None
+    user_content = f"单词: {word}\n中文释义: {zh_def or '未提供'}\nEtymonline原始英文: {raw_etym}"
+    try:
+        url = 'https://api.deepseek.com/chat/completions'
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {api_key}'
+        }
+        payload = {
+            'model': 'deepseek-chat',
+            'messages': [
+                {'role': 'system', 'content': DEEPSEEK_ETYMOLOGY_SYSTEM_PROMPT},
+                {'role': 'user', 'content': user_content}
+            ],
+            'response_format': {'type': 'json_object'},
+            'temperature': 0.2,
+            'max_tokens': 500
+        }
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode('utf-8'),
+            headers=headers
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            content = data['choices'][0]['message']['content'].strip()
+            parsed = json.loads(content)
+            breakdown = parsed.get('breakdown', '').strip()
+            story = parsed.get('story', '').strip()
+            chain = parsed.get('chain', '').strip()
+            if breakdown and story and chain:
+                return {
+                    'breakdown': breakdown,
+                    'story': story,
+                    'chain': chain
+                }
+    except Exception as e:
+        print(f"[Etymology DeepSeek] Error for {word}: {e}")
+    return None
+
 def find_etymology_db():
     for p in ETYMOLOGY_DB_CANDIDATES:
         if p and os.path.isfile(p):
@@ -1282,96 +1355,140 @@ def find_etymology_db():
     return None
 
 @app.get('/api/etymology')
-def query_word_etymology(word: str, force_online: bool = False):
+def query_word_etymology(word: str, force_online: bool = False, zh: Optional[str] = None):
     clean_word = (word or '').strip().lower()
     if not clean_word:
         return {'found': False, 'etymology': 'Empty word provided', 'level': 0}
 
-    # 1. 优先查 Level 1 离线 SQLite 数据库
     db_path = find_etymology_db()
+    raw_etym_found = ''
+    years_found = []
+
+    # 1. 优先查 Level 1 离线 SQLite 数据库
     if db_path and not force_online:
         try:
             with sqlite3.connect(db_path) as conn:
                 cur = conn.cursor()
-                # A. 优先查询高精度 convey 三段式视觉卡片
+                # A. 优先查询高精度 convey 三段式视觉卡片（必须排除旧套话）
                 try:
                     cur.execute('SELECT roots, story, evolution, raw_etym, synonyms, zh_def FROM etymology_convey WHERE word = ?', (clean_word,))
                     convey_row = cur.fetchone()
                     if convey_row:
                         roots, story, evolution, raw_etym, syns_raw, zh_def = convey_row
-                        synonyms = json.loads(syns_raw) if syns_raw else []
-                        return {
-                            'word': clean_word,
-                            'found': True,
-                            'level': 1,
-                            'source': 'Etymonline Convey Visual Archive',
-                            'roots': roots,
-                            'story': story,
-                            'evolution': evolution,
-                            'synonyms': synonyms,
-                            'zh_def': zh_def,
-                            'raw_etymology': raw_etym,
-                            'etymology': raw_etym or f"{roots}\n{story}\n{evolution}"
-                        }
+                        raw_etym_found = raw_etym or ''
+                        is_cliche = any(bad in (story or '') for bad in ['源于古代语境中的', '由原始核心词义演进', '形象直观', '演变积淀为现代表达'])
+                        if not is_cliche and roots and story and evolution:
+                            synonyms = json.loads(syns_raw) if syns_raw else []
+                            return {
+                                'word': clean_word,
+                                'found': True,
+                                'level': 1,
+                                'source': 'Etymonline Convey Visual Archive',
+                                'roots': roots,
+                                'breakdown': roots,
+                                'story': story,
+                                'evolution': evolution,
+                                'chain': evolution,
+                                'synonyms': synonyms,
+                                'zh_def': zh_def or zh or '',
+                                'raw_etymology': raw_etym,
+                                'etymology': raw_etym or f"{roots}\n{story}\n{evolution}"
+                            }
                 except Exception as ce:
                     pass
 
-                # B. 原生离线词源表兜底
-                cur.execute('SELECT word, etym_text, years FROM etymology WHERE word = ? OR word LIKE ?', (clean_word, clean_word + ' (%'))
-                rows = cur.fetchall()
-                if rows:
-                    combined_text = '\n\n'.join(r[1] for r in rows if r[1])
-                    years = []
-                    for r in rows:
-                        if r[2]:
-                            try:
-                                years.extend(json.loads(r[2]))
-                            except Exception:
-                                pass
-                    return {
-                        'word': clean_word,
-                        'found': True,
-                        'level': 1,
-                        'source': 'Etymonline Archive (Official SQLite)',
-                        'raw_etymology': combined_text,
-                        'etymology': combined_text,
-                        'years': sorted(list(set(years)))
-                    }
+                # B. 原生离线词源表获取 raw_etymology
+                if not raw_etym_found:
+                    cur.execute('SELECT word, etym_text, years FROM etymology WHERE word = ? OR word LIKE ?', (clean_word, clean_word + ' (%'))
+                    rows = cur.fetchall()
+                    if rows:
+                        raw_etym_found = '\n\n'.join(r[1] for r in rows if r[1])
+                        for r in rows:
+                            if r[2]:
+                                try:
+                                    years_found.extend(json.loads(r[2]))
+                                except Exception:
+                                    pass
         except Exception as e:
             print(f'[Etymology] Local lookup error for {clean_word}: {e}')
 
     # 2. Level 2 在线 Wiktionary 官方 API 降级
-    try:
-        import urllib.request, urllib.parse
-        params = {
-            'action': 'parse',
-            'page': clean_word,
-            'prop': 'wikitext',
-            'format': 'json',
-            'origin': '*'
+    if not raw_etym_found:
+        try:
+            params = {
+                'action': 'parse',
+                'page': clean_word,
+                'prop': 'wikitext',
+                'format': 'json',
+                'origin': '*'
+            }
+            url = f'https://en.wiktionary.org/w/api.php?{urllib.parse.urlencode(params)}'
+            req = urllib.request.Request(url, headers={'User-Agent': 'StoneCottages/1.0 (Educational Word Study)'})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+                wikitext = data.get('parse', {}).get('wikitext', {}).get('*', '')
+                m = re.search(r'===Etymology(?:\s*\d+)?===([\s\S]*?)(?=\n===|\n==|$)', wikitext, re.IGNORECASE)
+                if m and m.group(1):
+                    raw = m.group(1)
+                    raw = re.sub(r'\{\{[^}]+\}\}', '', raw)
+                    raw = re.sub(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]', r'\1', raw)
+                    raw = raw.replace("'''", "").replace("''", "").strip()
+                    if len(raw) > 10:
+                        raw_etym_found = raw
+        except Exception as e:
+            print(f'[Etymology] Online fallback error for {clean_word}: {e}')
+
+    # 3. 得到 raw_etymology 后，使用 DeepSeek API 进行智能三段式提炼（并持久化存库）
+    if raw_etym_found:
+        effective_zh = zh or ''
+        ai_res = call_deepseek_etymology_cleaner(clean_word, effective_zh, raw_etym_found)
+        if ai_res:
+            breakdown = ai_res['breakdown']
+            story = ai_res['story']
+            chain = ai_res['chain']
+            if db_path:
+                try:
+                    with sqlite3.connect(db_path) as conn:
+                        conn.execute("""
+                            INSERT INTO etymology_convey (word, roots, story, evolution, raw_etym, synonyms, zh_def, updated_at)
+                            VALUES (?, ?, ?, ?, ?, '[]', ?, CURRENT_TIMESTAMP)
+                            ON CONFLICT(word) DO UPDATE SET
+                                roots=excluded.roots,
+                                story=excluded.story,
+                                evolution=excluded.evolution,
+                                raw_etym=excluded.raw_etym,
+                                zh_def=excluded.zh_def,
+                                updated_at=CURRENT_TIMESTAMP
+                        """, (clean_word, breakdown, story, chain, raw_etym_found, effective_zh))
+                except Exception as se:
+                    print(f"[Etymology] Save to DB failed: {se}")
+
+            return {
+                'word': clean_word,
+                'found': True,
+                'level': 1,
+                'source': 'DeepSeek Etymonline AI Engine',
+                'roots': breakdown,
+                'breakdown': breakdown,
+                'story': story,
+                'evolution': chain,
+                'chain': chain,
+                'raw_etymology': raw_etym_found,
+                'etymology': raw_etym_found,
+                'synonyms': [],
+                'zh_def': effective_zh,
+                'years': sorted(list(set(years_found)))
+            }
+
+        return {
+            'word': clean_word,
+            'found': True,
+            'level': 1,
+            'source': 'Etymonline Archive (Raw)',
+            'raw_etymology': raw_etym_found,
+            'etymology': raw_etym_found,
+            'years': sorted(list(set(years_found)))
         }
-        url = f'https://en.wiktionary.org/w/api.php?{urllib.parse.urlencode(params)}'
-        req = urllib.request.Request(url, headers={'User-Agent': 'StoneCottages/1.0 (Educational Word Study)'})
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            data = json.loads(resp.read().decode('utf-8'))
-            wikitext = data.get('parse', {}).get('wikitext', {}).get('*', '')
-            import re
-            m = re.search(r'===Etymology(?:\s*\d+)?===([\s\S]*?)(?=\n===|\n==|$)', wikitext, re.IGNORECASE)
-            if m and m.group(1):
-                raw = m.group(1)
-                raw = re.sub(r'\{\{[^}]+\}\}', '', raw)
-                raw = re.sub(r'\[\[(?:[^|\]]*\|)?([^\]]+)\]\]', r'\1', raw)
-                raw = raw.replace("'''", '').replace("''", '').strip()
-                if len(raw) > 10:
-                    return {
-                        'word': clean_word,
-                        'found': True,
-                        'level': 2,
-                        'source': 'Wiktionary (Online API)',
-                        'etymology': raw
-                    }
-    except Exception as e:
-        print(f'[Etymology] Online fallback error for {clean_word}: {e}')
 
     return {
         'word': clean_word,
