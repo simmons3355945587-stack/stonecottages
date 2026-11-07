@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""
+r"""
 Our Stone Cottages 生产环境自动化零停机部署脚本
 从 F:\cluade-products\scripts\vocab-survival-repo 推送至 BandwagonHost VPS
 """
@@ -28,18 +28,27 @@ BWH_API_KEY = os.environ.get("STONE_BWH_API_KEY") or _local_config.get("STONE_BW
 API_URL = "https://api.64clouds.com/v1/basicShell/exec"
 REPO_DIR = r"F:\cluade-products\scripts\vocab-survival-repo"
 
-def exec_cmd(cmd: str, timeout: int = 40) -> dict:
-    resp = requests.post(API_URL, data={
-        "veid": BWH_VEID,
-        "api_key": BWH_API_KEY,
-        "command": cmd
-    }, timeout=timeout)
-    if resp.status_code != 200:
-        raise RuntimeError(f"Hosting HTTP status: {resp.status_code}")
-    res = resp.json()
-    if res.get("error") != 0:
-        raise RuntimeError(f"Hosting command failed: {res.get('message', '')}")
-    return res
+def exec_cmd(cmd: str, timeout: int = 45, retries: int = 4) -> dict:
+    last_err = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.post(API_URL, data={
+                "veid": BWH_VEID,
+                "api_key": BWH_API_KEY,
+                "command": cmd
+            }, timeout=timeout)
+            if resp.status_code != 200:
+                raise RuntimeError(f"Hosting HTTP status: {resp.status_code}")
+            res = resp.json()
+            if res.get("error") != 0:
+                raise RuntimeError(f"Hosting command failed: {res.get('message', '')}")
+            return res
+        except Exception as e:
+            last_err = e
+            if attempt == retries:
+                raise
+            time.sleep(1.0 * attempt)
+    raise last_err
 
 def upload_single_file(local_path: str, remote_path: str, mode: str = "644"):
     with open(local_path, "rb") as f:
@@ -48,7 +57,7 @@ def upload_single_file(local_path: str, remote_path: str, mode: str = "644"):
     b64_str = base64.b64encode(gzipped).decode("ascii")
     
     tmp_file = f"/tmp/up_{int(time.time()*1000)}_{os.path.basename(remote_path)}"
-    chunk_size = 8000
+    chunk_size = 20000
     total_chunks = (len(b64_str) + chunk_size - 1) // chunk_size
     
     exec_cmd(f"rm -f {tmp_file}.b64")
@@ -93,7 +102,7 @@ def deploy_assets():
     tmp_base = f"/tmp/assets_bundle_{int(time.time())}"
     exec_cmd(f"rm -f {tmp_base}.*")
     
-    chunk_size = 8000
+    chunk_size = 20000
     total_chunks = (len(b64_str) + chunk_size - 1) // chunk_size
     print(f"分块上传: 总分块数 {total_chunks}")
     for i in range(total_chunks):
