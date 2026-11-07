@@ -1,0 +1,7 @@
+*.gz
+*.tar.gz
+*.db
+*.sqlite
+*.sqlite3
+*.env
+secrets.json
