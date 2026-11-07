@@ -18,7 +18,7 @@ function setup(fetchImpl, options={}) {
   Object.assign(context,options);
   vm.createContext(context);
   let code = readFileSync(process.env.FLASHCARD_SOURCE || path.join(__dirname,'..','frontend','flashcard.js'),'utf8').replace(/\r\n/g,'\n');
-  code = code.replace('  return {\n    resumeCloudSession,', '  window.__test={state,judgmentGate,verifyLocally,verifyWithJev,applyEvaluationResult,initQueue,renderFinishedState,getStudyScopeKey};\n  return {\n    resumeCloudSession,');
+  code = code.replace('  return {\n    resumeCloudSession,', '  window.__test={state,judgmentGate,verifyLocally,verifyWithJev,applyEvaluationResult,initQueue,renderFinishedState,getStudyScopeKey,formatEnglishDefHtml,formatChineseDefHtml};\n  return {\n    resumeCloudSession,');
   vm.runInContext(code, context);
   context.window.__test.state.currentWord='reunite';
   context.window.__test.state.isOpen=true;
@@ -525,4 +525,41 @@ test('review queue contains only marked words and never pads with ordinary vocab
   h.state.mode='review';
   h.initQueue();
   assert.deepEqual(Array.from(h.state.queue),['draft','reverse']);
+});
+
+
+test('full extracts all pos [n. / a.] and cleans newline escapes into structured badges', () => {
+  const h = setup();
+  const panel = { style: {}, innerHTML: '' };
+  h.elements.set('fcResultPanel', panel);
+  h.elements.set('flashcardBox', { classList: { remove() {}, add() {} } });
+  h.state.currentWord = 'full';
+  h.applyEvaluationResult(
+    { correct: true, confidence: 1, reason: '准确匹配' },
+    '满的',
+    [],
+    'n. 全部；完整\\na. 充满的；完全的；丰富的'
+  );
+  // 1. 验证考纲词性提取了全部词性 [n. / a.]
+  assert.match(panel.innerHTML, /\[n\.\s*\/\s*a\.\]/);
+  // 2. 验证消除裸露的 \na 文本
+  assert.doesNotMatch(panel.innerHTML, /\\na\./);
+  // 3. 验证结构化胶囊标签
+  assert.match(panel.innerHTML, /flashcard-cn-pos-badge/);
+  // 4. 验证双栏流体自适应网格容器及左右栏 ID
+  assert.match(panel.innerHTML, /fc-two-col-grid/);
+  assert.match(panel.innerHTML, /id="fcDefArea"/);
+  assert.match(panel.innerHTML, /id="fcEtymArea"/);
+});
+
+test('english definition preserves all meanings and renders hanging capsules', () => {
+  const h = setup();
+  const enSummary = '(adjective) Containing maximum; (adverb) Fully; (noun) Utmost; (verb) To fill';
+  const html = h.formatEnglishDefHtml(enSummary);
+  assert.match(html, /adjective/);
+  assert.match(html, /adverb/);
+  assert.match(html, /noun/);
+  assert.match(html, /verb/);
+  assert.match(html, /flashcard-en-pos-badge/);
+  assert.match(html, /flashcard-en-def-row/);
 });

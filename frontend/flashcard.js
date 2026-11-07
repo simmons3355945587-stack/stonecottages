@@ -407,13 +407,13 @@ window.FlashcardEngine = (() => {
   }
 
   function formatEnglishDefHtml(summary) {
-    if (!summary) return '<span style="color:var(--text-secondary);font-size:12px;">正在获取英文释义…</span>';
+    if (!summary) return '<span style="color:var(--text-secondary);font-size:clamp(12px, 0.9vw, 14px);">正在获取英文释义…</span>';
     if (summary === '正在获取英文释义…' || summary.startsWith('暂时未取得英文释义')) {
-      return `<span style="color:var(--text-secondary);font-size:12px;">${escapeHtmlSafe(summary)}</span>`;
+      return `<span style="color:var(--text-secondary);font-size:clamp(12px, 0.9vw, 14px);">${escapeHtmlSafe(summary)}</span>`;
     }
 
-    // 支持以分号或连续 (pos) 切分的条目
-    const rawParts = summary.split(/\s*;\s*(?=\([a-zA-Z]+\))/).filter(Boolean);
+    // 支持以分号或连续 (pos) 切分的条目，保留全部英文释义
+    const rawParts = summary.split(/(?:^|\s*;\s*)(?=\([a-zA-Z]+\))/).filter(Boolean);
     const lines = [];
     for (const part of rawParts) {
       const trimmed = part.trim();
@@ -427,15 +427,42 @@ window.FlashcardEngine = (() => {
     }
 
     if (lines.length === 0) {
-      return `<span style="color:#334155;font-size:12.5px;">${escapeHtmlSafe(summary)}</span>`;
+      return `<div class="flashcard-en-def-row" style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;"><span class="flashcard-en-def-text" style="color:#1E293B;font-size:clamp(14px, 1.1vw, 17.5px);line-height:1.65;flex:1;min-width:0;overflow-wrap:break-word;">${escapeHtmlSafe(summary)}</span></div>`;
     }
 
     return lines.map(line => {
       const badge = line.pos
-        ? `<span class="flashcard-en-pos-badge" style="background:#e0f2fe;color:#0284c7;font-size:11px;font-weight:600;padding:1px 7px;border-radius:10px;margin-right:6px;display:inline-block;vertical-align:baseline;line-height:1.2;">${escapeHtmlSafe(line.pos)}</span>`
-        : '';
-      const text = `<span style="color:#334155;font-size:12.5px;line-height:1.5;">${escapeHtmlSafe(line.text)}</span>`;
-      return `<div style="margin-bottom:4px;display:flex;align-items:baseline;flex-wrap:wrap;">${badge}${text}</div>`;
+        ? `<span class="flashcard-en-pos-badge" style="font-size:clamp(12px, 0.9vw, 14px);min-width:68px;flex-shrink:0;text-align:center;background:#e0f2fe;color:#0284c7;font-weight:700;padding:2px 8px;border-radius:12px;line-height:1.3;box-sizing:border-box;display:inline-block;">${escapeHtmlSafe(line.pos)}</span>`
+        : `<span style="min-width:68px;flex-shrink:0;"></span>`;
+      const text = `<span class="flashcard-en-def-text" style="color:#1E293B;font-size:clamp(14px, 1.1vw, 17.5px);line-height:1.65;flex:1;min-width:0;overflow-wrap:break-word;">${escapeHtmlSafe(line.text)}</span>`;
+      return `<div class="flashcard-en-def-row" style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px;">${badge}${text}</div>`;
+    }).join('');
+  }
+
+  function formatChineseDefHtml(rawDef, isPrimary = false) {
+    if (!rawDef) return '<span style="color:var(--text-secondary);font-size:clamp(14px, 1.1vw, 17.5px);">暂无详细中文释义</span>';
+    let clean = String(rawDef).replace(/\\n/g, '\n').replace(/;/g, '；').trim();
+    clean = clean.replace(/([^\n])\s*(?=(?:n|v|a|adj|adv|prep|conj|pron|art|num|int|vt|vi)\.)/gi, '$1\n');
+    const lines = clean.split(/\n+/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) return '<span style="color:var(--text-secondary);font-size:clamp(14px, 1.1vw, 17.5px);">暂无详细中文释义</span>';
+
+    const textColor = isPrimary ? 'var(--brand-accent)' : '#1E293B';
+    const fontWeight = isPrimary ? '700' : '600';
+
+    return lines.map(line => {
+      const m = line.match(/^((?:n|v|a|adj|adv|prep|conj|pron|art|num|int|vt|vi)\.)\s*(.*)$/i);
+      if (m) {
+        const posTag = m[1].toLowerCase();
+        const defText = m[2];
+        return `<div class="flashcard-cn-def-row" style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
+          <span class="flashcard-cn-pos-badge" style="background:rgba(245,158,11,0.12);color:#d97706;font-size:clamp(12px, 0.9vw, 14px);font-weight:800;padding:2px 8px;border-radius:10px;min-width:36px;text-align:center;flex-shrink:0;display:inline-block;line-height:1.3;box-sizing:border-box;">${escapeHtmlSafe(posTag)}</span>
+          <span class="flashcard-cn-def-text" style="color:${textColor};font-weight:${fontWeight};font-size:clamp(17px, 1.4vw, 22px);line-height:1.6;flex:1;min-width:0;overflow-wrap:break-word;">${escapeHtmlSafe(defText)}</span>
+        </div>`;
+      } else {
+        return `<div class="flashcard-cn-def-row" style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
+          <span class="flashcard-cn-def-text" style="color:${textColor};font-weight:${fontWeight};font-size:clamp(17px, 1.4vw, 22px);line-height:1.6;flex:1;min-width:0;overflow-wrap:break-word;">${escapeHtmlSafe(line)}</span>
+        </div>`;
+      }
     }).join('');
   }
 
@@ -468,7 +495,8 @@ window.FlashcardEngine = (() => {
    */
   function parseStandardPos(def) {
     if (!def) return [];
-    const matches = def.match(/\b(n|v|adj|adv|prep|conj|pron|art|num|int|vt|vi)\./gi);
+    const cleanDef = String(def).replace(/\\n/g, '\n');
+    const matches = cleanDef.match(/\b(n|v|a|adj|adv|prep|conj|pron|art|num|int|vt|vi)\./gi);
     if (!matches) return [];
     return Array.from(new Set(matches.map(m => m.replace('.', '').toLowerCase())));
   }
@@ -496,7 +524,7 @@ function verifyLocally(word,input,selectedPos,standardDef) {
   const pos = getStandardPosList(word,standardDef).map(p => p === "vt" || p === "vi" ? "v" : p);
   if (pos.length && selectedPos.some(p => !pos.includes(p))) return null;
   const normInput = normalize(input);
-  const segments = standardDef.replace(/\b(n|v|adj|adv|prep|conj|pron|art|num|int|vt|vi)\./gi, "").split(/[；;、]/).map(normalize);
+  const segments = standardDef.replace(/\\n/g, "\n").replace(/\b(n|v|a|adj|adv|prep|conj|pron|art|num|int|vt|vi)\./gi, "").split(/[；;、\n]/).map(normalize);
   if (segments.includes(normInput)) return {correct:true,confidence:1,source:"local_fast",reason:"准确匹配参考释义"};
 
   // 核心增强：ECDICT / 近义词库本地极速秒判 (0ms)
@@ -802,15 +830,20 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   // 🏛️ 词源权威考据三段式视觉呈现 (严禁万金油套话，AI 智能提炼驱动)
   // =========================================================================
   const BENCHMARK_CONVEY = {
+    full: {
+      breakdown: "源自原始日耳曼语 *fullaz (装满的、充足的)，与 fill (装满) 同源",
+      story: "古人用容器去河里打水，水面彻底漫到容器边缘，再也装不下任何东西的饱满状态。",
+      chain: "漫到边缘 ➡️ 装满容器的 ➡️ 充分的、完全的"
+    },
     accomplish: {
       breakdown: "ac- (去、朝向) + complere (填满，源自 com-完全 + plere填)",
-      story: "把任务清单或容器彻彻底底地“填满”，不留一点空缺。",
-      chain: "完全填满 ➡️ 把计划填满不留遗憾 ➡️ 圆满完成、实现"
+      story: "把手头任务清单或计划表上的每一个空缺彻彻底底地全部“填满”。",
+      chain: "完全填满 ➡️ 把进度填满不留遗憾 ➡️ 圆满完成、实现"
     },
     convey: {
       breakdown: "con- (共同、一起) + via (道路)",
-      story: "古代护卫队在路上“一同伴随押送”车队，把物资安全送到目的地。",
-      chain: "同路护送 ➡️ 运送货物 ➡️ 传递(信息/情感)"
+      story: "古代武装护卫在漫长路途上一路陪同前行，把人和贵重物资安全护送到终点。",
+      chain: "同路护送 ➡️ 沿途运送 ➡️ 传达、传递(信息/情感)"
     },
     ambition: {
       breakdown: "ambi- (到处、周围) + ire (走)",
@@ -856,22 +889,22 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     const escape = escapeHtml;
     return `
-      <div class="stone-convey-card" style="line-height:1.65; text-align:left;">
-        <div style="margin-bottom:6px; display:flex; align-items:baseline; gap:6px;">
-          <span style="font-size:14px; flex-shrink:0;">🧩</span>
-          <div><strong style="color:var(--brand-primary, #4f46e5); font-size:12px;">拆解：</strong><span style="color:var(--text-primary); font-size:12.5px;">${escape(breakdownText)}</span></div>
+      <div class="stone-convey-card" style="line-height:1.65; text-align:left; font-size:clamp(14px, 1.1vw, 17.5px); color:#1E293B;">
+        <div style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px;">
+          <span style="font-size:clamp(14px, 1.1vw, 17px); flex-shrink:0;">🧩</span>
+          <div style="flex:1; min-width:0;"><strong style="color:var(--brand-primary, #4f46e5); font-size:clamp(13px, 1vw, 15px);">拆解：</strong><span style="color:#1E293B; font-size:clamp(14px, 1.1vw, 17.5px); line-height:1.65;">${escape(breakdownText)}</span></div>
         </div>
-        <div style="margin-bottom:6px; display:flex; align-items:baseline; gap:6px;">
-          <span style="font-size:14px; flex-shrink:0;">🎬</span>
-          <div><strong style="color:#d97706; font-size:12px;">画面：</strong><span style="color:var(--text-primary); font-size:12.5px;">${escape(storyText)}</span></div>
+        <div style="margin-bottom:8px; display:flex; align-items:baseline; gap:8px;">
+          <span style="font-size:clamp(14px, 1.1vw, 17px); flex-shrink:0;">🎬</span>
+          <div style="flex:1; min-width:0;"><strong style="color:#d97706; font-size:clamp(13px, 1vw, 15px);">画面：</strong><span style="color:#1E293B; font-size:clamp(14px, 1.1vw, 17.5px); line-height:1.65;">${escape(storyText)}</span></div>
         </div>
-        <div style="margin-bottom:2px; display:flex; align-items:baseline; gap:6px;">
-          <span style="font-size:14px; flex-shrink:0;">🔗</span>
-          <div><strong style="color:#059669; font-size:12px;">演变：</strong><span style="color:var(--text-primary); font-size:12.5px;">${escape(chainText)}</span></div>
+        <div style="margin-bottom:4px; display:flex; align-items:baseline; gap:8px;">
+          <span style="font-size:clamp(14px, 1.1vw, 17px); flex-shrink:0;">🔗</span>
+          <div style="flex:1; min-width:0;"><strong style="color:#059669; font-size:clamp(13px, 1vw, 15px);">演变：</strong><span style="color:#1E293B; font-size:clamp(14px, 1.1vw, 17.5px); line-height:1.65;">${escape(chainText)}</span></div>
         </div>
         ${rawEtymText ? `
-          <div id="fcEtymRawContent" style="display:none; margin-top:8px; padding:8px 10px; background:rgba(0,0,0,0.03); border:1px solid var(--paper-border); border-radius:6px; font-size:11.5px; line-height:1.6; color:#475569; word-break:break-word;">
-            <div style="font-weight:600; color:var(--text-secondary); margin-bottom:4px; font-size:11px;">[Etymonline 词源文献记录]</div>
+          <div id="fcEtymRawContent" style="display:none; margin-top:10px; padding:10px 12px; background:rgba(0,0,0,0.03); border:1px solid var(--paper-border); border-radius:6px; font-size:clamp(12px, 0.95vw, 14px); line-height:1.65; color:#475569; word-break:break-word;">
+            <div style="font-weight:700; color:var(--text-secondary); margin-bottom:6px; font-size:clamp(11.5px, 0.9vw, 13px);">[Etymonline 词源文献记录]</div>
             ${escape(rawEtymText)}
           </div>
         ` : ''}
@@ -894,96 +927,103 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   /**
    * 优雅展开/折叠当前单词的词源脉络（三段式视觉卡片）
    */
-  function toggleEtymologyDetails() {
+  function loadEtymologyInline(target) {
     const box = document.getElementById('fcEtymInlineContent');
     const arrow = document.getElementById('fcEtymToggleArrow');
     const body = document.getElementById('fcEtymBodyText');
     const rawBtn = document.getElementById('fcEtymRawToggleBtn');
-    if (!box) return;
-    const isHidden = box.style.display === 'none' || !box.style.display;
-    if (isHidden) {
-      box.style.display = 'block';
-      if (arrow) arrow.textContent = '▾ 收起';
-      if (body) {
-        const target = state.currentWord;
-        const cleanTarget = (target || '').toLowerCase().trim();
+    if (!box || !body) return;
+    box.style.display = 'block';
+    if (arrow) arrow.textContent = '▾ 收起';
 
-        // A. 标杆词 0ms 秒出
+    const cleanTarget = (target || state.currentWord || '').toLowerCase().trim();
+    if (!cleanTarget) return;
+
+    // A. 标杆词 0ms 秒出
+    if (BENCHMARK_CONVEY[cleanTarget]) {
+      const bm = BENCHMARK_CONVEY[cleanTarget];
+      body.innerHTML = renderConveyBody({
+        word: cleanTarget,
+        found: true,
+        breakdown: bm.breakdown,
+        roots: bm.breakdown,
+        story: bm.story,
+        chain: bm.chain,
+        evolution: bm.chain,
+        raw_etymology: (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget] && window.WORD_CONVEY[cleanTarget].raw_etym) || ''
+      });
+      return;
+    }
+
+    // B. 0ms 本地秒出：优先读取已跑批且非套话的离线三段式
+    if (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget]) {
+      const localConvey = window.WORD_CONVEY[cleanTarget];
+      if (!isClicheStory(localConvey.story) && localConvey.story && (localConvey.roots || localConvey.breakdown)) {
+        body.innerHTML = renderConveyBody({
+          word: cleanTarget,
+          found: true,
+          roots: localConvey.roots || localConvey.breakdown,
+          breakdown: localConvey.breakdown || localConvey.roots,
+          literal: localConvey.literal,
+          story: localConvey.story,
+          evolution: localConvey.evolution || localConvey.chain,
+          chain: localConvey.chain || localConvey.evolution,
+          raw_etymology: localConvey.raw_etym,
+          zh_def: localConvey.zh_def || state.currentWordDef
+        });
+        return;
+      }
+    }
+
+    // C. 异步向后端 /api/etymology 请求（后端接入 DeepSeek 智能清洗并存库）
+    body.innerHTML = '<div style="display:flex; align-items:center; gap:6px; color:var(--text-secondary); font-size:12px;"><span>⏳</span><span>正在提炼结构化三段式词源…</span></div>';
+    const zhParam = encodeURIComponent(state.currentWordDef || '');
+    fetch(`/api/etymology?word=${encodeURIComponent(cleanTarget)}&zh=${zhParam}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(res => {
+        if (res.found && (res.roots || res.breakdown || res.story)) {
+          if (!window.WORD_CONVEY) window.WORD_CONVEY = {};
+          window.WORD_CONVEY[cleanTarget] = {
+            word: cleanTarget,
+            roots: res.roots || res.breakdown,
+            breakdown: res.breakdown || res.roots,
+            literal: res.literal || '',
+            story: res.story,
+            evolution: res.evolution || res.chain,
+            chain: res.chain || res.evolution,
+            raw_etym: res.raw_etymology || res.etymology,
+            zh_def: res.zh_def || state.currentWordDef
+          };
+        }
+        body.innerHTML = renderConveyBody(res);
+      })
+      .catch(e => {
         if (BENCHMARK_CONVEY[cleanTarget]) {
           const bm = BENCHMARK_CONVEY[cleanTarget];
           body.innerHTML = renderConveyBody({
             word: cleanTarget,
             found: true,
             breakdown: bm.breakdown,
-            roots: bm.breakdown,
             story: bm.story,
-            chain: bm.chain,
-            evolution: bm.chain,
-            raw_etymology: (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget] && window.WORD_CONVEY[cleanTarget].raw_etym) || ''
+            chain: bm.chain
           });
-          return;
+        } else {
+          body.innerHTML = `<span style="color:var(--brand-danger);">词源加载失败 (${escapeHtml(e.message)})</span>`;
         }
+      });
+  }
 
-        // B. 0ms 本地秒出：优先读取已跑批且非套话的离线三段式
-        if (window.WORD_CONVEY && window.WORD_CONVEY[cleanTarget]) {
-          const localConvey = window.WORD_CONVEY[cleanTarget];
-          if (!isClicheStory(localConvey.story) && localConvey.story && (localConvey.roots || localConvey.breakdown)) {
-            body.innerHTML = renderConveyBody({
-              word: cleanTarget,
-              found: true,
-              roots: localConvey.roots || localConvey.breakdown,
-              breakdown: localConvey.breakdown || localConvey.roots,
-              literal: localConvey.literal,
-              story: localConvey.story,
-              evolution: localConvey.evolution || localConvey.chain,
-              chain: localConvey.chain || localConvey.evolution,
-              raw_etymology: localConvey.raw_etym,
-              zh_def: localConvey.zh_def || state.currentWordDef
-            });
-            return;
-          }
-        }
-
-        // C. 异步向后端 /api/etymology 请求（后端接入 DeepSeek 智能清洗并存库）
-        body.innerHTML = '<div style="display:flex; align-items:center; gap:6px; color:var(--text-secondary); font-size:12px;"><span>⏳</span><span>正在提炼结构化三段式词源…</span></div>';
-        const zhParam = encodeURIComponent(state.currentWordDef || '');
-        fetch(`/api/etymology?word=${encodeURIComponent(cleanTarget)}&zh=${zhParam}`)
-          .then(res => {
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            return res.json();
-          })
-          .then(res => {
-            if (res.found && (res.roots || res.breakdown || res.story)) {
-              if (!window.WORD_CONVEY) window.WORD_CONVEY = {};
-              window.WORD_CONVEY[cleanTarget] = {
-                word: cleanTarget,
-                roots: res.roots || res.breakdown,
-                breakdown: res.breakdown || res.roots,
-                literal: res.literal || '',
-                story: res.story,
-                evolution: res.evolution || res.chain,
-                chain: res.chain || res.evolution,
-                raw_etym: res.raw_etymology || res.etymology,
-                zh_def: res.zh_def || state.currentWordDef
-              };
-            }
-            body.innerHTML = renderConveyBody(res);
-          })
-          .catch(e => {
-            if (BENCHMARK_CONVEY[cleanTarget]) {
-              const bm = BENCHMARK_CONVEY[cleanTarget];
-              body.innerHTML = renderConveyBody({
-                word: cleanTarget,
-                found: true,
-                breakdown: bm.breakdown,
-                story: bm.story,
-                chain: bm.chain
-              });
-            } else {
-              body.innerHTML = `<span style="color:var(--brand-danger);">词源加载失败 (${escapeHtml(e.message)})</span>`;
-            }
-          });
-      }
+  function toggleEtymologyDetails() {
+    const box = document.getElementById('fcEtymInlineContent');
+    const arrow = document.getElementById('fcEtymToggleArrow');
+    const rawBtn = document.getElementById('fcEtymRawToggleBtn');
+    if (!box) return;
+    const isHidden = box.style.display === 'none' || !box.style.display;
+    if (isHidden) {
+      loadEtymologyInline(state.currentWord);
     } else {
       box.style.display = 'none';
       if (arrow) arrow.textContent = '▸ 展开';
@@ -1438,11 +1478,12 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const posDisplay = selectedPos.length > 0 ? selectedPos.map(p => `[${p}.]`).join(' ') : '未指定';
     const stdPosList = getStandardPosList(state.currentWord, standardDef);
     const stdPosDisplay = stdPosList.length > 0 
-      ? stdPosList.map(p => `[${p}.]`).join(' ') 
+      ? `[${stdPosList.map(p => `${p}.`).join(' / ')}]` 
       : '暂无标注（词性不参与判定）';
-    const cleanStandardDef = (standardDef || '暂无详细中文释义').replace(/;/g, '；');
+    const cleanStandardDef = (standardDef || '暂无详细中文释义');
     const isEnMode = (typeof appSettings !== 'undefined' && appSettings.dictLanguageMode === 'en');
     const enDef = getEnglishDefinition(state.currentWord);
+    const isWideScreen = typeof window !== 'undefined' && window.innerWidth >= 800;
 
     // 触发异步补齐英文释义
     // Fetch after the result DOM exists, including immediate cache/error paths.
@@ -1469,63 +1510,68 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               <span class="compare-content std-def-text">${escapeHtml(stdPosDisplay)}</span>
             </div>
           </div>` : ''}
-          ${!result.isUnknown ? `<div class="flashcard-compare-item" style="margin-top: 6px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
+          ${!result.isUnknown ? `<div class="flashcard-compare-item" style="margin-top: 4px; display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
             <span class="compare-label">你的释义:</span>
             <span class="compare-content user-input-text">${escapeHtml(userInput || '(未填写)')}</span>
-            ${!hasSpecifiedPos ? `<span class="flashcard-std-pos-pill" style="margin-left:4px; font-size:11px; background:rgba(59,130,246,0.1); color:#2563eb; padding:1px 6px; border-radius:4px; font-weight:600;">考纲词性 ${escapeHtml(stdPosDisplay)}</span>` : ''}
+            ${!hasSpecifiedPos ? `<span class="flashcard-std-pos-pill" style="margin-left:4px; font-size:11.5px; background:rgba(59,130,246,0.1); color:#2563eb; padding:2px 8px; border-radius:6px; font-weight:700;">考纲词性 ${escapeHtml(stdPosDisplay)}</span>` : ''}
           </div>` : `
-            ${!hasSpecifiedPos ? `<div style="margin-top: 4px; font-size:11px; color:var(--text-secondary);">
+            ${!hasSpecifiedPos ? `<div style="margin-top: 4px; font-size:12px; color:var(--text-secondary);">
               考纲词性: <strong style="color:#2563eb;">${escapeHtml(stdPosDisplay)}</strong>
             </div>` : ''}
           `}
-          <div class="flashcard-compare-item" style="margin-top: 6px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-              <span class="compare-label">参考释义 · 英汉对照</span>
+
+          <!-- 双栏流体网格容器：屏幕宽时左右并排（大屏下词源默认展开），屏幕窄时单栏上下排列 -->
+          <div class="fc-two-col-grid" style="margin-top: 10px;">
+            <!-- 左栏：参考释义区 -->
+            <div class="fc-grid-col-def" id="fcDefArea">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <span class="compare-label" style="font-weight:800; font-size:clamp(13px, 1vw, 15px);">参考释义 · 英汉对照</span>
+              </div>
+
+              ${isEnMode ? `
+                <div class="compare-content std-def-text compare-def-primary" style="margin-bottom:10px;">
+                  <div style="font-size:clamp(12px, 0.9vw, 13.5px); font-weight:800; color:var(--text-secondary); margin-bottom:6px;">[英文释义]</div>
+                  <div id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">
+                    ${formatEnglishDefHtml(enDef)}
+                  </div>
+                </div>
+                <div class="compare-content std-def-text compare-def-secondary" style="margin-top:8px;">
+                  <div style="font-size:clamp(12px, 0.9vw, 13.5px); font-weight:800; color:var(--text-secondary); margin-bottom:6px;">[中文考纲]</div>
+                  ${formatChineseDefHtml(cleanStandardDef, false)}
+                </div>
+              ` : `
+                <div class="compare-content std-def-text compare-def-primary" style="margin-bottom:10px;">
+                  <div style="font-size:clamp(12px, 0.9vw, 13.5px); font-weight:800; color:var(--brand-accent); margin-bottom:6px;">[中文考纲]</div>
+                  ${formatChineseDefHtml(cleanStandardDef, true)}
+                </div>
+                <div class="compare-content std-def-text compare-def-secondary" style="margin-top:8px;">
+                  <div style="font-size:clamp(12px, 0.9vw, 13.5px); font-weight:800; color:var(--text-secondary); margin-bottom:6px;">[英文释义]</div>
+                  <div id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}">
+                    ${formatEnglishDefHtml(enDef)}
+                  </div>
+                </div>
+              `}
+              <button type="button" id="fcEnglishRetry" class="btn btn-secondary" hidden style="display:none;margin-top:8px" onclick="FlashcardEngine.retryEnglishDefinition()">重新获取英文释义</button>
             </div>
 
-            <!-- 根据模式优先排序展示 -->
-            ${isEnMode ? `
-              <div class="compare-content std-def-text compare-def-primary" style="margin-bottom:6px;">
-                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[英文释义]</strong>
-                <div id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}" style="display:inline-block; vertical-align:top;">
-                  ${formatEnglishDefHtml(enDef)}
+            <!-- 右栏：词源脉络区 -->
+            <div class="fc-grid-col-etym" id="fcEtymArea">
+              <div class="flashcard-etym-inline-wrap" style="height:100%;">
+                <div style="display:flex; justify-content:space-between; align-items:center; user-select:none; margin-bottom:8px;">
+                  <span onclick="FlashcardEngine.toggleEtymologyDetails()" style="font-weight:800; font-size:clamp(13px, 1vw, 15px); color:#8b5cf6; display:inline-flex; align-items:center; gap:4px; cursor:pointer;" title="点击展开/折叠词源历史脉络">
+                    🏛️ [词源脉络] <span id="fcEtymToggleArrow" style="font-size:11px; transition:transform 0.2s;">${isWideScreen ? '▾ 收起' : '▸ 展开'}</span>
+                  </span>
+                  <button type="button" class="btn btn-link btn-xs" id="fcEtymRawToggleBtn" onclick="FlashcardEngine.toggleRawEtymology(event)" style="display:none; font-size:11px; color:#8b5cf6; text-decoration:none; cursor:pointer; padding:2px 8px; border:1px solid rgba(139,92,246,0.25); border-radius:4px; background:rgba(139,92,246,0.06); transition:all 0.15s ease;">
+                    <span id="fcEtymRawToggleText">查看英文原版 ▸</span>
+                  </button>
                 </div>
-              </div>
-              <div class="compare-content std-def-text compare-def-secondary" style="color:var(--text-secondary);">
-                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[中文考纲]</strong>
-                <span>${escapeHtml(cleanStandardDef)}</span>
-              </div>
-            ` : `
-              <div class="compare-content std-def-text compare-def-primary" style="color:var(--brand-accent); font-weight:700; margin-bottom:6px;">
-                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[中文考纲]</strong>
-                <span>${escapeHtml(cleanStandardDef)}</span>
-              </div>
-              <div class="compare-content std-def-text compare-def-secondary" style="margin-top:4px;">
-                <strong class="compare-def-tag" style="color:var(--text-secondary); margin-right:6px;">[英文双解]</strong>
-                <div id="fcStdDefEnText" role="status" aria-live="polite" aria-busy="${!enDef}" style="display:inline-block; vertical-align:top;">
-                  ${formatEnglishDefHtml(enDef)}
-                </div>
-              </div>
-            `}
-
-            <!-- 🏛️ 词源脉络与故事：原生轻量内嵌，完全融入排版，不跳出打断 (全语言模式统一可用) -->
-            <div class="flashcard-etym-inline-wrap" style="margin-top:8px; padding-top:6px; border-top:1px dashed var(--paper-border); font-size:12px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; user-select:none;">
-                <span onclick="FlashcardEngine.toggleEtymologyDetails()" style="font-weight:700; color:#8b5cf6; display:inline-flex; align-items:center; gap:4px; cursor:pointer;" title="点击展开/折叠词源历史脉络">
-                  🏛️ [词源脉络] <span id="fcEtymToggleArrow" style="font-size:10px; transition:transform 0.2s;">▸ 展开</span>
-                </span>
-                <button type="button" class="btn btn-link btn-xs" id="fcEtymRawToggleBtn" onclick="FlashcardEngine.toggleRawEtymology(event)" style="display:none; font-size:11px; color:#8b5cf6; text-decoration:none; cursor:pointer; padding:1px 6px; border:1px solid rgba(139,92,246,0.25); border-radius:4px; background:rgba(139,92,246,0.06); transition:all 0.15s ease;">
-                  <span id="fcEtymRawToggleText">查看英文原版 ▸</span>
-                </button>
-              </div>
-              <div id="fcEtymInlineContent" style="display:none; margin-top:6px; padding:10px 12px; background:var(--paper-surface-sub); border:1px solid var(--paper-border); border-radius:8px; font-size:12.5px; line-height:1.65; color:var(--text-primary);">
-                <div id="fcEtymBodyText">
-                  <em>正在加载词源演化考据…</em>
+                <div id="fcEtymInlineContent" style="display:${isWideScreen ? 'block' : 'none'}; padding:12px 14px; background:var(--paper-surface); border:1px solid var(--paper-border); border-radius:8px; line-height:1.65; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                  <div id="fcEtymBodyText">
+                    <em>正在加载词源演化考据…</em>
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <button type="button" id="fcEnglishRetry" class="btn btn-secondary" hidden style="display:none;margin-top:8px" onclick="FlashcardEngine.retryEnglishDefinition()">重新获取英文释义</button>
           </div>
         </div>
 
@@ -1536,6 +1582,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           ${!result.correct ? `<button id="fcRetryBtn" class="btn btn-secondary" onclick="FlashcardEngine.retryCurrent()">再试一次</button>` : ''}
         </div>
       `;
+      if (isWideScreen) {
+        loadEtymologyInline(state.currentWord);
+      }
     }
 
     if (inputSection) {

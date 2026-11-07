@@ -3137,7 +3137,7 @@
 @media (prefers-reduced-motion: reduce) {
   .flashcard-modal-overlay, .flashcard-card-box, .flashcard-progress-fill { transition: none; animation: none; }
 }
-.flashcard-container { width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 12px; }
+.flashcard-container { width: clamp(340px, 88vw, 1280px); max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 .flashcard-hud { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .flashcard-hud-left, .flashcard-hud-right { display: flex; align-items: center; gap: 8px; }
 .flashcard-mode-pill {
@@ -3180,7 +3180,7 @@
 .flashcard-card-box.is-wrong { border-color: var(--brand-danger); box-shadow: 0 0 24px rgba(239, 68, 68, 0.3), var(--paper-shadow); animation: shakeCard 0.3s ease; }
 @keyframes shakeCard { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 .flashcard-word-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.flashcard-word { font-size: 34px; font-weight: 900; color: var(--text-primary); font-family: var(--font-serif); margin: 0; cursor: pointer; letter-spacing: -0.5px; }
+.flashcard-word { font-size: clamp(32px, 3.2vw, 52px); font-weight: 900; color: var(--text-primary); font-family: var(--font-serif); margin: 0; cursor: pointer; letter-spacing: -0.5px; }
 .flashcard-word:hover { color: var(--brand-accent); }
 .flashcard-speaker-btn {
   background: var(--paper-surface-sub); border: 1px solid var(--paper-border);
@@ -3224,14 +3224,46 @@
 .flashcard-verdict-badge.badge-wrong { background: rgba(239, 68, 68, 0.15); color: var(--brand-danger); border: 1px solid rgba(239, 68, 68, 0.4); }
 .flashcard-verdict-badge.badge-unknown { background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.4); }
 .flashcard-confidence-info { font-size: 11px; color: var(--text-secondary); }
-.flashcard-def-comparison { display: flex; flex-direction: column; gap: 8px; background: var(--paper-surface-sub); padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid var(--paper-border); }
-.flashcard-compare-item { display: flex; flex-direction: column; gap: 3px; }
-.compare-content { font-size: 14px; line-height: 1.5; color: var(--text-primary); }
-.compare-content.user-input-text { font-weight: 700; }
-.compare-content.std-def-text { color: var(--brand-accent); }
-.compare-def-primary { font-size: 16px; line-height: 1.55; }
-.compare-def-secondary { font-size: 14px; line-height: 1.55; }
-.compare-def-tag { font-size: 11.5px; font-weight: 800; }
+.flashcard-def-comparison { display: flex; flex-direction: column; gap: 10px; background: var(--paper-surface-sub); padding: 16px 20px; border-radius: var(--radius-md); border: 1px solid var(--paper-border); }
+.flashcard-compare-item { display: flex; flex-direction: column; gap: 4px; }
+.compare-content { font-size: clamp(14px, 1.1vw, 17.5px); line-height: 1.65; color: #1E293B; }
+.compare-content.user-input-text { font-size: clamp(17px, 1.4vw, 22px); line-height: 1.6; font-weight: 600; color: var(--text-primary); }
+.compare-content.std-def-text { font-size: clamp(17px, 1.4vw, 22px); line-height: 1.6; font-weight: 600; color: var(--brand-accent); }
+.compare-def-primary { font-size: clamp(17px, 1.4vw, 22px); line-height: 1.6; font-weight: 600; }
+.compare-def-secondary { font-size: clamp(14px, 1.1vw, 17.5px); line-height: 1.65; color: #1E293B; }
+.compare-def-tag { font-size: clamp(12px, 0.9vw, 14px); font-weight: 800; }
+
+/* 自动单/双栏流体网格切换与悬挂对齐 */
+.fc-two-col-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: clamp(16px, 2vw, 32px);
+  align-items: start;
+  width: 100%;
+}
+.fc-grid-col-def { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.fc-grid-col-etym { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.flashcard-en-def-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.flashcard-en-pos-badge {
+  font-size: clamp(12px, 0.9vw, 14px); min-width: 68px; flex-shrink: 0; text-align: center;
+  background: #e0f2fe; color: #0284c7; font-weight: 700; padding: 2px 8px; border-radius: 12px;
+  line-height: 1.3; box-sizing: border-box; display: inline-block;
+}
+.flashcard-en-def-text {
+  font-size: clamp(14px, 1.1vw, 17.5px); line-height: 1.65; color: #1E293B;
+  flex: 1; min-width: 0; overflow-wrap: break-word;
+}
+.flashcard-cn-def-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.flashcard-cn-pos-badge {
+  background: rgba(245, 158, 11, 0.12); color: #d97706; font-size: clamp(12px, 0.9vw, 14px);
+  font-weight: 800; padding: 2px 8px; border-radius: 10px; min-width: 36px; text-align: center;
+  flex-shrink: 0; display: inline-block; line-height: 1.3; box-sizing: border-box;
+}
+.flashcard-cn-def-text {
+  font-size: clamp(17px, 1.4vw, 22px); line-height: 1.6; font-weight: 600;
+  flex: 1; min-width: 0; overflow-wrap: break-word;
+}
+.stone-convey-card { font-size: clamp(14px, 1.1vw, 17.5px); line-height: 1.65; color: #1E293B; }
 .flashcard-action-bar { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
 .flashcard-next-btn { padding: 10px 24px; font-weight: 800; font-size: 14px; }
 .flashcard-footer-tip { text-align: center; font-size: 12px; color: var(--text-secondary); }
@@ -3395,7 +3427,9 @@
 /* 💻 电脑桌面端大屏专属增强：单词超大、释义清晰醒目、布局舒适大方 */
 @media (min-width: 768px) {
   .flashcard-container {
-    max-width: 720px;
+    width: clamp(340px, 88vw, 1280px);
+    max-width: 95vw;
+    margin: 0 auto;
     gap: 14px;
   }
   .flashcard-card-box {
