@@ -1125,7 +1125,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           </div>
         </div>
 
-        <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:12px;">
+        <!-- 顶部云同步状态栏：左右紧凑分布，禁止按钮过度拉伸 -->
+        <div class="flashcard-sync-bar">
           <span id="fcCloudStatus" role="status" aria-live="polite"></span>
           <button type="button" class="btn btn-secondary btn-xs" id="fcCloudAction" onclick="FlashcardEngine.syncCloudProgress()">立即同步</button>
         </div>
@@ -1137,14 +1138,18 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
         <!-- 折纸主卡片 -->
         <div class="flashcard-card-box" id="flashcardBox">
-          <!-- 卡片正面头部 -->
-          <div class="flashcard-word-row" style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
-            <h1 class="flashcard-word" id="fcWordTitle" onclick="FlashcardEngine.speakCurrent()">${escapeHtml(word)}</h1>
-            <button class="flashcard-speaker-btn" onclick="FlashcardEngine.speakCurrent()" title="发音 (Space)">🔊</button>
-            <button type="button" class="btn btn-secondary btn-xs" id="fcMarkAdd" onclick="FlashcardEngine.addCurrentMark()" title="加入重点生词本 (快捷键: +)" style="border-radius:12px;font-size:11px;padding:2px 8px;vertical-align:middle;cursor:pointer;">＋Mark (+)</button>
-            <button type="button" class="btn btn-secondary btn-xs" id="fcMarkUndo" onclick="FlashcardEngine.undoCurrentMark()" title="撤销本次 Mark (快捷键: -)" style="display:none;border-radius:12px;font-size:11px;padding:2px 8px;vertical-align:middle;cursor:pointer;" hidden>撤销 (-)</button>
-            <span id="fcMarkCountTag" class="flashcard-mark-tag" ${markCount > 0 ? '' : 'hidden'}>★ Mark ×${markCount}</span>
-            ${state.learnedWords.has(word.toLowerCase().trim()) ? `<span class="flashcard-learned-tag">✔ 曾掌握</span>` : ''}
+          <!-- 卡片正面头部：主单词+发音在正中央绝对居中，Mark 悬浮于最右侧 -->
+          <div class="flashcard-word-row">
+            <div class="flashcard-word-main">
+              <h1 class="flashcard-word" id="fcWordTitle" onclick="FlashcardEngine.speakCurrent()">${escapeHtml(word)}</h1>
+              <button class="flashcard-speaker-btn" onclick="FlashcardEngine.speakCurrent()" title="发音 (Space)">🔊</button>
+            </div>
+            <div class="flashcard-word-actions">
+              <button type="button" class="btn btn-secondary btn-xs flashcard-mark-btn" id="fcMarkAdd" onclick="FlashcardEngine.addCurrentMark()" title="加入重点生词本 (快捷键: +)">＋Mark (+)</button>
+              <button type="button" class="btn btn-secondary btn-xs flashcard-mark-btn" id="fcMarkUndo" onclick="FlashcardEngine.undoCurrentMark()" title="撤销本次 Mark (快捷键: -)" style="display:none;" hidden>撤销 (-)</button>
+              <span id="fcMarkCountTag" class="flashcard-mark-tag" ${markCount > 0 ? '' : 'hidden'}>★ Mark ×${markCount}</span>
+              ${state.learnedWords.has(word.toLowerCase().trim()) ? `<span class="flashcard-learned-tag">✔ 曾掌握</span>` : ''}
+            </div>
           </div>
 
           <!-- 1. 词性勾选区 -->
