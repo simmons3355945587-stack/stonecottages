@@ -15,7 +15,7 @@ import requests
 import json
 
 if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace", line_buffering=True)
 
 _local_config_path = os.path.join(os.path.dirname(__file__), ".deployment-secrets.local.json")
 _local_config = {}
@@ -38,7 +38,7 @@ def exec_cmd(cmd: str, timeout: int = 40) -> dict:
         raise RuntimeError(f"Hosting HTTP status: {resp.status_code}")
     res = resp.json()
     if res.get("error") != 0:
-        raise RuntimeError("Hosting command failed; details withheld")
+        raise RuntimeError(f"Hosting command failed: {res.get('message', '')}")
     return res
 
 def upload_single_file(local_path: str, remote_path: str, mode: str = "644"):
@@ -48,7 +48,7 @@ def upload_single_file(local_path: str, remote_path: str, mode: str = "644"):
     b64_str = base64.b64encode(gzipped).decode("ascii")
     
     tmp_file = f"/tmp/up_{int(time.time()*1000)}_{os.path.basename(remote_path)}"
-    chunk_size = 12000
+    chunk_size = 8000
     total_chunks = (len(b64_str) + chunk_size - 1) // chunk_size
     
     exec_cmd(f"rm -f {tmp_file}.b64")
@@ -93,7 +93,7 @@ def deploy_assets():
     tmp_base = f"/tmp/assets_bundle_{int(time.time())}"
     exec_cmd(f"rm -f {tmp_base}.*")
     
-    chunk_size = 12000
+    chunk_size = 8000
     total_chunks = (len(b64_str) + chunk_size - 1) // chunk_size
     print(f"分块上传: 总分块数 {total_chunks}")
     for i in range(total_chunks):
@@ -160,7 +160,6 @@ def main():
         ("frontend/modules/cards/cards-module.js", "/var/www/vocab/modules/cards/cards-module.js"),
         ("frontend/modules/match3/match3-module.js", "/var/www/vocab/modules/match3/match3-module.js"),
         ("frontend/modules/lexicon/lexicon-module.js", "/var/www/vocab/modules/lexicon/lexicon-module.js"),
-        ("frontend/modules/lexicon/word-convey.js", "/var/www/vocab/modules/lexicon/word-convey.js"),
         ("frontend/modules/lexicon/etymology.js", "/var/www/vocab/modules/lexicon/etymology.js"),
         ("frontend/modules/expedition/expedition-module.js", "/var/www/vocab/modules/expedition/expedition-module.js"),
         ("frontend/modules/seasons/seasons-module.js", "/var/www/vocab/modules/seasons/seasons-module.js"),
