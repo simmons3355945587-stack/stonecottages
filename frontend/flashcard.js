@@ -1165,8 +1165,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             <label for="fcInput" class="flashcard-section-label">✍️ 写下你的理解 · 中文或英文均可</label>
             <div class="flashcard-input-wrap" id="fcInputWrap">
               <input type="text" id="fcInput" class="flashcard-input" maxlength="2000" placeholder="输入中文或英文释义 (例如: 放弃 / to give up)..." autocomplete="off" />
-              <button class="btn btn-primary flashcard-submit-btn" id="fcSubmitBtn" onclick="FlashcardEngine.submitAnswer()">判卷 (Enter)</button>
-              <button type="button" class="btn btn-secondary flashcard-unknown-btn" id="fcUnknownBtn" onclick="FlashcardEngine.giveUpUnknown()" title="想不起来/我不清楚 (快捷键: 空回车 或 ?)">🤔 我不清楚</button>
+              <div class="flashcard-input-actions bottom-action-bar" id="fcInputActions">
+                <button type="button" class="btn btn-secondary flashcard-unknown-btn" id="fcUnknownBtn" onclick="FlashcardEngine.giveUpUnknown()" title="想不起来/我不清楚 (快捷键: 空回车 或 ?)"><span class="mobile-btn-text">我不清楚</span><span class="desktop-btn-text">🤔 我不清楚</span></button>
+                <button class="btn btn-primary flashcard-submit-btn" id="fcSubmitBtn" onclick="FlashcardEngine.submitAnswer()"><span class="mobile-btn-text">判卷</span><span class="desktop-btn-text">判卷 (Enter)</span></button>
+              </div>
             </div>
           </div>
 
@@ -1562,7 +1564,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             <!-- 右栏：词源脉络区 -->
             <div class="fc-grid-col-etym" id="fcEtymArea">
               <div class="flashcard-etym-inline-wrap" style="height:100%;">
-                <div style="display:flex; justify-content:space-between; align-items:center; user-select:none; margin-bottom:8px;">
+                <div class="flashcard-etym-header" style="display:flex; justify-content:space-between; align-items:center; user-select:none; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
                   <span onclick="FlashcardEngine.toggleEtymologyDetails()" style="font-weight:800; font-size:clamp(13px, 1vw, 15px); color:#8b5cf6; display:inline-flex; align-items:center; gap:4px; cursor:pointer;" title="点击展开/折叠词源历史脉络">
                     🏛️ [词源脉络] <span id="fcEtymToggleArrow" style="font-size:11px; transition:transform 0.2s;">${isWideScreen ? '▾ 收起' : '▸ 展开'}</span>
                   </span>
@@ -1580,11 +1582,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           </div>
         </div>
 
-        <div class="flashcard-action-bar">
+        <div class="flashcard-action-bar bottom-action-bar">
+          ${!result.correct ? `<button id="fcRetryBtn" class="btn btn-secondary flashcard-retry-btn" onclick="FlashcardEngine.retryCurrent()"><span class="mobile-btn-text">再试一次</span><span class="desktop-btn-text">再试一次</span></button>` : ''}
           <button id="fcNextBtn" class="btn btn-primary flashcard-next-btn" onclick="FlashcardEngine.nextWord()">
             ${manualMarkNextLabel()}
           </button>
-          ${!result.correct ? `<button id="fcRetryBtn" class="btn btn-secondary" onclick="FlashcardEngine.retryCurrent()">再试一次</button>` : ''}
         </div>
       `;
       if (isWideScreen) {
@@ -1612,8 +1614,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   }
 
   function manualMarkNextLabel() {
-    if (state.currentIndex + 1 >= state.queue.length) return '查看本次研习报告 (Enter) ➔';
-    return state.manualMarkBaselines.has(manualMarkKey()) || state.lastResult?.verdict === 'REJECT' || state.lastResult?.isUnknown || (state.mode === 'review' && state.lastResult?.correct) ? '下一个 (Enter) ➔' : '不加 Mark，下一词 (Enter) ➔';
+    const isLast = (state.currentIndex + 1 >= state.queue.length);
+    if (isLast) {
+      return '<span class="mobile-btn-text">结算 ➔</span><span class="desktop-btn-text">查看本次研习报告 (Enter) ➔</span>';
+    }
+    const isSpecial = state.manualMarkBaselines.has(manualMarkKey()) || state.lastResult?.verdict === 'REJECT' || state.lastResult?.isUnknown || (state.mode === 'review' && state.lastResult?.correct);
+    const desktopText = isSpecial ? '下一个 (Enter) ➔' : '不加 Mark，下一词 (Enter) ➔';
+    return `<span class="mobile-btn-text">下一个 ➔</span><span class="desktop-btn-text">${desktopText}</span>`;
   }
 
   function updateManualMarkControls() {
@@ -1657,7 +1664,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
     if (tag) { tag.hidden = count === 0; tag.style.display = count > 0 ? '' : 'none'; tag.textContent = `★ Mark ×${count}`; }
     if (nextButton) {
-      nextButton.textContent = manualMarkNextLabel();
+      nextButton.innerHTML = manualMarkNextLabel();
       if (state.isAnswered && typeof nextButton.focus === 'function') { try { nextButton.focus(); } catch {} }
     }
   }

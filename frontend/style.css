@@ -3455,23 +3455,61 @@
   gap: 10px;
 }
 
-/* 📱 移动端与小屏专属紧凑适配 (防止软键盘遮挡，极大化可用可视面积) */
-@media (max-width: 640px) {
+/* 📱 移动端与小屏专属紧凑自适应与底部悬浮吸附栏 (max-width: 768px) */
+.mobile-btn-text {
+  display: none;
+}
+.desktop-btn-text {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .mobile-btn-text {
+    display: inline !important;
+  }
+  .desktop-btn-text {
+    display: none !important;
+  }
+
+  /* 1. 锁死横向宽度，消灭横向溢出，改为纯纵向滑动 */
   .flashcard-modal-overlay {
-    padding: 6px 8px;
+    padding: 8px 10px;
     align-items: flex-start;
     padding-top: calc(8px + env(safe-area-inset-top, 0px));
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   .flashcard-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
     gap: 8px;
-    max-width: 100%;
+    margin: 0 auto;
+    overflow-x: hidden;
   }
   .flashcard-hud {
     gap: 4px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    flex-wrap: wrap !important;
   }
-  .flashcard-hud-left, .flashcard-hud-right {
+  .flashcard-hud-left,
+  .flashcard-hud-right {
     gap: 4px;
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
+    max-width: 100%;
+  }
+  .flashcard-sync-bar {
+    flex-wrap: wrap !important;
+    gap: 8px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
   .flashcard-mode-pill {
     padding: 2px 7px;
@@ -3482,10 +3520,15 @@
     font-size: 10.5px;
   }
   .flashcard-card-box {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
     padding: 16px 14px;
     gap: 12px;
     border-radius: 12px;
     max-height: none;
+    overflow-x: clip;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
   }
@@ -3493,6 +3536,8 @@
     flex-direction: column;
     gap: 8px;
     padding: 6px 0;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .flashcard-word-actions {
     position: static;
@@ -3500,56 +3545,162 @@
     justify-content: center;
     flex-wrap: wrap;
     margin-top: 4px;
+    width: 100%;
   }
   .flashcard-word {
     font-size: clamp(30px, 7vw, 42px);
   }
   .flashcard-speaker-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+
+  /* 全面自动换行：7 个词性按钮组向下折行 */
+  .flashcard-pos-section {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .flashcard-pos-group {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .flashcard-pos-group::-webkit-scrollbar {
-    display: none;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    overflow-x: visible !important;
+    gap: 6px;
+    justify-content: center;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-bottom: 0;
   }
   .flashcard-pos-pill {
-    padding: 3px 9px;
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-  .flashcard-input-wrap {
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .flashcard-input {
-    padding: 8px 10px;
-    font-size: 16px;
-    flex: 1 0 100%;
-    width: 100%;
+    padding: 5px 10px;
+    font-size: 12.5px;
+    flex: none;
     box-sizing: border-box;
   }
-  .flashcard-submit-btn {
-    padding: 8px 14px;
-    font-size: 13px;
-    flex: 1;
-    min-height: 44px;
+
+  /* 词源标题栏自动换行 & 词源框 100% 贴合主卡片内部 */
+  .flashcard-etym-header {
+    flex-wrap: wrap !important;
+    gap: 6px;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
-  .flashcard-unknown-btn {
-    padding: 8px 10px;
-    font-size: 12px;
-    flex: 1;
-    min-height: 44px;
+  .fc-two-col-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
+  .fc-grid-col-def,
+  .fc-grid-col-etym,
+  .flashcard-etym-inline-wrap,
+  #fcEtymInlineContent,
+  #fcEtymBodyText,
+  .stone-convey-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  #fcEtymInlineContent {
+    box-sizing: border-box !important;
+  }
+
+  /* 2. 答题输入区在移动端的垂直排布 */
+  .flashcard-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  .flashcard-input {
+    padding: 10px 12px;
+    font-size: 16px;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 3. 核心交互升级：手机端底部粘性悬浮栏 (Sticky Bottom Bar) */
+  .bottom-action-bar {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 50 !important;
+    background: rgba(247, 243, 234, 0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    padding: 12px 14px !important;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+    margin: 12px -14px -16px -14px !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    display: flex !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+    width: calc(100% + 28px) !important;
+  }
+
+  /* 拇指热区比例：次要按钮 35% 占宽放左侧，主要按钮 65% 占宽放右侧 */
+  .flashcard-input-actions.bottom-action-bar #fcUnknownBtn,
+  .flashcard-action-bar.bottom-action-bar #fcRetryBtn {
+    order: 1 !important;
+    flex: 35 1 0 !important;
+    width: 35% !important;
+    min-width: 0 !important;
+    min-height: 46px !important;
+    padding: 10px 8px !important;
+    font-size: 13.5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    border-radius: var(--radius-sm) !important;
+    box-sizing: border-box !important;
+  }
+
+  .flashcard-input-actions.bottom-action-bar #fcSubmitBtn,
+  .flashcard-action-bar.bottom-action-bar #fcNextBtn {
+    order: 2 !important;
+    flex: 65 1 0 !important;
+    width: 65% !important;
+    min-width: 0 !important;
+    min-height: 46px !important;
+    padding: 10px 12px !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    border-radius: var(--radius-sm) !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 判对时仅有单个「下一个」按钮，占满整行 */
+  .bottom-action-bar > :only-child,
+  .bottom-action-bar .flashcard-next-btn:only-child {
+    order: 1 !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
   .flashcard-def-comparison {
     padding: 10px 12px;
     gap: 6px;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .flashcard-compare-row {
     grid-template-columns: 1fr;
@@ -3557,12 +3708,19 @@
   }
   .flashcard-footer-tip {
     font-size: 10.5px;
-    display: none; /* 移动端隐藏底部长按键提示，释放空间 */
+    display: none !important; /* 移动端隐藏底部长按键提示，释放空间 */
   }
 }
 
-/* 💻 电脑桌面端大屏专属增强：单词超大、释义清晰醒目、布局舒适大方 */
-@media (min-width: 768px) {
+/* 💻 电脑桌面端大屏专属增强：单词超大、释义清晰醒目、布局舒适大方 (保持原有排版不变) */
+@media (min-width: 769px) {
+  .mobile-btn-text {
+    display: none !important;
+  }
+  .desktop-btn-text {
+    display: inline !important;
+  }
+
   .flashcard-container {
     width: clamp(340px, 88vw, 1280px);
     max-width: 95vw;
@@ -3604,11 +3762,30 @@
     border-radius: 8px;
   }
   .flashcard-input-wrap {
+    display: flex;
     gap: 12px;
+    align-items: center;
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
   }
   .flashcard-input {
+    flex: 1;
+    min-width: 0;
     padding: 14px 18px;
     font-size: 17px;
+  }
+  .flashcard-input-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: none;
+  }
+  .flashcard-input-actions #fcSubmitBtn {
+    order: 1;
+  }
+  .flashcard-input-actions #fcUnknownBtn {
+    order: 2;
   }
   .flashcard-submit-btn {
     padding: 14px 24px;
@@ -3644,8 +3821,23 @@
     line-height: 1.75;
   }
   .flashcard-action-bar {
-    gap: 12px;
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    margin: 0;
     margin-top: 6px;
+    border-top: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .flashcard-action-bar #fcNextBtn {
+    order: 1;
+  }
+  .flashcard-action-bar #fcRetryBtn {
+    order: 2;
   }
   .flashcard-next-btn {
     padding: 12px 30px;

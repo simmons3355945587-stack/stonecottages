@@ -563,3 +563,22 @@ test('english definition preserves all meanings and renders hanging capsules', (
   assert.match(html, /flashcard-en-pos-badge/);
   assert.match(html, /flashcard-en-def-row/);
 });
+
+
+test('mobile sticky bottom bar and dual desktop/mobile action texts are generated properly', () => {
+  const h = setup();
+  const panel = { style: {}, innerHTML: '' };
+  h.elements.set('fcResultPanel', panel);
+  h.elements.set('flashcardBox', { classList: { remove() {}, add() {} } });
+  h.applyEvaluationResult(
+    { correct: false, confidence: 1, reason: '释义有偏差' },
+    '香蕉',
+    [],
+    'n. 苹果'
+  );
+  assert.match(panel.innerHTML, /bottom-action-bar/);
+  assert.match(panel.innerHTML, /mobile-btn-text/);
+  assert.match(panel.innerHTML, /desktop-btn-text/);
+  assert.match(panel.innerHTML, /下一个 \(Enter\)/);
+  assert.match(panel.innerHTML, /再试一次/);
+});
