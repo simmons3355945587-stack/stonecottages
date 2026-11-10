@@ -582,3 +582,41 @@ test('mobile sticky bottom bar and dual desktop/mobile action texts are generate
   assert.match(panel.innerHTML, /下一个 \(Enter\)/);
   assert.match(panel.innerHTML, /再试一次/);
 });
+
+
+test('centerWordCard accurately centers short cards and comfort-positions tall cards', () => {
+  let windowScrollOpts = null;
+  let modalScrollOpts = null;
+  const customWindow = {
+    scrollTo: opts => { windowScrollOpts = opts; },
+    innerHeight: 800,
+    scrollY: 100
+  };
+  const h = setup(undefined, { window: customWindow });
+  
+  const modal = {
+    scrollTop: 100,
+    scrollHeight: 1600,
+    clientHeight: 800,
+    scrollTo: opts => { modalScrollOpts = opts; }
+  };
+  h.elements.set('flashcardModal', modal);
+
+  // 1. 测试短卡片 (高度 300 < 800 * 0.82) -> 几何中心对齐屏幕正中
+  const shortCard = {
+    getBoundingClientRect: () => ({ top: 200, height: 300 })
+  };
+  h.engine.centerWordCard(shortCard, false);
+  // targetScrollY = 100 + 200 - (800 - 300) / 2 = 50
+  assert.equal(modalScrollOpts?.top, 50);
+  assert.equal(modalScrollOpts?.behavior, 'instant');
+
+  // 2. 测试长卡片 (高度 700 >= 800 * 0.82) -> 顶部停在 10% 视口舒适位置
+  const tallCard = {
+    getBoundingClientRect: () => ({ top: 200, height: 700 })
+  };
+  h.engine.centerWordCard(tallCard, true);
+  // targetScrollY = 100 + 200 - 800 * 0.10 = 220
+  assert.equal(modalScrollOpts?.top, 220);
+  assert.equal(modalScrollOpts?.behavior, 'smooth');
+});

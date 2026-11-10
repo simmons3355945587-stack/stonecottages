@@ -159,6 +159,7 @@ window.FlashcardEngine = (() => {
     studyScopeKey: '',
     studyStartIndex: 0,
     activeListLength: 0,
+    justOpened: false,
     todayStats: {
       date: getTodayStr(),
       completed: 0,
@@ -797,6 +798,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (modal) {
       modal.style.display = 'flex';
       requestAnimationFrame(() => modal.classList.add('open'));
+      state.justOpened = true;
       renderCard();
     }
     updateMainGroupSelectUI();
@@ -1109,7 +1111,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         <!-- 顶部 HUD 状态栏 -->
         <div class="flashcard-hud">
           <div class="flashcard-hud-left">
-            <button class="btn btn-secondary btn-xs" onclick="FlashcardEngine.close()" title="退出研习 (Esc)">✕ 退出</button>
+            <button class="btn btn-secondary btn-xs flashcard-exit-btn" id="fcExitBtn" onclick="FlashcardEngine.close()" title="退出研习 (Esc)" style="white-space:nowrap;flex-shrink:0;padding:6px 12px;">✕ 退出</button>
             <div class="flashcard-mode-pill ${state.mode === 'study' ? 'study-pill' : 'review-pill'}" onclick="FlashcardEngine.toggleMode()">
               <span>${state.mode === 'study' ? '📖 新词研习' : '🔄 重点复习'}</span>
               <span style="font-size:10px;opacity:0.75;">(切模式)</span>
@@ -1214,6 +1216,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         setupInputListener(input);
       }
       speakCurrent();
+      const cardBox = document.getElementById('flashcardBox');
+      const smooth = !state.justOpened;
+      state.justOpened = false;
+      centerWordCard(cardBox, smooth);
     }, 50);
   }
 
@@ -1698,6 +1704,47 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
   }
 
+
+  /**
+   * 视口自动滚动聚焦：实现每次加载、切换单词时，主卡片自动对准屏幕正中央
+   */
+  function centerWordCard(cardElement, smooth = true) {
+    if (typeof window === 'undefined') return;
+    if (!cardElement) cardElement = document.getElementById('flashcardBox');
+    if (!cardElement || typeof cardElement.getBoundingClientRect !== 'function') return;
+
+    const modal = document.getElementById('flashcardModal');
+    const isModalScroll = modal && (modal.scrollHeight > modal.clientHeight || window.getComputedStyle?.(modal)?.overflowY === 'auto' || window.getComputedStyle?.(modal)?.overflowY === 'scroll');
+
+    const rect = cardElement.getBoundingClientRect();
+    const vh = window.innerHeight || (document.documentElement ? document.documentElement.clientHeight : 800) || 800;
+    const currentScrollY = isModalScroll 
+      ? (modal.scrollTop || 0) 
+      : (window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0);
+
+    let targetScrollY;
+    // 如果卡片高度小于屏幕可视高度的 82%，将卡片几何中心对准屏幕正中央
+    if (rect.height < vh * 0.82) {
+      targetScrollY = currentScrollY + rect.top - (vh - rect.height) / 2;
+    } else {
+      // 如果卡片展开后较长，将卡片顶部停在距离屏幕顶部 10% 的舒适阅读位置，防止顶部单词被切掉
+      targetScrollY = currentScrollY + rect.top - vh * 0.10;
+    }
+
+    const finalTop = Math.max(0, targetScrollY);
+    const scrollOpts = {
+      top: finalTop,
+      behavior: smooth ? 'smooth' : 'instant'
+    };
+
+    if (modal && typeof modal.scrollTo === 'function') {
+      try { modal.scrollTo(scrollOpts); } catch {}
+    }
+    if (typeof window.scrollTo === 'function') {
+      try { window.scrollTo(scrollOpts); } catch {}
+    }
+  }
+
   function retryCurrent() {
     state.isAnswered = false;
     state.lastResult = null;
@@ -1716,6 +1763,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       inputEl.focus();
     }
     saveSession();
+    setTimeout(() => {
+      centerWordCard(cardBox, true);
+    }, 50);
   }
 
   function nextWord() {
@@ -1724,6 +1774,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     state.isAnswered = false; state.lastResult = null; state.lastUserInput = ""; state.selectedPos = [];
     saveSession();
     renderCard();
+    setTimeout(() => {
+      centerWordCard(document.getElementById('flashcardBox'), true);
+    }, 50);
   }
 
   function toggleMode() {
@@ -1899,6 +1952,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     togglePosOption,
     toggleLanguageMode,
     speakCurrent,
+    centerWordCard,
     setStudyGroup,
     getStudyGroups,
     getCurrentStudyGroup,

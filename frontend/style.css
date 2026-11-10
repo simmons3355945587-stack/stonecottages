@@ -3140,6 +3140,13 @@
 .flashcard-container { width: clamp(340px, 88vw, 1280px); max-width: 95vw; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 .flashcard-hud { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
 .flashcard-hud-left, .flashcard-hud-right { display: flex; align-items: center; gap: 8px; }
+.flashcard-exit-btn,
+#fcExitBtn {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  padding: 6px 12px !important;
+  line-height: 1.2;
+}
 .flashcard-mode-pill {
   padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 800;
   cursor: pointer; display: inline-flex; align-items: center; gap: 4px; user-select: none;
@@ -3476,11 +3483,13 @@
     padding: 8px 10px;
     align-items: flex-start;
     padding-top: calc(8px + env(safe-area-inset-top, 0px));
+    padding-bottom: 32dvh !important; /* 预留移动端底部物理滚动余量，保证卡片能被提拉到屏幕中央 */
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .flashcard-container {
     width: 100% !important;
@@ -3490,6 +3499,9 @@
     gap: 8px;
     margin: 0 auto;
     overflow-x: hidden;
+    overflow-y: visible !important;
+    max-height: none !important;
+    padding-bottom: 32dvh !important;
   }
   .flashcard-hud {
     gap: 4px;
