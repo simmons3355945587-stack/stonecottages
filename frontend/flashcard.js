@@ -159,7 +159,6 @@ window.FlashcardEngine = (() => {
     studyScopeKey: '',
     studyStartIndex: 0,
     activeListLength: 0,
-    pendingFocusScroll: null,
     todayStats: {
       date: getTodayStr(),
       completed: 0,
@@ -804,12 +803,19 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     initQueue();
 
+    if (typeof document !== 'undefined' && document.body?.classList) {
+      document.body.classList.add('flashcard-open');
+    }
     const modal = document.getElementById('flashcardModal');
     if (modal) {
       modal.style.display = 'flex';
-      requestAnimationFrame(() => modal.classList.add('open'));
-      state.pendingFocusScroll = 'instant';
+      if (typeof requestAnimationFrame === 'function') {
+        requestAnimationFrame(() => modal.classList?.add('open'));
+      } else {
+        modal.classList?.add('open');
+      }
       renderCard();
+      resetScrollToTop();
     }
     updateMainGroupSelectUI();
   }
@@ -1047,10 +1053,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     evaluationVersion++; state.isEvaluating = false;
     state.isOpen = false;
     saveSession();
+    if (typeof document !== 'undefined' && document.body?.classList) {
+      document.body.classList.remove('flashcard-open');
+    }
     const modal = document.getElementById('flashcardModal');
     if (modal) {
       modal.classList.remove('open');
-      setTimeout(() => { modal.style.display = 'none'; }, 200);
+      setTimeout(() => { if (!state.isOpen) modal.style.display = 'none'; }, 200);
     }
     if (typeof updateBadges === 'function') updateBadges();
   }
@@ -1223,11 +1232,6 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         setupInputListener(input);
       }
       speakCurrent();
-      if (state.pendingFocusScroll) {
-        const smooth = (state.pendingFocusScroll === 'smooth');
-        state.pendingFocusScroll = null;
-        focusCardTop(document.getElementById('flashcardBox'), smooth);
-      }
     }, 50);
   }
 
@@ -1714,47 +1718,16 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
 
   /**
-   * 锚定卡片顶部单次滚动：仅在首次加载、切换下一词或再试一次时，将主卡片上边缘滚至距离屏幕上沿 68px 处
+   * 仅在打开卡片或主动切词/重测时重置顶部偏移，绝不干预用户正常滚动浏览
    */
-  function focusCardTop(cardElement, smooth = true) {
-    if (typeof window === 'undefined') return;
-    if (!cardElement) cardElement = document.getElementById('flashcardBox');
-    if (!cardElement || typeof cardElement.getBoundingClientRect !== 'function') return;
-
-    const topOffset = 68; // 卡片顶部距离屏幕上沿保留 68px 呼吸空间
+  function resetScrollToTop() {
+    if (typeof document === 'undefined') return;
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
     const modal = document.getElementById('flashcardModal');
-    const container = typeof cardElement.closest === 'function' ? cardElement.closest('.flashcard-container') : null;
-    const modalStyle = modal && typeof window.getComputedStyle === 'function' ? window.getComputedStyle(modal) : null;
-    const containerStyle = container && typeof window.getComputedStyle === 'function' ? window.getComputedStyle(container) : null;
-
-    const isContainerScroll = container && container.scrollHeight > container.clientHeight && (!containerStyle || containerStyle.overflowY === 'auto' || containerStyle.overflowY === 'scroll');
-    const isModalScroll = modal && (modal.scrollHeight > modal.clientHeight || (modalStyle && (modalStyle.overflowY === 'auto' || modalStyle.overflowY === 'scroll')));
-
-    const rect = cardElement.getBoundingClientRect();
-    const scrollOpts = (top) => ({
-      top: Math.max(0, top),
-      behavior: smooth ? 'smooth' : 'instant'
-    });
-
-    if (isContainerScroll && typeof container.scrollTo === 'function') {
-      const targetTop = isMobileViewport()
-        ? ((container.scrollTop || 0) + (rect.top - (typeof container.getBoundingClientRect === 'function' ? container.getBoundingClientRect().top : 0)) - topOffset)
-        : 0;
-      try { container.scrollTo(scrollOpts(targetTop)); } catch {}
-      return;
-    }
-
-    if (isModalScroll && typeof modal.scrollTo === 'function') {
-      const targetModalTop = (modal.scrollTop || 0) + rect.top - topOffset;
-      try { modal.scrollTo(scrollOpts(targetModalTop)); } catch {}
-      return;
-    }
-
-    const currentScrollY = window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0;
-    const targetY = rect.top + currentScrollY - topOffset;
-    if (typeof window.scrollTo === 'function') {
-      try { window.scrollTo(scrollOpts(targetY)); } catch {}
-    }
+    if (modal) modal.scrollTop = 0;
+    const container = typeof modal?.querySelector === 'function' ? modal.querySelector('.flashcard-container') : null;
+    if (container) container.scrollTop = 0;
   }
 
   function retryCurrent() {
@@ -1775,18 +1748,16 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       safeFocusNoScroll(inputEl);
     }
     saveSession();
-    setTimeout(() => {
-      focusCardTop(cardBox, true);
-    }, 50);
+    resetScrollToTop();
   }
 
   function nextWord() {
     if (state.isEvaluating || !state.isAnswered) return;
     state.currentIndex += 1;
     state.isAnswered = false; state.lastResult = null; state.lastUserInput = ""; state.selectedPos = [];
-    state.pendingFocusScroll = 'smooth';
     saveSession();
     renderCard();
+    resetScrollToTop();
   }
 
   function toggleMode() {
@@ -1962,7 +1933,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     togglePosOption,
     toggleLanguageMode,
     speakCurrent,
-    focusCardTop,
+    resetScrollToTop,
     setStudyGroup,
     getStudyGroups,
     getCurrentStudyGroup,

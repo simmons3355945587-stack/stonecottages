@@ -584,50 +584,64 @@ test('mobile sticky bottom bar and dual desktop/mobile action texts are generate
 });
 
 
-test('focusCardTop anchors card top to 68px without scrolling during evaluation or async expansion', () => {
-  let windowScrollOpts = null;
-  let modalScrollOpts = null;
+test('flashcard removes scrollTo/scrollIntoView and only resets scrollTop on navigation without stealing focus or scroll during evaluation', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const flashcardSource = fs.readFileSync(path.join(__dirname, '..', 'frontend', 'flashcard.js'), 'utf8');
+  assert.doesNotMatch(flashcardSource, /\.scrollTo\s*\(/);
+  assert.doesNotMatch(flashcardSource, /\.scrollIntoView\s*\(/);
+  assert.doesNotMatch(flashcardSource, /focusCardTop/);
+
+  let windowScrollToCalled = false;
   let nextBtnFocusCalled = false;
   const customWindow = {
-    scrollTo: opts => { windowScrollOpts = opts; },
+    scrollTo: () => { windowScrollToCalled = true; },
     innerWidth: 390,
     innerHeight: 844,
-    scrollY: 100
+    scrollY: 240
   };
   const h = setup(undefined, { window: customWindow });
 
-  // 1. 验证 modal 未滚动时直接回退至 window.scrollTo 并锚定 68px 顶部间距
-  const card = {
-    getBoundingClientRect: () => ({ top: 200, height: 300 })
-  };
-  h.engine.focusCardTop(card, false);
-  // targetY = 200 + 100 - 68 = 232
-  assert.equal(windowScrollOpts?.top, 232);
-  assert.equal(windowScrollOpts?.behavior, 'instant');
-
-  // 2. 验证 modal 为滚动容器时精准锚定 modal 顶部 68px
+  // 1. 判题及展开释义/词源时绝对不干预滚动条，也不抢占移动端按钮 focus
+  const container = { scrollTop: 310 };
   const modal = {
-    scrollTop: 100,
-    scrollHeight: 1600,
-    clientHeight: 844,
-    scrollTo: opts => { modalScrollOpts = opts; }
+    scrollTop: 220,
+    style: {},
+    classList: { add() {}, remove() {} },
+    querySelector: sel => (sel === '.flashcard-container' ? container : null)
   };
   h.elements.set('flashcardModal', modal);
-  h.engine.focusCardTop(card, true);
-  // targetModalTop = 100 + 200 - 68 = 232
-  assert.equal(modalScrollOpts?.top, 232);
-  assert.equal(modalScrollOpts?.behavior, 'smooth');
-
-  // 3. 验证展开判题结果 / 异步词源与词典返回时不触发任何 scrollTo 或移动端按钮 focus 抢占滚动
-  windowScrollOpts = null;
-  modalScrollOpts = null;
   const panel = { style: {}, innerHTML: '' };
   h.elements.set('fcResultPanel', panel);
-  h.elements.set('flashcardBox', { classList: { remove() {}, add() {} }, getBoundingClientRect: () => ({ top: 68, height: 700 }) });
+  h.elements.set('flashcardBox', { classList: { remove() {}, add() {} } });
   h.elements.set('fcNextBtn', { focus() { nextBtnFocusCalled = true; }, innerHTML: '' });
 
   h.applyEvaluationResult({ correct: true, confidence: 1, reason: '准确匹配' }, '重聚', [], 'v. 重聚');
-  assert.equal(windowScrollOpts, null);
-  assert.equal(modalScrollOpts, null);
+  assert.equal(windowScrollToCalled, false);
   assert.equal(nextBtnFocusCalled, false);
+  assert.equal(modal.scrollTop, 220);
+  assert.equal(container.scrollTop, 310);
+
+  // 2. 切换下一个词时，通过 scrollTop = 0 回到最顶部，而不调用 scrollTo
+  h.engine.nextWord();
+  assert.equal(windowScrollToCalled, false);
+  assert.equal(modal.scrollTop, 0);
+  assert.equal(container.scrollTop, 0);
+
+  // 3. 打开卡片与重测均重置 scrollTop 至 0 且不调用 scrollTo
+  modal.scrollTop = 180;
+  container.scrollTop = 95;
+  h.engine.open();
+  assert.equal(windowScrollToCalled, false);
+  assert.equal(modal.scrollTop, 0);
+  assert.equal(container.scrollTop, 0);
+
+  modal.scrollTop = 140;
+  container.scrollTop = 60;
+  h.engine.retryCurrent();
+  assert.equal(windowScrollToCalled, false);
+  assert.equal(modal.scrollTop, 0);
+  assert.equal(container.scrollTop, 0);
+
+  h.engine.close();
 });

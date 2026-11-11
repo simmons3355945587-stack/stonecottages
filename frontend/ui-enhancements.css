@@ -643,7 +643,7 @@ body[data-active-view="cottage"] .container {
 
 /* 手机竖屏状态下自动 90° 旋转横屏，填满手机长边并放大 2.2 倍 */
 @media (max-width: 768px) and (orientation: portrait) {
-  body[data-active-view="cottage"]:not(.cottage-portrait-mode) {
+  body[data-active-view="cottage"]:not(.cottage-portrait-mode):not(.flashcard-open) {
     overflow: hidden !important;
     position: fixed !important;
     width: 100vw !important;

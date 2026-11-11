@@ -81,6 +81,14 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: clip;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
   body {
     font-family: var(--font-sans);
     background: var(--bg-main);
@@ -88,7 +96,7 @@
     color: var(--text-primary);
     min-height: 100vh;
     padding-bottom: calc(75px + var(--safe-bottom));
-    overflow-x: hidden;
+    overflow-x: clip;
     line-height: 1.5;
     transition: background 0.3s ease, color 0.3s ease;
   }
@@ -3478,29 +3486,61 @@
     display: none !important;
   }
 
-  /* 1. 锁死横向宽度，消灭横向溢出，改为纯纵向滑动，恢复正常底部留白 */
-  .flashcard-modal-overlay {
-    padding: 8px 10px;
-    align-items: flex-start;
-    padding-top: calc(8px + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
+  /* 1. 恢复原生顶部流式布局，严禁任何固定定位或嵌套滚动锁死 */
+  body.flashcard-open {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    overflow-x: clip !important;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
+    padding: 0 !important;
+    background: #0d0a0f !important;
+  }
+  body.flashcard-open > .header,
+  body.flashcard-open > .container,
+  body.flashcard-open > .bottom-dock,
+  body.flashcard-open > #stoneRadioLauncher {
+    display: none !important;
+  }
+  body.flashcard-open .flashcard-modal-overlay,
+  .flashcard-modal-overlay.open {
+    position: relative !important;
+    inset: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100dvh !important;
+    height: auto !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    overscroll-behavior: auto !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #0d0a0f !important;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 10px calc(24px + env(safe-area-inset-bottom, 0px)) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
   .flashcard-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
     box-sizing: border-box !important;
     gap: 8px;
-    margin: 0 auto;
-    overflow-x: hidden;
-    overflow-y: visible !important;
+    margin: 4px auto 0 !important;
+    overflow: visible !important;
+    height: auto !important;
     max-height: none !important;
+    overscroll-behavior: auto !important;
     padding-bottom: 0 !important;
   }
   .flashcard-hud {
@@ -3537,12 +3577,15 @@
     min-width: 0 !important;
     box-sizing: border-box !important;
     padding: 16px 14px;
+    margin-top: 8px !important;
     gap: 12px;
     border-radius: 12px;
-    max-height: none;
-    overflow-x: clip;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    overscroll-behavior: auto !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
   .flashcard-word-row {
     flex-direction: column;
@@ -3620,6 +3663,8 @@
     box-sizing: border-box !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
   #fcEtymInlineContent {
     box-sizing: border-box !important;
