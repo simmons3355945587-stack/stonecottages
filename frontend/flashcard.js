@@ -159,7 +159,7 @@ window.FlashcardEngine = (() => {
     studyScopeKey: '',
     studyStartIndex: 0,
     activeListLength: 0,
-    justOpened: false,
+    pendingFocusScroll: null,
     todayStats: {
       date: getTodayStr(),
       completed: 0,
@@ -168,6 +168,16 @@ window.FlashcardEngine = (() => {
       target: 100
     }
   };
+
+  function isMobileViewport() {
+    if (typeof window === 'undefined') return false;
+    return (window.innerWidth <= 768) || ('ontouchstart' in window) || /Android|iPhone|iPad|iPod/i.test(navigator?.userAgent || '');
+  }
+
+  function safeFocusNoScroll(el) {
+    if (!el || typeof el.focus !== 'function' || isMobileViewport()) return;
+    try { el.focus({ preventScroll: true }); } catch { try { el.focus(); } catch {} }
+  }
 
   function getTodayStr() {
     const d = new Date();
@@ -798,7 +808,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (modal) {
       modal.style.display = 'flex';
       requestAnimationFrame(() => modal.classList.add('open'));
-      state.justOpened = true;
+      state.pendingFocusScroll = 'instant';
       renderCard();
     }
     updateMainGroupSelectUI();
@@ -1208,18 +1218,16 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
     setTimeout(() => {
       const input = document.getElementById('fcInput');
-      const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window) || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (input) {
-        if (!isMobile) {
-          input.focus();
-        }
+        safeFocusNoScroll(input);
         setupInputListener(input);
       }
       speakCurrent();
-      const cardBox = document.getElementById('flashcardBox');
-      const smooth = !state.justOpened;
-      state.justOpened = false;
-      centerWordCard(cardBox, smooth);
+      if (state.pendingFocusScroll) {
+        const smooth = (state.pendingFocusScroll === 'smooth');
+        state.pendingFocusScroll = null;
+        focusCardTop(document.getElementById('flashcardBox'), smooth);
+      }
     }, 50);
   }
 
@@ -1289,7 +1297,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       addCurrentMark();
       if (typeof soundClick === 'function') soundClick();
       const nextBtn = document.getElementById('fcNextBtn');
-      if (nextBtn && typeof nextBtn.focus === 'function') { try { nextBtn.focus(); } catch {} }
+      safeFocusNoScroll(nextBtn);
       return;
     }
 
@@ -1299,7 +1307,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       undoCurrentMark();
       if (typeof soundClick === 'function') soundClick();
       const nextBtn = document.getElementById('fcNextBtn');
-      if (nextBtn && typeof nextBtn.focus === 'function') { try { nextBtn.focus(); } catch {} }
+      safeFocusNoScroll(nextBtn);
       return;
     }
 
@@ -1609,7 +1617,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (completed) completed.textContent = state.todayStats.completed;
     updateManualMarkControls();
     const nextBtn = document.getElementById('fcNextBtn');
-    if (nextBtn && typeof nextBtn.focus === 'function') { try { nextBtn.focus(); } catch {} }
+    safeFocusNoScroll(nextBtn);
     fetchEnglishDefOnline(state.currentWord);
     if (!renderOnly && isUncertain) saveSession();
   }
@@ -1671,7 +1679,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (tag) { tag.hidden = count === 0; tag.style.display = count > 0 ? '' : 'none'; tag.textContent = `★ Mark ×${count}`; }
     if (nextButton) {
       nextButton.innerHTML = manualMarkNextLabel();
-      if (state.isAnswered && typeof nextButton.focus === 'function') { try { nextButton.focus(); } catch {} }
+      if (state.isAnswered) safeFocusNoScroll(nextButton);
     }
   }
 
@@ -1706,42 +1714,46 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
 
   /**
-   * 视口自动滚动聚焦：实现每次加载、切换单词时，主卡片自动对准屏幕正中央
+   * 锚定卡片顶部单次滚动：仅在首次加载、切换下一词或再试一次时，将主卡片上边缘滚至距离屏幕上沿 68px 处
    */
-  function centerWordCard(cardElement, smooth = true) {
+  function focusCardTop(cardElement, smooth = true) {
     if (typeof window === 'undefined') return;
     if (!cardElement) cardElement = document.getElementById('flashcardBox');
     if (!cardElement || typeof cardElement.getBoundingClientRect !== 'function') return;
 
+    const topOffset = 68; // 卡片顶部距离屏幕上沿保留 68px 呼吸空间
     const modal = document.getElementById('flashcardModal');
-    const isModalScroll = modal && (modal.scrollHeight > modal.clientHeight || window.getComputedStyle?.(modal)?.overflowY === 'auto' || window.getComputedStyle?.(modal)?.overflowY === 'scroll');
+    const container = typeof cardElement.closest === 'function' ? cardElement.closest('.flashcard-container') : null;
+    const modalStyle = modal && typeof window.getComputedStyle === 'function' ? window.getComputedStyle(modal) : null;
+    const containerStyle = container && typeof window.getComputedStyle === 'function' ? window.getComputedStyle(container) : null;
+
+    const isContainerScroll = container && container.scrollHeight > container.clientHeight && (!containerStyle || containerStyle.overflowY === 'auto' || containerStyle.overflowY === 'scroll');
+    const isModalScroll = modal && (modal.scrollHeight > modal.clientHeight || (modalStyle && (modalStyle.overflowY === 'auto' || modalStyle.overflowY === 'scroll')));
 
     const rect = cardElement.getBoundingClientRect();
-    const vh = window.innerHeight || (document.documentElement ? document.documentElement.clientHeight : 800) || 800;
-    const currentScrollY = isModalScroll 
-      ? (modal.scrollTop || 0) 
-      : (window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0);
-
-    let targetScrollY;
-    // 如果卡片高度小于屏幕可视高度的 82%，将卡片几何中心对准屏幕正中央
-    if (rect.height < vh * 0.82) {
-      targetScrollY = currentScrollY + rect.top - (vh - rect.height) / 2;
-    } else {
-      // 如果卡片展开后较长，将卡片顶部停在距离屏幕顶部 10% 的舒适阅读位置，防止顶部单词被切掉
-      targetScrollY = currentScrollY + rect.top - vh * 0.10;
-    }
-
-    const finalTop = Math.max(0, targetScrollY);
-    const scrollOpts = {
-      top: finalTop,
+    const scrollOpts = (top) => ({
+      top: Math.max(0, top),
       behavior: smooth ? 'smooth' : 'instant'
-    };
+    });
 
-    if (modal && typeof modal.scrollTo === 'function') {
-      try { modal.scrollTo(scrollOpts); } catch {}
+    if (isContainerScroll && typeof container.scrollTo === 'function') {
+      const targetTop = isMobileViewport()
+        ? ((container.scrollTop || 0) + (rect.top - (typeof container.getBoundingClientRect === 'function' ? container.getBoundingClientRect().top : 0)) - topOffset)
+        : 0;
+      try { container.scrollTo(scrollOpts(targetTop)); } catch {}
+      return;
     }
+
+    if (isModalScroll && typeof modal.scrollTo === 'function') {
+      const targetModalTop = (modal.scrollTop || 0) + rect.top - topOffset;
+      try { modal.scrollTo(scrollOpts(targetModalTop)); } catch {}
+      return;
+    }
+
+    const currentScrollY = window.scrollY || (document.documentElement && document.documentElement.scrollTop) || 0;
+    const targetY = rect.top + currentScrollY - topOffset;
     if (typeof window.scrollTo === 'function') {
-      try { window.scrollTo(scrollOpts); } catch {}
+      try { window.scrollTo(scrollOpts(targetY)); } catch {}
     }
   }
 
@@ -1760,11 +1772,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (posSection) posSection.style.display = 'flex';
     if (inputEl) {
       inputEl.value = '';
-      inputEl.focus();
+      safeFocusNoScroll(inputEl);
     }
     saveSession();
     setTimeout(() => {
-      centerWordCard(cardBox, true);
+      focusCardTop(cardBox, true);
     }, 50);
   }
 
@@ -1772,11 +1784,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (state.isEvaluating || !state.isAnswered) return;
     state.currentIndex += 1;
     state.isAnswered = false; state.lastResult = null; state.lastUserInput = ""; state.selectedPos = [];
+    state.pendingFocusScroll = 'smooth';
     saveSession();
     renderCard();
-    setTimeout(() => {
-      centerWordCard(document.getElementById('flashcardBox'), true);
-    }, 50);
   }
 
   function toggleMode() {
@@ -1852,7 +1862,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       </div>
     `;
     if (typeof soundSuccess === 'function') soundSuccess();
-    setTimeout(() => { const btn = document.getElementById('fcFinishRestartBtn'); if (btn && typeof btn.focus === 'function') { try { btn.focus(); } catch {} } }, 50);
+    setTimeout(() => { const btn = document.getElementById('fcFinishRestartBtn'); safeFocusNoScroll(btn); }, 50);
   }
 
   function toggleLanguageMode() {
@@ -1952,7 +1962,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     togglePosOption,
     toggleLanguageMode,
     speakCurrent,
-    centerWordCard,
+    focusCardTop,
     setStudyGroup,
     getStudyGroups,
     getCurrentStudyGroup,

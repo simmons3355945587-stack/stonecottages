@@ -3478,12 +3478,12 @@
     display: none !important;
   }
 
-  /* 1. 锁死横向宽度，消灭横向溢出，改为纯纵向滑动 */
+  /* 1. 锁死横向宽度，消灭横向溢出，改为纯纵向滑动，恢复正常底部留白 */
   .flashcard-modal-overlay {
     padding: 8px 10px;
     align-items: flex-start;
     padding-top: calc(8px + env(safe-area-inset-top, 0px));
-    padding-bottom: 32dvh !important; /* 预留移动端底部物理滚动余量，保证卡片能被提拉到屏幕中央 */
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)) !important;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -3501,7 +3501,7 @@
     overflow-x: hidden;
     overflow-y: visible !important;
     max-height: none !important;
-    padding-bottom: 32dvh !important;
+    padding-bottom: 0 !important;
   }
   .flashcard-hud {
     gap: 4px;
