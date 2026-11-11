@@ -158,11 +158,12 @@ let appSettings = loadFromStorage(STORAGE_KEYS.SETTINGS, {
   customModel: 'gemini-3.7-flash',
   mimoKey: '',
   audioMuted: false,
-  enableRiskEngine: true,
-  typesafeKey: 'apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5'
+  enableRiskEngine: true
 });
-if (!appSettings.typesafeKey) {
-  appSettings.typesafeKey = 'apikey_21311d54ff438cd543d487365c0646a5ba09_4d0e27faf92f086612884a847f6b7536f90f5981a46bb19b0a65a6cf257375f5';
+// Remove obsolete provider secrets from existing browser settings.
+if ('typesafeKey' in appSettings) {
+  delete appSettings.typesafeKey;
+  saveToStorage(STORAGE_KEYS.SETTINGS, appSettings);
 }
 if (appSettings.expeditionAutoReduceMark === undefined) {
   appSettings.expeditionAutoReduceMark = true;
