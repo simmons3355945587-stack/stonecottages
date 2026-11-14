@@ -179,7 +179,7 @@ window.Stone = (() => {
       if (hit?.expires > Date.now()) return hit.data;
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 6500);
+        const timeout = setTimeout(() => controller.abort(), 3500);
         let data;
         try {
         const r = await fetch(resource, { signal: controller.signal });

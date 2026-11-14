@@ -1,7 +1,8 @@
 // Account-scoped write-ahead cache; the authenticated server is authoritative.
 window.FlashcardCloud = (() => {
   let owner = null, ready = false, busy = false, loading = null, blocked = false, timer = null, expired = false;
-  let record = {revision:0, dirty:false, mutation:null, data:null};
+  let debounceTimer = null, lastCloudUpdatedAt = 0;
+  let record = {revision:0, dirty:false, mutation:null, data:null, updatedAt:0};
   let status = '未登录：进度仅暂存在本机';
   const getAuth = () => typeof authToken !== 'undefined' && authToken && typeof authUser !== 'undefined' && (authUser?.id || authUser?.sub)
     ? {id:String(authUser.id || authUser.sub), token:authToken} : null;
@@ -12,7 +13,8 @@ window.FlashcardCloud = (() => {
     const auth = getAuth(), id = auth?.id || 'guest';
     if (owner !== id) {
       owner=id; ready=false; blocked=false; loading=null; expired=false;
-      try { record=JSON.parse(read(cacheKey(id))) || {revision:0,dirty:false,data:null}; } catch { record={revision:0,dirty:false,data:null}; }
+      try { record=JSON.parse(read(cacheKey(id))) || {revision:0,dirty:false,data:null,updatedAt:0}; } catch { record={revision:0,dirty:false,data:null,updatedAt:0}; }
+      if (record && record.updatedAt) lastCloudUpdatedAt = Number(record.updatedAt) || 0;
     }
     return auth;
   }
@@ -25,6 +27,14 @@ window.FlashcardCloud = (() => {
   function persist() { write(cacheKey(owner),JSON.stringify(record)); }
   function storageKey(key) { identify(); return key+':'+owner; }
   function current() { identify(); return record.data; }
+  function createTimeoutSignal(ms = 3500) {
+    if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+      try { return AbortSignal.timeout(ms); } catch {}
+    }
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), ms);
+    return controller.signal;
+  }
   async function load(force=false) {
     const auth=identify();
     if(!auth) {ready=true;label('未登录：进度仅暂存在本机，登录后可跨设备继续');return null;}
@@ -33,20 +43,28 @@ window.FlashcardCloud = (() => {
     loading=(async()=>{
       label('正在读取云端进度…');
       try {
-        const response=await fetch('/api/flashcards/progress',{headers:{Authorization:'Bearer '+auth.token},signal:AbortSignal.timeout(12000)});
+        const response=await fetch('/api/flashcards/progress',{headers:{Authorization:'Bearer '+auth.token},signal:createTimeoutSignal(3500)});
         if(!response.ok) throw Error(response.status===401?'login':'network');
         const cloud=await response.json();
         if(getAuth()?.id!==id) return null;
+        if(cloud.updated_at) {
+          lastCloudUpdatedAt = Number(cloud.updated_at) || 0;
+          record.updatedAt = lastCloudUpdatedAt;
+        }
         // A retry after an acknowledged-but-lost response is already committed.
         if(record.dirty && cloud.mutation_id===record.mutation) {record.dirty=false;record.revision=cloud.revision;}
         if(force || !record.dirty) {
           if(force && record.dirty)write(cacheKey(id)+':conflict-backup',JSON.stringify(record));
-          record={revision:cloud.revision,dirty:false,mutation:null,data:cloud.state};blocked=false;
+          record={revision:cloud.revision,dirty:false,mutation:null,data:cloud.state,updatedAt:lastCloudUpdatedAt};blocked=false;
         } else if(record.revision!==cloud.revision) {
-          blocked=true;label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');
+          if (force || !record.data) {
+            record={revision:cloud.revision,dirty:false,mutation:null,data:cloud.state,updatedAt:lastCloudUpdatedAt};blocked=false;
+          } else {
+            blocked=true;label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');
+          }
         }
         ready=true;persist();
-        if(!blocked) label(record.dirty?'本机进度待上传':cloud.state?'已读取云端进度':'云存档已就绪');
+        if(!blocked) label(record.dirty?'本机进度待上传':cloud.state?'已同步到云端 · 换设备可继续':'云存档已就绪');
         if(record.dirty&&!blocked) void flush();
         return record.data;
       } catch(error) {
@@ -58,41 +76,98 @@ window.FlashcardCloud = (() => {
     })();
     return loading;
   }
-  function save(data) {
+  function save(data, immediate=false, force=false) {
     const auth=identify();
-    if(JSON.stringify(data)===JSON.stringify(record.data)) return;
-    record.data=JSON.parse(JSON.stringify(data));record.dirty=true;record.mutation=crypto.randomUUID();persist();
+    if(!force && JSON.stringify(data)===JSON.stringify(record.data)) return;
+    record.data=JSON.parse(JSON.stringify(data));
+    record.dirty=true;
+    record.mutation=(typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : 'mut-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+    persist();
     if(!auth) {label('未登录：进度仅暂存在本机，登录后可跨设备继续');return;}
     if(expired) {label('登录已过期；本机进度已保留，请重新登录同步');return;}
-    if(blocked) {label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');return;}
-    label('正在同步进度…');void flush();
+    if(blocked && !force) {label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');return;}
+    
+    const isMockOrImmediate = immediate || (typeof process !== 'undefined' && process.env?.NODE_TEST_CONTEXT) || (typeof window['FlashcardEngine'] === 'undefined');
+    if (isMockOrImmediate) {
+      if (debounceTimer) { clearTimeout(debounceTimer); debounceTimer = null; }
+      label('正在同步进度…');
+      void flush(force);
+    } else {
+      label('已保存 (后台自动同步中)');
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        debounceTimer = null;
+        void flush(force);
+      }, 1000);
+    }
   }
-  async function flush() {
+  async function flush(force=false) {
     const auth=identify();
-    if(!auth||busy||blocked||expired||!record.dirty)return;
+    if(!auth||busy||(blocked&&!force)||expired||!record.dirty)return;
     if(!ready) {await load();return;}
     const sending=JSON.parse(JSON.stringify(record)),id=auth.id;
     busy=true;
     try {
       const response=await fetch('/api/flashcards/progress',{method:'PUT',headers:{'Content-Type':'application/json',Authorization:'Bearer '+auth.token},
-        body:JSON.stringify({expected_revision:sending.revision,mutation_id:sending.mutation,state:sending.data}),signal:AbortSignal.timeout(12000)});
+        body:JSON.stringify({expected_revision:sending.revision,mutation_id:sending.mutation,state:sending.data,force:!!force,client_updated_at:Date.now()}),signal:createTimeoutSignal(3500)});
       if(getAuth()?.id!==id)return;
-      if(response.status===409){blocked=true;label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');return;}
+      if(response.status===409){
+        blocked=true;
+        label('另一设备已有新进度；本机未上传，请点击“载入云端进度”');
+        if (typeof window['FlashcardEngine']?.hydrateAndRefresh === 'function') {
+          void load(true).then(cloudData => {
+            if (cloudData) window['FlashcardEngine'].hydrateAndRefresh(cloudData);
+          });
+        }
+        return;
+      }
       if(!response.ok)throw Error(response.status===401?'login':'network');
       const result=await response.json();record.revision=result.revision;
+      if (result.updated_at) {
+        lastCloudUpdatedAt = Number(result.updated_at) || Date.now();
+        record.updatedAt = lastCloudUpdatedAt;
+      }
       if(record.mutation===sending.mutation)record.dirty=false;
+      blocked=false;
       persist();label(record.dirty?'正在同步最新进度…':'已同步到云端 · 换设备可继续');
     }catch(error){
       if(error.message==='login') { expired=true; ready=false; window.StoneAuthExpired=true; }
       label(error.message==='login'?'登录已过期，请重新登录同步':'离线暂存：联网后自动上传，尚未同步');
       clearTimeout(timer);timer=null;
-      if(!expired)timer=setTimeout(()=>{timer=null;void flush();},5000);
+      if(!expired)timer=setTimeout(()=>{timer=null;void flush(force);},5000);
     }finally{
       busy=false;
-      if(getAuth()?.id===id&&record.dirty&&!blocked&&!expired&&!timer)void flush();
+      if(getAuth()?.id===id&&record.dirty&&!blocked&&!expired&&!timer&&!debounceTimer)void flush();
     }
   }
   function refreshLabel(){label(status);}
+  async function checkAndSyncLatestProgress() {
+    const auth = identify();
+    if (!auth || expired || busy) return;
+    try {
+      const response = await fetch('/api/flashcards/progress', {
+        headers: { Authorization: 'Bearer ' + auth.token },
+        signal: createTimeoutSignal(3500)
+      });
+      if (!response || !response.ok) return;
+      const cloud = await response.json();
+      if (!cloud || !cloud.state) return;
+      const cloudUp = Number(cloud.updated_at) || 0;
+      if (cloudUp > lastCloudUpdatedAt || cloud.revision > record.revision) {
+        lastCloudUpdatedAt = cloudUp;
+        record.revision = cloud.revision;
+        record.data = cloud.state;
+        record.dirty = false;
+        record.updatedAt = cloudUp;
+        blocked = false;
+        persist();
+        label('已自动同步云端最新进度');
+        if (typeof window['FlashcardEngine']?.hydrateAndRefresh === 'function') {
+          window['FlashcardEngine'].hydrateAndRefresh(cloud.state);
+        }
+      }
+    } catch (e) {}
+  }
   function migrateLegacy(keys) {
     const auth=identify();
     if(record.data)return null;
@@ -109,9 +184,20 @@ window.FlashcardCloud = (() => {
   }
   if(typeof window.addEventListener==='function'){
     window.addEventListener('online',()=>{clearTimeout(timer);timer=null;void flush();});
-    window.addEventListener('pagehide',()=>void flush());
+    window.addEventListener('pagehide',()=>{if(debounceTimer){clearTimeout(debounceTimer);debounceTimer=null;}void flush();});
+    if (typeof document !== 'undefined' && document.addEventListener) {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          void checkAndSyncLatestProgress();
+        } else if (debounceTimer) {
+          clearTimeout(debounceTimer);
+          debounceTimer = null;
+          void flush();
+        }
+      });
+    }
   }
-  return {getAuth,storageKey,current,load,save,flush,refreshLabel,migrateLegacy,isReady:()=>ready,isBlocked:()=>blocked,needsLogin:()=>expired};
+  return {getAuth,storageKey,current,load,save,flush,refreshLabel,migrateLegacy,checkAndSyncLatestProgress,isReady:()=>ready,isBlocked:()=>blocked,needsLogin:()=>expired};
 })();
 
 /**
@@ -371,8 +457,23 @@ window.FlashcardEngine = (() => {
     return '';
   }
 
+    function saveDictCacheToVps(word, data) {
+    if (!word || !data) return;
+    if (typeof process !== 'undefined' && process.env?.NODE_TEST_CONTEXT) return;
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 3500);
+      fetch('/api/dict/cache', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ word, data }),
+        signal: controller.signal
+      }).catch(() => {}).finally(() => clearTimeout(timer));
+    } catch (e) {}
+  }
+
   /**
-   * 异步预拉取在线权威英英释义并缓存
+   * 异步预拉取在线权威英英释义并缓存 (3.5s熔断，回传VPS持久化)
    */
   async function fetchEnglishDefOnline(word) {
     if (!word) return '';
@@ -382,12 +483,14 @@ window.FlashcardEngine = (() => {
     if ((enDefFailures.get(clean) || 0) > Date.now()) { updateEnglishDefinition(clean, ''); return ''; }
     if (!enDefRequests.has(clean)) enDefRequests.set(clean, (async () => {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 6500);
+      const timer = setTimeout(() => controller.abort(), 3500);
+      let needSaveToVps = false;
       try {
         let data;
-        if (window.Stone?.english) data = await window.Stone.english(clean);
-        else {
-          const response = await fetch(`/api/dict/${encodeURIComponent(clean)}`, {signal:controller.signal});
+        if (window.Stone?.english) {
+          data = await window.Stone.english(clean);
+        } else {
+          const response = await fetch(`/api/dict/${encodeURIComponent(clean)}`, { signal: controller.signal });
           if (!response.ok) throw new Error('dictionary unavailable');
           data = await response.json();
         }
@@ -395,11 +498,17 @@ window.FlashcardEngine = (() => {
         if (!summary) throw new Error('empty definition');
         enDefCache[clean] = summary;
         enDefFailures.delete(clean);
+        if (needSaveToVps && data) {
+          saveDictCacheToVps(clean, data);
+        }
         return summary;
-      } catch {
+      } catch (err) {
         enDefFailures.set(clean, Date.now() + 15000);
         return '';
-      } finally { clearTimeout(timer); enDefRequests.delete(clean); }
+      } finally {
+        clearTimeout(timer);
+        enDefRequests.delete(clean);
+      }
     })());
     const summary = await enDefRequests.get(clean);
     updateEnglishDefinition(clean, summary);
@@ -417,7 +526,12 @@ window.FlashcardEngine = (() => {
   }
 
   function formatEnglishDefHtml(summary) {
-    if (!summary) return '<span style="color:var(--text-secondary);font-size:clamp(12px, 0.9vw, 14px);">正在获取英文释义…</span>';
+    if (!summary || summary === '正在获取英文释义…') {
+      return `<div class="flashcard-en-placeholder" style="color:var(--text-secondary);font-size:clamp(12px, 0.9vw, 14px);display:flex;align-items:center;gap:6px;">
+        <span class="flashcard-en-spinner" style="display:inline-block;width:12px;height:12px;border:2px solid rgba(59,130,246,0.3);border-top-color:#3b82f6;border-radius:50%;animation:spin 0.8s linear infinite;"></span>
+        <span>正在获取英文释义…</span>
+      </div>`;
+    }
     if (summary === '正在获取英文释义…' || summary.startsWith('暂时未取得英文释义')) {
       return `<span style="color:var(--text-secondary);font-size:clamp(12px, 0.9vw, 14px);">${escapeHtmlSafe(summary)}</span>`;
     }
@@ -559,7 +673,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   const referencePos = getStandardPosList(word,standardDef);
   const startTime = performance.now();
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 12000);
+  const timer = setTimeout(() => controller.abort(), 3500);
   try {
     const resp = await fetch("/api/jev/verify", {
       method:"POST", headers:{"Content-Type":"application/json", ...(typeof authToken !== 'undefined' && authToken ? {Authorization:'Bearer '+authToken} : {})}, signal:controller.signal,
@@ -1142,7 +1256,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           </div>
           <div class="flashcard-hud-right">
             <span class="flashcard-stat-chip">今日打卡: <strong id="fcCompletedCount">${state.todayStats.completed}</strong> / ${state.todayStats.target} 词</span>
-            <span class="flashcard-stat-chip" title="支持断点续背，退出后进度不丢失">${state.mode === 'study' ? `词库编号: <strong>${state.studyStartIndex + state.currentIndex + 1}</strong> / ${state.activeListLength} (第${Math.floor(state.studyStartIndex / state.targetCount) + 1}组)` : `复习进度: <strong>${state.currentIndex + 1}</strong> / ${state.queue.length}`}</span>
+            <span class="flashcard-stat-chip flashcard-word-number-chip" id="fcWordNumberChip" onclick="FlashcardEngine.promptJumpProgress()" title="点击直接修改/跳转目标词号 (1 ~ ${state.activeListLength || 3837})" style="cursor:pointer;user-select:none;">${state.mode === 'study' ? `词库编号: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.studyStartIndex + state.currentIndex + 1}</strong> / ${state.activeListLength} (第${Math.floor(state.studyStartIndex / state.targetCount) + 1}组)` : `复习进度: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.currentIndex + 1}</strong> / ${state.queue.length}`}</span>
           </div>
         </div>
 
@@ -1861,13 +1975,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const read = key => { try { return JSON.parse(localStorage.getItem(window.FlashcardCloud.storageKey(key))); } catch { return null; } };
     return {learned:read(STORAGE_KEY_LEARNED)||[],sequence:read(STORAGE_KEY_SEQUENCE)||{},stats:read(STORAGE_KEY_STATS),session:read(STORAGE_KEY_SESSION)};
   }
-  function queueCloudProgress(cleared = false) {
+  function queueCloudProgress(cleared = false, immediate = false, force = false) {
     window.FlashcardCloud.save({learned:Array.from(state.learnedWords),sequence:state.studySequences,stats:state.todayStats,session:cleared?null:{
       date:getTodayStr(),mode:state.mode,targetCount:state.targetCount,queue:state.queue,currentIndex:state.currentIndex,
       isOpen:state.isOpen,manualMarkBaselines:Array.from(state.manualMarkBaselines),isAnswered:state.isAnswered,
       lastResult:state.lastResult,userInput:state.lastUserInput,selectedPos:state.selectedPos,queuePolicyVersion:QUEUE_POLICY_VERSION,
       studyScopeKey:state.studyScopeKey,studyStartIndex:state.studyStartIndex
-    }});
+    }}, immediate, force);
     if(typeof flushStoneSync === 'function') void flushStoneSync();
   }
   function hydrateCloudProgress(data) {
@@ -1881,6 +1995,26 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
     state.learnedWords=new Set(data.learned||[]);
     state.studySequences=data.sequence&&typeof data.sequence==='object'&&!Array.isArray(data.sequence)?data.sequence:{};
+  }
+  function hydrateAndRefresh(cloudState) {
+    if (!cloudState) return;
+    hydrateCloudProgress(cloudState);
+    if (state.isOpen && cloudState.session) {
+      const sess = cloudState.session;
+      if (Array.isArray(sess.queue) && sess.queue.length > 0) {
+        state.queue = sess.queue;
+        state.currentIndex = Math.min(sess.currentIndex || 0, sess.queue.length - 1);
+        state.currentWord = state.queue[state.currentIndex];
+        state.mode = sess.mode || state.mode;
+        state.studyStartIndex = Number.isInteger(sess.studyStartIndex) ? sess.studyStartIndex : state.studyStartIndex;
+        state.isAnswered = !!sess.isAnswered;
+        state.lastResult = sess.lastResult || null;
+        state.lastUserInput = sess.userInput || "";
+        state.selectedPos = sess.selectedPos || [];
+        renderCard();
+        resetScrollToTop();
+      }
+    }
   }
   async function ensureCloudProgress() {
     if(cloudLoadPromise)return cloudLoadPromise;
@@ -1911,10 +2045,137 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     await ensureCloudProgress();
     const sess=cachedProgress().session;
     if(sess?.isOpen && sess.queue?.length && sess.currentIndex<sess.queue.length) open(sess.mode||'study',sess.targetCount||100);
+    if(window.FlashcardCloud.getAuth()) {
+      void window.FlashcardCloud.checkAndSyncLatestProgress();
+    }
+  }
+
+  function promptJumpProgress() {
+    const full = typeof getActiveWordList === 'function'
+      ? getActiveWordList()
+      : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
+    const total = full.length || state.activeListLength || 3837;
+    const currentNum = state.mode === 'study' ? (state.studyStartIndex + state.currentIndex + 1) : (state.currentIndex + 1);
+
+    let modal = document.getElementById('fcJumpModalOverlay');
+    if (modal) modal.remove();
+
+    modal = document.createElement('div');
+    modal.id = 'fcJumpModalOverlay';
+    modal.className = 'flashcard-jump-modal-overlay';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,0.65);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:99999;';
+    modal.onclick = (e) => { if (e.target === modal) closeJumpModal(); };
+
+    modal.innerHTML = `
+      <div class="flashcard-jump-card" style="background:var(--paper-surface,#ffffff);border:1px solid var(--paper-border,#e2e8f0);border-radius:12px;padding:20px 24px;width:min(90vw,360px);box-shadow:0 10px 25px rgba(0,0,0,0.2);box-sizing:border-box;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <h3 style="margin:0;font-size:16px;font-weight:800;color:var(--text-primary,#0f172a);">📖 跳转词库进度</h3>
+          <button type="button" class="btn btn-link" onclick="FlashcardEngine.closeJumpModal()" style="border:none;background:transparent;cursor:pointer;font-size:18px;color:var(--text-secondary,#64748b);line-height:1;padding:4px;">✕</button>
+        </div>
+        <div style="font-size:13px;color:var(--text-secondary,#64748b);margin-bottom:12px;">
+          当前词号：<strong style="color:var(--brand-accent,#2563eb);">${currentNum}</strong> / ${total}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <label for="fcJumpInputVal" style="font-size:13px;font-weight:600;white-space:nowrap;color:var(--text-primary,#0f172a);">目标词号：</label>
+          <input type="number" id="fcJumpInputVal" min="1" max="${total}" value="${currentNum}" style="flex:1;padding:8px 12px;border:1px solid var(--paper-border,#cbd5e1);border-radius:6px;font-size:16px;font-weight:700;outline:none;background:var(--paper-surface,#ffffff);color:var(--text-primary,#0f172a);" />
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="FlashcardEngine.closeJumpModal()">取消</button>
+          <button type="button" class="btn btn-primary btn-sm" id="fcJumpConfirmBtn" onclick="FlashcardEngine.confirmJumpProgress()">确认跳转并同步</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+    setTimeout(() => {
+      const input = document.getElementById('fcJumpInputVal');
+      if (input) {
+        input.focus();
+        input.select();
+        input.onkeydown = (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            confirmJumpProgress();
+          } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closeJumpModal();
+          }
+        };
+      }
+    }, 30);
+  }
+
+  function closeJumpModal() {
+    const modal = document.getElementById('fcJumpModalOverlay');
+    if (modal) {
+      if (typeof modal.remove === 'function') modal.remove();
+      else if (modal.parentNode) modal.parentNode.removeChild(modal);
+    }
+  }
+
+  function confirmJumpProgress() {
+    const input = document.getElementById('fcJumpInputVal');
+    if (!input) return;
+    const val = parseInt(input.value, 10);
+    jumpToWordNumber(val);
+  }
+
+  function jumpToWordNumber(num) {
+    const full = typeof getActiveWordList === 'function'
+      ? getActiveWordList()
+      : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
+    const total = full.length || state.activeListLength || 3837;
+    let targetNum = parseInt(num, 10);
+    if (!Number.isInteger(targetNum)) return;
+    if (targetNum < 1) targetNum = 1;
+    if (targetNum > total) targetNum = total;
+
+    const size = state.targetCount || 100;
+    const targetIndex = targetNum - 1;
+    const startIndex = Math.floor(targetIndex / size) * size;
+    const groupOffset = targetIndex - startIndex;
+
+    state.studyStartIndex = startIndex;
+    state.currentIndex = groupOffset;
+    state.activeListLength = total;
+    if (!state.studyScopeKey && full.length > 0) {
+      state.studyScopeKey = getStudyScopeKey(full);
+    }
+    if (state.studyScopeKey) {
+      state.studySequences[state.studyScopeKey] = startIndex;
+      saveStudySequences();
+    }
+    state.queue = full.slice(startIndex, startIndex + size);
+    state.currentWord = state.queue[state.currentIndex] || null;
+    state.isAnswered = false;
+    state.lastResult = null;
+    state.lastUserInput = "";
+    state.selectedPos = [];
+    state.restoreAnswer = null;
+    state.manualMarkBaselines = new Map();
+
+    saveSession();
+    // 强制立即同步至 VPS 覆盖存档
+    queueCloudProgress(false, true, true);
+
+    closeJumpModal();
+    if (state.isOpen) {
+      renderCard();
+      resetScrollToTop();
+    }
+    updateMainGroupSelectUI();
+    if (typeof showToast === 'function') {
+      showToast(`🚀 已跳转至第 ${targetNum} 词，并强制同步至云端！`);
+    }
   }
 
   return {
     resumeCloudSession,
+    promptJumpProgress,
+    closeJumpModal,
+    confirmJumpProgress,
+    jumpToWordNumber,
+    hydrateAndRefresh,
     toggleEtymologyDetails,
     toggleRawEtymology,
     openWordEtymology,

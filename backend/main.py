@@ -367,7 +367,7 @@ def normalize_dictionary(data, word):
 def fetch_primary_english(word):
     url = 'https://api.dictionaryapi.dev/api/v2/entries/en/' + urllib.parse.quote(word, safe='')
     req = urllib.request.Request(url, headers={'User-Agent': 'OurStoneCottages/1.0'})
-    with urllib.request.urlopen(req, timeout=4) as resp:
+    with urllib.request.urlopen(req, timeout=3) as resp:
         return json.loads(resp.read(2_000_000).decode('utf-8'))
 
 def race_english_sources(word):
@@ -396,7 +396,7 @@ def race_english_sources(word):
         except Exception:
             pass
     submit(fetch_fallback_ee)
-    deadline = time.monotonic() + 5.2
+    deadline = time.monotonic() + 3.0
     try:
         while pending and time.monotonic() < deadline:
             done, _ = wait(pending, timeout=max(0, deadline-time.monotonic()), return_when=FIRST_COMPLETED)
@@ -415,8 +415,25 @@ def race_english_sources(word):
             future.cancel()
     return None
 
+class DictCacheReq(BaseModel):
+    word: str
+    data: Any
+
+@app.post("/api/dict/cache")
+def post_dict_cache(req: DictCacheReq):
+    w = req.word.strip().lower()
+    if not w or len(w) > 100 or not re.fullmatch(r"[a-zA-Z][a-zA-Z '\-\.]*", w):
+        raise HTTPException(status_code=422, detail='请输入有效的英文单词或短语')
+    entry = normalize_dictionary(req.data, w)
+    if not entry:
+        raise HTTPException(status_code=422, detail='无效的词典数据')
+    with get_db() as conn:
+        conn.execute('INSERT OR REPLACE INTO dict_cache (word, data_json) VALUES (?, ?)', (w, json.dumps(entry, ensure_ascii=False)))
+    _dict_misses.pop(w, None)
+    return {"status": "ok", "word": w}
+
 @app.get('/api/dict/{word}')
-def get_dict_entry(word: str):
+def get_dict_entry(word: str, local_only: bool = False):
     w = word.strip().lower()
     if not w or len(w) > 100 or not re.fullmatch(r"[a-zA-Z][a-zA-Z '\-\.]*", w):
         raise HTTPException(status_code=422, detail='请输入有效的英文单词或短语')
@@ -431,6 +448,8 @@ def get_dict_entry(word: str):
                     return entry
             except (TypeError, ValueError):
                 pass
+        if local_only:
+            raise HTTPException(status_code=404, detail='本地暂未缓存该词英文释义')
         if _dict_misses.get(w, 0) > time.monotonic():
             raise HTTPException(status_code=404, detail='暂时没有这个词的英文释义')
         entry = race_english_sources(w)
@@ -1210,6 +1229,8 @@ class FlashcardProgressReq(BaseModel):
     expected_revision: int
     mutation_id: str
     state: Dict[str, Any]
+    force: bool = False
+    client_updated_at: int = 0
 
 def validate_flashcard_progress(data):
     if not isinstance(data, dict) or len(json.dumps(data,ensure_ascii=False).encode('utf-8')) > 1500000:
@@ -1238,14 +1259,25 @@ def flashcard_progress_table(conn):
 
 @app.get("/api/flashcards/progress")
 def get_flashcard_progress(user: dict = Depends(get_current_user)):
+    import time as _t
     with get_db() as conn:
         flashcard_progress_table(conn)
         row=conn.execute("SELECT * FROM flashcard_progress WHERE user_id=?",(int(user['sub']),)).fetchone()
-        if row is None: return {"revision":0,"state":None,"mutation_id":None}
-        return {"revision":row['revision'],"state":json.loads(row['state_json']),"mutation_id":row['mutation_id'],"updated_at":row['updated_at']}
+        if row is None: return {"revision":0,"state":None,"mutation_id":None,"updated_at":0}
+        raw_up = row['updated_at']
+        up_ms = 0
+        if isinstance(raw_up, (int, float)):
+            up_ms = int(raw_up)
+        elif isinstance(raw_up, str):
+            try:
+                up_ms = int(_t.mktime(_t.strptime(raw_up.split('.')[0], "%Y-%m-%d %H:%M:%S")) * 1000)
+            except Exception:
+                up_ms = int(_t.time() * 1000)
+        return {"revision":row['revision'],"state":json.loads(row['state_json']),"mutation_id":row['mutation_id'],"updated_at":up_ms}
 
 @app.put("/api/flashcards/progress")
 def put_flashcard_progress(req: FlashcardProgressReq,user: dict = Depends(get_current_user)):
+    import time as _t
     data=validate_flashcard_progress(req.state)
     if not req.mutation_id or len(req.mutation_id)>100 or req.expected_revision<0:
         raise HTTPException(status_code=422,detail="Invalid revision or mutation")
@@ -1253,16 +1285,22 @@ def put_flashcard_progress(req: FlashcardProgressReq,user: dict = Depends(get_cu
         flashcard_progress_table(conn)
         conn.execute("BEGIN IMMEDIATE")
         user_id=int(user['sub'])
-        row=conn.execute("SELECT revision,mutation_id FROM flashcard_progress WHERE user_id=?",(user_id,)).fetchone()
+        row=conn.execute("SELECT revision,mutation_id,updated_at FROM flashcard_progress WHERE user_id=?",(user_id,)).fetchone()
         revision=row['revision'] if row else 0
-        if row and row['mutation_id']==req.mutation_id:return {"revision":revision,"status":"synced"}
-        if req.expected_revision!=revision:raise HTTPException(status_code=409,detail="Progress changed on another device")
-        conn.execute("""INSERT INTO flashcard_progress(user_id,revision,state_json,mutation_id) VALUES(?,?,?,?)
+        now_ms = int(_t.time() * 1000)
+        if row and row['mutation_id']==req.mutation_id:
+            raw_up = row['updated_at']
+            up_ms = int(raw_up) if isinstance(raw_up, (int, float)) else now_ms
+            return {"revision":revision,"status":"synced","updated_at":up_ms}
+        if req.expected_revision!=revision and not req.force:
+            raise HTTPException(status_code=409,detail="Progress changed on another device")
+        next_revision = revision + 1
+        conn.execute("""INSERT INTO flashcard_progress(user_id,revision,state_json,mutation_id,updated_at) VALUES(?,?,?,?,?)
             ON CONFLICT(user_id) DO UPDATE SET revision=excluded.revision,state_json=excluded.state_json,
-            mutation_id=excluded.mutation_id,updated_at=CURRENT_TIMESTAMP""",
-            (user_id,revision+1,json.dumps(data,ensure_ascii=False),req.mutation_id))
+            mutation_id=excluded.mutation_id,updated_at=excluded.updated_at""",
+            (user_id,next_revision,json.dumps(data,ensure_ascii=False),req.mutation_id,now_ms))
         conn.commit()
-        return {"revision":revision+1,"status":"synced"}
+        return {"revision":next_revision,"status":"synced","updated_at":now_ms}
 
 # ============================================================================
 # 🏛️ 词源权威考据 API (Etymology Gateway - 4.6万离线库 + DeepSeek 智能提炼)
