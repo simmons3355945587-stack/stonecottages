@@ -133,6 +133,26 @@ def main():
     local_pk_server = os.path.join(REPO_DIR, "backend", "tri_context_pk_server.py")
     if os.path.exists(local_pk_server):
         upload_single_file(local_pk_server, "/var/www/vocab/backend/tri_context_pk_server.py")
+
+    for extra_name, extra_remote in [
+        ("memory_store.py", "/var/www/vocab/backend/memory_store.py"),
+        ("constitutional_values.txt", "/var/www/vocab/backend/constitutional_values.txt"),
+        ("value_precedents.json", "/var/www/vocab/backend/value_precedents.json"),
+    ]:
+        local_extra = os.path.join(REPO_DIR, "backend", extra_name)
+        if os.path.exists(local_extra):
+            upload_single_file(local_extra, extra_remote)
+
+    print("正在初始化/校验四层动态记忆库 (lingneng_brain.db)...")
+    mig_msg = exec_cmd(
+        "cd /var/www/vocab/backend && python3 -c \""
+        "from memory_store import migrate_legacy_ling_memory; "
+        "import json; "
+        "res = migrate_legacy_ling_memory('/var/www/vocab/data/lingneng_brain.db', "
+        "'/var/www/vocab/data/ling_memory.json', '/var/www/vocab/backend/value_precedents.json'); "
+        "print(json.dumps(res, ensure_ascii=False))\""
+    ).get("message", "").strip()
+    print("  记忆库状态:", mig_msg)
         
     print("正在重启后端服务 vocab-backend...")
     exec_cmd("systemctl restart vocab-backend")
@@ -180,9 +200,12 @@ def main():
         if os.path.exists(lp):
             upload_single_file(lp, remote_dst)
 
-    # 步骤 4: 切换主 HTML 入口
-    print("\n--- 步骤 4: 切换主 index.html 入口 ---")
+    # 步骤 4: 切换主 HTML 入口与道友「灵」页面
+    print("\n--- 步骤 4: 切换主 index.html 与 ling.html 入口 ---")
     upload_single_file(os.path.join(REPO_DIR, "frontend", "index.html"), "/var/www/vocab/index.html")
+    local_ling_html = os.path.join(REPO_DIR, "ling.html")
+    if os.path.exists(local_ling_html):
+        upload_single_file(local_ling_html, "/var/www/vocab/ling.html")
 
     # 步骤 5: 验证并平滑重载 Nginx
     print("\n--- 步骤 5: 验证 Nginx 配置并平滑重载 ---")
@@ -231,6 +254,18 @@ def main():
     print(f"词典 API HTTP: {r_api.status_code}")
     assert r_api.status_code in (200, 404), "后端 API 响应异常"
     print("  ✔ 后端 API 网关工作正常！")
+
+    # 6.5 道友「灵」入口、精神宪章与权限隔离校验
+    r_ling = requests.get("https://ourstonecottages.org/ling", timeout=15)
+    print(f"道友「灵」页面 HTTP: {r_ling.status_code}")
+    assert r_ling.status_code == 200, "道友「灵」页面状态异常"
+    r_prompt = requests.get("https://ourstonecottages.org/api/ling/prompt", timeout=15)
+    assert r_prompt.status_code == 200, f"Prompt API 状态异常: {r_prompt.status_code}"
+    prompt_data = r_prompt.json()
+    assert prompt_data.get("constitution"), "Prompt API 未挂载核心精神宪章"
+    r_priv = requests.get("https://ourstonecottages.org/api/ling/memory", timeout=15)
+    assert r_priv.status_code == 403, f"私人记忆未鉴权拦截: {r_priv.status_code}"
+    print("  ✔ 道友「灵」门户、精神宪章与私人记忆权限隔离校验全部通过！")
 
     print("\n==================================================")
     print("🎉 恭喜！小石屋最新性能重构代码已 100% 成功部署至生产环境！")
