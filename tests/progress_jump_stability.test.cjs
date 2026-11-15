@@ -32,6 +32,7 @@ function setupEnvironment(fetchHandler = null, initialStorage = new Map()) {
           style: {},
           innerHTML: '',
           textContent: '',
+          classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } },
           setAttribute(k, v) { this[k] = v; },
           removeAttribute(k) { delete this[k]; },
           addEventListener() {},
@@ -49,7 +50,8 @@ function setupEnvironment(fetchHandler = null, initialStorage = new Map()) {
             innerHTML: '',
             style: {},
             hidden: false,
-            setAttribute(k, v) { this[k] = v; },
+            classList: { add() {}, remove() {}, toggle() {}, contains() { return false; } },
+          setAttribute(k, v) { this[k] = v; },
             removeAttribute(k) { delete this[k]; },
             addEventListener() {},
             removeEventListener() {},
@@ -85,6 +87,27 @@ function setupEnvironment(fetchHandler = null, initialStorage = new Map()) {
     chineseDict: { word_1: '单词一', word_410: '单词四百一十' },
     escapeHtml: String,
     escapeHtmlSafe: String,
+    marks: {},
+    getMarkedWords() {
+      const m = context.marks || {};
+      return Object.entries(m).filter(([k, v]) => v > 0);
+    },
+    getMarkCount(w) {
+      const m = context.marks || {};
+      return m[w?.toLowerCase()] || 0;
+    },
+    addMark(w) {
+      const k = w?.toLowerCase();
+      if (!context.marks) context.marks = {};
+      context.marks[k] = (context.marks[k] || 0) + 1;
+    },
+    reduceMark(w) {
+      const k = w?.toLowerCase();
+      if (context.marks?.[k]) {
+        context.marks[k]--;
+        if (context.marks[k] <= 0) delete context.marks[k];
+      }
+    },
     fetch: fetchHandler || (async () => ({ ok: true, json: async () => ({}) }))
   };
 
@@ -291,4 +314,46 @@ test('需求4：跳转弹窗打开时，键盘事件完全隔绝，支持无限�
   env.engine.confirmJumpProgress();
   assert.equal(putPayload.state.session.studyStartIndex, 3800); // 3837词所属组起始为 3800
   assert.equal(putPayload.state.session.currentIndex, 36);      // 3837 - 1 - 3800 = 36
+});
+
+test('需求5：重点生词动态引用，222个重点生词全量入列且随练习实时增减', async () => {
+  let putPayload = null;
+  const mockFetch = async (url, opts = {}) => {
+    if (url === '/api/flashcards/progress' && opts.method === 'PUT') {
+      putPayload = JSON.parse(opts.body);
+      return { ok: true, json: async () => ({ revision: 7, status: 'synced', updated_at: Date.now() }) };
+    }
+    return { ok: true, json: async () => ({ revision: 1, state: null }) };
+  };
+
+  const env = setupEnvironment(mockFetch);
+
+  // 初始化 222 个重点生词
+  for (let i = 1; i <= 222; i++) {
+    env.context.marks[`mword_${i}`] = 1;
+  }
+  assert.equal(env.context.getMarkedWords().length, 222);
+
+  await env.cloud.load();
+
+  // 打开复习模式：严禁截断为 100 词，必须全量纳入 222 词
+  env.engine.open('review');
+
+  const cardModal = env.elements.get('flashcardModal');
+  assert.ok(cardModal, '复习卡片应正常展示');
+  assert.match(cardModal.innerHTML, /复习进度:.*1.*\/.*222/, '复习进度必须显示全量 222 词，严禁只显示 100');
+
+  // 测试直接跳转至第 200 词
+  env.engine.jumpToWordNumber(200);
+  assert.match(cardModal.innerHTML, /复习进度:.*200.*\/.*222/, '应成功跳转至第 200 词');
+  assert.equal(putPayload.state.session.currentIndex, 199, '云端进度应保存组内索引 199');
+
+  // 模拟练习中新增了 1 个重点生词 (增加到 223 词)
+  env.context.marks['mword_223'] = 1;
+  assert.equal(env.context.getMarkedWords().length, 223);
+
+  // 作答后切词时，队列与 HUD 动态感知最新生词总数
+  env.engine.giveUpUnknown();
+  env.engine.nextWord();
+  assert.match(cardModal.innerHTML, /复习进度:.*201.*\/.*223/, '复习进度应动态更新为 223 词');
 });

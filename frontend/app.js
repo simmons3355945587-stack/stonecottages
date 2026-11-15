@@ -473,8 +473,11 @@ function updateBadges() {
   const badgeAll = document.getElementById('badgeAll');
   if (badgeAll) badgeAll.textContent = activeWords.length;
 
+  const liveMarkedCount = (typeof getMarkedWords === 'function') ? getMarkedWords().length : 0;
   const badgeMarked = document.getElementById('badgeMarked');
-  if (badgeMarked) badgeMarked.textContent = getMarkedWords().length;
+  if (badgeMarked) badgeMarked.textContent = liveMarkedCount;
+  const btnReviewCount = document.getElementById('btnReviewMarkCount');
+  if (btnReviewCount) btnReviewCount.textContent = liveMarkedCount;
 
   const hudHp = document.getElementById('hudHp');
   if (hudHp) {

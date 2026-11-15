@@ -697,6 +697,64 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 }
 
 
+  function getLiveMarkedList() {
+    if (typeof getMarkedWords === 'function') {
+      return getMarkedWords()
+        .map(entry => Array.isArray(entry) ? entry[0] : entry)
+        .filter(word => typeof word === 'string' && word.trim());
+    }
+    return [];
+  }
+
+  function syncLiveReviewQueue() {
+    if (state.mode !== 'review') return;
+    const liveList = getLiveMarkedList();
+    state.activeListLength = liveList.length;
+    state.targetCount = liveList.length;
+    if (!state.queue || state.queue.length === 0) {
+      state.queue = liveList;
+    } else {
+      const existingSet = new Set(state.queue.map(w => (w || '').toLowerCase().trim()));
+      liveList.forEach(w => {
+        const k = (w || '').toLowerCase().trim();
+        if (!existingSet.has(k)) {
+          state.queue.push(w);
+          existingSet.add(k);
+        }
+      });
+      const liveSet = new Set(liveList.map(w => (w || '').toLowerCase().trim()));
+      const currentK = (state.currentWord || '').toLowerCase().trim();
+      state.queue = state.queue.filter(w => {
+        const k = (w || '').toLowerCase().trim();
+        return liveSet.has(k) || k === currentK;
+      });
+    }
+    if (state.currentIndex >= state.queue.length) {
+      state.currentIndex = Math.max(0, state.queue.length - 1);
+    }
+    state.currentWord = state.queue[state.currentIndex] || null;
+  }
+
+  function updateHUDCounts() {
+    const liveMarkedCount = getLiveMarkedList().length;
+    const chip = document.getElementById('fcWordNumberChip');
+    if (chip) {
+      if (state.mode === 'review') {
+        const total = state.activeListLength || state.queue.length || liveMarkedCount;
+        chip.innerHTML = `复习进度: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.currentIndex + 1}</strong> / ${total}`;
+        chip.title = `点击直接修改/跳转目标词号 (1 ~ ${total})`;
+      } else {
+        chip.innerHTML = `词库编号: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.studyStartIndex + state.currentIndex + 1}</strong> / ${state.activeListLength} (第${Math.floor(state.studyStartIndex / state.targetCount) + 1}组)`;
+        chip.title = `点击直接修改/跳转目标词号 (1 ~ ${state.activeListLength || 3837})`;
+      }
+    }
+    const completed = document.getElementById('fcCompletedCount');
+    if (completed) completed.textContent = state.todayStats.completed;
+    if (typeof updateBadges === 'function') {
+      try { updateBadges(); } catch (e) {}
+    }
+  }
+
   function initQueue() {
     loadLearnedWords();
     loadStudySequences();
@@ -712,8 +770,20 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               (Array.isArray(sess.manualMarkBaselines) ? sess.manualMarkBaselines : [])
                 .filter(entry => Array.isArray(entry) && entry.length === 2 && typeof entry[0] === 'string' && Number.isInteger(entry[1]) && entry[1] >= 0)
             );
-            state.queue = sess.queue;
-            state.currentIndex = sess.currentIndex;
+            if (state.mode === 'review') {
+              // 重点复习模式：以当前实时生词本动态引用为准，队列随练习增减实时变化
+              const liveMarked = getLiveMarkedList();
+              state.queue = liveMarked.length > 0 ? liveMarked : sess.queue;
+              state.activeListLength = state.queue.length;
+              state.targetCount = state.queue.length;
+              state.currentIndex = Math.min(sess.currentIndex, Math.max(0, state.queue.length - 1));
+            } else {
+              state.queue = sess.queue;
+              state.currentIndex = sess.currentIndex;
+              state.activeListLength = typeof getActiveWordList === 'function'
+                ? getActiveWordList().length
+                : state.queue.length;
+            }
             state.currentWord = state.queue[state.currentIndex] || null;
             state.isAnswered = false;
             state.lastResult = null;
@@ -721,9 +791,6 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             state.restoreAnswer = sess.isAnswered && sess.lastResult ? sess : null;
             state.studyScopeKey = typeof sess.studyScopeKey === 'string' ? sess.studyScopeKey : '';
             state.studyStartIndex = Number.isInteger(sess.studyStartIndex) && sess.studyStartIndex >= 0 ? sess.studyStartIndex : 0;
-            state.activeListLength = state.mode === 'study' && typeof getActiveWordList === 'function'
-              ? getActiveWordList().length
-              : state.queue.length;
             return;
           }
         }
@@ -735,13 +802,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     // 2. 重新组队：新词严格按编号切片；复习严格只取 Mark 词。
     let list = [];
     if (state.mode === 'review') {
-      // getMarkedWords() 返回 [word, count]；复习不再用普通词补足 100。
-      if (typeof getMarkedWords === 'function') {
-        list = getMarkedWords().map(entry => Array.isArray(entry) ? entry[0] : entry).filter(word => typeof word === 'string' && word.trim());
-      }
+      // 重点复习模式：动态引用生词本，全量纳入复习队列，绝不截断为 100 词！
+      list = getLiveMarkedList();
       state.studyScopeKey = '';
       state.studyStartIndex = 0;
       state.activeListLength = list.length;
+      state.targetCount = list.length || 100;
+      state.queue = list;
     } else {
       const full = typeof getActiveWordList === 'function'
         ? getActiveWordList()
@@ -761,9 +828,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       }
       state.studyStartIndex = cursor;
       list = full.slice(state.studyStartIndex, state.studyStartIndex + state.targetCount);
+      state.queue = list.slice(0, state.targetCount);
     }
-
-    state.queue = list.slice(0, state.targetCount);
     state.currentIndex = 0;
     state.currentWord = state.queue[0] || null;
     state.isAnswered = false;
@@ -900,7 +966,13 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     evaluationVersion++; state.isEvaluating = false;
     state.isOpen = true;
     state.mode = mode;
-    state.targetCount = target;
+    if (mode === 'review') {
+      const liveList = getLiveMarkedList();
+      state.targetCount = liveList.length || target || 100;
+      state.activeListLength = liveList.length;
+    } else {
+      state.targetCount = target || 100;
+    }
     loadDailyStats();
 
     if (startIndex !== null && startIndex !== undefined && !isNaN(Number(startIndex))) {
@@ -1199,6 +1271,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     evaluationVersion++; state.isEvaluating = false;
     state.renderedAt = Date.now();
     if (!state.isOpen) return;
+    if (state.mode === 'review') syncLiveReviewQueue();
     const restored = state.restoreAnswer; state.restoreAnswer = null;
     const word = state.queue[state.currentIndex];
     state.currentWord = word;
@@ -1255,8 +1328,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             </div>
           </div>
           <div class="flashcard-hud-right">
-            <span class="flashcard-stat-chip">今日打卡: <strong id="fcCompletedCount">${state.todayStats.completed}</strong> / ${state.todayStats.target} 词</span>
-            <span class="flashcard-stat-chip flashcard-word-number-chip" id="fcWordNumberChip" onclick="FlashcardEngine.promptJumpProgress()" title="点击直接修改/跳转目标词号 (1 ~ ${state.activeListLength || 3837})" style="cursor:pointer;user-select:none;">${state.mode === 'study' ? `词库编号: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.studyStartIndex + state.currentIndex + 1}</strong> / ${state.activeListLength} (第${Math.floor(state.studyStartIndex / state.targetCount) + 1}组)` : `复习进度: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.currentIndex + 1}</strong> / ${state.queue.length}`}</span>
+            <span class="flashcard-stat-chip">今日打卡: <strong id="fcCompletedCount">${state.todayStats.completed}</strong> / ${state.mode === 'review' ? (state.activeListLength || state.queue.length) : state.todayStats.target} 词</span>
+            <span class="flashcard-stat-chip flashcard-word-number-chip" id="fcWordNumberChip" onclick="FlashcardEngine.promptJumpProgress()" title="点击直接修改/跳转目标词号 (1 ~ ${state.mode === 'review' ? (state.activeListLength || state.queue.length) : (state.activeListLength || 3837)})" style="cursor:pointer;user-select:none;">${state.mode === 'study' ? `词库编号: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.studyStartIndex + state.currentIndex + 1}</strong> / ${state.activeListLength} (第${Math.floor(state.studyStartIndex / state.targetCount) + 1}组)` : `复习进度: <strong style="text-decoration:underline dotted;cursor:pointer;">${state.currentIndex + 1}</strong> / ${state.activeListLength || state.queue.length}`}</span>
           </div>
         </div>
 
@@ -1607,6 +1680,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         }
       }
     }
+    if (state.mode === 'review') syncLiveReviewQueue();
+    updateHUDCounts();
     saveDailyStats();
     saveSession();
 
@@ -1818,8 +1893,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     } finally {
       // Record only an actual increment; a duplicate click must not add twice.
       if (getMarkCount(key) > before) state.manualMarkBaselines.set(key, before);
+      if (state.mode === 'review') syncLiveReviewQueue();
       saveSession();
       updateManualMarkControls();
+      updateHUDCounts();
     }
   }
 
@@ -1833,8 +1910,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       if (before > baseline) reduceMark(key);
     } finally {
       if (before <= baseline || getMarkCount(key) < before) state.manualMarkBaselines.delete(key);
+      if (state.mode === 'review') syncLiveReviewQueue();
       saveSession();
       updateManualMarkControls();
+      updateHUDCounts();
     }
   }
 
@@ -1885,7 +1964,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   function toggleMode() {
     clearSession();
     const nextMode = state.mode === 'study' ? 'review' : 'study';
-    open(nextMode, state.targetCount);
+    open(nextMode);
   }
 
   function renderFinishedState() {
@@ -1947,7 +2026,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
           ` : ''}
 
           <div style="display:flex; gap:12px; justify-content:center; margin-top:20px; flex-wrap:wrap;">
-            ${completedQueue && hasNextStudyGroup ? `<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('study', ${state.targetCount}, ${nextStudyIndex})">下一组 (${nextStudyIndex + 1}-${Math.min(state.activeListLength, nextStudyIndex + state.targetCount)})</button>` : completedQueue && state.mode === 'review' ? `<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('review', ${state.targetCount})">再次复习 Mark 词</button>` : state.mode === 'study' ? '<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open(\'review\', 100)">去复习 Mark 词</button>' : ''}
+            ${completedQueue && hasNextStudyGroup ? `<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('study', ${state.targetCount}, ${nextStudyIndex})">下一组 (${nextStudyIndex + 1}-${Math.min(state.activeListLength, nextStudyIndex + state.targetCount)})</button>` : completedQueue && state.mode === 'review' ? `<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open('review')">再次复习 Mark 词</button>` : state.mode === 'study' ? '<button id="fcFinishRestartBtn" class="btn btn-primary" onclick="FlashcardEngine.open(\'review\')">去复习 Mark 词</button>' : ''}
             ${state.mode === 'study' ? `<button class="btn btn-secondary" onclick="FlashcardEngine.open('study', ${state.targetCount}, ${state.studyStartIndex})">重学本组 (${state.studyStartIndex + 1}-${currentGroupEnd})</button>` : ''}
             <button class="btn btn-secondary" onclick="FlashcardEngine.close()">返回词库</button>
           </div>
@@ -2062,7 +2141,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const full = typeof getActiveWordList === 'function'
       ? getActiveWordList()
       : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
-    const total = full.length || state.activeListLength || 3837;
+    const total = state.mode === 'review'
+      ? (state.activeListLength || state.queue.length || getLiveMarkedList().length)
+      : (full.length || state.activeListLength || 3837);
     const currentNum = state.mode === 'study' ? (state.studyStartIndex + state.currentIndex + 1) : (state.currentIndex + 1);
 
     let modal = document.getElementById('fcJumpModalOverlay');
@@ -2146,7 +2227,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const full = typeof getActiveWordList === 'function'
       ? getActiveWordList()
       : (typeof words !== 'undefined' && Array.isArray(words) ? words : []);
-    const total = full.length || state.activeListLength || 3837;
+    const total = state.mode === 'review'
+      ? (state.activeListLength || state.queue.length || getLiveMarkedList().length)
+      : (full.length || state.activeListLength || 3837);
     let targetNum = parseInt(num, 10);
     if (!Number.isInteger(targetNum)) return;
     if (targetNum < 1) targetNum = 1;
@@ -2156,29 +2239,40 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       clamped = true;
     }
 
-    const size = state.targetCount || 100;
-    const targetIndex = targetNum - 1;
-    const startIndex = Math.floor(targetIndex / size) * size;
-    const groupOffset = targetIndex - startIndex;
+    if (state.mode === 'review') {
+      state.currentIndex = targetNum - 1;
+      state.currentWord = state.queue[state.currentIndex] || null;
+      state.isAnswered = false;
+      state.lastResult = null;
+      state.lastUserInput = "";
+      state.selectedPos = [];
+      state.restoreAnswer = null;
+      state.manualMarkBaselines = new Map();
+    } else {
+      const size = state.targetCount || 100;
+      const targetIndex = targetNum - 1;
+      const startIndex = Math.floor(targetIndex / size) * size;
+      const groupOffset = targetIndex - startIndex;
 
-    state.studyStartIndex = startIndex;
-    state.currentIndex = groupOffset;
-    state.activeListLength = total;
-    if (!state.studyScopeKey && full.length > 0) {
-      state.studyScopeKey = getStudyScopeKey(full);
+      state.studyStartIndex = startIndex;
+      state.currentIndex = groupOffset;
+      state.activeListLength = total;
+      if (!state.studyScopeKey && full.length > 0) {
+        state.studyScopeKey = getStudyScopeKey(full);
+      }
+      if (state.studyScopeKey) {
+        state.studySequences[state.studyScopeKey] = startIndex;
+        saveStudySequences();
+      }
+      state.queue = full.slice(startIndex, startIndex + size);
+      state.currentWord = state.queue[state.currentIndex] || null;
+      state.isAnswered = false;
+      state.lastResult = null;
+      state.lastUserInput = "";
+      state.selectedPos = [];
+      state.restoreAnswer = null;
+      state.manualMarkBaselines = new Map();
     }
-    if (state.studyScopeKey) {
-      state.studySequences[state.studyScopeKey] = startIndex;
-      saveStudySequences();
-    }
-    state.queue = full.slice(startIndex, startIndex + size);
-    state.currentWord = state.queue[state.currentIndex] || null;
-    state.isAnswered = false;
-    state.lastResult = null;
-    state.lastUserInput = "";
-    state.selectedPos = [];
-    state.restoreAnswer = null;
-    state.manualMarkBaselines = new Map();
 
     saveSession();
     // 强制立即同步至 VPS 覆盖存档
