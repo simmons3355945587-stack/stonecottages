@@ -1374,6 +1374,14 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
   function handleFlashcardKeydown(e) {
     if (!state.isOpen) return;
+
+    // 重点：若当前打开了跳转词库进度弹窗，或者焦点在任何非主卡片输入控件内，绝不拦截任何键盘事件（避免数字1~7被词性快捷键劫持）
+    if (document.getElementById('fcJumpModalOverlay')) return;
+    const activeEl = document.activeElement;
+    if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable) && activeEl.id !== 'fcInput') {
+      return;
+    }
+
     if (e.isComposing || e.keyCode === 229) return;
     if (e.ctrlKey || e.metaKey) return;
 
@@ -2077,7 +2085,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         </div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
           <label for="fcJumpInputVal" style="font-size:13px;font-weight:600;white-space:nowrap;color:var(--text-primary,#0f172a);">目标词号：</label>
-          <input type="number" id="fcJumpInputVal" min="1" max="${total}" value="${currentNum}" style="flex:1;padding:8px 12px;border:1px solid var(--paper-border,#cbd5e1);border-radius:6px;font-size:16px;font-weight:700;outline:none;background:var(--paper-surface,#ffffff);color:var(--text-primary,#0f172a);" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" id="fcJumpInputVal" autocomplete="off" value="${currentNum}" placeholder="输入任意目标词号 (1 ~ ${total})" style="flex:1;padding:8px 12px;border:1px solid var(--paper-border,#cbd5e1);border-radius:6px;font-size:16px;font-weight:700;outline:none;background:var(--paper-surface,#ffffff);color:var(--text-primary,#0f172a);" />
         </div>
         <div style="display:flex;justify-content:flex-end;gap:8px;">
           <button type="button" class="btn btn-secondary btn-sm" onclick="FlashcardEngine.closeJumpModal()">取消</button>
@@ -2092,7 +2100,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       if (input) {
         input.focus();
         input.select();
-        input.onkeydown = (e) => {
+        // 阻止任何键盘事件冒泡到全局 window / document，彻底防止快捷键干扰
+        const stopKey = (e) => {
+          e.stopPropagation();
           if (e.key === 'Enter') {
             e.preventDefault();
             confirmJumpProgress();
@@ -2101,6 +2111,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             closeJumpModal();
           }
         };
+        input.onkeydown = stopKey;
+        input.onkeypress = (e) => { e.stopPropagation(); };
+        input.onkeyup = (e) => { e.stopPropagation(); };
       }
     }, 30);
   }
@@ -2116,7 +2129,16 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   function confirmJumpProgress() {
     const input = document.getElementById('fcJumpInputVal');
     if (!input) return;
-    const val = parseInt(input.value, 10);
+    const raw = String(input.value || '').trim();
+    if (!raw) {
+      if (typeof showToast === 'function') showToast('请输入要跳转的目标词号');
+      return;
+    }
+    const val = parseInt(raw, 10);
+    if (!Number.isInteger(val)) {
+      if (typeof showToast === 'function') showToast('请输入有效的纯数字词号');
+      return;
+    }
     jumpToWordNumber(val);
   }
 
@@ -2128,7 +2150,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     let targetNum = parseInt(num, 10);
     if (!Number.isInteger(targetNum)) return;
     if (targetNum < 1) targetNum = 1;
-    if (targetNum > total) targetNum = total;
+    let clamped = false;
+    if (targetNum > total) {
+      targetNum = total;
+      clamped = true;
+    }
 
     const size = state.targetCount || 100;
     const targetIndex = targetNum - 1;
@@ -2165,7 +2191,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
     updateMainGroupSelectUI();
     if (typeof showToast === 'function') {
-      showToast(`🚀 已跳转至第 ${targetNum} 词，并强制同步至云端！`);
+      if (clamped) {
+        showToast(`已自适应对齐至词库上限第 ${targetNum} 词，并完成同步！`);
+      } else {
+        showToast(`🚀 已跳转至第 ${targetNum} 词，并强制同步至云端！`);
+      }
     }
   }
 

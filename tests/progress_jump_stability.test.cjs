@@ -239,3 +239,56 @@ test('需求3：手动修改/跳转进度，直接输入目标词号 410 并一�
   const cardModal = env.elements.get('flashcardModal');
   assert.match(cardModal.innerHTML, /410/);
 });
+
+test('需求4：跳转弹窗打开时，键盘事件完全隔绝，支持无限位数连续输入且不被快捷键劫持', async () => {
+  let putPayload = null;
+  const mockFetch = async (url, opts = {}) => {
+    if (url === '/api/flashcards/progress' && opts.method === 'PUT') {
+      putPayload = JSON.parse(opts.body);
+      return { ok: true, json: async () => ({ revision: 6, status: 'synced', updated_at: Date.now() }) };
+    }
+    return { ok: true, json: async () => ({ revision: 1, state: null }) };
+  };
+
+  const env = setupEnvironment(mockFetch);
+  await env.cloud.load();
+  env.engine.open('study', 100);
+
+  // 打开跳转弹窗
+  env.engine.promptJumpProgress();
+  const overlay = env.elements.get('fcJumpModalOverlay');
+  assert.ok(overlay, '应成功唤起跳转弹窗');
+
+  // 测试按键劫持隔离：在弹窗打开时，模拟用户在键盘按下数字 1~7 及 Enter
+  let prevented = false;
+  let stopped = false;
+  const mockEvt1 = {
+    key: '1',
+    preventDefault() { prevented = true; },
+    stopPropagation() { stopped = true; }
+  };
+  env.engine.handleFlashcardKeydown(mockEvt1);
+  assert.equal(prevented, false, '弹窗打开时，数字 1 绝不应被 preventDefault 拦截');
+  assert.equal(stopped, false, '弹窗打开时，数字 1 绝不应被 stopPropagation 拦截');
+
+  // 验证多位数连续输入（例如 65、1200、3837 等任意位数）
+  const input = env.context.document.getElementById('fcJumpInputVal');
+  assert.ok(input, '输入框应存在');
+  input.value = '1250';
+  env.engine.confirmJumpProgress();
+
+  // 验证成功跳转至第 1250 词 (startIndex: 1200, currentIndex: 49)
+  const group = env.engine.getCurrentStudyGroup();
+  assert.equal(group.startIndex, 1200);
+  assert.equal(putPayload.state.session.currentIndex, 49);
+
+  // 等待首次异步推送完成
+  await new Promise(r => setTimeout(r, 50));
+
+  // 再次打开弹窗并测试超大数字自适应对齐至上限 (无限输入容错)
+  env.engine.promptJumpProgress();
+  input.value = '99999';
+  env.engine.confirmJumpProgress();
+  assert.equal(putPayload.state.session.studyStartIndex, 3800); // 3837词所属组起始为 3800
+  assert.equal(putPayload.state.session.currentIndex, 36);      // 3837 - 1 - 3800 = 36
+});
