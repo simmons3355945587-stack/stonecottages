@@ -254,7 +254,7 @@ class ProfileSyncReq(BaseModel):
     combo: Optional[int] = 1
     wonRounds: Optional[int] = 0
     gachaCards: Optional[List[Any]] = []
-    marks: Optional[Dict[str, int]] = {}
+    marks: Optional[Dict[str, Any]] = {}
     customWords: Optional[List[str]] = []
     novelProgress: Optional[Dict[str, Any]] = {}
     novelSaves: Optional[List[Any]] = []

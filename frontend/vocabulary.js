@@ -70,8 +70,67 @@ function refreshFilterUI() {
   }
 }
 
+function normalizeMarkEntry(raw, wordKey, learnedSet) {
+  const now = Date.now();
+  const safeKey = (typeof wordKey === 'string' ? wordKey : '').toLowerCase().trim();
+  const isMasteredInLearned = !!(learnedSet && typeof learnedSet.has === 'function' && learnedSet.has(safeKey));
+
+  if (typeof raw === 'number') {
+    return {
+      mark: Math.max(1, Math.round(raw)),
+      ever_mastered: isMasteredInLearned,
+      master_streak: 0,
+      added_at: now,
+      last_reviewed_at: 0,
+      next_review_at: 0
+    };
+  }
+  if (raw && typeof raw === 'object') {
+    const mark = Math.max(1, Number.isInteger(raw.mark) ? raw.mark : Math.round(Number(raw.mark) || 1));
+    const isMastered = (raw.ever_mastered !== undefined)
+      ? !!raw.ever_mastered
+      : isMasteredInLearned;
+    const streak = (Number.isInteger(raw.master_streak) && raw.master_streak >= 0) ? raw.master_streak : 0;
+    const addedAt = (typeof raw.added_at === 'number' && raw.added_at > 0) ? raw.added_at : now;
+    const lastRevAt = (typeof raw.last_reviewed_at === 'number' && raw.last_reviewed_at > 0) ? raw.last_reviewed_at : 0;
+    const nextRevAt = (typeof raw.next_review_at === 'number' && raw.next_review_at > 0) ? raw.next_review_at : 0;
+    return {
+      mark,
+      ever_mastered: isMastered,
+      master_streak: streak,
+      added_at: addedAt,
+      last_reviewed_at: lastRevAt,
+      next_review_at: nextRevAt
+    };
+  }
+  return {
+    mark: 1,
+    ever_mastered: isMasteredInLearned,
+    master_streak: 0,
+    added_at: now,
+    last_reviewed_at: 0,
+    next_review_at: 0
+  };
+}
+
+function getMarkEntry(word) {
+  if (!word || typeof marks !== 'object' || !marks) return null;
+  const w = word.toLowerCase().trim();
+  if (!(w in marks)) return null;
+  const learnedSet = (typeof window !== 'undefined' && window.FlashcardEngine?.getLearnedWords?.()) || null;
+  return normalizeMarkEntry(marks[w], w, learnedSet);
+}
+
 function getMarkCount(word) {
-  return marks[word.toLowerCase()] || 0;
+  if (!word || typeof marks !== 'object' || !marks) return 0;
+  const w = word.toLowerCase().trim();
+  const entry = marks[w];
+  if (!entry) return 0;
+  if (typeof entry === 'number') return Math.max(0, entry);
+  if (typeof entry === 'object' && entry !== null) {
+    return Math.max(0, Number(entry.mark) || 0);
+  }
+  return 0;
 }
 
 function updateWordMarkInDOM(word) {
@@ -150,34 +209,49 @@ function updateWordMarkInDOM(word) {
 function addMark(word) {
   if (!word) return;
   const w = word.toLowerCase().trim();
-  marks[w] = (marks[w] || 0) + 1;
-  saveToStorage(STORAGE_KEYS.MARKS, marks);
-  updateBadges();
-  updateWordMarkInDOM(w);
-  triggerCloudSync();
-  showToast(`★ Marked [${w}] (Total Mark: ${marks[w]})`);
+  const learnedSet = (typeof window !== 'undefined' && window.FlashcardEngine?.getLearnedWords?.()) || null;
+  if (!marks[w]) {
+    marks[w] = normalizeMarkEntry({ mark: 1, added_at: Date.now() }, w, learnedSet);
+  } else {
+    const entry = normalizeMarkEntry(marks[w], w, learnedSet);
+    entry.mark = Math.max(1, entry.mark + 1);
+    marks[w] = entry;
+  }
+  if (typeof saveToStorage === 'function' && typeof STORAGE_KEYS !== 'undefined') {
+    saveToStorage(STORAGE_KEYS.MARKS, marks);
+  }
+  if (typeof updateBadges === 'function') updateBadges();
+  if (typeof updateWordMarkInDOM === 'function') updateWordMarkInDOM(w);
+  if (typeof triggerCloudSync === 'function') triggerCloudSync();
+  if (typeof showToast === 'function') showToast(`★ Marked [${w}] (Total Mark: ${getMarkCount(w)})`);
 }
 
 function reduceMark(word) {
   if (!word) return;
   const w = word.toLowerCase().trim();
   if (marks[w]) {
-    marks[w]--;
-    if (marks[w] <= 0) {
-      delete marks[w];
+    const learnedSet = (typeof window !== 'undefined' && window.FlashcardEngine?.getLearnedWords?.()) || null;
+    const entry = normalizeMarkEntry(marks[w], w, learnedSet);
+    if (entry.mark > 1) {
+      entry.mark--;
+      marks[w] = entry;
+      if (typeof saveToStorage === 'function' && typeof STORAGE_KEYS !== 'undefined') {
+        saveToStorage(STORAGE_KEYS.MARKS, marks);
+      }
+      if (typeof updateBadges === 'function') updateBadges();
+      if (typeof updateWordMarkInDOM === 'function') updateWordMarkInDOM(w);
+      if (typeof triggerCloudSync === 'function') triggerCloudSync();
+      if (typeof showToast === 'function') showToast(`★ Unmarked [${w}] (Total Mark: ${entry.mark})`);
+    } else {
+      if (typeof showToast === 'function') showToast(`★ [${w}] Mark 已为最低值 1，常驻重点词库`);
     }
-    saveToStorage(STORAGE_KEYS.MARKS, marks);
-    updateBadges();
-    updateWordMarkInDOM(w);
-    triggerCloudSync();
-    showToast(`★ Unmarked [${w}] (Total Mark: ${marks[w] || 0})`);
   }
 }
 
 function toggleMarkWord(word) {
   if (!word) return;
   const w = word.toLowerCase().trim();
-  if (marks[w] && marks[w] > 0) {
+  if (marks[w] && getMarkCount(w) > 1) {
     reduceMark(w);
   } else {
     addMark(w);
@@ -185,7 +259,13 @@ function toggleMarkWord(word) {
 }
 
 function getMarkedWords() {
-  return Object.entries(marks).filter(([k, v]) => v > 0);
+  if (!marks || typeof marks !== 'object') return [];
+  return Object.entries(marks).filter(([k, v]) => {
+    if (!v) return false;
+    if (typeof v === 'number') return v > 0;
+    if (typeof v === 'object' && v !== null) return (Number(v.mark) || 0) > 0;
+    return false;
+  });
 }
 
 function renderWords(filter = '') {
@@ -296,6 +376,7 @@ function renderMarked() {
       </span>
     ` : '';
 
+    const mc = getMarkCount(w);
     card.innerHTML = `
       <span class="word-num">${i + 1}</span>
       <div class="word-info">
@@ -306,7 +387,7 @@ function renderMarked() {
           ${corrected ? `<span class="word-correction">→ ${escapeHtml(corrected)}</span>` : ''}
         </div>
       </div>
-      <span class="origami-mark-pill" title="点击减少 1 次标记 (Mark -1)" onclick="event.stopPropagation(); reduceMark('${escapeHtml(w)}');">★ ${count}</span>
+      <span class="origami-mark-pill" title="点击减少 1 次标记 (Mark -1)" onclick="event.stopPropagation(); reduceMark('${escapeHtml(w)}');">★ ${mc}</span>
     `;
     card.tabIndex=0;card.setAttribute('role','group');card.setAttribute('aria-label',w+'，查看释义');
       card.onclick = () => openWordDetails(w);
@@ -320,6 +401,8 @@ if (typeof window !== 'undefined') {
   window.reduceMark = reduceMark;
   window.toggleMarkWord = toggleMarkWord;
   window.getMarkCount = getMarkCount;
+  window.getMarkEntry = getMarkEntry;
+  window.normalizeMarkEntry = normalizeMarkEntry;
   window.getMarkedWords = getMarkedWords;
 }
 if (typeof module !== 'undefined' && module.exports) {
@@ -328,6 +411,8 @@ if (typeof module !== 'undefined' && module.exports) {
     reduceMark,
     toggleMarkWord,
     getMarkCount,
+    getMarkEntry,
+    normalizeMarkEntry,
     getMarkedWords,
     updateWordMarkInDOM,
     renderWords,

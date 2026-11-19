@@ -3185,6 +3185,138 @@
 .flashcard-stat-chip strong { color: var(--text-primary); }
 .flashcard-progress-bar { width: 100%; height: 6px; background: var(--paper-border); border-radius: 3px; overflow: hidden; }
 .flashcard-progress-fill { height: 100%; background: linear-gradient(90deg, var(--brand-accent), var(--brand-success)); transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* 重点复习分段追踪条与状态徽章 */
+.flashcard-review-tracker {
+  width: 100%;
+  background: var(--paper-surface-sub);
+  border: 1px solid var(--paper-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+.fc-tracker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fc-tracker-left {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.fc-tracker-cleared {
+  color: var(--brand-success);
+  font-size: 14px;
+  font-weight: 800;
+}
+.fc-tracker-total {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.fc-tracker-skipped {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-left: 4px;
+}
+.fc-tracker-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.fc-tracker-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  user-select: none;
+}
+.fc-tracker-badge.badge-new {
+  background: rgba(249, 115, 22, 0.12);
+  color: #ea580c;
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+.fc-tracker-badge.badge-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+.fc-tracker-badge.badge-consolidate {
+  background: rgba(234, 179, 8, 0.12);
+  color: #ca8a04;
+  border: 1px solid rgba(234, 179, 8, 0.25);
+}
+.fc-tracker-badge.badge-check {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* 曾掌握/回生/抽查标签定制 */
+.flashcard-learned-tag.tag-check {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #059669 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+.flashcard-learned-tag.tag-relapse {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #dc2626 !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  font-weight: 800;
+}
+
+/* 暂不判定快捷自评栏 */
+.flashcard-uncertain-self-eval {
+  margin: 10px 0;
+  padding: 10px 14px;
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.fc-self-eval-btns {
+  display: flex;
+  gap: 8px;
+}
+.fc-self-eval-btn-correct {
+  background: #10b981 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 5px 14px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+}
+.fc-self-eval-btn-correct:hover {
+  background: #059669 !important;
+}
+.fc-self-eval-btn-wrong {
+  background: #ef4444 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 5px 14px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+}
+.fc-self-eval-btn-wrong:hover {
+  background: #dc2626 !important;
+}
 .flashcard-card-box {
   background: var(--paper-surface); border: 2px solid var(--paper-border);
   border-radius: var(--radius-md); box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25), var(--paper-shadow);

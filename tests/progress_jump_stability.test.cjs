@@ -90,11 +90,18 @@ function setupEnvironment(fetchHandler = null, initialStorage = new Map()) {
     marks: {},
     getMarkedWords() {
       const m = context.marks || {};
-      return Object.entries(m).filter(([k, v]) => v > 0);
+      return Object.entries(m).filter(([k, v]) => {
+        if (typeof v === 'number') return v > 0;
+        if (v && typeof v === 'object') return (v.mark || 0) > 0;
+        return false;
+      });
     },
     getMarkCount(w) {
       const m = context.marks || {};
-      return m[w?.toLowerCase()] || 0;
+      const val = m[w?.toLowerCase()];
+      if (typeof val === 'number') return val;
+      if (val && typeof val === 'object') return val.mark || 0;
+      return 0;
     },
     addMark(w) {
       const k = w?.toLowerCase();
@@ -336,8 +343,9 @@ test('需求5：重点生词动态引用，222个重点生词全量入列且随�
 
   await env.cloud.load();
 
-  // 打开复习模式：严禁截断为 100 词，必须全量纳入 222 词
-  env.engine.open('review');
+  // 打开复习模式：切换为「全部」档位，全量纳入 222 词
+  env.engine.setReviewBatchSize('all');
+  env.engine.open('review', 'all');
 
   const cardModal = env.elements.get('flashcardModal');
   assert.ok(cardModal, '复习卡片应正常展示');
@@ -355,5 +363,5 @@ test('需求5：重点生词动态引用，222个重点生词全量入列且随�
   // 作答后切词时，队列与 HUD 动态感知最新生词总数
   env.engine.giveUpUnknown();
   env.engine.nextWord();
-  assert.match(cardModal.innerHTML, /复习进度:.*201.*\/.*223/, '复习进度应动态更新为 223 词');
+  assert.match(cardModal.innerHTML, /复习进度:.*200.*\/.*223/, '复习进度应动态感知最新 223 词');
 });
