@@ -226,6 +226,26 @@ window.FlashcardEngine = (() => {
   ];
 
   const REVIEW_BATCH_KEY = 'stone_review_batch_size';
+  const STUDY_STYLE_KEY = 'stone_flashcard_study_style_v1';
+
+  function getStoredStudyStyle() {
+    try {
+      const val = typeof StoneStorage !== 'undefined'
+        ? StoneStorage.getItem(STUDY_STYLE_KEY)
+        : localStorage.getItem(STUDY_STYLE_KEY);
+      if (val === 'sift' || val === 'standard') return val;
+    } catch (e) {}
+    return 'standard';
+  }
+
+  function setStoredStudyStyle(val) {
+    const normalized = val === 'sift' ? 'sift' : 'standard';
+    try {
+      if (typeof StoneStorage !== 'undefined') StoneStorage.setItem(STUDY_STYLE_KEY, normalized);
+      localStorage.setItem(STUDY_STYLE_KEY, normalized);
+    } catch (e) {}
+  }
+
   function getStoredReviewBatchSize() {
     try {
       const val = typeof StoneStorage !== 'undefined'
@@ -246,6 +266,7 @@ window.FlashcardEngine = (() => {
   let state = {
     isOpen: false,
     mode: 'study', // 'study' | 'review'
+    studyStyle: getStoredStudyStyle(), // 'standard' | 'sift' (暴力过筛)
     targetCount: 100,
     queue: [],
     currentIndex: 0,
@@ -364,6 +385,7 @@ window.FlashcardEngine = (() => {
       const sessionData = {
         date: getTodayStr(),
         mode: state.mode,
+        studyStyle: state.studyStyle,
         targetCount: state.targetCount,
         queue: state.queue,
         currentIndex: state.currentIndex,
@@ -666,6 +688,8 @@ function uncertain(reason) {
 }
 function judgmentGate(result, standardDef) {
   if (result?.source === "unknown_giveup" && result.isUnknown === true) return result;
+  if (result?.source === "sift_known" && result.isSift === true) return { ...result, correct: true, verdict: "ACCEPT" };
+  if (result?.source === "sift_unknown" && result.isSift === true) return { ...result, correct: false, isUnknown: true };
   if (!standardDef?.trim()) return uncertain("参考释义缺失，暂不判定；不计对错、不改变掌握状态或错词标记。");
   if (result?.verdict === "UNCERTAIN") return uncertain(result.reason || "本次暂不判定。");
   if (!result || typeof result.confidence !== "number" || !Number.isFinite(result.confidence) || result.confidence < JUDGMENT_THRESHOLD || result.confidence > 1 || typeof result.correct !== "boolean") {
@@ -1068,6 +1092,9 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               state.activeListLength = typeof getActiveWordList === 'function'
                 ? getActiveWordList().length
                 : state.queue.length;
+              if (!state._explicitStyleOverride && (sess.studyStyle === 'sift' || sess.studyStyle === 'standard')) {
+                state.studyStyle = sess.studyStyle;
+              }
             }
             state.currentWord = state.queue[state.currentIndex] || null;
             state.isAnswered = false;
@@ -1252,12 +1279,62 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     el.innerHTML = groups.map(g => `<option value="${g.startIndex}" ${g.startIndex === state.studyStartIndex ? 'selected' : ''}>${g.label}</option>`).join('');
   }
 
-  function open(mode = 'study', target = 100, startIndex = null) {
-    if (!cloudLoaded && window.FlashcardCloud.getAuth()) return ensureCloudProgress().then(() => open(mode, target, startIndex));
+  function isSiftActive() {
+    return state.mode === 'study' && state.studyStyle === 'sift';
+  }
+
+  function setStudyStyle(style) {
+    if (style !== 'standard' && style !== 'sift') return;
+    if (state.mode !== 'study') state.mode = 'study';
+    if (state.studyStyle === style) return;
+    state.studyStyle = style;
+    setStoredStudyStyle(style);
+    saveSession();
+    if (state.isOpen) {
+      if (state.isAnswered && state.lastResult) {
+        const stdBtn = document.getElementById('fcStyleStandardBtn');
+        const siftBtn = document.getElementById('fcStyleSiftBtn');
+        if (stdBtn) stdBtn.classList.toggle('active', style === 'standard');
+        if (siftBtn) {
+          siftBtn.classList.toggle('active', style === 'sift');
+          siftBtn.classList.toggle('is-sift', style === 'sift');
+        }
+        const modePill = document.querySelector?.('.flashcard-mode-pill');
+        if (modePill) {
+          modePill.classList.toggle('sift-pill', style === 'sift');
+          modePill.classList.toggle('study-pill', style !== 'sift');
+          const labelSpan = modePill.querySelector?.('span');
+          if (labelSpan) labelSpan.textContent = style === 'sift' ? '⚡ 暴力过筛' : '📖 新词研习';
+        }
+      } else if (!state.isEvaluating) {
+        renderCard();
+        resetScrollToTop();
+      }
+    }
+    if (typeof showToast === 'function') {
+      showToast(style === 'sift' ? '⚡ 已切换为「暴力过筛」（左认识 · 右不认识）' : '📖 已切换为「常规研习」');
+    }
+  }
+
+  function open(mode = 'study', target = 100, startIndex = null, styleOverride = null) {
+    if (!cloudLoaded && window.FlashcardCloud.getAuth()) return ensureCloudProgress().then(() => open(mode, target, startIndex, styleOverride));
     evaluationVersion++; state.isEvaluating = false;
     state.isOpen = true;
-    state.mode = mode;
-    if (mode === 'review') {
+    let normalizedMode = mode;
+    let resolvedStyle = styleOverride;
+    if (mode === 'sift') {
+      normalizedMode = 'study';
+      resolvedStyle = 'sift';
+    }
+    state.mode = normalizedMode;
+    state._explicitStyleOverride = (resolvedStyle === 'sift' || resolvedStyle === 'standard');
+    if (resolvedStyle === 'sift' || resolvedStyle === 'standard') {
+      state.studyStyle = resolvedStyle;
+      setStoredStudyStyle(resolvedStyle);
+    } else if (normalizedMode === 'study') {
+      state.studyStyle = getStoredStudyStyle();
+    }
+    if (normalizedMode === 'review') {
       const liveList = getLiveMarkedList();
       state.activeListLength = liveList.length;
       if (target === 'all' || target === Infinity) {
@@ -1287,6 +1364,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
 
     initQueue();
+    state._explicitStyleOverride = false;
 
     if (typeof document !== 'undefined' && document.body?.classList) {
       document.body.classList.add('flashcard-open');
@@ -1594,8 +1672,16 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     window.Stone?.prefetchEnglish?.(state.queue.slice(state.currentIndex + 1, state.currentIndex + 3));
     const progressPercent = Math.min(100, Math.round((state.todayStats.completed / state.todayStats.target) * 100));
 
+    const siftActive = isSiftActive();
+
     // 渲染词性多选胶囊 (附带 1~7 键盘快捷键标识)
     const groups = getStudyGroups(state.activeListLength, state.targetCount);
+    const studyStyleSelectHtml = state.mode === 'study' ? `
+      <div class="flashcard-sift-switch" id="fcStudyStyleSwitch" role="group" aria-label="新词认识方式选择" title="在新词认识页面切换常规研习或暴力过筛">
+        <button type="button" class="fc-sift-switch-btn ${!siftActive ? 'active' : ''}" id="fcStyleStandardBtn" onclick="FlashcardEngine.setStudyStyle('standard')" title="勾选词性 + 输入释义判卷">📖 常规研习</button>
+        <button type="button" class="fc-sift-switch-btn ${siftActive ? 'active is-sift' : ''}" id="fcStyleSiftBtn" onclick="FlashcardEngine.setStudyStyle('sift')" title="极速二选一（左认识 / 右不认识），快速暴力过筛新词">⚡ 暴力过筛</button>
+      </div>
+    ` : '';
     const groupSelectHtml = state.mode === 'study' ? `
       <div class="flashcard-group-pill" title="自由切换当前背词分组 (如 1-100, 101-200)">
         <span class="flashcard-group-label">分组</span>
@@ -1671,16 +1757,58 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       </button>
     `).join('');
 
+    const interactionBodyHtml = siftActive ? `
+          <!-- ⚡ 暴力过筛：二选一极速交互区（左认识 · 右不认识） -->
+          <div class="flashcard-sift-section" id="fcSiftSection">
+            <div class="flashcard-section-label">⚡ 暴力过筛 · 快速二选一</div>
+            <div class="flashcard-sift-actions bottom-action-bar" id="fcSiftActions">
+              <button type="button" class="flashcard-sift-btn flashcard-sift-know" id="fcSiftKnowBtn" onclick="FlashcardEngine.submitSiftChoice(true)" title="认识该词 (快捷键: ← 或 1 或 A)">
+                <span class="sift-btn-main">✓ 认识</span>
+                <span class="sift-btn-sub desktop-btn-text">← / 1</span>
+              </button>
+              <button type="button" class="flashcard-sift-btn flashcard-sift-unknow" id="fcSiftUnknowBtn" onclick="FlashcardEngine.submitSiftChoice(false)" title="不认识，展开释义并加入重点生词本 (快捷键: → 或 2 或 D)">
+                <span class="sift-btn-main">✗ 不认识</span>
+                <span class="sift-btn-sub desktop-btn-text">→ / 2</span>
+              </button>
+            </div>
+          </div>
+    ` : `
+          <!-- 1. 词性勾选区 -->
+          <div class="flashcard-pos-section" id="fcPosSection">
+            <div class="flashcard-section-label">🎯 步骤 1：勾选词性 (多选，可选多个):</div>
+            <div class="flashcard-pos-group">
+              ${posButtonsHtml}
+            </div>
+          </div>
+
+          <!-- 2. 中英文释义输入区 -->
+          <div class="flashcard-def-section" id="fcInputSection">
+            <label for="fcInput" class="flashcard-section-label">✍️ 写下你的理解 · 中文或英文均可</label>
+            <div class="flashcard-input-wrap" id="fcInputWrap">
+              <input type="text" id="fcInput" class="flashcard-input" maxlength="2000" placeholder="输入中文或英文释义 (例如: 放弃 / to give up)..." autocomplete="off" />
+              <div class="flashcard-input-actions bottom-action-bar" id="fcInputActions">
+                <button type="button" class="btn btn-secondary flashcard-unknown-btn" id="fcUnknownBtn" onclick="FlashcardEngine.giveUpUnknown()" title="想不起来/我不清楚 (快捷键: 空回车 或 ?)"><span class="mobile-btn-text">我不清楚</span><span class="desktop-btn-text">🤔 我不清楚</span></button>
+                <button class="btn btn-primary flashcard-submit-btn" id="fcSubmitBtn" onclick="FlashcardEngine.submitAnswer()"><span class="mobile-btn-text">判卷</span><span class="desktop-btn-text">判卷 (Enter)</span></button>
+              </div>
+            </div>
+          </div>
+    `;
+
+    const footerTipHtml = siftActive
+      ? `<span>快捷键: <strong>← / 1</strong> 认识 · <strong>→ / 2</strong> 不认识 · <strong>Enter</strong> 下一词 · <strong>+</strong> 标记Mark · <strong>Space</strong> 发音 · <strong>Esc</strong> 退出</span>`
+      : `<span>快捷键: <strong>Enter</strong> 判卷/下一词 · <strong>+</strong> 标记Mark · <strong>Space</strong> 发音 · <strong>Esc</strong> 退出</span>`;
+
     modal.innerHTML = `
       <div class="flashcard-container">
         <!-- 顶部 HUD 状态栏 -->
         <div class="flashcard-hud">
           <div class="flashcard-hud-left">
             <button class="btn btn-secondary btn-xs flashcard-exit-btn" id="fcExitBtn" onclick="FlashcardEngine.close()" title="退出研习 (Esc)" style="white-space:nowrap;flex-shrink:0;padding:6px 12px;">✕ 退出</button>
-            <div class="flashcard-mode-pill ${state.mode === 'study' ? 'study-pill' : 'review-pill'}" onclick="FlashcardEngine.toggleMode()">
-              <span>${state.mode === 'study' ? '📖 新词研习' : '🔄 重点复习'}</span>
+            <div class="flashcard-mode-pill ${state.mode === 'review' ? 'review-pill' : (siftActive ? 'sift-pill' : 'study-pill')}" onclick="FlashcardEngine.toggleMode()">
+              <span>${state.mode === 'review' ? '🔄 重点复习' : (siftActive ? '⚡ 暴力过筛' : '📖 新词研习')}</span>
               <span style="font-size:10px;opacity:0.75;">(切模式)</span>
             </div>
+            ${studyStyleSelectHtml}
             ${groupSelectHtml}
             ${reviewBatchHtml}
             <div class="flashcard-mode-pill" onclick="FlashcardEngine.toggleLanguageMode()" title="切换释义语言显示偏好 (中/英优先)">
@@ -1718,25 +1846,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
             </div>
           </div>
 
-          <!-- 1. 词性勾选区 -->
-          <div class="flashcard-pos-section" id="fcPosSection">
-            <div class="flashcard-section-label">🎯 步骤 1：勾选词性 (多选，可选多个):</div>
-            <div class="flashcard-pos-group">
-              ${posButtonsHtml}
-            </div>
-          </div>
-
-          <!-- 2. 中英文释义输入区 -->
-          <div class="flashcard-def-section" id="fcInputSection">
-            <label for="fcInput" class="flashcard-section-label">✍️ 写下你的理解 · 中文或英文均可</label>
-            <div class="flashcard-input-wrap" id="fcInputWrap">
-              <input type="text" id="fcInput" class="flashcard-input" maxlength="2000" placeholder="输入中文或英文释义 (例如: 放弃 / to give up)..." autocomplete="off" />
-              <div class="flashcard-input-actions bottom-action-bar" id="fcInputActions">
-                <button type="button" class="btn btn-secondary flashcard-unknown-btn" id="fcUnknownBtn" onclick="FlashcardEngine.giveUpUnknown()" title="想不起来/我不清楚 (快捷键: 空回车 或 ?)"><span class="mobile-btn-text">我不清楚</span><span class="desktop-btn-text">🤔 我不清楚</span></button>
-                <button class="btn btn-primary flashcard-submit-btn" id="fcSubmitBtn" onclick="FlashcardEngine.submitAnswer()"><span class="mobile-btn-text">判卷</span><span class="desktop-btn-text">判卷 (Enter)</span></button>
-              </div>
-            </div>
-          </div>
+          ${interactionBodyHtml}
 
           <aside id="fcMarkAsideBox" aria-label="手动加入 Mark 状态" style="display:none;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:4px 0;padding:4px 8px;border:1px solid var(--paper-border);border-radius:6px;background:var(--paper-surface-sub);">
             <div style="flex:1;min-width:140px;">
@@ -1758,7 +1868,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
         <!-- 底部快捷键提示 -->
         <div class="flashcard-footer-tip">
-          <span>快捷键: <strong>Enter</strong> 判卷/下一词 · <strong>+</strong> 标记Mark · <strong>Space</strong> 发音 · <strong>Esc</strong> 退出</span>
+          ${footerTipHtml}
         </div>
       </div>
     `;
@@ -1827,10 +1937,27 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const isSelectFocused = Boolean(document.activeElement && (document.activeElement.tagName === 'SELECT' || (document.activeElement.classList && document.activeElement.classList.contains('flashcard-group-dropdown'))));
     if (isSelectFocused) return;
 
+    // 0. 暴力过筛二选一快捷键：左认识 (← / 1 / A)，右不认识 (→ / 2 / D)
+    if (isSiftActive() && !state.isAnswered && !state.isEvaluating && !e.altKey) {
+      const k = e.key;
+      if (k === 'ArrowLeft' || k === '1' || k === 'a' || k === 'A') {
+        e.preventDefault();
+        e.stopPropagation();
+        submitSiftChoice(true);
+        return;
+      }
+      if (k === 'ArrowRight' || k === '2' || k === 'd' || k === 'D') {
+        e.preventDefault();
+        e.stopPropagation();
+        submitSiftChoice(false);
+        return;
+      }
+    }
+
     // 1. 词性勾选快捷键：Alt+1~7 (任何聚焦状态) 或 1~7 (不在输入框打字时)
     const isAltDigit = e.altKey && e.key >= '1' && e.key <= '7';
     const isDirectDigit = !isInputFocused && !e.altKey && e.key >= '1' && e.key <= '7';
-    if (!state.isAnswered && !state.isEvaluating && (isAltDigit || isDirectDigit)) {
+    if (!isSiftActive() && !state.isAnswered && !state.isEvaluating && (isAltDigit || isDirectDigit)) {
       const idx = parseInt(e.key, 10) - 1;
       if (idx >= 0 && idx < POS_OPTIONS.length) {
         e.preventDefault();
@@ -1882,7 +2009,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       if (state.isAnswered) {
         if (Date.now() - (state.answeredAt || 0) < 100) return;
         const active = document.activeElement;
-        if (active && active.id === 'fcRetryBtn') {
+        if (active && (active.id === 'fcRetryBtn' || active.id === 'fcSiftFlipBtn')) {
           return;
         }
         e.preventDefault();
@@ -1948,6 +2075,86 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     applyEvaluationResult(result, '(不清楚 / 快捷跳过)', selectedPos, standardDef);
     // 自动重播发音加深记忆
     speakCurrent();
+  }
+
+  /**
+   * ⚡ 暴力过筛：二选一作答（左：认识 / 右：不认识）
+   */
+  function submitSiftChoice(isKnown) {
+    if (state.isEvaluating || state.isAnswered || !state.currentWord) return;
+
+    const word = state.currentWord;
+    const standardDef = getStandardDefinition(word);
+    const wordKey = word.toLowerCase().trim();
+
+    if (isKnown) {
+      const result = {
+        correct: true,
+        confidence: 1,
+        verdict: 'ACCEPT',
+        source: 'sift_known',
+        reason: '暴力过筛 · 已选认识（可快速核对释义）',
+        isSift: true,
+        siftKnown: true
+      };
+      applyEvaluationResult(result, '(认识)', [], standardDef);
+    } else {
+      const currentMarks = typeof getMarkCount === 'function' ? getMarkCount(wordKey) : 0;
+      const reasonText = currentMarks === 0
+        ? '暴力过筛 · 不认识，已自动加入重点生词本'
+        : `暴力过筛 · 不认识（已有 ${currentMarks} 次 Mark 保留）`;
+      const result = {
+        correct: false,
+        confidence: 0,
+        source: 'sift_unknown',
+        reason: reasonText,
+        isUnknown: true,
+        isSift: true,
+        siftKnown: false
+      };
+      applyEvaluationResult(result, '(不认识)', [], standardDef);
+      speakCurrent();
+    }
+  }
+
+  /**
+   * ⚡ 暴力过筛纠偏：点「认识」后核对释义发现记错了，一键改标为「不认识」并入重点词库
+   */
+  function flipSiftToUnknown() {
+    if (!state.isOpen || !state.isAnswered || !state.currentWord || !state.lastResult?.siftKnown) return;
+    const word = state.currentWord;
+    const wordKey = word.toLowerCase().trim();
+    const standardDef = getStandardDefinition(word);
+
+    state.todayStats.correct = Math.max(0, state.todayStats.correct - 1);
+    state.todayStats.wrong += 1;
+    state.learnedWords.delete(wordKey);
+    saveLearnedWords();
+
+    if (!state.manualMarkBaselines.has(wordKey) && typeof getMarkCount === 'function' && typeof addMark === 'function') {
+      if (getMarkCount(wordKey) === 0) addMark(wordKey);
+    }
+
+    const currentMarks = typeof getMarkCount === 'function' ? getMarkCount(wordKey) : 0;
+    const reasonText = currentMarks === 1
+      ? '已改标为不认识，已加入重点生词本'
+      : `已改标为不认识（当前 Mark：${currentMarks}）`;
+    const flippedResult = {
+      correct: false,
+      confidence: 0,
+      source: 'sift_unknown',
+      reason: reasonText,
+      isUnknown: true,
+      isSift: true,
+      siftKnown: false
+    };
+
+    if (typeof soundFailure === 'function') soundFailure();
+    speakCurrent();
+    updateHUDCounts();
+    saveDailyStats();
+    applyEvaluationResult(flippedResult, '(不认识)', [], standardDef, true);
+    saveSession();
   }
 
   async function submitAnswer() {
@@ -2044,7 +2251,11 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
 
     if (cardBox) {
       cardBox.classList.remove('is-correct', 'is-wrong');
-      if (!isUncertain && !result.isUnknown) cardBox.classList.add(result.correct ? 'is-correct' : 'is-wrong');
+      if (result.source === 'sift_unknown') {
+        cardBox.classList.add('is-wrong');
+      } else if (!isUncertain && !result.isUnknown) {
+        cardBox.classList.add(result.correct ? 'is-correct' : 'is-wrong');
+      }
     }
 
     const posDisplay = selectedPos.length > 0 ? selectedPos.map(p => `[${p}.]`).join(' ') : '未指定';
@@ -2063,10 +2274,30 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     if (resultPanel) {
       resultPanel.style.display = 'block';
       const hasSpecifiedPos = selectedPos.length > 0 && posDisplay !== '未指定';
+      const badgeClass = isUncertain
+        ? 'badge-unknown'
+        : result.correct
+          ? 'badge-correct'
+          : result.source === 'sift_unknown'
+            ? 'badge-wrong'
+            : (result.isUnknown ? 'badge-unknown' : 'badge-wrong');
+      const badgeLabel = isUncertain
+        ? '⚪ 暂不判定（不计对错）'
+        : result.source === 'sift_known'
+          ? '✅ 认识 · 快速核对'
+          : result.source === 'sift_unknown'
+            ? '❌ 不认识 · 看看参考释义'
+            : result.correct
+              ? '✅ 判题通过！'
+              : (result.isUnknown ? '🤔 看看参考释义' : '❌ 释义有偏差');
+      const hideUserInputRow = !!(result.isUnknown || result.isSift);
+      const secondaryActionHtml = result.source === 'sift_known'
+        ? `<button id="fcSiftFlipBtn" type="button" class="btn btn-secondary flashcard-retry-btn" onclick="FlashcardEngine.flipSiftToUnknown()"><span class="mobile-btn-text">记错了</span><span class="desktop-btn-text">✗ 记错了，标为不认识</span></button>`
+        : (!result.correct ? `<button id="fcRetryBtn" class="btn btn-secondary flashcard-retry-btn" onclick="FlashcardEngine.retryCurrent()"><span class="mobile-btn-text">再试一次</span><span class="desktop-btn-text">再试一次</span></button>` : '');
       resultPanel.innerHTML = `
         <div class="flashcard-badge-row">
-          <span class="flashcard-verdict-badge ${isUncertain ? 'badge-unknown' : result.correct ? 'badge-correct' : (result.isUnknown ? 'badge-unknown' : 'badge-wrong')}">
-            ${isUncertain ? '⚪ 暂不判定（不计对错）' : result.correct ? '✅ 判题通过！' : (result.isUnknown ? '🤔 看看参考释义' : '❌ 释义有偏差')}
+          <span class="flashcard-verdict-badge ${badgeClass}">
+            ${badgeLabel}
           </span>
           <span class="flashcard-confidence-info">${escapeHtml(result.reason)}</span>
         </div>
@@ -2092,7 +2323,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
               <span class="compare-content std-def-text">${escapeHtml(stdPosDisplay)}</span>
             </div>
           </div>` : ''}
-          ${!result.isUnknown ? `<div class="flashcard-compare-item" style="margin-top: 4px; display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+          ${!hideUserInputRow ? `<div class="flashcard-compare-item" style="margin-top: 4px; display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
             <span class="compare-label">你的释义:</span>
             <span class="compare-content user-input-text">${escapeHtml(userInput || '(未填写)')}</span>
             ${!hasSpecifiedPos ? `<span class="flashcard-std-pos-pill" style="margin-left:4px; font-size:11.5px; background:rgba(59,130,246,0.1); color:#2563eb; padding:2px 8px; border-radius:6px; font-weight:700;">考纲词性 ${escapeHtml(stdPosDisplay)}</span>` : ''}
@@ -2158,7 +2389,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         </div>
 
         <div class="flashcard-action-bar bottom-action-bar">
-          ${!result.correct ? `<button id="fcRetryBtn" class="btn btn-secondary flashcard-retry-btn" onclick="FlashcardEngine.retryCurrent()"><span class="mobile-btn-text">再试一次</span><span class="desktop-btn-text">再试一次</span></button>` : ''}
+          ${secondaryActionHtml}
           <button id="fcNextBtn" class="btn btn-primary flashcard-next-btn" onclick="FlashcardEngine.nextWord()">
             ${manualMarkNextLabel()}
           </button>
@@ -2174,6 +2405,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     }
     const posSection = document.getElementById('fcPosSection');
     if (posSection) posSection.style.display = 'none';
+    const siftSection = document.getElementById('fcSiftSection');
+    if (siftSection) siftSection.style.display = 'none';
     const completed = document.getElementById('fcCompletedCount');
     if (completed) completed.textContent = state.todayStats.completed;
     updateManualMarkControls();
@@ -2222,6 +2455,8 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         status.textContent = `已手动加入，当前 Mark：${count}。可以撤销本次添加。`;
       } else if (state.lastResult?.verdict === 'REJECT') {
         status.textContent = `本次判错已自动加入 Mark，当前 Mark：${count}。`;
+      } else if (state.lastResult?.source === 'sift_unknown') {
+        status.textContent = `不认识：${count > 1 ? `已有 ${count} 次标记保留（不重复累加）` : count === 1 ? `已自动加入重点生词本，当前 Mark：1` : `当前 Mark：0`}`;
       } else if (state.lastResult?.isUnknown) {
         status.textContent = `我不清楚：${count > 1 ? `已有 ${count} 次标记保留（不重复累加）` : count === 1 ? `已自动加入重点生词本，当前 Mark：1` : `当前 Mark：0`}`;
       } else if (state.mode === 'review' && state.lastResult?.correct) {
@@ -2300,15 +2535,20 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     const resultPanel = document.getElementById('fcResultPanel');
     const inputSection = document.getElementById('fcInputSection');
     const inputEl = document.getElementById('fcInput');
+    const siftSection = document.getElementById('fcSiftSection');
 
     if (cardBox) cardBox.classList.remove('is-correct', 'is-wrong');
     if (resultPanel) resultPanel.style.display = 'none';
-    if (inputSection) inputSection.style.display = 'block';
-    const posSection = document.getElementById('fcPosSection');
-    if (posSection) posSection.style.display = 'flex';
-    if (inputEl) {
-      inputEl.value = '';
-      safeFocusNoScroll(inputEl);
+    if (isSiftActive() && siftSection) {
+      siftSection.style.display = 'flex';
+    } else {
+      if (inputSection) inputSection.style.display = 'block';
+      const posSection = document.getElementById('fcPosSection');
+      if (posSection) posSection.style.display = 'flex';
+      if (inputEl) {
+        inputEl.value = '';
+        safeFocusNoScroll(inputEl);
+      }
     }
     saveSession();
     resetScrollToTop();
@@ -2581,7 +2821,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
       }
       // 如果处于已回答状态，即时刷新卡片中的释义对比排列
       if (state.isAnswered && state.lastResult) {
-        applyEvaluationResult(state.lastResult, document.getElementById('fcInput')?.value || '(已提交)', [...state.selectedPos], getStandardDefinition(state.currentWord), true);
+        applyEvaluationResult(state.lastResult, state.lastUserInput || document.getElementById('fcInput')?.value || '(已提交)', [...state.selectedPos], getStandardDefinition(state.currentWord), true);
       } else if (!state.isEvaluating) {
         renderCard();
       }
@@ -2596,7 +2836,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   }
   function queueCloudProgress(cleared = false, immediate = false, force = false) {
     window.FlashcardCloud.save({learned:Array.from(state.learnedWords),sequence:state.studySequences,stats:state.todayStats,session:cleared?null:{
-      date:getTodayStr(),mode:state.mode,targetCount:state.targetCount,queue:state.queue,currentIndex:state.currentIndex,
+      date:getTodayStr(),mode:state.mode,studyStyle:state.studyStyle,targetCount:state.targetCount,queue:state.queue,currentIndex:state.currentIndex,
       isOpen:state.isOpen,manualMarkBaselines:Array.from(state.manualMarkBaselines),isAnswered:state.isAnswered,
       lastResult:state.lastResult,userInput:state.lastUserInput,selectedPos:state.selectedPos,queuePolicyVersion:QUEUE_POLICY_VERSION,
       studyScopeKey:state.studyScopeKey,studyStartIndex:state.studyStartIndex,
@@ -2627,6 +2867,10 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
         state.currentIndex = Math.min(sess.currentIndex || 0, sess.queue.length - 1);
         state.currentWord = state.queue[state.currentIndex];
         state.mode = sess.mode || state.mode;
+        if (sess.studyStyle === 'sift' || sess.studyStyle === 'standard') {
+          state.studyStyle = sess.studyStyle;
+          setStoredStudyStyle(sess.studyStyle);
+        }
         state.studyStartIndex = Number.isInteger(sess.studyStartIndex) ? sess.studyStartIndex : state.studyStartIndex;
         state.isAnswered = !!sess.isAnswered;
         state.lastResult = sess.lastResult || null;
@@ -2665,7 +2909,7 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
   async function resumeCloudSession() {
     await ensureCloudProgress();
     const sess=cachedProgress().session;
-    if(sess?.isOpen && sess.queue?.length && sess.currentIndex<sess.queue.length) open(sess.mode||'study',sess.targetCount||100);
+    if(sess?.isOpen && sess.queue?.length && sess.currentIndex<sess.queue.length) open(sess.mode||'study',sess.targetCount||100,null,sess.studyStyle||null);
     if(window.FlashcardCloud.getAuth()) {
       void window.FlashcardCloud.checkAndSyncLatestProgress();
     }
@@ -2845,6 +3089,12 @@ async function verifyWithJev(word,input,selectedPos,standardDef) {
     open,
     close,
     submitAnswer,
+    submitSiftChoice,
+    flipSiftToUnknown,
+    setStudyStyle,
+    isSiftActive,
+    getStoredStudyStyle,
+    setStoredStudyStyle,
     giveUpUnknown,
     nextWord,
     retryCurrent,

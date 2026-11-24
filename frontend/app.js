@@ -375,10 +375,8 @@ async function switchNavView(viewName) {
   } else if (viewName === 'novel' || viewName === 'survival') {
     document.getElementById('viewSurvival')?.classList.add('active');
     document.getElementById('navSurvival')?.classList.add('active');
-    if (viewName === 'novel') {
-      currentSurvivalGameMode = 'novel';
-      saveToStorage('vocab_survival_mode', 'novel');
-    }
+    currentSurvivalGameMode = 'novel';
+    saveToStorage('vocab_survival_mode', 'novel');
     updateSurvivalModeUI();
     launchSurvivalGame();
   } else if (viewName === 'match') {

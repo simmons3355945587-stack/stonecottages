@@ -219,7 +219,7 @@ function openCottageJournalModal() {
     if (saveTime) saveTime.textContent = saved ? '已读取本地存档' : '尚未保存新内容';
   }
 
-  switchJournalTab('expedition');
+  switchJournalTab('notes');
 
   if (modal) {
     modal.style.display = 'block';

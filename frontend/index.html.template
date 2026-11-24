@@ -49,8 +49,8 @@
     </div>
   </div>
 
-  <!-- Player HUD -->
-  <div class="player-bar">
+  <!-- Player HUD (Hidden in streamlined pure study mode) -->
+  <div class="player-bar" style="display: none !important;">
     <div class="origami-hud-card" title="生命值 HP (失误可转化灰血，通过错词有效回忆愈合)">
       <span>❤️</span>
       <span class="hud-label">HP</span>
@@ -103,9 +103,9 @@
             <span class="pill-icon">🎧</span>
             <span class="pill-text">听力</span>
           </a>
-          <button class="cottage-float-pill" onclick="openExpeditionPrepModal()" title="出征祭坛 · 探险整备" aria-label="出征祭坛 · 探险整备">
-            <span class="pill-icon">⚔️</span>
-            <span class="pill-text">出征</span>
+          <button class="cottage-float-pill" onclick="switchNavView('profile')" title="学情全景与认知统计" aria-label="学情全景与认知统计">
+            <span class="pill-icon">📊</span>
+            <span class="pill-text">学情</span>
           </button>
         </div>
         <div class="cottage-floating-actions">
@@ -161,18 +161,18 @@
           </button>
 
           <!-- 2. 壁炉上方悬挂的金牛战旗 (3D 垂坠微动) -->
-          <button class="paper-object banner-object" onclick="switchNavView('profile').then(() => openCodexModal())" aria-label="查看金牛战旗，开启塔罗秘典">
+          <button class="paper-object banner-object" onclick="switchNavView('profile')" aria-label="查看金牛战旗，开启学情统计">
             <picture>
               <source srcset="/assets/bull-banner.webp" type="image/webp">
               <img src="/assets/bull-banner.png" alt="金牛战旗" width="1024" height="1536">
             </picture>
-            <span class="object-caption">塔罗秘典 <span class="arrow">↗</span></span>
+            <span class="object-caption">学情统计 <span class="arrow">↗</span></span>
           </button>
 
           <!-- 3. 通顶实木书架交互热点 (安全研习模式 · 0扣血) -->
           <button class="hotspot shelf-spot" onclick="switchNavView('words')" aria-label="打开书架安全研习词库">
             <span class="marker">📚</span>
-            <span class="hotspot-caption">书架 · 安全研习 (0扣血)</span>
+            <span class="hotspot-caption">书架 · 折纸词库</span>
           </button>
 
           <!-- 4. 留声机 / 四级精听真题复读机交互热点 -->
@@ -187,16 +187,16 @@
             <span class="hotspot-caption">炉边歇息</span>
           </button>
 
-          <!-- 5. 炉边茶几复盘热点 -->
-          <button class="hotspot debrief-spot" onclick="openCottageDebriefModal()" aria-label="炉边茶几复盘">
+          <!-- 5. 炉边茶几复盘热点 (隐藏游戏化复盘) -->
+          <button class="hotspot debrief-spot" onclick="openCottageDebriefModal()" aria-label="炉边茶几复盘" style="display: none !important;">
             <span class="marker">🕊️</span>
             <span class="hotspot-caption">炉边复盘</span>
           </button>
 
-          <!-- 6. 推门出征整备祭坛 -->
-          <button class="hotspot expedition-spot" onclick="openExpeditionPrepModal()" aria-label="推门出征祭坛">
-            <span class="marker">⚔️</span>
-            <span class="hotspot-caption">出征祭坛</span>
+          <!-- 6. 推门出征整备祭坛 (改为开启原著泛读) -->
+          <button class="hotspot expedition-spot" onclick="switchNavView('novel')" aria-label="开启原著沉浸泛读">
+            <span class="marker">📖</span>
+            <span class="hotspot-caption">原著沉浸泛读</span>
           </button>
 
           <!-- 6. 壁炉柔光光晕 (混合模式 screen) -->
@@ -207,9 +207,6 @@
         <div id="cottageExteriorLayers" style="display: none; flex-direction: column; gap: 8px;">
           <button class="entrance" onclick="toggleCottagePerspective(true)" aria-label="推门进入小石屋">
             <span>推门进入小石屋 <span class="arrow">▶</span></span>
-          </button>
-          <button class="entrance" onclick="openExpeditionPrepModal()" aria-label="踏上荒原远征" style="border-color: var(--brand-accent); background: rgba(245, 158, 11, 0.25);">
-            <span>⚔️ 踏上荒原远征 <span class="arrow">▶</span></span>
           </button>
         </div>
       </div>
@@ -226,8 +223,8 @@
         <button class="btn btn-primary hero-btn-main" onclick="switchNavView('novel')">
           <span>📖 开启原著沉浸泛读</span>
         </button>
-        <button class="btn btn-secondary hero-btn-sub" onclick="openExpeditionPrepModal()" title="荒原远征出征">
-          <span>⚔️ 荒原生存出征</span>
+        <button class="btn btn-secondary hero-btn-sub" onclick="switchNavView('words')" title="打开折纸词库">
+          <span>📚 进入折纸词库</span>
         </button>
       </div>
     </div>
@@ -383,9 +380,12 @@
           <div style="font-size:11.5px; color:var(--text-secondary);">逐卡呈现，自由输入中英释义，TypeSafe Jev 毫秒级语义判题</div>
         </div>
       </div>
-      <div style="display:flex; gap:8px; align-items:center;">
+      <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <button class="btn btn-primary btn-sm" onclick="FlashcardEngine.open('study', 100)" style="font-weight:800;">
           📖 今日新词 (100词)
+        </button>
+        <button class="btn btn-accent btn-sm" id="btnOpenSiftMode" onclick="FlashcardEngine.open('sift', 100)" style="font-weight:800;" title="极速二选一（左认识 / 右不认识），快速暴力过筛新词">
+          ⚡ 暴力过筛
         </button>
         <button class="btn btn-secondary btn-sm" onclick="FlashcardEngine.open('review', 100)" style="font-weight:800;">
           🔄 重点复习 (100词)
@@ -409,10 +409,10 @@
     <div id="markedListContainer" class="word-grid" style="display: none;"></div>
   </div>
 
-  <!-- ================= VIEW 2: RPG 文字大逃杀与小说模式 (SURVIVAL) ================= -->
+  <!-- ================= VIEW 2: 原著小说沉浸泛读模式 (EXTENSIVE READING) ================= -->
   <div id="viewSurvival" class="view-section">
-    <!-- 🎮 生存战与泛读模式选择 Tab (Novel Reader / Classic Survival) -->
-    <div class="origami-tabs" style="margin-bottom: 12px;">
+    <!-- 🎮 生存战与泛读模式选择 Tab (隐藏经典生存战 Tab，保持纯净原著泛读) -->
+    <div class="origami-tabs" style="display: none !important; margin-bottom: 12px;">
       <button class="origami-tab-btn active" id="modeTabNovel" onclick="switchSurvivalMode('novel')">
         📖 职场原著沉浸泛读：《I Hope This Finds You Well》
       </button>
@@ -650,10 +650,10 @@
     </div>
   </div>
 
-  <!-- ================= VIEW 5: 塔罗牌抽卡圣殿与战术背包 (TAROT SANCTUM) ================= -->
+  <!-- ================= VIEW 5: 学情全景与认知仪表盘 (LEARNING ANALYTICS) ================= -->
   <div id="viewProfile" class="view-section">
     <div class="tarot-sanctum">
-      <div class="tarot-altar">
+      <div class="tarot-altar" style="display: none !important;">
         <div class="tarot-altar-header">
           <div class="tarot-altar-title">✦ 塔罗词汇命运圣殿 ✦</div>
           <div class="tarot-altar-sub">点击神秘未翻开的塔罗牌，消耗 50 Gold 揭晓你的专属真题大阿卡那战斗卡！</div>
@@ -673,25 +673,25 @@
       </div>
 
       <!-- 📊 学情全景与认知仪表盘 (Learning Analytics Dashboard) -->
-      <div class="origami-box learning-dashboard-box" style="text-align: left; margin-top: 20px;">
+      <div class="origami-box learning-dashboard-box" style="text-align: left; margin-top: 0;">
         <div class="dashboard-header-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1.5px solid var(--paper-border); padding-bottom: 10px; flex-wrap: wrap; gap: 8px;">
           <div>
             <h3 style="font-family: var(--font-serif); font-size: 17px; margin: 0; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
               📊 学情全景与认知仪表盘 <span style="font-size: 11px; background: rgba(99, 102, 241, 0.15); color: var(--brand-primary); padding: 2px 8px; border-radius: 12px; font-family: var(--font-sans); font-weight: 700;">Learning Analytics</span>
             </h3>
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">基于 4 阶形近词谱、错题生还记忆与多维认知抗压轨迹</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">核心考纲词汇掌握率、重点生词本追踪与形近易混词雷达</div>
           </div>
           <div style="display: flex; gap: 6px;">
             <button class="btn btn-secondary btn-sm" onclick="switchNavView('words'); switchSubTab('marked');" style="font-size: 12px; padding: 4px 10px;">
-              📝 错题生词本
+              📝 重点生词本
             </button>
-            <button class="btn btn-secondary btn-sm" onclick="openCodexModal()" style="font-size: 12px; padding: 4px 10px;">
-              🎒 塔罗背包
+            <button class="btn btn-primary btn-sm" onclick="FlashcardEngine.open('review', 100)" style="font-size: 12px; padding: 4px 10px;">
+              🔄 开启重点复习
             </button>
           </div>
         </div>
         <div id="learningDashboardBody"></div>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px;" id="achievementGrid"></div>
+        <div style="display: none; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px;" id="achievementGrid"></div>
       </div>
     </div>
   </div>
@@ -706,19 +706,19 @@
   </button>
   <button class="nav-item" onclick="switchNavView('words')" id="navWords">
     <span class="nav-icon">📚</span>
-    <span>折纸词库</span>
+    <span>词库</span>
   </button>
   <button class="nav-item" onclick="switchNavView('novel')" id="navSurvival">
     <span class="nav-icon">📖</span>
     <span>原著泛读</span>
   </button>
-  <button class="nav-item" onclick="switchNavView('match')" id="navMatch">
+  <button class="nav-item" onclick="switchNavView('match')" id="navMatch" style="display: none !important;" aria-hidden="true">
     <span class="nav-icon">⚡</span>
     <span>消消乐</span>
   </button>
-  <button class="nav-item" onclick="switchNavView('profile')" id="navProfile">
+  <button class="nav-item" onclick="switchNavView('profile')" id="navProfile" style="display: none !important;" aria-hidden="true">
     <span class="nav-icon">📊</span>
-    <span>手记学情</span>
+    <span>学情统计</span>
   </button>
   <a href="/cet4/" class="nav-item" id="navCet4" style="text-decoration: none; color: inherit;" title="四级精听复读机">
     <span class="nav-icon">🎧</span>
@@ -733,30 +733,30 @@
   <div id="defDrawerContent"></div>
 </div>
 
-<!-- ✍️ 小石屋手记 & 荒原远征编年史 Modal -->
+<!-- ✍️ 小石屋书桌随笔手记 Modal -->
 <div class="modal-box" id="cottageJournalModal" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid var(--paper-border); padding-bottom: 10px;">
     <div>
       <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--text-primary); margin: 0; display: flex; align-items: center; gap: 8px;">
-        <span>📜 书桌 · 荒原手记与出征战绩</span>
+        <span>✍️ 书桌 · 小石屋随笔手记</span>
       </h3>
-      <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">翻开书桌上的羊皮纸手记，回顾每一次荒原出征与心得沉淀。</div>
+      <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">翻开书桌上的羊皮纸手记，记录阅读笔记、词汇心得或今日所思。</div>
     </div>
     <button class="drawer-close-btn" style="position: static; width: 32px; height: 32px; font-size: 16px;" onclick="closeCottageJournalModal()">&times;</button>
   </div>
 
-  <!-- 双 Tab 切换栏 -->
-  <div style="display: flex; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid var(--paper-border); padding-bottom: 8px;">
-    <button type="button" class="btn btn-secondary btn-sm active" id="btnJournalTabExpedition" onclick="switchJournalTab('expedition')" style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
+  <!-- 双 Tab 切换栏 (隐藏远征战报 Tab，默认直达随笔杂记) -->
+  <div style="display: none; gap: 8px; margin-bottom: 14px; border-bottom: 1px solid var(--paper-border); padding-bottom: 8px;">
+    <button type="button" class="btn btn-secondary btn-sm" id="btnJournalTabExpedition" onclick="switchJournalTab('expedition')" style="font-weight: 800; display: flex; align-items: center; gap: 6px;">
       <span>📜 荒原探险手记</span>
     </button>
-    <button type="button" class="btn btn-secondary btn-sm" id="btnJournalTabNotes" onclick="switchJournalTab('notes')" style="font-weight: 700; display: flex; align-items: center; gap: 6px;">
+    <button type="button" class="btn btn-secondary btn-sm active" id="btnJournalTabNotes" onclick="switchJournalTab('notes')" style="font-weight: 700; display: flex; align-items: center; gap: 6px;">
       <span>✍️ 随笔杂记</span>
     </button>
   </div>
 
   <!-- VIEW A: 荒原探险手记 (Chronicles & History Logs) -->
-  <div id="journalViewExpedition" style="display: block;">
+  <div id="journalViewExpedition" style="display: none;">
     <!-- 4 大战绩核心指标勋章 -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 14px;">
       <div style="background: var(--paper-surface-sub); border: 1px solid var(--paper-border); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center;">
@@ -788,7 +788,7 @@
   </div>
 
   <!-- VIEW B: 纯本地随笔杂记 -->
-  <div id="journalViewNotes" style="display: none;">
+  <div id="journalViewNotes" style="display: block;">
     <div style="margin-bottom: 12px; background: rgba(16, 20, 16, 0.6); border: 1px dashed var(--paper-border); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 11.5px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
       <span>🔒 本杂记严格仅保存在当前浏览器，绝不占用主机缓存或云端流量。</span>
       <span id="cottageJournalSaveTime" style="color: var(--brand-accent); font-family: var(--font-mono);">随时自动保存</span>

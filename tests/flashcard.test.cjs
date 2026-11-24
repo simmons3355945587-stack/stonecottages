@@ -645,3 +645,131 @@ test('flashcard removes scrollTo/scrollIntoView and only resets scrollTop on nav
 
   h.engine.close();
 });
+
+
+test('rapid sift mode: switcher in new-word view renders left 认识 and right 不认识 blocks and preserves standard card HUD', () => {
+  const modal = { innerHTML: '', style: {}, classList: { add() {}, remove() {} } };
+  const h = setup(undefined, {
+    getActiveWordList: () => ['reunite', 'space', 'horizon'],
+    requestAnimationFrame: fn => fn(),
+    setTimeout: () => 1
+  });
+  h.elements.set('flashcardModal', modal);
+
+  // 1. 默认打开新词页面：显示「常规研习 / 暴力过筛」选择条，交互体为常规输入框
+  h.engine.open('study', 100);
+  assert.equal(h.engine.isSiftActive(), false);
+  assert.match(modal.innerHTML, /id="fcStudyStyleSwitch"/);
+  assert.match(modal.innerHTML, /暴力过筛/);
+  assert.match(modal.innerHTML, /id="fcInput"/);
+  assert.doesNotMatch(modal.innerHTML, /id="fcSiftSection"/);
+
+  // 2. 切换为暴力过筛：隐藏词性与输入框，呈现二选一按钮且左边是认识、右边是不认识
+  h.engine.setStudyStyle('sift');
+  assert.equal(h.engine.isSiftActive(), true);
+  assert.equal(h.engine.getStoredStudyStyle(), 'sift');
+  assert.match(modal.innerHTML, /id="fcSiftSection"/);
+  assert.match(modal.innerHTML, /id="fcGroupSelect"/);
+  assert.match(modal.innerHTML, /id="fcMarkAdd"/);
+  assert.doesNotMatch(modal.innerHTML, /id="fcInput"/);
+  const knowPos = modal.innerHTML.indexOf('id="fcSiftKnowBtn"');
+  const unknowPos = modal.innerHTML.indexOf('id="fcSiftUnknowBtn"');
+  assert.ok(knowPos > 0 && unknowPos > knowPos, '左边必须是「认识」按钮，右边必须是「不认识」按钮');
+  assert.match(modal.innerHTML, /fcSiftKnowBtn[\s\S]*认识/);
+  assert.match(modal.innerHTML, /fcSiftUnknowBtn[\s\S]*不认识/);
+
+  // 3. 通过 open('sift', 100) 入口也可直达暴力过筛
+  h.engine.setStudyStyle('standard');
+  assert.equal(h.engine.isSiftActive(), false);
+  h.engine.open('sift', 100);
+  assert.equal(h.engine.isSiftActive(), true);
+  assert.match(modal.innerHTML, /id="fcSiftSection"/);
+});
+
+test('rapid sift mode: 认识 / 不认识 / 记错了纠偏 / 重试 与智能 Mark 结算', () => {
+  const modal = { innerHTML: '', style: {}, classList: { add() {}, remove() {} } };
+  const panel = { style: {}, innerHTML: '' };
+  const siftSection = { style: {} };
+  const classes = [];
+  const h = setup(undefined, {
+    getActiveWordList: () => ['reunite', 'space', 'missingdefword'],
+    requestAnimationFrame: fn => fn(),
+    setTimeout: () => 1
+  });
+  h.elements.set('flashcardModal', modal);
+  h.elements.set('fcResultPanel', panel);
+  h.elements.set('fcSiftSection', siftSection);
+  h.elements.set('flashcardBox', { classList: { remove(...c) { c.forEach(x => { const i = classes.indexOf(x); if (i >= 0) classes.splice(i, 1); }); }, add(v) { classes.push(v); } } });
+
+  h.engine.open('sift', 100);
+
+  // 1. 点击左边「认识」：计入答对与已掌握，不新增 Mark，并展示核对释义与「记错了」纠偏按钮
+  h.engine.submitSiftChoice(true);
+  assert.equal(h.state.isAnswered, true);
+  assert.equal(h.state.todayStats.completed, 1);
+  assert.equal(h.state.todayStats.correct, 1);
+  assert.equal(h.state.todayStats.wrong, 0);
+  assert.equal(h.state.learnedWords.has('reunite'), true);
+  assert.equal(h.marks(), 0);
+  assert.equal(siftSection.style.display, 'none');
+  assert.match(panel.innerHTML, /认识 · 快速核对/);
+  assert.match(panel.innerHTML, /id="fcSiftFlipBtn"/);
+  assert.match(panel.innerHTML, /fc-two-col-grid/);
+
+  // 2. 点击「记错了，标为不认识」：不重复累加 completed，改为错题并自动加入 1 次 Mark
+  h.engine.flipSiftToUnknown();
+  assert.equal(h.state.todayStats.completed, 1);
+  assert.equal(h.state.todayStats.correct, 0);
+  assert.equal(h.state.todayStats.wrong, 1);
+  assert.equal(h.state.learnedWords.has('reunite'), false);
+  assert.equal(h.marks(), 1);
+  assert.match(panel.innerHTML, /不认识 · 看看参考释义/);
+
+  // 3. 下一词点击右边「不认识」：即便该词缺中文考纲释义也正常结算，不进入 UNCERTAIN
+  h.engine.nextWord();
+  assert.equal(h.state.currentWord, 'space');
+  h.engine.submitSiftChoice(false);
+  assert.equal(h.state.isAnswered, true);
+  assert.equal(h.state.lastResult.source, 'sift_unknown');
+  assert.equal(h.state.todayStats.completed, 2);
+  assert.equal(h.state.todayStats.wrong, 2);
+  // 已有 1 个 mock mark 时遵循智能 Mark（不重复累加）
+  assert.equal(h.marks(), 1);
+  assert.match(panel.innerHTML, /id="fcRetryBtn"/);
+
+  // 4. 点击再试一次：恢复二选一面板
+  h.engine.retryCurrent();
+  assert.equal(h.state.isAnswered, false);
+  assert.equal(siftSection.style.display, 'flex');
+});
+
+test('rapid sift mode: keyboard shortcuts ArrowLeft/1 for 认识, ArrowRight/2 for 不认识, Enter for next', () => {
+  const h = setup(undefined, {
+    getActiveWordList: () => ['reunite', 'space', 'horizon'],
+    requestAnimationFrame: fn => fn(),
+    setTimeout: () => 1
+  });
+  h.elements.set('flashcardModal', { innerHTML: '', style: {}, classList: { add() {}, remove() {} } });
+  h.engine.open('sift', 100);
+
+  // 按 ArrowLeft 触发认识
+  let p1 = false;
+  h.engine.handleFlashcardKeydown({ key: 'ArrowLeft', preventDefault() { p1 = true; }, stopPropagation() {} });
+  assert.equal(p1, true);
+  assert.equal(h.state.isAnswered, true);
+  assert.equal(h.state.lastResult.source, 'sift_known');
+
+  // 按 Enter 进入下一词
+  h.state.answeredAt = Date.now() - 200;
+  h.engine.handleFlashcardKeydown({ key: 'Enter', preventDefault() {}, stopPropagation() {} });
+  assert.equal(h.state.currentWord, 'space');
+  assert.equal(h.state.isAnswered, false);
+
+  // 按数字键 2 触发不认识（且不误触发词性勾选）
+  let p2 = false;
+  h.engine.handleFlashcardKeydown({ key: '2', preventDefault() { p2 = true; }, stopPropagation() {} });
+  assert.equal(p2, true);
+  assert.equal(h.state.isAnswered, true);
+  assert.equal(h.state.lastResult.source, 'sift_unknown');
+  assert.deepEqual(Array.from(h.state.selectedPos), []);
+});

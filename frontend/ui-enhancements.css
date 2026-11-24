@@ -22,7 +22,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
  .stone-home .nav-item{font-size:12px;min-height:56px;}.stone-home .choice-action-text,.stone-home .choice-btn{font-size:16px;line-height:1.65;}
  .stone-home .tarot-meaning,.stone-home .candy-tile .tile-word-text{font-size:15px;}.stone-home .tarot-back-tip{font-size:12px;}
  .stone-listening .quick-controls-row{flex-wrap:wrap;}
- .stone-home .player-bar{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;margin:4px auto 0!important;padding:0!important;width:100%!important;max-width:100%!important;}
+ .stone-home .player-bar{display:none!important;}
  .stone-home .origami-hud-card{flex:1 1 0!important;min-width:0!important;height:28px!important;min-height:28px!important;padding:2px 6px!important;font-size:11px!important;border-radius:6px!important;box-shadow:none!important;border-width:1px!important;gap:3px!important;justify-content:center!important;white-space:nowrap!important;overflow:hidden!important;}
  .stone-home .hud-label{display:none!important;}
  .stone-home .hud-san-tag{display:none!important;}
@@ -104,12 +104,12 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .stone-home .origami-hud-card{box-shadow:none;border-width:1px;}.stone-home .paper-icon-btn,.stone-listening .paper-icon-btn{box-shadow:none;}
 .stone-home .origami-word-card .word-audio-btn{margin-left:auto;flex-shrink:0;}.stone-home .origami-word-card .word-spelling{width:100%;}
 .stone-home .origami-word-card .word-correction{display:none;}
-.stone-game-subnav{display:none;gap:8px;margin:0 0 18px;}.stone-game-subnav button,.stone-reading-toggle{min-height:44px;padding:10px 16px;border-radius:10px;border:1px solid var(--paper-border);background:var(--paper-surface);color:var(--text-primary);font-size:15px;cursor:pointer;}
+.stone-home .player-bar{display:none!important;}
+.stone-game-subnav{display:none!important;gap:8px;margin:0 0 18px;}.stone-game-subnav button,.stone-reading-toggle{min-height:44px;padding:10px 16px;border-radius:10px;border:1px solid var(--paper-border);background:var(--paper-surface);color:var(--text-primary);font-size:15px;cursor:pointer;}
 .stone-game-subnav button[aria-pressed=true]{background:var(--brand-primary);border-color:var(--brand-primary);color:#fff;}
-.stone-home:not([data-active-view=words]) .stone-game-subnav{display:flex;}
 .stone-reading-toggle{display:block;margin:0 0 16px auto;color:var(--brand-primary);}
-.stone-home.stone-reading[data-active-view=survival] .player-bar,.stone-home.stone-reading[data-active-view=survival] #novelBanner,.stone-home.stone-reading[data-active-view=survival] .stone-game-subnav{display:none!important;}
-.stone-home.stone-reading[data-active-view=survival] #viewSurvival .story-scroll{max-height:none;line-height:1.95;}
+.stone-home.stone-reading[data-active-view=survival] .player-bar,.stone-home.stone-reading[data-active-view=survival] #novelBanner,.stone-home.stone-reading[data-active-view=survival] .stone-game-subnav,.stone-home.stone-reading[data-active-view=novel] .player-bar,.stone-home.stone-reading[data-active-view=novel] #novelBanner,.stone-home.stone-reading[data-active-view=novel] .stone-game-subnav{display:none!important;}
+.stone-home.stone-reading[data-active-view=survival] #viewSurvival .story-scroll,.stone-home.stone-reading[data-active-view=novel] #viewSurvival .story-scroll{max-height:none;line-height:1.95;}
 .stone-mobile-nav{display:none;}
 #stoneAccount{margin:auto;padding:24px;width:min(440px,calc(100% - 24px));max-height:90dvh;overflow:auto;border:1px solid var(--paper-border);border-radius:18px;background:var(--paper-surface);color:var(--text-primary);font:16px/1.6 var(--font-sans);box-shadow:0 20px 70px #0003;}#stoneAccount::backdrop{background:#11182770;backdrop-filter:blur(3px);}
 #stoneAccount button{min-height:44px;min-width:44px;padding:10px 16px;border:1px solid var(--paper-border);border-radius:10px;background:var(--paper-surface-sub);color:var(--text-primary);font-size:16px;cursor:pointer;}.stone-account-links{display:grid;gap:12px;margin-top:22px;}
@@ -119,11 +119,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .stone-home #radioMiniPlayer{z-index:80;touch-action:pan-y;}.stone-home #radioMiniPlayer .radio-mini-disc-wrap{cursor:pointer;touch-action:pan-y;}.stone-home #radioMiniPlayer .radio-mini-meta{display:none;}
 .stone-home #radioMiniPlayer .radio-mini-artist,.stone-home #radioMiniPlayer .radio-mini-progress-bar,.stone-home #radioMiniPlayer .radio-disc-badge,.stone-home #radioMiniPlayer .radio-stylus{display:none;}
 .stone-home:has(#radioMiniPlayer){padding-bottom:100px;}.stone-home:has(#defDrawer.open) #radioMiniPlayer{display:none;}
-.stone-home[data-active-view=survival].stone-reading #radioMiniPlayer,.stone-home[data-active-view=survival].stone-reading #stoneRadioLauncher{display:none;}
+.stone-home[data-active-view=survival].stone-reading #radioMiniPlayer,.stone-home[data-active-view=survival].stone-reading #stoneRadioLauncher,.stone-home[data-active-view=novel].stone-reading #radioMiniPlayer,.stone-home[data-active-view=novel].stone-reading #stoneRadioLauncher{display:none;}
 @media(min-width:1100px){
  .stone-home{padding-left:176px;padding-bottom:32px;}
  .stone-home>.header{margin-left:-176px;padding-left:200px;padding-right:24px;}
- .stone-home .bottom-dock{top:136px;bottom:auto;left:16px;right:auto;width:152px;max-width:none;display:flex;flex-direction:column;padding:12px 8px;border:1px solid var(--paper-border);border-radius:14px;gap:6px;margin:0;background:var(--paper-surface);}
+ .stone-home .bottom-dock{top:96px;bottom:auto;left:16px;right:auto;width:152px;max-width:none;display:flex;flex-direction:column;padding:12px 8px;border:1px solid var(--paper-border);border-radius:14px;gap:6px;margin:0;background:var(--paper-surface);}
  .stone-home .bottom-dock .nav-item{min-height:48px;flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 12px;font-size:14px;width:100%;border-radius:9px;}
  .stone-home .bottom-dock .nav-item.active{background:var(--paper-surface-sub);color:var(--brand-primary);}
  .stone-home .bottom-dock .nav-icon{display:flex;}
